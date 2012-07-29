@@ -41,8 +41,10 @@
 				<include name="getMacros*" />
 				<include name="getNodeList*" />
 				<include name="ping*" />
+                                <include name="readCV*" />
 				<include name="startMacro*" />
 				<include name="stopMacro*" />
+                                <include name="writeCV*" />
 			</fileset>
 		</copy>
 		<copy todir="${dist}" file="${projectname}-${projectversion}.jar" />
