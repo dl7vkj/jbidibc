@@ -6,6 +6,6 @@ DIR=`dirname $0`
 
 cd $DIR
 DIR=`pwd`
-CLASSPATH=$DIR/jbidib*.jar
+CLASSPATH=$DIR/jbidibc*.jar
 
 java -classpath $CLASSPATH Ping $@
