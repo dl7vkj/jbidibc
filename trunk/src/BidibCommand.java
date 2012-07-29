@@ -1,10 +1,10 @@
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 import org.bidib.Bidib;
 import org.bidib.Node;
 import org.bidib.exception.ProtocolException;
 import org.bidib.node.BidibNode;
-
 
 public class BidibCommand {
     protected static Node findNode(long uniqueId) throws IOException, ProtocolException, InterruptedException {
@@ -21,6 +21,15 @@ public class BidibCommand {
                 break;
             }
         }
+        return result;
+    }
+
+    protected static byte[] getUniqueId(long uniqueId) {
+        byte[] result = new byte[7];
+        ByteBuffer bb = ByteBuffer.allocate(8);
+
+        bb.putLong(uniqueId);
+        System.arraycopy(bb.array(), 1, result, 0, result.length);
         return result;
     }
 }
