@@ -17,13 +17,13 @@ public class Ping extends BidibCommand {
                 Node node = findNode(Long.decode(args[1]));
 
                 if (node != null) {
-                    BidibNode accessoryNode = Bidib.getNode(node);
+                    BidibNode bidibNode = Bidib.getNode(node);
 
                     System.out.println("PING " + node.getUniqueIdAsString() + " (" + Arrays.toString(node.getAddr())
                             + ").");
                     while (true) {
                         final Date now = new Date();
-                        final int num = accessoryNode.ping();
+                        final int num = bidibNode.ping();
 
                         System.out.println("got response from " + node.getUniqueIdAsString() + " ("
                                 + Arrays.toString(node.getAddr()) + "): seq=" + num + " time="
