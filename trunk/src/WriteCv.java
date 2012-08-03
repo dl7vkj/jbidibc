@@ -18,6 +18,7 @@ public class WriteCv extends BidibCommand {
                     if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
                         bidibNode.vendorSet(args[2], args[3]);
                         bidibNode.vendorDisable();
+                        result = 0;
                     }
                 } else {
                     System.err.println("node with unique id \"" + args[1] + "\" not found");

@@ -22,6 +22,7 @@ public class ReadCv extends BidibCommand {
 
                         System.out.println("CV" + vendorData.getName() + "=" + vendorData.getValue());
                         bidibNode.vendorDisable();
+                        result = 0;
                     }
                 } else {
                     System.err.println("node with unique id \"" + args[1] + "\" not found");
