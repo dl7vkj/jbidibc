@@ -1,0 +1,9 @@
+#!/bin/sh
+
+DIR=`dirname $0`
+
+cd $DIR
+DIR=`pwd`
+CLASSPATH=$DIR/jbidibc*.jar
+
+java -classpath $CLASSPATH StopMacro $@

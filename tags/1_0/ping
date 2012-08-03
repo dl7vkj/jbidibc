@@ -1,0 +1,11 @@
+#!/bin/sh
+
+trap "exit" EXIT INT QUIT KILL
+
+DIR=`dirname $0`
+
+cd $DIR
+DIR=`pwd`
+CLASSPATH=$DIR/jbidibc*.jar
+
+java -classpath $CLASSPATH Ping $@
