@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project basedir="." default="jar" name="Java interface to BiDiB">
+<project basedir="." default="dist" name="Java interface to BiDiB">
 
 	<property file="build.properties" />
 	<property name="bin" location="${basedir}/bin" />
