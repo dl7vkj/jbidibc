@@ -9,4 +9,12 @@ public class LcKeyResponse extends BidibMessage {
             throw new ProtocolException("no lc key received");
         }
     }
+
+    public int getKeyNumber() {
+        return getData()[0];
+    }
+
+    public int getKeyState() {
+        return getData()[1];
+    }
 }

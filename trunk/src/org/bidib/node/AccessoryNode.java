@@ -14,6 +14,8 @@ import org.bidib.message.BidibMessage;
 import org.bidib.message.LcConfigGetMessage;
 import org.bidib.message.LcConfigResponse;
 import org.bidib.message.LcConfigSetMessage;
+import org.bidib.message.LcKeyMessage;
+import org.bidib.message.LcKeyResponse;
 import org.bidib.message.LcMacroGetMessage;
 import org.bidib.message.LcMacroHandleMessage;
 import org.bidib.message.LcMacroParaGetMessage;
@@ -23,7 +25,6 @@ import org.bidib.message.LcMacroResponse;
 import org.bidib.message.LcMacroSetMessage;
 import org.bidib.message.LcMacroStateResponse;
 import org.bidib.message.LcOutputMessage;
-
 
 public class AccessoryNode extends DeviceNode {
     AccessoryNode(byte[] addr) {
@@ -39,6 +40,10 @@ public class AccessoryNode extends DeviceNode {
             result = ((LcConfigResponse) response).getLcConfig();
         }
         return result;
+    }
+
+    public int getKeyState(int keyNumber) throws IOException, ProtocolException, InterruptedException {
+        return ((LcKeyResponse) send(new LcKeyMessage(keyNumber))).getKeyState();
     }
 
     public int getMacroParameter(int macroNumber, int parameter) throws IOException, ProtocolException,
