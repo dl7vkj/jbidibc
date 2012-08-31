@@ -20,7 +20,7 @@ public class RootNode extends BidibNode {
     }
 
     public void clock(Calendar date, int factor) throws IOException, ProtocolException, InterruptedException {
-        send(new SysClockMessage(date, factor));
+        send(new SysClockMessage(date, factor), false);
     }
 
     public void sysDisable() throws IOException, ProtocolException, InterruptedException {
