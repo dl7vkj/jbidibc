@@ -15,7 +15,6 @@ import org.bidib.message.LcConfigGetMessage;
 import org.bidib.message.LcConfigResponse;
 import org.bidib.message.LcConfigSetMessage;
 import org.bidib.message.LcKeyMessage;
-import org.bidib.message.LcKeyResponse;
 import org.bidib.message.LcMacroGetMessage;
 import org.bidib.message.LcMacroHandleMessage;
 import org.bidib.message.LcMacroParaGetMessage;
@@ -42,8 +41,8 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
-    public int getKeyState(int keyNumber) throws IOException, ProtocolException, InterruptedException {
-        return ((LcKeyResponse) send(new LcKeyMessage(keyNumber))).getKeyState();
+    public void getKeyState(int keyNumber) throws IOException, ProtocolException, InterruptedException {
+        send(new LcKeyMessage(keyNumber), false);
     }
 
     public int getMacroParameter(int macroNumber, int parameter) throws IOException, ProtocolException,

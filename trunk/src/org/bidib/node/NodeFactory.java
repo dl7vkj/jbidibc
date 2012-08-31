@@ -9,7 +9,6 @@ import org.bidib.MessageReceiver;
 import org.bidib.Node;
 import org.bidib.message.BidibMessage;
 
-
 public class NodeFactory {
     private static final int ROOT_ADDRESS = 0;
 
@@ -17,6 +16,10 @@ public class NodeFactory {
 
     public NodeFactory() {
         MessageReceiver.addMessageListener(new MessageListener() {
+            @Override
+            public void key(byte[] address, int keyNumber, int keyState) {
+            }
+
             @Override
             public void nodeLost(Node node) {
                 removeNode(node);

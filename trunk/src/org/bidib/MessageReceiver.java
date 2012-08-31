@@ -11,6 +11,8 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
+import logging.LogFactory;
+
 import org.bidib.exception.ProtocolException;
 import org.bidib.message.BidibMessage;
 import org.bidib.message.LcKeyResponse;
@@ -21,9 +23,6 @@ import org.bidib.message.ResponseFactory;
 import org.bidib.message.SysErrorResponse;
 import org.bidib.node.BidibNode;
 import org.bidib.node.RootNode;
-
-import logging.LogFactory;
-
 
 public class MessageReceiver {
     private static final Logger LOG = LogFactory.getLogger(MessageReceiver.class.getName());
@@ -57,6 +56,8 @@ public class MessageReceiver {
                                     LOG.fine("receive " + message + " : " + logRecord);
                                     logRecord.setLength(0);
                                     if (message instanceof LcKeyResponse) {
+                                        fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
+                                                ((LcKeyResponse) message).getKeyState());
                                     } else if (message instanceof LogonResponse) {
                                     } else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
@@ -106,6 +107,12 @@ public class MessageReceiver {
 
     public static void addMessageListener(MessageListener l) {
         listeners.add(l);
+    }
+
+    private void fireKey(byte[] address, int keyNumber, int keyState) {
+        for (MessageListener l : listeners) {
+            l.key(address, keyNumber, keyState);
+        }
     }
 
     private void fireNodeLost(Node node) {
