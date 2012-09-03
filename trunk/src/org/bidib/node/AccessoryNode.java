@@ -90,7 +90,7 @@ public class AccessoryNode extends DeviceNode {
         return ((LcMacroResponse) send(new LcMacroSetMessage(macro))).getMacro();
     }
 
-    public void setMacroParameter(int macroNumber, int parameter, int value) throws IOException, ProtocolException,
+    public void setMacroParameter(int macroNumber, int parameter, byte... value) throws IOException, ProtocolException,
             InterruptedException {
         send(new LcMacroParaSetMessage(macroNumber, parameter, value));
     }
