@@ -45,7 +45,7 @@ public class AccessoryNode extends DeviceNode {
         send(new LcKeyMessage(keyNumber), false);
     }
 
-    public int getMacroParameter(int macroNumber, int parameter) throws IOException, ProtocolException,
+    public byte[] getMacroParameter(int macroNumber, int parameter) throws IOException, ProtocolException,
             InterruptedException {
         return ((LcMacroParaResponse) send(new LcMacroParaGetMessage(macroNumber, parameter))).getValue();
     }
