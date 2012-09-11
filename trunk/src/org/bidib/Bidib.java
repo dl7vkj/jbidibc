@@ -20,7 +20,6 @@ import org.bidib.node.BidibNode;
 import org.bidib.node.NodeFactory;
 import org.bidib.node.RootNode;
 
-
 public class Bidib {
     private static NodeFactory nodeFactory = new NodeFactory();
     private static SerialPort port = null;
@@ -88,7 +87,7 @@ public class Bidib {
             @Override
             public void serialEvent(SerialPortEvent event) {
                 if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-                    new MessageReceiver(port, getRootNode());
+                    new MessageReceiver(port, nodeFactory);
                 }
             }
         });

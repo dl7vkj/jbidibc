@@ -31,6 +31,9 @@ import org.bidib.message.FeatureGetNextMessage;
 import org.bidib.message.FeatureResponse;
 import org.bidib.message.FeatureSetMessage;
 import org.bidib.message.FeedbackGetRangeMessage;
+import org.bidib.message.FeedbackMirrorFreeMessage;
+import org.bidib.message.FeedbackMirrorMultipleMessage;
+import org.bidib.message.FeedbackMirrorOccupiedMessage;
 import org.bidib.message.FwUpdateOpMessage;
 import org.bidib.message.FwUpdateStatResponse;
 import org.bidib.message.NodeTabCountResponse;
@@ -72,6 +75,19 @@ public class BidibNode {
 
     BidibNode(byte[] addr) {
         this.addr = addr;
+    }
+
+    public void acknowledgeFree(int detectorNumber) throws IOException, ProtocolException, InterruptedException {
+        send(new FeedbackMirrorFreeMessage(detectorNumber), false);
+    }
+
+    public void acknowledgeMultiple(int baseAddress, int size, byte[] detectorData) throws IOException,
+            ProtocolException, InterruptedException {
+        send(new FeedbackMirrorMultipleMessage(baseAddress, size, detectorData), false);
+    }
+
+    public void acknowledgeOccupied(int detectorNumber) throws IOException, ProtocolException, InterruptedException {
+        send(new FeedbackMirrorOccupiedMessage(detectorNumber), false);
     }
 
     public static void addTransferListener(TransferListener l) {

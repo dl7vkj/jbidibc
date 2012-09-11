@@ -25,7 +25,7 @@ import org.bidib.message.NodeNewResponse;
 import org.bidib.message.ResponseFactory;
 import org.bidib.message.SysErrorResponse;
 import org.bidib.node.BidibNode;
-import org.bidib.node.RootNode;
+import org.bidib.node.NodeFactory;
 
 public class MessageReceiver {
     private static final Logger LOG = LogFactory.getLogger(MessageReceiver.class.getName());
@@ -34,7 +34,7 @@ public class MessageReceiver {
 
     private static final Collection<MessageListener> listeners = new LinkedList<MessageListener>();
 
-    public MessageReceiver(SerialPort port, RootNode rootNode) {
+    public MessageReceiver(SerialPort port, NodeFactory nodeFactory) {
         synchronized (this) {
             try {
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -59,12 +59,21 @@ public class MessageReceiver {
                                     LOG.fine("receive " + message + " : " + logRecord);
                                     logRecord.setLength(0);
                                     if (message instanceof FeedbackFreeResponse) {
+                                        // acknowledge message
+                                        nodeFactory.getNode(new Node(message.getAddr())).acknowledgeFree(
+                                                ((FeedbackFreeResponse) message).getDetectorNumber());
+
                                         fireFree(message.getAddr(),
                                                 ((FeedbackFreeResponse) message).getDetectorNumber());
                                     } else if (message instanceof FeedbackMultipleResponse) {
                                         int baseAddress = ((FeedbackMultipleResponse) message).getBaseAddress();
                                         int size = ((FeedbackMultipleResponse) message).getSize();
                                         byte[] detectorData = ((FeedbackMultipleResponse) message).getDetectorData();
+
+                                        // acknowledge message
+                                        nodeFactory.getNode(new Node(message.getAddr())).acknowledgeMultiple(
+                                                baseAddress, size, detectorData);
+
                                         int offset = 0;
 
                                         for (byte detectorByte : detectorData) {
@@ -81,6 +90,10 @@ public class MessageReceiver {
                                             }
                                         }
                                     } else if (message instanceof FeedbackOccupiedResponse) {
+                                        // acknowledge message
+                                        nodeFactory.getNode(new Node(message.getAddr())).acknowledgeOccupied(
+                                                ((FeedbackOccupiedResponse) message).getDetectorNumber());
+
                                         fireOccupied(message.getAddr(),
                                                 ((FeedbackOccupiedResponse) message).getDetectorNumber());
                                     } else if (message instanceof LcKeyResponse) {
@@ -90,12 +103,12 @@ public class MessageReceiver {
                                     } else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
 
-                                        rootNode.acknowledge(node.getVersion());
+                                        nodeFactory.getRootNode().acknowledge(node.getVersion());
                                         fireNodeNew(node);
                                     } else if (message instanceof NodeLostResponse) {
                                         Node node = ((NodeLostResponse) message).getNode(message.getAddr());
 
-                                        rootNode.acknowledge(node.getVersion());
+                                        nodeFactory.getRootNode().acknowledge(node.getVersion());
                                         fireNodeLost(node);
                                     } else if (message instanceof SysErrorResponse
                                             && ((SysErrorResponse) message).getErrorCode() == 18) {

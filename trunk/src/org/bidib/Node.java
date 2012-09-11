@@ -3,9 +3,15 @@ package org.bidib;
 import java.util.Arrays;
 
 public class Node {
-    private byte[] addr;
-    private long uniqueId;
-    private int version;
+    private final byte[] addr;
+    private final long uniqueId;
+    private final int version;
+
+    public Node(byte[] addr) {
+        this.addr = addr;
+        this.uniqueId = 0;
+        this.version = 0;
+    }
 
     public Node(int version, byte[] addr, long uniqueId) {
         this.addr = addr;
