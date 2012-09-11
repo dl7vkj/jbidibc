@@ -30,6 +30,7 @@ import org.bidib.message.FeatureGetMessage;
 import org.bidib.message.FeatureGetNextMessage;
 import org.bidib.message.FeatureResponse;
 import org.bidib.message.FeatureSetMessage;
+import org.bidib.message.FeedbackGetRangeMessage;
 import org.bidib.message.FwUpdateOpMessage;
 import org.bidib.message.FwUpdateStatResponse;
 import org.bidib.message.NodeTabCountResponse;
@@ -136,6 +137,10 @@ public class BidibNode {
         return ((FeatureCountResponse) send(new FeatureGetAllMessage())).getCount();
     }
 
+    public void getFeedbackState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
+        send(new FeedbackGetRangeMessage(begin, end), false);
+    }
+
     public int getMagic() throws IOException, ProtocolException, InterruptedException {
         return ((SysMagicResponse) send(new SysMagicMessage())).getMagic();
     }
@@ -197,12 +202,12 @@ public class BidibNode {
         return ((SysPVersionResponse) send(new SysGetPVersionMessage())).getVersion();
     }
 
-    public byte[] getUniqueId() throws IOException, ProtocolException, InterruptedException {
-        return ((SysUniqueIdResponse) send(new SysUniqueIdMessage())).getUniqueId();
-    }
-
     public SoftwareVersion getSwVersion() throws IOException, ProtocolException, InterruptedException {
         return ((SysSwVersionResponse) send(new SysGetSwVersionMessage())).getVersion();
+    }
+
+    public byte[] getUniqueId() throws IOException, ProtocolException, InterruptedException {
+        return ((SysUniqueIdResponse) send(new SysUniqueIdMessage())).getUniqueId();
     }
 
     public IdentifyState identify(IdentifyState state) throws IOException, ProtocolException, InterruptedException {
