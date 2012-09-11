@@ -17,6 +17,10 @@ public class NodeFactory {
     public NodeFactory() {
         MessageReceiver.addMessageListener(new MessageListener() {
             @Override
+            public void free(byte[] address, int detectorNumber) {
+            }
+
+            @Override
             public void key(byte[] address, int keyNumber, int keyState) {
             }
 
@@ -28,6 +32,10 @@ public class NodeFactory {
             @Override
             public void nodeNew(Node node) {
                 removeNode(node);
+            }
+
+            @Override
+            public void occupied(byte[] address, int detectorNumber) {
             }
         });
     }

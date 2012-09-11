@@ -15,6 +15,9 @@ import logging.LogFactory;
 
 import org.bidib.exception.ProtocolException;
 import org.bidib.message.BidibMessage;
+import org.bidib.message.FeedbackFreeResponse;
+import org.bidib.message.FeedbackMultipleResponse;
+import org.bidib.message.FeedbackOccupiedResponse;
 import org.bidib.message.LcKeyResponse;
 import org.bidib.message.LogonResponse;
 import org.bidib.message.NodeLostResponse;
@@ -55,7 +58,32 @@ public class MessageReceiver {
                                     message = ResponseFactory.create(messageArray);
                                     LOG.fine("receive " + message + " : " + logRecord);
                                     logRecord.setLength(0);
-                                    if (message instanceof LcKeyResponse) {
+                                    if (message instanceof FeedbackFreeResponse) {
+                                        fireFree(message.getAddr(),
+                                                ((FeedbackFreeResponse) message).getDetectorNumber());
+                                    } else if (message instanceof FeedbackMultipleResponse) {
+                                        int baseAddress = ((FeedbackMultipleResponse) message).getBaseAddress();
+                                        int size = ((FeedbackMultipleResponse) message).getSize();
+                                        byte[] detectorData = ((FeedbackMultipleResponse) message).getDetectorData();
+                                        int offset = 0;
+
+                                        for (byte detectorByte : detectorData) {
+                                            if (offset >= size) {
+                                                break;
+                                            }
+                                            for (int bit = 0; bit < 7; bit++) {
+                                                if (((detectorByte >> bit) & 1) == 1) {
+                                                    fireOccupied(message.getAddr(), baseAddress + offset);
+                                                } else {
+                                                    fireFree(message.getAddr(), baseAddress + offset);
+                                                }
+                                                offset++;
+                                            }
+                                        }
+                                    } else if (message instanceof FeedbackOccupiedResponse) {
+                                        fireOccupied(message.getAddr(),
+                                                ((FeedbackOccupiedResponse) message).getDetectorNumber());
+                                    } else if (message instanceof LcKeyResponse) {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
                                                 ((LcKeyResponse) message).getKeyState());
                                     } else if (message instanceof LogonResponse) {
@@ -109,6 +137,12 @@ public class MessageReceiver {
         listeners.add(l);
     }
 
+    private void fireFree(byte[] address, int detectorNumber) {
+        for (MessageListener l : listeners) {
+            l.free(address, detectorNumber);
+        }
+    }
+
     private void fireKey(byte[] address, int keyNumber, int keyState) {
         for (MessageListener l : listeners) {
             l.key(address, keyNumber, keyState);
@@ -124,6 +158,12 @@ public class MessageReceiver {
     private void fireNodeNew(Node node) {
         for (MessageListener l : listeners) {
             l.nodeNew(node);
+        }
+    }
+
+    private void fireOccupied(byte[] address, int detectorNumber) {
+        for (MessageListener l : listeners) {
+            l.occupied(address, detectorNumber);
         }
     }
 
