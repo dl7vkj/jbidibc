@@ -40,12 +40,20 @@ public class NodeFactory {
         });
     }
 
-    private static int convert(byte[] bytes) {
+    /**
+     * Convert a node address into an integer value.
+     * 
+     * @param address
+     *            node address
+     * 
+     * @return integer value for that address
+     */
+    public static int convert(byte[] address) {
         int result = 0;
 
-        if (bytes != null) {
-            for (int index = 0; index < bytes.length; index++) {
-                result += bytes[index] << index;
+        if (address != null) {
+            for (int index = 0; index < address.length; index++) {
+                result += address[index] << index;
             }
         }
         return result;
