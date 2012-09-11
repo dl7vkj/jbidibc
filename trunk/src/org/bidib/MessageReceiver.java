@@ -71,7 +71,7 @@ public class MessageReceiver {
                                             if (offset >= size) {
                                                 break;
                                             }
-                                            for (int bit = 0; bit < 7; bit++) {
+                                            for (int bit = 0; bit <= 7; bit++) {
                                                 if (((detectorByte >> bit) & 1) == 1) {
                                                     fireOccupied(message.getAddr(), baseAddress + offset);
                                                 } else {
