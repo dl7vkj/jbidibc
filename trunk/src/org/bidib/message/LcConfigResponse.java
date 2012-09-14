@@ -15,6 +15,7 @@ public class LcConfigResponse extends BidibMessage {
     public LcConfig getLcConfig() {
         byte[] data = getData();
 
-        return new LcConfig(LcOutputType.valueOf(data[0]), data[1], data[2], data[3], data[4], data[5]);
+        return new LcConfig(LcOutputType.valueOf(data[0]), data[1] & 0xFF, data[2] & 0xFF, data[3] & 0xFF,
+                data[4] & 0xFF, data[5] & 0xFF);
     }
 }
