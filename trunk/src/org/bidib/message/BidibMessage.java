@@ -2,10 +2,8 @@ package org.bidib.message;
 
 import java.io.ByteArrayOutputStream;
 import java.math.BigInteger;
-import java.util.Arrays;
 
 import org.bidib.exception.ProtocolException;
-
 
 public class BidibMessage {
     // The address field is only valid for a response message!
@@ -94,8 +92,23 @@ public class BidibMessage {
         return data;
     }
 
+    private String toString(byte[] bytes) {
+        StringBuffer result = new StringBuffer("[");
+
+        if (bytes != null) {
+            for (byte b : bytes) {
+                if (result.length() > 1) {
+                    result.append(", ");
+                }
+                result.append(b & 0xFF);
+            }
+        }
+        result.append("]");
+        return result.toString();
+    }
+
     public String toString() {
-        return getClass().getSimpleName() + "[" + (addr != null ? Arrays.toString(addr) + "," : "") + "num=" + num
-                + ",type=" + type + ",data=" + Arrays.toString(data) + "]";
+        return getClass().getSimpleName() + "[" + (addr != null ? toString(addr) + "," : "") + "num=" + num + ",type="
+                + type + ",data=" + toString(data) + "]";
     }
 }
