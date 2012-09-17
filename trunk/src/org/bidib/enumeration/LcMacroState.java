@@ -2,12 +2,12 @@ package org.bidib.enumeration;
 
 import org.bidib.BidibLibrary;
 
-
 public enum LcMacroState implements BidibEnum {
     //@formatter:off
     OFF(BidibLibrary.BIDIB_MACRO_OFF),
     START(BidibLibrary.BIDIB_MACRO_START),
     RUNNING(BidibLibrary.BIDIB_MACRO_RUNNING),
+    RESTORE(BidibLibrary.BIDIB_MACRO_RESTORE),
     SAVE(BidibLibrary.BIDIB_MACRO_SAVE),
     DELETE(BidibLibrary.BIDIB_MACRO_DELETE),
     NOTEXIST(BidibLibrary.BIDIB_MACRO_NOTEXIST);
