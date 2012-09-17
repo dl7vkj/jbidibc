@@ -2,11 +2,11 @@ package org.bidib.enumeration;
 
 import org.bidib.BidibLibrary;
 
-
 public enum LcMacroOperationCode implements BidibEnum {
     //@formatter:off
     OFF(BidibLibrary.BIDIB_MACRO_OFF),
     START(BidibLibrary.BIDIB_MACRO_START),
+    RESTORE(BidibLibrary.BIDIB_MACRO_RESTORE),
     SAVE(BidibLibrary.BIDIB_MACRO_SAVE),
     DELETE(BidibLibrary.BIDIB_MACRO_DELETE);
     //@formatter:on
