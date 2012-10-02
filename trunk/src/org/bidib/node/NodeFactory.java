@@ -17,6 +17,10 @@ public class NodeFactory {
     public NodeFactory() {
         MessageReceiver.addMessageListener(new MessageListener() {
             @Override
+            public void confidence(byte[] address, int valid, int freeze, int signal) {
+            }
+
+            @Override
             public void free(byte[] address, int detectorNumber) {
             }
 

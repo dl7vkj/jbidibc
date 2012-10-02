@@ -7,7 +7,10 @@ public class ResponseFactory {
     public static BidibMessage create(byte[] message) throws ProtocolException {
         BidibMessage result = new BidibMessage(message);
 
-        if (result.getType() == (byte) BidibLibrary.MSG_BM_FREE) {
+        if (result.getType() == (byte) BidibLibrary.MSG_BM_CONFIDENCE) {
+            result = new FeedbackConfidenceResponse(result.getAddr(), result.getNum(), result.getType(),
+                    result.getData());
+        } else if (result.getType() == (byte) BidibLibrary.MSG_BM_FREE) {
             result = new FeedbackFreeResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_BM_MULTIPLE) {
             result = new FeedbackMultipleResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());

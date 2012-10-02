@@ -15,6 +15,7 @@ import logging.LogFactory;
 
 import org.bidib.exception.ProtocolException;
 import org.bidib.message.BidibMessage;
+import org.bidib.message.FeedbackConfidenceResponse;
 import org.bidib.message.FeedbackFreeResponse;
 import org.bidib.message.FeedbackMultipleResponse;
 import org.bidib.message.FeedbackOccupiedResponse;
@@ -58,7 +59,12 @@ public class MessageReceiver {
                                     message = ResponseFactory.create(messageArray);
                                     LOG.fine("receive " + message + " : " + logRecord);
                                     logRecord.setLength(0);
-                                    if (message instanceof FeedbackFreeResponse) {
+                                    if (message instanceof FeedbackConfidenceResponse) {
+                                        fireConfidence(message.getAddr(),
+                                                ((FeedbackConfidenceResponse) message).getValid(),
+                                                ((FeedbackConfidenceResponse) message).getFreeze(),
+                                                ((FeedbackConfidenceResponse) message).getSignal());
+                                    } else if (message instanceof FeedbackFreeResponse) {
                                         // acknowledge message
                                         nodeFactory.getNode(new Node(message.getAddr())).acknowledgeFree(
                                                 ((FeedbackFreeResponse) message).getDetectorNumber());
@@ -148,6 +154,12 @@ public class MessageReceiver {
 
     public static void addMessageListener(MessageListener l) {
         listeners.add(l);
+    }
+
+    private void fireConfidence(byte[] address, int valid, int freeze, int signal) {
+        for (MessageListener l : listeners) {
+            l.confidence(address, valid, freeze, signal);
+        }
     }
 
     private void fireFree(byte[] address, int detectorNumber) {
