@@ -2,8 +2,6 @@ package org.bidib.node;
 
 import java.io.IOException;
 
-import org.bidib.BidibLibrary;
-import org.bidib.Feature;
 import org.bidib.LcConfig;
 import org.bidib.LcMacro;
 import org.bidib.enumeration.LcMacroOperationCode;
@@ -55,39 +53,9 @@ public class AccessoryNode extends DeviceNode {
         return ((LcMacroResponse) send(new LcMacroGetMessage(macroNumber, stepNumber))).getMacro();
     }
 
-    public int getStorableMacroCount() throws IOException, ProtocolException, InterruptedException {
-        int result = 0;
-        Feature feature = getFeature(BidibLibrary.FEATURE_CTRL_MAC_SAVE);
-
-        if (feature != null) {
-            result = feature.getValue();
-        }
-        return result;
-    }
-
     public LcMacroState handleMacro(int macroNumber, LcMacroOperationCode macroOperationCode) throws IOException,
             ProtocolException, InterruptedException {
         return ((LcMacroStateResponse) send(new LcMacroHandleMessage(macroNumber, macroOperationCode))).getMacroState();
-    }
-
-    public boolean isDccStartEnabled() throws IOException, ProtocolException, InterruptedException {
-        boolean result = false;
-        Feature feature = getFeature(BidibLibrary.FEATURE_CTRL_MAC_START_DCC);
-
-        if (feature != null) {
-            result = feature.getValue() == 1;
-        }
-        return result;
-    }
-
-    public boolean isExternalStartEnabled() throws IOException, ProtocolException, InterruptedException {
-        boolean result = false;
-        Feature feature = getFeature(BidibLibrary.FEATURE_CTRL_MAC_START_MAN);
-
-        if (feature != null) {
-            result = feature.getValue() == 1;
-        }
-        return result;
     }
 
     public void setConfig(LcConfig config) throws IOException, ProtocolException, InterruptedException {
