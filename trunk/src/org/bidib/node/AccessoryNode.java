@@ -70,6 +70,16 @@ public class AccessoryNode extends DeviceNode {
         return ((LcMacroStateResponse) send(new LcMacroHandleMessage(macroNumber, macroOperationCode))).getMacroState();
     }
 
+    public boolean isDccStartEnabled() throws IOException, ProtocolException, InterruptedException {
+        boolean result = false;
+        Feature feature = getFeature(BidibLibrary.FEATURE_CTRL_MAC_START_DCC);
+
+        if (feature != null) {
+            result = feature.getValue() == 1;
+        }
+        return result;
+    }
+
     public boolean isExternalStartEnabled() throws IOException, ProtocolException, InterruptedException {
         boolean result = false;
         Feature feature = getFeature(BidibLibrary.FEATURE_CTRL_MAC_START_MAN);
