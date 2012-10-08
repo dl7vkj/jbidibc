@@ -108,7 +108,7 @@ public class BidibMessage {
     }
 
     public String toString() {
-        return getClass().getSimpleName() + "[" + (addr != null ? toString(addr) + "," : "") + "num=" + num + ",type="
-                + type + ",data=" + toString(data) + "]";
+        return getClass().getSimpleName() + "[" + (addr != null ? toString(addr) + "," : "") + "num=" + (num & 0xFF)
+                + ",type=" + (type & 0xFF) + ",data=" + toString(data) + "]";
     }
 }
