@@ -13,7 +13,6 @@ import logging.LogFactory;
 import org.bidib.Bidib;
 import org.bidib.BidibLibrary;
 import org.bidib.CRC8;
-import org.bidib.Confidence;
 import org.bidib.Feature;
 import org.bidib.FirmwareUpdateStat;
 import org.bidib.MessageReceiver;
@@ -31,7 +30,6 @@ import org.bidib.message.FeatureGetMessage;
 import org.bidib.message.FeatureGetNextMessage;
 import org.bidib.message.FeatureResponse;
 import org.bidib.message.FeatureSetMessage;
-import org.bidib.message.FeedbackConfidenceResponse;
 import org.bidib.message.FeedbackGetConfidenceMessage;
 import org.bidib.message.FeedbackGetRangeMessage;
 import org.bidib.message.FeedbackMirrorFreeMessage;
@@ -142,10 +140,8 @@ public class BidibNode {
         this.output.reset();
     }
 
-    public Confidence getConfidence() throws IOException, ProtocolException, InterruptedException {
-        FeedbackConfidenceResponse response = ((FeedbackConfidenceResponse) send(new FeedbackGetConfidenceMessage()));
-
-        return new Confidence(response.getValid(), response.getFreeze(), response.getSignal());
+    public void getConfidence() throws IOException, ProtocolException, InterruptedException {
+        send(new FeedbackGetConfidenceMessage(), false);
     }
 
     public Feature getFeature(int number) throws IOException, ProtocolException, InterruptedException {
