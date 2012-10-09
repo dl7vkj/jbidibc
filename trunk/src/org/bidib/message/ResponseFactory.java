@@ -39,6 +39,8 @@ public class ResponseFactory {
             result = new LcNotAvailableResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_LC_STAT) {
             result = new LcStatResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+        } else if (result.getType() == (byte) BidibLibrary.MSG_LC_WAIT) {
+            result = new LcWaitResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_LOGON) {
             result = new LogonResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_NODETAB) {
@@ -72,7 +74,7 @@ public class ResponseFactory {
         } else if (result.getType() == (byte) BidibLibrary.MSG_VENDOR_ACK) {
             result = new VendorAckResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else {
-            String msg = "got unknown response with type " + result.getType();
+            String msg = "got unknown response with type " + (result.getType() & 0xFF);
 
             System.err.println(msg);
             throw new ProtocolException(msg);

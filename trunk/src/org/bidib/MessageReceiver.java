@@ -20,6 +20,7 @@ import org.bidib.message.FeedbackFreeResponse;
 import org.bidib.message.FeedbackMultipleResponse;
 import org.bidib.message.FeedbackOccupiedResponse;
 import org.bidib.message.LcKeyResponse;
+import org.bidib.message.LcWaitResponse;
 import org.bidib.message.LogonResponse;
 import org.bidib.message.NodeLostResponse;
 import org.bidib.message.NodeNewResponse;
@@ -105,6 +106,8 @@ public class MessageReceiver {
                                     } else if (message instanceof LcKeyResponse) {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
                                                 ((LcKeyResponse) message).getKeyState());
+                                    } else if (message instanceof LcWaitResponse) {
+                                        // TODO
                                     } else if (message instanceof LogonResponse) {
                                     } else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
