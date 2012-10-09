@@ -29,14 +29,13 @@ public class BidibMessage {
      * Create a BidibMessage from an array of bytes.
      * 
      * @param message
-     *            array of bytes, containing the leading magic byte, but wthout
-     *            the trailing magic byte
+     *            array of bytes, containing the leading magic byte, but wthout the trailing magic byte
      * 
      * @throws ProtocolException
      *             Thrown if the leading magic byte was missing.
      */
     BidibMessage(byte[] message) throws ProtocolException {
-        if (message != null && message.length > 0) {
+        if (message != null && message.length > 1) {
             int index = 0;
             int length = message[index++];
 
@@ -65,6 +64,8 @@ public class BidibMessage {
                 dataBytes.write(message[index++]);
             }
             data = dataBytes.toByteArray();
+        } else {
+            throw new ProtocolException("message too short");
         }
     }
 
