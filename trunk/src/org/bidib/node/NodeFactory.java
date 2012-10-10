@@ -1,9 +1,11 @@
 package org.bidib.node;
 
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.bidib.AddressData;
 import org.bidib.MessageListener;
 import org.bidib.MessageReceiver;
 import org.bidib.Node;
@@ -16,6 +18,10 @@ public class NodeFactory {
 
     public NodeFactory() {
         MessageReceiver.addMessageListener(new MessageListener() {
+            @Override
+            public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
+            }
+
             @Override
             public void confidence(byte[] address, int valid, int freeze, int signal) {
             }
