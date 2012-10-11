@@ -30,6 +30,7 @@ import org.bidib.message.FeatureGetMessage;
 import org.bidib.message.FeatureGetNextMessage;
 import org.bidib.message.FeatureResponse;
 import org.bidib.message.FeatureSetMessage;
+import org.bidib.message.FeedbackGetAddressRangeMessage;
 import org.bidib.message.FeedbackGetConfidenceMessage;
 import org.bidib.message.FeedbackGetRangeMessage;
 import org.bidib.message.FeedbackMirrorFreeMessage;
@@ -138,6 +139,10 @@ public class BidibNode {
         LOG.fine(logRecord.toString());
         logRecord.setLength(0);
         this.output.reset();
+    }
+
+    public void getAddressState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
+        send(new FeedbackGetAddressRangeMessage(begin, end), false);
     }
 
     public void getConfidence() throws IOException, ProtocolException, InterruptedException {
