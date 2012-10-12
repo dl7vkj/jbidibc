@@ -112,7 +112,7 @@ public class MessageReceiver {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
                                                 ((LcKeyResponse) message).getKeyState());
                                     } else if (message instanceof LcWaitResponse) {
-                                        // TODO
+                                        fireTimeout(message.getAddr(), ((LcWaitResponse) message).getTimeout());
                                     } else if (message instanceof LogonResponse) {
                                     } else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
@@ -206,13 +206,22 @@ public class MessageReceiver {
         }
     }
 
+    private void fireTimeout(byte[] address, int timeout) {
+        for (MessageListener l : listeners) {
+            l.timeout(address, timeout);
+        }
+    }
+
     public static BidibMessage getMessage() throws InterruptedException {
         return receiveQueue.poll(3, TimeUnit.SECONDS);
     }
 
+    public static void removeMessageListener(MessageListener l) {
+        listeners.remove(l);
+    }
+
     /**
-     * Split the byte array into separate messages. The CRC value at the end is
-     * calculated over the whole array.
+     * Split the byte array into separate messages. The CRC value at the end is calculated over the whole array.
      * 
      * @param output
      *            array containing at least one message

@@ -129,7 +129,7 @@ public class BidibNode {
     }
 
     private void flush() throws IOException {
-        byte[] bytes = this.output.toByteArray();
+        byte[] bytes = output.toByteArray();
 
         Bidib.send(bytes);
         logRecord.append(" : ");
@@ -138,7 +138,11 @@ public class BidibNode {
         }
         LOG.fine(logRecord.toString());
         logRecord.setLength(0);
-        this.output.reset();
+        output.reset();
+    }
+
+    protected byte[] getAddr() {
+        return addr;
     }
 
     public void getAddressState(int begin, int end) throws IOException, ProtocolException, InterruptedException {

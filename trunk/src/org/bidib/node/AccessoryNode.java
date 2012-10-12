@@ -1,9 +1,16 @@
 package org.bidib.node;
 
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collection;
 
+import org.bidib.AddressData;
+import org.bidib.Bidib;
 import org.bidib.LcConfig;
 import org.bidib.LcMacro;
+import org.bidib.MessageListener;
+import org.bidib.MessageReceiver;
+import org.bidib.Node;
 import org.bidib.enumeration.LcMacroOperationCode;
 import org.bidib.enumeration.LcMacroState;
 import org.bidib.enumeration.LcOutputType;
@@ -23,9 +30,47 @@ import org.bidib.message.LcMacroSetMessage;
 import org.bidib.message.LcMacroStateResponse;
 import org.bidib.message.LcOutputMessage;
 
-public class AccessoryNode extends DeviceNode {
+public class AccessoryNode extends DeviceNode implements MessageListener {
     AccessoryNode(byte[] addr) {
         super(addr);
+        MessageReceiver.addMessageListener(this);
+    }
+
+    @Override
+    public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
+    }
+
+    @Override
+    public void confidence(byte[] address, int valid, int freeze, int signal) {
+    }
+
+    @Override
+    public void free(byte[] address, int detectorNumber) {
+    }
+
+    @Override
+    public void key(byte[] address, int keyNumber, int keyState) {
+    }
+
+    @Override
+    public void nodeLost(Node node) {
+        MessageReceiver.removeMessageListener(this);
+    }
+
+    @Override
+    public void nodeNew(Node node) {
+        MessageReceiver.removeMessageListener(this);
+    }
+
+    @Override
+    public void occupied(byte[] address, int detectorNumber) {
+    }
+
+    @Override
+    public void timeout(byte[] address, int timeout) {
+        if (Arrays.equals(address, getAddr())) {
+            Bidib.setTimeout(timeout * 1000);
+        }
     }
 
     public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws IOException, ProtocolException,
@@ -76,5 +121,6 @@ public class AccessoryNode extends DeviceNode {
     public void setOutput(LcOutputType outputType, int outputNumber, int state) throws IOException, ProtocolException,
             InterruptedException {
         send(new LcOutputMessage(outputType, outputNumber, state));
+        Bidib.setTimeout(Bidib.DEFAULT_TIMEOUT);
     }
 }

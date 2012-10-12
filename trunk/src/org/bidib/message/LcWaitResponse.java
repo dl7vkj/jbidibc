@@ -9,4 +9,8 @@ public class LcWaitResponse extends BidibMessage {
             throw new ProtocolException("no lc wait received");
         }
     }
+
+    public int getTimeout() {
+        return getData()[2];
+    }
 }

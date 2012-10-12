@@ -16,4 +16,6 @@ public interface MessageListener {
     void nodeNew(Node node);
 
     void occupied(byte[] address, int detectorNumber);
+
+    void timeout(byte[] address, int timeout);
 }

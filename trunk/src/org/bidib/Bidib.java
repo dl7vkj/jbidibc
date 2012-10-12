@@ -21,6 +21,8 @@ import org.bidib.node.NodeFactory;
 import org.bidib.node.RootNode;
 
 public class Bidib {
+    public static final int DEFAULT_TIMEOUT = 3000;
+
     private static NodeFactory nodeFactory = new NodeFactory();
     private static SerialPort port = null;
     private static Semaphore portSemaphore = new Semaphore(1);
@@ -81,7 +83,7 @@ public class Bidib {
         result.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
         result.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
         result.enableReceiveThreshold(1);
-        result.enableReceiveTimeout(3000);
+        result.enableReceiveTimeout(DEFAULT_TIMEOUT);
         result.notifyOnDataAvailable(true);
         result.addEventListener(new SerialPortEventListener() {
             @Override
@@ -159,5 +161,18 @@ public class Bidib {
         } catch (Exception e) {
         }
         return rootNode.getMagic();
+    }
+
+    public static void setTimeout(int timeout) {
+        if (port != null) {
+            try {
+                sendSemaphore.acquire();
+                port.enableReceiveTimeout(timeout);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            } finally {
+                sendSemaphore.release();
+            }
+        }
     }
 }
