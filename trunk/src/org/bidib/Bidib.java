@@ -166,12 +166,9 @@ public class Bidib {
     public static void setTimeout(int timeout) {
         if (port != null) {
             try {
-                sendSemaphore.acquire();
                 port.enableReceiveTimeout(timeout);
             } catch (Exception e) {
                 throw new RuntimeException(e);
-            } finally {
-                sendSemaphore.release();
             }
         }
     }
