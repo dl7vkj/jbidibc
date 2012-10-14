@@ -143,8 +143,10 @@ public class Bidib {
 
                 OutputStream output = port.getOutputStream();
 
+                port.setRTS(true);
                 output.write(bytes);
                 output.flush();
+                port.setRTS(false);
             } catch (Exception e) {
                 throw new RuntimeException(e);
             } finally {
