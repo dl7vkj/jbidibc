@@ -27,9 +27,11 @@ public class FeedbackAddressResponse extends BidibMessage {
         while (index < data.length) {
             byte lowByte = data[index++];
             byte highByte = data[index++];
+            int address = ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
 
-            result.add(new AddressData(((highByte & 0x3F) << 8) + (lowByte & 0xFF), AddressTypeEnum
-                    .valueOf((byte) (highByte >> 6))));
+            if (address > 0) {
+                result.add(new AddressData(address, AddressTypeEnum.valueOf((byte) (highByte >> 6))));
+            }
         }
         return result;
     }
