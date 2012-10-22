@@ -130,9 +130,6 @@ public class Bidib {
             } finally {
                 portSemaphore.release();
             }
-            if (port != null) {
-                getRootNode().sysEnable();
-            }
         }
     }
 
