@@ -1,0 +1,22 @@
+new messages:
+	  SysClockMessage
+	  LcKeyMessage
+	  LcKeyResponse
+	  FeedbackFreeResponse
+	  FeedbackMultipleResponse
+	  FeedbackOccupiedResponse
+	  FeedbackMirrorFreeMessage
+	  FeedbackMirrorMultipleMessage
+	  FeedbackMirrorOccupiedMessage
+	  FeedbackConfidenceResponse
+	  FeedbackGetConfidenceMessage
+	  LcWaitResponse
+	  FeedbackAddressResponse
+
+new features:
+	  handle key events
+	  accept an array of bytes as parameter in LcMacroParaSetMessage
+	  LcMacroParaResponse returns a byte array
+	  handle feedback messages
+	  handle confidence information
+	  toggle RTS when sending
