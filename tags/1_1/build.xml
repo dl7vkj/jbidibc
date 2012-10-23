@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." default="dist" name="Java interface to BiDiB">
+
+	<property file="build.properties" />
+	<property name="bin" location="${basedir}/bin" />
+	<property name="dist" location="${bin}/dist" />
+	<property name="src" location="${basedir}/src" />
+
+	<target name="clean">
+		<delete dir="${bin}" />
+		<delete file="${basedir}/${projectname}-${projectversion}.jar" />
+		<delete file="${basedir}/${projectname}-${projectversion}.zip" />
+	</target>
+
+	<target name="init">
+		<mkdir dir="${bin}" />
+		<copy todir="${bin}" flatten="yes">
+			<file file="build.properties" />
+		</copy>
+	</target>
+
+	<target name="compile" depends="init">
+		<javac srcdir="${src}" destdir="${bin}" debug="on">
+			<compilerarg value="-Xlint:deprecation" />
+		</javac>
+	</target>
+
+	<target name="jar" depends="compile">
+		<jar jarfile="${projectname}-${projectversion}.jar" basedir="${bin}/" index="false">
+			<manifest>
+				<attribute name="Built-By" value="${user.name}" />
+				<attribute name="Class-Path" value="${manifest-classpath}" />
+			</manifest>
+		</jar>
+	</target>
+
+	<target name="dist" depends="clean, jar">
+		<mkdir dir="${dist}" />
+		<copy todir="${dist}">
+			<fileset dir="${basedir}">
+				<include name="getMacros*" />
+				<include name="getNodeList*" />
+				<include name="ping*" />
+                                <include name="readCV*" />
+				<include name="startMacro*" />
+				<include name="stopMacro*" />
+                                <include name="writeCV*" />
+			</fileset>
+		</copy>
+		<copy todir="${dist}" file="${projectname}-${projectversion}.jar" />
+		<zip destfile="${basedir}/${projectname}-${projectversion}.zip">
+			<zipfileset dir="${dist}" includes="${projectname}-${projectversion}.jar" />
+			<zipfileset dir="${dist}" filemode="755" excludes="${projectname}-${projectversion}.jar" />
+		</zip>
+	</target>
+
+</project>
