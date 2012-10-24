@@ -1,10 +1,8 @@
 import java.util.Arrays;
-import java.util.Date;
 
 import org.bidib.Bidib;
 import org.bidib.Node;
 import org.bidib.node.BidibNode;
-
 
 public class Ping extends BidibCommand {
     public static void main(String[] args) {
@@ -22,12 +20,12 @@ public class Ping extends BidibCommand {
                     System.out.println("PING " + node.getUniqueIdAsString() + " (" + Arrays.toString(node.getAddr())
                             + ").");
                     while (true) {
-                        final Date now = new Date();
+                        final long now = System.currentTimeMillis();
                         final int num = bidibNode.ping();
 
                         System.out.println("got response from " + node.getUniqueIdAsString() + " ("
                                 + Arrays.toString(node.getAddr()) + "): seq=" + num + " time="
-                                + (new Date().getTime() - now.getTime()) + "ms");
+                                + (System.currentTimeMillis() - now) + "ms");
                     }
                 } else {
                     System.err.println("node with unique id \"" + args[1] + "\" not found");
