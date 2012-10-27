@@ -5,6 +5,7 @@ import gnu.io.SerialPort;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -59,7 +60,7 @@ public class MessageReceiver {
 
                                 try {
                                     message = ResponseFactory.create(messageArray);
-                                    LOG.fine("receive " + message + " : " + logRecord);
+                                    LOG.fine(new Date() + ": receive " + message + " : " + logRecord);
                                     logRecord.setLength(0);
                                     if (message instanceof FeedbackAddressResponse) {
                                         fireAddress(message.getAddr(),

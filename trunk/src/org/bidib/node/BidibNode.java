@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.concurrent.Semaphore;
 import java.util.logging.Logger;
@@ -136,7 +137,7 @@ public class BidibNode {
         for (int index = 0; index < bytes.length; index++) {
             logRecord.append(String.format("%02x", bytes[index]) + " ");
         }
-        LOG.fine(logRecord.toString());
+        LOG.fine(new Date() + ": " + logRecord.toString());
         logRecord.setLength(0);
         output.reset();
     }
