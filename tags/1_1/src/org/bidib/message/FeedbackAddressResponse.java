@@ -30,7 +30,7 @@ public class FeedbackAddressResponse extends BidibMessage {
             int address = ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
 
             if (address > 0) {
-                result.add(new AddressData(address, AddressTypeEnum.valueOf((byte) (highByte >> 6))));
+                result.add(new AddressData(address, AddressTypeEnum.valueOf((byte) ((highByte & 0xC0) >> 6))));
             }
         }
         return result;
