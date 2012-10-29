@@ -171,7 +171,7 @@ public class MessageReceiver {
         }
     }
 
-    private static void fireConfidence(byte[] address, int valid, int freeze, int signal) {
+    static void fireConfidence(byte[] address, int valid, int freeze, int signal) {
         for (MessageListener l : listeners) {
             l.confidence(address, valid, freeze, signal);
         }

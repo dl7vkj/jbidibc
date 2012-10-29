@@ -91,7 +91,7 @@ public class Bidib {
                 if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                     new MessageReceiver(port, nodeFactory);
                     // try {
-                    // new LogFileAnalyzer(new File("/home/schenk/versuch2 wizardtool.log"));
+                    // new LogFileAnalyzer(new File("/home/schenk/BiDiBWizard.log"));
                     // } catch (IOException e) {
                     // e.printStackTrace();
                     // }

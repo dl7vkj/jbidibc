@@ -7,19 +7,19 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Locale;
 import java.util.Map;
 
 import org.bidib.message.BidibMessage;
 import org.bidib.message.FeedbackAddressResponse;
+import org.bidib.message.FeedbackConfidenceResponse;
 import org.bidib.message.ResponseFactory;
 
 public class LogFileAnalyzer {
     private static final DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
 
-    private final Map<Date, BidibMessage> messages = new LinkedHashMap<Date, BidibMessage>();
+    private final Map<Long, BidibMessage> messages = new LinkedHashMap<Long, BidibMessage>();
 
     public LogFileAnalyzer(File file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
@@ -28,22 +28,26 @@ public class LogFileAnalyzer {
         while ((line = reader.readLine()) != null) {
             String[] parts = line.split(": ");
 
-            if (parts.length == 3 && parts[1].startsWith("receive FeedbackAddressResponse")) {
+            if (parts.length == 3
+                    && (parts[1].startsWith("receive FeedbackAddressResponse") || parts[1]
+                            .startsWith("receive FeedbackConfidenceResponse"))) {
                 try {
-                    messages.put(dateFormat.parse(parts[0].trim()), ResponseFactory.create(getBytes(parts[2].trim())));
+                    messages.put(dateFormat.parse(parts[0].trim()).getTime(),
+                            ResponseFactory.create(getBytes(parts[2].trim())));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
+        reader.close();
         new Thread() {
             public void run() {
                 try {
-                    Map.Entry<Date, BidibMessage> previousEntry = null;
+                    Map.Entry<Long, BidibMessage> previousEntry = null;
 
-                    for (Map.Entry<Date, BidibMessage> entry : messages.entrySet()) {
+                    for (Map.Entry<Long, BidibMessage> entry : messages.entrySet()) {
                         if (previousEntry != null) {
-                            Thread.sleep(entry.getKey().getTime() - previousEntry.getKey().getTime());
+                            Thread.sleep(entry.getKey() - previousEntry.getKey());
                         } else {
                             Thread.sleep(5000);
                         }
@@ -56,6 +60,11 @@ public class LogFileAnalyzer {
                             MessageReceiver.fireAddress(message.getAddr(),
                                     ((FeedbackAddressResponse) message).getDetectorNumber(),
                                     ((FeedbackAddressResponse) message).getAddresses());
+                        } else if (message instanceof FeedbackConfidenceResponse) {
+                            MessageReceiver.fireConfidence(message.getAddr(),
+                                    ((FeedbackConfidenceResponse) message).getValid(),
+                                    ((FeedbackConfidenceResponse) message).getFreeze(),
+                                    ((FeedbackConfidenceResponse) message).getSignal());
                         }
                         previousEntry = entry;
                     }
