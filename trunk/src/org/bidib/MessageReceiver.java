@@ -1,5 +1,7 @@
 package org.bidib;
 
+import gnu.io.SerialPort;
+
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Collection;
