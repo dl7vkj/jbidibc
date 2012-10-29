@@ -1,7 +1,5 @@
 package org.bidib;
 
-import gnu.io.SerialPort;
-
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Collection;
@@ -165,49 +163,49 @@ public class MessageReceiver {
         listeners.add(l);
     }
 
-    private void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {
+    static void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {
         for (MessageListener l : listeners) {
             l.address(address, detectorNumber, addresses);
         }
     }
 
-    private void fireConfidence(byte[] address, int valid, int freeze, int signal) {
+    private static void fireConfidence(byte[] address, int valid, int freeze, int signal) {
         for (MessageListener l : listeners) {
             l.confidence(address, valid, freeze, signal);
         }
     }
 
-    private void fireFree(byte[] address, int detectorNumber) {
+    private static void fireFree(byte[] address, int detectorNumber) {
         for (MessageListener l : listeners) {
             l.free(address, detectorNumber);
         }
     }
 
-    private void fireKey(byte[] address, int keyNumber, int keyState) {
+    private static void fireKey(byte[] address, int keyNumber, int keyState) {
         for (MessageListener l : listeners) {
             l.key(address, keyNumber, keyState);
         }
     }
 
-    private void fireNodeLost(Node node) {
+    private static void fireNodeLost(Node node) {
         for (MessageListener l : listeners) {
             l.nodeLost(node);
         }
     }
 
-    private void fireNodeNew(Node node) {
+    private static void fireNodeNew(Node node) {
         for (MessageListener l : listeners) {
             l.nodeNew(node);
         }
     }
 
-    private void fireOccupied(byte[] address, int detectorNumber) {
+    private static void fireOccupied(byte[] address, int detectorNumber) {
         for (MessageListener l : listeners) {
             l.occupied(address, detectorNumber);
         }
     }
 
-    private void fireTimeout(byte[] address, int timeout) {
+    private static void fireTimeout(byte[] address, int timeout) {
         for (MessageListener l : listeners) {
             l.timeout(address, timeout);
         }
@@ -232,7 +230,7 @@ public class MessageReceiver {
      * @throws ProtocolException
      *             Thrown if the CRC failed.
      */
-    private Collection<byte[]> splitMessages(byte[] output) throws ProtocolException {
+    private static Collection<byte[]> splitMessages(byte[] output) throws ProtocolException {
         Collection<byte[]> result = new LinkedList<byte[]>();
         int index = 0;
 
