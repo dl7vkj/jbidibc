@@ -38,6 +38,8 @@ public class MessageReceiver {
 
     private static final Collection<MessageListener> listeners = new LinkedList<MessageListener>();
 
+    private static int timeout = Bidib.DEFAULT_TIMEOUT;
+
     public MessageReceiver(SerialPort port, NodeFactory nodeFactory) {
         synchronized (this) {
             try {
@@ -113,6 +115,7 @@ public class MessageReceiver {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
                                                 ((LcKeyResponse) message).getKeyState());
                                     } else if (message instanceof LcWaitResponse) {
+                                        timeout = ((LcWaitResponse) message).getTimeout() * 1000;
                                         fireTimeout(message.getAddr(), ((LcWaitResponse) message).getTimeout());
                                     } else if (message instanceof LogonResponse) {
                                     } else if (message instanceof NodeNewResponse) {
@@ -214,7 +217,13 @@ public class MessageReceiver {
     }
 
     public static BidibMessage getMessage() throws InterruptedException {
-        return receiveQueue.poll(3, TimeUnit.SECONDS);
+        BidibMessage result = receiveQueue.poll(timeout, TimeUnit.MILLISECONDS);
+
+        if (result == null && timeout > Bidib.DEFAULT_TIMEOUT) {
+            result = receiveQueue.poll(timeout - Bidib.DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS);
+        }
+        timeout = Bidib.DEFAULT_TIMEOUT;
+        return result;
     }
 
     public static void removeMessageListener(MessageListener l) {
