@@ -1,7 +1,6 @@
 package org.bidib.node;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 
 import org.bidib.AddressData;
@@ -66,13 +65,6 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     public void occupied(byte[] address, int detectorNumber) {
     }
 
-    @Override
-    public void timeout(byte[] address, int timeout) {
-        if (Arrays.equals(address, getAddr())) {
-            Bidib.setTimeout(timeout * 1000);
-        }
-    }
-
     public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws IOException, ProtocolException,
             InterruptedException {
         LcConfig result = null;
@@ -121,6 +113,6 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     public void setOutput(LcOutputType outputType, int outputNumber, int state) throws IOException, ProtocolException,
             InterruptedException {
         send(new LcOutputMessage(outputType, outputNumber, state));
-        Bidib.setTimeout(Bidib.DEFAULT_TIMEOUT);
+        MessageReceiver.setTimeout(Bidib.DEFAULT_TIMEOUT);
     }
 }

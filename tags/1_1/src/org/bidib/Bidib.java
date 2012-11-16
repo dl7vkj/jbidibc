@@ -167,7 +167,7 @@ public class Bidib {
         return rootNode.getMagic();
     }
 
-    public static void setTimeout(int timeout) {
+    static void setTimeout(int timeout) {
         if (port != null) {
             try {
                 port.enableReceiveTimeout(timeout);

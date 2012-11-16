@@ -47,10 +47,6 @@ public class NodeFactory {
             @Override
             public void occupied(byte[] address, int detectorNumber) {
             }
-
-            @Override
-            public void timeout(byte[] address, int timeout) {
-            }
         });
     }
 
