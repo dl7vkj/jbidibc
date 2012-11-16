@@ -11,6 +11,8 @@ public class LcWaitResponse extends BidibMessage {
     }
 
     public int getTimeout() {
-        return getData()[2];
+        int result = getData()[2] & 0xFF;
+
+        return result > 127 ? result * 1000 : result * 100;
     }
 }

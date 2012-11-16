@@ -38,7 +38,7 @@ public class MessageReceiver {
 
     private static final Collection<MessageListener> listeners = new LinkedList<MessageListener>();
 
-    private static int timeout = Bidib.DEFAULT_TIMEOUT;
+    private static int TIMEOUT = Bidib.DEFAULT_TIMEOUT;
 
     public MessageReceiver(SerialPort port, NodeFactory nodeFactory) {
         synchronized (this) {
@@ -115,8 +115,7 @@ public class MessageReceiver {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
                                                 ((LcKeyResponse) message).getKeyState());
                                     } else if (message instanceof LcWaitResponse) {
-                                        timeout = ((LcWaitResponse) message).getTimeout() * 1000;
-                                        fireTimeout(message.getAddr(), ((LcWaitResponse) message).getTimeout());
+                                        setTimeout(((LcWaitResponse) message).getTimeout());
                                     } else if (message instanceof LogonResponse) {
                                     } else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
@@ -210,24 +209,22 @@ public class MessageReceiver {
         }
     }
 
-    private static void fireTimeout(byte[] address, int timeout) {
-        for (MessageListener l : listeners) {
-            l.timeout(address, timeout);
-        }
-    }
-
     public static BidibMessage getMessage() throws InterruptedException {
-        BidibMessage result = receiveQueue.poll(timeout, TimeUnit.MILLISECONDS);
+        BidibMessage result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
 
-        if (result == null && timeout > Bidib.DEFAULT_TIMEOUT) {
-            result = receiveQueue.poll(timeout - Bidib.DEFAULT_TIMEOUT, TimeUnit.MILLISECONDS);
+        if (result == null && TIMEOUT > Bidib.DEFAULT_TIMEOUT) {
+            result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
         }
-        timeout = Bidib.DEFAULT_TIMEOUT;
         return result;
     }
 
     public static void removeMessageListener(MessageListener l) {
         listeners.remove(l);
+    }
+
+    public static void setTimeout(int timeout) {
+        Bidib.setTimeout(timeout);
+        TIMEOUT = timeout;
     }
 
     /**
