@@ -137,7 +137,7 @@ public class BidibNode {
         for (int index = 0; index < bytes.length; index++) {
             logRecord.append(String.format("%02x", bytes[index]) + " ");
         }
-        LOG.fine(new Date() + " " + logRecord.toString());
+        LOG.fine(new Date() + ": " + logRecord.toString());
         logRecord.setLength(0);
         output.reset();
     }
