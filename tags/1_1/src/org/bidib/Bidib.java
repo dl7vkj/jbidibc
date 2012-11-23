@@ -41,11 +41,6 @@ public class Bidib {
 
     private static void close() throws IOException {
         if (port != null) {
-            // send a BiDiB message to avoid waiting for a longer timeout, if the last message was a servo port message
-            try {
-                getRootNode().getMagic();
-            } catch (Exception e) {
-            }
             port.close();
             port = null;
         }
