@@ -3,6 +3,7 @@ package org.bidib.node;
 import java.io.IOException;
 import java.util.Collection;
 
+import org.bidib.AccessoryState;
 import org.bidib.AddressData;
 import org.bidib.Bidib;
 import org.bidib.LcConfig;
@@ -14,6 +15,8 @@ import org.bidib.enumeration.LcMacroOperationCode;
 import org.bidib.enumeration.LcMacroState;
 import org.bidib.enumeration.LcOutputType;
 import org.bidib.exception.ProtocolException;
+import org.bidib.message.AccessoryGetMessage;
+import org.bidib.message.AccessoryStateResponse;
 import org.bidib.message.BidibMessage;
 import org.bidib.message.LcConfigGetMessage;
 import org.bidib.message.LcConfigResponse;
@@ -63,6 +66,11 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
 
     @Override
     public void occupied(byte[] address, int detectorNumber) {
+    }
+
+    public AccessoryState getAccessoryState(int accessoryNumber) throws IOException, ProtocolException,
+            InterruptedException {
+        return ((AccessoryStateResponse) send(new AccessoryGetMessage(accessoryNumber))).getAccessoryState();
     }
 
     public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws IOException, ProtocolException,
