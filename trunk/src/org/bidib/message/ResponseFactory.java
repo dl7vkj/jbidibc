@@ -7,7 +7,9 @@ public class ResponseFactory {
     public static BidibMessage create(byte[] message) throws ProtocolException {
         BidibMessage result = new BidibMessage(message);
 
-        if (result.getType() == (byte) BidibLibrary.MSG_ACCESSORY_STATE) {
+        if (result.getType() == (byte) BidibLibrary.MSG_ACCESSORY_PARA) {
+            result = new AccessoryParaResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+        } else if (result.getType() == (byte) BidibLibrary.MSG_ACCESSORY_STATE) {
             result = new AccessoryStateResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_BM_ADDRESS) {
             result = new FeedbackAddressResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());

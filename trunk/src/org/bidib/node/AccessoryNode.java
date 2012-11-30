@@ -16,6 +16,8 @@ import org.bidib.enumeration.LcMacroState;
 import org.bidib.enumeration.LcOutputType;
 import org.bidib.exception.ProtocolException;
 import org.bidib.message.AccessoryGetMessage;
+import org.bidib.message.AccessoryParaGetMessage;
+import org.bidib.message.AccessoryParaResponse;
 import org.bidib.message.AccessoryStateResponse;
 import org.bidib.message.BidibMessage;
 import org.bidib.message.LcConfigGetMessage;
@@ -66,6 +68,11 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
 
     @Override
     public void occupied(byte[] address, int detectorNumber) {
+    }
+
+    public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws IOException, ProtocolException,
+            InterruptedException {
+        return ((AccessoryParaResponse) send(new AccessoryParaGetMessage(accessoryNumber, parameter))).getValue();
     }
 
     public AccessoryState getAccessoryState(int accessoryNumber) throws IOException, ProtocolException,
