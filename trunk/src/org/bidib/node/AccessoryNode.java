@@ -72,12 +72,24 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
 
     public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws IOException, ProtocolException,
             InterruptedException {
-        return ((AccessoryParaResponse) send(new AccessoryParaGetMessage(accessoryNumber, parameter))).getValue();
+        byte[] result = null;
+        BidibMessage response = send(new AccessoryParaGetMessage(accessoryNumber, parameter));
+
+        if (response instanceof AccessoryParaResponse) {
+            result = ((AccessoryParaResponse) response).getValue();
+        }
+        return result;
     }
 
     public AccessoryState getAccessoryState(int accessoryNumber) throws IOException, ProtocolException,
             InterruptedException {
-        return ((AccessoryStateResponse) send(new AccessoryGetMessage(accessoryNumber))).getAccessoryState();
+        AccessoryState result = null;
+        BidibMessage response = send(new AccessoryGetMessage(accessoryNumber));
+
+        if (response instanceof AccessoryStateResponse) {
+            result = ((AccessoryStateResponse) response).getAccessoryState();
+        }
+        return result;
     }
 
     public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws IOException, ProtocolException,
@@ -97,17 +109,35 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
 
     public byte[] getMacroParameter(int macroNumber, int parameter) throws IOException, ProtocolException,
             InterruptedException {
-        return ((LcMacroParaResponse) send(new LcMacroParaGetMessage(macroNumber, parameter))).getValue();
+        byte[] result = null;
+        BidibMessage response = send(new LcMacroParaGetMessage(macroNumber, parameter));
+
+        if (response instanceof LcMacroParaResponse) {
+            result = ((LcMacroParaResponse) response).getValue();
+        }
+        return result;
     }
 
     public LcMacro getMacroStep(int macroNumber, int stepNumber) throws IOException, ProtocolException,
             InterruptedException {
-        return ((LcMacroResponse) send(new LcMacroGetMessage(macroNumber, stepNumber))).getMacro();
+        LcMacro result = null;
+        BidibMessage response = send(new LcMacroGetMessage(macroNumber, stepNumber));
+
+        if (response instanceof LcMacroResponse) {
+            result = ((LcMacroResponse) response).getMacro();
+        }
+        return result;
     }
 
     public LcMacroState handleMacro(int macroNumber, LcMacroOperationCode macroOperationCode) throws IOException,
             ProtocolException, InterruptedException {
-        return ((LcMacroStateResponse) send(new LcMacroHandleMessage(macroNumber, macroOperationCode))).getMacroState();
+        LcMacroState result = null;
+        BidibMessage response = send(new LcMacroHandleMessage(macroNumber, macroOperationCode));
+
+        if (response instanceof LcMacroStateResponse) {
+            result = ((LcMacroStateResponse) response).getMacroState();
+        }
+        return result;
     }
 
     public void setConfig(LcConfig config) throws IOException, ProtocolException, InterruptedException {
@@ -117,7 +147,13 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public LcMacro setMacro(LcMacro macro) throws IOException, ProtocolException, InterruptedException {
-        return ((LcMacroResponse) send(new LcMacroSetMessage(macro))).getMacro();
+        LcMacro result = null;
+        BidibMessage response = send(new LcMacroSetMessage(macro));
+
+        if (response instanceof LcMacroResponse) {
+            result = ((LcMacroResponse) response).getMacro();
+        }
+        return result;
     }
 
     public void setMacroParameter(int macroNumber, int parameter, byte... value) throws IOException, ProtocolException,
