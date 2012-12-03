@@ -18,6 +18,8 @@ import org.bidib.exception.ProtocolException;
 import org.bidib.message.AccessoryGetMessage;
 import org.bidib.message.AccessoryParaGetMessage;
 import org.bidib.message.AccessoryParaResponse;
+import org.bidib.message.AccessoryParaSetMessage;
+import org.bidib.message.AccessorySetMessage;
 import org.bidib.message.AccessoryStateResponse;
 import org.bidib.message.BidibMessage;
 import org.bidib.message.LcConfigGetMessage;
@@ -138,6 +140,18 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
             result = ((LcMacroStateResponse) response).getMacroState();
         }
         return result;
+    }
+
+    public void setAccessoryParameter(AccessoryState accessoryState) throws IOException, ProtocolException,
+            InterruptedException {
+        if (accessoryState != null) {
+            send(new AccessoryParaSetMessage(accessoryState));
+        }
+    }
+
+    public void setAccessoryState(int accessoryNumber, int aspect) throws IOException, ProtocolException,
+            InterruptedException {
+        send(new AccessorySetMessage(accessoryNumber, aspect));
     }
 
     public void setConfig(LcConfig config) throws IOException, ProtocolException, InterruptedException {
