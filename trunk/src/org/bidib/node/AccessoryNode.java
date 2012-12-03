@@ -142,11 +142,9 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
         return result;
     }
 
-    public void setAccessoryParameter(AccessoryState accessoryState) throws IOException, ProtocolException,
-            InterruptedException {
-        if (accessoryState != null) {
-            send(new AccessoryParaSetMessage(accessoryState));
-        }
+    public void setAccessoryParameter(int accessoryNumber, int parameter, byte[] value) throws IOException,
+            ProtocolException, InterruptedException {
+        send(new AccessoryParaSetMessage(accessoryNumber, parameter, value));
     }
 
     public void setAccessoryState(int accessoryNumber, int aspect) throws IOException, ProtocolException,
