@@ -11,6 +11,7 @@ import org.bidib.LcMacro;
 import org.bidib.MessageListener;
 import org.bidib.MessageReceiver;
 import org.bidib.Node;
+import org.bidib.enumeration.BoosterState;
 import org.bidib.enumeration.LcMacroOperationCode;
 import org.bidib.enumeration.LcMacroState;
 import org.bidib.enumeration.LcOutputType;
@@ -44,6 +45,14 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
 
     @Override
     public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
+    }
+
+    @Override
+    public void boosterCurrent(byte[] address, int current) {
+    }
+
+    @Override
+    public void boosterState(byte[] address, BoosterState state) {
     }
 
     @Override

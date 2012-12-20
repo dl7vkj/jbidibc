@@ -25,6 +25,8 @@ import org.bidib.enumeration.FirmwareUpdateOperation;
 import org.bidib.enumeration.IdentifyState;
 import org.bidib.exception.ProtocolException;
 import org.bidib.message.BidibMessage;
+import org.bidib.message.BoostOffMessage;
+import org.bidib.message.BoostOnMessage;
 import org.bidib.message.FeatureCountResponse;
 import org.bidib.message.FeatureGetAllMessage;
 import org.bidib.message.FeatureGetMessage;
@@ -95,6 +97,14 @@ public class BidibNode {
 
     public static void addTransferListener(TransferListener l) {
         listeners.add(l);
+    }
+
+    public void boosterOff() throws IOException, ProtocolException, InterruptedException {
+        send(new BoostOffMessage(), false);
+    }
+
+    public void boosterOn() throws IOException, ProtocolException, InterruptedException {
+        send(new BoostOnMessage(), false);
     }
 
     private void escape(byte c) throws IOException {

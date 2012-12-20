@@ -9,6 +9,7 @@ import org.bidib.AddressData;
 import org.bidib.MessageListener;
 import org.bidib.MessageReceiver;
 import org.bidib.Node;
+import org.bidib.enumeration.BoosterState;
 import org.bidib.message.BidibMessage;
 
 public class NodeFactory {
@@ -20,6 +21,14 @@ public class NodeFactory {
         MessageReceiver.addMessageListener(new MessageListener() {
             @Override
             public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
+            }
+
+            @Override
+            public void boosterCurrent(byte[] address, int current) {
+            }
+
+            @Override
+            public void boosterState(byte[] address, BoosterState state) {
             }
 
             @Override

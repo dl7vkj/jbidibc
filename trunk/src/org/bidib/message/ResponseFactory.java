@@ -22,6 +22,10 @@ public class ResponseFactory {
             result = new FeedbackMultipleResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_BM_OCC) {
             result = new FeedbackOccupiedResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+        } else if (result.getType() == (byte) BidibLibrary.MSG_BOOST_CURRENT) {
+            result = new BoostCurrentResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+        } else if (result.getType() == (byte) BidibLibrary.MSG_BOOST_STAT) {
+            result = new BoostStatResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_FEATURE) {
             result = new FeatureResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_FEATURE_COUNT) {

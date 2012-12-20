@@ -14,8 +14,11 @@ import java.util.logging.Logger;
 
 import logging.LogFactory;
 
+import org.bidib.enumeration.BoosterState;
 import org.bidib.exception.ProtocolException;
 import org.bidib.message.BidibMessage;
+import org.bidib.message.BoostCurrentResponse;
+import org.bidib.message.BoostStatResponse;
 import org.bidib.message.FeedbackAddressResponse;
 import org.bidib.message.FeedbackConfidenceResponse;
 import org.bidib.message.FeedbackFreeResponse;
@@ -64,7 +67,12 @@ public class MessageReceiver {
                                     message = ResponseFactory.create(messageArray);
                                     LOG.fine(new Date() + ": receive " + message + " : " + logRecord);
                                     logRecord.setLength(0);
-                                    if (message instanceof FeedbackAddressResponse) {
+                                    if (message instanceof BoostCurrentResponse) {
+                                        fireBoosterCurrent(message.getAddr(),
+                                                ((BoostCurrentResponse) message).getCurrent());
+                                    } else if (message instanceof BoostStatResponse) {
+                                        fireBoosterState(message.getAddr(), ((BoostStatResponse) message).getState());
+                                    } else if (message instanceof FeedbackAddressResponse) {
                                         fireAddress(message.getAddr(),
                                                 ((FeedbackAddressResponse) message).getDetectorNumber(),
                                                 ((FeedbackAddressResponse) message).getAddresses());
@@ -173,6 +181,18 @@ public class MessageReceiver {
         }
     }
 
+    private static void fireBoosterCurrent(byte[] address, int current) {
+        for (MessageListener l : listeners) {
+            l.boosterCurrent(address, current);
+        }
+    }
+
+    private static void fireBoosterState(byte[] address, BoosterState state) {
+        for (MessageListener l : listeners) {
+            l.boosterState(address, state);
+        }
+    }
+
     static void fireConfidence(byte[] address, int valid, int freeze, int signal) {
         for (MessageListener l : listeners) {
             l.confidence(address, valid, freeze, signal);
@@ -228,7 +248,8 @@ public class MessageReceiver {
     }
 
     /**
-     * Split the byte array into separate messages. The CRC value at the end is calculated over the whole array.
+     * Split the byte array into separate messages. The CRC value at the end is
+     * calculated over the whole array.
      * 
      * @param output
      *            array containing at least one message

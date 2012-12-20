@@ -2,8 +2,14 @@ package org.bidib;
 
 import java.util.Collection;
 
+import org.bidib.enumeration.BoosterState;
+
 public interface MessageListener {
     void address(byte[] address, int detectorNumber, Collection<AddressData> addressData);
+
+    void boosterCurrent(byte[] address, int current);
+
+    void boosterState(byte[] address, BoosterState state);
 
     void confidence(byte[] address, int valid, int freeze, int signal);
 
