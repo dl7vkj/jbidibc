@@ -25,6 +25,8 @@ public interface BidibLibrary {
 		public static final int BIDIB_MACRO_DELETE = (int)255;
 	};
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_BST_STATE_NOPOWER = (int)3;
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_PRG_CV_BLOCKWRITE = (int)((0 + 96) + 8);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_CS_STATE_PROGBUSY = (int)129;
@@ -55,9 +57,13 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_VENDOR_DISABLE = (int)((0 + 16) + 5);
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int FEATURE_BST_CV_AVAILABLE = (int)24;
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_BM_ADDR_DETECT_ON = (int)9;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_PORT_TURN_ON_NEON = (int)4;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_BST_STATE_OFF_GO_REQ = (int)4;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIBUS_SYS_MSG = (int)64;
 	/// <i>native declaration : bidib_messages.h</i>
@@ -87,6 +93,8 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_CTRL_INPUT_COUNT = (int)50;
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_CS_DRIVE_F5F8_BIT = (int)(1 << 2);
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIBUS_POWER_UPx = (int)127;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_PORT_BLINK_A = (int)5;
@@ -99,6 +107,8 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_PORT_BLINK_B = (int)6;
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_CS_DRIVE_FORMAT_DCC14 = (int)0;
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_CS_STATE_PROG = (int)128;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_FW_UPDATE_STAT = (int)((128 + 0) + 15);
@@ -109,15 +119,17 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_BM_ADDR_GET_RANGE = (int)((0 + 32) + 4);
 	/// <i>native declaration : bidib_messages.h</i>
-	public static final int FEATURE_CTRL_MOTOR_COUNT = (int)56;
-	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_GEN_DRIVE_ACK = (int)102;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int FEATURE_CTRL_MOTOR_COUNT = (int)56;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_SYS_ERROR = (int)((128 + 0) + 6);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_FW_UPDATE_ERROR_SIZE = (int)5;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_PRG_CV_WRITE = (int)((0 + 96) + 7);
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_CS_DRIVE_FORMAT_DCC28 = (int)2;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_FW_UPDATE_ERROR_CHECKSUM = (int)4;
 	/// <i>native declaration : bidib_messages.h</i>
@@ -144,6 +156,8 @@ public interface BidibLibrary {
 	public static final int MSG_UFC = (int)(128 + 16);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_PKT_ESCAPE = (int)253;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_BST_STATE_SHORT = (int)1;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_SYS_RESET = (int)((0 + 0) + 9);
 	/// <i>native declaration : bidib_messages.h</i>
@@ -181,7 +195,11 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_ACCESSORY_MACROMAPPED = (int)42;
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_CS_DRIVE_F13F20_BIT = (int)(1 << 4);
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_SYS_GET_P_VERSION = (int)((0 + 0) + 2);
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int FEATURE_BST_CV_ON = (int)25;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_CS_CONNECT = (int)((0 + 96) + 1);
 	/// <i>native declaration : bidib_messages.h</i>
@@ -203,9 +221,13 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_BM_ON = (int)1;
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int FEATURE_BST_CURMEAS_INTERVAL = (int)23;
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_BM_MIRROR_MULTIPLE = (int)((0 + 32) + 1);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_MACRO_RUNNING = (int)2;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_CS_DRIVE_F21F28_BIT = (int)(1 << 5);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_BM_ADDR_AND_DIR = (int)10;
 	/// <i>native declaration : bidib_messages.h</i>
@@ -219,9 +241,13 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_VENDOR_SET = (int)((0 + 16) + 6);
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_CS_DRIVE_F9F12_BIT = (int)(1 << 3);
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_LC_OUTPUT = (int)((0 + 64) + 0);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_CS_STATE_BUSY = (int)240;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_BST_STATE_ON_HOT = (int)130;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_ACCESSORY_SET = (int)((0 + 56) + 0);
 	/// <i>native declaration : bidib_messages.h</i>
@@ -238,6 +264,8 @@ public interface BidibLibrary {
 	public static final int MSG_SYS_GET_SW_VERSION = (int)((0 + 0) + 6);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_BM_SIZE = (int)0;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_BST_STATE_OFF_HOT = (int)2;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_BM_SECACK_ON = (int)3;
 	/// <i>native declaration : bidib_messages.h</i>
@@ -337,6 +365,8 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_CS_ALLOCATE = (int)((0 + 96) + 0);
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int FEATURE_BM_ISTSPEED_INTERVAL = (int)12;
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_PORT_TURN_ON = (int)1;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_EXTENSION = (int)255;
@@ -371,17 +401,23 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_MSG_FW_UPDATE_STAT_DATA = (int)2;
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_CS_DRIVE_F1F4_BIT = (int)(1 << 1);
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_SYS_IDENTIFY_STATE = (int)((128 + 0) + 7);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_BOOST_ON = (int)((0 + 48) + 1);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_CS_ACCESSORY = (int)((0 + 96) + 5);
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_CS_DRIVE_SPEED_BIT = (int)(1 << 0);
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_MACRO_NOTEXIST = (int)255;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_USTRM = (int)128;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_BM_CURMEAS_INTERVAL = (int)5;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_BST_STATE_OFF = (int)0;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIBUS_LOGON = (int)126;
 	/// <i>native declaration : bidib_messages.h</i>
@@ -392,6 +428,8 @@ public interface BidibLibrary {
 	public static final int MSG_SYS_PONG = (int)((128 + 0) + 2);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_MACRO_PARA_REPEAT = (int)2;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_CS_DRIVE_FORMAT_DCC128 = (int)3;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_UMAC = (int)(128 + 72);
 	/// <i>native declaration : bidib_messages.h</i>
@@ -455,6 +493,8 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_BM_ISTSPEED_AVAILABLE = (int)11;
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_BST_STATE_ON_LIMIT = (int)129;
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_BM_CURRENT = (int)((128 + 32) + 7);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_BM_ACCESSORY = (int)((128 + 32) + 4);
@@ -509,6 +549,10 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_CS_ACCESSORY_ACK = (int)((128 + 96) + 3);
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_BST_STATE_ON_STOP_REQ = (int)131;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int BIDIB_BST_STATE_ON = (int)128;
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_LC_MACRO_STATE = (int)((128 + 72) + 0);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_FW_UPDATE_ERROR_NO_DEST = (int)1;
@@ -532,8 +576,6 @@ public interface BidibLibrary {
 	public static final int MSG_SYS_CLOCK = (int)((0 + 16) + 8);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_OUTTYPE_ANALOG = (int)5;
-	/// <i>native declaration : bidib_messages.h</i>
-	public static final int FEATURE_BM_ISTSPEED_ON = (int)12;
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_PORT_FLASH_A = (int)7;
 	/// <i>native declaration : bidib_messages.h</i>
