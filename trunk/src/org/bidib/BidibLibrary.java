@@ -27,7 +27,7 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_BST_STATE_NOPOWER = (int)3;
 	/// <i>native declaration : bidib_messages.h</i>
-	public static final int MSG_PRG_CV_BLOCKWRITE = (int)((0 + 96) + 8);
+	public static final int MSG_PRG_CV_BLOCKWRITE = (int)((0 + 96) + 13);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_CS_STATE_PROGBUSY = (int)129;
 	/// <i>native declaration : bidib_messages.h</i>
@@ -40,8 +40,6 @@ public interface BidibLibrary {
 	public static final int MSG_DBST = (int)(0 + 48);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_UBM = (int)(128 + 32);
-	/// <i>native declaration : bidib_messages.h</i>
-	public static final int MSG_CS_GET_STATE = (int)((0 + 96) + 3);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_DFC = (int)(0 + 16);
 	/// <i>native declaration : bidib_messages.h</i>
@@ -127,7 +125,7 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_FW_UPDATE_ERROR_SIZE = (int)5;
 	/// <i>native declaration : bidib_messages.h</i>
-	public static final int MSG_PRG_CV_WRITE = (int)((0 + 96) + 7);
+	public static final int MSG_PRG_CV_WRITE = (int)((0 + 96) + 12);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_CS_DRIVE_FORMAT_DCC28 = (int)2;
 	/// <i>native declaration : bidib_messages.h</i>
@@ -201,8 +199,6 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_BST_CV_ON = (int)25;
 	/// <i>native declaration : bidib_messages.h</i>
-	public static final int MSG_CS_CONNECT = (int)((0 + 96) + 1);
-	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_LC_KEY_QUERY = (int)((0 + 64) + 3);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_CS_STATE = (int)((128 + 96) + 1);
@@ -215,7 +211,7 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_GEN_DRIVE_BUS = (int)107;
 	/// <i>native declaration : bidib_messages.h</i>
-	public static final int MSG_PRG_CV_READ = (int)((0 + 96) + 9);
+	public static final int MSG_PRG_CV_READ = (int)((0 + 96) + 14);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_NODETAB = (int)((128 + 0) + 9);
 	/// <i>native declaration : bidib_messages.h</i>
@@ -316,6 +312,8 @@ public interface BidibLibrary {
 	public static final int MSG_FW_UPDATE_OP = (int)((0 + 0) + 15);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int FEATURE_BM_ADDR_DETECT_AVAILABLE = (int)8;
+	/// <i>native declaration : bidib_messages.h</i>
+	public static final int MSG_CS_BIN_STATES = (int)((0 + 96) + 6);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_DLC = (int)(0 + 64);
 	/// <i>native declaration : bidib_messages.h</i>
@@ -569,6 +567,8 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_ERR_SUBTIME = (int)20;
 	/// <i>native declaration : bidib_messages.h</i>
+	public static final int MSG_BOOST_QUERY = (int)((0 + 48) + 2);
+	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_SYS_GET_MAGIC = (int)((0 + 0) + 1);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int MSG_FEATURE = (int)((128 + 16) + 0);
@@ -599,7 +599,7 @@ public interface BidibLibrary {
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_OUTTYPE_SOUND = (int)3;
 	/// <i>native declaration : bidib_messages.h</i>
-	public static final int MSG_PRG_CV_BLOCKREAD = (int)((0 + 96) + 10);
+	public static final int MSG_PRG_CV_BLOCKREAD = (int)((0 + 96) + 15);
 	/// <i>native declaration : bidib_messages.h</i>
 	public static final int BIDIB_MSG_FW_UPDATE_OP_ENTER = (int)0;
 }
