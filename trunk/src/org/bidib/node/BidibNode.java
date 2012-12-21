@@ -27,6 +27,7 @@ import org.bidib.exception.ProtocolException;
 import org.bidib.message.BidibMessage;
 import org.bidib.message.BoostOffMessage;
 import org.bidib.message.BoostOnMessage;
+import org.bidib.message.BoostQueryMessage;
 import org.bidib.message.FeatureCountResponse;
 import org.bidib.message.FeatureGetAllMessage;
 import org.bidib.message.FeatureGetMessage;
@@ -105,6 +106,10 @@ public class BidibNode {
 
     public void boosterOn() throws IOException, ProtocolException, InterruptedException {
         send(new BoostOnMessage(), false);
+    }
+
+    public void boosterQuery() throws IOException, ProtocolException, InterruptedException {
+        send(new BoostQueryMessage(), false);
     }
 
     private void escape(byte c) throws IOException {
