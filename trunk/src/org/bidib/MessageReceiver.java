@@ -43,6 +43,8 @@ public class MessageReceiver {
 
     private static int TIMEOUT = Bidib.DEFAULT_TIMEOUT;
 
+    private static boolean RUNNING = true;
+
     public MessageReceiver(SerialPort port, NodeFactory nodeFactory) {
         synchronized (this) {
             try {
@@ -57,7 +59,7 @@ public class MessageReceiver {
                     boolean escape_hot = false;
                     StringBuilder logRecord = new StringBuilder();
 
-                    while ((data = input.read()) != -1) {
+                    while (RUNNING && (data = input.read()) != -1) {
                         logRecord.append(String.format("%02x", data) + " ");
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
                             for (byte[] messageArray : splitMessages(output.toByteArray())) {
@@ -248,8 +250,7 @@ public class MessageReceiver {
     }
 
     /**
-     * Split the byte array into separate messages. The CRC value at the end is
-     * calculated over the whole array.
+     * Split the byte array into separate messages. The CRC value at the end is calculated over the whole array.
      * 
      * @param output
      *            array containing at least one message
@@ -285,5 +286,9 @@ public class MessageReceiver {
             }
         }
         return result;
+    }
+
+    public static void stop() {
+        RUNNING = false;
     }
 }

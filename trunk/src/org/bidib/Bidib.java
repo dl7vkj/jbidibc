@@ -32,6 +32,7 @@ public class Bidib {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 try {
+                    MessageReceiver.stop();
                     close();
                 } catch (IOException e) {
                 }
