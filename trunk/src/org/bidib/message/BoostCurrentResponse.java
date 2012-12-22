@@ -11,6 +11,6 @@ public class BoostCurrentResponse extends BidibMessage {
     }
 
     public int getCurrent() {
-        return getData()[0];
+        return getData()[0] & 0xFF;
     }
 }
