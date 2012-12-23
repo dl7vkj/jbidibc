@@ -14,6 +14,6 @@ public class FeatureResponse extends BidibMessage {
     public Feature getFeature() {
         byte[] data = getData();
 
-        return new Feature(data[0], data[1]);
+        return new Feature(data[0], data[1] & 0xFF);
     }
 }
