@@ -81,6 +81,10 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     public void occupied(byte[] address, int detectorNumber) {
     }
 
+    @Override
+    public void speed(byte[] address, AddressData addressData, int speed) {
+    }
+
     public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws IOException, ProtocolException,
             InterruptedException {
         byte[] result = null;

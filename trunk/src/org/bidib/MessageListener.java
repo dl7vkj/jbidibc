@@ -22,4 +22,6 @@ public interface MessageListener {
     void nodeNew(Node node);
 
     void occupied(byte[] address, int detectorNumber);
+
+    void speed(byte[] address, AddressData addressData, int speed);
 }

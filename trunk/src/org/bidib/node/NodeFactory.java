@@ -56,6 +56,10 @@ public class NodeFactory {
             @Override
             public void occupied(byte[] address, int detectorNumber) {
             }
+
+            @Override
+            public void speed(byte[] address, AddressData addressData, int speed) {
+            }
         });
     }
 

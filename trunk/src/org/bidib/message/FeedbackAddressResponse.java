@@ -19,6 +19,10 @@ public class FeedbackAddressResponse extends BidibMessage {
         return getData()[0];
     }
 
+    public static int getWord(byte lowByte, byte highByte) {
+        return ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
+    }
+
     public Collection<AddressData> getAddresses() {
         Collection<AddressData> result = new LinkedList<AddressData>();
         byte[] data = getData();
@@ -27,7 +31,7 @@ public class FeedbackAddressResponse extends BidibMessage {
         while (index < data.length) {
             byte lowByte = data[index++];
             byte highByte = data[index++];
-            int address = ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
+            int address = getWord(lowByte, highByte);
 
             if (address > 0) {
                 result.add(new AddressData(address, AddressTypeEnum.valueOf((byte) ((highByte & 0xC0) >> 6))));

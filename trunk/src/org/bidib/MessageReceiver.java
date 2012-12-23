@@ -24,6 +24,7 @@ import org.bidib.message.FeedbackConfidenceResponse;
 import org.bidib.message.FeedbackFreeResponse;
 import org.bidib.message.FeedbackMultipleResponse;
 import org.bidib.message.FeedbackOccupiedResponse;
+import org.bidib.message.FeedbackSpeedResponse;
 import org.bidib.message.LcKeyResponse;
 import org.bidib.message.LcWaitResponse;
 import org.bidib.message.LogonResponse;
@@ -121,6 +122,9 @@ public class MessageReceiver {
 
                                         fireOccupied(message.getAddr(),
                                                 ((FeedbackOccupiedResponse) message).getDetectorNumber());
+                                    } else if (message instanceof FeedbackSpeedResponse) {
+                                        fireSpeed(message.getAddr(), ((FeedbackSpeedResponse) message).getAddress(),
+                                                ((FeedbackSpeedResponse) message).getSpeed());
                                     } else if (message instanceof LcKeyResponse) {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
                                                 ((LcKeyResponse) message).getKeyState());
@@ -228,6 +232,12 @@ public class MessageReceiver {
     private static void fireOccupied(byte[] address, int detectorNumber) {
         for (MessageListener l : listeners) {
             l.occupied(address, detectorNumber);
+        }
+    }
+
+    private static void fireSpeed(byte[] address, AddressData addressData, int speed) {
+        for (MessageListener l : listeners) {
+            l.speed(address, addressData, speed);
         }
     }
 
