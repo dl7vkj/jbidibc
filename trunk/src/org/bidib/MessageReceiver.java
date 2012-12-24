@@ -181,6 +181,14 @@ public class MessageReceiver {
         listeners.add(l);
     }
 
+    public static void disable() {
+        RUNNING = false;
+    }
+
+    public static void enable() {
+        RUNNING = true;
+    }
+
     static void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {
         for (MessageListener l : listeners) {
             l.address(address, detectorNumber, addresses);
@@ -296,9 +304,5 @@ public class MessageReceiver {
             }
         }
         return result;
-    }
-
-    public static void stop() {
-        RUNNING = false;
     }
 }

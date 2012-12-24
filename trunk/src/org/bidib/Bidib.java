@@ -32,7 +32,7 @@ public class Bidib {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 try {
-                    MessageReceiver.stop();
+                    MessageReceiver.disable();
                     close();
                 } catch (IOException e) {
                 }
@@ -86,6 +86,7 @@ public class Bidib {
         result.enableReceiveThreshold(1);
         result.enableReceiveTimeout(DEFAULT_TIMEOUT);
         result.notifyOnDataAvailable(true);
+        MessageReceiver.enable();
         result.addEventListener(new SerialPortEventListener() {
             @Override
             public void serialEvent(SerialPortEvent event) {
