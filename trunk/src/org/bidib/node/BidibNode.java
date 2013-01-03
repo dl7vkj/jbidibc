@@ -46,6 +46,8 @@ import org.bidib.message.NodeTabCountResponse;
 import org.bidib.message.NodeTabGetAllMessage;
 import org.bidib.message.NodeTabGetNextMessage;
 import org.bidib.message.NodeTabResponse;
+import org.bidib.message.SysDisableMessage;
+import org.bidib.message.SysEnableMessage;
 import org.bidib.message.SysGetPVersionMessage;
 import org.bidib.message.SysGetSwVersionMessage;
 import org.bidib.message.SysIdentifyMessage;
@@ -373,6 +375,14 @@ public class BidibNode {
 
     public void setFeature(int number, int value) throws IOException, ProtocolException, InterruptedException {
         send(new FeatureSetMessage(number, value));
+    }
+
+    public void sysDisable() throws IOException, ProtocolException, InterruptedException {
+        send(new SysDisableMessage(), false);
+    }
+
+    public void sysEnable() throws IOException, ProtocolException, InterruptedException {
+        send(new SysEnableMessage(), false);
     }
 
     public String toString() {
