@@ -14,8 +14,18 @@ public class SysClockMessage extends BidibMessage {
         return (byte) ((factor | 0xC0) & 0xDF);
     }
 
+    /**
+     * @param day 0=every day, 1=SUNDAY,7=SATURDAY
+     *
+     * @return day value in BiDiB format
+     */
     public static byte getDay(int day) {
-        return (byte) ((((day + 5) % 7) | 0x40) & 0x47);
+        if (day == 0) {
+            day = 7;
+        } else {
+            day = (day + 5) % 7;
+        }
+        return (byte) ((day | 0x40) & 0x47);
     }
 
     public static byte getHour(int hour) {
