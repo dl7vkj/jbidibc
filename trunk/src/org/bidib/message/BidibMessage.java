@@ -101,7 +101,7 @@ public class BidibMessage {
         return data;
     }
 
-    private String toString(byte[] bytes) {
+    public static String toString(byte[] bytes) {
         StringBuffer result = new StringBuffer("[");
 
         if (bytes != null) {

@@ -7,6 +7,7 @@ import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
 import gnu.io.UnsupportedCommOperationException;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Enumeration;
@@ -27,6 +28,7 @@ public class Bidib {
     private static SerialPort port = null;
     private static Semaphore portSemaphore = new Semaphore(1);
     private static Semaphore sendSemaphore = new Semaphore(1);
+    private static String logFile = null;
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -88,15 +90,20 @@ public class Bidib {
         result.notifyOnDataAvailable(true);
         MessageReceiver.enable();
         result.addEventListener(new SerialPortEventListener() {
+            {
+                if (logFile != null) {
+                    try {
+                        new LogFileAnalyzer(new File(logFile));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
             @Override
             public void serialEvent(SerialPortEvent event) {
                 if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                     new MessageReceiver(port, nodeFactory);
-                    // try {
-                    // new LogFileAnalyzer(new File("/home/schenk/BiDiBWizard.log"));
-                    // } catch (IOException e) {
-                    // e.printStackTrace();
-                    // }
                 }
             }
         });
@@ -167,6 +174,10 @@ public class Bidib {
         } catch (Exception e) {
         }
         return rootNode.getMagic();
+    }
+
+    public static void setLogFile(String logFile) {
+        Bidib.logFile = logFile;
     }
 
     static void setTimeout(int timeout) {

@@ -195,13 +195,13 @@ public class MessageReceiver {
         }
     }
 
-    private static void fireBoosterCurrent(byte[] address, int current) {
+    static void fireBoosterCurrent(byte[] address, int current) {
         for (MessageListener l : listeners) {
             l.boosterCurrent(address, current);
         }
     }
 
-    private static void fireBoosterState(byte[] address, BoosterState state) {
+    static void fireBoosterState(byte[] address, BoosterState state) {
         for (MessageListener l : listeners) {
             l.boosterState(address, state);
         }
@@ -243,7 +243,7 @@ public class MessageReceiver {
         }
     }
 
-    private static void fireSpeed(byte[] address, AddressData addressData, int speed) {
+    static void fireSpeed(byte[] address, AddressData addressData, int speed) {
         for (MessageListener l : listeners) {
             l.speed(address, addressData, speed);
         }
