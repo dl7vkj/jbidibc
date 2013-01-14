@@ -1,0 +1,17 @@
+new messages:
+	AccessoryGetMessage
+	AccessoryParaGetMessage
+	AccessoryParaSetMessage
+	AccessorySetMessage
+	BoostOnMessage
+	BoostOffMessage
+	BoostQueryMessage
+	FeedbackSpeedResponse
+
+new features:
+	write timestamp to log file
+
+bug fixes:
+	fixed ping command
+	fixed waiting for answer to MSG_LC_OUTPUT
+	fixed RXTX shutdown issue
