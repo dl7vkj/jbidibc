@@ -1,0 +1,68 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                      http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.bidib.jbidib</groupId>
+	<artifactId>jbidib</artifactId>
+	<version>2.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+  
+	<name>jBiDiB</name>
+	<description>jBiDiB build POM</description>
+	<url>http://sourceforge.net/projects/jbidibc/</url>
+  
+	<prerequisites>
+		<maven>3.0.4</maven>
+	</prerequisites>
+	
+	<properties>
+		<!-- unify the encoding for all the modules -->
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<jdk.version>1.6</jdk.version>
+		<compiler.fork>1.6</compiler.fork>
+	</properties>
+
+	<modules>
+		<module>parent</module>
+		<module>jbidibc</module>
+		<module>jbidibc-tools</module>
+	</modules>
+	
+	<scm>
+		<connection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branch/experimental-jbidibc</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branch/experimental-jbidibc</developerConnection>
+		<url>http://sourceforge.net/p/jbidibc/code/</url>
+	</scm>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<inherited>true</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>2.5.1</version>
+				<configuration>
+					<source>1.6</source>
+					<target>1.6</target>
+					<encoding>UTF-8</encoding>
+					<showWarnings>true</showWarnings>
+					<showDeprecation>true</showDeprecation>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-eclipse-plugin</artifactId>
+				<version>2.9</version>
+				<configuration>
+					<downloadSources>true</downloadSources>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	
+</project>
