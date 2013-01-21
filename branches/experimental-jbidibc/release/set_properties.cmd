@@ -6,7 +6,7 @@ set PROJECT_NAME=jbidibc
 set SVN_USERNAME=<your-sourceforge-username>
 set SVN_PASSWORD=<your-sourceforge-password>
 
-# the local path to the directory where the release will be performed (clean checkout, build, create tag, build release version)
+rem the local path to the directory where the release will be performed (clean checkout, build, create tag, build release version)
 SET LOCAL_RELEASE_BASE=C:\release
 
 SET JAVA_HOME=C:\Program Files\Java\jdk1.6.0_32
