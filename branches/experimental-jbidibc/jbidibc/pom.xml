@@ -33,14 +33,24 @@
 	</modules>
 	
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branch/experimental-jbidibc</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branch/experimental-jbidibc</developerConnection>
+		<connection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branch/experimental-jbidibc/jbidibc</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branch/experimental-jbidibc/jbidibc</developerConnection>
 		<url>http://sourceforge.net/p/jbidibc/code/</url>
 	</scm>
 
-
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<preparationGoals>clean install</preparationGoals>
+					<autoVersionSubmodules>true</autoVersionSubmodules>
+					<tagBase>https://svn.code.sf.net/p/jbidibc/code/tags/maven-releases/</tagBase>
+					<!--goals>deploy</goals-->
+					<goals>install</goals>  <!-- we currently have not a public repo where we can deploy the artifacts, therefore only install in local repo -->
+				</configuration>
+			</plugin>		
 			<plugin>
 				<inherited>true</inherited>
 				<groupId>org.apache.maven.plugins</groupId>
