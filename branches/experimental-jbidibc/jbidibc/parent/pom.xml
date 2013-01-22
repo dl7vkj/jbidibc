@@ -23,11 +23,6 @@
 		<testng-version>6.8</testng-version>
 
 		<rxtxcomm-version>2.2.pre2</rxtxcomm-version>
-
-		<izpack-version>5.0.0-beta11</izpack-version>
-		<izpack-staging>${project.build.directory}/staging</izpack-staging>
-		
-		<buildnumber-plugin-version>1.2</buildnumber-plugin-version>
 	</properties>
 
 	<dependencyManagement>
