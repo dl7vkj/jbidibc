@@ -1,9 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0                       http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	
 	<groupId>org.bidib.jbidib</groupId>
 	<artifactId>jbidib</artifactId>
-	<version>1.99</version>
+	<version>1.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
   
 	<name>jBiDiB</name>
@@ -30,9 +30,9 @@
 	</modules>
 	
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/tags/maven-releases/1.99</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/tags/maven-releases/1.99</developerConnection>
-		<url>scm:svn:https://svn.code.sf.net/p/jbidibc/code/tags/maven-releases/1.99</url>
+		<connection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branches/experimental-jbidibc/jbidibc</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branches/experimental-jbidibc/jbidibc</developerConnection>
+		<url>http://sourceforge.net/p/jbidibc/code/</url>
 	</scm>
 
 	<build>
