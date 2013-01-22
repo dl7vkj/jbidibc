@@ -25,3 +25,6 @@ http://testng.org/doc/download.html
 Use Eclipse Juno (m2e support added by default). Import the maven project: File -> Import -> Maven > Existing Maven Projects -> 
 Root directory > Select the bidib directory > Select the projects -> Finish
 
+Maven release
+=============
+
