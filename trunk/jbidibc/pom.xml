@@ -30,8 +30,8 @@
 	</modules>
 	
 	<scm>
-		<connection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branches/experimental-jbidibc/jbidibc</connection>
-		<developerConnection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/branches/experimental-jbidibc/jbidibc</developerConnection>
+		<connection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/trunk/jbidibc</connection>
+		<developerConnection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/trunk/jbidibc</developerConnection>
 		<url>http://sourceforge.net/p/jbidibc/code/</url>
 	</scm>
 
