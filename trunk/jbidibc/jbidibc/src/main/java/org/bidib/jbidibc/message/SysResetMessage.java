@@ -4,6 +4,6 @@ import org.bidib.jbidibc.BidibLibrary;
 
 public class SysResetMessage extends BidibMessage {
     public SysResetMessage() {
-        super(0, BidibLibrary.MSG_SYS_RESET, null);
+        super(0, BidibLibrary.MSG_SYS_RESET);
     }
 }

@@ -4,6 +4,6 @@ import org.bidib.jbidibc.BidibLibrary;
 
 public class BoostOnMessage extends BidibMessage {
     public BoostOnMessage() {
-        super(0, BidibLibrary.MSG_BOOST_ON, null);
+        super(0, BidibLibrary.MSG_BOOST_ON);
     }
 }

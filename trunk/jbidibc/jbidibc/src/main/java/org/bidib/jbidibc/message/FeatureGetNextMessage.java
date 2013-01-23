@@ -4,6 +4,6 @@ import org.bidib.jbidibc.BidibLibrary;
 
 public class FeatureGetNextMessage extends BidibMessage {
     public FeatureGetNextMessage() {
-        super(0, BidibLibrary.MSG_FEATURE_GETNEXT, null);
+        super(0, BidibLibrary.MSG_FEATURE_GETNEXT);
     }
 }

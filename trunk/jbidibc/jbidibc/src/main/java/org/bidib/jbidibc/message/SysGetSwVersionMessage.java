@@ -4,6 +4,6 @@ import org.bidib.jbidibc.BidibLibrary;
 
 public class SysGetSwVersionMessage extends BidibMessage {
     public SysGetSwVersionMessage() {
-        super(0, BidibLibrary.MSG_SYS_GET_SW_VERSION, null);
+        super(0, BidibLibrary.MSG_SYS_GET_SW_VERSION);
     }
 }
