@@ -28,6 +28,9 @@ public class ResponseFactory {
             result = new BoostCurrentResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_BOOST_STAT) {
             result = new BoostStatResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+        } else if (result.getType() == (byte) BidibLibrary.MSG_CS_STATE) {
+            result = new CommandStationStateResponse(result.getAddr(), result.getNum(), result.getType(),
+                    result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_FEATURE) {
             result = new FeatureResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_FEATURE_COUNT) {

@@ -92,6 +92,16 @@ public class NodeFactory {
         }
     }
 
+    public CommandStationNode getCommandStationNode(Node node) {
+        BidibNode result = getNode(node);
+
+        if (result instanceof CommandStationNode) {
+            return (CommandStationNode) result;
+        } else {
+            return null;
+        }
+    }
+
     public BidibNode getNode(Node node) {
         int address = convert(node.getAddr());
         BidibNode result = nodes.get(address);
@@ -101,6 +111,8 @@ public class NodeFactory {
 
             if ((classId & 0x01) == 1) {
                 result = new AccessoryNode(node.getAddr());
+            } else if ((classId & 0x08) == 1) {
+                result = new CommandStationNode(node.getAddr());
             } else {
                 result = new BidibNode(node.getAddr());
             }
