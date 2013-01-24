@@ -20,6 +20,7 @@ import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.RootNode;
+import org.bidib.jbidibc.utils.LibraryPathManipulator;
 
 public class Bidib {
     public static final int DEFAULT_TIMEOUT = 3000;
@@ -114,6 +115,8 @@ public class Bidib {
             UnsupportedCommOperationException, IOException, ProtocolException, InterruptedException,
             TooManyListenersException {
         if (port == null) {
+        	new LibraryPathManipulator().manipulateLibraryPath(null);
+        	
             CommPortIdentifier commPort = findPort(portName);
 
             if (commPort == null) {

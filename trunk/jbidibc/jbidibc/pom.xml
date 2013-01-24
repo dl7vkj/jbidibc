@@ -13,7 +13,7 @@
     <description>jBiDiB jbidibc Library POM</description>
     <dependencies>
         <dependency>
-            <groupId>org.qbang.rxtx</groupId>
+            <groupId>${rxtxcomm-groupId}</groupId>
             <artifactId>rxtxcomm</artifactId>
         </dependency>
         <dependency>
@@ -31,33 +31,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    <!--	
-	<build>
-		<plugins>
-			<plugin>
-				<inherited>true</inherited>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<version>2.5.1</version>
-				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
-					<encoding>UTF-8</encoding>
-					<showWarnings>true</showWarnings>
-					<showDeprecation>true</showDeprecation>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-eclipse-plugin</artifactId>
-				<version>2.9</version>
-				<configuration>
-					<downloadSources>true</downloadSources>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
--->
     <build>
         <plugins>
             <plugin>

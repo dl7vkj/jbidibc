@@ -16,12 +16,17 @@
         <slf4j-version>1.7.2</slf4j-version>
         <logback-version>1.0.9</logback-version>
         <testng-version>6.8</testng-version>
-        <rxtxcomm-version>2.2.pre2</rxtxcomm-version>
+        <!--
+		<rxtxcomm-groupId>org.qbang.rxtx</rxtxcomm-groupId>
+		<rxtxcomm-version>2.2.pre2</rxtxcomm-version>
+		-->
+        <rxtxcomm-groupId>org.bidib.jbidib.org.qbang.rxtx</rxtxcomm-groupId>
+        <rxtxcomm-version>2.2</rxtxcomm-version>
     </properties>
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>org.qbang.rxtx</groupId>
+                <groupId>${rxtxcomm-groupId}</groupId>
                 <artifactId>rxtxcomm</artifactId>
                 <version>${rxtxcomm-version}</version>
             </dependency>
