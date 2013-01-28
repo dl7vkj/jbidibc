@@ -1,20 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-	<contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
-		<resetJUL>true</resetJUL>
-	</contextListener>
-	<appender class="ch.qos.logback.core.ConsoleAppender" name="CONSOLE">
-		<layout class="ch.qos.logback.classic.PatternLayout">
-			<pattern>%d{HH:mm:ss.SSS} [%p] %c [%t] - %m%n
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+        <resetJUL>true</resetJUL>
+    </contextListener>
+    <appender class="ch.qos.logback.core.ConsoleAppender" name="CONSOLE">
+        <layout class="ch.qos.logback.classic.PatternLayout">
+            <pattern>%d{HH:mm:ss.SSS} [%p] %c [%t] - %m%n
 			</pattern>
-		</layout>
-	</appender>
-	
-	<logger level="INFO" name="org.bidib.jbidibc" />
-	<logger level="INFO" name="org.bidib.jbidibc.tools" />
-	<logger level="INFO" name="com.beust.jcommander.internal.DefaultConsole" />
-
-	<root level="WARN">
-		<appender-ref ref="CONSOLE" />
-	</root>
+        </layout>
+    </appender>
+    <logger level="INFO" name="org.bidib.jbidibc"/>
+    <logger level="INFO" name="org.bidib.jbidibc.tools"/>
+    <logger level="INFO" name="com.beust.jcommander.internal.DefaultConsole"/>
+    <root level="WARN">
+        <appender-ref ref="CONSOLE"/>
+    </root>
 </configuration>
