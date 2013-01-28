@@ -1,35 +1,56 @@
 package org.bidib.jbidibc;
 
-import java.io.IOException;
-import java.nio.ByteBuffer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.node.BidibNode;
+import uk.org.lidalia.sysoutslf4j.context.LogLevel;
+import uk.org.lidalia.sysoutslf4j.context.SysOutOverSLF4J;
 
-public class BidibCommand {
-    protected static Node findNode(long uniqueId) throws IOException, ProtocolException, InterruptedException {
-        Node result = null;
-        BidibNode rootNode = Bidib.getRootNode();
-        int count = rootNode.getNodeCount();
+import com.beust.jcommander.JCommander;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.ParameterException;
+import com.beust.jcommander.Parameters;
 
-        for (int index = 1; index <= count; index++) {
-            Node node = rootNode.getNextNode();
+@Parameters(separators = "=")
+public abstract class BidibCommand {
+	private static final Logger LOGGER = LoggerFactory.getLogger(BidibCommand.class);
+	
+	@Parameter(names = { "-port" }, description = "Port to use, e.g. COM1", required=true)
+	private String portName;
 
-            if ((node.getUniqueId() & 0xffffffffffffffL) == uniqueId) {
-                Bidib.getNode(node).getMagic();
-                result = node;
-                break;
-            }
+	protected String getPortName() {
+		return portName;
+	}
+	
+	protected BidibCommand() {
+		// redirect System.out and System.error calls to SLF4J
+    	SysOutOverSLF4J.sendSystemOutAndErrToSLF4J(LogLevel.INFO, LogLevel.WARN);
+	}
+	
+	/**
+	 * Execute the command
+	 * @return the exit code
+	 */
+	public abstract int execute();
+	
+	public static void run(BidibCommand command, String[] args) {
+		
+    	JCommander jc = null;
+    	int result = 20;
+        try {
+	        jc = new JCommander(command);
+	        jc.setProgramName(command.getClass().getName());
+	        jc.parse(args);
+	        
+	        result = command.execute();
         }
-        return result;
-    }
-
-    protected static byte[] getUniqueId(long uniqueId) {
-        byte[] result = new byte[7];
-        ByteBuffer bb = ByteBuffer.allocate(8);
-
-        bb.putLong(uniqueId);
-        System.arraycopy(bb.array(), 1, result, 0, result.length);
-        return result;
-    }
+        catch (ParameterException ex) {
+        	LOGGER.warn("Execution of "+command.getClass().getSimpleName()+" command failed: "+ ex.getMessage());
+        	StringBuilder sb = new StringBuilder(); 
+        	jc.usage(sb);
+        	LOGGER.warn(sb.toString());
+        }
+    	System.exit(result);
+	}
+	
 }

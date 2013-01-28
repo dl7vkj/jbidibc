@@ -1,37 +1,59 @@
 package org.bidib.jbidibc;
 
+import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.BidibNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ReadCv extends BidibCommand {
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
+
+/**
+ * This commands reads the value of the specified CV from the specified node.
+ *
+ */
+@Parameters(separators = "=")
+public class ReadCv extends BidibNodeCommand {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ReadCv.class);
+	
+	@Parameter(names = { "-cv" }, description = "The CV number", required=true)
+	private String cvNumber;
+	
     public static void main(String[] args) {
+    	run(new ReadCv(), args);
+    }
+    
+    public int execute() {
         int result = 20;
 
-        if (args.length == 3) {
-            try {
-                Bidib.open(args[0]);
+        try {
+        	Bidib.open(getPortName());
 
-                Node node = findNode(Long.decode(args[1]));
+        	Node node = findNode();
 
-                if (node != null) {
-                    BidibNode bidibNode = Bidib.getNode(node);
+        	if (node != null) {
+        		BidibNode bidibNode = Bidib.getNode(node);
 
-                    if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
+        		if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
 
-                        VendorData vendorData = bidibNode.vendorGet(args[2]);
+        			VendorData vendorData = bidibNode.vendorGet(cvNumber);
 
-                        System.out.println("CV" + vendorData.getName() + "=" + vendorData.getValue());
-                        bidibNode.vendorDisable();
-                        result = 0;
-                    }
-                } else {
-                    System.err.println("node with unique id \"" + args[1] + "\" not found");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.err.println("usage: " + ReadCv.class.getSimpleName() + " <COM port> <unique id> <CV number>");
+        			LOGGER.info("CV" + vendorData.getName() + "=" + vendorData.getValue());
+        			
+        			bidibNode.vendorDisable();
+        			result = 0;
+        		}
+        	} 
+        	else {
+        		LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
+        	}
         }
-        System.exit(result);
+        catch(PortNotFoundException ex) {
+        	LOGGER.error("The provided port was not found: " + ex.getMessage()+". Verify that the BiDiB device is connected.", ex);
+        }
+        catch (Exception ex) {
+            LOGGER.error("Execute command failed.", ex);
+        }
+        return result;
     }
 }

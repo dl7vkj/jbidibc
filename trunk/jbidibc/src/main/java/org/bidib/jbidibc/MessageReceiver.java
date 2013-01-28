@@ -59,8 +59,13 @@ public class MessageReceiver {
                     StringBuilder logRecord = new StringBuilder();
 
                     while (RUNNING && (data = input.read()) != -1) {
+                    	// append data to log record
                         logRecord.append(String.format("%02x", data) + " ");
+                        
+                        // check if the current is the end of a packet
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
+                        	
+                        	// if a CRC error is detected in splitMessages the reading loop will terminate ...
                             for (byte[] messageArray : splitMessages(output.toByteArray())) {
                                 BidibMessage message = null;
 
@@ -168,7 +173,12 @@ public class MessageReceiver {
                             }
                         }
                     }
+                    LOG.debug("Leaving receive loop.");
                 }
+                else {
+                	LOG.error("No input available.");
+                }
+                
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }

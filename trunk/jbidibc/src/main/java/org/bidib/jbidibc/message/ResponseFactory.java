@@ -2,9 +2,15 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ResponseFactory {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFactory.class);
+	
     public static BidibMessage create(byte[] message) throws ProtocolException {
+    	LOGGER.debug("Create message from message: {}", message);
+    	
         BidibMessage result = new BidibMessage(message);
 
         if (result.getType() == (byte) BidibLibrary.MSG_ACCESSORY_PARA) {

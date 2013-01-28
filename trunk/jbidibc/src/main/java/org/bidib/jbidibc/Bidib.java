@@ -1,7 +1,9 @@
 package org.bidib.jbidibc;
 
+import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
+import gnu.io.RXTXPort;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
@@ -10,6 +12,8 @@ import gnu.io.UnsupportedCommOperationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Enumeration;
 import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
@@ -21,8 +25,13 @@ import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.RootNode;
 import org.bidib.jbidibc.utils.LibraryPathManipulator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Bidib {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(Bidib.class);
+	
     public static final int DEFAULT_TIMEOUT = 3000;
 
     private static NodeFactory nodeFactory = new NodeFactory();
@@ -35,6 +44,7 @@ public class Bidib {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 try {
+                	LOGGER.debug("Disable the message receiver.");
                     MessageReceiver.disable();
                     close();
                 } catch (IOException e) {
@@ -45,8 +55,22 @@ public class Bidib {
 
     private static void close() throws IOException {
         if (port != null) {
+        	LOGGER.debug("Close the port.");
+        	long start = System.currentTimeMillis();
+        	
+        	// this makes the close operation faster ...
+        	try {
+				port.enableReceiveTimeout(200);
+			} 
+        	catch (UnsupportedCommOperationException e) {
+				// ignore
+			}
             port.close();
-            port = null;
+        	
+            long end = System.currentTimeMillis();
+            LOGGER.debug("Closed the port. duration: {}", end-start);
+
+        	port = null;
         }
     }
 
@@ -117,6 +141,7 @@ public class Bidib {
         if (port == null) {
         	new LibraryPathManipulator().manipulateLibraryPath(null);
         	
+        	LOGGER.info("Open port with name: {}", portName);
             CommPortIdentifier commPort = findPort(portName);
 
             if (commPort == null) {

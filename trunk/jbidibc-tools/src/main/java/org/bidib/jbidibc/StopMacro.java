@@ -1,36 +1,56 @@
 package org.bidib.jbidibc;
 
 import org.bidib.jbidibc.enumeration.LcMacroOperationCode;
+import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.AccessoryNode;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class StopMacro extends BidibCommand {
-    public static void main(String[] args) {
-        int result = 20;
+import com.beust.jcommander.Parameter;
+import com.beust.jcommander.Parameters;
 
-        if (args.length == 3) {
-            try {
-                Bidib.open(args[0]);
+/**
+ * This commands stops the macro on the specified node.
+ *
+ */
+@Parameters(separators = "=")
+public class StopMacro extends BidibNodeCommand {
+	private static final Logger LOGGER = LoggerFactory.getLogger(StopMacro.class);
 
-                Node node = findNode(Long.decode(args[1]));
+	@Parameter(names = { "-macro" }, description = "The macro number", required=true)
+	private int macroNumber;
 
-                if (node != null) {
-                    AccessoryNode accessoryNode = Bidib.getAccessoryNode(node);
+	public static void main(String[] args) {
+		run(new StopMacro(), args);
+	}
 
-                    if (accessoryNode != null) {
-                        accessoryNode.handleMacro(Integer.decode(args[2]), LcMacroOperationCode.OFF);
-                        result = 0;
-                    } else {
-                        System.err.println("node with unique id \"" + args[1] + "\" doesn't have macros");
-                    }
-                } else {
-                    System.err.println("node with unique id \"" + args[1] + "\" not found");
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        } else {
-            System.err.println("usage: " + StopMacro.class.getSimpleName() + " <COM port> <unique id> <macro number>");
-        }
-        System.exit(result);
-    }
+	public int execute() {
+		int result = 20;
+
+		try {
+			Bidib.open(getPortName());
+
+			Node node = findNode();
+
+			if (node != null) {
+				AccessoryNode accessoryNode = Bidib.getAccessoryNode(node);
+
+				if (accessoryNode != null) {
+					accessoryNode.handleMacro(macroNumber, LcMacroOperationCode.OFF);
+					result = 0;
+				} else {
+					LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" doesn't have macros");
+				}
+			} else {
+				LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
+			}
+		} 
+		catch(PortNotFoundException ex) {
+			LOGGER.error("The provided port was not found: " + ex.getMessage()+". Verify that the BiDiB device is connected.");
+		}
+		catch (Exception ex) {
+			LOGGER.error("Execute command failed.", ex);
+		}
+		return result;
+	}
 }
