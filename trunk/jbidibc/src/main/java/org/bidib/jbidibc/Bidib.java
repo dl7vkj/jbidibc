@@ -1,9 +1,7 @@
 package org.bidib.jbidibc;
 
-import gnu.io.CommPort;
 import gnu.io.CommPortIdentifier;
 import gnu.io.PortInUseException;
-import gnu.io.RXTXPort;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
 import gnu.io.SerialPortEventListener;
@@ -12,8 +10,6 @@ import gnu.io.UnsupportedCommOperationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.lang.reflect.Field;
-import java.lang.reflect.Modifier;
 import java.util.Enumeration;
 import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
