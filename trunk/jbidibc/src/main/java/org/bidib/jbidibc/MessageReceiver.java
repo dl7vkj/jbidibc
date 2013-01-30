@@ -74,28 +74,34 @@ public class MessageReceiver {
                                     message = ResponseFactory.create(messageArray);
                                     LOG.debug("Received message: {} : {}", message, logRecord);
                                     logRecord.setLength(0);
+                                    
                                     if (message instanceof BoostCurrentResponse) {
                                         fireBoosterCurrent(message.getAddr(),
                                                 ((BoostCurrentResponse) message).getCurrent());
-                                    } else if (message instanceof BoostStatResponse) {
+                                    } 
+                                    else if (message instanceof BoostStatResponse) {
                                         fireBoosterState(message.getAddr(), ((BoostStatResponse) message).getState());
-                                    } else if (message instanceof FeedbackAddressResponse) {
+                                    } 
+                                    else if (message instanceof FeedbackAddressResponse) {
                                         fireAddress(message.getAddr(),
                                                 ((FeedbackAddressResponse) message).getDetectorNumber(),
                                                 ((FeedbackAddressResponse) message).getAddresses());
-                                    } else if (message instanceof FeedbackConfidenceResponse) {
+                                    } 
+                                    else if (message instanceof FeedbackConfidenceResponse) {
                                         fireConfidence(message.getAddr(),
                                                 ((FeedbackConfidenceResponse) message).getValid(),
                                                 ((FeedbackConfidenceResponse) message).getFreeze(),
                                                 ((FeedbackConfidenceResponse) message).getSignal());
-                                    } else if (message instanceof FeedbackFreeResponse) {
+                                    } 
+                                    else if (message instanceof FeedbackFreeResponse) {
                                         // acknowledge message
                                         nodeFactory.getNode(new Node(message.getAddr())).acknowledgeFree(
                                                 ((FeedbackFreeResponse) message).getDetectorNumber());
 
                                         fireFree(message.getAddr(),
                                                 ((FeedbackFreeResponse) message).getDetectorNumber());
-                                    } else if (message instanceof FeedbackMultipleResponse) {
+                                    } 
+                                    else if (message instanceof FeedbackMultipleResponse) {
                                         int baseAddress = ((FeedbackMultipleResponse) message).getBaseAddress();
                                         int size = ((FeedbackMultipleResponse) message).getSize();
                                         byte[] detectorData = ((FeedbackMultipleResponse) message).getDetectorData();

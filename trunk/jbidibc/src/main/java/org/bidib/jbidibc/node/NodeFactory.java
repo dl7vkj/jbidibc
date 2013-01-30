@@ -11,8 +11,12 @@ import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class NodeFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NodeFactory.class);
+
     private static final int ROOT_ADDRESS = 0;
 
     private final Map<Integer, BidibNode> nodes = Collections.synchronizedMap(new HashMap<Integer, BidibNode>());
@@ -25,6 +29,7 @@ public class NodeFactory {
 
             @Override
             public void boosterCurrent(byte[] address, int current) {
+            	LOGGER.info("booster current has changed: {}, address: {}", current, address);
             }
 
             @Override

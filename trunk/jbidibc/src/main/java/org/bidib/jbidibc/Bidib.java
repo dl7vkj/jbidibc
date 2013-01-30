@@ -14,6 +14,7 @@ import java.util.Enumeration;
 import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
 
+import org.bidib.jbidibc.enumeration.RxTxCommPortType;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.AccessoryNode;
@@ -72,13 +73,14 @@ public class Bidib {
 
     private static CommPortIdentifier findPort(String portName) {
         CommPortIdentifier result = null;
+        LOGGER.info("Searching for port with name: {}", portName);
 
         if (portName != null) {
             Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
 
             while (e.hasMoreElements()) {
                 final CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
-
+                LOGGER.info("Found port with name: {}, type: {}", id.getName(), RxTxCommPortType.valueOf(id.getPortType()));
                 if ((id.getPortType() == CommPortIdentifier.PORT_SERIAL) && (portName.equals(id.getName()))) {
                     result = id;
                     break;

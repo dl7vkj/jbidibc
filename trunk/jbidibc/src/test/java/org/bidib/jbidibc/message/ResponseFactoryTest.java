@@ -1,10 +1,13 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ResponseFactoryTest {
+	private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFactoryTest.class);
 
 	@Test
 	public void createValidSysMagicResponseMessage() throws ProtocolException {
@@ -72,5 +75,40 @@ public class ResponseFactoryTest {
 		ResponseFactory.create(message);
 
 		Assert.fail("Should have thrown an exception!");
+	}
+	
+	// 04 00 04 B1 2C
+	@Test
+	public void createValidBoostCurrentResponseMessage() throws ProtocolException {
+		byte[] message = {0x04, 0x00, 0x04, (byte) 0xB1, (byte) 0x2c};
+
+		BidibMessage bidibMessage = ResponseFactory.create(message);
+
+		Assert.assertNotNull(bidibMessage);
+		Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
+		
+		LOGGER.info("Booster current: {}", ((BoostCurrentResponse)bidibMessage).getCurrent());
+		
+//		04 00 6A B1 47
+		
+		byte[] message2 = {0x04, 0x00, 0x6A, (byte) 0xB1, (byte) 0x47};
+		
+		bidibMessage = ResponseFactory.create(message2);
+
+		Assert.assertNotNull(bidibMessage);
+		Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
+		
+		LOGGER.info("Booster current: {}", ((BoostCurrentResponse)bidibMessage).getCurrent());
+		
+//		04 00 60 B1 45
+		byte[] message3 = {0x04, 0x00, 0x60, (byte) 0xB1, (byte) 0x45};
+		
+		bidibMessage = ResponseFactory.create(message3);
+
+		Assert.assertNotNull(bidibMessage);
+		Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
+		
+		LOGGER.info("Booster current: {}", ((BoostCurrentResponse)bidibMessage).getCurrent());
+		
 	}
 }

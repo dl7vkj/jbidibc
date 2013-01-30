@@ -111,6 +111,15 @@ public class BidibNode {
     public void boosterQuery() throws IOException, ProtocolException, InterruptedException {
         send(new BoostQueryMessage(), false);
     }
+    
+//    public BoosterState boosterQuery() throws IOException, ProtocolException, InterruptedException {
+//        BidibMessage response = send(new BoostQueryMessage());
+//        BoosterState result = null;
+//        if (response instanceof BoostStatResponse) {
+//            result = ((BoostStatResponse) response).getState();
+//        }
+//        return result;
+//    }
 
     private void escape(byte c) throws IOException {
         if ((c == (byte) BidibLibrary.BIDIB_PKT_MAGIC) || (c == (byte) BidibLibrary.BIDIB_PKT_ESCAPE)) {
@@ -192,7 +201,11 @@ public class BidibNode {
     }
 
     public Feature getNextFeature() throws IOException, ProtocolException, InterruptedException {
-        return ((FeatureResponse) send(new FeatureGetNextMessage())).getFeature();
+    	BidibMessage message = send(new FeatureGetNextMessage());
+    	if (message instanceof FeatureResponse) {
+    		return ((FeatureResponse) message).getFeature();
+    	}
+    	return null;
     }
 
     public Node getNextNode() throws IOException, ProtocolException, InterruptedException {
