@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class NodeTabResponse extends BidibMessage {
     NodeTabResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
@@ -19,6 +20,6 @@ public class NodeTabResponse extends BidibMessage {
         System.arraycopy(parentAddress, 0, addr, 1, parentAddress.length);
         addr[0] = data[1];
         System.arraycopy(data, 2, uniqueId, 0, uniqueId.length);
-        return new Node(data[0], addr, convertUniqueIdToLong(uniqueId));
+        return new Node(data[0], addr, ByteUtils.convertUniqueIdToLong(uniqueId));
     }
 }

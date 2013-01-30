@@ -19,8 +19,13 @@ import org.bidib.jbidibc.message.FeedbackAddressResponse;
 import org.bidib.jbidibc.message.FeedbackConfidenceResponse;
 import org.bidib.jbidibc.message.FeedbackSpeedResponse;
 import org.bidib.jbidibc.message.ResponseFactory;
+import org.bidib.jbidibc.utils.ByteUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LogFileAnalyzer {
+	private static final Logger LOGGER = LoggerFactory.getLogger(LogFileAnalyzer.class);
+	
     private static final DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
 
     private final Collection<Message> messages = new LinkedList<Message>();
@@ -45,10 +50,11 @@ public class LogFileAnalyzer {
                             ResponseFactory.create(getBytes(parts[2].trim()))));
 
                 } catch (ProtocolException e) {
-                    System.err.println("unknown message " + BidibMessage.toString(getBytes(parts[2].trim()))
-                            + " in line " + line);
-                } catch (Exception e) {
-                    e.printStackTrace();
+                    LOGGER.warn("unknown message " + ByteUtils.toString(getBytes(parts[2].trim()))
+                            + " in line " + line, e);
+                } 
+                catch (Exception e) {
+                    LOGGER.error("Add new message to messages failed.");
                 }
             }
             // @formatter:on

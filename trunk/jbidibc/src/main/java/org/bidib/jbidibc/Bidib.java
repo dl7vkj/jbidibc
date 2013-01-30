@@ -115,8 +115,9 @@ public class Bidib {
                 if (logFile != null) {
                     try {
                         new LogFileAnalyzer(new File(logFile));
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    } 
+                    catch (IOException e) {
+                        LOGGER.warn("Create LogFileAnalyzer failed.", e);
                     }
                 }
             }

@@ -94,10 +94,12 @@ public class ResponseFactory {
             result = new VendorResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_VENDOR_ACK) {
             result = new VendorAckResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
-        } else {
-            String msg = "got unknown response with type " + (result.getType() & 0xFF);
+        } 
+        else {
 
-            System.err.println(msg);
+            LOGGER.error("Got unknown response with type '{}', message: {}", result.getType(), message);
+            
+            String msg = "got unknown response with type " + (result.getType() & 0xFF);
             throw new ProtocolException(msg);
         }
         return result;

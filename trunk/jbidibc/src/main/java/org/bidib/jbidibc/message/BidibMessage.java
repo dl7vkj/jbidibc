@@ -1,9 +1,9 @@
 package org.bidib.jbidibc.message;
 
 import java.io.ByteArrayOutputStream;
-import java.math.BigInteger;
 
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class BidibMessage {
     // The address field is only valid for a response message!
@@ -69,22 +69,22 @@ public class BidibMessage {
         }
     }
 
-    protected static byte[] concat(byte[] array1, byte[] array2) {
-        byte[] result = new byte[array1.length + array2.length];
-
-        System.arraycopy(array1, 0, result, 0, array1.length);
-        System.arraycopy(array2, 0, result, array1.length, array2.length);
-        return result;
-    }
-
-    public static byte[] convertLongToUniqueId(long uniqueId) {
-        return BigInteger.valueOf(uniqueId).toByteArray();
-    }
-
-    public static long convertUniqueIdToLong(byte[] uniqueId) {
-        return new BigInteger(uniqueId).longValue();
-    }
-
+//    protected static byte[] concat(byte[] array1, byte[] array2) {
+//        byte[] result = new byte[array1.length + array2.length];
+//
+//        System.arraycopy(array1, 0, result, 0, array1.length);
+//        System.arraycopy(array2, 0, result, array1.length, array2.length);
+//        return result;
+//    }
+//
+//    public static byte[] convertLongToUniqueId(long uniqueId) {
+//        return BigInteger.valueOf(uniqueId).toByteArray();
+//    }
+//
+//    public static long convertUniqueIdToLong(byte[] uniqueId) {
+//        return new BigInteger(uniqueId).longValue();
+//    }
+//
     public byte[] getAddr() {
         return addr;
     }
@@ -101,23 +101,23 @@ public class BidibMessage {
         return data;
     }
 
-    public static String toString(byte[] bytes) {
-        StringBuffer result = new StringBuffer("[");
-
-        if (bytes != null) {
-            for (byte b : bytes) {
-                if (result.length() > 1) {
-                    result.append(", ");
-                }
-                result.append(b & 0xFF);
-            }
-        }
-        result.append("]");
-        return result.toString();
-    }
+//    public static String toString(byte[] bytes) {
+//        StringBuffer result = new StringBuffer("[");
+//
+//        if (bytes != null) {
+//            for (byte b : bytes) {
+//                if (result.length() > 1) {
+//                    result.append(", ");
+//                }
+//                result.append(b & 0xFF);
+//            }
+//        }
+//        result.append("]");
+//        return result.toString();
+//    }
 
     public String toString() {
-        return getClass().getSimpleName() + "[" + (addr != null ? toString(addr) + "," : "") + "num=" + (num & 0xFF)
-                + ",type=" + (type & 0xFF) + ",data=" + toString(data) + "]";
+        return getClass().getSimpleName() + "[" + (addr != null ? ByteUtils.toString(addr) + "," : "") + "num=" + (num & 0xFF)
+                + ",type=" + (type & 0xFF) + ",data=" + ByteUtils.toString(data) + "]";
     }
 }

@@ -10,7 +10,7 @@ import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.enumeration.BoosterState;
-import org.bidib.jbidibc.message.BidibMessage;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class NodeFactory {
     private static final int ROOT_ADDRESS = 0;
@@ -107,7 +107,7 @@ public class NodeFactory {
         BidibNode result = nodes.get(address);
 
         if (result == null) {
-            int classId = BidibMessage.convertLongToUniqueId(node.getUniqueId())[0];
+            int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
 
             if ((classId & 0x01) == 1) {
                 result = new AccessoryNode(node.getAddr());

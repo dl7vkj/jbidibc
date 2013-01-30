@@ -46,6 +46,7 @@ public class MessageReceiver {
 
     public MessageReceiver(SerialPort port, NodeFactory nodeFactory) {
         synchronized (this) {
+        	LOG.debug("Starting message receiver.");
             try {
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 InputStream input = null;
@@ -60,7 +61,7 @@ public class MessageReceiver {
 
                     while (RUNNING && (data = input.read()) != -1) {
                     	// append data to log record
-                        logRecord.append(String.format("%02x", data) + " ");
+                        logRecord.append(String.format("%02x ", data));
                         
                         // check if the current is the end of a packet
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
@@ -173,7 +174,7 @@ public class MessageReceiver {
                             }
                         }
                     }
-                    LOG.debug("Leaving receive loop.");
+                    LOG.debug("Leaving receive loop, RUNNING: {}", RUNNING);
                 }
                 else {
                 	LOG.error("No input available.");
@@ -190,10 +191,12 @@ public class MessageReceiver {
     }
 
     public static void disable() {
+    	LOG.debug("disable is called.");
         RUNNING = false;
     }
 
     public static void enable() {
+    	LOG.debug("enable is called.");
         RUNNING = true;
     }
 
@@ -257,6 +260,11 @@ public class MessageReceiver {
         }
     }
 
+    /**
+     * Get the message from the receiveQueue.
+     * @return the received message or null if no message was received during the defined period.
+     * @throws InterruptedException
+     */
     public static BidibMessage getMessage() throws InterruptedException {
         BidibMessage result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
 

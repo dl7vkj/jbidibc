@@ -3,7 +3,11 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
+/**
+ * Signal the the detection of a loco speed. 
+ */
 public class FeedbackSpeedResponse extends BidibMessage {
     FeedbackSpeedResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);
@@ -15,13 +19,13 @@ public class FeedbackSpeedResponse extends BidibMessage {
     public AddressData getAddress() {
         byte[] data = getData();
 
-        return new AddressData(FeedbackAddressResponse.getWord(data[0], data[1]),
+        return new AddressData(ByteUtils.getWord(data[0], data[1]),
                 AddressTypeEnum.valueOf((byte) ((data[1] & 0xC0) >> 6)));
     }
 
     public int getSpeed() {
         byte[] data = getData();
 
-        return FeedbackAddressResponse.getWord(data[2], data[3]);
+        return ByteUtils.getWord(data[2], data[3]);
     }
 }

@@ -17,8 +17,8 @@ public class BidibMessageTest {
 	}
 
 	@Test
-	public void createMessageSysMagicFromByteArray() throws ProtocolException {
-		byte[] message = {0x05, 0x00, 0x00, (byte) 0x81, (byte) 0xFD, (byte) 0xDE, (byte) 0xAF, (byte) 0x89};
+	public void createMessageSysMagicResponseFromByteArray() throws ProtocolException {
+		byte[] message = {0x05, 0x00, 0x00, (byte) 0x81, (byte) 0xFE, (byte) 0xAF};
 		
 		BidibMessage bidibMessage = new BidibMessage(message);
 		
