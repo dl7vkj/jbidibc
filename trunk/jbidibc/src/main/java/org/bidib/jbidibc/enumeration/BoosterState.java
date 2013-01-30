@@ -13,6 +13,8 @@ public enum BoosterState implements BidibEnum {
     ON_LIMIT(BidibLibrary.BIDIB_BST_STATE_ON_LIMIT),
     ON_HOT(BidibLibrary.BIDIB_BST_STATE_ON_HOT),
     ON_STOP_REQ(BidibLibrary.BIDIB_BST_STATE_ON_STOP_REQ);
+    // TODO add missing state BIDIB_BST_STATE_ON_HERE
+    // ON_HERE(BidibLibrary.BIDIB_BST_STATE_ON_HERE);
     //@formatter:on
 
     private final byte type;

@@ -3,6 +3,9 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.exception.ProtocolException;
 
+/**
+ * Response from booster with the status
+ */
 public class BoostStatResponse extends BidibMessage {
     BoostStatResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);

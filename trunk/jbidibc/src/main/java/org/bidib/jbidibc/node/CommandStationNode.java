@@ -2,6 +2,7 @@ package org.bidib.jbidibc.node;
 
 import java.io.IOException;
 
+import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.CommandStationState;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
@@ -13,9 +14,9 @@ public class CommandStationNode extends DeviceNode {
         super(addr);
     }
 
-    public int setCommandStationState(CommandStationState commandStationState) throws IOException, ProtocolException,
+    public BoosterState setCommandStationState(CommandStationState commandStationState) throws IOException, ProtocolException,
             InterruptedException {
-        int result = 0;
+    	BoosterState result = BoosterState.OFF;
         BidibMessage response = send(new CommandStationSetStateMessage(commandStationState));
 
         if (response instanceof CommandStationStateResponse) {
