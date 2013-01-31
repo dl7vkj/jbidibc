@@ -1,5 +1,7 @@
 package org.bidib.jbidibc;
 
+import org.bidib.jbidibc.enumeration.FeatureEnum;
+
 public class Feature {
     private final int type;
     private final int value;
@@ -11,6 +13,10 @@ public class Feature {
 
     public int getType() {
         return type;
+    }
+
+    public FeatureEnum getFeatureName() {
+        return FeatureEnum.valueOf((byte) type);
     }
 
     public int getValue() {

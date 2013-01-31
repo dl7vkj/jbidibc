@@ -75,6 +75,7 @@ public class MessageReceiver {
                                     LOG.debug("Received message: {} : {}", message, logRecord);
                                     logRecord.setLength(0);
                                     
+                                    // some messages are notified directly to listeners
                                     if (message instanceof BoostCurrentResponse) {
                                         fireBoosterCurrent(message.getAddr(),
                                                 ((BoostCurrentResponse) message).getCurrent());
@@ -125,38 +126,51 @@ public class MessageReceiver {
                                                 offset++;
                                             }
                                         }
-                                    } else if (message instanceof FeedbackOccupiedResponse) {
+                                    } 
+                                    else if (message instanceof FeedbackOccupiedResponse) {
                                         // acknowledge message
                                         nodeFactory.getNode(new Node(message.getAddr())).acknowledgeOccupied(
                                                 ((FeedbackOccupiedResponse) message).getDetectorNumber());
 
                                         fireOccupied(message.getAddr(),
                                                 ((FeedbackOccupiedResponse) message).getDetectorNumber());
-                                    } else if (message instanceof FeedbackSpeedResponse) {
+                                    } 
+                                    else if (message instanceof FeedbackSpeedResponse) {
                                         fireSpeed(message.getAddr(), ((FeedbackSpeedResponse) message).getAddress(),
                                                 ((FeedbackSpeedResponse) message).getSpeed());
-                                    } else if (message instanceof LcKeyResponse) {
+                                    } 
+                                    else if (message instanceof LcKeyResponse) {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
                                                 ((LcKeyResponse) message).getKeyState());
-                                    } else if (message instanceof LcWaitResponse) {
+                                    } 
+                                    else if (message instanceof LcWaitResponse) {
                                         setTimeout(((LcWaitResponse) message).getTimeout());
-                                    } else if (message instanceof LogonResponse) {
-                                    } else if (message instanceof NodeNewResponse) {
+                                    } 
+                                    else if (message instanceof LogonResponse) {
+                                    } 
+                                    else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
 
                                         nodeFactory.getRootNode().acknowledge(node.getVersion());
                                         fireNodeNew(node);
-                                    } else if (message instanceof NodeLostResponse) {
+                                    } 
+                                    else if (message instanceof NodeLostResponse) {
                                         Node node = ((NodeLostResponse) message).getNode(message.getAddr());
 
                                         nodeFactory.getRootNode().acknowledge(node.getVersion());
                                         fireNodeLost(node);
-                                    } else if (message instanceof SysErrorResponse
-                                            && ((SysErrorResponse) message).getErrorCode() == 18) {
-                                    } else {
+                                    } 
+                                    else if (message instanceof SysErrorResponse
+                                            && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE /*18*/) {
+                                    	
+                                    	LOG.warn("A node attempted to register with an already registered ID: {}", ((SysErrorResponse) message).getAddr());
+                                    } 
+                                    else {
+                                    	// put the message into the receiveQueue because somebody waits for it ...
                                         receiveQueue.offer(message);
                                     }
-                                } finally {
+                                } 
+                                finally {
                                     if (message != null) {
                                         int num = BidibNode.getNextReceiveMsgNum(message);
 
@@ -267,13 +281,14 @@ public class MessageReceiver {
     }
 
     /**
-     * Get the message from the receiveQueue.
+     * Get a message from the receiveQueue for the defined timeout period.
      * @return the received message or null if no message was received during the defined period.
      * @throws InterruptedException
      */
     public static BidibMessage getMessage() throws InterruptedException {
         BidibMessage result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
 
+        // TODO why waiting twice ?
         if (result == null && TIMEOUT > Bidib.DEFAULT_TIMEOUT) {
             result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
         }

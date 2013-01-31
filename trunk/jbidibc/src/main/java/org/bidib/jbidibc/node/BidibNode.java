@@ -68,7 +68,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class BidibNode {
-    private static final Logger LOG = LoggerFactory.getLogger(BidibNode.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(BidibNode.class);
+    
     private static final Collection<TransferListener> listeners = new LinkedList<TransferListener>();
 
     private final byte[] addr;
@@ -100,27 +101,37 @@ public class BidibNode {
         listeners.add(l);
     }
 
-    public void boosterOff() throws IOException, ProtocolException, InterruptedException {
-        send(new BoostOffMessage(), false);
-    }
-
+    /**
+     * Switch on track signal on the booster. 
+     * @throws IOException
+     * @throws ProtocolException
+     * @throws InterruptedException
+     */
     public void boosterOn() throws IOException, ProtocolException, InterruptedException {
         send(new BoostOnMessage(), false);
     }
 
+    /**
+     * Switch off track signal on the booster. 
+     * @throws IOException
+     * @throws ProtocolException
+     * @throws InterruptedException
+     */
+    public void boosterOff() throws IOException, ProtocolException, InterruptedException {
+        send(new BoostOffMessage(), false);
+    }
+
+
+    /**
+     * Query the booster state. We don't wait for the response because the {@link MessageReceiver} fires the booster status callback on receipt. 
+     * @throws IOException
+     * @throws ProtocolException
+     * @throws InterruptedException
+     */
     public void boosterQuery() throws IOException, ProtocolException, InterruptedException {
         send(new BoostQueryMessage(), false);
     }
     
-//    public BoosterState boosterQuery() throws IOException, ProtocolException, InterruptedException {
-//        BidibMessage response = send(new BoostQueryMessage());
-//        BoosterState result = null;
-//        if (response instanceof BoostStatResponse) {
-//            result = ((BoostStatResponse) response).getState();
-//        }
-//        return result;
-//    }
-
     private void escape(byte c) throws IOException {
         if ((c == (byte) BidibLibrary.BIDIB_PKT_MAGIC) || (c == (byte) BidibLibrary.BIDIB_PKT_ESCAPE)) {
             output.write((byte) BidibLibrary.BIDIB_PKT_ESCAPE);
@@ -161,7 +172,7 @@ public class BidibNode {
         for (int index = 0; index < bytes.length; index++) {
             logRecord.append(String.format("%02x ", bytes[index]));
         }
-        LOG.debug("Flush logRecord: {}", logRecord);
+        LOGGER.debug("Flush logRecord: {}", logRecord);
         logRecord.setLength(0);
         output.reset();
     }
@@ -299,12 +310,14 @@ public class BidibNode {
 
     private BidibMessage receive() throws IOException, ProtocolException, InterruptedException {
         BidibMessage result = null;
-
+        LOGGER.debug("Receive message.");
         fireReceiveStarted();
         try {
             result = MessageReceiver.getMessage();
-        } finally {
+        } 
+        finally {
             if (result == null) {
+            	// no result was fetched
                 resetNextSendMsgNum();
             }
         }
@@ -331,6 +344,15 @@ public class BidibNode {
         return send(message, true);
     }
 
+    /**
+     * Send a message and wait for answer if expectAnswer is true.
+     * @param message the message to send
+     * @param expectAnswer answer is expected, this will cause to wait for an answer
+     * @return
+     * @throws IOException
+     * @throws ProtocolException
+     * @throws InterruptedException
+     */
     synchronized BidibMessage send(BidibMessage message, boolean expectAnswer) throws IOException, ProtocolException,
             InterruptedException {
         logRecord.append("send " + message + " to " + this);
@@ -377,6 +399,8 @@ public class BidibNode {
     }
 
     private void sendMessage(byte[] message) throws IOException {
+    	LOGGER.debug("Send the message: {}", message);
+    	
         fireSendStarted();
         sendDelimiter();
 
