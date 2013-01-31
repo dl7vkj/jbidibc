@@ -206,8 +206,32 @@ public class BidibNode {
         return result;
     }
 
+    /**
+     * Request the number of features of the node. This call will reset the internal counter for 
+     * the next <code>getNextFeature()</code> request.
+     * @return number of features on the node 
+     * @throws IOException
+     * @throws ProtocolException
+     * @throws InterruptedException
+     */
     public int getFeatureCount() throws IOException, ProtocolException, InterruptedException {
         return ((FeatureCountResponse) send(new FeatureGetAllMessage())).getCount();
+    }
+
+    /**
+     * Returns the next feature of the node. Call <code>getFeatureCount()</code> to reset the 
+     * internal counter for the feature index
+     * @return a feature or null if no more features available
+     * @throws IOException
+     * @throws ProtocolException
+     * @throws InterruptedException
+     */
+    public Feature getNextFeature() throws IOException, ProtocolException, InterruptedException {
+    	BidibMessage message = send(new FeatureGetNextMessage());
+    	if (message instanceof FeatureResponse) {
+    		return ((FeatureResponse) message).getFeature();
+    	}
+    	return null;
     }
 
     /**
@@ -221,14 +245,6 @@ public class BidibNode {
 
     public int getMagic() throws IOException, ProtocolException, InterruptedException {
         return ((SysMagicResponse) send(new SysMagicMessage())).getMagic();
-    }
-
-    public Feature getNextFeature() throws IOException, ProtocolException, InterruptedException {
-    	BidibMessage message = send(new FeatureGetNextMessage());
-    	if (message instanceof FeatureResponse) {
-    		return ((FeatureResponse) message).getFeature();
-    	}
-    	return null;
     }
 
     public Node getNextNode() throws IOException, ProtocolException, InterruptedException {
