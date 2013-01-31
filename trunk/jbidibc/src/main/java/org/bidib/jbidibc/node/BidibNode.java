@@ -159,7 +159,7 @@ public class BidibNode {
         Bidib.send(bytes);
         logRecord.append(" : ");
         for (int index = 0; index < bytes.length; index++) {
-            logRecord.append(String.format("%02x", bytes[index]) + " ");
+            logRecord.append(String.format("%02x ", bytes[index]));
         }
         LOG.debug("Flush logRecord: {}", logRecord);
         logRecord.setLength(0);
@@ -170,10 +170,17 @@ public class BidibNode {
         return addr;
     }
 
+    /**
+     * Get the loco addresses in the specified range from the feedback system.
+     * @param begin the start of Melderbits to be transfered 
+     * @param end the end of Melderbits to be transfered
+     */
     public void getAddressState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
         send(new FeedbackGetAddressRangeMessage(begin, end), false);
     }
-
+    /**
+     * Get the current 'quality' of the track sensoring.
+     */
     public void getConfidence() throws IOException, ProtocolException, InterruptedException {
         send(new FeedbackGetConfidenceMessage(), false);
     }
@@ -192,6 +199,11 @@ public class BidibNode {
         return ((FeatureCountResponse) send(new FeatureGetAllMessage())).getCount();
     }
 
+    /**
+     * Get the status of the track sensoring in the specified range.
+     * @param begin the start of Melderbits to be transfered 
+     * @param end the end of Melderbits to be transfered
+     */
     public void getFeedbackState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
         send(new FeedbackGetRangeMessage(begin, end), false);
     }
