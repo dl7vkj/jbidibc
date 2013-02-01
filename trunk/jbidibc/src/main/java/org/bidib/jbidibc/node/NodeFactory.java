@@ -92,9 +92,9 @@ public class NodeFactory {
 
         if (result instanceof AccessoryNode) {
             return (AccessoryNode) result;
-        } else {
-            return null;
         }
+        LOGGER.debug("The requested node is not an AccessoryNode.");
+        return null;
     }
 
     public CommandStationNode getCommandStationNode(Node node) {
@@ -102,9 +102,9 @@ public class NodeFactory {
 
         if (result instanceof CommandStationNode) {
             return (CommandStationNode) result;
-        } else {
-            return null;
-        }
+        } 
+        LOGGER.debug("The requested node is not an CommandStationNode.");
+        return null;
     }
 
     public BidibNode getNode(Node node) {
@@ -114,18 +114,26 @@ public class NodeFactory {
         if (result == null) {
             int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
 
+            // create the new node based on the class id
             if ((classId & 0x01) == 1) {
                 result = new AccessoryNode(node.getAddr());
-            } else if ((classId & 0x08) == 1) {
+            } 
+            else if ((classId & 0x08) == 1) {
                 result = new CommandStationNode(node.getAddr());
-            } else {
+            } 
+            else {
                 result = new BidibNode(node.getAddr());
             }
+        	LOGGER.info("Create new node: {}, address: {}", result, address);
+        	
             nodes.put(address, result);
         }
         return result;
     }
 
+    /**
+     * @return returns the root node
+     */
     public RootNode getRootNode() {
         RootNode result = (RootNode) nodes.get(ROOT_ADDRESS);
 

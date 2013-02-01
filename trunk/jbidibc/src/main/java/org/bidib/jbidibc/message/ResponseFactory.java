@@ -9,7 +9,7 @@ public class ResponseFactory {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFactory.class);
 	
     public static BidibMessage create(byte[] message) throws ProtocolException {
-    	LOGGER.debug("Create message from message: {}", message);
+    	LOGGER.debug("Create bidib message from raw message: {}", message);
     	
         BidibMessage result = new BidibMessage(message);
 

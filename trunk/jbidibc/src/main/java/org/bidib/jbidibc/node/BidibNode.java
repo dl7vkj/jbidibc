@@ -69,6 +69,7 @@ import org.slf4j.LoggerFactory;
 
 public class BidibNode {
     private static final Logger LOGGER = LoggerFactory.getLogger(BidibNode.class);
+    private static final Logger MSG_TX_LOGGER = LoggerFactory.getLogger("TX");
     
     private static final Collection<TransferListener> listeners = new LinkedList<TransferListener>();
 
@@ -167,7 +168,15 @@ public class BidibNode {
     private void flush() throws IOException {
         byte[] bytes = output.toByteArray();
 
+        StringBuilder sb = new StringBuilder("Sending message: ");
+        for (int index = 0; index < bytes.length; index++) {
+            sb.append(String.format("%02x ", bytes[index]));
+        }
+        MSG_TX_LOGGER.info(sb.toString());
+        
+        // send the output to Bidib
         Bidib.send(bytes);
+        
         logRecord.append(" : ");
         for (int index = 0; index < bytes.length; index++) {
             logRecord.append(String.format("%02x ", bytes[index]));
@@ -244,6 +253,7 @@ public class BidibNode {
     }
 
     public int getMagic() throws IOException, ProtocolException, InterruptedException {
+    	LOGGER.debug("Get the magic.");
         return ((SysMagicResponse) send(new SysMagicMessage())).getMagic();
     }
 

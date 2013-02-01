@@ -40,6 +40,8 @@ import org.bidib.jbidibc.message.LcOutputMessage;
 public class AccessoryNode extends DeviceNode implements MessageListener {
     AccessoryNode(byte[] addr) {
         super(addr);
+        
+        // TODO maybe better to have this injected 
         MessageReceiver.addMessageListener(this);
     }
 

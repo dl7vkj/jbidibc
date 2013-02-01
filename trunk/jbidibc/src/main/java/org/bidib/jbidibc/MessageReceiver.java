@@ -34,7 +34,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class MessageReceiver {
-    private static final Logger LOG = LoggerFactory.getLogger(MessageReceiver.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class.getName());
+    private static final Logger MSG_RX_LOGGER = LoggerFactory.getLogger("RX");
 
     private static final BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
 
@@ -46,7 +47,7 @@ public class MessageReceiver {
 
     public MessageReceiver(SerialPort port, NodeFactory nodeFactory) {
         synchronized (this) {
-        	LOG.debug("Starting message receiver.");
+        	LOGGER.debug("Starting message receiver.");
             try {
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 InputStream input = null;
@@ -60,11 +61,16 @@ public class MessageReceiver {
                     StringBuilder logRecord = new StringBuilder();
 
                     while (RUNNING && (data = input.read()) != -1) {
+                    	if (LOGGER.isTraceEnabled()) {
+                    		LOGGER.trace("received data: {}", String.format("%02x ", data));
+                    	}
                     	// append data to log record
                         logRecord.append(String.format("%02x ", data));
                         
                         // check if the current is the end of a packet
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
+                        	MSG_RX_LOGGER.info("Received message: {}", logRecord);
+                            logRecord.setLength(0);
                         	
                         	// if a CRC error is detected in splitMessages the reading loop will terminate ...
                             for (byte[] messageArray : splitMessages(output.toByteArray())) {
@@ -72,8 +78,7 @@ public class MessageReceiver {
 
                                 try {
                                     message = ResponseFactory.create(messageArray);
-                                    LOG.debug("Received message: {} : {}", message, logRecord);
-                                    logRecord.setLength(0);
+                                    LOGGER.info("Factory prepared bidib message: {}", message);
                                     
                                     // some messages are notified directly to listeners
                                     if (message instanceof BoostCurrentResponse) {
@@ -163,7 +168,7 @@ public class MessageReceiver {
                                     else if (message instanceof SysErrorResponse
                                             && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE /*18*/) {
                                     	
-                                    	LOG.warn("A node attempted to register with an already registered ID: {}", ((SysErrorResponse) message).getAddr());
+                                    	LOGGER.warn("A node attempted to register with an already registered ID: {}", ((SysErrorResponse) message).getAddr());
                                     } 
                                     else {
                                     	// put the message into the receiveQueue because somebody waits for it ...
@@ -194,10 +199,10 @@ public class MessageReceiver {
                             }
                         }
                     }
-                    LOG.debug("Leaving receive loop, RUNNING: {}", RUNNING);
+                    LOGGER.debug("Leaving receive loop, RUNNING: {}", RUNNING);
                 }
                 else {
-                	LOG.error("No input available.");
+                	LOGGER.error("No input available.");
                 }
                 
             } catch (Exception e) {
@@ -211,12 +216,12 @@ public class MessageReceiver {
     }
 
     public static void disable() {
-    	LOG.debug("disable is called.");
+    	LOGGER.debug("disable is called.");
         RUNNING = false;
     }
 
     public static void enable() {
-    	LOG.debug("enable is called.");
+    	LOGGER.debug("enable is called.");
         RUNNING = true;
     }
 
@@ -318,6 +323,8 @@ public class MessageReceiver {
     private static Collection<byte[]> splitMessages(byte[] output) throws ProtocolException {
         Collection<byte[]> result = new LinkedList<byte[]>();
         int index = 0;
+        
+        LOGGER.debug("splitMessages: {}", output);
 
         while (index < output.length) {
             int size = output[index] + 1;

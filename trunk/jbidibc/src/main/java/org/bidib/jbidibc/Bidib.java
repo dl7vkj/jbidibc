@@ -94,6 +94,12 @@ public class Bidib {
         return nodeFactory.getAccessoryNode(node);
     }
 
+    /**
+     * returns the cached node or creates a new instance
+     * 
+     * @param node the node
+     * @return the BidibNode instance
+     */
     public static BidibNode getNode(Node node) {
         return nodeFactory.getNode(node);
     }
@@ -109,6 +115,7 @@ public class Bidib {
         result.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
         result.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
         result.enableReceiveThreshold(1);
+        // result.setInputBufferSize(100);
         result.enableReceiveTimeout(DEFAULT_TIMEOUT);
         result.notifyOnDataAvailable(true);
         MessageReceiver.enable();
@@ -126,6 +133,8 @@ public class Bidib {
 
             @Override
             public void serialEvent(SerialPortEvent event) {
+            	// this callback is called every time data is available
+            	LOGGER.trace("serialEvent received: {}", event);
                 if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                     new MessageReceiver(port, nodeFactory);
                 }
@@ -158,7 +167,8 @@ public class Bidib {
                     close();
                     port = internalOpen(commPort, 115200);
                     sendMagic();
-                } catch (Exception e2) {
+                } 
+                catch (Exception e2) {
                     try {
                         // 19200 Baud
                         close();
@@ -171,6 +181,9 @@ public class Bidib {
             } finally {
                 portSemaphore.release();
             }
+        }
+        else {
+        	LOGGER.warn("Port is already opened.");
         }
     }
 
@@ -196,10 +209,12 @@ public class Bidib {
     private static int sendMagic() throws IOException, ProtocolException, InterruptedException {
         BidibNode rootNode = getRootNode();
 
-        try {
-            rootNode.getMagic();
-        } catch (Exception e) {
-        }
+        // TODO why was this twice done?
+//        try {
+//            rootNode.getMagic();
+//        } 
+//        catch (Exception e) {
+//        }
         return rootNode.getMagic();
     }
 
