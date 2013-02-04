@@ -6,11 +6,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ResponseFactory {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFactory.class);
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFactory.class);
+
     public static BidibMessage create(byte[] message) throws ProtocolException {
-    	LOGGER.debug("Create bidib message from raw message: {}", message);
-    	
+        LOGGER.debug("Create bidib message from raw message: {}", message);
+
         BidibMessage result = new BidibMessage(message);
 
         if (result.getType() == (byte) BidibLibrary.MSG_ACCESSORY_PARA) {
@@ -34,6 +34,9 @@ public class ResponseFactory {
             result = new BoostCurrentResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_BOOST_STAT) {
             result = new BoostStatResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+        } else if (result.getType() == (byte) BidibLibrary.MSG_CS_DRIVE) {
+            result = new CommandStationDriveAcknowledgeResponse(result.getAddr(), result.getNum(), result.getType(),
+                    result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_CS_STATE) {
             result = new CommandStationStateResponse(result.getAddr(), result.getNum(), result.getType(),
                     result.getData());
@@ -94,11 +97,10 @@ public class ResponseFactory {
             result = new VendorResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_VENDOR_ACK) {
             result = new VendorAckResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
-        } 
-        else {
+        } else {
 
             LOGGER.error("Got unknown response with type '{}', message: {}", result.getType(), message);
-            
+
             String msg = "got unknown response with type " + (result.getType() & 0xFF);
             throw new ProtocolException(msg);
         }

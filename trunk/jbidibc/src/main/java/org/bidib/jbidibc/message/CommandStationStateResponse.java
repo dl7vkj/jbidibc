@@ -1,6 +1,6 @@
 package org.bidib.jbidibc.message;
 
-import org.bidib.jbidibc.enumeration.BoosterState;
+import org.bidib.jbidibc.enumeration.CommandStationState;
 import org.bidib.jbidibc.exception.ProtocolException;
 
 /**
@@ -14,7 +14,7 @@ public class CommandStationStateResponse extends BidibMessage {
         }
     }
 
-    public BoosterState getState() {
-        return BoosterState.valueOf(getData()[0]);
+    public CommandStationState getState() {
+        return CommandStationState.valueOf(getData()[0]);
     }
 }
