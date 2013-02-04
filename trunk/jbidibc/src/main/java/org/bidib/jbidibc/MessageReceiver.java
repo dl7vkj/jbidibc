@@ -78,7 +78,7 @@ public class MessageReceiver {
 
                                 try {
                                     message = ResponseFactory.create(messageArray);
-                                    LOGGER.info("Factory prepared bidib message: {}", message);
+                                    LOGGER.debug("Factory prepared bidib message: {}", message);
                                     
                                     // some messages are notified directly to listeners
                                     if (message instanceof BoostCurrentResponse) {

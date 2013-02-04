@@ -13,13 +13,11 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * The <code>LibraryPathManipulator</code> is used to manipulate the java.library.path after the JVM was started.
+ * The <code>LibraryPathManipulator</code> is used to manipulate the <code>java.library.path</code> after the JVM was started.
  * The solution is based on this blog: http://blog.cedarsoft.com/2010/11/setting-java-library-path-programmatically/
  * </p>
  * 
- * The absolute path to location of the RXTX native libraries can be specified if running in development environment. 
- * The JVM property <code>jbidibc.path_to_RXTX_libs</code> can be used in development environment to specify the path to the native libraries
- * if the jbidib project is not opened.
+ * The absolute path to location of the RXTX native libraries can be specified with the JVM property <code>jbidibc.path_to_RXTX_libs</code>.
  * <p>E.g. <code>-Djbidibc.path_to_RXTX_libs="E:/svn/jbidibc/jbidibc/jbidibc"</code> if the native libraries 
  * are located at <i>E:/svn/jbidibc/jbidibc/jbidibc/rxtx</i></p>   
  */
@@ -79,38 +77,26 @@ public class LibraryPathManipulator {
 			StringBuffer basePath = new StringBuffer(); 
 			basePath.append(System.getProperty("user.dir"));
 			
+			URL url = null;
 			if (cp.indexOf("target\\classes") > -1 || cp.indexOf("target/classes") > -1) {
 				// development env detected
-				URL url = LibraryPathManipulator.class.getResource(".");
+				url = LibraryPathManipulator.class.getResource(".");
 
 				if (url == null && System.getProperty(PROP_PATH_TO_RXTX_LIBS) != null) {
 					// search for RXTX libs at provided location
 					url = new URL("file", "localhost", System.getProperty(PROP_PATH_TO_RXTX_LIBS));
 				}
 				
-				if (url != null) {
-					LOGGER.info("Fetched url: {}, protocol: {}", url.getPath(), url.getProtocol());
-					if ("file".equals(url.getProtocol())) {
-						// file:/E:/svn/jbidibc/jbidibc/jbidibc/target/classes/org/bidib/jbidibc/utils/
-						String filePath = url.getPath();  
-						basePath.setLength(0);
-						try {
-							basePath.append( filePath.substring(0, filePath.indexOf("target/classes")));
-						}
-						catch(IndexOutOfBoundsException ioob) {
-							LOGGER.debug("Use full filePath to append.");
-							basePath.append(filePath);
-						}
-					}
-				}
-				else {
-					LOGGER.warn("Development environment detected but class not available in flat filesystem (e.g. jbidib project not open). " +
-							"Make sure the RXTX libs are located under target/test-classes in your project!");
-				}
+				prepareLibraryPath(url, basePath);
 				
 				basePath.append("/target/test-classes");
 			}
-			
+			else if (System.getProperty(PROP_PATH_TO_RXTX_LIBS) != null) {
+				// search for RXTX libs at provided location
+				url = new URL("file", "localhost", System.getProperty(PROP_PATH_TO_RXTX_LIBS));
+				prepareLibraryPath(url, basePath);
+			}			
+				
 			if (pathToDLLs != null && pathToDLLs.trim().length() > 0) {
 				// append the path to dlls 
 				basePath.append("/");
@@ -145,6 +131,28 @@ public class LibraryPathManipulator {
 		catch(Exception ex)	{
 			LOGGER.warn("Manipulate the library path for RXTX accessfailed.");
 			throw new RuntimeException("Manipulate library path for RXTX access failed.", ex);
+		}
+	}
+	
+	private void prepareLibraryPath(URL url, StringBuffer basePath) {
+		if (url != null) {
+			LOGGER.info("Fetched url: {}, protocol: {}", url.getPath(), url.getProtocol());
+			if ("file".equals(url.getProtocol())) {
+				// file:/E:/svn/jbidibc/jbidibc/jbidibc/target/classes/org/bidib/jbidibc/utils/
+				String filePath = url.getPath();  
+				basePath.setLength(0);
+				try {
+					basePath.append( filePath.substring(0, filePath.indexOf("target/classes")));
+				}
+				catch(IndexOutOfBoundsException ioob) {
+					LOGGER.debug("Use full filePath to append.");
+					basePath.append(filePath);
+				}
+			}
+		}
+		else {
+			LOGGER.warn("Development environment detected but class not available in flat filesystem (e.g. jbidib project not open). " +
+					"Make sure the RXTX libs are located under target/test-classes in your project!");
 		}
 	}
 
