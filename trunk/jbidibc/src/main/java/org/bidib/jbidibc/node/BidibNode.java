@@ -260,9 +260,11 @@ public class BidibNode {
     public Node getNextNode() throws IOException, ProtocolException, InterruptedException {
         Node result = null;
         BidibMessage response = send(new NodeTabGetNextMessage());
-
+        LOGGER.debug("NodeTabGetNext returned: {}", response);
+        
         if (response instanceof NodeTabResponse) {
             result = ((NodeTabResponse) response).getNode(addr);
+            LOGGER.debug("Fetched node: {}", result);
         }
         return result;
     }
@@ -303,7 +305,12 @@ public class BidibNode {
     }
 
     public int getNodeCount() throws IOException, ProtocolException, InterruptedException {
-        return ((NodeTabCountResponse) send(new NodeTabGetAllMessage())).getCount();
+    	LOGGER.debug("Get all registered nodes from system.");
+    	
+    	int totalNodes = ((NodeTabCountResponse) send(new NodeTabGetAllMessage())).getCount(); 
+
+    	LOGGER.debug("Found total nodes: {}", totalNodes);
+        return totalNodes;
     }
 
     public ProtocolVersion getPVersion() throws IOException, ProtocolException, InterruptedException {
