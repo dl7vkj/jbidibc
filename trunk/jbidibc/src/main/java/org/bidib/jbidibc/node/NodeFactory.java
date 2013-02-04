@@ -118,7 +118,7 @@ public class NodeFactory {
             if ((classId & 0x01) == 1) {
                 result = new AccessoryNode(node.getAddr());
             } 
-            else if ((classId & 0x08) == 1) {
+            else if ((classId & 0x16) == 1) {
                 result = new CommandStationNode(node.getAddr());
             } 
             else {
