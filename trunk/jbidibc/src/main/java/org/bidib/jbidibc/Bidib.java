@@ -19,6 +19,7 @@ import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
+import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.RootNode;
 import org.bidib.jbidibc.utils.LibraryPathManipulator;
@@ -26,9 +27,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class Bidib {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(Bidib.class);
-	
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Bidib.class);
+
     public static final int DEFAULT_TIMEOUT = 3000;
 
     private static NodeFactory nodeFactory = new NodeFactory();
@@ -41,7 +42,7 @@ public class Bidib {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 try {
-                	LOGGER.debug("Disable the message receiver.");
+                    LOGGER.debug("Disable the message receiver.");
                     MessageReceiver.disable();
                     close();
                 } catch (IOException e) {
@@ -52,22 +53,21 @@ public class Bidib {
 
     private static void close() throws IOException {
         if (port != null) {
-        	LOGGER.debug("Close the port.");
-        	long start = System.currentTimeMillis();
-        	
-        	// this makes the close operation faster ...
-        	try {
-				port.enableReceiveTimeout(200);
-			} 
-        	catch (UnsupportedCommOperationException e) {
-				// ignore
-			}
-            port.close();
-        	
-            long end = System.currentTimeMillis();
-            LOGGER.debug("Closed the port. duration: {}", end-start);
+            LOGGER.debug("Close the port.");
+            long start = System.currentTimeMillis();
 
-        	port = null;
+            // this makes the close operation faster ...
+            try {
+                port.enableReceiveTimeout(200);
+            } catch (UnsupportedCommOperationException e) {
+                // ignore
+            }
+            port.close();
+
+            long end = System.currentTimeMillis();
+            LOGGER.debug("Closed the port. duration: {}", end - start);
+
+            port = null;
         }
     }
 
@@ -80,7 +80,8 @@ public class Bidib {
 
             while (e.hasMoreElements()) {
                 final CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
-                LOGGER.info("Found port with name: {}, type: {}", id.getName(), RxTxCommPortType.valueOf(id.getPortType()));
+                LOGGER.info("Found port with name: {}, type: {}", id.getName(),
+                        RxTxCommPortType.valueOf(id.getPortType()));
                 if ((id.getPortType() == CommPortIdentifier.PORT_SERIAL) && (portName.equals(id.getName()))) {
                     result = id;
                     break;
@@ -94,10 +95,15 @@ public class Bidib {
         return nodeFactory.getAccessoryNode(node);
     }
 
+    public static CommandStationNode getCommandStationNode(Node node) {
+        return nodeFactory.getCommandStationNode(node);
+    }
+
     /**
      * returns the cached node or creates a new instance
      * 
-     * @param node the node
+     * @param node
+     *            the node
      * @return the BidibNode instance
      */
     public static BidibNode getNode(Node node) {
@@ -124,8 +130,7 @@ public class Bidib {
                 if (logFile != null) {
                     try {
                         new LogFileAnalyzer(new File(logFile));
-                    } 
-                    catch (IOException e) {
+                    } catch (IOException e) {
                         LOGGER.warn("Create LogFileAnalyzer failed.", e);
                     }
                 }
@@ -133,8 +138,8 @@ public class Bidib {
 
             @Override
             public void serialEvent(SerialPortEvent event) {
-            	// this callback is called every time data is available
-            	LOGGER.trace("serialEvent received: {}", event);
+                // this callback is called every time data is available
+                LOGGER.trace("serialEvent received: {}", event);
                 if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                     new MessageReceiver(port, nodeFactory);
                 }
@@ -147,9 +152,9 @@ public class Bidib {
             UnsupportedCommOperationException, IOException, ProtocolException, InterruptedException,
             TooManyListenersException {
         if (port == null) {
-        	new LibraryPathManipulator().manipulateLibraryPath(null);
-        	
-        	LOGGER.info("Open port with name: {}", portName);
+            new LibraryPathManipulator().manipulateLibraryPath(null);
+
+            LOGGER.info("Open port with name: {}", portName);
             CommPortIdentifier commPort = findPort(portName);
 
             if (commPort == null) {
@@ -167,8 +172,7 @@ public class Bidib {
                     close();
                     port = internalOpen(commPort, 115200);
                     sendMagic();
-                } 
-                catch (Exception e2) {
+                } catch (Exception e2) {
                     try {
                         // 19200 Baud
                         close();
@@ -181,9 +185,8 @@ public class Bidib {
             } finally {
                 portSemaphore.release();
             }
-        }
-        else {
-        	LOGGER.warn("Port is already opened.");
+        } else {
+            LOGGER.warn("Port is already opened.");
         }
     }
 
@@ -210,11 +213,11 @@ public class Bidib {
         BidibNode rootNode = getRootNode();
 
         // TODO why was this twice done?
-//        try {
-//            rootNode.getMagic();
-//        } 
-//        catch (Exception e) {
-//        }
+        // try {
+        // rootNode.getMagic();
+        // }
+        // catch (Exception e) {
+        // }
         return rootNode.getMagic();
     }
 
