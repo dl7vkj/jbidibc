@@ -2,8 +2,7 @@ package org.bidib.jbidibc.enumeration;
 
 public enum MotorPortEnum implements BidibEnum {
     // @formatter:off
-    FORWARD  (0),
-    BACKWARD (1);
+    FORWARD(0), BACKWARD(1);
     // @formatter:on
 
     private final byte type;

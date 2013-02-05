@@ -24,7 +24,7 @@ public class LcMacroResponse extends BidibMessage {
         LcOutputType outputType = LcOutputType.valueOf(data[3]);
 
         return new LcMacro(data[0], data[1], data[2], outputType, data[4], getStatus(outputType, data[5]), getValue(
-                outputType, data[5]));
+            outputType, data[5]));
     }
 
     private BidibEnum getStatus(LcOutputType outputType, byte value) {
@@ -32,15 +32,20 @@ public class LcMacroResponse extends BidibMessage {
 
         if (outputType == LcOutputType.ANALOGPORT) {
             result = AnalogPortEnum.valueOf(value);
-        } else if (outputType == LcOutputType.LIGHTPORT) {
+        }
+        else if (outputType == LcOutputType.LIGHTPORT) {
             result = LightPortEnum.valueOf(value);
-        } else if (outputType == LcOutputType.MOTORPORT) {
+        }
+        else if (outputType == LcOutputType.MOTORPORT) {
             result = MotorPortEnum.valueOf(value);
-        } else if (outputType == LcOutputType.SERVOPORT) {
+        }
+        else if (outputType == LcOutputType.SERVOPORT) {
             result = ServoPortEnum.START;
-        } else if (outputType == LcOutputType.SOUNDPORT) {
+        }
+        else if (outputType == LcOutputType.SOUNDPORT) {
             result = SoundPortEnum.valueOf(value);
-        } else if (outputType == LcOutputType.SWITCHPORT) {
+        }
+        else if (outputType == LcOutputType.SWITCHPORT) {
             result = SwitchPortEnum.valueOf(value);
         }
         return result;

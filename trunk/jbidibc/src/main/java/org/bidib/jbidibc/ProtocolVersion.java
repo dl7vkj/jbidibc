@@ -2,6 +2,7 @@ package org.bidib.jbidibc;
 
 public class ProtocolVersion implements Comparable<ProtocolVersion> {
     private final int firstVersion;
+
     private final int secondVersion;
 
     public ProtocolVersion(int firstVersion, int secondVersion) {

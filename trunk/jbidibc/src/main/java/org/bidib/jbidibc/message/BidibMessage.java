@@ -8,8 +8,11 @@ import org.bidib.jbidibc.utils.ByteUtils;
 public class BidibMessage {
     // The address field is only valid for a response message!
     private byte[] addr = null;
+
     private int num = 0;
+
     private byte type = 0;
+
     private byte[] data = null;
 
     BidibMessage(byte[] addr, int num, int type, byte... data) {
@@ -64,7 +67,8 @@ public class BidibMessage {
                 dataBytes.write(message[index++]);
             }
             data = dataBytes.toByteArray();
-        } else {
+        }
+        else {
             throw new ProtocolException("message too short");
         }
     }
@@ -86,7 +90,7 @@ public class BidibMessage {
     }
 
     public String toString() {
-        return getClass().getSimpleName() + "[" + (addr != null ? ByteUtils.toString(addr) + "," : "") + "num=" + (num & 0xFF)
-                + ",type=" + (type & 0xFF) + ",data=" + ByteUtils.toString(data) + "]";
+        return getClass().getSimpleName() + "[" + (addr != null ? ByteUtils.toString(addr) + "," : "") + "num="
+            + (num & 0xFF) + ",type=" + (type & 0xFF) + ",data=" + ByteUtils.toString(data) + "]";
     }
 }

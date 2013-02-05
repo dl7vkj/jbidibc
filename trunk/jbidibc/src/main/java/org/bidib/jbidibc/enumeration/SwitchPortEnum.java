@@ -4,8 +4,7 @@ import org.bidib.jbidibc.BidibLibrary;
 
 public enum SwitchPortEnum implements BidibEnum {
     // @formatter:off
-    ON  (BidibLibrary.BIDIB_PORT_TURN_ON),
-    OFF (BidibLibrary.BIDIB_PORT_TURN_OFF);
+    ON(BidibLibrary.BIDIB_PORT_TURN_ON), OFF(BidibLibrary.BIDIB_PORT_TURN_OFF);
     // @formatter:on
 
     private final byte type;

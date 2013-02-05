@@ -2,8 +2,7 @@ package org.bidib.jbidibc.enumeration;
 
 public enum CriticalFunctionEnum implements BidibEnum {
     // @formatter:off
-    BEGIN (0),
-    END   (1);
+    BEGIN(0), END(1);
     // @formatter:on
 
     private final byte type;

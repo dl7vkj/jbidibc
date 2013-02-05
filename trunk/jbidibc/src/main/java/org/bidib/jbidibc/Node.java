@@ -7,9 +7,11 @@ import java.util.Arrays;
  */
 public class Node {
     private final byte[] addr;
+
     private final long uniqueId;
+
     private final int version;
-    
+
     public Node(byte[] addr) {
         this.addr = addr;
         this.uniqueId = 0;
@@ -91,15 +93,16 @@ public class Node {
     public boolean hasCommandStationProgrammingFunctions() {
         return ((uniqueId >> 48) & 8) == 8;
     }
+
     /**
      * @return returns if node supports command station functions
      */
     public boolean hasCommandStationFunctions() {
         return ((uniqueId >> 48) & 16) == 16;
     }
-    
+
     public String toString() {
         return getClass().getSimpleName() + "[version=" + version + ",addr=" + Arrays.toString(addr) + ",uniqueId="
-                + getUniqueIdAsString() + "]";
+            + getUniqueIdAsString() + "]";
     }
 }

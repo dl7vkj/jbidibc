@@ -4,6 +4,7 @@ import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 
 public class AddressData {
     private final int address;
+
     private final AddressTypeEnum type;
 
     public AddressData(int address, AddressTypeEnum type) {

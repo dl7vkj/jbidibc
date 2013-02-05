@@ -69,16 +69,23 @@ import org.slf4j.LoggerFactory;
 
 public class BidibNode {
     private static final Logger LOGGER = LoggerFactory.getLogger(BidibNode.class);
+
     private static final Logger MSG_TX_LOGGER = LoggerFactory.getLogger("TX");
-    
+
     private static final Collection<TransferListener> listeners = new LinkedList<TransferListener>();
 
     private final byte[] addr;
+
     private final StringBuilder logRecord = new StringBuilder();
+
     private int nextReceiveMsgNum = 0;
+
     private Semaphore nextReceiveMsgNumSemaphore = new Semaphore(1);
+
     private int nextSendMsgNum = -1;
+
     private Semaphore nextSendMsgNumSemaphore = new Semaphore(1);
+
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
     BidibNode(byte[] addr) {
@@ -90,7 +97,7 @@ public class BidibNode {
     }
 
     public void acknowledgeMultiple(int baseAddress, int size, byte[] detectorData) throws IOException,
-            ProtocolException, InterruptedException {
+        ProtocolException, InterruptedException {
         send(new FeedbackMirrorMultipleMessage(baseAddress, size, detectorData), false, null);
     }
 
@@ -122,7 +129,6 @@ public class BidibNode {
         send(new BoostOffMessage(), false, null);
     }
 
-
     /**
      * Query the booster state. We don't wait for the response because the {@link MessageReceiver} fires the booster status callback on receipt. 
      * @throws IOException
@@ -132,7 +138,7 @@ public class BidibNode {
     public void boosterQuery() throws IOException, ProtocolException, InterruptedException {
         send(new BoostQueryMessage(), false, null);
     }
-    
+
     private void escape(byte c) throws IOException {
         if ((c == (byte) BidibLibrary.BIDIB_PKT_MAGIC) || (c == (byte) BidibLibrary.BIDIB_PKT_ESCAPE)) {
             output.write((byte) BidibLibrary.BIDIB_PKT_ESCAPE);
@@ -173,10 +179,10 @@ public class BidibNode {
             sb.append(String.format("%02x ", bytes[index]));
         }
         MSG_TX_LOGGER.info(sb.toString());
-        
+
         // send the output to Bidib
         Bidib.send(bytes);
-        
+
         logRecord.append(" : ");
         for (int index = 0; index < bytes.length; index++) {
             logRecord.append(String.format("%02x ", bytes[index]));
@@ -198,6 +204,7 @@ public class BidibNode {
     public void getAddressState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
         send(new FeedbackGetAddressRangeMessage(begin, end), false, null);
     }
+
     /**
      * Get the current 'quality' of the track sensoring.
      */
@@ -236,11 +243,11 @@ public class BidibNode {
      * @throws InterruptedException
      */
     public Feature getNextFeature() throws IOException, ProtocolException, InterruptedException {
-    	BidibMessage message = send(new FeatureGetNextMessage());
-    	if (message instanceof FeatureResponse) {
-    		return ((FeatureResponse) message).getFeature();
-    	}
-    	return null;
+        BidibMessage message = send(new FeatureGetNextMessage());
+        if (message instanceof FeatureResponse) {
+            return ((FeatureResponse) message).getFeature();
+        }
+        return null;
     }
 
     /**
@@ -253,11 +260,11 @@ public class BidibNode {
     }
 
     public int getMagic() throws IOException, ProtocolException, InterruptedException {
-    	LOGGER.debug("Get the magic.");
-    	
-    	BidibMessage response = send(new SysMagicMessage(), true, Integer.valueOf(SysMagicResponse.TYPE));
-    	LOGGER.debug("getMagic, received response: {}", response);
-    	
+        LOGGER.debug("Get the magic.");
+
+        BidibMessage response = send(new SysMagicMessage(), true, Integer.valueOf(SysMagicResponse.TYPE));
+        LOGGER.debug("getMagic, received response: {}", response);
+
         return ((SysMagicResponse) response).getMagic();
     }
 
@@ -265,7 +272,7 @@ public class BidibNode {
         Node node = null;
         BidibMessage response = send(new NodeTabGetNextMessage(), true, Integer.valueOf(NodeTabResponse.TYPE));
         LOGGER.debug("NodeTabGetNext returned: {}", response);
-        
+
         if (response instanceof NodeTabResponse) {
             node = ((NodeTabResponse) response).getNode(addr);
             LOGGER.debug("Fetched node: {}", node);
@@ -285,9 +292,11 @@ public class BidibNode {
             if (message.getNum() == 0) {
                 node.nextReceiveMsgNum = 0;
             }
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             throw new RuntimeException(e);
-        } finally {
+        }
+        finally {
             node.nextReceiveMsgNumSemaphore.release();
         }
         return node.nextReceiveMsgNum;
@@ -300,26 +309,28 @@ public class BidibNode {
             if (nextSendMsgNum > 255) {
                 nextSendMsgNum = 1;
             }
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             throw new RuntimeException(e);
-        } finally {
+        }
+        finally {
             nextSendMsgNumSemaphore.release();
         }
         return (byte) nextSendMsgNum;
     }
 
     public int getNodeCount() throws IOException, ProtocolException, InterruptedException {
-    	LOGGER.debug("Get all registered nodes from system.");
-    	
-    	BidibMessage response = send(new NodeTabGetAllMessage(), true, Integer.valueOf(NodeTabCountResponse.TYPE));
-    	LOGGER.debug("getNodeCount, received response: {}", response);
-    	
-    	// if we receive another message then NodeTabCountResponse this will cause an CCE
-    	// i've seen SysMagicResponse messages on my system ...
-    	
-    	int totalNodes = ((NodeTabCountResponse) response).getCount(); 
+        LOGGER.debug("Get all registered nodes from system.");
 
-    	LOGGER.debug("Found total nodes: {}", totalNodes);
+        BidibMessage response = send(new NodeTabGetAllMessage(), true, Integer.valueOf(NodeTabCountResponse.TYPE));
+        LOGGER.debug("getNodeCount, received response: {}", response);
+
+        // if we receive another message then NodeTabCountResponse this will cause an CCE
+        // i've seen SysMagicResponse messages on my system ...
+
+        int totalNodes = ((NodeTabCountResponse) response).getCount();
+
+        LOGGER.debug("Found total nodes: {}", totalNodes);
         return totalNodes;
     }
 
@@ -351,16 +362,17 @@ public class BidibNode {
         return result.getNum();
     }
 
-    private BidibMessage receive(Integer expectedResponseType) throws IOException, ProtocolException, InterruptedException {
+    private BidibMessage receive(Integer expectedResponseType) throws IOException, ProtocolException,
+        InterruptedException {
         BidibMessage result = null;
         LOGGER.debug("Receive message, expected responseType: {}", expectedResponseType);
         fireReceiveStarted();
         try {
             result = MessageReceiver.getMessage(expectedResponseType);
-        } 
+        }
         finally {
             if (result == null) {
-            	// no result was fetched
+                // no result was fetched
                 resetNextSendMsgNum();
             }
         }
@@ -376,9 +388,11 @@ public class BidibNode {
         try {
             nextSendMsgNumSemaphore.acquire();
             nextSendMsgNum = -1;
-        } catch (InterruptedException e) {
+        }
+        catch (InterruptedException e) {
             throw new RuntimeException(e);
-        } finally {
+        }
+        finally {
             nextSendMsgNumSemaphore.release();
         }
     }
@@ -397,8 +411,8 @@ public class BidibNode {
      * @throws ProtocolException
      * @throws InterruptedException
      */
-    synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType) throws IOException, ProtocolException,
-            InterruptedException {
+    synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType)
+        throws IOException, ProtocolException, InterruptedException {
         logRecord.append("send " + message + " to " + this);
 
         BidibMessage result = null;
@@ -413,7 +427,8 @@ public class BidibNode {
             for (int addrIndex = 0; addrIndex < addr.length; addrIndex++) {
                 bytes[index++] = addr[addrIndex];
             }
-        } else {
+        }
+        else {
             bytes[index++] = 0;
         }
         bytes[index++] = (byte) num;
@@ -425,7 +440,7 @@ public class BidibNode {
         }
         sendMessage(bytes);
         if (expectAnswer) {
-        	
+
             result = receive(expectedResponseType);
             if (result == null) {
                 throw new ProtocolException("got no answer to " + message);
@@ -439,13 +454,13 @@ public class BidibNode {
     }
 
     public FirmwareUpdateStat sendFirmwareUpdateOperation(FirmwareUpdateOperation operation, byte... data)
-            throws IOException, ProtocolException, InterruptedException {
+        throws IOException, ProtocolException, InterruptedException {
         return ((FwUpdateStatResponse) send(new FwUpdateOpMessage(operation, data))).getUpdateStat();
     }
 
     private void sendMessage(byte[] message) throws IOException {
-    	LOGGER.debug("Send the message: {}", message);
-    	
+        LOGGER.debug("Send the message: {}", message);
+
         fireSendStarted();
         sendDelimiter();
 

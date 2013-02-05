@@ -7,108 +7,109 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ResponseFactoryTest {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFactoryTest.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ResponseFactoryTest.class);
 
-	@Test
-	public void createValidSysMagicResponseMessage() throws ProtocolException {
-		byte[] message = {0x05, 0x00, 0x00, (byte) 0x81, (byte) 0xFE, (byte) 0xAF};
+    @Test
+    public void createValidSysMagicResponseMessage() throws ProtocolException {
+        byte[] message = { 0x05, 0x00, 0x00, (byte) 0x81, (byte) 0xFE, (byte) 0xAF };
 
-		BidibMessage bidibMessage = ResponseFactory.create(message);
+        BidibMessage bidibMessage = ResponseFactory.create(message);
 
-		Assert.assertNotNull(bidibMessage);
-		Assert.assertTrue(bidibMessage instanceof SysMagicResponse, "Expected a SysMagicResponse message.");
-	}
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof SysMagicResponse, "Expected a SysMagicResponse message.");
+    }
 
-	@Test(expectedExceptions=ProtocolException.class, expectedExceptionsMessageRegExp="no magic received")
-	public void createInvalidSysMagicResponseMessage() throws ProtocolException {
-		byte[] message = {0x05, 0x00, 0x00, (byte) 0x81, (byte) 0xFE, (byte) 0xAD};
+    @Test(expectedExceptions = ProtocolException.class, expectedExceptionsMessageRegExp = "no magic received")
+    public void createInvalidSysMagicResponseMessage() throws ProtocolException {
+        byte[] message = { 0x05, 0x00, 0x00, (byte) 0x81, (byte) 0xFE, (byte) 0xAD };
 
-		ResponseFactory.create(message);
+        ResponseFactory.create(message);
 
-		Assert.fail("Should have thrown an exception!");
-	}
+        Assert.fail("Should have thrown an exception!");
+    }
 
-	@Test
-	public void createValidNodeTabCountResponseMessage() throws ProtocolException {
-		byte[] message = {0x04, 0x00, 0x01, (byte) 0x88, 0x01};
+    @Test
+    public void createValidNodeTabCountResponseMessage() throws ProtocolException {
+        byte[] message = { 0x04, 0x00, 0x01, (byte) 0x88, 0x01 };
 
-		BidibMessage bidibMessage = ResponseFactory.create(message);
+        BidibMessage bidibMessage = ResponseFactory.create(message);
 
-		Assert.assertNotNull(bidibMessage);
-		Assert.assertTrue(bidibMessage instanceof NodeTabCountResponse, "Expected a NodeTabCountResponse message.");
-	}
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof NodeTabCountResponse, "Expected a NodeTabCountResponse message.");
+    }
 
-	@Test
-	public void createValidNodeTabResponseMessage() throws ProtocolException {
-		byte[] message = {0x0c, 0x00, 0x02, (byte) 0x89, 0x01, 0x00, (byte) 0xc0, 0x00, 0x0d, 0x68, 0x00, 0x01, 0x00};
+    @Test
+    public void createValidNodeTabResponseMessage() throws ProtocolException {
+        byte[] message = { 0x0c, 0x00, 0x02, (byte) 0x89, 0x01, 0x00, (byte) 0xc0, 0x00, 0x0d, 0x68, 0x00, 0x01, 0x00 };
 
-		BidibMessage bidibMessage = ResponseFactory.create(message);
+        BidibMessage bidibMessage = ResponseFactory.create(message);
 
-		Assert.assertNotNull(bidibMessage);
-		Assert.assertTrue(bidibMessage instanceof NodeTabResponse, "Expected a NodeTabResponse message.");
-	}
-	
-	@Test
-	public void createValidFeatureResponseMessage() throws ProtocolException {
-		byte[] message = {0x05, 0x00, 0x01, (byte) 0x90, 0x00, 0x10};
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof NodeTabResponse, "Expected a NodeTabResponse message.");
+    }
 
-		BidibMessage bidibMessage = ResponseFactory.create(message);
+    @Test
+    public void createValidFeatureResponseMessage() throws ProtocolException {
+        byte[] message = { 0x05, 0x00, 0x01, (byte) 0x90, 0x00, 0x10 };
 
-		Assert.assertNotNull(bidibMessage);
-		Assert.assertTrue(bidibMessage instanceof FeatureResponse, "Expected a FeatureResponse message.");
-	}
+        BidibMessage bidibMessage = ResponseFactory.create(message);
 
-	@Test
-	public void createValidFeatureNotAvailableResponseMessage() throws ProtocolException {
-		byte[] message = {0x04, 0x00, 0x04, (byte) 0x91, (byte) 0xfd, (byte) 0xde};
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof FeatureResponse, "Expected a FeatureResponse message.");
+    }
 
-		BidibMessage bidibMessage = ResponseFactory.create(message);
+    @Test
+    public void createValidFeatureNotAvailableResponseMessage() throws ProtocolException {
+        byte[] message = { 0x04, 0x00, 0x04, (byte) 0x91, (byte) 0xfd, (byte) 0xde };
 
-		Assert.assertNotNull(bidibMessage);
-		Assert.assertTrue(bidibMessage instanceof FeatureNotAvailableResponse, "Expected a FeatureNotAvailableResponse message.");
-	}
-	
-	@Test(expectedExceptions=ProtocolException.class, expectedExceptionsMessageRegExp="got unknown response with type 223")
-	public void createUndefinedResponseMessage() throws ProtocolException {
-		byte[] message = {0x04, 0x00, 0x01, (byte) 0xDF, 0x01};
+        BidibMessage bidibMessage = ResponseFactory.create(message);
 
-		ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof FeatureNotAvailableResponse,
+            "Expected a FeatureNotAvailableResponse message.");
+    }
 
-		Assert.fail("Should have thrown an exception!");
-	}
-	
-	// 04 00 04 B1 2C
-	@Test
-	public void createValidBoostCurrentResponseMessage() throws ProtocolException {
-		byte[] message = {0x04, 0x00, 0x04, (byte) 0xB1, (byte) 0x2c};
+    @Test(expectedExceptions = ProtocolException.class, expectedExceptionsMessageRegExp = "got unknown response with type 223")
+    public void createUndefinedResponseMessage() throws ProtocolException {
+        byte[] message = { 0x04, 0x00, 0x01, (byte) 0xDF, 0x01 };
 
-		BidibMessage bidibMessage = ResponseFactory.create(message);
+        ResponseFactory.create(message);
 
-		Assert.assertNotNull(bidibMessage);
-		Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
-		
-		LOGGER.info("Booster current: {}", ((BoostCurrentResponse)bidibMessage).getCurrent());
-		
-//		04 00 6A B1 47
-		
-		byte[] message2 = {0x04, 0x00, 0x6A, (byte) 0xB1, (byte) 0x47};
-		
-		bidibMessage = ResponseFactory.create(message2);
+        Assert.fail("Should have thrown an exception!");
+    }
 
-		Assert.assertNotNull(bidibMessage);
-		Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
-		
-		LOGGER.info("Booster current: {}", ((BoostCurrentResponse)bidibMessage).getCurrent());
-		
-//		04 00 60 B1 45
-		byte[] message3 = {0x04, 0x00, 0x60, (byte) 0xB1, (byte) 0x45};
-		
-		bidibMessage = ResponseFactory.create(message3);
+    // 04 00 04 B1 2C
+    @Test
+    public void createValidBoostCurrentResponseMessage() throws ProtocolException {
+        byte[] message = { 0x04, 0x00, 0x04, (byte) 0xB1, (byte) 0x2c };
 
-		Assert.assertNotNull(bidibMessage);
-		Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
-		
-		LOGGER.info("Booster current: {}", ((BoostCurrentResponse)bidibMessage).getCurrent());
-		
-	}
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
+
+        LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
+
+        //		04 00 6A B1 47
+
+        byte[] message2 = { 0x04, 0x00, 0x6A, (byte) 0xB1, (byte) 0x47 };
+
+        bidibMessage = ResponseFactory.create(message2);
+
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
+
+        LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
+
+        //		04 00 60 B1 45
+        byte[] message3 = { 0x04, 0x00, 0x60, (byte) 0xB1, (byte) 0x45 };
+
+        bidibMessage = ResponseFactory.create(message3);
+
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
+
+        LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
+
+    }
 }

@@ -5,15 +5,21 @@ import org.bidib.jbidibc.enumeration.LcOutputType;
 
 public class LcMacro {
     private final byte macroNumber;
+
     private final byte stepNumber;
+
     private final byte delay;
+
     private final LcOutputType outputType;
+
     private final byte outputNumber;
+
     private final BidibEnum status;
+
     private final byte value;
 
     public LcMacro(byte macroNumber, byte stepNumber, byte delay, LcOutputType outputType, byte outputNumber,
-            BidibEnum status, byte value) {
+        BidibEnum status, byte value) {
         this.macroNumber = macroNumber;
         this.stepNumber = stepNumber;
         this.delay = delay;
@@ -53,7 +59,7 @@ public class LcMacro {
 
     public String toString() {
         return getClass().getSimpleName() + "[macroNumber=" + macroNumber + ",stepNumber=" + stepNumber + ",delay="
-                + (delay & 0xFF) + ",outputType=" + outputType + ",outputNumber=" + outputNumber + ",status=" + status
-                + ",value=" + value + "]";
+            + (delay & 0xFF) + ",outputType=" + outputType + ",outputNumber=" + outputNumber + ",status=" + status
+            + ",value=" + value + "]";
     }
 }

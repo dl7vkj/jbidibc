@@ -2,7 +2,9 @@ package org.bidib.jbidibc;
 
 public class SoftwareVersion implements Comparable<SoftwareVersion> {
     private final int firstVersion;
+
     private final int secondVersion;
+
     private final int thirdVersion;
 
     public SoftwareVersion(int firstVersion, int secondVersion, int thirdVersion) {

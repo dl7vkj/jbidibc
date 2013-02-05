@@ -2,8 +2,7 @@ package org.bidib.jbidibc.enumeration;
 
 public enum InputEnum implements BidibEnum {
     // @formatter:off
-    QUERY0 (0),
-    QUERY1 (1);
+    QUERY0(0), QUERY1(1);
     // @formatter:on
 
     private final byte type;

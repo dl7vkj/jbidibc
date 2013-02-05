@@ -15,15 +15,20 @@ public class BoostCurrentResponse extends BidibMessage {
 
     public static int convertCurrent(int current) {
         if (current >= 1 && current <= 15) {
-        } else if (current >= 16 && current <= 63) {
+        }
+        else if (current >= 16 && current <= 63) {
             current = (current - 12) * 4;
-        } else if (current >= 64 && current <= 127) {
+        }
+        else if (current >= 64 && current <= 127) {
             current = (current - 51) * 16;
-        } else if (current >= 128 && current <= 191) {
+        }
+        else if (current >= 128 && current <= 191) {
             current = (current - 108) * 64;
-        } else if (current >= 192 && current <= 250) {
+        }
+        else if (current >= 192 && current <= 250) {
             current = (current - 171) * 256;
-        } else {
+        }
+        else {
             current = 0;
         }
         return current;

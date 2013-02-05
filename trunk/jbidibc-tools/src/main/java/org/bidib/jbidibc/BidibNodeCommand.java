@@ -18,18 +18,19 @@ import com.beust.jcommander.converters.BaseConverter;
 
 @Parameters(separators = "=")
 public abstract class BidibNodeCommand extends BidibCommand {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BidibNodeCommand.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(BidibNodeCommand.class);
 
-	@Parameter(names = { "-nodeId" }, description = "Unique id of node, e.g. 0xc0000d68000100", required=true, converter = NodeIdConverter.class)
-	private Long nodeId;
-	
-	protected Long getNodeId() {
-		return nodeId;
-	}
-	protected String getNodeIdentifier() {
-		return String.format("0x%08x", nodeId);
-	}
-	
+    @Parameter(names = { "-nodeId" }, description = "Unique id of node, e.g. 0xc0000d68000100", required = true, converter = NodeIdConverter.class)
+    private Long nodeId;
+
+    protected Long getNodeId() {
+        return nodeId;
+    }
+
+    protected String getNodeIdentifier() {
+        return String.format("0x%08x", nodeId);
+    }
+
     protected Node findNode() throws IOException, ProtocolException, InterruptedException {
         Node result = null;
         BidibNode rootNode = Bidib.getRootNode();
@@ -55,24 +56,24 @@ public abstract class BidibNodeCommand extends BidibCommand {
         System.arraycopy(bb.array(), 1, result, 0, result.length);
         return result;
     }
-    
+
     public static final class NodeIdConverter extends BaseConverter<Long> {
 
-		public NodeIdConverter(String optionName) {
-			super(optionName);
-		}
+        public NodeIdConverter(String optionName) {
+            super(optionName);
+        }
 
-		@Override
-		public Long convert(String value) {
-			try {
-				LOGGER.debug("Parse NodeId: {}", value);
-				return Long.parseLong(value.substring(value.indexOf("0x")+2), 16);
-			} 
-			catch(NumberFormatException ex) {
-				throw new ParameterException(getErrorString(value, "a long"));
-			}
-		}
-    	
+        @Override
+        public Long convert(String value) {
+            try {
+                LOGGER.debug("Parse NodeId: {}", value);
+                return Long.parseLong(value.substring(value.indexOf("0x") + 2), 16);
+            }
+            catch (NumberFormatException ex) {
+                throw new ParameterException(getErrorString(value, "a long"));
+            }
+        }
+
     }
-	
+
 }

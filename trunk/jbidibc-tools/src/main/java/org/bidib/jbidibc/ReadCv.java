@@ -14,42 +14,43 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(separators = "=")
 public class ReadCv extends BidibNodeCommand {
-	private static final Logger LOGGER = LoggerFactory.getLogger(ReadCv.class);
-	
-	@Parameter(names = { "-cv" }, description = "The CV number", required=true)
-	private String cvNumber;
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(ReadCv.class);
+
+    @Parameter(names = { "-cv" }, description = "The CV number", required = true)
+    private String cvNumber;
+
     public static void main(String[] args) {
-    	run(new ReadCv(), args);
+        run(new ReadCv(), args);
     }
-    
+
     public int execute() {
         int result = 20;
 
         try {
-        	Bidib.open(getPortName());
+            Bidib.open(getPortName());
 
-        	Node node = findNode();
+            Node node = findNode();
 
-        	if (node != null) {
-        		BidibNode bidibNode = Bidib.getNode(node);
+            if (node != null) {
+                BidibNode bidibNode = Bidib.getNode(node);
 
-        		if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
+                if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
 
-        			VendorData vendorData = bidibNode.vendorGet(cvNumber);
+                    VendorData vendorData = bidibNode.vendorGet(cvNumber);
 
-        			LOGGER.info("CV" + vendorData.getName() + "=" + vendorData.getValue());
-        			
-        			bidibNode.vendorDisable();
-        			result = 0;
-        		}
-        	} 
-        	else {
-        		LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
-        	}
+                    LOGGER.info("CV" + vendorData.getName() + "=" + vendorData.getValue());
+
+                    bidibNode.vendorDisable();
+                    result = 0;
+                }
+            }
+            else {
+                LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
+            }
         }
-        catch(PortNotFoundException ex) {
-        	LOGGER.error("The provided port was not found: " + ex.getMessage()+". Verify that the BiDiB device is connected.", ex);
+        catch (PortNotFoundException ex) {
+            LOGGER.error("The provided port was not found: " + ex.getMessage()
+                + ". Verify that the BiDiB device is connected.", ex);
         }
         catch (Exception ex) {
             LOGGER.error("Execute command failed.", ex);

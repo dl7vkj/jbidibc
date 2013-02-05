@@ -15,42 +15,45 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(separators = "=")
 public class StartMacro extends BidibNodeCommand {
-	private static final Logger LOGGER = LoggerFactory.getLogger(StartMacro.class);
-	
-	@Parameter(names = { "-macro" }, description = "The macro number", required=true)
-	private int macroNumber;
+    private static final Logger LOGGER = LoggerFactory.getLogger(StartMacro.class);
 
-	public static void main(String[] args) {
-		run(new StartMacro(), args);
-	}
+    @Parameter(names = { "-macro" }, description = "The macro number", required = true)
+    private int macroNumber;
 
-	public int execute() {
-		int result = 20;
+    public static void main(String[] args) {
+        run(new StartMacro(), args);
+    }
 
-		try {
-			Bidib.open(getPortName());
+    public int execute() {
+        int result = 20;
 
-			Node node = findNode();
+        try {
+            Bidib.open(getPortName());
 
-			if (node != null) {
-				AccessoryNode accessoryNode = Bidib.getAccessoryNode(node);
+            Node node = findNode();
 
-				if (accessoryNode != null) {
-					accessoryNode.handleMacro(macroNumber, LcMacroOperationCode.START);
-					result = 0;
-				} else {
-					LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" doesn't have macros");
-				}
-			} else {
-				LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
-			}
-		} 
-		catch(PortNotFoundException ex) {
-			LOGGER.error("The provided port was not found: " + ex.getMessage()+". Verify that the BiDiB device is connected.");
-		}
-		catch (Exception ex) {
+            if (node != null) {
+                AccessoryNode accessoryNode = Bidib.getAccessoryNode(node);
+
+                if (accessoryNode != null) {
+                    accessoryNode.handleMacro(macroNumber, LcMacroOperationCode.START);
+                    result = 0;
+                }
+                else {
+                    LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" doesn't have macros");
+                }
+            }
+            else {
+                LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
+            }
+        }
+        catch (PortNotFoundException ex) {
+            LOGGER.error("The provided port was not found: " + ex.getMessage()
+                + ". Verify that the BiDiB device is connected.");
+        }
+        catch (Exception ex) {
             LOGGER.error("Execute command failed.", ex);
-		}
-		return result;
-	}
+        }
+        return result;
+    }
 }

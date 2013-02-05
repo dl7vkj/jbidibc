@@ -2,9 +2,13 @@ package org.bidib.jbidibc;
 
 public class AccessoryState {
     private final byte accessoryNumber;
+
     private final byte aspect;
+
     private final byte total;
+
     private final byte execute;
+
     private final byte wait;
 
     public AccessoryState(byte accessoryNumber, byte aspect, byte total, byte execute, byte wait) {
@@ -37,6 +41,6 @@ public class AccessoryState {
 
     public String toString() {
         return getClass().getSimpleName() + "[accessoryNumber=" + accessoryNumber + ",aspect=" + aspect + ",total="
-                + total + ",execute=" + execute + ",wait=" + wait + "]";
+            + total + ",execute=" + execute + ",wait=" + wait + "]";
     }
 }

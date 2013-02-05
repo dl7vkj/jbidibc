@@ -2,7 +2,9 @@ package org.bidib.jbidibc;
 
 public class Confidence {
     private int freeze = 0;
+
     private int signal = 0;
+
     private int valid = 0;
 
     public Confidence(int valid, int freeze, int signal) {

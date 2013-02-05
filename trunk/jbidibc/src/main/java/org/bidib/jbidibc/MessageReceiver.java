@@ -35,6 +35,7 @@ import org.slf4j.LoggerFactory;
 
 public class MessageReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class.getName());
+
     private static final Logger MSG_RX_LOGGER = LoggerFactory.getLogger("RX");
 
     private static final BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
@@ -47,7 +48,7 @@ public class MessageReceiver {
 
     public MessageReceiver(SerialPort port, NodeFactory nodeFactory) {
         synchronized (this) {
-        	LOGGER.debug("Starting message receiver.");
+            LOGGER.debug("Starting message receiver.");
             try {
                 ByteArrayOutputStream output = new ByteArrayOutputStream();
                 InputStream input = null;
@@ -61,52 +62,50 @@ public class MessageReceiver {
                     StringBuilder logRecord = new StringBuilder();
 
                     while (RUNNING && (data = input.read()) != -1) {
-                    	if (LOGGER.isTraceEnabled()) {
-                    		LOGGER.trace("received data: {}", String.format("%02x ", data));
-                    	}
-                    	// append data to log record
+                        if (LOGGER.isTraceEnabled()) {
+                            LOGGER.trace("received data: {}", String.format("%02x ", data));
+                        }
+                        // append data to log record
                         logRecord.append(String.format("%02x ", data));
-                        
+
                         // check if the current is the end of a packet
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
-                        	MSG_RX_LOGGER.info("Received message: {}", logRecord);
+                            MSG_RX_LOGGER.info("Received message: {}", logRecord);
                             logRecord.setLength(0);
-                        	
-                        	// if a CRC error is detected in splitMessages the reading loop will terminate ...
+
+                            // if a CRC error is detected in splitMessages the reading loop will terminate ...
                             for (byte[] messageArray : splitMessages(output.toByteArray())) {
                                 BidibMessage message = null;
 
                                 try {
                                     message = ResponseFactory.create(messageArray);
                                     LOGGER.debug("Factory prepared bidib message: {}", message);
-                                    
+
                                     // some messages are notified directly to listeners
                                     if (message instanceof BoostCurrentResponse) {
-                                        fireBoosterCurrent(message.getAddr(),
-                                                ((BoostCurrentResponse) message).getCurrent());
-                                    } 
+                                        fireBoosterCurrent(message.getAddr(), ((BoostCurrentResponse) message)
+                                            .getCurrent());
+                                    }
                                     else if (message instanceof BoostStatResponse) {
                                         fireBoosterState(message.getAddr(), ((BoostStatResponse) message).getState());
-                                    } 
+                                    }
                                     else if (message instanceof FeedbackAddressResponse) {
-                                        fireAddress(message.getAddr(),
-                                                ((FeedbackAddressResponse) message).getDetectorNumber(),
-                                                ((FeedbackAddressResponse) message).getAddresses());
-                                    } 
+                                        fireAddress(message.getAddr(), ((FeedbackAddressResponse) message)
+                                            .getDetectorNumber(), ((FeedbackAddressResponse) message).getAddresses());
+                                    }
                                     else if (message instanceof FeedbackConfidenceResponse) {
-                                        fireConfidence(message.getAddr(),
-                                                ((FeedbackConfidenceResponse) message).getValid(),
-                                                ((FeedbackConfidenceResponse) message).getFreeze(),
-                                                ((FeedbackConfidenceResponse) message).getSignal());
-                                    } 
+                                        fireConfidence(message.getAddr(), ((FeedbackConfidenceResponse) message)
+                                            .getValid(), ((FeedbackConfidenceResponse) message).getFreeze(),
+                                            ((FeedbackConfidenceResponse) message).getSignal());
+                                    }
                                     else if (message instanceof FeedbackFreeResponse) {
                                         // acknowledge message
                                         nodeFactory.getNode(new Node(message.getAddr())).acknowledgeFree(
-                                                ((FeedbackFreeResponse) message).getDetectorNumber());
+                                            ((FeedbackFreeResponse) message).getDetectorNumber());
 
-                                        fireFree(message.getAddr(),
-                                                ((FeedbackFreeResponse) message).getDetectorNumber());
-                                    } 
+                                        fireFree(message.getAddr(), ((FeedbackFreeResponse) message)
+                                            .getDetectorNumber());
+                                    }
                                     else if (message instanceof FeedbackMultipleResponse) {
                                         int baseAddress = ((FeedbackMultipleResponse) message).getBaseAddress();
                                         int size = ((FeedbackMultipleResponse) message).getSize();
@@ -114,7 +113,7 @@ public class MessageReceiver {
 
                                         // acknowledge message
                                         nodeFactory.getNode(new Node(message.getAddr())).acknowledgeMultiple(
-                                                baseAddress, size, detectorData);
+                                            baseAddress, size, detectorData);
 
                                         int offset = 0;
 
@@ -125,72 +124,76 @@ public class MessageReceiver {
                                             for (int bit = 0; bit <= 7; bit++) {
                                                 if (((detectorByte >> bit) & 1) == 1) {
                                                     fireOccupied(message.getAddr(), baseAddress + offset);
-                                                } else {
+                                                }
+                                                else {
                                                     fireFree(message.getAddr(), baseAddress + offset);
                                                 }
                                                 offset++;
                                             }
                                         }
-                                    } 
+                                    }
                                     else if (message instanceof FeedbackOccupiedResponse) {
                                         // acknowledge message
                                         nodeFactory.getNode(new Node(message.getAddr())).acknowledgeOccupied(
-                                                ((FeedbackOccupiedResponse) message).getDetectorNumber());
+                                            ((FeedbackOccupiedResponse) message).getDetectorNumber());
 
-                                        fireOccupied(message.getAddr(),
-                                                ((FeedbackOccupiedResponse) message).getDetectorNumber());
-                                    } 
+                                        fireOccupied(message.getAddr(), ((FeedbackOccupiedResponse) message)
+                                            .getDetectorNumber());
+                                    }
                                     else if (message instanceof FeedbackSpeedResponse) {
                                         fireSpeed(message.getAddr(), ((FeedbackSpeedResponse) message).getAddress(),
-                                                ((FeedbackSpeedResponse) message).getSpeed());
-                                    } 
+                                            ((FeedbackSpeedResponse) message).getSpeed());
+                                    }
                                     else if (message instanceof LcKeyResponse) {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
-                                                ((LcKeyResponse) message).getKeyState());
-                                    } 
+                                            ((LcKeyResponse) message).getKeyState());
+                                    }
                                     else if (message instanceof LcWaitResponse) {
                                         setTimeout(((LcWaitResponse) message).getTimeout());
-                                    } 
+                                    }
                                     else if (message instanceof LogonResponse) {
-                                    } 
+                                    }
                                     else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
 
                                         nodeFactory.getRootNode().acknowledge(node.getVersion());
                                         fireNodeNew(node);
-                                    } 
+                                    }
                                     else if (message instanceof NodeLostResponse) {
                                         Node node = ((NodeLostResponse) message).getNode(message.getAddr());
 
                                         nodeFactory.getRootNode().acknowledge(node.getVersion());
                                         fireNodeLost(node);
-                                    } 
+                                    }
                                     else if (message instanceof SysErrorResponse
-                                            && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE /*18*/) {
-                                    	
-                                    	LOGGER.warn("A node attempted to register with an already registered ID: {}", ((SysErrorResponse) message).getAddr());
-                                    } 
+                                        && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE /*18*/) {
+
+                                        LOGGER.warn("A node attempted to register with an already registered ID: {}",
+                                            ((SysErrorResponse) message).getAddr());
+                                    }
                                     else {
-                                    	// put the message into the receiveQueue because somebody waits for it ...
+                                        // put the message into the receiveQueue because somebody waits for it ...
                                         receiveQueue.offer(message);
                                     }
-                                } 
+                                }
                                 finally {
                                     if (message != null) {
                                         int num = BidibNode.getNextReceiveMsgNum(message);
 
                                         if (message.getNum() != num) {
                                             throw new ProtocolException("wrong message number: expected " + num
-                                                    + " but got " + message.getNum());
+                                                + " but got " + message.getNum());
                                         }
                                     }
                                 }
                                 output.reset();
                             }
-                        } else {
+                        }
+                        else {
                             if (data == BidibLibrary.BIDIB_PKT_ESCAPE) {
                                 escape_hot = true;
-                            } else if (data != BidibLibrary.BIDIB_PKT_MAGIC) {
+                            }
+                            else if (data != BidibLibrary.BIDIB_PKT_MAGIC) {
                                 if (escape_hot) {
                                     data ^= 0x20;
                                     escape_hot = false;
@@ -202,10 +205,11 @@ public class MessageReceiver {
                     LOGGER.debug("Leaving receive loop, RUNNING: {}", RUNNING);
                 }
                 else {
-                	LOGGER.error("No input available.");
+                    LOGGER.error("No input available.");
                 }
-                
-            } catch (Exception e) {
+
+            }
+            catch (Exception e) {
                 throw new RuntimeException(e);
             }
         }
@@ -216,12 +220,12 @@ public class MessageReceiver {
     }
 
     public static void disable() {
-    	LOGGER.debug("disable is called.");
+        LOGGER.debug("disable is called.");
         RUNNING = false;
     }
 
     public static void enable() {
-    	LOGGER.debug("enable is called.");
+        LOGGER.debug("enable is called.");
         RUNNING = true;
     }
 
@@ -292,48 +296,49 @@ public class MessageReceiver {
      * @throws InterruptedException
      */
     public static BidibMessage getMessage(Integer responseType) throws InterruptedException {
-    	LOGGER.debug("get message with responseType: {}", responseType);
-    	BidibMessage result = null;
-    	
-    	// wait a maximum of 10 seconds to recieve message
-    	long cancelReceiveTs = System.currentTimeMillis() + 10000;
-    	boolean leaveLoop = false;
-    	
+        LOGGER.debug("get message with responseType: {}", responseType);
+        BidibMessage result = null;
+
+        // wait a maximum of 10 seconds to recieve message
+        long cancelReceiveTs = System.currentTimeMillis() + 10000;
+        boolean leaveLoop = false;
+
         do {
-        	result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
-        	
-        	long now = System.currentTimeMillis();
-        	
-        	if (result != null && responseType != null) {
-        		LOGGER.debug("Check if the response type is equal, responseType: {}, response.type: {}", responseType.byteValue(), result.getType());
-        		if (responseType.byteValue() == result.getType()) {
-        			LOGGER.debug("This is the expected response: {}", result);
-        			break;
-        		}
-        		else {
-        			LOGGER.debug("This is NOT the expected response: {}", result);
-        			result = null;
-        		}
-        		
-            	LOGGER.debug("startReceive: {}, now: {}, result: {}", cancelReceiveTs, now, result);
-            	if (cancelReceiveTs < now) {
-            		LOGGER.debug("leave loop.");
-            		leaveLoop = true;
-            	}
-        	}
-        	else if (result != null || (cancelReceiveTs < now)) {
-        		LOGGER.debug("leave loop, result: {}", result);
-        		leaveLoop = true;
-        	}
+            result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
+
+            long now = System.currentTimeMillis();
+
+            if (result != null && responseType != null) {
+                LOGGER.debug("Check if the response type is equal, responseType: {}, response.type: {}", responseType
+                    .byteValue(), result.getType());
+                if (responseType.byteValue() == result.getType()) {
+                    LOGGER.debug("This is the expected response: {}", result);
+                    break;
+                }
+                else {
+                    LOGGER.debug("This is NOT the expected response: {}", result);
+                    result = null;
+                }
+
+                LOGGER.debug("startReceive: {}, now: {}, result: {}", cancelReceiveTs, now, result);
+                if (cancelReceiveTs < now) {
+                    LOGGER.debug("leave loop.");
+                    leaveLoop = true;
+                }
+            }
+            else if (result != null || (cancelReceiveTs < now)) {
+                LOGGER.debug("leave loop, result: {}", result);
+                leaveLoop = true;
+            }
         }
-        while(!leaveLoop);
-        
+        while (!leaveLoop);
+
         LOGGER.debug("Received message: {}", result);
-//        // TODO why waiting twice ?
-//        if (result == null && TIMEOUT > Bidib.DEFAULT_TIMEOUT) {
-//            result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
-//            LOGGER.debug("Received message 2nd try: {}", result);
-//        }
+        //        // TODO why waiting twice ?
+        //        if (result == null && TIMEOUT > Bidib.DEFAULT_TIMEOUT) {
+        //            result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
+        //            LOGGER.debug("Received message 2nd try: {}", result);
+        //        }
         return result;
     }
 
@@ -360,7 +365,7 @@ public class MessageReceiver {
     private static Collection<byte[]> splitMessages(byte[] output) throws ProtocolException {
         Collection<byte[]> result = new LinkedList<byte[]>();
         int index = 0;
-        
+
         LOGGER.debug("splitMessages: {}", output);
 
         while (index < output.length) {

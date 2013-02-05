@@ -4,16 +4,11 @@ import org.bidib.jbidibc.BidibLibrary;
 
 public enum LightPortEnum implements BidibEnum {
     // @formatter:off
-    ON          (BidibLibrary.BIDIB_PORT_TURN_ON),
-    OFF         (BidibLibrary.BIDIB_PORT_TURN_OFF),
-    UP          (BidibLibrary.BIDIB_PORT_DIMM_ON),
-    DOWN        (BidibLibrary.BIDIB_PORT_DIMM_OFF),
-    NEON        (BidibLibrary.BIDIB_PORT_TURN_ON_NEON),
-    BLINKA      (BidibLibrary.BIDIB_PORT_BLINK_A),
-    BLINKB      (BidibLibrary.BIDIB_PORT_BLINK_B),
-    FLASHA      (BidibLibrary.BIDIB_PORT_FLASH_A),
-    FLASHB      (BidibLibrary.BIDIB_PORT_FLASH_B),
-    DOUBLEFLASH (BidibLibrary.BIDIB_PORT_DOUBLE_FLASH);
+    ON(BidibLibrary.BIDIB_PORT_TURN_ON), OFF(BidibLibrary.BIDIB_PORT_TURN_OFF), UP(BidibLibrary.BIDIB_PORT_DIMM_ON), DOWN(
+        BidibLibrary.BIDIB_PORT_DIMM_OFF), NEON(BidibLibrary.BIDIB_PORT_TURN_ON_NEON), BLINKA(
+        BidibLibrary.BIDIB_PORT_BLINK_A), BLINKB(BidibLibrary.BIDIB_PORT_BLINK_B), FLASHA(
+        BidibLibrary.BIDIB_PORT_FLASH_A), FLASHB(BidibLibrary.BIDIB_PORT_FLASH_B), DOUBLEFLASH(
+        BidibLibrary.BIDIB_PORT_DOUBLE_FLASH);
     // @formatter:on
 
     private final byte type;

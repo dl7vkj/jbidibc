@@ -2,9 +2,7 @@ package org.bidib.jbidibc.enumeration;
 
 public enum DriveAcknowledge implements BidibEnum {
     //@formatter:off
-    NOT_ACKNOWLEDGED(0),
-    ACKNOWLEDGED(1),
-    DELAYED(2);
+    NOT_ACKNOWLEDGED(0), ACKNOWLEDGED(1), DELAYED(2);
     //@formatter:on
 
     private final byte type;

@@ -4,6 +4,7 @@ import org.bidib.jbidibc.enumeration.FeatureEnum;
 
 public class Feature {
     private final int type;
+
     private final int value;
 
     public Feature(int type, int value) {

@@ -40,7 +40,7 @@ import org.bidib.jbidibc.message.LcOutputMessage;
 public class AccessoryNode extends DeviceNode implements MessageListener {
     AccessoryNode(byte[] addr) {
         super(addr);
-        
+
         // TODO maybe better to have this injected 
         MessageReceiver.addMessageListener(this);
     }
@@ -88,7 +88,7 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws IOException, ProtocolException,
-            InterruptedException {
+        InterruptedException {
         byte[] result = null;
         BidibMessage response = send(new AccessoryParaGetMessage(accessoryNumber, parameter));
 
@@ -99,7 +99,7 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public AccessoryState getAccessoryState(int accessoryNumber) throws IOException, ProtocolException,
-            InterruptedException {
+        InterruptedException {
         AccessoryState result = null;
         BidibMessage response = send(new AccessoryGetMessage(accessoryNumber));
 
@@ -110,7 +110,7 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws IOException, ProtocolException,
-            InterruptedException {
+        InterruptedException {
         LcConfig result = null;
         BidibMessage response = send(new LcConfigGetMessage(outputType, outputNumber));
 
@@ -125,7 +125,7 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public byte[] getMacroParameter(int macroNumber, int parameter) throws IOException, ProtocolException,
-            InterruptedException {
+        InterruptedException {
         byte[] result = null;
         BidibMessage response = send(new LcMacroParaGetMessage(macroNumber, parameter));
 
@@ -136,7 +136,7 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public LcMacro getMacroStep(int macroNumber, int stepNumber) throws IOException, ProtocolException,
-            InterruptedException {
+        InterruptedException {
         LcMacro result = null;
         BidibMessage response = send(new LcMacroGetMessage(macroNumber, stepNumber));
 
@@ -147,7 +147,7 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public LcMacroState handleMacro(int macroNumber, LcMacroOperationCode macroOperationCode) throws IOException,
-            ProtocolException, InterruptedException {
+        ProtocolException, InterruptedException {
         LcMacroState result = null;
         BidibMessage response = send(new LcMacroHandleMessage(macroNumber, macroOperationCode));
 
@@ -158,12 +158,12 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public void setAccessoryParameter(int accessoryNumber, int parameter, byte[] value) throws IOException,
-            ProtocolException, InterruptedException {
+        ProtocolException, InterruptedException {
         send(new AccessoryParaSetMessage(accessoryNumber, parameter, value));
     }
 
     public void setAccessoryState(int accessoryNumber, int aspect) throws IOException, ProtocolException,
-            InterruptedException {
+        InterruptedException {
         send(new AccessorySetMessage(accessoryNumber, aspect));
     }
 
@@ -184,12 +184,12 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public void setMacroParameter(int macroNumber, int parameter, byte... value) throws IOException, ProtocolException,
-            InterruptedException {
+        InterruptedException {
         send(new LcMacroParaSetMessage(macroNumber, parameter, value));
     }
 
     public void setOutput(LcOutputType outputType, int outputNumber, int state) throws IOException, ProtocolException,
-            InterruptedException {
+        InterruptedException {
         send(new LcOutputMessage(outputType, outputNumber, state));
         MessageReceiver.setTimeout(Bidib.DEFAULT_TIMEOUT);
     }

@@ -2,9 +2,7 @@ package org.bidib.jbidibc.enumeration;
 
 public enum SpeedSteps implements BidibEnum {
     //@formatter:off
-    DCC14  (0x0000),
-    DCC28  (0x0010),
-    DCC128 (0x0011);
+    DCC14(0x0000), DCC28(0x0010), DCC128(0x0011);
     //@formatter:on
     private final byte type;
 

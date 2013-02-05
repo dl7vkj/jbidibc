@@ -15,42 +15,45 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(separators = "=")
 public class StopMacro extends BidibNodeCommand {
-	private static final Logger LOGGER = LoggerFactory.getLogger(StopMacro.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(StopMacro.class);
 
-	@Parameter(names = { "-macro" }, description = "The macro number", required=true)
-	private int macroNumber;
+    @Parameter(names = { "-macro" }, description = "The macro number", required = true)
+    private int macroNumber;
 
-	public static void main(String[] args) {
-		run(new StopMacro(), args);
-	}
+    public static void main(String[] args) {
+        run(new StopMacro(), args);
+    }
 
-	public int execute() {
-		int result = 20;
+    public int execute() {
+        int result = 20;
 
-		try {
-			Bidib.open(getPortName());
+        try {
+            Bidib.open(getPortName());
 
-			Node node = findNode();
+            Node node = findNode();
 
-			if (node != null) {
-				AccessoryNode accessoryNode = Bidib.getAccessoryNode(node);
+            if (node != null) {
+                AccessoryNode accessoryNode = Bidib.getAccessoryNode(node);
 
-				if (accessoryNode != null) {
-					accessoryNode.handleMacro(macroNumber, LcMacroOperationCode.OFF);
-					result = 0;
-				} else {
-					LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" doesn't have macros");
-				}
-			} else {
-				LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
-			}
-		} 
-		catch(PortNotFoundException ex) {
-			LOGGER.error("The provided port was not found: " + ex.getMessage()+". Verify that the BiDiB device is connected.");
-		}
-		catch (Exception ex) {
-			LOGGER.error("Execute command failed.", ex);
-		}
-		return result;
-	}
+                if (accessoryNode != null) {
+                    accessoryNode.handleMacro(macroNumber, LcMacroOperationCode.OFF);
+                    result = 0;
+                }
+                else {
+                    LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" doesn't have macros");
+                }
+            }
+            else {
+                LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
+            }
+        }
+        catch (PortNotFoundException ex) {
+            LOGGER.error("The provided port was not found: " + ex.getMessage()
+                + ". Verify that the BiDiB device is connected.");
+        }
+        catch (Exception ex) {
+            LOGGER.error("Execute command failed.", ex);
+        }
+        return result;
+    }
 }

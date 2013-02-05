@@ -15,27 +15,30 @@ import org.bidib.jbidibc.message.CommandStationStateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CommandStationNode /*extends DeviceNode*/ {
-	
-	private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationNode.class);
-//    CommandStationNode(byte[] addr) {
-//        super(addr);
-//    }
-	
-	private BidibNode delegate;
-	
+public class CommandStationNode /*extends DeviceNode*/{
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationNode.class);
+
+    //    CommandStationNode(byte[] addr) {
+    //        super(addr);
+    //    }
+
+    private BidibNode delegate;
+
     CommandStationNode(BidibNode delegate) {
         this.delegate = delegate;
     }
 
-    public DriveAcknowledge setDrive(int address, SpeedSteps speedSteps, Integer speed, BitSet activeFunctions,
-            BitSet functions) throws IOException, ProtocolException, InterruptedException {
-    	
-    	LOGGER.debug("set drive, address: {}, speed: {}", address, speed);
-    	
+    public DriveAcknowledge setDrive(
+        int address, SpeedSteps speedSteps, Integer speed, BitSet activeFunctions, BitSet functions)
+        throws IOException, ProtocolException, InterruptedException {
+
+        LOGGER.debug("set drive, address: {}, speed: {}", address, speed);
+
         DriveAcknowledge result = null;
-        BidibMessage response = delegate.send(new CommandStationDriveMessage(address, speedSteps, speed, activeFunctions,
-                functions), true, CommandStationDriveAcknowledgeResponse.TYPE);
+        BidibMessage response =
+            delegate.send(new CommandStationDriveMessage(address, speedSteps, speed, activeFunctions, functions), true,
+                CommandStationDriveAcknowledgeResponse.TYPE);
 
         if (response instanceof CommandStationDriveAcknowledgeResponse) {
             result = ((CommandStationDriveAcknowledgeResponse) response).getState();
@@ -44,12 +47,14 @@ public class CommandStationNode /*extends DeviceNode*/ {
     }
 
     public CommandStationState setState(CommandStationState commandStationState) throws IOException, ProtocolException,
-            InterruptedException {
-    	
-    	LOGGER.debug("set state, commandStationState: {}", commandStationState);
-    	
+        InterruptedException {
+
+        LOGGER.debug("set state, commandStationState: {}", commandStationState);
+
         CommandStationState result = CommandStationState.OFF;
-        BidibMessage response = delegate.send(new CommandStationSetStateMessage(commandStationState), true, CommandStationStateResponse.TYPE);
+        BidibMessage response =
+            delegate.send(new CommandStationSetStateMessage(commandStationState), true,
+                CommandStationStateResponse.TYPE);
 
         if (response instanceof CommandStationStateResponse) {
             result = ((CommandStationStateResponse) response).getState();

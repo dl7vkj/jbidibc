@@ -14,7 +14,7 @@ import org.bidib.jbidibc.enumeration.SwitchPortEnum;
 public class LcMacroSetMessage extends BidibMessage {
     public LcMacroSetMessage(LcMacro macro) {
         super(0, BidibLibrary.MSG_LC_MACRO_SET, new byte[] { macro.getMacroNumber(), macro.getStepNumber(),
-                macro.getDelay(), macro.getOutputType().getType(), macro.getOutputNumber(), getPortStatus(macro) });
+            macro.getDelay(), macro.getOutputType().getType(), macro.getOutputNumber(), getPortStatus(macro) });
     }
 
     private static byte getPortStatus(LcMacro macro) {
@@ -24,17 +24,23 @@ public class LcMacroSetMessage extends BidibMessage {
         if (status != null) {
             if (status instanceof AnalogPortEnum) {
                 result = ((AnalogPortEnum) status).getType();
-            } else if (status instanceof FlagEnum) {
+            }
+            else if (status instanceof FlagEnum) {
                 result = ((FlagEnum) status).getType();
-            } else if (status instanceof LightPortEnum) {
+            }
+            else if (status instanceof LightPortEnum) {
                 result = ((LightPortEnum) status).getType();
-            } else if (status instanceof MotorPortEnum) {
+            }
+            else if (status instanceof MotorPortEnum) {
                 result = ((MotorPortEnum) status).getType();
-            } else if (status instanceof ServoPortEnum) {
+            }
+            else if (status instanceof ServoPortEnum) {
                 result = macro.getValue();
-            } else if (status instanceof SoundPortEnum) {
+            }
+            else if (status instanceof SoundPortEnum) {
                 result = ((SoundPortEnum) status).getType();
-            } else if (status instanceof SwitchPortEnum) {
+            }
+            else if (status instanceof SwitchPortEnum) {
                 result = ((SwitchPortEnum) status).getType();
             }
         }

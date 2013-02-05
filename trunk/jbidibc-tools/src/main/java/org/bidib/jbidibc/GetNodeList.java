@@ -13,33 +13,34 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(separators = "=")
 public class GetNodeList extends BidibCommand {
-	private static final Logger LOGGER = LoggerFactory.getLogger(GetNodeList.class);
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(GetNodeList.class);
+
     public static void main(String[] args) {
-    	
-    	run(new GetNodeList(), args);
+
+        run(new GetNodeList(), args);
     }
-    
+
     public int execute() {
         int result = 20;
 
         try {
-        	Bidib.open(getPortName());
+            Bidib.open(getPortName());
 
-        	BidibNode rootNode = Bidib.getRootNode();
-        	int count = rootNode.getNodeCount();
+            BidibNode rootNode = Bidib.getRootNode();
+            int count = rootNode.getNodeCount();
 
-        	for (int index = 1; index <= count; index++) {
-        		Node node = rootNode.getNextNode();
-        		LOGGER.info("Found node: {}", node);
-        	}
-        	result = 0;
+            for (int index = 1; index <= count; index++) {
+                Node node = rootNode.getNextNode();
+                LOGGER.info("Found node: {}", node);
+            }
+            result = 0;
         }
-        catch(PortNotFoundException ex) {
-        	LOGGER.error("The provided port was not found: " + ex.getMessage()+". Verify that the BiDiB device is connected.", ex);
+        catch (PortNotFoundException ex) {
+            LOGGER.error("The provided port was not found: " + ex.getMessage()
+                + ". Verify that the BiDiB device is connected.", ex);
         }
         catch (Exception ex) {
-        	LOGGER.error("Get list of nodes failed.", ex);
+            LOGGER.error("Get list of nodes failed.", ex);
         }
         return result;
     }

@@ -2,8 +2,7 @@ package org.bidib.jbidibc.enumeration;
 
 public enum InputPortEnum implements BidibEnum {
     // @formatter:off
-    OFF (0),
-    ON  (1);
+    OFF(0), ON(1);
     // @formatter:on
 
     private final byte type;

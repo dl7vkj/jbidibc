@@ -13,37 +13,37 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(separators = "=")
 public class BoostQuery extends BidibNodeCommand {
-	private static final Logger LOGGER = LoggerFactory.getLogger(BoostQuery.class);
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(BoostQuery.class);
+
     public static void main(String[] args) {
-    	run(new BoostQuery(), args);
+        run(new BoostQuery(), args);
     }
-    
+
     public int execute() {
         int result = 20;
 
         try {
-        	Bidib.open(getPortName());
+            Bidib.open(getPortName());
 
-        	Node node = findNode();
+            Node node = findNode();
 
-        	if (node != null) {
-        		BidibNode bidibNode = Bidib.getNode(node);
+            if (node != null) {
+                BidibNode bidibNode = Bidib.getNode(node);
 
+                // TODO verify if the booster query returns the booster state ...
+                /*BoosterState boosterState =*/bidibNode.boosterQuery();
 
-        		// TODO verify if the booster query returns the booster state ...
-        			/*BoosterState boosterState =*/ bidibNode.boosterQuery();
+                //        			LOGGER.info("Booster state: {}", boosterState.name());
 
-//        			LOGGER.info("Booster state: {}", boosterState.name());
-        			
-        			result = 0;
-        	} 
-        	else {
-        		LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
-        	}
+                result = 0;
+            }
+            else {
+                LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
+            }
         }
-        catch(PortNotFoundException ex) {
-        	LOGGER.error("The provided port was not found: " + ex.getMessage()+". Verify that the BiDiB device is connected.", ex);
+        catch (PortNotFoundException ex) {
+            LOGGER.error("The provided port was not found: " + ex.getMessage()
+                + ". Verify that the BiDiB device is connected.", ex);
         }
         catch (Exception ex) {
             LOGGER.error("Execute command failed.", ex);

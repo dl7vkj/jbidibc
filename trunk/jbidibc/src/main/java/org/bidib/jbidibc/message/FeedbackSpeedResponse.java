@@ -19,8 +19,8 @@ public class FeedbackSpeedResponse extends BidibMessage {
     public AddressData getAddress() {
         byte[] data = getData();
 
-        return new AddressData(ByteUtils.getWord(data[0], data[1]),
-                AddressTypeEnum.valueOf((byte) ((data[1] & 0xC0) >> 6)));
+        return new AddressData(ByteUtils.getWord(data[0], data[1]), AddressTypeEnum
+            .valueOf((byte) ((data[1] & 0xC0) >> 6)));
     }
 
     public int getSpeed() {

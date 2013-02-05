@@ -4,6 +4,7 @@ import org.bidib.jbidibc.enumeration.FirmwareUpdateState;
 
 public class FirmwareUpdateStat {
     private final FirmwareUpdateState state;
+
     private final int timeout;
 
     public FirmwareUpdateStat(FirmwareUpdateState state, int timeout) {

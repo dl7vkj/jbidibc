@@ -2,9 +2,7 @@ package org.bidib.jbidibc.enumeration;
 
 public enum MacroEnum implements BidibEnum {
     // @formatter:off
-    START (0),
-    STOP  (1),
-    END   (2);
+    START(0), STOP(1), END(2);
     // @formatter:on
     private final byte type;
 

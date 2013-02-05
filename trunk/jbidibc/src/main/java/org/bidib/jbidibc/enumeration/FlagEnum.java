@@ -2,9 +2,7 @@ package org.bidib.jbidibc.enumeration;
 
 public enum FlagEnum implements BidibEnum {
     // @formatter:off
-    CLEAR (0),
-    QUERY (1),
-    SET   (2);
+    CLEAR(0), QUERY(1), SET(2);
     // @formatter:on
 
     private final byte type;

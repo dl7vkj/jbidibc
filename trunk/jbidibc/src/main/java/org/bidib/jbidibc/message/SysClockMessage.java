@@ -7,7 +7,7 @@ import org.bidib.jbidibc.BidibLibrary;
 public class SysClockMessage extends BidibMessage {
     public SysClockMessage(Calendar date, int factor) {
         super(0, BidibLibrary.MSG_SYS_CLOCK, getMinute(date.get(Calendar.MINUTE)), getHour(date
-                .get(Calendar.HOUR_OF_DAY)), getDay(date.get(Calendar.DAY_OF_WEEK)), getAccelerationFactor(factor));
+            .get(Calendar.HOUR_OF_DAY)), getDay(date.get(Calendar.DAY_OF_WEEK)), getAccelerationFactor(factor));
     }
 
     public static byte getAccelerationFactor(int factor) {
@@ -22,7 +22,8 @@ public class SysClockMessage extends BidibMessage {
     public static byte getDay(int day) {
         if (day == 0) {
             day = 7;
-        } else {
+        }
+        else {
             day = (day + 5) % 7;
         }
         return (byte) ((day | 0x40) & 0x47);

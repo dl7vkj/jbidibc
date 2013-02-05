@@ -26,54 +26,56 @@ public class NodeFactory {
         MessageReceiver.addMessageListener(new MessageListener() {
             @Override
             public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
-            	LOGGER.debug("address info for address: {}, detectorNumber: {}, addressData: {}", address, detectorNumber, addressData);
+                LOGGER.debug("address info for address: {}, detectorNumber: {}, addressData: {}", address,
+                    detectorNumber, addressData);
             }
 
             @Override
             public void boosterCurrent(byte[] address, int current) {
-            	LOGGER.debug("booster current has changed: {}, address: {}", current, address);
+                LOGGER.debug("booster current has changed: {}, address: {}", current, address);
             }
 
             @Override
             public void boosterState(byte[] address, BoosterState state) {
-            	LOGGER.debug("booster state has changed: {}, address: {}", state, address);
+                LOGGER.debug("booster state has changed: {}, address: {}", state, address);
             }
 
             @Override
             public void confidence(byte[] address, int valid, int freeze, int signal) {
-            	LOGGER.debug("Confidence has changed, valid: {}, freeze: {}, signal: {}, address: {}", valid, freeze, signal, address);
+                LOGGER.debug("Confidence has changed, valid: {}, freeze: {}, signal: {}, address: {}", valid, freeze,
+                    signal, address);
             }
 
             @Override
             public void free(byte[] address, int detectorNumber) {
-            	LOGGER.debug("free info for address: {}, detectorNumber: {}", address, detectorNumber);
+                LOGGER.debug("free info for address: {}, detectorNumber: {}", address, detectorNumber);
             }
 
             @Override
             public void key(byte[] address, int keyNumber, int keyState) {
-            	LOGGER.debug("key info for address: {}, keyNumber: {}, keyState: {}", address, keyNumber, keyState);
+                LOGGER.debug("key info for address: {}, keyNumber: {}, keyState: {}", address, keyNumber, keyState);
             }
 
             @Override
             public void nodeLost(Node node) {
-            	LOGGER.debug("Node lost, node: {}", node);
+                LOGGER.debug("Node lost, node: {}", node);
                 removeNode(node);
             }
 
             @Override
             public void nodeNew(Node node) {
-            	LOGGER.debug("new node: {}", node);
+                LOGGER.debug("new node: {}", node);
                 removeNode(node);
             }
 
             @Override
             public void occupied(byte[] address, int detectorNumber) {
-            	LOGGER.debug("occupied info for address: {}, detectorNumber: {}", address, detectorNumber);
+                LOGGER.debug("occupied info for address: {}, detectorNumber: {}", address, detectorNumber);
             }
 
             @Override
             public void speed(byte[] address, AddressData addressData, int speed) {
-            	LOGGER.debug("speed info for address: {}, addressData: {}, speed: {}", address, addressData, speed);
+                LOGGER.debug("speed info for address: {}, addressData: {}, speed: {}", address, addressData, speed);
             }
         });
     }
@@ -109,11 +111,11 @@ public class NodeFactory {
 
     public CommandStationNode getCommandStationNode(Node node) {
         BidibNode result = getNode(node);
-        
+
         if (node.hasCommandStationFunctions()) {
-        	CommandStationNode commandStationNode = new CommandStationNode(result);
-        	LOGGER.debug("prepared command station node: {}", commandStationNode);
-        	return commandStationNode;
+            CommandStationNode commandStationNode = new CommandStationNode(result);
+            LOGGER.debug("prepared command station node: {}", commandStationNode);
+            return commandStationNode;
         }
 
         LOGGER.debug("The requested node is not an CommandStationNode.");
@@ -121,36 +123,36 @@ public class NodeFactory {
     }
 
     public BidibNode getNode(Node node) {
-    	LOGGER.debug("Get the bidibNode of node: {}", node);
-    	
-    	BidibNode bidibNode = null;
-    	synchronized (nodes) {
+        LOGGER.debug("Get the bidibNode of node: {}", node);
+
+        BidibNode bidibNode = null;
+        synchronized (nodes) {
             int address = convert(node.getAddr());
             LOGGER.debug("Fetch bidibNode from nodes, address: {}", address);
             bidibNode = nodes.get(address);
 
-        	LOGGER.debug("Get the bidibNode from nodesSet with address: {}, bidibNode: {}", address, bidibNode);
-        	
+            LOGGER.debug("Get the bidibNode from nodesSet with address: {}, bidibNode: {}", address, bidibNode);
+
             if (bidibNode == null) {
-            	// TODO during testing I've never reached this statement ... 
+                // TODO during testing I've never reached this statement ... 
                 int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
                 LOGGER.debug("Create new bidibNode with classId: {}", classId);
 
                 // create the new node based on the class id
                 if ((classId & 0x01) == 1) {
                     bidibNode = new AccessoryNode(node.getAddr());
-                } 
-//                else if ((classId & 0x16) == 1) {
-//                    bidibNode = new CommandStationNode(node.getAddr());
-//                } 
+                }
+                //                else if ((classId & 0x16) == 1) {
+                //                    bidibNode = new CommandStationNode(node.getAddr());
+                //                } 
                 else {
                     bidibNode = new BidibNode(node.getAddr());
                 }
-            	LOGGER.info("Create new bidibNode: {}, address: {}", bidibNode, address);
-            	
+                LOGGER.info("Create new bidibNode: {}, address: {}", bidibNode, address);
+
                 nodes.put(address, bidibNode);
             }
-		}
+        }
         return bidibNode;
     }
 
@@ -158,27 +160,27 @@ public class NodeFactory {
      * @return returns the root node
      */
     public RootNode getRootNode() {
-    	LOGGER.debug("Get the root node.");
-    	RootNode rootNode = null;
-    	synchronized (nodes) {
-			
+        LOGGER.debug("Get the root node.");
+        RootNode rootNode = null;
+        synchronized (nodes) {
+
             rootNode = (RootNode) nodes.get(ROOT_ADDRESS);
 
             if (rootNode == null) {
-            	LOGGER.debug("Create the root node.");
+                LOGGER.debug("Create the root node.");
                 rootNode = new RootNode();
                 nodes.put(ROOT_ADDRESS, rootNode);
             }
-        	LOGGER.debug("Root node: {}", rootNode);
-		}
+            LOGGER.debug("Root node: {}", rootNode);
+        }
 
         return rootNode;
     }
 
     private void removeNode(Node node) {
-    	synchronized (nodes) {
-    		LOGGER.debug("Remove node from nodes: {}", node);
+        synchronized (nodes) {
+            LOGGER.debug("Remove node from nodes: {}", node);
             nodes.remove(convert(node.getAddr()));
-		}
+        }
     }
 }

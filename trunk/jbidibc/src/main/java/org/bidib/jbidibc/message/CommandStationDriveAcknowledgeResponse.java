@@ -10,15 +10,16 @@ import org.slf4j.LoggerFactory;
  * Response from command station with the drive state
  */
 public class CommandStationDriveAcknowledgeResponse extends BidibMessage {
-	public static final int TYPE = BidibLibrary.MSG_CS_DRIVE_ACK;
-	private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationDriveAcknowledgeResponse.class);
-	
+    public static final int TYPE = BidibLibrary.MSG_CS_DRIVE_ACK;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationDriveAcknowledgeResponse.class);
+
     CommandStationDriveAcknowledgeResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);
         if (data == null || data.length != 3) {
             throw new ProtocolException("no command station drive acknowledge received");
         }
-        
+
         LOGGER.debug("Received response, status: {}", getState());
     }
 

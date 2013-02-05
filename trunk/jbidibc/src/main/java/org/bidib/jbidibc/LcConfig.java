@@ -4,10 +4,15 @@ import org.bidib.jbidibc.enumeration.LcOutputType;
 
 public class LcConfig {
     private final LcOutputType outputType;
+
     private final int outputNumber;
+
     private final int value1;
+
     private final int value2;
+
     private final int value3;
+
     private final int value4;
 
     public LcConfig(LcOutputType outputType, int outputNumber, int value1, int value2, int value3, int value4) {

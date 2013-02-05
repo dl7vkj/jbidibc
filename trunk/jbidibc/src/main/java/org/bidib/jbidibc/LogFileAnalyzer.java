@@ -24,8 +24,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class LogFileAnalyzer {
-	private static final Logger LOGGER = LoggerFactory.getLogger(LogFileAnalyzer.class);
-	
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogFileAnalyzer.class);
+
     private static final DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
 
     private final Collection<Message> messages = new LinkedList<Message>();
@@ -39,20 +39,21 @@ public class LogFileAnalyzer {
 
             // @formatter:off
             if (parts.length == 3
-                    && (parts[1].startsWith("receive BoostCurrentResponse")
-                            || parts[1].startsWith("receive BoostStatResponse")
-                            || parts[1].startsWith("receive FeedbackAddressResponse")
-                            || parts[1].startsWith("receive FeedbackConfidenceResponse")
-                            || parts[1].startsWith("receive FeedbackSpeedResponse"))) {
+                && (parts[1].startsWith("receive BoostCurrentResponse")
+                    || parts[1].startsWith("receive BoostStatResponse")
+                    || parts[1].startsWith("receive FeedbackAddressResponse")
+                    || parts[1].startsWith("receive FeedbackConfidenceResponse") || parts[1]
+                    .startsWith("receive FeedbackSpeedResponse"))) {
                 try {
-                    
-                    messages.add(new Message(dateFormat.parse(parts[0].trim()).getTime(),
-                            ResponseFactory.create(getBytes(parts[2].trim()))));
 
-                } catch (ProtocolException e) {
-                    LOGGER.warn("unknown message " + ByteUtils.toString(getBytes(parts[2].trim()))
-                            + " in line " + line, e);
-                } 
+                    messages.add(new Message(dateFormat.parse(parts[0].trim()).getTime(), ResponseFactory
+                        .create(getBytes(parts[2].trim()))));
+
+                }
+                catch (ProtocolException e) {
+                    LOGGER.warn(
+                        "unknown message " + ByteUtils.toString(getBytes(parts[2].trim())) + " in line " + line, e);
+                }
                 catch (Exception e) {
                     LOGGER.error("Add new message to messages failed.");
                 }
@@ -68,7 +69,8 @@ public class LogFileAnalyzer {
                     for (Message message : messages) {
                         if (previousMessage != null) {
                             Thread.sleep(message.time - previousMessage.time);
-                        } else {
+                        }
+                        else {
                             Thread.sleep(5000);
                         }
 
@@ -76,28 +78,33 @@ public class LogFileAnalyzer {
 
                         if (message.message instanceof BoostCurrentResponse) {
                             MessageReceiver.fireBoosterCurrent(message.message.getAddr(),
-                                    ((BoostCurrentResponse) message.message).getCurrent());
-                        } else if (message.message instanceof BoostStatResponse) {
+                                ((BoostCurrentResponse) message.message).getCurrent());
+                        }
+                        else if (message.message instanceof BoostStatResponse) {
                             MessageReceiver.fireBoosterState(message.message.getAddr(),
-                                    ((BoostStatResponse) message.message).getState());
-                        } else if (message.message instanceof FeedbackAddressResponse) {
+                                ((BoostStatResponse) message.message).getState());
+                        }
+                        else if (message.message instanceof FeedbackAddressResponse) {
                             MessageReceiver.fireAddress(message.message.getAddr(),
-                                    ((FeedbackAddressResponse) message.message).getDetectorNumber(),
-                                    ((FeedbackAddressResponse) message.message).getAddresses());
-                        } else if (message.message instanceof FeedbackConfidenceResponse) {
+                                ((FeedbackAddressResponse) message.message).getDetectorNumber(),
+                                ((FeedbackAddressResponse) message.message).getAddresses());
+                        }
+                        else if (message.message instanceof FeedbackConfidenceResponse) {
                             MessageReceiver.fireConfidence(message.message.getAddr(),
-                                    ((FeedbackConfidenceResponse) message.message).getValid(),
-                                    ((FeedbackConfidenceResponse) message.message).getFreeze(),
-                                    ((FeedbackConfidenceResponse) message.message).getSignal());
-                        } else if (message.message instanceof FeedbackSpeedResponse) {
+                                ((FeedbackConfidenceResponse) message.message).getValid(),
+                                ((FeedbackConfidenceResponse) message.message).getFreeze(),
+                                ((FeedbackConfidenceResponse) message.message).getSignal());
+                        }
+                        else if (message.message instanceof FeedbackSpeedResponse) {
                             MessageReceiver.fireSpeed(message.message.getAddr(),
-                                    ((FeedbackSpeedResponse) message.message).getAddress(),
-                                    ((FeedbackSpeedResponse) message.message).getSpeed());
+                                ((FeedbackSpeedResponse) message.message).getAddress(),
+                                ((FeedbackSpeedResponse) message.message).getSpeed());
                         }
                         previousMessage = message;
                     }
                     System.out.println("no more messages to fire");
-                } catch (InterruptedException e) {
+                }
+                catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
@@ -114,7 +121,8 @@ public class LogFileAnalyzer {
 
             if (b == (byte) BidibLibrary.BIDIB_PKT_ESCAPE) {
                 escape_hot = true;
-            } else if (b != (byte) BidibLibrary.BIDIB_PKT_MAGIC) {
+            }
+            else if (b != (byte) BidibLibrary.BIDIB_PKT_MAGIC) {
                 if (escape_hot) {
                     b ^= 0x20;
                     escape_hot = false;
@@ -127,6 +135,7 @@ public class LogFileAnalyzer {
 
     private class Message {
         public final long time;
+
         public final BidibMessage message;
 
         public Message(long time, BidibMessage message) {
