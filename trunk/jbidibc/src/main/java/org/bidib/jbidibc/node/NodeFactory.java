@@ -10,6 +10,7 @@ import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.enumeration.BoosterState;
+import org.bidib.jbidibc.exception.InvalidConfigurationException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -116,7 +117,7 @@ public class NodeFactory {
         }
 
         LOGGER.debug("The requested node is not an CommandStationNode.");
-        return null;
+        throw new InvalidConfigurationException("The requested node is not an CommandStationNode.");
     }
 
     public BidibNode getNode(Node node) {
