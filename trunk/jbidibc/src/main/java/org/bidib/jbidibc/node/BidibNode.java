@@ -178,7 +178,7 @@ public class BidibNode {
         for (int index = 0; index < bytes.length; index++) {
             sb.append(String.format("%02x ", bytes[index]));
         }
-        MSG_TX_LOGGER.info(sb.toString());
+        MSG_TX_LOGGER.debug(sb.toString());
 
         // send the output to Bidib
         Bidib.send(bytes);
