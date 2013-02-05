@@ -14,10 +14,10 @@ public class RootNode extends BidibNode {
     }
 
     public void acknowledge(int versionNumber) throws IOException, ProtocolException, InterruptedException {
-        send(new NodeChangedAckMessage(versionNumber), false);
+        send(new NodeChangedAckMessage(versionNumber), false, null);
     }
 
     public void clock(Calendar date, int factor) throws IOException, ProtocolException, InterruptedException {
-        send(new SysClockMessage(date, factor), false);
+        send(new SysClockMessage(date, factor), false, null);
     }
 }

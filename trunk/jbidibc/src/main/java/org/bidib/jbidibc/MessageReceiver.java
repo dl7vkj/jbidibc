@@ -287,16 +287,53 @@ public class MessageReceiver {
 
     /**
      * Get a message from the receiveQueue for the defined timeout period.
+     * @param responseType the optional responseType id to wait for
      * @return the received message or null if no message was received during the defined period.
      * @throws InterruptedException
      */
-    public static BidibMessage getMessage() throws InterruptedException {
-        BidibMessage result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
-
-        // TODO why waiting twice ?
-        if (result == null && TIMEOUT > Bidib.DEFAULT_TIMEOUT) {
-            result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
+    public static BidibMessage getMessage(Integer responseType) throws InterruptedException {
+    	LOGGER.debug("get message with responseType: {}", responseType);
+    	BidibMessage result = null;
+    	
+    	// wait a maximum of 10 seconds to recieve message
+    	long cancelReceiveTs = System.currentTimeMillis() + 10000;
+    	boolean leaveLoop = false;
+    	
+        do {
+        	result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
+        	
+        	long now = System.currentTimeMillis();
+        	
+        	if (responseType != null) {
+        		LOGGER.debug("Check if the response type is equal, responseType: {}, response.type: {}", responseType.byteValue(), result.getType());
+        		if (responseType.byteValue() == result.getType()) {
+        			LOGGER.debug("This is the expected response: {}", result);
+        			break;
+        		}
+        		else {
+        			LOGGER.debug("This is NOT the expected response: {}", result);
+        			result = null;
+        		}
+        		
+            	LOGGER.debug("startReceive: {}, now: {}, result: {}", cancelReceiveTs, now, result);
+            	if (cancelReceiveTs < now) {
+            		LOGGER.debug("leave loop.");
+            		leaveLoop = true;
+            	}
+        	}
+        	else if (result != null || (cancelReceiveTs < now)) {
+        		LOGGER.debug("leave loop, result: {}", result);
+        		leaveLoop = true;
+        	}
         }
+        while(!leaveLoop);
+        
+        LOGGER.debug("Received message: {}", result);
+//        // TODO why waiting twice ?
+//        if (result == null && TIMEOUT > Bidib.DEFAULT_TIMEOUT) {
+//            result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
+//            LOGGER.debug("Received message 2nd try: {}", result);
+//        }
         return result;
     }
 

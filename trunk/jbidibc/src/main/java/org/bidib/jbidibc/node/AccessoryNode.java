@@ -121,7 +121,7 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     public void getKeyState(int keyNumber) throws IOException, ProtocolException, InterruptedException {
-        send(new LcKeyMessage(keyNumber), false);
+        send(new LcKeyMessage(keyNumber), false, null);
     }
 
     public byte[] getMacroParameter(int macroNumber, int parameter) throws IOException, ProtocolException,

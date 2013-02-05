@@ -86,16 +86,16 @@ public class BidibNode {
     }
 
     public void acknowledgeFree(int detectorNumber) throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackMirrorFreeMessage(detectorNumber), false);
+        send(new FeedbackMirrorFreeMessage(detectorNumber), false, null);
     }
 
     public void acknowledgeMultiple(int baseAddress, int size, byte[] detectorData) throws IOException,
             ProtocolException, InterruptedException {
-        send(new FeedbackMirrorMultipleMessage(baseAddress, size, detectorData), false);
+        send(new FeedbackMirrorMultipleMessage(baseAddress, size, detectorData), false, null);
     }
 
     public void acknowledgeOccupied(int detectorNumber) throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackMirrorOccupiedMessage(detectorNumber), false);
+        send(new FeedbackMirrorOccupiedMessage(detectorNumber), false, null);
     }
 
     public static void addTransferListener(TransferListener l) {
@@ -109,7 +109,7 @@ public class BidibNode {
      * @throws InterruptedException
      */
     public void boosterOn() throws IOException, ProtocolException, InterruptedException {
-        send(new BoostOnMessage(), false);
+        send(new BoostOnMessage(), false, null);
     }
 
     /**
@@ -119,7 +119,7 @@ public class BidibNode {
      * @throws InterruptedException
      */
     public void boosterOff() throws IOException, ProtocolException, InterruptedException {
-        send(new BoostOffMessage(), false);
+        send(new BoostOffMessage(), false, null);
     }
 
 
@@ -130,7 +130,7 @@ public class BidibNode {
      * @throws InterruptedException
      */
     public void boosterQuery() throws IOException, ProtocolException, InterruptedException {
-        send(new BoostQueryMessage(), false);
+        send(new BoostQueryMessage(), false, null);
     }
     
     private void escape(byte c) throws IOException {
@@ -196,13 +196,13 @@ public class BidibNode {
      * @param end the end of Melderbits to be transfered
      */
     public void getAddressState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackGetAddressRangeMessage(begin, end), false);
+        send(new FeedbackGetAddressRangeMessage(begin, end), false, null);
     }
     /**
      * Get the current 'quality' of the track sensoring.
      */
     public void getConfidence() throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackGetConfidenceMessage(), false);
+        send(new FeedbackGetConfidenceMessage(), false, null);
     }
 
     public Feature getFeature(int number) throws IOException, ProtocolException, InterruptedException {
@@ -249,7 +249,7 @@ public class BidibNode {
      * @param end the end of Melderbits to be transfered
      */
     public void getFeedbackState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackGetRangeMessage(begin, end), false);
+        send(new FeedbackGetRangeMessage(begin, end), false, null);
     }
 
     public int getMagic() throws IOException, ProtocolException, InterruptedException {
@@ -307,7 +307,13 @@ public class BidibNode {
     public int getNodeCount() throws IOException, ProtocolException, InterruptedException {
     	LOGGER.debug("Get all registered nodes from system.");
     	
-    	int totalNodes = ((NodeTabCountResponse) send(new NodeTabGetAllMessage())).getCount(); 
+    	BidibMessage response = send(new NodeTabGetAllMessage(), true, Integer.valueOf(NodeTabCountResponse.TYPE));
+    	LOGGER.debug("getNodeCount, received response: {}", response);
+    	
+    	// if we receive another message then NodeTabCountResponse this will cause an CCE
+    	// i've seen SysMagicResponse messages on my system ...
+    	
+    	int totalNodes = ((NodeTabCountResponse) response).getCount(); 
 
     	LOGGER.debug("Found total nodes: {}", totalNodes);
         return totalNodes;
@@ -341,12 +347,12 @@ public class BidibNode {
         return result.getNum();
     }
 
-    private BidibMessage receive() throws IOException, ProtocolException, InterruptedException {
+    private BidibMessage receive(Integer expectedResponseType) throws IOException, ProtocolException, InterruptedException {
         BidibMessage result = null;
-        LOGGER.debug("Receive message.");
+        LOGGER.debug("Receive message, expected responseType: {}", expectedResponseType);
         fireReceiveStarted();
         try {
-            result = MessageReceiver.getMessage();
+            result = MessageReceiver.getMessage(expectedResponseType);
         } 
         finally {
             if (result == null) {
@@ -374,19 +380,20 @@ public class BidibNode {
     }
 
     BidibMessage send(BidibMessage message) throws IOException, ProtocolException, InterruptedException {
-        return send(message, true);
+        return send(message, true, null);
     }
 
     /**
      * Send a message and wait for answer if expectAnswer is true.
      * @param message the message to send
      * @param expectAnswer answer is expected, this will cause to wait for an answer
+     * @param expectedResponseType the expected type of response (optional)
      * @return
      * @throws IOException
      * @throws ProtocolException
      * @throws InterruptedException
      */
-    synchronized BidibMessage send(BidibMessage message, boolean expectAnswer) throws IOException, ProtocolException,
+    synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType) throws IOException, ProtocolException,
             InterruptedException {
         logRecord.append("send " + message + " to " + this);
 
@@ -414,7 +421,8 @@ public class BidibNode {
         }
         sendMessage(bytes);
         if (expectAnswer) {
-            result = receive();
+        	
+            result = receive(expectedResponseType);
             if (result == null) {
                 throw new ProtocolException("got no answer to " + message);
             }
@@ -458,11 +466,11 @@ public class BidibNode {
     }
 
     public void sysDisable() throws IOException, ProtocolException, InterruptedException {
-        send(new SysDisableMessage(), false);
+        send(new SysDisableMessage(), false, null);
     }
 
     public void sysEnable() throws IOException, ProtocolException, InterruptedException {
-        send(new SysEnableMessage(), false);
+        send(new SysEnableMessage(), false, null);
     }
 
     public String toString() {
