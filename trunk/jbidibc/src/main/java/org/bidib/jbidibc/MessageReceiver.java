@@ -304,7 +304,7 @@ public class MessageReceiver {
         	
         	long now = System.currentTimeMillis();
         	
-        	if (responseType != null) {
+        	if (result != null && responseType != null) {
         		LOGGER.debug("Check if the response type is equal, responseType: {}, response.type: {}", responseType.byteValue(), result.getType());
         		if (responseType.byteValue() == result.getType()) {
         			LOGGER.debug("This is the expected response: {}", result);

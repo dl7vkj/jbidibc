@@ -25,7 +25,7 @@ public class ByteUtils {
     public static byte[] convertLongToUniqueId(long uniqueId) {
         return BigInteger.valueOf(uniqueId).toByteArray();
     }
-
+    
     public static long convertUniqueIdToLong(byte[] uniqueId) {
         return new BigInteger(uniqueId).longValue();
     }

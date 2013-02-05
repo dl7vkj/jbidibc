@@ -108,10 +108,13 @@ public class NodeFactory {
 
     public CommandStationNode getCommandStationNode(Node node) {
         BidibNode result = getNode(node);
+        
+        if (node.hasCommandStationFunctions()) {
+        	CommandStationNode commandStationNode = new CommandStationNode(result);
+        	LOGGER.debug("prepared command station node: {}", commandStationNode);
+        	return commandStationNode;
+        }
 
-        if (result instanceof CommandStationNode) {
-            return (CommandStationNode) result;
-        } 
         LOGGER.debug("The requested node is not an CommandStationNode.");
         return null;
     }
@@ -122,11 +125,13 @@ public class NodeFactory {
     	BidibNode bidibNode = null;
     	synchronized (nodes) {
             int address = convert(node.getAddr());
+            LOGGER.debug("Fetch bidibNode from nodes, address: {}", address);
             bidibNode = nodes.get(address);
 
         	LOGGER.debug("Get the bidibNode from nodesSet with address: {}, bidibNode: {}", address, bidibNode);
         	
             if (bidibNode == null) {
+            	// TODO during testing I've never reached this statement ... 
                 int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
                 LOGGER.debug("Create new bidibNode with classId: {}", classId);
 
@@ -134,9 +139,9 @@ public class NodeFactory {
                 if ((classId & 0x01) == 1) {
                     bidibNode = new AccessoryNode(node.getAddr());
                 } 
-                else if ((classId & 0x16) == 1) {
-                    bidibNode = new CommandStationNode(node.getAddr());
-                } 
+//                else if ((classId & 0x16) == 1) {
+//                    bidibNode = new CommandStationNode(node.getAddr());
+//                } 
                 else {
                     bidibNode = new BidibNode(node.getAddr());
                 }

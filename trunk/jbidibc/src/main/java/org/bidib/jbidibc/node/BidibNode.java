@@ -254,19 +254,23 @@ public class BidibNode {
 
     public int getMagic() throws IOException, ProtocolException, InterruptedException {
     	LOGGER.debug("Get the magic.");
-        return ((SysMagicResponse) send(new SysMagicMessage())).getMagic();
+    	
+    	BidibMessage response = send(new SysMagicMessage(), true, Integer.valueOf(SysMagicResponse.TYPE));
+    	LOGGER.debug("getMagic, received response: {}", response);
+    	
+        return ((SysMagicResponse) response).getMagic();
     }
 
     public Node getNextNode() throws IOException, ProtocolException, InterruptedException {
-        Node result = null;
-        BidibMessage response = send(new NodeTabGetNextMessage());
+        Node node = null;
+        BidibMessage response = send(new NodeTabGetNextMessage(), true, Integer.valueOf(NodeTabResponse.TYPE));
         LOGGER.debug("NodeTabGetNext returned: {}", response);
         
         if (response instanceof NodeTabResponse) {
-            result = ((NodeTabResponse) response).getNode(addr);
-            LOGGER.debug("Fetched node: {}", result);
+            node = ((NodeTabResponse) response).getNode(addr);
+            LOGGER.debug("Fetched node: {}", node);
         }
-        return result;
+        return node;
     }
 
     public static int getNextReceiveMsgNum(BidibMessage message) {

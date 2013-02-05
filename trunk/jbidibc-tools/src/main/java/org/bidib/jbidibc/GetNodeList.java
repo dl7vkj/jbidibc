@@ -30,7 +30,8 @@ public class GetNodeList extends BidibCommand {
         	int count = rootNode.getNodeCount();
 
         	for (int index = 1; index <= count; index++) {
-        		LOGGER.info("Found node: {}", rootNode.getNextNode());
+        		Node node = rootNode.getNextNode();
+        		LOGGER.info("Found node: {}", node);
         	}
         	result = 0;
         }

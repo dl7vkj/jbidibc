@@ -1,9 +1,12 @@
 package org.bidib.jbidibc.message;
 
+import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 
 public class SysMagicResponse extends BidibMessage {
-    SysMagicResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
+	public static final int TYPE = BidibLibrary.MSG_SYS_MAGIC;
+
+	SysMagicResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);
         if (data == null || data.length != 2 || data[0] != (byte) 0xFE || data[1] != (byte) 0xAF) {
             throw new ProtocolException("no magic received");

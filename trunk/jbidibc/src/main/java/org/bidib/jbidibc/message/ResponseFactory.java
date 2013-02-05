@@ -97,9 +97,11 @@ public class ResponseFactory {
             result = new VendorResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         } else if (result.getType() == (byte) BidibLibrary.MSG_VENDOR_ACK) {
             result = new VendorAckResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
-        } else {
+	    } else if (result.getType() == (byte) BidibLibrary.MSG_CS_DRIVE_ACK) {
+	        result = new CommandStationDriveAcknowledgeResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+	    } else {
 
-            LOGGER.error("Got unknown response with type '{}', message: {}", result.getType(), message);
+            LOGGER.error("Got unknown response with type '{}', message: {}", String.format("0x%02x", result.getType()), message);
 
             String msg = "got unknown response with type " + (result.getType() & 0xFF);
             throw new ProtocolException(msg);
