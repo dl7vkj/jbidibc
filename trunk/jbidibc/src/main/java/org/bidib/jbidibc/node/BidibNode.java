@@ -459,7 +459,7 @@ public class BidibNode {
     }
 
     private void sendMessage(byte[] message) throws IOException {
-        LOGGER.debug("Send the message: {}", message);
+        LOGGER.info("Send the message: {}", message);
 
         fireSendStarted();
         sendDelimiter();
