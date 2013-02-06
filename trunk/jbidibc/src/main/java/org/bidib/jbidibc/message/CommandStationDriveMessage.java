@@ -27,32 +27,33 @@ public class CommandStationDriveMessage extends BidibMessage {
 
             // TODO this prepared the first byte correct but didn't put on the
             // lights
-            // while (bitIndex < bits.length()) {
-            // if (bitIndex < 8) {
-            // byte current = result[0];
-            // for (;bitIndex < 8; bitIndex++ ) {
-            // current |= (convert(bits.get(bitIndex)) << bitIndex);
-            //
-            // LOGGER.debug("Prepared current: {}", current);
-            // }
-            // result[0] = current;
-            // }
-            // bitIndex++;
-            // }
+            while (bitIndex < bits.length()) {
+                if (bitIndex < 8) {
+                    byte current = result[0];
+                    for (; bitIndex < 8; bitIndex++) {
+                        current |= (convert(bits.get(bitIndex)) << bitIndex);
+
+                        LOGGER.debug("Prepared current: {}", current);
+                    }
+                    result[0] = current;
+                }
+                bitIndex++;
+            }
+            // TODO add the missing bytes
 
             // TODO this cause an AIOOBEx
-            while (bitIndex < bits.length()) {
-                if (bitIndex == 0) {
-                    boolean bit = bits.get(bitIndex);
-                    result[4] = convert(bit/* bits.get(bitIndex) */);
-                }
-                else if (bitIndex < 5) {
-                    result[bitIndex - 1] = convert(bits.get(bitIndex));
-                }
-                else {
-                    result[bitIndex + 3] = convert(bits.get(bitIndex));
-                }
-            }
+            //            while (bitIndex < bits.length()) {
+            //                if (bitIndex == 0) {
+            //                    boolean bit = bits.get(bitIndex);
+            //                    result[4] = convert(bit/* bits.get(bitIndex) */);
+            //                }
+            //                else if (bitIndex < 5) {
+            //                    result[bitIndex - 1] = convert(bits.get(bitIndex));
+            //                }
+            //                else {
+            //                    result[bitIndex + 3] = convert(bits.get(bitIndex));
+            //                }
+            //            }
         }
         return result;
     }
