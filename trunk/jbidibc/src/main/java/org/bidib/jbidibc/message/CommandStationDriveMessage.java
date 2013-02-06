@@ -15,7 +15,50 @@ public class CommandStationDriveMessage extends BidibMessage {
         BitSet functions) {
         super(0, BidibLibrary.MSG_CS_DRIVE, ByteUtils.concat(new byte[] { (byte) (address & 0xFF),
             (byte) ((address & 0xFF00) >> 8), speedSteps.getType(), getActiveBits(speed, activeFunctions),
-            speed != null ? speed.byteValue() : 0 }, convertFunctions(functions)));
+            getSpeed(speed) }, convertFunctions(functions)));
+    }
+
+    private static byte[] convertFunctions(BitSet bits) {
+        byte[] result = new byte[4];
+        int bitIndex = 0;
+
+        if (bits != null) {
+            LOGGER.debug("Prepared bits: {}", bits);
+
+            // TODO this prepared the first byte correct but didn't put on the
+            // lights
+            // while (bitIndex < bits.length()) {
+            // if (bitIndex < 8) {
+            // byte current = result[0];
+            // for (;bitIndex < 8; bitIndex++ ) {
+            // current |= (convert(bits.get(bitIndex)) << bitIndex);
+            //
+            // LOGGER.debug("Prepared current: {}", current);
+            // }
+            // result[0] = current;
+            // }
+            // bitIndex++;
+            // }
+
+            // TODO this cause an AIOOBEx
+            while (bitIndex < bits.length()) {
+                if (bitIndex == 0) {
+                    boolean bit = bits.get(bitIndex);
+                    result[4] = convert(bit/* bits.get(bitIndex) */);
+                }
+                else if (bitIndex < 5) {
+                    result[bitIndex - 1] = convert(bits.get(bitIndex));
+                }
+                else {
+                    result[bitIndex + 3] = convert(bits.get(bitIndex));
+                }
+            }
+        }
+        return result;
+    }
+
+    private static byte convert(boolean value) {
+        return value ? (byte) 1 : (byte) 0;
     }
 
     private static byte getActiveBits(Integer speed, BitSet activeFunctions) {
@@ -41,45 +84,17 @@ public class CommandStationDriveMessage extends BidibMessage {
         return result;
     }
 
-    private static byte[] convertFunctions(BitSet bits) {
-        byte[] result = new byte[4];
-        int bitIndex = 0;
+    private static byte getSpeed(Integer speed) {
+        byte result = 0;
 
-        if (bits != null) {
-            LOGGER.debug("Prepared bits: {}", bits);
-
-            // TODO this prepared the first byte correct but didn't put on the lights
-            //        	while (bitIndex < bits.length()) {
-            //        		if (bitIndex < 8) {
-            //        			byte current = result[0];
-            //        			for (;bitIndex < 8; bitIndex++ ) {
-            //        				current |= (convert(bits.get(bitIndex)) << bitIndex);
-            //        				
-            //        				LOGGER.debug("Prepared current: {}", current);
-            //        			}
-            //        			result[0] = current;
-            //        		}
-            //        		bitIndex++;
-            //        	}
-
-            // TODO this cause an AIOOBEx
-            while (bitIndex < bits.length()) {
-                if (bitIndex == 0) {
-                    boolean bit = bits.get(bitIndex);
-                    result[4] = convert(bit/*bits.get(bitIndex)*/);
-                }
-                else if (bitIndex < 5) {
-                    result[bitIndex - 1] = convert(bits.get(bitIndex));
-                }
-                else {
-                    result[bitIndex + 3] = convert(bits.get(bitIndex));
-                }
+        if (speed != null) {
+            if (speed > 0) {
+                result = speed.byteValue();
+            }
+            else {
+                result = (byte) (Math.abs(speed) | 0x80);
             }
         }
         return result;
-    }
-
-    private static byte convert(boolean value) {
-        return value ? (byte) 1 : (byte) 0;
     }
 }
