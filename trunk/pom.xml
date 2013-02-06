@@ -226,6 +226,7 @@
                     </includes>
                     <excludes>
                         <exclude>**/target/**</exclude>
+                        <exclude>**/test-output/**</exclude>
                         <exclude>checkstyle-config.xml</exclude>
                         <exclude>**/OSGI-INF/**</exclude>
                         <exclude>**/.idea/**</exclude>
