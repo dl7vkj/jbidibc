@@ -5,12 +5,8 @@ import java.util.BitSet;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.SpeedSteps;
 import org.bidib.jbidibc.utils.ByteUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class CommandStationDriveMessage extends BidibMessage {
-    private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationDriveMessage.class);
-
     public CommandStationDriveMessage(int address, SpeedSteps speedSteps, Integer speed, BitSet activeFunctions,
         BitSet functions) {
         super(0, BidibLibrary.MSG_CS_DRIVE, ByteUtils.concat(new byte[] { (byte) (address & 0xFF),
@@ -20,40 +16,25 @@ public class CommandStationDriveMessage extends BidibMessage {
 
     private static byte[] convertFunctions(BitSet bits) {
         byte[] result = new byte[4];
-        int bitIndex = 0;
 
         if (bits != null) {
-            LOGGER.debug("Prepared bits: {}", bits);
-
-            // TODO this prepared the first byte correct but didn't put on the
-            // lights
-            while (bitIndex < bits.length()) {
-                if (bitIndex < 8) {
-                    byte current = result[0];
-                    for (; bitIndex < 8; bitIndex++) {
-                        current |= (convert(bits.get(bitIndex)) << bitIndex);
-
-                        LOGGER.debug("Prepared current: {}", current);
-                    }
-                    result[0] = current;
+            for (int bitIndex = 0; bitIndex < bits.length(); bitIndex++) {
+                if (bitIndex == 0) {
+                    result[0] |= (convert(bits.get(bitIndex)) << 4);
                 }
-                bitIndex++;
+                else if (bitIndex < 5) {
+                    result[0] |= (convert(bits.get(bitIndex)) << (bitIndex - 1));
+                }
+                else if (bitIndex < 13) {
+                    result[1] |= convert(bits.get(bitIndex - 5));
+                }
+                else if (bitIndex < 20) {
+                    result[2] |= convert(bits.get(bitIndex - 13));
+                }
+                else {
+                    result[3] |= convert(bits.get(bitIndex - 21));
+                }
             }
-            // TODO add the missing bytes
-
-            // TODO this cause an AIOOBEx
-            //            while (bitIndex < bits.length()) {
-            //                if (bitIndex == 0) {
-            //                    boolean bit = bits.get(bitIndex);
-            //                    result[4] = convert(bit/* bits.get(bitIndex) */);
-            //                }
-            //                else if (bitIndex < 5) {
-            //                    result[bitIndex - 1] = convert(bits.get(bitIndex));
-            //                }
-            //                else {
-            //                    result[bitIndex + 3] = convert(bits.get(bitIndex));
-            //                }
-            //            }
         }
         return result;
     }

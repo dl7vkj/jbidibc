@@ -38,6 +38,6 @@ public class CommandStationDriveMessageTest {
         // (F1...F4)
         Assert.assertEquals(message.getData()[4], (byte) 51); // speed
 
-        Assert.assertEquals(message.getData()[5], (byte) 23); // FL,F3,F2,F1
+        Assert.assertEquals(message.getData()[5], (byte) 27); // FL,F4,F2,F1
     }
 }
