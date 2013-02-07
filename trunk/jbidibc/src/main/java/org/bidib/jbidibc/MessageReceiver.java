@@ -70,7 +70,7 @@ public class MessageReceiver {
 
                         // check if the current is the end of a packet
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
-                            MSG_RX_LOGGER.info("Received message: {}", logRecord);
+                        	LOGGER.info("Received raw message: {}", logRecord);
                             logRecord.setLength(0);
 
                             // if a CRC error is detected in splitMessages the reading loop will terminate ...
@@ -79,7 +79,13 @@ public class MessageReceiver {
 
                                 try {
                                     message = ResponseFactory.create(messageArray);
-                                    LOGGER.info("Factory prepared bidib message: {}", message);
+                                    if (MSG_RX_LOGGER.isInfoEnabled()) {
+                                    	StringBuilder sb = new StringBuilder();
+                                    	for (int i = 0; i < messageArray.length; i++) {
+                                        	sb.append(String.format("%02x ", messageArray[i]));
+                                    	}
+                                    	MSG_RX_LOGGER.info("receive {} : {}", message, sb);
+                                    }
 
                                     // some messages are notified directly to listeners
                                     if (message instanceof BoostCurrentResponse) {

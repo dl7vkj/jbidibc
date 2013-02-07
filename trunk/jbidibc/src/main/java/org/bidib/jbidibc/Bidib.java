@@ -135,6 +135,7 @@ public class Bidib {
         serialPort.addEventListener(new SerialPortEventListener() {
             {
                 if (logFile != null) {
+                	LOGGER.info("Logfile is set");
                     try {
                         new LogFileAnalyzer(new File(logFile));
                     }

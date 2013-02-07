@@ -171,27 +171,6 @@ public class BidibNode {
         }
     }
 
-    private void flush() throws IOException {
-        byte[] bytes = output.toByteArray();
-
-        StringBuilder sb = new StringBuilder("Sending message: ");
-        for (int index = 0; index < bytes.length; index++) {
-            sb.append(String.format("%02x ", bytes[index]));
-        }
-        MSG_TX_LOGGER.info(sb.toString());
-
-        // send the output to Bidib
-        Bidib.send(bytes);
-
-        logRecord.append(" : ");
-        for (int index = 0; index < bytes.length; index++) {
-            logRecord.append(String.format("%02x ", bytes[index]));
-        }
-        LOGGER.debug("Flush logRecord: {}", logRecord);
-        logRecord.setLength(0);
-        output.reset();
-    }
-
     protected byte[] getAddr() {
         return addr;
     }
@@ -438,7 +417,7 @@ public class BidibNode {
                 bytes[index++] = data[dataIndex];
             }
         }
-        sendMessage(bytes);
+        sendMessage(bytes, message);
         if (expectAnswer) {
 
             result = receive(expectedResponseType);
@@ -458,7 +437,7 @@ public class BidibNode {
         return ((FwUpdateStatResponse) send(new FwUpdateOpMessage(operation, data))).getUpdateStat();
     }
 
-    private void sendMessage(byte[] message) throws IOException {
+    private void sendMessage(byte[] message, BidibMessage bidibMessage) throws IOException {
         LOGGER.info("Send the message: {}", message);
 
         fireSendStarted();
@@ -476,8 +455,32 @@ public class BidibNode {
         }
         escape((byte) tx_crc);
         sendDelimiter();
-        flush();
+        
+        flush(bidibMessage);
         fireSendStopped();
+    }
+    
+    private void flush(BidibMessage bidibMessage) throws IOException {
+        byte[] bytes = output.toByteArray();
+
+        StringBuilder sb = new StringBuilder("send ");
+        sb.append(bidibMessage);
+        sb.append(" : ");
+        for (int index = 0; index < bytes.length; index++) {
+            sb.append(String.format("%02x ", bytes[index]));
+        }
+        MSG_TX_LOGGER.info(sb.toString());
+
+        // send the output to Bidib
+        Bidib.send(bytes);
+
+        logRecord.append(" : ");
+        for (int index = 0; index < bytes.length; index++) {
+            logRecord.append(String.format("%02x ", bytes[index]));
+        }
+        LOGGER.debug("Flush logRecord: {}", logRecord);
+        logRecord.setLength(0);
+        output.reset();
     }
 
     public void setFeature(int number, int value) throws IOException, ProtocolException, InterruptedException {
