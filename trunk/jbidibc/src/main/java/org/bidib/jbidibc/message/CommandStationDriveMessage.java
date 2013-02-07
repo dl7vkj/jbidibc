@@ -46,7 +46,7 @@ public class CommandStationDriveMessage extends BidibMessage {
             result |= 1;
         }
         if (activeFunctions != null) {
-            // F1 .. F4
+            // F0 .. F4
             if (activeFunctions.get(0)) {
                 result |= 2;
             }
