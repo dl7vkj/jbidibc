@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 public class SysErrorResponse extends BidibMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(SysErrorResponse.class);
+
     public static final Integer TYPE = BidibLibrary.MSG_SYS_ERROR;
 
     SysErrorResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {

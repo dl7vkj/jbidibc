@@ -8,10 +8,10 @@ import org.bidib.jbidibc.utils.ByteUtils;
 
 public class CommandStationDriveMessage extends BidibMessage {
     public CommandStationDriveMessage(int address, SpeedSteps speedSteps, Integer speed, BitSet activeFunctions,
-            BitSet functions) {
+        BitSet functions) {
         super(0, BidibLibrary.MSG_CS_DRIVE, ByteUtils.concat(new byte[] { (byte) (address & 0xFF),
-                (byte) ((address & 0xFF00) >> 8), speedSteps.getType(), getActiveBits(speed, activeFunctions),
-                getSpeed(speed) }, convertFunctions(functions)));
+            (byte) ((address & 0xFF00) >> 8), speedSteps.getType(), getActiveBits(speed, activeFunctions),
+            getSpeed(speed) }, convertFunctions(functions)));
     }
 
     private static byte[] convertFunctions(BitSet bits) {
@@ -21,13 +21,17 @@ public class CommandStationDriveMessage extends BidibMessage {
             for (int bitIndex = 0; bitIndex < bits.length(); bitIndex++) {
                 if (bitIndex == 0) {
                     result[0] |= (convert(bits.get(bitIndex)) << 4);
-                } else if (bitIndex < 5) {
+                }
+                else if (bitIndex < 5) {
                     result[0] |= (convert(bits.get(bitIndex)) << (bitIndex - 1));
-                } else if (bitIndex < 13) {
+                }
+                else if (bitIndex < 13) {
                     result[1] |= (convert(bits.get(bitIndex)) << (bitIndex - 5));
-                } else if (bitIndex < 21) {
+                }
+                else if (bitIndex < 21) {
                     result[2] |= (convert(bits.get(bitIndex)) << (bitIndex - 13));
-                } else {
+                }
+                else {
                     result[3] |= (convert(bits.get(bitIndex)) << (bitIndex - 21));
                 }
             }
@@ -72,7 +76,8 @@ public class CommandStationDriveMessage extends BidibMessage {
         if (speed != null) {
             if (speed > 0) {
                 result = speed.byteValue();
-            } else {
+            }
+            else {
                 result = (byte) (Math.abs(speed) | 0x80);
             }
         }

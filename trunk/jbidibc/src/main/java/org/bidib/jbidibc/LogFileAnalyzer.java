@@ -26,7 +26,7 @@ import org.slf4j.LoggerFactory;
 public class LogFileAnalyzer {
     private static final Logger LOGGER = LoggerFactory.getLogger(LogFileAnalyzer.class);
 
-//    private static final DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+    //    private static final DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
     private static final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.SSS", Locale.ENGLISH);
 
     private final Collection<Message> messages = new LinkedList<Message>();
@@ -34,7 +34,7 @@ public class LogFileAnalyzer {
     public LogFileAnalyzer(File file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = null;
-        
+
         LOGGER.info("Loading data from logfile: {}", file);
 
         while ((line = reader.readLine()) != null) {
@@ -48,7 +48,7 @@ public class LogFileAnalyzer {
                     || parts[1].startsWith("receive FeedbackConfidenceResponse") || parts[1]
                     .startsWith("receive FeedbackSpeedResponse"))) {
                 try {
-                	LOGGER.debug("Parsing message, date: {}, raw: {}", parts[0], parts[2]);
+                    LOGGER.debug("Parsing message, date: {}, raw: {}", parts[0], parts[2]);
                     messages.add(new Message(dateFormat.parse(parts[0].trim()).getTime(), ResponseFactory
                         .create(getBytes(parts[2].trim()))));
 
@@ -64,7 +64,8 @@ public class LogFileAnalyzer {
             // @formatter:on
         }
         reader.close();
-        new Thread("LogAnalyzer-Thread") {
+        new Thread(
+            "LogAnalyzer-Thread") {
             public void run() {
                 try {
                     Message previousMessage = null;
@@ -142,7 +143,7 @@ public class LogFileAnalyzer {
         public final BidibMessage message;
 
         public Message(long time, BidibMessage message) {
-        	LOGGER.info("Create new message, time: {}, message: {}", time, message);
+            LOGGER.info("Create new message, time: {}, message: {}", time, message);
             this.time = time;
             this.message = message;
         }

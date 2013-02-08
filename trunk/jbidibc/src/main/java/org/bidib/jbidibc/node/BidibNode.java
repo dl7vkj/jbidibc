@@ -457,11 +457,11 @@ public class BidibNode {
         }
         escape((byte) tx_crc);
         sendDelimiter();
-        
+
         flush(bidibMessage);
         fireSendStopped();
     }
-    
+
     private void flush(BidibMessage bidibMessage) throws IOException {
         byte[] bytes = output.toByteArray();
 

@@ -21,11 +21,11 @@ public class CommandStationDriveMessageTest {
         activeFunctions.set(1, false);
         // activeFunctions.set(1, true);
         BitSet functions = new BitSet(32);
-        functions.set(4, true);  // FL
+        functions.set(4, true); // FL
         functions.set(3, false); // F4 - off
-        functions.set(2, true);  // F3
-        functions.set(1, true);  // F2
-        functions.set(0, true);  // F1
+        functions.set(2, true); // F3
+        functions.set(1, true); // F2
+        functions.set(0, true); // F1
         CommandStationDriveMessage message =
             new CommandStationDriveMessage(address, speedSteps, speed, activeFunctions, functions);
 

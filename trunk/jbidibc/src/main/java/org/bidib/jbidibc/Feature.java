@@ -17,12 +17,12 @@ public class Feature {
     }
 
     public String getFeatureName() {
-    	try {
-    		return FeatureEnum.valueOf((byte) type).name();
-    	}
-    	catch(IllegalArgumentException ex) {
-    		return String.valueOf(type);
-    	}
+        try {
+            return FeatureEnum.valueOf((byte) type).name();
+        }
+        catch (IllegalArgumentException ex) {
+            return String.valueOf(type);
+        }
     }
 
     public int getValue() {
