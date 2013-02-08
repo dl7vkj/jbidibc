@@ -4,7 +4,7 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 
 public class SysMagicResponse extends BidibMessage {
-    public static final int TYPE = BidibLibrary.MSG_SYS_MAGIC;
+    public static final Integer TYPE = BidibLibrary.MSG_SYS_MAGIC;
 
     SysMagicResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);

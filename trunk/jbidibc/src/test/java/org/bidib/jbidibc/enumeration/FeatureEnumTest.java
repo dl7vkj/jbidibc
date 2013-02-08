@@ -15,15 +15,15 @@ public class FeatureEnumTest {
         Feature feature = new Feature(BidibLibrary.FEATURE_BM_CV_ON, 1);
 
         LOGGER.info("Created feature with name: {}", feature.getFeatureName());
-        Assert.assertEquals(feature.getFeatureName(), FeatureEnum.FEATURE_BM_CV_ON);
+        Assert.assertEquals(feature.getFeatureName(), FeatureEnum.FEATURE_BM_CV_ON.name());
     }
 
-    @Test(expectedExceptions = IllegalArgumentException.class)
+    @Test
     public void createInvalidFeature() {
         Feature feature = new Feature(-1, 1);
 
-        feature.getFeatureName();
+        String featureName = feature.getFeatureName();
 
-        Assert.fail();
+        Assert.assertEquals(featureName, "-1");
     }
 }

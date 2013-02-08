@@ -193,8 +193,10 @@ public class BidibNode {
 
     public Feature getFeature(int number) throws IOException, ProtocolException, InterruptedException {
         Feature result = null;
+        LOGGER.debug("get feature with number: {}", number);
         BidibMessage response = send(new FeatureGetMessage(number));
 
+        LOGGER.debug("get feature with number '{}' returned: {}", number, response);
         if (response instanceof FeatureResponse) {
             result = ((FeatureResponse) response).getFeature();
         }

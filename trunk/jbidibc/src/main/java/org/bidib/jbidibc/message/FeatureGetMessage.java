@@ -18,7 +18,7 @@ public class FeatureGetMessage extends BidibMessage {
             LOGGER.debug("Prepared get feature: {}", FeatureEnum.valueOf((byte) number));
         }
         catch (IllegalArgumentException ex) {
-            LOGGER.warn("Create feature request with unknown number: {}", number, ex);
+            LOGGER.debug("Create feature request with unknown number: {}", number, ex);
         }
     }
 }

@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class NodeTabResponse extends BidibMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(NodeTabResponse.class);
 
-    public static final int TYPE = BidibLibrary.MSG_NODETAB;
+    public static final Integer TYPE = BidibLibrary.MSG_NODETAB;
 
     NodeTabResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);

@@ -150,7 +150,12 @@ public class Bidib {
                 // this callback is called every time data is available
                 LOGGER.trace("serialEvent received: {}", event);
                 if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-                    new MessageReceiver(port, nodeFactory);
+                	try {
+                		new MessageReceiver(port, nodeFactory);
+                	}
+                	catch(Exception ex) {
+                		LOGGER.error("Message receiver has terminated with an exception!", ex);
+                	}
                 }
             }
         });

@@ -5,6 +5,7 @@ import gnu.io.SerialPort;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -40,7 +41,7 @@ public class MessageReceiver {
 
     private static final BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
 
-    private static final Collection<MessageListener> listeners = new LinkedList<MessageListener>();
+    private static final Collection<MessageListener> listeners = Collections.synchronizedList(new LinkedList<MessageListener>());
 
     private static int TIMEOUT = Bidib.DEFAULT_TIMEOUT;
 
@@ -216,6 +217,7 @@ public class MessageReceiver {
 
             }
             catch (Exception e) {
+            	LOGGER.warn("Exception detected in message receiver!", e);
                 throw new RuntimeException(e);
             }
         }
@@ -348,7 +350,8 @@ public class MessageReceiver {
         return result;
     }
 
-    public static void removeMessageListener(MessageListener l) {
+    public void removeMessageListener(MessageListener l) {
+    	
         listeners.remove(l);
     }
 

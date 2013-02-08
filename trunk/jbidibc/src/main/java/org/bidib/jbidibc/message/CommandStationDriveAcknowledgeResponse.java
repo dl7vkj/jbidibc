@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * Response from command station with the drive state
  */
 public class CommandStationDriveAcknowledgeResponse extends BidibMessage {
-    public static final int TYPE = BidibLibrary.MSG_CS_DRIVE_ACK;
+    public static final Integer TYPE = BidibLibrary.MSG_CS_DRIVE_ACK;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationDriveAcknowledgeResponse.class);
 

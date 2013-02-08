@@ -71,12 +71,14 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
 
     @Override
     public void nodeLost(Node node) {
-        MessageReceiver.removeMessageListener(this);
+    	// TODO this causes a ConcurrentModificationException
+//        MessageReceiver.removeMessageListener(this);
     }
 
     @Override
     public void nodeNew(Node node) {
-        MessageReceiver.removeMessageListener(this);
+    	// TODO this causes a ConcurrentModificationException
+//        MessageReceiver.removeMessageListener(this);
     }
 
     @Override
