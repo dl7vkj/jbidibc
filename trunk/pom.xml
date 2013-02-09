@@ -214,28 +214,28 @@
                     </execution>
                 </executions>
             </plugin>
-			<!-- format Java files -->
-			<plugin>
-				<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
-				<artifactId>maven-java-formatter-plugin</artifactId>
-				<configuration>
-					<compilerSource>1.6</compilerSource>
-					<compilerCompliance>1.6</compilerCompliance>
-					<compilerTargetPlatform>1.6</compilerTargetPlatform>
-					<lineEnding>LF</lineEnding>
-					<encoding>UTF-8</encoding>
-					<configFile>${project.basedir}/../etc/codestyle.xml</configFile>
-				</configuration>
-				<executions>
-					<execution>
-						<goals>
-							<goal>format</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			
-			<!-- TODO what's that for?
+            <!-- format Java files -->
+            <plugin>
+                <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+                <artifactId>maven-java-formatter-plugin</artifactId>
+                <configuration>
+                    <compilerSource>1.6</compilerSource>
+                    <compilerCompliance>1.6</compilerCompliance>
+                    <compilerTargetPlatform>1.6</compilerTargetPlatform>
+                    <lineEnding>LF</lineEnding>
+                    <encoding>UTF-8</encoding>
+                    <configFile>${project.basedir}/../etc/codestyle.xml</configFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- TODO what's that for?
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
