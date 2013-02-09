@@ -260,7 +260,7 @@
                     </execution>
                 </executions>
             </plugin>
-			-->
+            -->
         </plugins>
     </build>
     <profiles>
@@ -294,52 +294,52 @@
             <id>format-resources</id>
             <build>
                 <plugins>
-					<!-- format XML files -->
-					<plugin>
-						<groupId>org.technicalsoftwareconfigurationmanagement.maven-plugin</groupId>
-						<artifactId>tscm-maven-plugin</artifactId>
-						<configuration>
-							<includes>
-								<include>**/*.xml</include>
-							</includes>
-							<excludes>
-								<exclude>**/target/**</exclude>
-								<exclude>**/test-output/**</exclude>
-								<exclude>**/codestyle.xml</exclude>
-								<exclude>checkstyle-config.xml</exclude>
-								<exclude>**/OSGI-INF/**</exclude>
-								<exclude>**/.idea/**</exclude>
-							</excludes>
-						</configuration>
-						<executions>
-							<execution>
-								<phase>test</phase>
-								<goals>
-									<goal>xmlFormatter</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<!-- format Java files -->
-					<plugin>
-						<groupId>com.googlecode.maven-java-formatter-plugin</groupId>
-						<artifactId>maven-java-formatter-plugin</artifactId>
-						<configuration>
-							<compilerSource>1.6</compilerSource>
-							<compilerCompliance>1.6</compilerCompliance>
-							<compilerTargetPlatform>1.6</compilerTargetPlatform>
-							<lineEnding>LF</lineEnding>
-							<encoding>UTF-8</encoding>
-							<configFile>${project.basedir}/../etc/codestyle.xml</configFile>
-						</configuration>
-						<executions>
-							<execution>
-								<goals>
-									<goal>format</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
+                    <!-- format XML files -->
+                    <plugin>
+                        <groupId>org.technicalsoftwareconfigurationmanagement.maven-plugin</groupId>
+                        <artifactId>tscm-maven-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*.xml</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/target/**</exclude>
+                                <exclude>**/test-output/**</exclude>
+                                <exclude>**/codestyle.xml</exclude>
+                                <exclude>checkstyle-config.xml</exclude>
+                                <exclude>**/OSGI-INF/**</exclude>
+                                <exclude>**/.idea/**</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>xmlFormatter</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <!-- format Java files -->
+                    <plugin>
+                        <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
+                        <artifactId>maven-java-formatter-plugin</artifactId>
+                        <configuration>
+                            <compilerSource>1.6</compilerSource>
+                            <compilerCompliance>1.6</compilerCompliance>
+                            <compilerTargetPlatform>1.6</compilerTargetPlatform>
+                            <lineEnding>LF</lineEnding>
+                            <encoding>UTF-8</encoding>
+                            <configFile>${project.basedir}/../etc/codestyle.xml</configFile>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>format</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
                 </plugins>
             </build>
         </profile>
