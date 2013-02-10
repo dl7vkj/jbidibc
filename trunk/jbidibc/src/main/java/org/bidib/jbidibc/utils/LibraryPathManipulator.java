@@ -166,9 +166,6 @@ public class LibraryPathManipulator {
                 }
                 break;
             case Unix:
-                // TODO for unix 
-                LOGGER
-                    .error("The UNIX OS was detected but I'm not sure how to distinguish between 64 and 32 bit version ...");
                 if ("32".equals(getDataModel())) {
                     osDependentPathToLibrary = "/rxtx/linux/i386";
                 }
