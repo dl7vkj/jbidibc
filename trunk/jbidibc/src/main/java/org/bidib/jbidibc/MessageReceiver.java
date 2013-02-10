@@ -72,6 +72,7 @@ public class MessageReceiver {
 
                         // check if the current is the end of a packet
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
+
                             LOGGER.info("Received raw message: {}", logRecord);
                             logRecord.setLength(0);
 
@@ -119,6 +120,10 @@ public class MessageReceiver {
                                         int size = ((FeedbackMultipleResponse) message).getSize();
                                         byte[] detectorData = ((FeedbackMultipleResponse) message).getDetectorData();
 
+                                        LOGGER
+                                            .debug(
+                                                "Received FeedbackMultipleResponse, baseAddress: {}, size: {}, detectorData: {}",
+                                                baseAddress, size, detectorData);
                                         // acknowledge message
                                         nodeFactory.getNode(new Node(message.getAddr())).acknowledgeMultiple(
                                             baseAddress, size, detectorData);

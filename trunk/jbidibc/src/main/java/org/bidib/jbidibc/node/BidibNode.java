@@ -88,8 +88,9 @@ public class BidibNode {
 
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-    BidibNode(byte[] addr) {
-        this.addr = addr;
+    BidibNode(byte[] address) {
+        this.addr = address;
+        LOGGER.debug("Create new BidibNode with address: {}", address);
     }
 
     public void acknowledgeFree(int detectorNumber) throws IOException, ProtocolException, InterruptedException {
@@ -98,6 +99,7 @@ public class BidibNode {
 
     public void acknowledgeMultiple(int baseAddress, int size, byte[] detectorData) throws IOException,
         ProtocolException, InterruptedException {
+        LOGGER.debug("Send acknowledge multiple to baseAddress: {}", baseAddress);
         send(new FeedbackMirrorMultipleMessage(baseAddress, size, detectorData), false, null);
     }
 
