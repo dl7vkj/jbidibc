@@ -2,7 +2,7 @@ package org.bidib.jbidibc.message;
 
 import java.util.BitSet;
 
-import org.bidib.jbidibc.enumeration.SpeedSteps;
+import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -14,7 +14,7 @@ public class CommandStationDriveMessageTest {
     @Test
     public void prepareSpeedMessage() {
         int address = 3;
-        SpeedSteps speedSteps = SpeedSteps.DCC128;
+        SpeedStepsEnum speedSteps = SpeedStepsEnum.DCC128;
         Integer speed = 51;
         BitSet activeFunctions = new BitSet(8);
         activeFunctions.set(0, true);

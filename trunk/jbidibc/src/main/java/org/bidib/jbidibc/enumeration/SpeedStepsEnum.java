@@ -1,12 +1,12 @@
 package org.bidib.jbidibc.enumeration;
 
-public enum SpeedSteps implements BidibEnum {
+public enum SpeedStepsEnum implements BidibEnum {
     //@formatter:off
     DCC14(0x00), DCC28(0x02), DCC128(0x03);
     //@formatter:on
     private final byte type;
 
-    SpeedSteps(int type) {
+    SpeedStepsEnum(int type) {
         this.type = (byte) type;
     }
 
@@ -23,10 +23,10 @@ public enum SpeedSteps implements BidibEnum {
      * 
      * @return SpeedSteps
      */
-    public static SpeedSteps valueOf(byte type) {
-        SpeedSteps result = null;
+    public static SpeedStepsEnum valueOf(byte type) {
+        SpeedStepsEnum result = null;
 
-        for (SpeedSteps e : values()) {
+        for (SpeedStepsEnum e : values()) {
             if (e.type == type) {
                 result = e;
                 break;

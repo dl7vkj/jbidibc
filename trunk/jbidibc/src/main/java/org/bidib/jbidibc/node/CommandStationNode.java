@@ -5,7 +5,7 @@ import java.util.BitSet;
 
 import org.bidib.jbidibc.enumeration.CommandStationState;
 import org.bidib.jbidibc.enumeration.DriveAcknowledge;
-import org.bidib.jbidibc.enumeration.SpeedSteps;
+import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.CommandStationDriveAcknowledgeResponse;
@@ -30,7 +30,7 @@ public class CommandStationNode /*extends DeviceNode*/{
     }
 
     public DriveAcknowledge setDrive(
-        int address, SpeedSteps speedSteps, Integer speed, BitSet activeFunctions, BitSet functions)
+        int address, SpeedStepsEnum speedSteps, Integer speed, BitSet activeFunctions, BitSet functions)
         throws IOException, ProtocolException, InterruptedException {
 
         LOGGER.debug("set drive, address: {}, speed: {}", address, speed);

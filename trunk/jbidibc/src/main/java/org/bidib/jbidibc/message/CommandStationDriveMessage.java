@@ -3,11 +3,11 @@ package org.bidib.jbidibc.message;
 import java.util.BitSet;
 
 import org.bidib.jbidibc.BidibLibrary;
-import org.bidib.jbidibc.enumeration.SpeedSteps;
+import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
 import org.bidib.jbidibc.utils.ByteUtils;
 
 public class CommandStationDriveMessage extends BidibMessage {
-    public CommandStationDriveMessage(int address, SpeedSteps speedSteps, Integer speed, BitSet activeFunctions,
+    public CommandStationDriveMessage(int address, SpeedStepsEnum speedSteps, Integer speed, BitSet activeFunctions,
         BitSet functions) {
         super(0, BidibLibrary.MSG_CS_DRIVE, ByteUtils.concat(new byte[] { (byte) (address & 0xFF),
             (byte) ((address & 0xFF00) >> 8), speedSteps.getType(), getActiveBits(speed, activeFunctions),
