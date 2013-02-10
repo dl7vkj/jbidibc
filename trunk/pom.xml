@@ -235,7 +235,7 @@
                 </executions>
             </plugin>
 
-            <!-- TODO what's that for?
+            <!-- moved to modules because otherwise generates target dir 1 level up with pom of jbidibc-parent ... 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
