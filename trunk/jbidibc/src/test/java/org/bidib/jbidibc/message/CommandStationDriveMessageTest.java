@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import java.util.BitSet;
 
+import org.bidib.jbidibc.enumeration.DirectionEnum;
 import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,6 +17,7 @@ public class CommandStationDriveMessageTest {
         int address = 3;
         SpeedStepsEnum speedSteps = SpeedStepsEnum.DCC128;
         Integer speed = 51;
+        DirectionEnum direction = DirectionEnum.BACKWARD;
         BitSet activeFunctions = new BitSet(8);
         activeFunctions.set(0, true);
         activeFunctions.set(1, false);
@@ -27,7 +29,7 @@ public class CommandStationDriveMessageTest {
         functions.set(1, true); // F2
         functions.set(0, true); // F1
         CommandStationDriveMessage message =
-            new CommandStationDriveMessage(address, speedSteps, speed, activeFunctions, functions);
+            new CommandStationDriveMessage(address, speedSteps, speed, direction, activeFunctions, functions);
 
         LOGGER.debug("Created message: {}", message);
         Assert.assertNotNull(message);

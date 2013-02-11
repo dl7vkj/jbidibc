@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.BitSet;
 
 import org.bidib.jbidibc.enumeration.CommandStationState;
+import org.bidib.jbidibc.enumeration.DirectionEnum;
 import org.bidib.jbidibc.enumeration.DriveAcknowledge;
 import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -30,15 +31,15 @@ public class CommandStationNode /*extends DeviceNode*/{
     }
 
     public DriveAcknowledge setDrive(
-        int address, SpeedStepsEnum speedSteps, Integer speed, BitSet activeFunctions, BitSet functions)
-        throws IOException, ProtocolException, InterruptedException {
+        int address, SpeedStepsEnum speedSteps, Integer speed, DirectionEnum direction, BitSet activeFunctions,
+        BitSet functions) throws IOException, ProtocolException, InterruptedException {
 
         LOGGER.debug("set drive, address: {}, speed: {}", address, speed);
 
         DriveAcknowledge result = null;
         BidibMessage response =
-            delegate.send(new CommandStationDriveMessage(address, speedSteps, speed, activeFunctions, functions), true,
-                CommandStationDriveAcknowledgeResponse.TYPE);
+            delegate.send(new CommandStationDriveMessage(address, speedSteps, speed, direction, activeFunctions,
+                functions), true, CommandStationDriveAcknowledgeResponse.TYPE);
 
         if (response instanceof CommandStationDriveAcknowledgeResponse) {
             result = ((CommandStationDriveAcknowledgeResponse) response).getState();
