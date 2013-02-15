@@ -9,6 +9,7 @@ import org.bidib.jbidibc.enumeration.DriveAcknowledge;
 import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
+import org.bidib.jbidibc.message.CommandStationBinaryStateMessage;
 import org.bidib.jbidibc.message.CommandStationDriveAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationDriveMessage;
 import org.bidib.jbidibc.message.CommandStationSetStateMessage;
@@ -16,18 +17,30 @@ import org.bidib.jbidibc.message.CommandStationStateResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class CommandStationNode /*extends DeviceNode*/{
+public class CommandStationNode {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationNode.class);
-
-    //    CommandStationNode(byte[] addr) {
-    //        super(addr);
-    //    }
 
     private BidibNode delegate;
 
     CommandStationNode(BidibNode delegate) {
         this.delegate = delegate;
+    }
+
+    public DriveAcknowledge setBinaryState(int address, int state, boolean value) throws IOException,
+        ProtocolException, InterruptedException {
+
+        LOGGER.debug("set binary state, address: {}, state: {}, value: {}", address, state, value);
+
+        DriveAcknowledge result = null;
+        BidibMessage response =
+            delegate.send(new CommandStationBinaryStateMessage(address, state, value), true,
+                CommandStationDriveAcknowledgeResponse.TYPE);
+
+        if (response instanceof CommandStationDriveAcknowledgeResponse) {
+            result = ((CommandStationDriveAcknowledgeResponse) response).getState();
+        }
+        return result;
     }
 
     public DriveAcknowledge setDrive(
