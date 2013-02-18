@@ -1,10 +1,11 @@
-set TAG_NAME=1.3
-set NEXT_DEV_VERSION=1.4-SNAPSHOT
+set TAG_NAME=0.99
+set NEXT_DEV_VERSION=1.3-SNAPSHOT
 
 set PROJECT_NAME=jbidibc
 
 set SVN_USERNAME=<your-sourceforge-username>
 set SVN_PASSWORD=<your-sourceforge-password>
+set PGP_PASSPHRASE=<your-pgp-passphrase>
 
 rem the local path to the directory where the release will be performed (clean checkout, build, create tag, build release version)
 SET LOCAL_RELEASE_BASE=C:\release
