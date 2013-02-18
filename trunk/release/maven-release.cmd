@@ -10,7 +10,7 @@
 @rmdir /S /Q %PROJECT_NAME%
 @if ERRORLEVEL 1 GOTO ERROR
 
-@echo checkout trunk\projects\%PROJECT_NAME%\src\%PROJECT_NAME%
+@echo checkout %PROJECT_NAME%
 svn co %SVN_BASE_PATH%/%PROJECT_NAME% %PROJECT_NAME% --username %SVN_USERNAME% --password %SVN_PASSWORD% -q
 @if ERRORLEVEL 1 GOTO ERROR
 
@@ -21,7 +21,7 @@ call mvn release:clean release:prepare -B -Dusername=%SVN_USERNAME% -Dpassword=%
 @if ERRORLEVEL 1 GOTO ERROR
 
 @echo perform release (export, build, deploy)
-call mvn release:perform -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -DconnectionUrl=scm:svn:%SVN_TAGS_PATH%/maven-releases/%TAG_NAME% 
+call mvn release:perform -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -DconnectionUrl=scm:svn:%SVN_TAGS_PATH%/%TAG_NAME% 
 @if ERRORLEVEL 1 GOTO ERROR
 
 @echo ================================
