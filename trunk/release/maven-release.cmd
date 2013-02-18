@@ -11,17 +11,17 @@
 @if ERRORLEVEL 1 GOTO ERROR
 
 @echo checkout %PROJECT_NAME%
-svn co %SVN_BASE_PATH%/%PROJECT_NAME% %PROJECT_NAME% --username %SVN_USERNAME% --password %SVN_PASSWORD% -q
+svn co %SVN_BASE_PATH% %PROJECT_NAME% --username %SVN_USERNAME% --password %SVN_PASSWORD% -q
 @if ERRORLEVEL 1 GOTO ERROR
 
 
 @echo prepare release %PROJECT_NAME%, releaseVersion: %TAG_NAME%, next dev version: %NEXT_DEV_VERSION%
 @cd %PROJECT_NAME%
-call mvn release:clean release:prepare -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -Dtag=%TAG_NAME% -DreleaseVersion=%TAG_NAME% -DdevelopmentVersion=%NEXT_DEV_VERSION% -Dgpg.passphrase=%PGP_PASSPHRASE%
+call mvn release:clean release:prepare -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -Dtag=%TAG_NAME% -DreleaseVersion=%TAG_NAME% -DdevelopmentVersion=%NEXT_DEV_VERSION%
 @if ERRORLEVEL 1 GOTO ERROR
 
 @echo perform release (export, build, deploy)
-call mvn release:perform -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -DconnectionUrl=scm:svn:%SVN_TAGS_PATH%/%TAG_NAME% -Dgpg.passphrase=%PGP_PASSPHRASE%
+call mvn release:perform -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -DconnectionUrl=scm:svn:%SVN_TAGS_PATH%/%TAG_NAME%
 @if ERRORLEVEL 1 GOTO ERROR
 
 @echo ================================
