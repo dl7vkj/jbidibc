@@ -22,7 +22,7 @@ Perform a build
    =========================
    RELEASE OF jbidibc PASSED
    =========================
-* The artifact is now stored in the local repo and the tagged sources are under tags/maven-releases/<version-number>
+* The artifact is now stored in the local repo and the tagged sources are under tags/<version-number>
 * The version was automatically updated to the value %NEXT_DEV_VERSION% that was specified in the set_properties.cmd file.
 
 
