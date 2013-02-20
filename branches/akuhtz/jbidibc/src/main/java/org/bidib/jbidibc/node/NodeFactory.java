@@ -22,8 +22,20 @@ public class NodeFactory {
 
     private final Map<Integer, BidibNode> nodes = Collections.synchronizedMap(new HashMap<Integer, BidibNode>());
 
+    private MessageReceiver messageReceiver;
+
     public NodeFactory() {
-        MessageReceiver.addMessageListener(new MessageListener() {
+    }
+
+    /**
+     * @param messageReceiver
+     *            the message receiver to set
+     */
+    public void setMessageReceiver(MessageReceiver messageReceiver) {
+        LOGGER.debug("Set the message receiver: {}", messageReceiver);
+        this.messageReceiver = messageReceiver;
+
+        messageReceiver.addMessageListener(new MessageListener() {
             @Override
             public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
                 LOGGER.debug("address info for address: {}, detectorNumber: {}, addressData: {}", address,
@@ -78,6 +90,7 @@ public class NodeFactory {
                 LOGGER.debug("speed info for address: {}, addressData: {}, speed: {}", address, addressData, speed);
             }
         });
+
     }
 
     /**
@@ -140,13 +153,17 @@ public class NodeFactory {
 
                 // create the new node based on the class id
                 if ((classId & 0x01) == 1) {
-                    bidibNode = new AccessoryNode(node.getAddr());
+                    bidibNode = new AccessoryNode(node.getAddr(), messageReceiver);
+                    // add the transfer listener
+                    bidibNode.addTransferListener(getRootNode().getTransferListeners().get(0));
                 }
                 //                else if ((classId & 0x16) == 1) {
                 //                    bidibNode = new CommandStationNode(node.getAddr());
                 //                } 
                 else {
-                    bidibNode = new BidibNode(node.getAddr());
+                    bidibNode = new BidibNode(node.getAddr(), messageReceiver);
+                    // add the transfer listener
+                    bidibNode.addTransferListener(getRootNode().getTransferListeners().get(0));
                 }
                 LOGGER.info("Create new bidibNode: {}, address: {}", bidibNode, address);
 
@@ -168,7 +185,7 @@ public class NodeFactory {
 
             if (rootNode == null) {
                 LOGGER.debug("Create the root node.");
-                rootNode = new RootNode();
+                rootNode = new RootNode(messageReceiver);
                 nodes.put(ROOT_ADDRESS, rootNode);
             }
             LOGGER.debug("Root node: {}", rootNode);

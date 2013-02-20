@@ -38,11 +38,11 @@ import org.bidib.jbidibc.message.LcMacroStateResponse;
 import org.bidib.jbidibc.message.LcOutputMessage;
 
 public class AccessoryNode extends DeviceNode implements MessageListener {
-    AccessoryNode(byte[] addr) {
-        super(addr);
+    AccessoryNode(byte[] addr, MessageReceiver messageReceiver) {
+        super(addr, messageReceiver);
 
         // TODO maybe better to have this injected 
-        MessageReceiver.addMessageListener(this);
+        messageReceiver.addMessageListener(this);
     }
 
     @Override

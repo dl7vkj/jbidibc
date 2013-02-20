@@ -24,9 +24,9 @@ public class GetNodeList extends BidibCommand {
         int result = 20;
 
         try {
-            Bidib.open(getPortName());
+            Bidib.getInstance().open(getPortName());
 
-            BidibNode rootNode = Bidib.getRootNode();
+            BidibNode rootNode = Bidib.getInstance().getRootNode();
             int count = rootNode.getNodeCount();
 
             for (int index = 1; index <= count; index++) {

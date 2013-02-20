@@ -29,12 +29,12 @@ public class Ping extends BidibNodeCommand {
         int result = 20;
 
         try {
-            Bidib.open(getPortName());
+            Bidib.getInstance().open(getPortName());
 
             Node node = findNode();
 
             if (node != null) {
-                BidibNode bidibNode = Bidib.getNode(node);
+                BidibNode bidibNode = Bidib.getInstance().getNode(node);
 
                 LOGGER.info("PING " + node.getUniqueIdAsString() + " (" + Arrays.toString(node.getAddr()) + ").");
 

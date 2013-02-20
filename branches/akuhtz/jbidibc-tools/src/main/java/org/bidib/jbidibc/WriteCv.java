@@ -30,12 +30,12 @@ public class WriteCv extends BidibNodeCommand {
         int result = 20;
 
         try {
-            Bidib.open(getPortName());
+            Bidib.getInstance().open(getPortName());
 
             Node node = findNode();
 
             if (node != null) {
-                BidibNode bidibNode = Bidib.getNode(node);
+                BidibNode bidibNode = Bidib.getInstance().getNode(node);
 
                 if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
                     bidibNode.vendorSet(cvNumber, cvValue);

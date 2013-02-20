@@ -28,12 +28,12 @@ public class StopMacro extends BidibNodeCommand {
         int result = 20;
 
         try {
-            Bidib.open(getPortName());
+            Bidib.getInstance().open(getPortName());
 
             Node node = findNode();
 
             if (node != null) {
-                AccessoryNode accessoryNode = Bidib.getAccessoryNode(node);
+                AccessoryNode accessoryNode = Bidib.getInstance().getAccessoryNode(node);
 
                 if (accessoryNode != null) {
                     accessoryNode.handleMacro(macroNumber, LcMacroOperationCode.OFF);

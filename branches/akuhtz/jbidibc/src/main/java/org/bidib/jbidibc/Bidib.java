@@ -32,15 +32,19 @@ public class Bidib {
 
     public static final int DEFAULT_TIMEOUT = 3000;
 
-    private static NodeFactory nodeFactory = new NodeFactory();
+    private NodeFactory nodeFactory;
 
-    private static SerialPort port = null;
+    private SerialPort port = null;
 
-    private static Semaphore portSemaphore = new Semaphore(1);
+    private Semaphore portSemaphore = new Semaphore(1);
 
-    private static Semaphore sendSemaphore = new Semaphore(1);
+    private Semaphore sendSemaphore = new Semaphore(1);
 
-    private static String logFile = null;
+    private String logFile = null;
+
+    private static Bidib INSTANCE;
+
+    private MessageReceiver messageReceiver;
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -48,7 +52,7 @@ public class Bidib {
                 try {
                     LOGGER.debug("Disable the message receiver.");
                     MessageReceiver.disable();
-                    close();
+                    getInstance().close();
                 }
                 catch (IOException e) {
                 }
@@ -56,7 +60,20 @@ public class Bidib {
         });
     }
 
-    private static void close() throws IOException {
+    private Bidib() {
+        nodeFactory = new NodeFactory();
+        // create the message receiver
+        messageReceiver = new MessageReceiver(nodeFactory);
+    }
+
+    public static synchronized Bidib getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Bidib();
+        }
+        return INSTANCE;
+    }
+
+    public void close() throws IOException {
         if (port != null) {
             LOGGER.debug("Close the port.");
             long start = System.currentTimeMillis();
@@ -78,7 +95,7 @@ public class Bidib {
         }
     }
 
-    private static CommPortIdentifier findPort(String portName) {
+    private CommPortIdentifier findPort(String portName) {
         CommPortIdentifier result = null;
         LOGGER.info("Searching for port with name: {}", portName);
 
@@ -98,12 +115,16 @@ public class Bidib {
         return result;
     }
 
-    public static AccessoryNode getAccessoryNode(Node node) {
+    public AccessoryNode getAccessoryNode(Node node) {
         return nodeFactory.getAccessoryNode(node);
     }
 
-    public static CommandStationNode getCommandStationNode(Node node) {
+    public CommandStationNode getCommandStationNode(Node node) {
         return nodeFactory.getCommandStationNode(node);
+    }
+
+    public MessageReceiver getMessageReceiver() {
+        return messageReceiver;
     }
 
     /**
@@ -113,31 +134,31 @@ public class Bidib {
      *            the node
      * @return the BidibNode instance
      */
-    public static BidibNode getNode(Node node) {
+    public BidibNode getNode(Node node) {
         return nodeFactory.getNode(node);
     }
 
-    public static RootNode getRootNode() {
+    public RootNode getRootNode() {
         return nodeFactory.getRootNode();
     }
 
-    private static SerialPort internalOpen(CommPortIdentifier commPort, int baudRate) throws PortInUseException,
+    private SerialPort internalOpen(CommPortIdentifier commPort, int baudRate) throws PortInUseException,
         UnsupportedCommOperationException, TooManyListenersException {
         SerialPort serialPort = (SerialPort) commPort.open(Bidib.class.getName(), 2000);
 
         serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
         serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
         serialPort.enableReceiveThreshold(1);
-        // result.setInputBufferSize(100);
         serialPort.enableReceiveTimeout(DEFAULT_TIMEOUT);
         serialPort.notifyOnDataAvailable(true);
         MessageReceiver.enable();
+
         serialPort.addEventListener(new SerialPortEventListener() {
             {
                 if (logFile != null) {
                     LOGGER.info("Logfile is set");
                     try {
-                        new LogFileAnalyzer(new File(logFile));
+                        new LogFileAnalyzer(new File(logFile), messageReceiver);
                     }
                     catch (IOException e) {
                         LOGGER.warn("Create LogFileAnalyzer failed.", e);
@@ -151,7 +172,8 @@ public class Bidib {
                 LOGGER.trace("serialEvent received: {}", event);
                 if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
                     try {
-                        new MessageReceiver(port, nodeFactory);
+                        // new MessageReceiver(port, nodeFactory);
+                        messageReceiver.receive(port);
                     }
                     catch (Exception ex) {
                         LOGGER.error("Message receiver has terminated with an exception!", ex);
@@ -162,7 +184,7 @@ public class Bidib {
         return serialPort;
     }
 
-    public static void open(String portName) throws PortNotFoundException, PortInUseException,
+    public void open(String portName) throws PortNotFoundException, PortInUseException,
         UnsupportedCommOperationException, IOException, ProtocolException, InterruptedException,
         TooManyListenersException {
         if (port == null) {
@@ -176,11 +198,6 @@ public class Bidib {
             }
             try {
                 portSemaphore.acquire();
-                // // 1000000 Baud
-                // close();
-                // port = open(commPort, 1000000);
-                // sendMagic();
-                // } catch (Exception e) {
                 try {
                     // 115200 Baud
                     close();
@@ -208,7 +225,7 @@ public class Bidib {
         }
     }
 
-    public static void send(final byte[] bytes) {
+    public void send(final byte[] bytes) {
         if (port != null) {
             try {
                 sendSemaphore.acquire();
@@ -229,7 +246,7 @@ public class Bidib {
         }
     }
 
-    private static int sendMagic() throws IOException, ProtocolException, InterruptedException {
+    private int sendMagic() throws IOException, ProtocolException, InterruptedException {
         BidibNode rootNode = getRootNode();
 
         // Ignore the first exception ...
@@ -241,11 +258,11 @@ public class Bidib {
         return rootNode.getMagic();
     }
 
-    public static void setLogFile(String logFile) {
-        Bidib.logFile = logFile;
+    public void setLogFile(String logFile) {
+        this.logFile = logFile;
     }
 
-    static void setTimeout(int timeout) {
+    public void setTimeout(int timeout) {
         if (port != null) {
             try {
                 port.enableReceiveTimeout(timeout);
