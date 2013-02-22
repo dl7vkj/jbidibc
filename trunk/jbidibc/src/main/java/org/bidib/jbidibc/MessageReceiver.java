@@ -73,7 +73,7 @@ public class MessageReceiver {
                         // check if the current is the end of a packet
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
 
-                            LOGGER.info("Received raw message: {}", logRecord);
+                            LOGGER.debug("Received raw message: {}", logRecord);
                             logRecord.setLength(0);
 
                             // if a CRC error is detected in splitMessages the reading loop will terminate ...
