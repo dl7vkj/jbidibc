@@ -385,6 +385,11 @@ public class MessageReceiver {
 
         while (index < output.length) {
             int size = output[index] + 1;
+
+            if (size < 0) {
+                throw new ProtocolException("cannot split messages, array size is " + size);
+            }
+
             byte[] message = new byte[size];
 
             System.arraycopy(output, index, message, 0, message.length);
