@@ -203,10 +203,10 @@ public class MessageReceiver {
                                 }
                                 finally {
                                     if (message != null) {
+                                        // verify that the receive message number is valid
                                         int num =
                                             nodeFactory.getNode(new Node(message.getAddr())).getNextReceiveMsgNum(
                                                 message);
-                                        // int num = BidibNode.getNextReceiveMsgNum(message);
 
                                         if (message.getNum() != num) {
                                             throw new ProtocolException("wrong message number: expected " + num

@@ -282,7 +282,13 @@ public class BidibNode {
         return node;
     }
 
-    // TODO what's the purpose of this method?
+    /**
+     * Prepare the next receive message number in the communication with the 
+     * communication partner. Every received message should be incremented 
+     * by 1 and on overflow start again with 1.
+     * @param message the message
+     * @return the next receive message number
+     */
     public int getNextReceiveMsgNum(BidibMessage message) {
 
         try {
