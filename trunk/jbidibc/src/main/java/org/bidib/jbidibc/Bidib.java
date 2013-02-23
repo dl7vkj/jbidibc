@@ -10,7 +10,9 @@ import gnu.io.UnsupportedCommOperationException;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
 
@@ -41,6 +43,8 @@ public class Bidib {
     private static Semaphore sendSemaphore = new Semaphore(1);
 
     private static String logFile = null;
+
+    private static boolean librariesLoaded = false;
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -83,6 +87,9 @@ public class Bidib {
         LOGGER.info("Searching for port with name: {}", portName);
 
         if (portName != null) {
+            // make sure the libraries are loaded
+            loadLibraries();
+
             Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
 
             while (e.hasMoreElements()) {
@@ -96,6 +103,24 @@ public class Bidib {
             }
         }
         return result;
+    }
+
+    public static List<CommPortIdentifier> getPortIdentifiers() {
+        List<CommPortIdentifier> portIdentifiers = new ArrayList<CommPortIdentifier>();
+
+        // make sure the libraries are loaded
+        loadLibraries();
+
+        // get the comm port identifiers
+        Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
+        while (e.hasMoreElements()) {
+            CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
+
+            if (id.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+                portIdentifiers.add(id);
+            }
+        }
+        return portIdentifiers;
     }
 
     public static AccessoryNode getAccessoryNode(Node node) {
@@ -162,11 +187,18 @@ public class Bidib {
         return serialPort;
     }
 
+    private static void loadLibraries() {
+        if (!librariesLoaded) {
+            new LibraryPathManipulator().manipulateLibraryPath(null);
+            librariesLoaded = true;
+        }
+    }
+
     public static void open(String portName) throws PortNotFoundException, PortInUseException,
         UnsupportedCommOperationException, IOException, ProtocolException, InterruptedException,
         TooManyListenersException {
         if (port == null) {
-            new LibraryPathManipulator().manipulateLibraryPath(null);
+            loadLibraries();
 
             LOGGER.info("Open port with name: {}", portName);
             CommPortIdentifier commPort = findPort(portName);
