@@ -60,7 +60,7 @@ public class Bidib {
         });
     }
 
-    private static void close() throws IOException {
+    public static void close() throws IOException {
         if (port != null) {
             LOGGER.debug("Close the port.");
             long start = System.currentTimeMillis();
