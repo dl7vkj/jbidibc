@@ -174,7 +174,9 @@ public class NodeFactory {
     }
 
     /**
-     * @return returns the root node
+     * Get the root node of the system. This is the node that represents the master.
+     * Creates a new instance of root node if no root node is stored.
+     * @return the root node
      */
     public RootNode getRootNode() {
         LOGGER.debug("Get the root node.");
@@ -198,6 +200,17 @@ public class NodeFactory {
         synchronized (nodes) {
             LOGGER.debug("Remove node from nodes: {}", node);
             nodes.remove(convert(node.getAddr()));
+        }
+    }
+
+    /**
+     * Remove all stored nodes.
+     */
+    public void reset() {
+        LOGGER.info("Reset the node factory.");
+        synchronized (nodes) {
+            LOGGER.debug("Remove all nodes.");
+            nodes.clear();
         }
     }
 }

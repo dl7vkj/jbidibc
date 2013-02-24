@@ -47,6 +47,7 @@ public class Bidib {
     private static Bidib INSTANCE;
 
     private MessageReceiver messageReceiver;
+
     private boolean librariesLoaded;
 
     static {
@@ -95,6 +96,11 @@ public class Bidib {
             LOGGER.debug("Closed the port. duration: {}", end - start);
 
             port = null;
+
+            if (nodeFactory != null) {
+                // remove all stored nodes from the node factory
+                nodeFactory.reset();
+            }
         }
     }
 
@@ -102,10 +108,10 @@ public class Bidib {
         CommPortIdentifier result = null;
         LOGGER.info("Searching for port with name: {}", portName);
 
-        if (portName != null) {
+        if (isValidPortName(portName)) {
             // make sure the libraries are loaded
             loadLibraries();
-            
+
             Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
 
             while (e.hasMoreElements()) {
@@ -120,13 +126,20 @@ public class Bidib {
         }
         return result;
     }
-    
+
+    private boolean isValidPortName(String portName) {
+        if (portName != null && !portName.trim().isEmpty()) {
+            return true;
+        }
+        return false;
+    }
+
     public List<CommPortIdentifier> getPortIdentifiers() {
         List<CommPortIdentifier> portIdentifiers = new ArrayList<CommPortIdentifier>();
-        
+
         // make sure the libraries are loaded
         loadLibraries();
-        
+
         // get the comm port identifiers
         Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
         while (e.hasMoreElements()) {
@@ -214,12 +227,11 @@ public class Bidib {
             librariesLoaded = true;
         }
     }
-    
+
     public void open(String portName) throws PortNotFoundException, PortInUseException,
         UnsupportedCommOperationException, IOException, ProtocolException, InterruptedException,
         TooManyListenersException {
         if (port == null) {
-//            new LibraryPathManipulator().manipulateLibraryPath(null);
             loadLibraries();
 
             LOGGER.info("Open port with name: {}", portName);
