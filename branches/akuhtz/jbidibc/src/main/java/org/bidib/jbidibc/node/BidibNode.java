@@ -395,6 +395,9 @@ public class BidibNode {
     private void resetNextSendMsgNum() {
         try {
             nextSendMsgNumSemaphore.acquire();
+            
+            // reset the counter. The next message will be sent with SendMsgNum=0 which
+            // will reset the counter on the receiver side
             nextSendMsgNum = -1;
         }
         catch (InterruptedException e) {
@@ -424,11 +427,11 @@ public class BidibNode {
 
         // TODO check if this method is called from multiple threads ... add a lock object and remove synchronized from
         // method signature
-
+        int num = getNextSendMsgNum();
+        message.setSendMsgNum(num);
         logRecord.append("send " + message + " to " + this);
 
         BidibMessage result = null;
-        int num = getNextSendMsgNum();
         byte type = message.getType();
         byte[] data = message.getData();
         byte[] bytes = new byte[1 + (addr != null ? addr.length : 1) + 2 + (data != null ? data.length : 0)];

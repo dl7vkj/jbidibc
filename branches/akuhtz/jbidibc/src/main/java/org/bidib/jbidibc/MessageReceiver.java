@@ -204,13 +204,14 @@ public class MessageReceiver {
                                 finally {
                                     if (message != null) {
                                         // verify that the receive message number is valid
-                                        int num =
+                                        int numExpected =
                                             nodeFactory.getNode(new Node(message.getAddr())).getNextReceiveMsgNum(
                                                 message);
-
-                                        if (message.getNum() != num) {
-                                            throw new ProtocolException("wrong message number: expected " + num
-                                                + " but got " + message.getNum());
+                                        int numReceived = message.getNum();
+                                        LOGGER.debug("Compare the message numbers, expected: {}, received: {}", numExpected, numReceived);
+                                        if (/*message.getNum()*/numReceived != numExpected) {
+                                            throw new ProtocolException("wrong message number: expected " + numExpected
+                                                + " but got " + /*message.getNum()*/numReceived);
                                         }
                                     }
                                 }
