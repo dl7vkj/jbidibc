@@ -81,6 +81,10 @@ public class BidibMessage {
         return num;
     }
 
+    public void setSendMsgNum(int sendMsgNum) {
+        this.num = sendMsgNum;
+    }
+
     public byte getType() {
         return type;
     }

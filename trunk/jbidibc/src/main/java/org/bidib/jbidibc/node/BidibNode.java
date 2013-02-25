@@ -396,10 +396,12 @@ public class BidibNode {
      */
     synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType)
         throws IOException, ProtocolException, InterruptedException {
+
+        int num = getNextSendMsgNum();
+        message.setSendMsgNum(num);
         logRecord.append("send " + message + " to " + this);
 
         BidibMessage result = null;
-        int num = getNextSendMsgNum();
         byte type = message.getType();
         byte[] data = message.getData();
         byte[] bytes = new byte[1 + (addr != null ? addr.length : 1) + 2 + (data != null ? data.length : 0)];
