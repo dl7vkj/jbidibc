@@ -31,6 +31,7 @@ public class FeatureGetMessageTest {
         FeatureGetMessage message = new FeatureGetMessage(number);
 
         Assert.assertEquals(message.getType(), BidibLibrary.MSG_FEATURE_GET);
+        Assert.assertEquals(message.getData()[0], BidibLibrary.FEATURE_CTRL_MAC_COUNT);
     }
 
     @Test
