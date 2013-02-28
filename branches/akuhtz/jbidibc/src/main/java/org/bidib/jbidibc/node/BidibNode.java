@@ -425,8 +425,6 @@ public class BidibNode {
     protected synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType)
         throws IOException, ProtocolException, InterruptedException {
 
-        // TODO check if this method is called from multiple threads ... add a lock object and remove synchronized from
-        // method signature
         int num = getNextSendMsgNum();
         message.setSendMsgNum(num);
         logRecord.append("send " + message + " to " + this);

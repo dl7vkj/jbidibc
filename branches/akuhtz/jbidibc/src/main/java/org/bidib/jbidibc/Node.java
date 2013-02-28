@@ -49,7 +49,7 @@ public class Node {
      * @return returns the uniqueId of the node as formatted hex string
      */
     public String getUniqueIdAsString() {
-        return String.format("0x%014x", (uniqueId & 0xffffffffffffffL));
+        return String.format("VID %02X PID %08X", (uniqueId >> 32) & 0xff, uniqueId & 0xffffffffL);
     }
 
     /**
@@ -103,6 +103,6 @@ public class Node {
 
     public String toString() {
         return getClass().getSimpleName() + "[version=" + version + ",addr=" + Arrays.toString(addr) + ",uniqueId="
-            + getUniqueIdAsString() + "]";
+            + String.format("0x%014x", uniqueId & 0xffffffffffffffL) + "]";
     }
 }
