@@ -208,7 +208,8 @@ public class MessageReceiver {
                                             nodeFactory.getNode(new Node(message.getAddr())).getNextReceiveMsgNum(
                                                 message);
                                         int numReceived = message.getNum();
-                                        LOGGER.debug("Compare the message numbers, expected: {}, received: {}", numExpected, numReceived);
+                                        LOGGER.debug("Compare the message numbers, expected: {}, received: {}",
+                                            numExpected, numReceived);
                                         if (/*message.getNum()*/numReceived != numExpected) {
                                             throw new ProtocolException("wrong message number: expected " + numExpected
                                                 + " but got " + /*message.getNum()*/numReceived);

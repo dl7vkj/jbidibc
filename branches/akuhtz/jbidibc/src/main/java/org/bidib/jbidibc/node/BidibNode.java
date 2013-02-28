@@ -395,7 +395,7 @@ public class BidibNode {
     private void resetNextSendMsgNum() {
         try {
             nextSendMsgNumSemaphore.acquire();
-            
+
             // reset the counter. The next message will be sent with SendMsgNum=0 which
             // will reset the counter on the receiver side
             nextSendMsgNum = -1;
