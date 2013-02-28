@@ -58,6 +58,14 @@ public class AccessoryNode extends DeviceNode implements MessageListener {
     }
 
     @Override
+    public void boosterTemperature(byte[] address, int temperature) {
+    }
+
+    @Override
+    public void boosterVoltage(byte[] address, int voltage) {
+    }
+
+    @Override
     public void confidence(byte[] address, int valid, int freeze, int signal) {
     }
 

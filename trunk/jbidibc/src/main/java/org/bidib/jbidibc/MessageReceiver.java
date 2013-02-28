@@ -15,6 +15,7 @@ import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostCurrentResponse;
+import org.bidib.jbidibc.message.BoostDiagnosticResponse;
 import org.bidib.jbidibc.message.BoostStatResponse;
 import org.bidib.jbidibc.message.FeedbackAddressResponse;
 import org.bidib.jbidibc.message.FeedbackConfidenceResponse;
@@ -94,6 +95,14 @@ public class MessageReceiver {
                                     if (message instanceof BoostCurrentResponse) {
                                         fireBoosterCurrent(message.getAddr(), ((BoostCurrentResponse) message)
                                             .getCurrent());
+                                    }
+                                    else if (message instanceof BoostDiagnosticResponse) {
+                                        fireBoosterCurrent(message.getAddr(), ((BoostDiagnosticResponse) message)
+                                            .getCurrent());
+                                        fireBoosterTemperature(message.getAddr(), ((BoostDiagnosticResponse) message)
+                                            .getTemperature());
+                                        fireBoosterVoltage(message.getAddr(), ((BoostDiagnosticResponse) message)
+                                            .getVoltage());
                                     }
                                     else if (message instanceof BoostStatResponse) {
                                         fireBoosterState(message.getAddr(), ((BoostStatResponse) message).getState());
@@ -258,6 +267,18 @@ public class MessageReceiver {
     static void fireBoosterState(byte[] address, BoosterState state) {
         for (MessageListener l : listeners) {
             l.boosterState(address, state);
+        }
+    }
+
+    static void fireBoosterTemperature(byte[] address, int temperature) {
+        for (MessageListener l : listeners) {
+            l.boosterTemperature(address, temperature);
+        }
+    }
+
+    static void fireBoosterVoltage(byte[] address, int voltage) {
+        for (MessageListener l : listeners) {
+            l.boosterVoltage(address, voltage);
         }
     }
 
