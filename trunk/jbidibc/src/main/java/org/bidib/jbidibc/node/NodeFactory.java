@@ -26,18 +26,14 @@ public class NodeFactory {
         MessageReceiver.addMessageListener(new MessageListener() {
             @Override
             public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
-                LOGGER.debug("address info for address: {}, detectorNumber: {}, addressData: {}", address,
-                    detectorNumber, addressData);
             }
 
             @Override
             public void boosterCurrent(byte[] address, int current) {
-                LOGGER.debug("booster current has changed: {}, address: {}", current, address);
             }
 
             @Override
             public void boosterState(byte[] address, BoosterState state) {
-                LOGGER.debug("booster state has changed: {}, address: {}", state, address);
             }
 
             @Override
@@ -50,18 +46,14 @@ public class NodeFactory {
 
             @Override
             public void confidence(byte[] address, int valid, int freeze, int signal) {
-                LOGGER.debug("Confidence has changed, valid: {}, freeze: {}, signal: {}, address: {}", valid, freeze,
-                    signal, address);
             }
 
             @Override
             public void free(byte[] address, int detectorNumber) {
-                LOGGER.debug("free info for address: {}, detectorNumber: {}", address, detectorNumber);
             }
 
             @Override
             public void key(byte[] address, int keyNumber, int keyState) {
-                LOGGER.debug("key info for address: {}, keyNumber: {}, keyState: {}", address, keyNumber, keyState);
             }
 
             @Override
@@ -78,12 +70,10 @@ public class NodeFactory {
 
             @Override
             public void occupied(byte[] address, int detectorNumber) {
-                LOGGER.debug("occupied info for address: {}, detectorNumber: {}", address, detectorNumber);
             }
 
             @Override
             public void speed(byte[] address, AddressData addressData, int speed) {
-                LOGGER.debug("speed info for address: {}, addressData: {}, speed: {}", address, addressData, speed);
             }
         });
     }
