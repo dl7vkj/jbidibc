@@ -42,11 +42,11 @@ public class BoostDiagnosticResponse extends BidibMessage {
     }
 
     public int getCurrent() {
-        return convertCurrent(getValue(BidibLibrary.BIDIB_BST_DIAG_I)) & 0xFF;
+        return convertCurrent(getValue(BidibLibrary.BIDIB_BST_DIAG_I) & 0xFF);
     }
 
     public int getTemperature() {
-        return convertValue(getValue(BidibLibrary.BIDIB_BST_DIAG_T)) & 0xFF;
+        return convertValue(getValue(BidibLibrary.BIDIB_BST_DIAG_T) & 0xFF);
     }
 
     private byte getValue(int type) {
@@ -63,6 +63,6 @@ public class BoostDiagnosticResponse extends BidibMessage {
     }
 
     public int getVoltage() {
-        return convertValue(getValue(BidibLibrary.BIDIB_BST_DIAG_V)) & 0xFF;
+        return convertValue(getValue(BidibLibrary.BIDIB_BST_DIAG_V) & 0xFF);
     }
 }
