@@ -43,6 +43,9 @@ public class ResponseFactory {
         else if (result.getType() == (byte) BidibLibrary.MSG_BOOST_CURRENT) {
             result = new BoostCurrentResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         }
+        else if (result.getType() == (byte) BidibLibrary.MSG_BOOST_DIAGNOSTIC) {
+            result = new BoostDiagnosticResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+        }
         else if (result.getType() == (byte) BidibLibrary.MSG_BOOST_STAT) {
             result = new BoostStatResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         }

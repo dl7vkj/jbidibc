@@ -5,6 +5,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 /**
  * Response from booster with the current value
  */
+@Deprecated
 public class BoostCurrentResponse extends BidibMessage {
     BoostCurrentResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);

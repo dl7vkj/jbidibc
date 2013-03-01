@@ -11,6 +11,10 @@ public interface MessageListener {
 
     void boosterState(byte[] address, BoosterState state);
 
+    void boosterTemperature(byte[] address, int temperature);
+
+    void boosterVoltage(byte[] address, int voltage);
+
     void confidence(byte[] address, int valid, int freeze, int signal);
 
     void free(byte[] address, int detectorNumber);
