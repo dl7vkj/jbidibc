@@ -1,17 +1,12 @@
 package org.bidib.jbidibc.node;
 
 import java.io.IOException;
-import java.util.Collection;
 
 import org.bidib.jbidibc.AccessoryState;
-import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.Bidib;
 import org.bidib.jbidibc.LcConfig;
 import org.bidib.jbidibc.LcMacro;
-import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.MessageReceiver;
-import org.bidib.jbidibc.Node;
-import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.LcMacroOperationCode;
 import org.bidib.jbidibc.enumeration.LcMacroState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
@@ -37,64 +32,9 @@ import org.bidib.jbidibc.message.LcMacroSetMessage;
 import org.bidib.jbidibc.message.LcMacroStateResponse;
 import org.bidib.jbidibc.message.LcOutputMessage;
 
-public class AccessoryNode extends DeviceNode implements MessageListener {
+public class AccessoryNode extends DeviceNode {
     AccessoryNode(byte[] addr) {
         super(addr);
-
-        // TODO maybe better to have this injected 
-        MessageReceiver.addMessageListener(this);
-    }
-
-    @Override
-    public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
-    }
-
-    @Override
-    public void boosterCurrent(byte[] address, int current) {
-    }
-
-    @Override
-    public void boosterState(byte[] address, BoosterState state) {
-    }
-
-    @Override
-    public void boosterTemperature(byte[] address, int temperature) {
-    }
-
-    @Override
-    public void boosterVoltage(byte[] address, int voltage) {
-    }
-
-    @Override
-    public void confidence(byte[] address, int valid, int freeze, int signal) {
-    }
-
-    @Override
-    public void free(byte[] address, int detectorNumber) {
-    }
-
-    @Override
-    public void key(byte[] address, int keyNumber, int keyState) {
-    }
-
-    @Override
-    public void nodeLost(Node node) {
-        // TODO this causes a ConcurrentModificationException
-        //        MessageReceiver.removeMessageListener(this);
-    }
-
-    @Override
-    public void nodeNew(Node node) {
-        // TODO this causes a ConcurrentModificationException
-        //        MessageReceiver.removeMessageListener(this);
-    }
-
-    @Override
-    public void occupied(byte[] address, int detectorNumber) {
-    }
-
-    @Override
-    public void speed(byte[] address, AddressData addressData, int speed) {
     }
 
     public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws IOException, ProtocolException,
