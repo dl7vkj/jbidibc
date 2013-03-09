@@ -204,14 +204,14 @@ public class Bidib {
             LOGGER.info("Open port with name: {}", portName);
             CommPortIdentifier commPort = null;
             if (LibraryPathManipulator.Platform.Windows.equals(LibraryPathManipulator.getOsName())) {
-            	// running on windows
-            	commPort = findPort(portName);
+                // running on windows
+                commPort = findPort(portName);
             }
             else {
-            	// not running on windows
-            	commPort = CommPortIdentifier.getPortIdentifier(new File(portName).getCanonicalPath());
+                // not running on windows
+                commPort = CommPortIdentifier.getPortIdentifier(new File(portName).getCanonicalPath());
             }
-            
+
             if (commPort == null) {
                 throw new PortNotFoundException(portName);
             }
