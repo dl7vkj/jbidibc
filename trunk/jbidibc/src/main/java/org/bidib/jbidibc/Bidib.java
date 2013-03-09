@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
 
+import org.bidib.jbidibc.enumeration.RxTxCommPortType;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.AccessoryNode;
@@ -80,6 +81,29 @@ public class Bidib {
 
             port = null;
         }
+    }
+
+    private static CommPortIdentifier findPort(String portName) {
+        CommPortIdentifier result = null;
+        LOGGER.info("Searching for port with name: {}", portName);
+
+        if (portName != null) {
+            // make sure the libraries are loaded
+            loadLibraries();
+
+            Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
+
+            while (e.hasMoreElements()) {
+                final CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
+                LOGGER.info("Found port with name: {}, type: {}", id.getName(), RxTxCommPortType.valueOf(id
+                    .getPortType()));
+                if ((id.getPortType() == CommPortIdentifier.PORT_SERIAL) && (portName.equals(id.getName()))) {
+                    result = id;
+                    break;
+                }
+            }
+        }
+        return result;
     }
 
     public static List<CommPortIdentifier> getPortIdentifiers() {
@@ -178,8 +202,16 @@ public class Bidib {
             loadLibraries();
 
             LOGGER.info("Open port with name: {}", portName);
-            CommPortIdentifier commPort = CommPortIdentifier.getPortIdentifier(new File(portName).getCanonicalPath());
-
+            CommPortIdentifier commPort = null;
+            if (LibraryPathManipulator.Platform.Windows.equals(LibraryPathManipulator.getOsName())) {
+            	// running on windows
+            	commPort = findPort(portName);
+            }
+            else {
+            	// not running on windows
+            	commPort = CommPortIdentifier.getPortIdentifier(new File(portName).getCanonicalPath());
+            }
+            
             if (commPort == null) {
                 throw new PortNotFoundException(portName);
             }

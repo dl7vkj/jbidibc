@@ -189,7 +189,7 @@ public class LibraryPathManipulator {
         return osDependentPathToLibrary;
     }
 
-    public Platform getOsName() {
+    public static Platform getOsName() {
 
         String osName = System.getProperty("os.name").toLowerCase();
 
