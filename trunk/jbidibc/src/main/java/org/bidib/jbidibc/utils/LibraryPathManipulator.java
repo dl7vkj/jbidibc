@@ -70,9 +70,7 @@ public class LibraryPathManipulator {
             String cp = System.getProperty("java.class.path");
             LOGGER.info("Classpath property is: {}", cp);
 
-            StringBuffer basePath = new StringBuffer();
-            basePath.append(System.getProperty("user.dir"));
-
+            File basePath = new File(System.getProperty("user.dir"));
             URL url = null;
             if (cp.indexOf("target\\classes") > -1 || cp.indexOf("target/classes") > -1) {
                 // development env detected
@@ -82,36 +80,31 @@ public class LibraryPathManipulator {
                     // search for RXTX libs at provided location
                     url = new URL("file", "localhost", System.getProperty(PROP_PATH_TO_RXTX_LIBS));
                 }
-
-                prepareLibraryPath(url, basePath);
-
-                basePath.append("/target/test-classes");
+                basePath = new File(prepareLibraryPath(url, basePath), "/target/test-classes");
             }
             else if (System.getProperty(PROP_PATH_TO_RXTX_LIBS) != null) {
                 // search for RXTX libs at provided location
                 url = new URL("file", "localhost", System.getProperty(PROP_PATH_TO_RXTX_LIBS));
-                prepareLibraryPath(url, basePath);
+                basePath = prepareLibraryPath(url, basePath);
             }
 
             if (pathToDLLs != null && pathToDLLs.trim().length() > 0) {
                 // append the path to dlls 
-                basePath.append("/");
-                basePath.append(pathToDLLs.trim());
-                basePath.append("/");
+                basePath = new File(basePath, pathToDLLs.trim());
             }
 
             // make the path dynamic on OS ...
-            basePath.append(resolveOSDependentPath());
+            basePath = new File(basePath, resolveOSDependentPath());
 
             String libraryPath = basePath.toString();
 
-            if (new File(libraryPath).isDirectory()) {
+            if (basePath.isDirectory()) {
                 LOGGER.info("Adding java.library.path: {}", libraryPath);
 
                 String originalLibraryPath = System.getProperty("java.library.path");
                 if (originalLibraryPath != null && originalLibraryPath.trim().length() > 0) {
                     LOGGER.debug("Adding original library path: {}", originalLibraryPath);
-                    libraryPath += ";" + originalLibraryPath;
+                    libraryPath += File.pathSeparatorChar + originalLibraryPath;
                 }
                 // adding native libs
                 System.setProperty("java.library.path", libraryPath);
@@ -130,19 +123,20 @@ public class LibraryPathManipulator {
         }
     }
 
-    private void prepareLibraryPath(URL url, StringBuffer basePath) {
+    private File prepareLibraryPath(URL url, File basePath) {
+        File result = basePath;
+
         if (url != null) {
             LOGGER.info("Fetched url: {}, protocol: {}", url.getPath(), url.getProtocol());
             if ("file".equals(url.getProtocol())) {
                 // file:/E:/svn/jbidibc/jbidibc/jbidibc/target/classes/org/bidib/jbidibc/utils/
                 String filePath = url.getPath();
-                basePath.setLength(0);
                 try {
-                    basePath.append(filePath.substring(0, filePath.indexOf("target/classes")));
+                    result = new File(filePath.substring(0, filePath.indexOf("target/classes")));
                 }
                 catch (IndexOutOfBoundsException ioob) {
                     LOGGER.debug("Use full filePath to append.");
-                    basePath.append(filePath);
+                    result = new File(filePath);
                 }
             }
         }
@@ -151,6 +145,7 @@ public class LibraryPathManipulator {
                 .warn("Development environment detected but class not available in flat filesystem (e.g. jbidib project not open). "
                     + "Make sure the RXTX libs are located under target/test-classes in your project!");
         }
+        return result;
     }
 
     private String resolveOSDependentPath() {
