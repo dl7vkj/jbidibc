@@ -187,7 +187,7 @@ public class Bidib {
                 portName = file.getCanonicalPath();
             }
 
-            CommPortIdentifier commPort = CommPortIdentifier.getPortIdentifier(new File(portName).getCanonicalPath());
+            CommPortIdentifier commPort = CommPortIdentifier.getPortIdentifier(portName);
 
             try {
                 portSemaphore.acquire();
