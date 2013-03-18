@@ -1,13 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
-    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
-        <resetJUL>true</resetJUL>
-    </contextListener>
     <appender class="ch.qos.logback.core.ConsoleAppender" name="CONSOLE">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{HH:mm:ss.SSS} [%p] %c [%t] - %m%n
-			</pattern>
-        </layout>
+        <encoder>
+            <pattern>%m%n</pattern>
+        </encoder>
     </appender>
     <logger level="DEBUG" name="org.bidib.jbidibc"/>
     <logger level="DEBUG" name="org.bidib.jbidibc.tools"/>
