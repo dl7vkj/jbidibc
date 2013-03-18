@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mvn install:install-file -Dfile=rxtxcomm-2.2.pre2.jar -DpomFile=rxtxcomm-2.2.pre2.pom -Dsources=rxtxcomm-2.2.pre2-sources.jar
+
+mvn install:install-file -Dfile=RXTXcomm-2.2.jar -DpomFile=rxtxcomm-2.2.pom -Dsources=RXTXcomm-2.2-sources.jar
