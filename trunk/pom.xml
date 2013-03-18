@@ -163,7 +163,7 @@
                     <configuration>
                         <useReleaseProfile>false</useReleaseProfile>
                         <!--arguments>-Psonatype-oss-release</arguments-->
-                        <arguments>-Prelease-sign-artifacts</arguments>
+                        <arguments>-Prelease-sign-artifacts -Dgpg.passphrase=${gpg.passphrase}</arguments>
                         <tagBase>https://svn.code.sf.net/p/jbidibc/code/tags</tagBase>
                     </configuration>
                 </plugin>

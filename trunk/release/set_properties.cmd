@@ -5,6 +5,7 @@ set PROJECT_NAME=jbidibc
 
 set SVN_USERNAME=<your-sourceforge-username>
 set SVN_PASSWORD=<your-sourceforge-password>
+set GPG_PASSPHRASE=<your-gpg-passphrase>
 
 rem the local path to the directory where the release will be performed (clean checkout, build, create tag, build release version)
 SET LOCAL_RELEASE_BASE=E:\releases
