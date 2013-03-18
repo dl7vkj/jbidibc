@@ -30,7 +30,6 @@
             <scope>test</scope>
         </dependency>
     </dependencies>
-    
     <build>
         <plugins>
             <!-- copy artifact to common directory-->
