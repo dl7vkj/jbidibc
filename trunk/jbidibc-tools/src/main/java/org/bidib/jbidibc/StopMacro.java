@@ -46,6 +46,9 @@ public class StopMacro extends BidibNodeCommand {
             else {
                 LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
             }
+
+            Bidib.close();
+
         }
         catch (PortNotFoundException ex) {
             LOGGER.error("The provided port was not found: " + ex.getMessage()

@@ -68,6 +68,9 @@ public class GetMacros extends BidibNodeCommand {
             else {
                 LOGGER.error("node with unique id \"" + getNodeIdentifier() + "\" not found");
             }
+
+            Bidib.close();
+
         }
         catch (PortNotFoundException ex) {
             LOGGER.error("The provided port was not found: " + ex.getMessage()
