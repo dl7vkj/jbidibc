@@ -17,11 +17,11 @@ svn co %SVN_BASE_PATH% %PROJECT_NAME% --username %SVN_USERNAME% --password %SVN_
 
 @echo prepare release %PROJECT_NAME%, releaseVersion: %TAG_NAME%, next dev version: %NEXT_DEV_VERSION%
 @cd %PROJECT_NAME%
-call mvn release:clean release:prepare -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -Dtag=%TAG_NAME% -DreleaseVersion=%TAG_NAME% -DdevelopmentVersion=%NEXT_DEV_VERSION% -Dgpg.passphrase=%PGP_PASSPHRASE%
+call mvn release:clean release:prepare -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -Dtag=%TAG_NAME% -DreleaseVersion=%TAG_NAME% -DdevelopmentVersion=%NEXT_DEV_VERSION% -Dgpg.passphrase=%GPG_PASSPHRASE%
 @if ERRORLEVEL 1 GOTO ERROR
 
 @echo perform release (export, build, deploy)
-call mvn release:perform -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -DconnectionUrl=scm:svn:%SVN_TAGS_PATH%/%TAG_NAME%  -Dgpg.passphrase=%PGP_PASSPHRASE%
+call mvn release:perform -B -Dusername=%SVN_USERNAME% -Dpassword=%SVN_PASSWORD% -DconnectionUrl=scm:svn:%SVN_TAGS_PATH%/%TAG_NAME%  -Dgpg.passphrase=%GPG_PASSPHRASE%
 @if ERRORLEVEL 1 GOTO ERROR
 
 @echo ================================
