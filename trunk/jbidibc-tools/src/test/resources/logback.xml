@@ -5,7 +5,7 @@
             <pattern>%m%n</pattern>
         </encoder>
     </appender>
-    <logger level="DEBUG" name="org.bidib.jbidibc"/>
+    <logger level="INFO" name="org.bidib.jbidibc"/>
     <logger level="DEBUG" name="org.bidib.jbidibc.tools"/>
     <logger level="INFO" name="com.beust.jcommander.internal.DefaultConsole"/>
     <logger level="INFO" name="org.bidib.jbidibc.utils.LibraryPathManipulator"/>

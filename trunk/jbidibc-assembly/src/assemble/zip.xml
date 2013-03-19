@@ -35,7 +35,6 @@
             <directory>${project.basedir}/../jbidibc-tools/src/main/resources</directory>
             <fileMode>0755</fileMode>
             <includes>
-                <!--include>*.bat</include-->
                 <include>*</include>
             </includes>
             <excludes>
@@ -45,6 +44,14 @@
                 <exclude>uk</exclude>
                 <exclude>META-INF</exclude>
             </excludes>
+        </fileSet>
+        <fileSet>
+            <outputDirectory>/</outputDirectory>
+            <directory>${project.basedir}/../jbidibc-tools/src/test/resources</directory>
+            <fileMode>0755</fileMode>
+            <includes>
+                <include>logback.xml</include>
+            </includes>
         </fileSet>
     </fileSets>
 </assembly>
