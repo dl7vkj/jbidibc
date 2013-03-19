@@ -68,7 +68,7 @@ public class LibraryPathManipulator {
         try {
             // get the classpath
             String cp = System.getProperty("java.class.path");
-            LOGGER.info("Classpath property is: {}", cp);
+            LOGGER.debug("Classpath property is: {}", cp);
 
             File basePath = new File(System.getProperty("user.dir"));
             URL url = null;
@@ -99,7 +99,7 @@ public class LibraryPathManipulator {
             String libraryPath = basePath.toString();
 
             if (basePath.isDirectory()) {
-                LOGGER.info("Adding java.library.path: {}", libraryPath);
+                LOGGER.debug("Adding java.library.path: {}", libraryPath);
 
                 String originalLibraryPath = System.getProperty("java.library.path");
                 if (originalLibraryPath != null && originalLibraryPath.trim().length() > 0) {
@@ -127,7 +127,7 @@ public class LibraryPathManipulator {
         File result = basePath;
 
         if (url != null) {
-            LOGGER.info("Fetched url: {}, protocol: {}", url.getPath(), url.getProtocol());
+            LOGGER.debug("Fetched url: {}, protocol: {}", url.getPath(), url.getProtocol());
             if ("file".equals(url.getProtocol())) {
                 // file:/E:/svn/jbidibc/jbidibc/jbidibc/target/classes/org/bidib/jbidibc/utils/
                 String filePath = url.getPath();
