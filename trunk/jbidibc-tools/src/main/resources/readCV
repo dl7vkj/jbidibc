@@ -4,6 +4,13 @@ DIR=`dirname $0`
 
 cd $DIR
 DIR=`pwd`
-CLASSPATH=`.:lib/*`
+LIB=`ls lib/*.jar`
+
+for i in ${LIB}
+do
+  if [ "$i" != "${LIB}" ] ; then
+    CLASSPATH=$CLASSPATH:"$i"
+  fi
+done
 
 java -classpath $CLASSPATH org.bidib.jbidibc.ReadCv $@
