@@ -1,4 +1,4 @@
-Preparation to build
+﻿Preparation to build
 ====================
 
 A working Maven 3 installation is required.
@@ -14,6 +14,8 @@ Eclipse
 =======
 
 * Prepare:
+Install the m2e tools (from Juno update site under General Purpose Tools) if not already installed.
+
 Install the m2e-error-disabler-plugin
 https://github.com/SonarSource/sonar-settings/tree/master/eclipse/m2e-error-disabler-plugin --> Follow installation guideline
 
