@@ -40,6 +40,9 @@ public class BoostQuery extends BidibNodeCommand {
             else {
                 LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
             }
+
+            Bidib.getInstance().close();
+
         }
         catch (PortNotFoundException ex) {
             LOGGER.error("The provided port was not found: " + ex.getMessage()

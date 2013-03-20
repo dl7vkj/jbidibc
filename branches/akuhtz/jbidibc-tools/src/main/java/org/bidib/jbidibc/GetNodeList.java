@@ -34,6 +34,8 @@ public class GetNodeList extends BidibCommand {
                 LOGGER.info("Found node: {}", node);
             }
             result = 0;
+
+            Bidib.getInstance().close();
         }
         catch (PortNotFoundException ex) {
             LOGGER.error("The provided port was not found: " + ex.getMessage()

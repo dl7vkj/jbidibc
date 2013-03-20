@@ -6,10 +6,10 @@
         <version>1.4-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jbidibc-tools</artifactId>
-    <packaging>jar</packaging>
-    <name>jBiDiB :: jbidibc Tools</name>
-    <description>jBiDiB jbidibc Tools POM</description>
+    <artifactId>jbidibc-assembly</artifactId>
+    <packaging>pom</packaging>
+    <name>jBiDiB :: jbidibc Assembly</name>
+    <description>jBiDiB jbidibc Assembly POM</description>
     <dependencies>
         <dependency>
             <groupId>org.bidib.jbidib</groupId>
@@ -17,27 +17,41 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>runtime</scope>
+            <groupId>org.bidib.jbidib</groupId>
+            <artifactId>jbidibc-tools</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.beust</groupId>
-            <artifactId>jcommander</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>uk.org.lidalia</groupId>
-            <artifactId>sysout-over-slf4j</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
+            <groupId>org.bidib.jbidib</groupId>
+            <artifactId>jbidibc</artifactId>
+            <classifier>tests</classifier>
+            <version>${project.version}</version>
         </dependency>
     </dependencies>
     <build>
         <plugins>
-            <!-- copy artifact to common directory-->
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>bin</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/assemble/zip.xml</descriptor>
+                            </descriptors>
+                            <!-- don't add assembly id to binary zip -->
+                            <appendAssemblyId>false</appendAssemblyId>
+                            <finalName>${project.artifactId}</finalName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- copy artifact to common directory -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -54,7 +68,7 @@
                                     <groupId>${project.groupId}</groupId>
                                     <artifactId>${project.artifactId}</artifactId>
                                     <version>${project.version}</version>
-                                    <type>${project.packaging}</type>
+                                    <type>zip</type>
                                 </artifactItem>
                             </artifactItems>
                             <outputDirectory>../target</outputDirectory>

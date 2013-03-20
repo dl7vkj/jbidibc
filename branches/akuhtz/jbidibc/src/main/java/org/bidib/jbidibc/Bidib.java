@@ -1,6 +1,7 @@
 package org.bidib.jbidibc;
 
 import gnu.io.CommPortIdentifier;
+import gnu.io.NoSuchPortException;
 import gnu.io.PortInUseException;
 import gnu.io.SerialPort;
 import gnu.io.SerialPortEvent;
@@ -16,7 +17,6 @@ import java.util.List;
 import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
 
-import org.bidib.jbidibc.enumeration.RxTxCommPortType;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.AccessoryNode;
@@ -42,13 +42,13 @@ public class Bidib {
 
     private Semaphore sendSemaphore = new Semaphore(1);
 
-    private String logFile = null;
+    private String logFile;
+
+    private boolean librariesLoaded;
 
     private static Bidib INSTANCE;
 
     private MessageReceiver messageReceiver;
-
-    private boolean librariesLoaded;
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -102,29 +102,6 @@ public class Bidib {
                 nodeFactory.reset();
             }
         }
-    }
-
-    private CommPortIdentifier findPort(String portName) {
-        CommPortIdentifier result = null;
-        LOGGER.info("Searching for port with name: {}", portName);
-
-        if (isValidPortName(portName)) {
-            // make sure the libraries are loaded
-            loadLibraries();
-
-            Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
-
-            while (e.hasMoreElements()) {
-                final CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
-                LOGGER.info("Found port with name: {}, type: {}", id.getName(), RxTxCommPortType.valueOf(id
-                    .getPortType()));
-                if ((id.getPortType() == CommPortIdentifier.PORT_SERIAL) && (portName.equals(id.getName()))) {
-                    result = id;
-                    break;
-                }
-            }
-        }
-        return result;
     }
 
     private boolean isValidPortName(String portName) {
@@ -230,16 +207,22 @@ public class Bidib {
 
     public void open(String portName) throws PortNotFoundException, PortInUseException,
         UnsupportedCommOperationException, IOException, ProtocolException, InterruptedException,
-        TooManyListenersException {
+        TooManyListenersException, NoSuchPortException {
         if (port == null) {
-            loadLibraries();
-
-            LOGGER.info("Open port with name: {}", portName);
-            CommPortIdentifier commPort = findPort(portName);
-
-            if (commPort == null) {
-                throw new PortNotFoundException(portName);
+            if (portName == null) {
+                throw new PortNotFoundException("");
             }
+            loadLibraries();
+            LOGGER.info("Open port with name: {}", portName);
+
+            File file = new File(portName);
+
+            if (file.exists()) {
+                portName = file.getCanonicalPath();
+            }
+
+            CommPortIdentifier commPort = CommPortIdentifier.getPortIdentifier(portName);
+
             try {
                 portSemaphore.acquire();
                 try {
