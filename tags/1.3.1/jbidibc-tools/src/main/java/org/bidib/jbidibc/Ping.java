@@ -35,17 +35,16 @@ public class Ping extends BidibNodeCommand {
 
             if (node != null) {
                 BidibNode bidibNode = Bidib.getNode(node);
+                String nodeId = String.format("0x%014x", node.getUniqueId() & 0xffffffffffffffL);
 
-                System.out
-                    .println("PING " + node.getUniqueIdAsString() + " (" + Arrays.toString(node.getAddr()) + ").");
+                System.out.println("PING " + nodeId + " (" + Arrays.toString(node.getAddr()) + ").");
 
                 while (true) {
                     final long now = System.currentTimeMillis();
                     final int num = bidibNode.ping();
 
-                    System.out.println("got response from " + node.getUniqueIdAsString() + " ("
-                        + Arrays.toString(node.getAddr()) + "): seq=" + num + " time="
-                        + (System.currentTimeMillis() - now) + "ms");
+                    System.out.println("got response from " + nodeId + " (" + Arrays.toString(node.getAddr())
+                        + "): seq=" + num + " time=" + (System.currentTimeMillis() - now) + "ms");
 
                     if (maxPings > -1) {
                         maxPings--;
