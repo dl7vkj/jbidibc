@@ -2,8 +2,6 @@ package org.bidib.jbidibc;
 
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.BidibNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
@@ -14,8 +12,6 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(separators = "=")
 public class ReadCv extends BidibNodeCommand {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ReadCv.class);
-
     @Parameter(names = { "-cv" }, description = "The CV number", required = true)
     private String cvNumber;
 
@@ -38,25 +34,25 @@ public class ReadCv extends BidibNodeCommand {
 
                     VendorData vendorData = bidibNode.vendorGet(cvNumber);
 
-                    LOGGER.info("CV" + vendorData.getName() + "=" + vendorData.getValue());
+                    System.out.println("CV" + vendorData.getName() + "=" + vendorData.getValue());
 
                     bidibNode.vendorDisable();
                     result = 0;
                 }
             }
             else {
-                LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
+                System.err.println("node with unique id \"" + getNodeIdentifier() + "\" not found");
             }
 
             Bidib.close();
 
         }
         catch (PortNotFoundException ex) {
-            LOGGER.error("The provided port was not found: " + ex.getMessage()
-                + ". Verify that the BiDiB device is connected.", ex);
+            System.err.println("The provided port was not found: " + ex.getMessage()
+                + ". Verify that the BiDiB device is connected.");
         }
         catch (Exception ex) {
-            LOGGER.error("Execute command failed.", ex);
+            System.err.println("Execute command failed: " + ex);
         }
         return result;
     }

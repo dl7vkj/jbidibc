@@ -2,8 +2,6 @@ package org.bidib.jbidibc;
 
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.BidibNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.beust.jcommander.Parameters;
 
@@ -13,8 +11,6 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(separators = "=")
 public class GetNodeList extends BidibCommand {
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetNodeList.class);
-
     public static void main(String[] args) {
 
         run(new GetNodeList(), args);
@@ -31,18 +27,18 @@ public class GetNodeList extends BidibCommand {
 
             for (int index = 1; index <= count; index++) {
                 Node node = rootNode.getNextNode();
-                LOGGER.info("Found node: {}", node);
+                System.out.println("Found node: " + node);
             }
             result = 0;
 
             Bidib.close();
         }
         catch (PortNotFoundException ex) {
-            LOGGER.error("The provided port was not found: " + ex.getMessage()
-                + ". Verify that the BiDiB device is connected.", ex);
+            System.err.println("The provided port was not found: " + ex.getMessage()
+                + ". Verify that the BiDiB device is connected.");
         }
         catch (Exception ex) {
-            LOGGER.error("Get list of nodes failed.", ex);
+            System.err.println("Get list of nodes failed: " + ex);
         }
         return result;
     }

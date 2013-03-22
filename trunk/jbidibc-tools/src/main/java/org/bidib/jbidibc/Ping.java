@@ -36,13 +36,14 @@ public class Ping extends BidibNodeCommand {
             if (node != null) {
                 BidibNode bidibNode = Bidib.getNode(node);
 
-                LOGGER.info("PING " + node.getUniqueIdAsString() + " (" + Arrays.toString(node.getAddr()) + ").");
+                System.out
+                    .println("PING " + node.getUniqueIdAsString() + " (" + Arrays.toString(node.getAddr()) + ").");
 
                 while (true) {
                     final long now = System.currentTimeMillis();
                     final int num = bidibNode.ping();
 
-                    LOGGER.info("got response from " + node.getUniqueIdAsString() + " ("
+                    System.out.println("got response from " + node.getUniqueIdAsString() + " ("
                         + Arrays.toString(node.getAddr()) + "): seq=" + num + " time="
                         + (System.currentTimeMillis() - now) + "ms");
 
@@ -57,18 +58,18 @@ public class Ping extends BidibNodeCommand {
                 result = 0;
             }
             else {
-                LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
+                System.err.println("node with unique id \"" + getNodeIdentifier() + "\" not found");
             }
 
             Bidib.close();
 
         }
         catch (PortNotFoundException ex) {
-            LOGGER.error("The provided port was not found: " + ex.getMessage()
+            System.err.println("The provided port was not found: " + ex.getMessage()
                 + ". Verify that the BiDiB device is connected.");
         }
         catch (Exception e) {
-            LOGGER.warn("Ping node failed.", e);
+            System.err.println("Ping node failed: " + e);
         }
         return result;
     }
