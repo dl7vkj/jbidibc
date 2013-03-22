@@ -16,7 +16,7 @@ public class NodeTabCountResponse extends BidibMessage {
             throw new ProtocolException("no node tab count received");
         }
 
-        LOGGER.info("Number of nodes in system: {}", getCount());
+        LOGGER.debug("Number of nodes in system: {}", getCount());
     }
 
     public int getCount() {

@@ -32,7 +32,7 @@ public class NodeTabResponse extends BidibMessage {
 
         Node node = new Node(data[0], addr, ByteUtils.convertUniqueIdToLong(uniqueId));
 
-        LOGGER.info("node has command station functions: {}", node.hasCommandStationFunctions());
+        LOGGER.debug("node has command station functions: {}", node.hasCommandStationFunctions());
 
         return node;
     }

@@ -179,7 +179,7 @@ public class Bidib {
                 throw new PortNotFoundException("");
             }
             loadLibraries();
-            LOGGER.info("Open port with name: {}", portName);
+            LOGGER.debug("Open port with name: {}", portName);
 
             File file = new File(portName);
 
