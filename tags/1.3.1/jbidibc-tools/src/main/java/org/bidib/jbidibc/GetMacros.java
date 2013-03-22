@@ -3,8 +3,6 @@ package org.bidib.jbidibc;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.AccessoryNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.beust.jcommander.Parameters;
 
@@ -14,8 +12,6 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(separators = "=")
 public class GetMacros extends BidibNodeCommand {
-
-    private static final Logger LOGGER = LoggerFactory.getLogger(GetMacros.class);
 
     public static void main(String[] args) {
 
@@ -44,42 +40,41 @@ public class GetMacros extends BidibNodeCommand {
                     for (int macroNumber = 0; macroNumber < macroCount; macroNumber++) {
                         int stepNumber = 0;
 
-                        LOGGER.info("Macro " + macroNumber + ":");
-                        LOGGER.info("\tcycles: "
+                        System.out.println("Macro " + macroNumber + ":");
+                        System.out.println("\tcycles: "
                             + accessoryNode.getMacroParameter(macroNumber, BidibLibrary.BIDIB_MACRO_PARA_REPEAT));
-                        LOGGER.info("\tspeed: "
+                        System.out.println("\tspeed: "
                             + accessoryNode.getMacroParameter(macroNumber, BidibLibrary.BIDIB_MACRO_PARA_SLOWDOWN));
-                        LOGGER.info("\tsteps:");
+                        System.out.println("\tsteps:");
                         for (;;) {
                             final LcMacro macroStep = accessoryNode.getMacroStep(macroNumber, stepNumber++);
 
                             if (macroStep.getOutputType() == LcOutputType.END_OF_MACRO || stepNumber > macroLength) {
                                 break;
                             }
-                            LOGGER.info("\t\t" + stepNumber + ". " + macroStep);
+                            System.out.println("\t\t" + stepNumber + ". " + macroStep);
                         }
                     }
                     result = 0;
                 }
                 else {
-                    LOGGER.error("node with unique id \"" + getNodeIdentifier() + "\" doesn't have macros");
+                    System.err.println("node with unique id \"" + getNodeIdentifier() + "\" doesn't have macros");
                 }
             }
             else {
-                LOGGER.error("node with unique id \"" + getNodeIdentifier() + "\" not found");
+                System.err.println("node with unique id \"" + getNodeIdentifier() + "\" not found");
             }
 
             Bidib.close();
 
         }
         catch (PortNotFoundException ex) {
-            LOGGER.error("The provided port was not found: " + ex.getMessage()
-                + ". Verify that the BiDiB device is connected.", ex);
+            System.err.println("The provided port was not found: " + ex.getMessage()
+                + ". Verify that the BiDiB device is connected.");
         }
         catch (Exception ex) {
-            LOGGER.error("Execute command failed.", ex);
+            System.err.println("Execute command failed: " + ex);
         }
-
         return result;
     }
 }

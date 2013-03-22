@@ -2,8 +2,6 @@ package org.bidib.jbidibc;
 
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.BidibNode;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.beust.jcommander.Parameters;
 
@@ -13,8 +11,6 @@ import com.beust.jcommander.Parameters;
  */
 @Parameters(separators = "=")
 public class FeaturesQuery extends BidibNodeCommand {
-    private static final Logger LOGGER = LoggerFactory.getLogger(FeaturesQuery.class);
-
     public static void main(String[] args) {
         run(new FeaturesQuery(), args);
     }
@@ -32,29 +28,29 @@ public class FeaturesQuery extends BidibNodeCommand {
 
                 int featureCount = bidibNode.getFeatureCount();
 
-                LOGGER.info("featureCount: {}", featureCount);
+                System.out.println("featureCount: " + featureCount);
                 Feature feature = null;
                 while ((feature = bidibNode.getNextFeature()) != null) {
-                    LOGGER.info("feature.type: {}, value: {}", feature.getType(), feature.getValue());
+                    System.out.println("feature.type: " + feature.getType() + ", value: " + feature.getValue());
 
                     // TODO use an enum for the feature type to display named values
                 }
-                LOGGER.info("Finished query features.");
+                System.out.println("Finished query features.");
                 result = 0;
             }
             else {
-                LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
+                System.err.println("node with unique id \"" + getNodeIdentifier() + "\" not found");
             }
 
             Bidib.close();
 
         }
         catch (PortNotFoundException ex) {
-            LOGGER.error("The provided port was not found: " + ex.getMessage()
-                + ". Verify that the BiDiB device is connected.", ex);
+            System.err.println("The provided port was not found: " + ex.getMessage()
+                + ". Verify that the BiDiB device is connected.");
         }
         catch (Exception ex) {
-            LOGGER.error("Execute command failed.", ex);
+            System.err.println("Execute command failed: " + ex);
         }
         return result;
     }
