@@ -24,6 +24,7 @@ import org.bidib.jbidibc.message.FeedbackMultipleResponse;
 import org.bidib.jbidibc.message.FeedbackOccupiedResponse;
 import org.bidib.jbidibc.message.FeedbackSpeedResponse;
 import org.bidib.jbidibc.message.LcKeyResponse;
+import org.bidib.jbidibc.message.LcStatResponse;
 import org.bidib.jbidibc.message.LcWaitResponse;
 import org.bidib.jbidibc.message.LogonResponse;
 import org.bidib.jbidibc.message.NodeLostResponse;
@@ -170,6 +171,9 @@ public class MessageReceiver {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
                                             ((LcKeyResponse) message).getKeyState());
                                     }
+                                    else if (message instanceof LcStatResponse) {
+                                        // ignored
+                                    }
                                     else if (message instanceof LcWaitResponse) {
                                         setTimeout(((LcWaitResponse) message).getTimeout());
                                     }
@@ -188,7 +192,7 @@ public class MessageReceiver {
                                         fireNodeLost(node);
                                     }
                                     else if (message instanceof SysErrorResponse
-                                        && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE /*18*/) {
+                                        && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE /* 18 */) {
 
                                         LOGGER.warn("A node attempted to register with an already registered ID: {}",
                                             ((SysErrorResponse) message).getAddr());
@@ -326,7 +330,9 @@ public class MessageReceiver {
 
     /**
      * Get a message from the receiveQueue for the defined timeout period.
+     * 
      * @param responseType the optional responseType id to wait for
+     *
      * @return the received message or null if no message was received during the defined period.
      * @throws InterruptedException
      */
@@ -369,11 +375,11 @@ public class MessageReceiver {
         while (!leaveLoop);
 
         LOGGER.debug("Received message: {}", result);
-        //        // TODO why waiting twice ?
-        //        if (result == null && TIMEOUT > Bidib.DEFAULT_TIMEOUT) {
-        //            result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
-        //            LOGGER.debug("Received message 2nd try: {}", result);
-        //        }
+        // // TODO why waiting twice ?
+        // if (result == null && TIMEOUT > Bidib.DEFAULT_TIMEOUT) {
+        // result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
+        // LOGGER.debug("Received message 2nd try: {}", result);
+        // }
         return result;
     }
 

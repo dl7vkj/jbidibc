@@ -140,7 +140,7 @@ public class AccessoryNode extends DeviceNode {
 
     public void setOutput(LcOutputType outputType, int outputNumber, int state) throws IOException, ProtocolException,
         InterruptedException {
-        send(new LcOutputMessage(outputType, outputNumber, state));
+        send(new LcOutputMessage(outputType, outputNumber, state), false, 0);
         MessageReceiver.setTimeout(Bidib.DEFAULT_TIMEOUT);
     }
 }
