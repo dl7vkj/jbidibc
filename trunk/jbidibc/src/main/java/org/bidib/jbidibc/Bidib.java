@@ -107,13 +107,6 @@ public class Bidib {
         }
     }
 
-    private boolean isValidPortName(String portName) {
-        if (portName != null && !portName.trim().isEmpty()) {
-            return true;
-        }
-        return false;
-    }
-
     public List<CommPortIdentifier> getPortIdentifiers() {
         List<CommPortIdentifier> portIdentifiers = new ArrayList<CommPortIdentifier>();
 
@@ -211,7 +204,7 @@ public class Bidib {
         UnsupportedCommOperationException, IOException, ProtocolException, InterruptedException,
         TooManyListenersException, NoSuchPortException {
         if (port == null) {
-            if (portName == null) {
+            if (portName == null || portName.trim().isEmpty()) {
                 throw new PortNotFoundException("");
             }
             loadLibraries();
