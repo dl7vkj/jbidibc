@@ -23,12 +23,12 @@ public class BoostQuery extends BidibNodeCommand {
         int result = 20;
 
         try {
-            Bidib.open(getPortName());
+            Bidib.getInstance().open(getPortName());
 
             Node node = findNode();
 
             if (node != null) {
-                BidibNode bidibNode = Bidib.getNode(node);
+                BidibNode bidibNode = Bidib.getInstance().getNode(node);
 
                 // TODO verify if the booster query returns the booster state ...
                 /*BoosterState boosterState =*/bidibNode.boosterQuery();
@@ -41,7 +41,7 @@ public class BoostQuery extends BidibNodeCommand {
                 LOGGER.warn("node with unique id \"" + getNodeIdentifier() + "\" not found");
             }
 
-            Bidib.close();
+            Bidib.getInstance().close();
 
         }
         catch (PortNotFoundException ex) {

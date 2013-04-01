@@ -31,7 +31,6 @@ import org.bidib.jbidibc.message.NodeLostResponse;
 import org.bidib.jbidibc.message.NodeNewResponse;
 import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.message.SysErrorResponse;
-import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,14 +42,27 @@ public class MessageReceiver {
 
     private static final BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
 
-    private static final Collection<MessageListener> listeners =
+    private final Collection<MessageListener> listeners =
         Collections.synchronizedList(new LinkedList<MessageListener>());
 
     private static int TIMEOUT = Bidib.DEFAULT_TIMEOUT;
 
     private static boolean RUNNING = true;
 
-    public MessageReceiver(SerialPort port, NodeFactory nodeFactory) {
+    private NodeFactory nodeFactory;
+
+    public MessageReceiver(NodeFactory nodeFactory) {
+        this.nodeFactory = nodeFactory;
+
+        nodeFactory.setMessageReceiver(this);
+    }
+
+    /**
+     * Receive messages from the configured port
+     */
+    public void receive(final SerialPort port) {
+        LOGGER.debug("Start receiving messages.");
+
         synchronized (this) {
             LOGGER.debug("Starting message receiver.");
             try {
@@ -204,11 +216,16 @@ public class MessageReceiver {
                                 }
                                 finally {
                                     if (message != null) {
-                                        int num = BidibNode.getNextReceiveMsgNum(message);
-
-                                        if (message.getNum() != num) {
-                                            throw new ProtocolException("wrong message number: expected " + num
-                                                + " but got " + message.getNum());
+                                        // verify that the receive message number is valid
+                                        int numExpected =
+                                            nodeFactory.getNode(new Node(message.getAddr())).getNextReceiveMsgNum(
+                                                message);
+                                        int numReceived = message.getNum();
+                                        LOGGER.debug("Compare the message numbers, expected: {}, received: {}",
+                                            numExpected, numReceived);
+                                        if (/*message.getNum()*/numReceived != numExpected) {
+                                            throw new ProtocolException("wrong message number: expected " + numExpected
+                                                + " but got " + /*message.getNum()*/numReceived);
                                         }
                                     }
                                 }
@@ -242,7 +259,7 @@ public class MessageReceiver {
         }
     }
 
-    public static void addMessageListener(MessageListener l) {
+    public void addMessageListener(MessageListener l) {
         listeners.add(l);
     }
 
@@ -256,73 +273,73 @@ public class MessageReceiver {
         RUNNING = true;
     }
 
-    static void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {
+    protected void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {
         for (MessageListener l : listeners) {
             l.address(address, detectorNumber, addresses);
         }
     }
 
-    static void fireBoosterCurrent(byte[] address, int current) {
+    protected void fireBoosterCurrent(byte[] address, int current) {
         for (MessageListener l : listeners) {
             l.boosterCurrent(address, current);
         }
     }
 
-    static void fireBoosterState(byte[] address, BoosterState state) {
+    protected void fireBoosterState(byte[] address, BoosterState state) {
         for (MessageListener l : listeners) {
             l.boosterState(address, state);
         }
     }
 
-    static void fireBoosterTemperature(byte[] address, int temperature) {
+    protected void fireBoosterTemperature(byte[] address, int temperature) {
         for (MessageListener l : listeners) {
             l.boosterTemperature(address, temperature);
         }
     }
 
-    static void fireBoosterVoltage(byte[] address, int voltage) {
+    protected void fireBoosterVoltage(byte[] address, int voltage) {
         for (MessageListener l : listeners) {
             l.boosterVoltage(address, voltage);
         }
     }
 
-    static void fireConfidence(byte[] address, int valid, int freeze, int signal) {
+    protected void fireConfidence(byte[] address, int valid, int freeze, int signal) {
         for (MessageListener l : listeners) {
             l.confidence(address, valid, freeze, signal);
         }
     }
 
-    private static void fireFree(byte[] address, int detectorNumber) {
+    private void fireFree(byte[] address, int detectorNumber) {
         for (MessageListener l : listeners) {
             l.free(address, detectorNumber);
         }
     }
 
-    private static void fireKey(byte[] address, int keyNumber, int keyState) {
+    private void fireKey(byte[] address, int keyNumber, int keyState) {
         for (MessageListener l : listeners) {
             l.key(address, keyNumber, keyState);
         }
     }
 
-    private static void fireNodeLost(Node node) {
+    private void fireNodeLost(Node node) {
         for (MessageListener l : listeners) {
             l.nodeLost(node);
         }
     }
 
-    private static void fireNodeNew(Node node) {
+    private void fireNodeNew(Node node) {
         for (MessageListener l : listeners) {
             l.nodeNew(node);
         }
     }
 
-    private static void fireOccupied(byte[] address, int detectorNumber) {
+    private void fireOccupied(byte[] address, int detectorNumber) {
         for (MessageListener l : listeners) {
             l.occupied(address, detectorNumber);
         }
     }
 
-    static void fireSpeed(byte[] address, AddressData addressData, int speed) {
+    protected void fireSpeed(byte[] address, AddressData addressData, int speed) {
         for (MessageListener l : listeners) {
             l.speed(address, addressData, speed);
         }
@@ -336,7 +353,7 @@ public class MessageReceiver {
      * @return the received message or null if no message was received during the defined period.
      * @throws InterruptedException
      */
-    public static BidibMessage getMessage(Integer responseType) throws InterruptedException {
+    public BidibMessage getMessage(Integer responseType) throws InterruptedException {
         LOGGER.debug("get message with responseType: {}", responseType);
         BidibMessage result = null;
 
@@ -389,7 +406,7 @@ public class MessageReceiver {
     }
 
     public static void setTimeout(int timeout) {
-        Bidib.setTimeout(timeout);
+        Bidib.getInstance().setTimeout(timeout);
         TIMEOUT = timeout;
     }
 
@@ -413,7 +430,7 @@ public class MessageReceiver {
         while (index < output.length) {
             int size = output[index] + 1;
 
-            if (size < 0) {
+            if (size <= 0) {
                 throw new ProtocolException("cannot split messages, array size is " + size);
             }
 

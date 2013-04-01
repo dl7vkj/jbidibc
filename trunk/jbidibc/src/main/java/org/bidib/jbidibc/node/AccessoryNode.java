@@ -33,8 +33,8 @@ import org.bidib.jbidibc.message.LcMacroStateResponse;
 import org.bidib.jbidibc.message.LcOutputMessage;
 
 public class AccessoryNode extends DeviceNode {
-    AccessoryNode(byte[] addr) {
-        super(addr);
+    AccessoryNode(byte[] addr, MessageReceiver messageReceiver) {
+        super(addr, messageReceiver);
     }
 
     public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws IOException, ProtocolException,

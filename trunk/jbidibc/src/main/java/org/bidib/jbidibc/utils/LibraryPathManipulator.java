@@ -58,13 +58,6 @@ public class LibraryPathManipulator {
      */
     public void manipulateLibraryPath(String pathToDLLs) {
 
-        // have this only available on debug logger
-        if (LOGGER.isDebugEnabled()) {
-            for (Entry<Object, Object> prop : System.getProperties().entrySet()) {
-                LOGGER.debug("{} -> {}", prop.getKey(), prop.getValue());
-            }
-        }
-
         try {
             // get the classpath
             String cp = System.getProperty("java.class.path");

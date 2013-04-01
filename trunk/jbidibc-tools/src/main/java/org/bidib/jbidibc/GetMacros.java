@@ -22,12 +22,12 @@ public class GetMacros extends BidibNodeCommand {
         int result = 20;
 
         try {
-            Bidib.open(getPortName());
+            Bidib.getInstance().open(getPortName());
 
             Node node = findNode();
 
             if (node != null) {
-                AccessoryNode accessoryNode = Bidib.getAccessoryNode(node);
+                AccessoryNode accessoryNode = Bidib.getInstance().getAccessoryNode(node);
 
                 if (accessoryNode != null) {
                     Feature feature = accessoryNode.getFeature(BidibLibrary.FEATURE_CTRL_MAC_COUNT);
@@ -65,7 +65,7 @@ public class GetMacros extends BidibNodeCommand {
                 System.err.println("node with unique id \"" + getNodeIdentifier() + "\" not found");
             }
 
-            Bidib.close();
+            Bidib.getInstance().close();
 
         }
         catch (PortNotFoundException ex) {

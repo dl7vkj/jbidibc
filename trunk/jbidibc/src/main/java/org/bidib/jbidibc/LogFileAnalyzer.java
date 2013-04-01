@@ -31,7 +31,7 @@ public class LogFileAnalyzer {
 
     private final Collection<Message> messages = new LinkedList<Message>();
 
-    public LogFileAnalyzer(File file) throws IOException {
+    public LogFileAnalyzer(final File file, final MessageReceiver messageReceiver) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
         String line = null;
 
@@ -81,26 +81,26 @@ public class LogFileAnalyzer {
                         LOGGER.info("message: " + message.message);
 
                         if (message.message instanceof BoostCurrentResponse) {
-                            MessageReceiver.fireBoosterCurrent(message.message.getAddr(),
+                            messageReceiver.fireBoosterCurrent(message.message.getAddr(),
                                 ((BoostCurrentResponse) message.message).getCurrent());
                         }
                         else if (message.message instanceof BoostStatResponse) {
-                            MessageReceiver.fireBoosterState(message.message.getAddr(),
+                            messageReceiver.fireBoosterState(message.message.getAddr(),
                                 ((BoostStatResponse) message.message).getState());
                         }
                         else if (message.message instanceof FeedbackAddressResponse) {
-                            MessageReceiver.fireAddress(message.message.getAddr(),
+                            messageReceiver.fireAddress(message.message.getAddr(),
                                 ((FeedbackAddressResponse) message.message).getDetectorNumber(),
                                 ((FeedbackAddressResponse) message.message).getAddresses());
                         }
                         else if (message.message instanceof FeedbackConfidenceResponse) {
-                            MessageReceiver.fireConfidence(message.message.getAddr(),
+                            messageReceiver.fireConfidence(message.message.getAddr(),
                                 ((FeedbackConfidenceResponse) message.message).getValid(),
                                 ((FeedbackConfidenceResponse) message.message).getFreeze(),
                                 ((FeedbackConfidenceResponse) message.message).getSignal());
                         }
                         else if (message.message instanceof FeedbackSpeedResponse) {
-                            MessageReceiver.fireSpeed(message.message.getAddr(),
+                            messageReceiver.fireSpeed(message.message.getAddr(),
                                 ((FeedbackSpeedResponse) message.message).getAddress(),
                                 ((FeedbackSpeedResponse) message.message).getSpeed());
                         }

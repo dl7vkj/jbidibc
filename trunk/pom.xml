@@ -50,10 +50,6 @@
         <commons-lang-version>2.6</commons-lang-version>
         <jcommander-version>1.30</jcommander-version>
         <sysout-over-slf4j-version>1.0.2</sysout-over-slf4j-version>
-        <!--
-		<rxtxcomm-groupId>org.qbang.rxtx</rxtxcomm-groupId>
-		<rxtxcomm-version>2.2.pre2</rxtxcomm-version>
-		-->
         <rxtxcomm-groupId>org.bidib.jbidib.org.qbang.rxtx</rxtxcomm-groupId>
         <rxtxcomm-version>2.2</rxtxcomm-version>
         <!-- unify the encoding for all the modules -->
@@ -207,7 +203,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -226,7 +222,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>

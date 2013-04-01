@@ -33,14 +33,14 @@ public abstract class BidibNodeCommand extends BidibCommand {
 
     protected Node findNode() throws IOException, ProtocolException, InterruptedException {
         Node result = null;
-        BidibNode rootNode = Bidib.getRootNode();
+        BidibNode rootNode = Bidib.getInstance().getRootNode();
         int count = rootNode.getNodeCount();
 
         for (int index = 1; index <= count; index++) {
             Node node = rootNode.getNextNode();
 
             if ((node.getUniqueId() & 0xffffffffffffffL) == nodeId.longValue()) {
-                Bidib.getNode(node).getMagic();
+                Bidib.getInstance().getNode(node).getMagic();
                 result = node;
                 break;
             }

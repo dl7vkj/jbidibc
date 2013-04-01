@@ -3,8 +3,8 @@ package org.bidib.jbidibc.node;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.Semaphore;
 
 import org.bidib.jbidibc.Bidib;
@@ -72,7 +72,7 @@ public class BidibNode {
 
     private static final Logger MSG_TX_LOGGER = LoggerFactory.getLogger("TX");
 
-    private static final Collection<TransferListener> listeners = new LinkedList<TransferListener>();
+    private final List<TransferListener> listeners = new LinkedList<TransferListener>();
 
     private final byte[] addr;
 
@@ -88,8 +88,19 @@ public class BidibNode {
 
     private final ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-    BidibNode(byte[] address) {
+    private MessageReceiver messageReceiver;
+
+    /**
+     * Create a new BidibNode that represents a connected node (slave) on the BiDiB bus.
+     * 
+     * @param address
+     *            the address
+     * @param messageReceiver
+     *            the message receiver
+     */
+    protected BidibNode(byte[] address, MessageReceiver messageReceiver) {
         this.addr = address;
+        this.messageReceiver = messageReceiver;
         LOGGER.debug("Create new BidibNode with address: {}", address);
     }
 
@@ -107,8 +118,12 @@ public class BidibNode {
         send(new FeedbackMirrorOccupiedMessage(detectorNumber), false, null);
     }
 
-    public static void addTransferListener(TransferListener l) {
+    public void addTransferListener(TransferListener l) {
         listeners.add(l);
+    }
+
+    public List<TransferListener> getTransferListeners() {
+        return listeners;
     }
 
     /**
@@ -149,25 +164,25 @@ public class BidibNode {
         output.write(c);
     }
 
-    private static void fireReceiveStarted() {
+    private void fireReceiveStarted() {
         for (TransferListener l : listeners) {
             l.receiveStarted();
         }
     }
 
-    private static void fireReceiveStopped() {
+    private void fireReceiveStopped() {
         for (TransferListener l : listeners) {
             l.receiveStopped();
         }
     }
 
-    private static void fireSendStarted() {
+    private void fireSendStarted() {
         for (TransferListener l : listeners) {
             l.sendStarted();
         }
     }
 
-    private static void fireSendStopped() {
+    private void fireSendStopped() {
         for (TransferListener l : listeners) {
             l.sendStopped();
         }
@@ -263,26 +278,32 @@ public class BidibNode {
         return node;
     }
 
-    public static int getNextReceiveMsgNum(BidibMessage message) {
-        final BidibNode node = Bidib.getNode(new Node(0, message.getAddr(), 0));
+    /**
+     * Prepare the next receive message number in the communication with the 
+     * communication partner. Every received message should be incremented 
+     * by 1 and on overflow start again with 1.
+     * @param message the message
+     * @return the next receive message number
+     */
+    public int getNextReceiveMsgNum(BidibMessage message) {
 
         try {
-            node.nextReceiveMsgNumSemaphore.acquire();
-            node.nextReceiveMsgNum++;
-            if (node.nextReceiveMsgNum > 255) {
-                node.nextReceiveMsgNum = 1;
+            nextReceiveMsgNumSemaphore.acquire();
+            nextReceiveMsgNum++;
+            if (nextReceiveMsgNum > 255) {
+                nextReceiveMsgNum = 1;
             }
             if (message.getNum() == 0) {
-                node.nextReceiveMsgNum = 0;
+                nextReceiveMsgNum = 0;
             }
         }
         catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
         finally {
-            node.nextReceiveMsgNumSemaphore.release();
+            nextReceiveMsgNumSemaphore.release();
         }
-        return node.nextReceiveMsgNum;
+        return nextReceiveMsgNum;
     }
 
     private byte getNextSendMsgNum() {
@@ -351,7 +372,7 @@ public class BidibNode {
         LOGGER.debug("Receive message, expected responseType: {}", expectedResponseType);
         fireReceiveStarted();
         try {
-            result = MessageReceiver.getMessage(expectedResponseType);
+            result = messageReceiver.getMessage(expectedResponseType);
         }
         finally {
             if (result == null) {
@@ -370,6 +391,9 @@ public class BidibNode {
     private void resetNextSendMsgNum() {
         try {
             nextSendMsgNumSemaphore.acquire();
+
+            // reset the counter. The next message will be sent with SendMsgNum=0 which
+            // will reset the counter on the receiver side
             nextSendMsgNum = -1;
         }
         catch (InterruptedException e) {
@@ -380,7 +404,7 @@ public class BidibNode {
         }
     }
 
-    BidibMessage send(BidibMessage message) throws IOException, ProtocolException, InterruptedException {
+    protected BidibMessage send(BidibMessage message) throws IOException, ProtocolException, InterruptedException {
         return send(message, true, null);
     }
 
@@ -394,7 +418,7 @@ public class BidibNode {
      * @throws ProtocolException
      * @throws InterruptedException
      */
-    synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType)
+    protected synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType)
         throws IOException, ProtocolException, InterruptedException {
 
         int num = getNextSendMsgNum();
@@ -428,9 +452,11 @@ public class BidibNode {
 
             result = receive(expectedResponseType);
             if (result == null) {
+                LOGGER.warn("Get result failed for message:  {}", message);
                 throw new ProtocolException("got no answer to " + message);
             }
         }
+        LOGGER.debug("Return result message: {}", result);
         return result;
     }
 
@@ -478,7 +504,7 @@ public class BidibNode {
         MSG_TX_LOGGER.info(sb.toString());
 
         // send the output to Bidib
-        Bidib.send(bytes);
+        Bidib.getInstance().send(bytes);
 
         logRecord.append(" : ");
         for (int index = 0; index < bytes.length; index++) {
