@@ -176,7 +176,7 @@ public class LibraryPathManipulator {
         return osDependentPathToLibrary;
     }
 
-    private Platform getOsName() {
+    private static Platform getOsName() {
 
         String osName = System.getProperty("os.name").toLowerCase();
 
@@ -200,5 +200,12 @@ public class LibraryPathManipulator {
         String dataModel = System.getProperty("sun.arch.data.model").toLowerCase();
 
         return dataModel;
+    }
+
+    /**
+     * @return the current platform is windows
+     */
+    public static boolean isWindows() {
+        return getOsName().equals(Platform.Windows);
     }
 }
