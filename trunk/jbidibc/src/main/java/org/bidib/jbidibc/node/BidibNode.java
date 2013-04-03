@@ -47,7 +47,6 @@ import org.bidib.jbidibc.message.SysEnableMessage;
 import org.bidib.jbidibc.message.SysGetPVersionMessage;
 import org.bidib.jbidibc.message.SysGetSwVersionMessage;
 import org.bidib.jbidibc.message.SysIdentifyMessage;
-import org.bidib.jbidibc.message.SysIdentifyResponse;
 import org.bidib.jbidibc.message.SysMagicMessage;
 import org.bidib.jbidibc.message.SysMagicResponse;
 import org.bidib.jbidibc.message.SysPVersionResponse;
@@ -91,7 +90,8 @@ public class BidibNode {
     private MessageReceiver messageReceiver;
 
     /**
-     * Create a new BidibNode that represents a connected node (slave) on the BiDiB bus.
+     * Create a new BidibNode that represents a connected node (slave) on the
+     * BiDiB bus.
      * 
      * @param address
      *            the address
@@ -127,7 +127,8 @@ public class BidibNode {
     }
 
     /**
-     * Switch on track signal on the booster. 
+     * Switch on track signal on the booster.
+     * 
      * @throws IOException
      * @throws ProtocolException
      * @throws InterruptedException
@@ -137,7 +138,8 @@ public class BidibNode {
     }
 
     /**
-     * Switch off track signal on the booster. 
+     * Switch off track signal on the booster.
+     * 
      * @throws IOException
      * @throws ProtocolException
      * @throws InterruptedException
@@ -147,7 +149,9 @@ public class BidibNode {
     }
 
     /**
-     * Query the booster state. We don't wait for the response because the {@link MessageReceiver} fires the booster status callback on receipt. 
+     * Query the booster state. We don't wait for the response because the
+     * {@link MessageReceiver} fires the booster status callback on receipt.
+     * 
      * @throws IOException
      * @throws ProtocolException
      * @throws InterruptedException
@@ -194,8 +198,11 @@ public class BidibNode {
 
     /**
      * Get the loco addresses in the specified range from the feedback system.
-     * @param begin the start of Melderbits to be transfered 
-     * @param end the end of Melderbits to be transfered
+     * 
+     * @param begin
+     *            the start of Melderbits to be transfered
+     * @param end
+     *            the end of Melderbits to be transfered
      */
     public void getAddressState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
         send(new FeedbackGetAddressRangeMessage(begin, end), false, null);
@@ -221,9 +228,10 @@ public class BidibNode {
     }
 
     /**
-     * Request the number of features of the node. This call will reset the internal counter for 
-     * the next <code>getNextFeature()</code> request.
-     * @return number of features on the node 
+     * Request the number of features of the node. This call will reset the
+     * internal counter for the next <code>getNextFeature()</code> request.
+     * 
+     * @return number of features on the node
      * @throws IOException
      * @throws ProtocolException
      * @throws InterruptedException
@@ -233,8 +241,9 @@ public class BidibNode {
     }
 
     /**
-     * Returns the next feature of the node. Call <code>getFeatureCount()</code> to reset the 
-     * internal counter for the feature index
+     * Returns the next feature of the node. Call <code>getFeatureCount()</code>
+     * to reset the internal counter for the feature index
+     * 
      * @return a feature or null if no more features available
      * @throws IOException
      * @throws ProtocolException
@@ -250,8 +259,11 @@ public class BidibNode {
 
     /**
      * Get the status of the track sensoring in the specified range.
-     * @param begin the start of Melderbits to be transfered 
-     * @param end the end of Melderbits to be transfered
+     * 
+     * @param begin
+     *            the start of Melderbits to be transfered
+     * @param end
+     *            the end of Melderbits to be transfered
      */
     public void getFeedbackState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
         send(new FeedbackGetRangeMessage(begin, end), false, null);
@@ -279,10 +291,12 @@ public class BidibNode {
     }
 
     /**
-     * Prepare the next receive message number in the communication with the 
-     * communication partner. Every received message should be incremented 
-     * by 1 and on overflow start again with 1.
-     * @param message the message
+     * Prepare the next receive message number in the communication with the
+     * communication partner. Every received message should be incremented by 1
+     * and on overflow start again with 1.
+     * 
+     * @param message
+     *            the message
      * @return the next receive message number
      */
     public int getNextReceiveMsgNum(BidibMessage message) {
@@ -329,7 +343,8 @@ public class BidibNode {
         BidibMessage response = send(new NodeTabGetAllMessage(), true, Integer.valueOf(NodeTabCountResponse.TYPE));
         LOGGER.debug("getNodeCount, received response: {}", response);
 
-        // if we receive another message then NodeTabCountResponse this will cause an CCE
+        // if we receive another message then NodeTabCountResponse this will
+        // cause an CCE
         // i've seen SysMagicResponse messages on my system ...
 
         int totalNodes = ((NodeTabCountResponse) response).getCount();
@@ -350,8 +365,8 @@ public class BidibNode {
         return ((SysUniqueIdResponse) send(new SysUniqueIdMessage())).getUniqueId();
     }
 
-    public IdentifyState identify(IdentifyState state) throws IOException, ProtocolException, InterruptedException {
-        return ((SysIdentifyResponse) send(new SysIdentifyMessage(state))).getState();
+    public void identify(IdentifyState state) throws IOException, ProtocolException, InterruptedException {
+        send(new SysIdentifyMessage(state), false, null);
     }
 
     public boolean isUpdatable() throws IOException, ProtocolException, InterruptedException {
@@ -392,7 +407,8 @@ public class BidibNode {
         try {
             nextSendMsgNumSemaphore.acquire();
 
-            // reset the counter. The next message will be sent with SendMsgNum=0 which
+            // reset the counter. The next message will be sent with
+            // SendMsgNum=0 which
             // will reset the counter on the receiver side
             nextSendMsgNum = -1;
         }
@@ -410,9 +426,13 @@ public class BidibNode {
 
     /**
      * Send a message and wait for answer if expectAnswer is true.
-     * @param message the message to send
-     * @param expectAnswer answer is expected, this will cause to wait for an answer
-     * @param expectedResponseType the expected type of response (optional)
+     * 
+     * @param message
+     *            the message to send
+     * @param expectAnswer
+     *            answer is expected, this will cause to wait for an answer
+     * @param expectedResponseType
+     *            the expected type of response (optional)
      * @return
      * @throws IOException
      * @throws ProtocolException

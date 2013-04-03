@@ -10,6 +10,7 @@ import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.enumeration.BoosterState;
+import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.exception.InvalidConfigurationException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
@@ -62,6 +63,10 @@ public class NodeFactory {
 
             @Override
             public void free(byte[] address, int detectorNumber) {
+            }
+
+            @Override
+            public void identity(byte[] address, IdentifyState identifyState) {
             }
 
             @Override

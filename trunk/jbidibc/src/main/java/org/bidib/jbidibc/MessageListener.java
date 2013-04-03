@@ -3,6 +3,7 @@ package org.bidib.jbidibc;
 import java.util.Collection;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
+import org.bidib.jbidibc.enumeration.IdentifyState;
 
 public interface MessageListener {
     void address(byte[] address, int detectorNumber, Collection<AddressData> addressData);
@@ -18,6 +19,8 @@ public interface MessageListener {
     void confidence(byte[] address, int valid, int freeze, int signal);
 
     void free(byte[] address, int detectorNumber);
+
+    void identity(byte[] address, IdentifyState identifyState);
 
     void key(byte[] address, int keyNumber, int keyState);
 

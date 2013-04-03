@@ -12,6 +12,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
+import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostCurrentResponse;
@@ -31,6 +32,7 @@ import org.bidib.jbidibc.message.NodeLostResponse;
 import org.bidib.jbidibc.message.NodeNewResponse;
 import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.message.SysErrorResponse;
+import org.bidib.jbidibc.message.SysIdentifyResponse;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -209,6 +211,9 @@ public class MessageReceiver {
                                         LOGGER.warn("A node attempted to register with an already registered ID: {}",
                                             ((SysErrorResponse) message).getAddr());
                                     }
+                                    else if (message instanceof SysIdentifyResponse) {
+                                        fireIdentify(message.getAddr(), ((SysIdentifyResponse) message).getState());
+                                    }
                                     else {
                                         // put the message into the receiveQueue because somebody waits for it ...
                                         receiveQueue.offer(message);
@@ -312,6 +317,12 @@ public class MessageReceiver {
     private void fireFree(byte[] address, int detectorNumber) {
         for (MessageListener l : listeners) {
             l.free(address, detectorNumber);
+        }
+    }
+
+    private void fireIdentify(byte[] address, IdentifyState identifyState) {
+        for (MessageListener l : listeners) {
+            l.identity(address, identifyState);
         }
     }
 
