@@ -358,7 +358,8 @@ public class BidibNode {
     }
 
     public SoftwareVersion getSwVersion() throws IOException, ProtocolException, InterruptedException {
-        return ((SysSwVersionResponse) send(new SysGetSwVersionMessage())).getVersion();
+        BidibMessage result = send(new SysGetSwVersionMessage(), true, Integer.valueOf(SysSwVersionResponse.TYPE));
+        return ((SysSwVersionResponse) result).getVersion();
     }
 
     public byte[] getUniqueId() throws IOException, ProtocolException, InterruptedException {
