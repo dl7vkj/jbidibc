@@ -214,6 +214,7 @@ public class Bidib {
 
             if (file.exists()) {
                 portName = file.getCanonicalPath();
+                LOGGER.info("Changed port name to: {}", portName);
             }
 
             CommPortIdentifier commPort = CommPortIdentifier.getPortIdentifier(portName);
