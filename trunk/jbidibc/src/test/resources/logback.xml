@@ -5,10 +5,9 @@
         <resetJUL>true</resetJUL>
     </contextListener>
     <appender class="ch.qos.logback.core.ConsoleAppender" name="CONSOLE">
-        <layout class="ch.qos.logback.classic.PatternLayout">
-            <pattern>%d{HH:mm:ss.SSS} [%p] %c [%t] - %m%n
-			</pattern>
-        </layout>
+        <encoder>
+            <pattern>%d{HH:mm:ss.SSS} [%p] %c [%t] - %m%n</pattern>
+        </encoder>
     </appender>
     <root level="debug">
         <appender-ref ref="CONSOLE"/>
