@@ -104,7 +104,8 @@ public class AccessoryNode extends DeviceNode {
         ProtocolException, InterruptedException {
         LOGGER.debug("handle macro, macroNumber: {}, macroOperationCode: {}", macroNumber, macroOperationCode);
 
-        BidibMessage response = send(new LcMacroHandleMessage(macroNumber, macroOperationCode), true, LcMacroStateResponse.TYPE);
+        BidibMessage response =
+            send(new LcMacroHandleMessage(macroNumber, macroOperationCode), true, LcMacroStateResponse.TYPE);
 
         LcMacroState result = null;
         if (response instanceof LcMacroStateResponse) {
@@ -144,9 +145,11 @@ public class AccessoryNode extends DeviceNode {
 
     public void setMacroParameter(int macroNumber, int parameter, byte... value) throws IOException, ProtocolException,
         InterruptedException {
-        LOGGER.debug("Set macro parameter, macroNumber: {}, parameter: {}, value: {}", new Object[]{macroNumber, parameter, value});
-        
-        BidibMessage response = send(new LcMacroParaSetMessage(macroNumber, parameter, value), true, LcMacroParaResponse.TYPE);
+        LOGGER.debug("Set macro parameter, macroNumber: {}, parameter: {}, value: {}", new Object[] { macroNumber,
+            parameter, value });
+
+        BidibMessage response =
+            send(new LcMacroParaSetMessage(macroNumber, parameter, value), true, LcMacroParaResponse.TYPE);
         if (response instanceof LcMacroParaResponse) {
             int result = ((LcMacroParaResponse) response).getMacroNumber();
             LOGGER.debug("Set macro parameter returned macronumber: {}", result);
