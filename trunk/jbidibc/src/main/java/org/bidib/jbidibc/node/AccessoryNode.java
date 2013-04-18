@@ -31,8 +31,12 @@ import org.bidib.jbidibc.message.LcMacroResponse;
 import org.bidib.jbidibc.message.LcMacroSetMessage;
 import org.bidib.jbidibc.message.LcMacroStateResponse;
 import org.bidib.jbidibc.message.LcOutputMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccessoryNode extends DeviceNode {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccessoryNode.class);
+
     AccessoryNode(byte[] addr, MessageReceiver messageReceiver) {
         super(addr, messageReceiver);
     }
@@ -98,11 +102,14 @@ public class AccessoryNode extends DeviceNode {
 
     public LcMacroState handleMacro(int macroNumber, LcMacroOperationCode macroOperationCode) throws IOException,
         ProtocolException, InterruptedException {
-        LcMacroState result = null;
-        BidibMessage response = send(new LcMacroHandleMessage(macroNumber, macroOperationCode));
+        LOGGER.debug("handle macro, macroNumber: {}, macroOperationCode: {}", macroNumber, macroOperationCode);
 
+        BidibMessage response = send(new LcMacroHandleMessage(macroNumber, macroOperationCode), true, LcMacroStateResponse.TYPE);
+
+        LcMacroState result = null;
         if (response instanceof LcMacroStateResponse) {
             result = ((LcMacroStateResponse) response).getMacroState();
+            LOGGER.debug("handle macro returned: {}", result);
         }
         return result;
     }
@@ -124,18 +131,26 @@ public class AccessoryNode extends DeviceNode {
     }
 
     public LcMacro setMacro(LcMacro macro) throws IOException, ProtocolException, InterruptedException {
-        LcMacro result = null;
+        LOGGER.debug("Set macro: {}", macro);
         BidibMessage response = send(new LcMacroSetMessage(macro));
 
+        LcMacro result = null;
         if (response instanceof LcMacroResponse) {
             result = ((LcMacroResponse) response).getMacro();
+            LOGGER.debug("Set macro returned: {}", result);
         }
         return result;
     }
 
     public void setMacroParameter(int macroNumber, int parameter, byte... value) throws IOException, ProtocolException,
         InterruptedException {
-        send(new LcMacroParaSetMessage(macroNumber, parameter, value));
+        LOGGER.debug("Set macro parameter, macroNumber: {}, parameter: {}, value: {}", new Object[]{macroNumber, parameter, value});
+        
+        BidibMessage response = send(new LcMacroParaSetMessage(macroNumber, parameter, value), true, LcMacroParaResponse.TYPE);
+        if (response instanceof LcMacroParaResponse) {
+            int result = ((LcMacroParaResponse) response).getMacroNumber();
+            LOGGER.debug("Set macro parameter returned macronumber: {}", result);
+        }
     }
 
     public void setOutput(LcOutputType outputType, int outputNumber, int state) throws IOException, ProtocolException,

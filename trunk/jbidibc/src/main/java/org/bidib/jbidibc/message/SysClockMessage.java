@@ -3,8 +3,12 @@ package org.bidib.jbidibc.message;
 import java.util.Calendar;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SysClockMessage extends BidibMessage {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SysClockMessage.class);
+
     public SysClockMessage(Calendar date, int factor) {
         super(0, BidibLibrary.MSG_SYS_CLOCK, getMinute(date.get(Calendar.MINUTE)), getHour(date
             .get(Calendar.HOUR_OF_DAY)), getDay(date.get(Calendar.DAY_OF_WEEK)), getAccelerationFactor(factor));
@@ -26,7 +30,11 @@ public class SysClockMessage extends BidibMessage {
         else {
             day = (day + 5) % 7;
         }
-        return (byte) ((day | 0x40) & 0x47);
+        byte ret = (byte) ((day | 0x40) & 0x47);
+
+        LOGGER.trace("Get day: {}, returns: {}", day, ret);
+
+        return ret;
     }
 
     public static byte getHour(int hour) {
