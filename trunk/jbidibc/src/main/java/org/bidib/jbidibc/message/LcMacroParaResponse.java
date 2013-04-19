@@ -18,8 +18,13 @@ public class LcMacroParaResponse extends BidibMessage {
         return getData()[0];
     }
 
-    public int getParameter() {
-        return getData()[1];
+    /**
+     * Get the parameter value at the specified index
+     * @param index the index
+     * @return the parameter value
+     */
+    public int getParameter(int index) {
+        return getData()[index];
     }
 
     public byte[] getValue() {
