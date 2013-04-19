@@ -215,12 +215,22 @@ public class BidibNode {
         send(new FeedbackGetConfidenceMessage(), false, null);
     }
 
+    /**
+     * Get the feature with the specified number from the node.
+     * @param number the feature number
+     * @return the returned feature
+     * @throws IOException
+     * @throws ProtocolException
+     * @throws InterruptedException
+     */
     public Feature getFeature(int number) throws IOException, ProtocolException, InterruptedException {
-        Feature result = null;
         LOGGER.debug("get feature with number: {}", number);
+
+        // if a node does not support the feature a feature not available response is received
         BidibMessage response = send(new FeatureGetMessage(number));
 
         LOGGER.debug("get feature with number '{}' returned: {}", number, response);
+        Feature result = null;
         if (response instanceof FeatureResponse) {
             result = ((FeatureResponse) response).getFeature();
         }
