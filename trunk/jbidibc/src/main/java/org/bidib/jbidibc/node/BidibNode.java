@@ -497,7 +497,9 @@ public class BidibNode {
 
     public FirmwareUpdateStat sendFirmwareUpdateOperation(FirmwareUpdateOperation operation, byte... data)
         throws IOException, ProtocolException, InterruptedException {
-        return ((FwUpdateStatResponse) send(new FwUpdateOpMessage(operation, data))).getUpdateStat();
+        
+        BidibMessage result = send(new FwUpdateOpMessage(operation, data), true, FwUpdateStatResponse.TYPE);
+        return ((FwUpdateStatResponse) result).getUpdateStat();
     }
 
     private void sendMessage(byte[] message, BidibMessage bidibMessage) throws IOException {
