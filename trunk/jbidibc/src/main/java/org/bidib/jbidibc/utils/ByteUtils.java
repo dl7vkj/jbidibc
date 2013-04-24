@@ -8,7 +8,9 @@ import java.math.BigInteger;
 /**
  * This class contains utility functions for byte conversations.
  */
-public class ByteUtils {
+public final class ByteUtils {
+    private ByteUtils() {
+    }
 
     public static int getWord(byte lowByte, byte highByte) {
         return ((highByte & 0x3F) << 8) + (lowByte & 0xFF);

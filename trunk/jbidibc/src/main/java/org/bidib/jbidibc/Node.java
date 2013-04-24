@@ -13,13 +13,13 @@ public class Node {
     private final int version;
 
     public Node(byte[] addr) {
-        this.addr = addr;
+        this.addr = addr != null ? addr.clone() : null;
         this.uniqueId = 0;
         this.version = 0;
     }
 
     public Node(int version, byte[] addr, long uniqueId) {
-        this.addr = addr;
+        this.addr = addr != null ? addr.clone() : null;
         this.uniqueId = uniqueId;
         this.version = version;
     }

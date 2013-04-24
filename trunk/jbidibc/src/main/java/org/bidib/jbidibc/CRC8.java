@@ -1,6 +1,6 @@
 package org.bidib.jbidibc;
 
-public class CRC8 {
+public final class CRC8 {
     private static final int[] crc_array =
         new int[] {
             //@formatter:off
@@ -22,20 +22,23 @@ public class CRC8 {
         //@formatter:on
         };
 
+    private CRC8() {
+    }
+
     public static int getCrc(byte[] bytes, int begin, int end) {
         int result = 0;
-        boolean escape_hot = false;
+        boolean escapeHot = false;
 
         for (int index = begin; index <= end; index++) {
             byte data = bytes[index];
 
             if (data == (byte) BidibLibrary.BIDIB_PKT_ESCAPE) {
-                escape_hot = true;
+                escapeHot = true;
             }
             else {
-                if (escape_hot) {
+                if (escapeHot) {
                     data ^= 0x20;
-                    escape_hot = false;
+                    escapeHot = false;
                 }
                 result = CRC8.getCrcValue((data ^ result) & 0xFF);
             }

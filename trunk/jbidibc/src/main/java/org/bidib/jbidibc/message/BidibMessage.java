@@ -16,7 +16,7 @@ public class BidibMessage {
     private byte[] data = null;
 
     BidibMessage(byte[] addr, int num, int type, byte... data) {
-        this.addr = addr;
+        this.addr = addr != null ? addr.clone() : null;
         this.num = num & 0xFF;
         this.type = (byte) type;
         this.data = data;
@@ -32,7 +32,8 @@ public class BidibMessage {
      * Create a BidibMessage from an array of bytes.
      * 
      * @param message
-     *            array of bytes, containing the leading magic byte, but wthout the trailing magic byte
+     *            array of bytes, containing the leading magic byte, but wthout
+     *            the trailing magic byte
      * 
      * @throws ProtocolException
      *             Thrown if the leading magic byte was missing.

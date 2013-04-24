@@ -26,7 +26,8 @@ import org.slf4j.LoggerFactory;
 public class LogFileAnalyzer {
     private static final Logger LOGGER = LoggerFactory.getLogger(LogFileAnalyzer.class);
 
-    //    private static final DateFormat dateFormat = new SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
+    // private static final DateFormat dateFormat = new
+    // SimpleDateFormat("EEE MMM dd HH:mm:ss zzz yyyy", Locale.ENGLISH);
     private static final DateFormat dateFormat = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss.SSS", Locale.ENGLISH);
 
     private final Collection<Message> messages = new LinkedList<Message>();
@@ -109,7 +110,7 @@ public class LogFileAnalyzer {
                     LOGGER.info("no more messages to fire");
                 }
                 catch (InterruptedException e) {
-                    e.printStackTrace();
+                    throw new RuntimeException(e);
                 }
             }
         }.start();
@@ -118,18 +119,18 @@ public class LogFileAnalyzer {
     private static byte[] getBytes(String bytes) {
         ByteArrayOutputStream result = new ByteArrayOutputStream();
         String[] parts = bytes.split(" ");
-        boolean escape_hot = false;
+        boolean escapeHot = false;
 
         for (String part : parts) {
             byte b = (byte) Integer.parseInt(part, 16);
 
             if (b == (byte) BidibLibrary.BIDIB_PKT_ESCAPE) {
-                escape_hot = true;
+                escapeHot = true;
             }
             else if (b != (byte) BidibLibrary.BIDIB_PKT_MAGIC) {
-                if (escape_hot) {
+                if (escapeHot) {
                     b ^= 0x20;
-                    escape_hot = false;
+                    escapeHot = false;
                 }
                 result.write(b);
             }
@@ -138,9 +139,9 @@ public class LogFileAnalyzer {
     }
 
     private class Message {
-        public final long time;
+        private final long time;
 
-        public final BidibMessage message;
+        private final BidibMessage message;
 
         public Message(long time, BidibMessage message) {
             LOGGER.info("Create new message, time: {}, message: {}", time, message);

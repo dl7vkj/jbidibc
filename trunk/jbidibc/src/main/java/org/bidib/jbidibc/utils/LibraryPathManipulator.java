@@ -181,17 +181,21 @@ public class LibraryPathManipulator {
         String osName = System.getProperty("os.name").toLowerCase();
 
         Platform os = Platform.unsupported;
-        if (osName.indexOf("win") > -1)
+        if (osName.indexOf("win") > -1) {
             os = Platform.Windows; // Windows
-        if (osName.indexOf("mac") > -1)
+        }
+        if (osName.indexOf("mac") > -1) {
             os = Platform.Mac; // Mac
-        if (osName.indexOf("nux") > -1)
+        }
+        if (osName.indexOf("nux") > -1) {
             os = Platform.Unix; // Linux
-        if (osName.indexOf("nix") > -1)
+        }
+        if (osName.indexOf("nix") > -1) {
             os = Platform.Unix; // Unix
-        if (osName.indexOf("sunos") > -1)
+        }
+        if (osName.indexOf("sunos") > -1) {
             os = Platform.Solaris; // Solaris
-
+        }
         return os;
     }
 

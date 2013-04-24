@@ -47,9 +47,9 @@ public class MessageReceiver {
     private final Collection<MessageListener> listeners =
         Collections.synchronizedList(new LinkedList<MessageListener>());
 
-    private static int TIMEOUT = Bidib.DEFAULT_TIMEOUT;
+    private static int timeout = Bidib.DEFAULT_TIMEOUT;
 
-    private static boolean RUNNING = true;
+    private static boolean running = true;
 
     private NodeFactory nodeFactory;
 
@@ -76,10 +76,10 @@ public class MessageReceiver {
                 }
                 if (input != null) {
                     int data = 0;
-                    boolean escape_hot = false;
+                    boolean escapeHot = false;
                     StringBuilder logRecord = new StringBuilder();
 
-                    while (RUNNING && (data = input.read()) != -1) {
+                    while (running && (data = input.read()) != -1) {
                         if (LOGGER.isTraceEnabled()) {
                             LOGGER.trace("received data: {}", String.format("%02x ", data));
                         }
@@ -240,18 +240,18 @@ public class MessageReceiver {
                         }
                         else {
                             if (data == BidibLibrary.BIDIB_PKT_ESCAPE) {
-                                escape_hot = true;
+                                escapeHot = true;
                             }
                             else if (data != BidibLibrary.BIDIB_PKT_MAGIC) {
-                                if (escape_hot) {
+                                if (escapeHot) {
                                     data ^= 0x20;
-                                    escape_hot = false;
+                                    escapeHot = false;
                                 }
                                 output.write((byte) data);
                             }
                         }
                     }
-                    LOGGER.debug("Leaving receive loop, RUNNING: {}", RUNNING);
+                    LOGGER.debug("Leaving receive loop, RUNNING: {}", running);
                 }
                 else {
                     LOGGER.error("No input available.");
@@ -271,12 +271,12 @@ public class MessageReceiver {
 
     public static void disable() {
         LOGGER.debug("disable is called.");
-        RUNNING = false;
+        running = false;
     }
 
     public static void enable() {
         LOGGER.debug("enable is called.");
-        RUNNING = true;
+        running = true;
     }
 
     protected void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {
@@ -374,7 +374,7 @@ public class MessageReceiver {
         boolean leaveLoop = false;
 
         do {
-            result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
+            result = receiveQueue.poll(timeout, TimeUnit.MILLISECONDS);
 
             long now = System.currentTimeMillis();
 
@@ -402,13 +402,7 @@ public class MessageReceiver {
             }
         }
         while (!leaveLoop);
-
         LOGGER.debug("Received message: {}", result);
-        // // TODO why waiting twice ?
-        // if (result == null && TIMEOUT > Bidib.DEFAULT_TIMEOUT) {
-        // result = receiveQueue.poll(TIMEOUT, TimeUnit.MILLISECONDS);
-        // LOGGER.debug("Received message 2nd try: {}", result);
-        // }
         return result;
     }
 
@@ -419,7 +413,7 @@ public class MessageReceiver {
 
     public static void setTimeout(int timeout) {
         Bidib.getInstance().setTimeout(timeout);
-        TIMEOUT = timeout;
+        MessageReceiver.timeout = timeout;
     }
 
     /**

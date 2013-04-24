@@ -28,7 +28,7 @@ import org.bidib.jbidibc.utils.LibraryPathManipulator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Bidib {
+public final class Bidib {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Bidib.class);
 
@@ -46,7 +46,7 @@ public class Bidib {
 
     private boolean librariesLoaded;
 
-    private static Bidib INSTANCE;
+    private static final Bidib instance = new Bidib();
 
     private MessageReceiver messageReceiver;
 
@@ -71,10 +71,7 @@ public class Bidib {
     }
 
     public static synchronized Bidib getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new Bidib();
-        }
-        return INSTANCE;
+        return instance;
     }
 
     public void close() throws IOException {

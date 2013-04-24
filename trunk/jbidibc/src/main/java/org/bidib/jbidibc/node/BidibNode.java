@@ -93,15 +93,15 @@ public class BidibNode {
      * Create a new BidibNode that represents a connected node (slave) on the
      * BiDiB bus.
      * 
-     * @param address
+     * @param addr
      *            the address
      * @param messageReceiver
      *            the message receiver
      */
-    protected BidibNode(byte[] address, MessageReceiver messageReceiver) {
-        this.addr = address;
+    protected BidibNode(byte[] addr, MessageReceiver messageReceiver) {
+        this.addr = addr != null ? addr.clone() : null;
         this.messageReceiver = messageReceiver;
-        LOGGER.debug("Create new BidibNode with address: {}", address);
+        LOGGER.debug("Create new BidibNode with address: {}", addr);
     }
 
     public void acknowledgeFree(int detectorNumber) throws IOException, ProtocolException, InterruptedException {
@@ -512,13 +512,13 @@ public class BidibNode {
 
         escape(length);
 
-        int tx_crc = CRC8.getCrcValue(length);
+        int txCrc = CRC8.getCrcValue(length);
 
         for (int i = 1; i <= length; i++) {
             escape(message[i]);
-            tx_crc = CRC8.getCrcValue((message[i] ^ tx_crc) & 0xFF);
+            txCrc = CRC8.getCrcValue((message[i] ^ txCrc) & 0xFF);
         }
-        escape((byte) tx_crc);
+        escape((byte) txCrc);
         sendDelimiter();
 
         flush(bidibMessage);
