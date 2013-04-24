@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>org.sonatype.oss</groupId>
@@ -49,6 +48,7 @@
         <testng-version>6.8</testng-version>
         <commons-lang-version>2.6</commons-lang-version>
         <jcommander-version>1.30</jcommander-version>
+        <jdepend-version>2.0-beta-2</jdepend-version>
         <sysout-over-slf4j-version>1.0.2</sysout-over-slf4j-version>
         <rxtxcomm-groupId>org.bidib.jbidib.org.qbang.rxtx</rxtxcomm-groupId>
         <rxtxcomm-version>2.2</rxtxcomm-version>
@@ -107,6 +107,11 @@
                 <groupId>uk.org.lidalia</groupId>
                 <artifactId>sysout-over-slf4j</artifactId>
                 <version>${sysout-over-slf4j-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <version>${jdepend-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
