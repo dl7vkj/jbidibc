@@ -192,6 +192,7 @@ public class MessageReceiver {
                                         setTimeout(((LcWaitResponse) message).getTimeout());
                                     }
                                     else if (message instanceof LogonResponse) {
+                                        // ignored
                                     }
                                     else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
