@@ -444,9 +444,9 @@ public class BidibNode {
      *            answer is expected, this will cause to wait for an answer
      * @param expectedResponseType
      *            the expected type of response (optional)
-     * @return
+     * @return the response from the node or null if no answer was expected
      * @throws IOException
-     * @throws ProtocolException
+     * @throws ProtocolException thrown if no response was received if an answer was expected
      * @throws InterruptedException
      */
     protected synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType)
