@@ -3,6 +3,7 @@ package org.bidib.jbidibc.node;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.bidib.jbidibc.AddressData;
@@ -12,6 +13,7 @@ import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.exception.InvalidConfigurationException;
+import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -149,7 +151,7 @@ public class NodeFactory {
             LOGGER.debug("Get the bidibNode from nodesSet with address: {}, bidibNode: {}", address, bidibNode);
 
             if (bidibNode == null) {
-                // TODO during testing I've never reached this statement ... 
+                // TODO during testing I've never reached this statement ...
                 int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
                 LOGGER.debug("Create new bidibNode with classId: {}", classId);
 
@@ -157,11 +159,15 @@ public class NodeFactory {
                 if ((classId & 0x01) == 1) {
                     bidibNode = new AccessoryNode(node.getAddr(), messageReceiver);
                     // add the transfer listener
-                    bidibNode.addTransferListener(getRootNode().getTransferListeners().get(0));
+                    List<TransferListener> transferListeners = getRootNode().getTransferListeners();
+
+                    if (transferListeners != null && transferListeners.size() > 0) {
+                        bidibNode.addTransferListener(transferListeners.get(0));
+                    }
                 }
-                //                else if ((classId & 0x16) == 1) {
-                //                    bidibNode = new CommandStationNode(node.getAddr());
-                //                } 
+                // else if ((classId & 0x16) == 1) {
+                // bidibNode = new CommandStationNode(node.getAddr());
+                // }
                 else {
                     bidibNode = new BidibNode(node.getAddr(), messageReceiver);
                     // add the transfer listener
@@ -176,8 +182,9 @@ public class NodeFactory {
     }
 
     /**
-     * Get the root node of the system. This is the node that represents the master.
-     * Creates a new instance of root node if no root node is stored.
+     * Get the root node of the system. This is the node that represents the master. Creates a new instance of root node
+     * if no root node is stored.
+     * 
      * @return the root node
      */
     public RootNode getRootNode() {
