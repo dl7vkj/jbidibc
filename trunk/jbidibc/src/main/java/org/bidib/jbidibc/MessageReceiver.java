@@ -189,6 +189,7 @@ public class MessageReceiver {
                                         // ignored
                                     }
                                     else if (message instanceof LcWaitResponse) {
+                                        // TODO I think this does not work if the sender is already waiting for a response ...
                                         setTimeout(((LcWaitResponse) message).getTimeout());
                                     }
                                     else if (message instanceof LogonResponse) {
@@ -203,8 +204,9 @@ public class MessageReceiver {
                                     else if (message instanceof NodeLostResponse) {
                                         Node node = ((NodeLostResponse) message).getNode(message.getAddr());
 
-                                        nodeFactory.getRootNode().acknowledge(node.getVersion());
                                         fireNodeLost(node);
+                                        nodeFactory.getRootNode().acknowledge(node.getVersion());
+                                        //                                        fireNodeLost(node);
                                     }
                                     else if (message instanceof SysErrorResponse
                                         && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE /* 18 */) {
@@ -229,9 +231,9 @@ public class MessageReceiver {
                                         int numReceived = message.getNum();
                                         LOGGER.debug("Compare the message numbers, expected: {}, received: {}",
                                             numExpected, numReceived);
-                                        if (/*message.getNum()*/numReceived != numExpected) {
+                                        if (numReceived != numExpected) {
                                             throw new ProtocolException("wrong message number: expected " + numExpected
-                                                + " but got " + /*message.getNum()*/numReceived);
+                                                + " but got " + numReceived);
                                         }
                                     }
                                 }
@@ -369,8 +371,8 @@ public class MessageReceiver {
         LOGGER.debug("get message with responseType: {}", responseType);
         BidibMessage result = null;
 
-        // wait a maximum of 10 seconds to recieve message
-        long cancelReceiveTs = System.currentTimeMillis() + 10000;
+        // wait a maximum of 3 seconds to recieve message
+        long cancelReceiveTs = System.currentTimeMillis() + 3000;
         boolean leaveLoop = false;
 
         do {
@@ -412,6 +414,7 @@ public class MessageReceiver {
     }
 
     public static void setTimeout(int timeout) {
+        LOGGER.info("Set the timeout for bidib messages: {}", timeout);
         Bidib.getInstance().setTimeout(timeout);
         MessageReceiver.timeout = timeout;
     }
@@ -442,7 +445,14 @@ public class MessageReceiver {
 
             byte[] message = new byte[size];
 
-            System.arraycopy(output, index, message, 0, message.length);
+            try {
+                System.arraycopy(output, index, message, 0, message.length);
+            }
+            catch (ArrayIndexOutOfBoundsException ex) {
+                LOGGER.warn("Failed to copy, msg.len: " + message.length + ", size: " + size + ", output.len: "
+                    + output.length, ex);
+                throw ex;
+            }
             result.add(message);
             index += size;
 

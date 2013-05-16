@@ -10,6 +10,7 @@ import gnu.io.UnsupportedCommOperationException;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -149,16 +150,80 @@ public final class Bidib {
         return nodeFactory.getRootNode();
     }
 
+    private void clearInputStream(SerialPort serialPort) {
+
+        // get and clear stream
+
+        try {
+            InputStream serialStream = serialPort.getInputStream();
+            // purge contents, if any
+            int count = serialStream.available();
+            LOGGER.debug("input stream shows {} bytes available", count);
+            while (count > 0) {
+                serialStream.skip(count);
+                count = serialStream.available();
+            }
+        }
+        catch (IOException e) {
+            LOGGER.warn("Clear input stream failed.", e);
+        }
+
+    }
+
     private SerialPort internalOpen(CommPortIdentifier commPort, int baudRate) throws PortInUseException,
         UnsupportedCommOperationException, TooManyListenersException {
         SerialPort serialPort = (SerialPort) commPort.open(Bidib.class.getName(), 2000);
 
-        serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
         serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+
+        // set RTS high, DTR high - done early, so flow control can be configured after
+        serialPort.setRTS(true); // not connected in some serial ports and adapters
+        serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
+
+        serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
+
         serialPort.enableReceiveThreshold(1);
         serialPort.enableReceiveTimeout(DEFAULT_TIMEOUT);
-        serialPort.notifyOnDataAvailable(true);
+
+        clearInputStream(serialPort);
+
+        try {
+            serialPort.notifyOnFramingError(true);
+        }
+        catch (Exception e) {
+            LOGGER.debug("Could not notifyOnFramingError: " + e);
+        }
+
+        try {
+            serialPort.notifyOnBreakInterrupt(true);
+        }
+        catch (Exception e) {
+            LOGGER.debug("Could not notifyOnBreakInterrupt: " + e);
+        }
+
+        try {
+            serialPort.notifyOnParityError(true);
+        }
+        catch (Exception e) {
+            LOGGER.debug("Could not notifyOnParityError: " + e);
+        }
+
+        try {
+            serialPort.notifyOnOutputEmpty(true);
+        }
+        catch (Exception e) {
+            LOGGER.debug("Could not notifyOnOutputEmpty: " + e);
+        }
+
+        try {
+            serialPort.notifyOnOverrunError(true);
+        }
+        catch (Exception e) {
+            LOGGER.debug("Could not notifyOnOverrunError.", e);
+        }
+
         MessageReceiver.enable();
+
         serialPort.addEventListener(new SerialPortEventListener() {
             {
                 if (logFile != null) {
@@ -176,17 +241,27 @@ public final class Bidib {
             public void serialEvent(SerialPortEvent event) {
                 // this callback is called every time data is available
                 LOGGER.trace("serialEvent received: {}", event);
-                if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE) {
-                    try {
-                        // new MessageReceiver(port, nodeFactory);
-                        messageReceiver.receive(port);
-                    }
-                    catch (Exception ex) {
-                        LOGGER.error("Message receiver has terminated with an exception!", ex);
-                    }
+                switch (event.getEventType()) {
+                    case SerialPortEvent.DATA_AVAILABLE:
+                        try {
+                            messageReceiver.receive(port);
+                        }
+                        catch (Exception ex) {
+                            LOGGER.error("Message receiver has terminated with an exception!", ex);
+                        }
+                        break;
+                    case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
+                        LOGGER.trace("The output buffer is empty.");
+                        break;
+                    default:
+                        LOGGER.warn("SerialPortEvent was triggered, type: {}, old value: {}, new value: {}",
+                            new Object[] { event.getEventType(), event.getOldValue(), event.getNewValue() });
+                        break;
                 }
             }
         });
+        serialPort.notifyOnDataAvailable(true);
+
         return serialPort;
     }
 
@@ -263,7 +338,7 @@ public final class Bidib {
                 port.setRTS(false);
             }
             catch (Exception e) {
-                throw new RuntimeException(e);
+                throw new RuntimeException("Send message to output stream failed.", e);
             }
             finally {
                 sendSemaphore.release();

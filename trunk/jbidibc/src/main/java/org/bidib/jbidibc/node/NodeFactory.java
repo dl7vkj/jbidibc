@@ -83,7 +83,10 @@ public class NodeFactory {
 
             @Override
             public void nodeNew(Node node) {
-                LOGGER.debug("new node: {}", node);
+                LOGGER.debug("Found new node in system: {}", node);
+
+                // Q: why is removeNode called instead of newNode? 
+                // A: to make sure that the node is created by the new "newNode-created-thread-" in MainController ...
                 removeNode(node);
             }
 
@@ -151,7 +154,7 @@ public class NodeFactory {
             LOGGER.debug("Get the bidibNode from nodesSet with address: {}, bidibNode: {}", address, bidibNode);
 
             if (bidibNode == null) {
-                // TODO during testing I've never reached this statement ...
+                // get the classId of the new node
                 int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
                 LOGGER.debug("Create new bidibNode with classId: {}", classId);
 
@@ -207,8 +210,11 @@ public class NodeFactory {
 
     private void removeNode(Node node) {
         synchronized (nodes) {
-            LOGGER.debug("Remove node from nodes: {}", node);
-            nodes.remove(convert(node.getAddr()));
+            LOGGER.debug("Remove node from bidib nodes: {}", node);
+            BidibNode bidibNode = nodes.remove(convert(node.getAddr()));
+            if (bidibNode == null) {
+                LOGGER.warn("Remove bidibNode failed for address: {}", convert(node.getAddr()));
+            }
         }
     }
 

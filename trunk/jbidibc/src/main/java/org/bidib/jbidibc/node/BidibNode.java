@@ -20,6 +20,7 @@ import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.enumeration.FirmwareUpdateOperation;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.exception.ProtocolNoAnswerException;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostOffMessage;
 import org.bidib.jbidibc.message.BoostOnMessage;
@@ -484,7 +485,7 @@ public class BidibNode {
             result = receive(expectedResponseType);
             if (result == null) {
                 LOGGER.warn("Get result failed for message:  {}", message);
-                throw new ProtocolException("got no answer to " + message);
+                throw new ProtocolNoAnswerException("got no answer to " + message);
             }
         }
         LOGGER.debug("Return result message: {}", result);
@@ -539,11 +540,14 @@ public class BidibNode {
         // send the output to Bidib
         Bidib.getInstance().send(bytes);
 
-        logRecord.append(" : ");
-        for (int index = 0; index < bytes.length; index++) {
-            logRecord.append(String.format("%02x ", bytes[index]));
+        // this takes 'much' time, only format if debug level enabled
+        if (LOGGER.isDebugEnabled()) {
+            logRecord.append(" : ");
+            for (int index = 0; index < bytes.length; index++) {
+                logRecord.append(String.format("%02x ", bytes[index]));
+            }
+            LOGGER.debug("Flush logRecord: {}", logRecord);
         }
-        LOGGER.debug("Flush logRecord: {}", logRecord);
         logRecord.setLength(0);
         output.reset();
     }
