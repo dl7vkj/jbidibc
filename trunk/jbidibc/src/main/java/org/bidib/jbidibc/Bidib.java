@@ -163,8 +163,9 @@ public final class Bidib {
                 serialStream.skip(count);
                 count = serialStream.available();
             }
+            LOGGER.debug("input stream shows {} bytes available after purge.", count);
         }
-        catch (IOException e) {
+        catch (Exception e) {
             LOGGER.warn("Clear input stream failed.", e);
         }
 
@@ -174,13 +175,18 @@ public final class Bidib {
         UnsupportedCommOperationException, TooManyListenersException {
         SerialPort serialPort = (SerialPort) commPort.open(Bidib.class.getName(), 2000);
 
-        serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-
         // set RTS high, DTR high - done early, so flow control can be configured after
-        serialPort.setRTS(true); // not connected in some serial ports and adapters
-        serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
+        try {
+            // TODO verify if this causes a problem on some LINUX systems
+            serialPort.setRTS(true); // not connected in some serial ports and adapters
+            serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
+        }
+        catch (Exception e) {
+            LOGGER.warn("Set RTS and DTR true failed.", e);
+        }
 
         serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
+        serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
         serialPort.enableReceiveThreshold(1);
         serialPort.enableReceiveTimeout(DEFAULT_TIMEOUT);
