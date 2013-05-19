@@ -193,41 +193,6 @@ public final class Bidib {
 
         clearInputStream(serialPort);
 
-        try {
-            serialPort.notifyOnFramingError(true);
-        }
-        catch (Exception e) {
-            LOGGER.debug("Could not notifyOnFramingError: " + e);
-        }
-
-        try {
-            serialPort.notifyOnBreakInterrupt(true);
-        }
-        catch (Exception e) {
-            LOGGER.debug("Could not notifyOnBreakInterrupt: " + e);
-        }
-
-        try {
-            serialPort.notifyOnParityError(true);
-        }
-        catch (Exception e) {
-            LOGGER.debug("Could not notifyOnParityError: " + e);
-        }
-
-        try {
-            serialPort.notifyOnOutputEmpty(true);
-        }
-        catch (Exception e) {
-            LOGGER.debug("Could not notifyOnOutputEmpty: " + e);
-        }
-
-        try {
-            serialPort.notifyOnOverrunError(true);
-        }
-        catch (Exception e) {
-            LOGGER.debug("Could not notifyOnOverrunError.", e);
-        }
-
         MessageReceiver.enable();
 
         serialPort.addEventListener(new SerialPortEventListener() {
