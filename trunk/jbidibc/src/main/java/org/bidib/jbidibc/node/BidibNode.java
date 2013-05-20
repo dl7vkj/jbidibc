@@ -91,8 +91,7 @@ public class BidibNode {
     private MessageReceiver messageReceiver;
 
     /**
-     * Create a new BidibNode that represents a connected node (slave) on the
-     * BiDiB bus.
+     * Create a new BidibNode that represents a connected node (slave) on the BiDiB bus.
      * 
      * @param addr
      *            the address
@@ -150,8 +149,8 @@ public class BidibNode {
     }
 
     /**
-     * Query the booster state. We don't wait for the response because the
-     * {@link MessageReceiver} fires the booster status callback on receipt.
+     * Query the booster state. We don't wait for the response because the {@link MessageReceiver} fires the booster
+     * status callback on receipt.
      * 
      * @throws IOException
      * @throws ProtocolException
@@ -218,7 +217,9 @@ public class BidibNode {
 
     /**
      * Get the feature with the specified number from the node.
-     * @param number the feature number
+     * 
+     * @param number
+     *            the feature number
      * @return the returned feature
      * @throws IOException
      * @throws ProtocolException
@@ -239,8 +240,8 @@ public class BidibNode {
     }
 
     /**
-     * Request the number of features of the node. This call will reset the
-     * internal counter for the next <code>getNextFeature()</code> request.
+     * Request the number of features of the node. This call will reset the internal counter for the next
+     * <code>getNextFeature()</code> request.
      * 
      * @return number of features on the node
      * @throws IOException
@@ -252,8 +253,8 @@ public class BidibNode {
     }
 
     /**
-     * Returns the next feature of the node. Call <code>getFeatureCount()</code>
-     * to reset the internal counter for the feature index
+     * Returns the next feature of the node. Call <code>getFeatureCount()</code> to reset the internal counter for the
+     * feature index
      * 
      * @return a feature or null if no more features available
      * @throws IOException
@@ -302,9 +303,8 @@ public class BidibNode {
     }
 
     /**
-     * Prepare the next receive message number in the communication with the
-     * communication partner. Every received message should be incremented by 1
-     * and on overflow start again with 1.
+     * Prepare the next receive message number in the communication with the communication partner. Every received
+     * message should be incremented by 1 and on overflow start again with 1.
      * 
      * @param message
      *            the message
@@ -412,7 +412,7 @@ public class BidibNode {
     }
 
     public void reset() throws IOException, ProtocolException, InterruptedException {
-        send(new SysResetMessage());
+        send(new SysResetMessage(), false, null);
     }
 
     private void resetNextSendMsgNum() {
@@ -447,7 +447,8 @@ public class BidibNode {
      *            the expected type of response (optional)
      * @return the response from the node or null if no answer was expected
      * @throws IOException
-     * @throws ProtocolException thrown if no response was received if an answer was expected
+     * @throws ProtocolException
+     *             thrown if no response was received if an answer was expected
      * @throws InterruptedException
      */
     protected synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType)
