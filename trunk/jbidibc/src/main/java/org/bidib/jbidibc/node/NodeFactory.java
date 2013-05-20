@@ -139,7 +139,7 @@ public class NodeFactory {
         }
 
         LOGGER.debug("The requested node is not an CommandStationNode.");
-        throw new InvalidConfigurationException("The requested node is not an CommandStationNode.");
+        throw new InvalidConfigurationException("The requested node is not a CommandStationNode.");
     }
 
     public BidibNode getNode(Node node) {
