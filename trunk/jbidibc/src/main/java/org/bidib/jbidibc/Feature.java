@@ -28,19 +28,19 @@ public class Feature {
     public int getValue() {
         return value;
     }
-    
+
     public void setValue(int value) {
         this.value = value;
     }
-    
+
     @Override
     public boolean equals(Object obj) {
         if (obj instanceof Feature) {
-            return getType() == ((Feature)obj).getType();
+            return getType() == ((Feature) obj).getType();
         }
         return false;
     }
-    
+
     @Override
     public int hashCode() {
         return getType();
