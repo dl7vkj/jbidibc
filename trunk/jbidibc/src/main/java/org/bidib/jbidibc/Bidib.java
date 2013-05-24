@@ -177,7 +177,6 @@ public final class Bidib {
 
         // set RTS high, DTR high - done early, so flow control can be configured after
         try {
-            // TODO verify if this causes a problem on some LINUX systems
             serialPort.setRTS(true); // not connected in some serial ports and adapters
             serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
         }

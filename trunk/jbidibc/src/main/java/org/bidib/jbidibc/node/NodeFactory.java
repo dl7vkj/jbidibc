@@ -161,21 +161,21 @@ public class NodeFactory {
                 // create the new node based on the class id
                 if ((classId & 0x01) == 1) {
                     bidibNode = new AccessoryNode(node.getAddr(), messageReceiver);
-                    // add the transfer listener
-                    List<TransferListener> transferListeners = getRootNode().getTransferListeners();
-
-                    if (transferListeners != null && transferListeners.size() > 0) {
-                        bidibNode.addTransferListener(transferListeners.get(0));
-                    }
                 }
-                // else if ((classId & 0x16) == 1) {
-                // bidibNode = new CommandStationNode(node.getAddr());
-                // }
                 else {
                     bidibNode = new BidibNode(node.getAddr(), messageReceiver);
-                    // add the transfer listener
-                    bidibNode.addTransferListener(getRootNode().getTransferListeners().get(0));
                 }
+                // verify that a transfer listener is available
+                List<TransferListener> transferListeners = getRootNode().getTransferListeners();
+                if (transferListeners != null && transferListeners.size() > 0) {
+                    // add the transfer listener
+                    bidibNode.addTransferListener(transferListeners.get(0));
+                }
+                else {
+                    LOGGER.error("No transfer listener available on root node!!!!");
+                    throw new RuntimeException("No transfer listener available on root node!!!!");
+                }
+
                 LOGGER.info("Create new bidibNode: {}, address: {}", bidibNode, address);
 
                 nodes.put(address, bidibNode);
@@ -219,13 +219,18 @@ public class NodeFactory {
     }
 
     /**
-     * Remove all stored nodes.
+     * Remove all stored nodes but keep the root node!
      */
     public void reset() {
         LOGGER.info("Reset the node factory.");
         synchronized (nodes) {
-            LOGGER.debug("Remove all nodes.");
+            LOGGER.debug("Remove all nodes but keep the root node.");
+            RootNode rootNode = (RootNode) nodes.get(ROOT_ADDRESS);
             nodes.clear();
+            if (rootNode != null) {
+                // add the root node again
+                nodes.put(ROOT_ADDRESS, rootNode);
+            }
         }
     }
 }
