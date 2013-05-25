@@ -41,6 +41,7 @@ public class MessageReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class.getName());
 
     private static final Logger MSG_RX_LOGGER = LoggerFactory.getLogger("RX");
+//    private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
     private static final BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
 
@@ -90,6 +91,7 @@ public class MessageReceiver {
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
 
                             LOGGER.debug("Received raw message: {}", logRecord);
+//                            MSG_RAW_LOGGER.info("raw message: {}", logRecord);
                             logRecord.setLength(0);
 
                             // if a CRC error is detected in splitMessages the reading loop will terminate ...
@@ -225,13 +227,15 @@ public class MessageReceiver {
                                 finally {
                                     if (message != null) {
                                         // verify that the receive message number is valid
+                                        Node node = new Node(message.getAddr());
                                         int numExpected =
-                                            nodeFactory.getNode(new Node(message.getAddr())).getNextReceiveMsgNum(
+                                            nodeFactory.getNode(node).getNextReceiveMsgNum(
                                                 message);
                                         int numReceived = message.getNum();
                                         LOGGER.debug("Compare the message numbers, expected: {}, received: {}",
                                             numExpected, numReceived);
                                         if (numReceived != numExpected) {
+                                            LOGGER.warn("Received wrong message number for message: {}, expected: {}, node: {}", new Object[]{message, numExpected, node});
                                             throw new ProtocolException("wrong message number: expected " + numExpected
                                                 + " but got " + numReceived);
                                         }
@@ -254,6 +258,14 @@ public class MessageReceiver {
                         }
                     }
                     LOGGER.debug("Leaving receive loop, RUNNING: {}", running);
+                    
+                    if (output != null && output.size() > 0)  {
+                        LOGGER.warn("Data remaining in output: {}", new Object[]{output.toByteArray()});
+                    }
+                    if (logRecord != null && logRecord.length() > 0)  {
+                        LOGGER.warn("Data remaining in logRecord: {}", logRecord);
+                    }
+                    
                 }
                 else {
                     LOGGER.error("No input available.");

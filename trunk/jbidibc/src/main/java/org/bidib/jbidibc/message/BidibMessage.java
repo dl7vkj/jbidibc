@@ -4,16 +4,19 @@ import java.io.ByteArrayOutputStream;
 
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BidibMessage {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BidibMessage.class);
     // The address field is only valid for a response message!
-    private byte[] addr = null;
+    private byte[] addr;
 
-    private int num = 0;
+    private int num;
 
-    private byte type = 0;
+    private byte type;
 
-    private byte[] data = null;
+    private byte[] data;
 
     BidibMessage(byte[] addr, int num, int type, byte... data) {
         this.addr = addr != null ? addr.clone() : null;
@@ -49,6 +52,7 @@ public class BidibMessage {
             while (message[index] != 0) {
                 addrBytes.write(message[index++]);
                 if (index >= message.length) {
+                    LOGGER.warn("Invalid message: {}", message);
                     throw new ProtocolException("address too long");
                 }
             }
