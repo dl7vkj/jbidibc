@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 
 public class BidibMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(BidibMessage.class);
+
     // The address field is only valid for a response message!
     private byte[] addr;
 
