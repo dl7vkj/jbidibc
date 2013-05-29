@@ -15,10 +15,10 @@ public final class ByteUtils {
     public static int getWord(byte lowByte, byte highByte) {
         return ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
     }
+
     public static int getInt(byte byteValue) {
         return (byteValue & 0xFF);
     }
-
 
     public static byte[] concat(byte[] array1, byte[] array2) {
         byte[] result = new byte[array1.length + array2.length];
