@@ -11,7 +11,7 @@ public class FeedbackMultipleResponse extends BidibMessage {
     }
 
     public int getBaseAddress() {
-        return getData()[0];
+        return getData()[0] & 0xFF;
     }
 
     public byte[] getDetectorData() {
@@ -23,6 +23,6 @@ public class FeedbackMultipleResponse extends BidibMessage {
     }
 
     public int getSize() {
-        return getData()[1];
+        return getData()[1] & 0xFF;
     }
 }
