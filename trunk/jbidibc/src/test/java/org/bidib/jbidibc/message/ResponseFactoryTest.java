@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.message;
 
+import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -120,4 +121,17 @@ public class ResponseFactoryTest {
 
         Assert.assertEquals(((FeedbackMultipleResponse) bidibMessage).getSize(), 128);
     }
+    
+    @Test
+    public void createMessageFeedbackMultipleResponseFromByteArray() throws ProtocolException {
+        byte[] message = { 0x16, 0x01, 0x00, (byte) 0x86, (byte) 0xA2, 0x00, (byte) 0x80, (byte) 0xff, (byte) 0xff, 
+            (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, 
+            (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff, (byte) 0xff };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertEquals(bidibMessage.getType(), (byte) BidibLibrary.MSG_BM_MULTIPLE);
+        
+        Assert.assertEquals(((FeedbackMultipleResponse)bidibMessage).getSize(), 0x80);
+    }
+    
 }

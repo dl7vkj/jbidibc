@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class FeedbackMultipleResponse extends BidibMessage {
     FeedbackMultipleResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
@@ -11,7 +12,7 @@ public class FeedbackMultipleResponse extends BidibMessage {
     }
 
     public int getBaseAddress() {
-        return getData()[0] & 0xFF;
+        return ByteUtils.getInt(getData()[0]);
     }
 
     public byte[] getDetectorData() {
@@ -23,6 +24,6 @@ public class FeedbackMultipleResponse extends BidibMessage {
     }
 
     public int getSize() {
-        return getData()[1] & 0xFF;
+        return ByteUtils.getInt(getData()[1]);
     }
 }
