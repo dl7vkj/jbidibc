@@ -90,7 +90,7 @@ public class ResponseFactoryTest {
 
         LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
 
-        //		04 00 6A B1 47
+        // 04 00 6A B1 47
 
         byte[] message2 = { 0x04, 0x00, 0x6A, (byte) 0xB1, (byte) 0x47 };
 
@@ -101,7 +101,7 @@ public class ResponseFactoryTest {
 
         LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
 
-        //		04 00 60 B1 45
+        // 04 00 60 B1 45
         byte[] message3 = { 0x04, 0x00, 0x60, (byte) 0xB1, (byte) 0x45 };
 
         bidibMessage = ResponseFactory.create(message3);
@@ -111,5 +111,13 @@ public class ResponseFactoryTest {
 
         LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
 
+    }
+
+    @Test
+    public void createValidFeedbackMultipleResponse() throws ProtocolException {
+        byte[] message = { 0x07, 0x00, 0x01, (byte) 0xA2, 0x01, (byte) 0x80, 0x03, 0x04 };
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+
+        Assert.assertEquals(((FeedbackMultipleResponse) bidibMessage).getSize(), 128);
     }
 }
