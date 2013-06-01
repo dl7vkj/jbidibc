@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 /**
  * Response to the feature getAll request
@@ -14,6 +15,6 @@ public class FeatureCountResponse extends BidibMessage {
     }
 
     public int getCount() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 }

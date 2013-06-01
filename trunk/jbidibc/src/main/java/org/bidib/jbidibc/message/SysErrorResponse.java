@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,10 +17,10 @@ public class SysErrorResponse extends BidibMessage {
             throw new ProtocolException("no error received");
         }
 
-        LOGGER.warn("Received SysErrorResponse for address: {}, errorCode: {}", addr, getErrorCode());
+        LOGGER.warn("Received SysErrorResponse for address: {}, errorCode: {} (0x{})", new Object[]{addr, getErrorCode(), String.format("%02x", getErrorCode())});
     }
 
     public int getErrorCode() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 }

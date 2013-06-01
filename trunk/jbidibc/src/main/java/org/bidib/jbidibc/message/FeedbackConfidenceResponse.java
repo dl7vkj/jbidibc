@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -17,15 +18,15 @@ public class FeedbackConfidenceResponse extends BidibMessage {
     }
 
     public int getValid() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 
     public int getFreeze() {
-        return getData()[1];
+        return ByteUtils.getInt(getData()[1]);
     }
 
     public int getSignal() {
-        return getData()[2];
+        return ByteUtils.getInt(getData()[2]);
     }
 
 }

@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class VendorAckResponse extends BidibMessage {
     VendorAckResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
@@ -11,6 +12,6 @@ public class VendorAckResponse extends BidibMessage {
     }
 
     public int getReturnCode() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 }

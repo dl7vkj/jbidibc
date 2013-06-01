@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.LcMacroState;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class LcMacroStateResponse extends BidibMessage {
 
@@ -16,7 +17,7 @@ public class LcMacroStateResponse extends BidibMessage {
     }
 
     public int getMacroNumber() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 
     public LcMacroState getMacroState() {

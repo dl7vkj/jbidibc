@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class FeedbackFreeResponse extends BidibMessage {
     FeedbackFreeResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
@@ -11,6 +12,6 @@ public class FeedbackFreeResponse extends BidibMessage {
     }
 
     public int getDetectorNumber() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 }

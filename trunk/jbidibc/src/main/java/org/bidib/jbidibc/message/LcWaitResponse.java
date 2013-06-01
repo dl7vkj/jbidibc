@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 /**
  * This response is sent as direct response to a request that takes some time to execute. The
@@ -16,17 +17,17 @@ public class LcWaitResponse extends BidibMessage {
     }
 
     public int getPortType() {
-        int result = getData()[0];
+        int result = ByteUtils.getInt(getData()[0]);
         return result;
     }
 
     public int getPortNumber() {
-        int result = getData()[1];
+        int result = ByteUtils.getInt(getData()[1]);
         return result;
     }
 
     public int getTimeout() {
-        int result = getData()[2] & 0xFF;
+        int result = ByteUtils.getInt(getData()[2]);
 
         return result > 127 ? result * 1000 : result * 100;
     }

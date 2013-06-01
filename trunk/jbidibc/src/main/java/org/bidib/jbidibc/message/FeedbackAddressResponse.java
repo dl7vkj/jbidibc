@@ -20,7 +20,7 @@ public class FeedbackAddressResponse extends BidibMessage {
     }
 
     public int getDetectorNumber() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 
     public Collection<AddressData> getAddresses() {

@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class LcMacroParaResponse extends BidibMessage {
 
@@ -15,7 +16,7 @@ public class LcMacroParaResponse extends BidibMessage {
     }
 
     public int getMacroNumber() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 
     /**
@@ -24,7 +25,7 @@ public class LcMacroParaResponse extends BidibMessage {
      * @return the parameter value
      */
     public int getParameter(int index) {
-        return getData()[index];
+        return ByteUtils.getInt(getData()[index]);
     }
 
     public byte[] getValue() {

@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class LcKeyResponse extends BidibMessage {
     LcKeyResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
@@ -11,10 +12,10 @@ public class LcKeyResponse extends BidibMessage {
     }
 
     public int getKeyNumber() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 
     public int getKeyState() {
-        return getData()[1];
+        return ByteUtils.getInt(getData()[1]);
     }
 }

@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +21,6 @@ public class NodeTabCountResponse extends BidibMessage {
     }
 
     public int getCount() {
-        return getData()[0];
+        return ByteUtils.getInt(getData()[0]);
     }
 }
