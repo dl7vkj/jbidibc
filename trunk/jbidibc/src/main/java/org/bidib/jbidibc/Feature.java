@@ -25,6 +25,15 @@ public class Feature {
         }
     }
 
+    public FeatureEnum getFeatureEnum() {
+        try {
+            return FeatureEnum.valueOf((byte) type);
+        }
+        catch (IllegalArgumentException ex) {
+            return null;
+        }
+    }
+
     public int getValue() {
         return value;
     }
