@@ -197,7 +197,7 @@ public final class Bidib {
         serialPort.addEventListener(new SerialPortEventListener() {
             {
                 if (logFile != null) {
-                    LOGGER.info("Logfile is set");
+                    LOGGER.warn("Logfile is set: {}", logFile);
                     try {
                         new LogFileAnalyzer(new File(logFile), messageReceiver);
                     }
