@@ -91,7 +91,7 @@ public class MessageReceiver {
                         // check if the current is the end of a packet
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
 
-                            LOGGER.debug("Received raw message: {}", logRecord);
+                            LOGGER.info("Received raw message: {}", logRecord);
                             //                            MSG_RAW_LOGGER.info("raw message: {}", logRecord);
                             logRecord.setLength(0);
 
