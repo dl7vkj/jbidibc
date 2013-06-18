@@ -52,11 +52,11 @@ public final class ResponseFactory {
         else if (result.getType() == (byte) BidibLibrary.MSG_BOOST_STAT) {
             result = new BoostStatResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
         }
-//        else if (result.getType() == (byte) BidibLibrary.MSG_CS_DRIVE) {
-//            result =
-//                new CommandStationDriveAcknowledgeResponse(result.getAddr(), result.getNum(), result.getType(), result
-//                    .getData());
-//        }
+        //        else if (result.getType() == (byte) BidibLibrary.MSG_CS_DRIVE) {
+        //            result =
+        //                new CommandStationDriveAcknowledgeResponse(result.getAddr(), result.getNum(), result.getType(), result
+        //                    .getData());
+        //        }
         else if (result.getType() == (byte) BidibLibrary.MSG_CS_DRIVE_ACK) {
             result =
                 new CommandStationDriveAcknowledgeResponse(result.getAddr(), result.getNum(), result.getType(), result
@@ -65,12 +65,14 @@ public final class ResponseFactory {
         else if (result.getType() == (byte) BidibLibrary.MSG_CS_DRIVE_MANUAL) {
             // drive manual
             result =
-                new CommandStationDriveManualResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                new CommandStationDriveManualResponse(result.getAddr(), result.getNum(), result.getType(), result
+                    .getData());
         }
         else if (result.getType() == (byte) BidibLibrary.MSG_CS_DRIVE_EVENT) {
             // drive event
             result =
-                new CommandStationDriveEventResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                new CommandStationDriveEventResponse(result.getAddr(), result.getNum(), result.getType(), result
+                    .getData());
         }
         else if (result.getType() == (byte) BidibLibrary.MSG_CS_STATE) {
             result =
@@ -78,8 +80,8 @@ public final class ResponseFactory {
         }
         else if (result.getType() == (byte) BidibLibrary.MSG_CS_ACCESSORY_ACK) {
             result =
-                new CommandStationAccessoryAcknowledgeResponse(result.getAddr(), result.getNum(), result.getType(), result
-                    .getData());
+                new CommandStationAccessoryAcknowledgeResponse(result.getAddr(), result.getNum(), result.getType(),
+                    result.getData());
         }
         else if (result.getType() == (byte) BidibLibrary.MSG_CS_POM_ACK) {
             result =

@@ -32,12 +32,15 @@ public class CommandStationDriveManualResponse extends BidibMessage {
     public byte getFormat() {
         return getData()[2];
     }
+
     public byte getOutputActive() {
         return getData()[3];
     }
+
     public int getSpeed() {
         return ByteUtils.getInt(getData()[4]);
     }
+
     public byte getLights() {
         return (byte) (getData()[5] & 0x10);
     }
