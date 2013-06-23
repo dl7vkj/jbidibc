@@ -76,15 +76,14 @@ public class CommandStationNode {
         return result;
     }
 
-    public DriveAcknowledge releaseLoco(
-        int address) throws IOException, ProtocolException, InterruptedException {
+    public DriveAcknowledge releaseLoco(int address) throws IOException, ProtocolException, InterruptedException {
 
         LOGGER.debug("Release loco, address: {}", address);
 
         DriveAcknowledge result = null;
         BidibMessage response =
-            delegate.send(new CommandStationDriveMessage(address, SpeedStepsEnum.DCC128, null, DirectionEnum.BACKWARD, null,
-                null), true, CommandStationDriveAcknowledgeResponse.TYPE);
+            delegate.send(new CommandStationDriveMessage(address, SpeedStepsEnum.DCC128, null, DirectionEnum.BACKWARD,
+                null, null), true, CommandStationDriveAcknowledgeResponse.TYPE);
 
         if (response instanceof CommandStationDriveAcknowledgeResponse) {
             result = ((CommandStationDriveAcknowledgeResponse) response).getState();
