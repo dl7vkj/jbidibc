@@ -332,6 +332,10 @@ public final class Bidib {
         this.logFile = logFile;
     }
 
+    /**
+     * Set the recieve timeout for the port.
+     * @param timeout the receive timeout to set
+     */
     public void setTimeout(int timeout) {
         if (port != null) {
             try {
