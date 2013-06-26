@@ -8,7 +8,7 @@
     </parent>
     <groupId>org.bidib.jbidib</groupId>
     <artifactId>jbidib-parent</artifactId>
-    <version>1.5-SNAPSHOT</version>
+    <version>1.4-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>jBiDiB :: Parent</name>
     <description>jBiDiB Parent POM</description>
@@ -200,7 +200,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -213,7 +213,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
