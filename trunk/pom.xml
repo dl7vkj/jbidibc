@@ -56,8 +56,8 @@
         <!-- unify the encoding for all the modules -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jdk.version>1.7</jdk.version>
-        <compiler.fork>1.7</compiler.fork>
+        <jdk.version>1.6</jdk.version>
+        <compiler.fork>1.6</compiler.fork>
         <gpg.useagent>true</gpg.useagent>
     </properties>
     <modules>

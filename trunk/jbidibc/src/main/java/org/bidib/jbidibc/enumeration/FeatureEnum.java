@@ -86,12 +86,12 @@ public enum FeatureEnum implements BidibEnum {
     }
 
     /**
-     * Create a booster status.
+     * Create feature enum value from the provided byte value.
      * 
      * @param type
-     *            numeric value of the booster status
+     *            numeric value of the feature
      * 
-     * @return BoosterStatus
+     * @return the feature enum value
      */
     public static FeatureEnum valueOf(byte type) {
         FeatureEnum result = null;

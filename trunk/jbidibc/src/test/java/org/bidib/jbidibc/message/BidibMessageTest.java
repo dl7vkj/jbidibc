@@ -43,8 +43,6 @@ public class BidibMessageTest {
         Assert.assertEquals((byte) bidibMessage.getType(), (byte) BidibLibrary.MSG_SYS_MAGIC);
     }
 
-    // 29.05.2013 06:10:55.384: receive FeedbackMultipleResponse[[1, 0],num=134,type=162,data=[0, 128, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255, 255]] : 16 01 00 86 a2 00 80 ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff ff 
-
     @Test
     public void createMessageFeedbackMultipleResponseFromByteArray() throws ProtocolException {
         byte[] message =

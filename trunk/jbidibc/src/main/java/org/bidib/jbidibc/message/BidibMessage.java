@@ -63,7 +63,7 @@ public class BidibMessage {
             addr = addrBytes.toByteArray();
             index++;
 
-            num = message[index++];
+            num = ByteUtils.getInt(message[index++]);
             type = message[index++];
 
             // data

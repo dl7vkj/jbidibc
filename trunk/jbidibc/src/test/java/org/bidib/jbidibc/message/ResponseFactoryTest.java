@@ -135,9 +135,6 @@ public class ResponseFactoryTest {
         Assert.assertEquals(((FeedbackMultipleResponse) bidibMessage).getSize(), 0x80);
     }
 
-    // 18:46:56.502 [ERROR] org.bidib.jbidibc.message.ResponseFactory [Thread-8] - Got unknown response with type '0xe5', message: [12, 0, 20, -27, 94, 0, 2, 2, 0, 16, 0, 0, 0]
-    // org.bidib.jbidibc.exception.ProtocolException: got unknown response with type 229
-
     @Test
     public void createMessageCommandStationDriveManualResponseFromByteArray() throws ProtocolException {
         byte[] message = { 12, 0, 20, -27, 94, 0, 2, 2, 0, 16, 0, 0, 0 };

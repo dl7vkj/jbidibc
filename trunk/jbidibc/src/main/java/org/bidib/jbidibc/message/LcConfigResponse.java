@@ -1,10 +1,13 @@
 package org.bidib.jbidibc.message;
 
+import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.LcConfig;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 
 public class LcConfigResponse extends BidibMessage {
+    public static final Integer TYPE = BidibLibrary.MSG_LC_CONFIG;
+
     LcConfigResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);
         if (data == null || data.length != 6) {

@@ -15,10 +15,15 @@ public class NodeTabResponse extends BidibMessage {
     NodeTabResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);
         if (data == null || data.length != 9) {
-            throw new ProtocolException("no node tab received");
+            throw new ProtocolException("No valid node tab received");
         }
     }
 
+    /**
+     * Create a new node based on the parent address and the received data.
+     * @param parentAddress the parent address
+     * @return the node
+     */
     public Node getNode(byte[] parentAddress) {
         byte[] data = getData();
         byte[] addr = new byte[parentAddress.length + 1];
@@ -28,12 +33,9 @@ public class NodeTabResponse extends BidibMessage {
         addr[0] = data[1];
         System.arraycopy(data, 2, uniqueId, 0, uniqueId.length);
 
-        // TODO use the NodeFactory ?
-
+        // create the new node with the received data
         Node node = new Node(data[0], addr, ByteUtils.convertUniqueIdToLong(uniqueId));
-
-        LOGGER.debug("node has command station functions: {}", node.hasCommandStationFunctions());
-
+        LOGGER.debug("Created new node: {}", node);
         return node;
     }
 }
