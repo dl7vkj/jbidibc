@@ -107,13 +107,15 @@ public class NodeFactory {
      *            node address
      * 
      * @return integer value for that address
+     * @deprecated moved to NodeUtils
      */
+    @Deprecated
     public static int convert(byte[] address) {
         int result = 0;
 
         if (address != null) {
             for (int index = 0; index < address.length; index++) {
-                result += address[index] << index;
+                result += address[index] << (index * 8);
             }
         }
         return result;

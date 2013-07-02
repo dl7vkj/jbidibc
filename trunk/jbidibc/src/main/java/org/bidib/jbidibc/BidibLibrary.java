@@ -979,4 +979,8 @@ public interface BidibLibrary {
 
     /// <i>native declaration : bidib_messages.h</i>
     public static final int BIDIB_MSG_FW_UPDATE_OP_ENTER = (int) 0;
+
+    /// <i>native declaration : bidib_messages.h</i>
+    public static final int BIDIB_ERR_OVERRUN = (int) 22;
+
 }

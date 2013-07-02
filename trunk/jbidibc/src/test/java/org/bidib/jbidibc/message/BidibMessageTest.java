@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -25,13 +26,13 @@ public class BidibMessageTest {
         Assert.assertEquals(bidibMessage.getType(), (byte) BidibLibrary.MSG_SYS_MAGIC);
     }
 
-    @Test(enabled = false)
+    @Test
     public void createMessageWithCrcErrorFromByteArray() throws ProtocolException {
         byte[] message = { 0x05, 0x00, 0x01, (byte) 0x86, (byte) 0x02, (byte) 0x00, (byte) 0x46 };
 
         BidibMessage bidibMessage = new BidibMessage(message);
 
-        Assert.assertEquals((byte) bidibMessage.getType(), (byte) BidibLibrary.MSG_SYS_MAGIC);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_SYS_ERROR);
     }
 
     @Test(enabled = false)
@@ -40,7 +41,7 @@ public class BidibMessageTest {
 
         BidibMessage bidibMessage = new BidibMessage(message);
 
-        Assert.assertEquals((byte) bidibMessage.getType(), (byte) BidibLibrary.MSG_SYS_MAGIC);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_SYS_MAGIC);
     }
 
     @Test

@@ -211,11 +211,21 @@ public class MessageReceiver {
                                         nodeFactory.getRootNode().acknowledge(node.getVersion());
                                         //                                        fireNodeLost(node);
                                     }
-                                    else if (message instanceof SysErrorResponse
-                                        && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE /* 18 */) {
+                                    else if (message instanceof SysErrorResponse) {
+                                        //                                        && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE) {
+                                        SysErrorResponse errorResponse = (SysErrorResponse) message;
+                                        switch (errorResponse.getErrorCode()) {
+                                            case BidibLibrary.BIDIB_ERR_IDDOUBLE:
+                                                LOGGER.warn(
+                                                    "A node attempted to register with an already registered ID: {}",
+                                                    errorResponse.getAddr());
 
-                                        LOGGER.warn("A node attempted to register with an already registered ID: {}",
-                                            ((SysErrorResponse) message).getAddr());
+                                                // TODO forward to application!
+                                                break;
+                                            default:
+                                                fireError(message.getAddr(), errorResponse.getErrorCode());
+                                                break;
+                                        }
                                     }
                                     else if (message instanceof SysIdentifyResponse) {
                                         fireIdentify(message.getAddr(), ((SysIdentifyResponse) message).getState());
@@ -371,6 +381,14 @@ public class MessageReceiver {
         for (MessageListener l : listeners) {
             l.speed(address, addressData, speed);
         }
+    }
+
+    private void fireError(byte[] address, int errorCode) {
+        LOGGER.error("Error received from system, addr: {}, errorCode: {}", address, errorCode);
+        //        for (MessageListener l : listeners) {
+        // TODO notify the listener
+        //            l.identity(address, identifyState);
+        //        }
     }
 
     /**
