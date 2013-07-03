@@ -59,6 +59,7 @@
         <jdk.version>1.6</jdk.version>
         <compiler.fork>1.6</compiler.fork>
         <gpg.useagent>true</gpg.useagent>
+        <mockito-version>1.9.5</mockito-version>
     </properties>
     <modules>
         <module>jbidibc</module>
@@ -109,6 +110,11 @@
                 <groupId>uk.org.lidalia</groupId>
                 <artifactId>sysout-over-slf4j</artifactId>
                 <version>${sysout-over-slf4j-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-all</artifactId>
+                <version>${mockito-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -200,7 +206,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -213,7 +219,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>

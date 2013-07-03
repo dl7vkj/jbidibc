@@ -5,6 +5,10 @@ import java.util.Collection;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 
+/**
+ * The message Listener interface.
+ *
+ */
 public interface MessageListener {
     void address(byte[] address, int detectorNumber, Collection<AddressData> addressData);
 
@@ -24,11 +28,30 @@ public interface MessageListener {
 
     void key(byte[] address, int keyNumber, int keyState);
 
+    /**
+     * Signals that a node was lost in the system.
+     * @param node the lost node
+     * 
+     * TODO refactor this into a separate interface
+     */
     void nodeLost(Node node);
 
+    /**
+     * Signals that a new node was found in the system.
+     * @param node the new node
+     * 
+     * TODO refactor this into a separate interface
+     */
     void nodeNew(Node node);
 
     void occupied(byte[] address, int detectorNumber);
 
     void speed(byte[] address, AddressData addressData, int speed);
+
+    /**
+     * Signals that an error message was received. 
+     * @param address the address
+     * @param errorCode the error code
+     */
+    void error(byte[] address, int errorCode);
 }

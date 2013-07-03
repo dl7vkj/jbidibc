@@ -97,6 +97,10 @@ public class NodeFactory {
             @Override
             public void speed(byte[] address, AddressData addressData, int speed) {
             }
+
+            @Override
+            public void error(byte[] address, int errorCode) {
+            }
         });
     }
 

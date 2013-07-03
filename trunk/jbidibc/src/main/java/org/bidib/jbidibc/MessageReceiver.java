@@ -385,10 +385,9 @@ public class MessageReceiver {
 
     private void fireError(byte[] address, int errorCode) {
         LOGGER.error("Error received from system, addr: {}, errorCode: {}", address, errorCode);
-        //        for (MessageListener l : listeners) {
-        // TODO notify the listener
-        //            l.identity(address, identifyState);
-        //        }
+        for (MessageListener l : listeners) {
+            l.error(address, errorCode);
+        }
     }
 
     /**

@@ -103,4 +103,17 @@ public class BidibMessage {
         return getClass().getSimpleName() + "[" + (addr != null ? ByteUtils.toString(addr) + "," : "") + "num="
             + (num & 0xFF) + ",type=" + (type & 0xFF) + ",data=" + ByteUtils.toString(data) + "]";
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof BidibMessage) {
+            BidibMessage other = (BidibMessage) obj;
+            if (other.getType() == getType() && other.getNum() == getNum()
+                && ByteUtils.arrayEquals(other.getAddr(), getAddr())
+                && ByteUtils.arrayEquals(other.getData(), getData())) {
+                return true;
+            }
+        }
+        return super.equals(obj);
+    }
 }
