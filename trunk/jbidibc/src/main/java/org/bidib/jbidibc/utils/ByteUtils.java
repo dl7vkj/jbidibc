@@ -51,4 +51,15 @@ public final class ByteUtils {
         return result.toString();
     }
 
+    public static boolean arrayEquals(byte[] a1,byte[] a2) {
+        if (a1.length != a2.length) {
+            return false;
+        }
+        for (int index = 0; index < a1.length; index++) {
+            if (a1[index] != a2[index]) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
