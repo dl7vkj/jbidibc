@@ -1,6 +1,5 @@
 package org.bidib.jbidibc.node;
 
-import java.io.IOException;
 import java.util.BitSet;
 
 import org.bidib.jbidibc.enumeration.CommandStationState;
@@ -27,8 +26,7 @@ public class CommandStationNode {
         this.delegate = delegate;
     }
 
-    public DriveAcknowledge setBinaryState(int address, int state, boolean value) throws IOException,
-        ProtocolException, InterruptedException {
+    public DriveAcknowledge setBinaryState(int address, int state, boolean value) throws ProtocolException {
 
         LOGGER.debug("set binary state, address: {}, state: {}, value: {}", address, state, value);
 
@@ -45,7 +43,7 @@ public class CommandStationNode {
 
     public DriveAcknowledge setDrive(
         int address, SpeedStepsEnum speedSteps, Integer speed, DirectionEnum direction, BitSet activeFunctions,
-        BitSet functions) throws IOException, ProtocolException, InterruptedException {
+        BitSet functions) throws ProtocolException {
 
         LOGGER.debug("set drive, address: {}, speed: {}", address, speed);
 
@@ -60,8 +58,7 @@ public class CommandStationNode {
         return result;
     }
 
-    public CommandStationState setState(CommandStationState commandStationState) throws IOException, ProtocolException,
-        InterruptedException {
+    public CommandStationState setState(CommandStationState commandStationState) throws ProtocolException {
 
         LOGGER.debug("set state, commandStationState: {}", commandStationState);
 
@@ -76,7 +73,7 @@ public class CommandStationNode {
         return result;
     }
 
-    public DriveAcknowledge releaseLoco(int address) throws IOException, ProtocolException, InterruptedException {
+    public DriveAcknowledge releaseLoco(int address) throws ProtocolException {
 
         LOGGER.debug("Release loco, address: {}", address);
 

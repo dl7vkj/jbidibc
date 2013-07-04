@@ -399,8 +399,7 @@ public class BidibNode {
         return result.getNum();
     }
 
-    private BidibMessage receive(Integer expectedResponseType) throws IOException, ProtocolException,
-        InterruptedException {
+    private BidibMessage receive(Integer expectedResponseType) throws InterruptedException {
         BidibMessage result = null;
         LOGGER.debug("Receive message, expected responseType: {}", expectedResponseType);
         fireReceiveStarted();
@@ -458,7 +457,7 @@ public class BidibNode {
      * @throws InterruptedException
      */
     protected synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType)
-        throws IOException, ProtocolException, InterruptedException {
+        throws ProtocolException {
 
         int num = getNextSendMsgNum();
         message.setSendMsgNum(num);
@@ -486,13 +485,26 @@ public class BidibNode {
                 bytes[index++] = data[dataIndex];
             }
         }
-        sendMessage(bytes, message);
+        
+        try {
+            sendMessage(bytes, message);
+        }
+        catch (IOException ex) {
+            LOGGER.warn("Send message failed.", ex);
+            throw new ProtocolException("Send message failed: " + message);
+        }
+        
         if (expectAnswer) {
-
-            result = receive(expectedResponseType);
+         // wait for the answer
+            try {
+                result = receive(expectedResponseType);
+            }
+            catch (InterruptedException ex) {
+                LOGGER.warn("Waiting for response was interrupted", ex);
+            }
             if (result == null) {
                 LOGGER.warn("Get result failed for message:  {}", message);
-                throw new ProtocolNoAnswerException("got no answer to " + message);
+                throw new ProtocolNoAnswerException("Got no answer to " + message);
             }
         }
         LOGGER.debug("Return result message: {}", result);
