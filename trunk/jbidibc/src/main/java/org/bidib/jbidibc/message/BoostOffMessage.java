@@ -7,13 +7,14 @@ import org.bidib.jbidibc.BidibLibrary;
  */
 public class BoostOffMessage extends BidibMessage {
     public static final byte BROADCAST_MESSAGE = 0;
+
     public static final byte BROADCAST_OFF = 1;
 
     @Deprecated
     public BoostOffMessage() {
         super(0, BidibLibrary.MSG_BOOST_OFF);
     }
-    
+
     public BoostOffMessage(byte broadcast) {
         super(0, BidibLibrary.MSG_BOOST_OFF, new byte[] { (byte) broadcast });
     }

@@ -485,7 +485,7 @@ public class BidibNode {
                 bytes[index++] = data[dataIndex];
             }
         }
-        
+
         try {
             sendMessage(bytes, message);
         }
@@ -493,9 +493,9 @@ public class BidibNode {
             LOGGER.warn("Send message failed.", ex);
             throw new ProtocolException("Send message failed: " + message);
         }
-        
+
         if (expectAnswer) {
-         // wait for the answer
+            // wait for the answer
             try {
                 result = receive(expectedResponseType);
             }
