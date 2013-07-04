@@ -135,6 +135,19 @@ public class NodeFactory {
         return null;
     }
 
+    public BoosterNode getBoosterNode(Node node) {
+        BidibNode result = getNode(node);
+
+        if (node.hasBoosterFunctions()) {
+            BoosterNode boosterNode = new BoosterNode(result);
+            LOGGER.debug("prepared command station node: {}", boosterNode);
+            return boosterNode;
+        }
+
+        LOGGER.debug("The requested node is not a BoosterNode.");
+        throw new InvalidConfigurationException("The requested node is not a BoosterNode.");
+    }
+
     public CommandStationNode getCommandStationNode(Node node) {
         BidibNode result = getNode(node);
 
@@ -144,7 +157,7 @@ public class NodeFactory {
             return commandStationNode;
         }
 
-        LOGGER.debug("The requested node is not an CommandStationNode.");
+        LOGGER.debug("The requested node is not a CommandStationNode.");
         throw new InvalidConfigurationException("The requested node is not a CommandStationNode.");
     }
 

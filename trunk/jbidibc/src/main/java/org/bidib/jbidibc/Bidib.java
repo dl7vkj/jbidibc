@@ -22,6 +22,7 @@ import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
+import org.bidib.jbidibc.node.BoosterNode;
 import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.RootNode;
@@ -125,6 +126,10 @@ public final class Bidib {
 
     public AccessoryNode getAccessoryNode(Node node) {
         return nodeFactory.getAccessoryNode(node);
+    }
+
+    public BoosterNode getBoosterNode(Node node) {
+        return nodeFactory.getBoosterNode(node);
     }
 
     public CommandStationNode getCommandStationNode(Node node) {

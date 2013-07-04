@@ -51,7 +51,13 @@ public final class ByteUtils {
         return result.toString();
     }
 
-    public static boolean arrayEquals(byte[] a1,byte[] a2) {
+    /**
+     * Compare two byte arrays.
+     * @param a1 the first byte array
+     * @param a2 the second byte array
+     * @return true if both arrays are equal
+     */
+    public static boolean arrayEquals(byte[] a1, byte[] a2) {
         if (a1.length != a2.length) {
             return false;
         }

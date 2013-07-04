@@ -132,7 +132,9 @@ public class BidibNode {
      * @throws IOException
      * @throws ProtocolException
      * @throws InterruptedException
+     * @deprecated Use BoosterNode to send this message
      */
+    @Deprecated
     public void boosterOn() throws IOException, ProtocolException, InterruptedException {
         send(new BoostOnMessage(), false, null);
     }
@@ -143,7 +145,9 @@ public class BidibNode {
      * @throws IOException
      * @throws ProtocolException
      * @throws InterruptedException
+     * @deprecated Use BoosterNode to send this message
      */
+    @Deprecated
     public void boosterOff() throws IOException, ProtocolException, InterruptedException {
         send(new BoostOffMessage(), false, null);
     }
@@ -155,7 +159,9 @@ public class BidibNode {
      * @throws IOException
      * @throws ProtocolException
      * @throws InterruptedException
+     * @deprecated Use BoosterNode to send this message
      */
+    @Deprecated
     public void boosterQuery() throws IOException, ProtocolException, InterruptedException {
         send(new BoostQueryMessage(), false, null);
     }
