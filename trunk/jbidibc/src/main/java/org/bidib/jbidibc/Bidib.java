@@ -72,7 +72,7 @@ public final class Bidib {
         messageReceiver = new MessageReceiver(nodeFactory);
     }
 
-    public static synchronized Bidib getInstance() {
+    public static Bidib getInstance() {
         return instance;
     }
 
