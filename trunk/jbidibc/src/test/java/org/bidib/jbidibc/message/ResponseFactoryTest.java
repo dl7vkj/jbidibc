@@ -18,6 +18,20 @@ public class ResponseFactoryTest {
 
         Assert.assertNotNull(bidibMessage);
         Assert.assertTrue(bidibMessage instanceof SysMagicResponse, "Expected a SysMagicResponse message.");
+        Assert.assertEquals(bidibMessage.getType(), (byte) BidibLibrary.MSG_SYS_MAGIC);
+        Assert.assertEquals(((SysMagicResponse) bidibMessage).getMagic(), 0xAFFE);
+    }
+
+    @Test
+    public void createMessageBootMagicResponseFromByteArray() throws ProtocolException {
+        byte[] message = { 0x05, 0x00, 0x00, (byte) 0x81, (byte) 0x0D, (byte) 0xB0 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof SysMagicResponse, "Expected a SysMagicResponse message.");
+        Assert.assertEquals(bidibMessage.getType(), (byte) BidibLibrary.MSG_SYS_MAGIC);
+        Assert.assertEquals(((SysMagicResponse) bidibMessage).getMagic(), 0xB00D);
     }
 
     @Test(expectedExceptions = ProtocolException.class, expectedExceptionsMessageRegExp = "no magic received")

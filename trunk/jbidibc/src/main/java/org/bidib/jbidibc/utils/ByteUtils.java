@@ -16,6 +16,21 @@ public final class ByteUtils {
         return ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
     }
 
+    /**
+     * Get the (unsigned) int value from the low and high byte value.
+     * @param lowByte the low byte
+     * @param highByte the high byte
+     * @return the combined int value
+     */
+    public static int getInt(byte lowByte, byte highByte) {
+        return ((highByte & 0xFF) << 8) + (lowByte & 0xFF);
+    }
+
+    /**
+     * Get the (unsigned) int value from the byte value.
+     * @param byteValue the byte value
+     * @return the int value
+     */
     public static int getInt(byte byteValue) {
         return (byteValue & 0xFF);
     }
