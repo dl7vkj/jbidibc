@@ -24,7 +24,7 @@ public class BoosterNode {
      */
     public void boosterOn(byte broadcast) throws ProtocolException {
         LOGGER.debug("Switch booster on, broadcast: {}", broadcast);
-        delegate.send(new BoostOnMessage(broadcast), false, null);
+        delegate.sendNoWait(new BoostOnMessage(broadcast));
     }
 
     /**
@@ -34,7 +34,7 @@ public class BoosterNode {
      */
     public void boosterOff(byte broadcast) throws ProtocolException {
         LOGGER.debug("Switch booster off, broadcast: {}", broadcast);
-        delegate.send(new BoostOffMessage(broadcast), false, null);
+        delegate.sendNoWait(new BoostOffMessage(broadcast));
     }
 
     /**
@@ -44,7 +44,7 @@ public class BoosterNode {
      * @throws ProtocolException
      */
     public void boosterQuery() throws ProtocolException {
-        delegate.send(new BoostQueryMessage(), false, null);
+        delegate.sendNoWait(new BoostQueryMessage());
     }
 
 }

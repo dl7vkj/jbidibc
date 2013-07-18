@@ -7,7 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.Semaphore;
 
-import org.bidib.jbidibc.Bidib;
+import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.CRC8;
 import org.bidib.jbidibc.Feature;
@@ -29,6 +29,7 @@ import org.bidib.jbidibc.message.FeatureCountResponse;
 import org.bidib.jbidibc.message.FeatureGetAllMessage;
 import org.bidib.jbidibc.message.FeatureGetMessage;
 import org.bidib.jbidibc.message.FeatureGetNextMessage;
+import org.bidib.jbidibc.message.FeatureNotAvailableResponse;
 import org.bidib.jbidibc.message.FeatureResponse;
 import org.bidib.jbidibc.message.FeatureSetMessage;
 import org.bidib.jbidibc.message.FeedbackGetAddressRangeMessage;
@@ -48,6 +49,7 @@ import org.bidib.jbidibc.message.SysEnableMessage;
 import org.bidib.jbidibc.message.SysGetPVersionMessage;
 import org.bidib.jbidibc.message.SysGetSwVersionMessage;
 import org.bidib.jbidibc.message.SysIdentifyMessage;
+import org.bidib.jbidibc.message.SysIdentifyResponse;
 import org.bidib.jbidibc.message.SysMagicMessage;
 import org.bidib.jbidibc.message.SysMagicResponse;
 import org.bidib.jbidibc.message.SysPVersionResponse;
@@ -90,6 +92,8 @@ public class BidibNode {
 
     private MessageReceiver messageReceiver;
 
+    private BidibInterface bidib;
+
     /**
      * Create a new BidibNode that represents a connected node (slave) on the BiDiB bus.
      * 
@@ -104,18 +108,45 @@ public class BidibNode {
         LOGGER.debug("Create new BidibNode with address: {}", addr);
     }
 
-    public void acknowledgeFree(int detectorNumber) throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackMirrorFreeMessage(detectorNumber), false, null);
+    /**
+     * @param bidib the bidib to set
+     */
+    public void setBidib(BidibInterface bidib) {
+        this.bidib = bidib;
     }
 
-    public void acknowledgeMultiple(int baseAddress, int size, byte[] detectorData) throws IOException,
-        ProtocolException, InterruptedException {
+    protected MessageReceiver getMessageReceiver() {
+        return messageReceiver;
+    }
+
+    /**
+     * Send the feedback mirror free message for the specified detector number.
+     * @param detectorNumber the detector number
+     * @throws ProtocolException
+     */
+    public void acknowledgeFree(int detectorNumber) throws ProtocolException {
+        sendNoWait(new FeedbackMirrorFreeMessage(detectorNumber));
+    }
+
+    /**
+     * Send the feedback mirror multiple message.
+     * @param baseAddress the base address
+     * @param size the size
+     * @param detectorData the detector data
+     * @throws ProtocolException
+     */
+    public void acknowledgeMultiple(int baseAddress, int size, byte[] detectorData) throws ProtocolException {
         LOGGER.debug("Send acknowledge multiple to baseAddress: {}", baseAddress);
-        send(new FeedbackMirrorMultipleMessage(baseAddress, size, detectorData), false, null);
+        sendNoWait(new FeedbackMirrorMultipleMessage(baseAddress, size, detectorData));
     }
 
-    public void acknowledgeOccupied(int detectorNumber) throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackMirrorOccupiedMessage(detectorNumber), false, null);
+    /**
+     * Send the feedback mirror occupied message for the specified detector number.
+     * @param detectorNumber the detector number
+     * @throws ProtocolException
+     */
+    public void acknowledgeOccupied(int detectorNumber) throws ProtocolException {
+        sendNoWait(new FeedbackMirrorOccupiedMessage(detectorNumber));
     }
 
     public void addTransferListener(TransferListener l) {
@@ -129,41 +160,52 @@ public class BidibNode {
     /**
      * Switch on track signal on the booster.
      * 
-     * @throws IOException
      * @throws ProtocolException
-     * @throws InterruptedException
      * @deprecated Use BoosterNode to send this message
      */
     @Deprecated
-    public void boosterOn() throws IOException, ProtocolException, InterruptedException {
-        send(new BoostOnMessage(), false, null);
+    public void boosterOn() throws ProtocolException {
+        sendNoWait(new BoostOnMessage());
+    }
+
+    /**
+     * Switch on track signal on the booster.
+     * @param broadcast broadcast command
+     * @throws ProtocolException
+     */
+    public void boosterOn(byte broadcast) throws ProtocolException {
+        sendNoWait(new BoostOnMessage(broadcast));
     }
 
     /**
      * Switch off track signal on the booster.
      * 
-     * @throws IOException
      * @throws ProtocolException
-     * @throws InterruptedException
      * @deprecated Use BoosterNode to send this message
      */
     @Deprecated
-    public void boosterOff() throws IOException, ProtocolException, InterruptedException {
-        send(new BoostOffMessage(), false, null);
+    public void boosterOff() throws ProtocolException {
+        sendNoWait(new BoostOffMessage());
+    }
+
+    /**
+     * Switch off track signal on the booster.
+     * @param broadcast broadcast command
+     * @throws ProtocolException
+     */
+    public void boosterOff(byte broadcast) throws ProtocolException {
+        sendNoWait(new BoostOffMessage(broadcast));
     }
 
     /**
      * Query the booster state. We don't wait for the response because the {@link MessageReceiver} fires the booster
      * status callback on receipt.
      * 
-     * @throws IOException
      * @throws ProtocolException
-     * @throws InterruptedException
      * @deprecated Use BoosterNode to send this message
      */
-    @Deprecated
-    public void boosterQuery() throws IOException, ProtocolException, InterruptedException {
-        send(new BoostQueryMessage(), false, null);
+    public void boosterQuery() throws ProtocolException {
+        sendNoWait(new BoostQueryMessage());
     }
 
     private void escape(byte c) throws IOException {
@@ -210,15 +252,15 @@ public class BidibNode {
      * @param end
      *            the end of Melderbits to be transfered
      */
-    public void getAddressState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackGetAddressRangeMessage(begin, end), false, null);
+    public void getAddressState(int begin, int end) throws ProtocolException {
+        sendNoWait(new FeedbackGetAddressRangeMessage(begin, end));
     }
 
     /**
      * Get the current 'quality' of the track sensoring.
      */
-    public void getConfidence() throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackGetConfidenceMessage(), false, null);
+    public void getConfidence() throws ProtocolException {
+        sendNoWait(new FeedbackGetConfidenceMessage());
     }
 
     /**
@@ -227,22 +269,29 @@ public class BidibNode {
      * @param number
      *            the feature number
      * @return the returned feature
-     * @throws IOException
      * @throws ProtocolException
-     * @throws InterruptedException
      */
-    public Feature getFeature(int number) throws IOException, ProtocolException, InterruptedException {
+    public Feature getFeature(int number) throws ProtocolException {
         LOGGER.debug("get feature with number: {}", number);
 
         // if a node does not support the feature a feature not available response is received
-        BidibMessage response = send(new FeatureGetMessage(number));
+        BidibMessage response =
+            send(new FeatureGetMessage(number), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
 
         LOGGER.debug("get feature with number '{}' returned: {}", number, response);
-        Feature result = null;
         if (response instanceof FeatureResponse) {
-            result = ((FeatureResponse) response).getFeature();
+            Feature result = ((FeatureResponse) response).getFeature();
+            return result;
         }
-        return result;
+        else if (response instanceof FeatureNotAvailableResponse) {
+            FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
+            // TODO change this in version 2.0 to throw an exception
+            //            throw new ProtocolException("The requested feature is not available, featureNumber: "
+            //                + result.getFeatureNumber());
+            LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
+            return null;
+        }
+        throw createNoResponseAvailable("get feature");
     }
 
     /**
@@ -254,8 +303,14 @@ public class BidibNode {
      * @throws ProtocolException
      * @throws InterruptedException
      */
-    public int getFeatureCount() throws IOException, ProtocolException, InterruptedException {
-        return ((FeatureCountResponse) send(new FeatureGetAllMessage())).getCount();
+    public Integer getFeatureCount() throws ProtocolException {
+        BidibMessage response = send(new FeatureGetAllMessage(), true, FeatureCountResponse.TYPE);
+        if (response instanceof FeatureCountResponse) {
+            Integer result = ((FeatureCountResponse) response).getCount();
+            return result;
+        }
+
+        throw createNoResponseAvailable("get feature count");
     }
 
     /**
@@ -263,16 +318,23 @@ public class BidibNode {
      * feature index
      * 
      * @return a feature or null if no more features available
-     * @throws IOException
      * @throws ProtocolException
-     * @throws InterruptedException
      */
-    public Feature getNextFeature() throws IOException, ProtocolException, InterruptedException {
-        BidibMessage message = send(new FeatureGetNextMessage());
-        if (message instanceof FeatureResponse) {
-            return ((FeatureResponse) message).getFeature();
+    public Feature getNextFeature() throws ProtocolException {
+        BidibMessage response =
+            send(new FeatureGetNextMessage(), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
+        if (response instanceof FeatureResponse) {
+            return ((FeatureResponse) response).getFeature();
         }
-        return null;
+        else if (response instanceof FeatureNotAvailableResponse) {
+            FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
+            // TODO change this in version 2.0 to throw an exception
+            //            throw new ProtocolException("The requested feature is not available, featureNumber: "
+            //                + result.getFeatureNumber());
+            LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
+            return null;
+        }
+        throw createNoResponseAvailable("get next feature");
     }
 
     /**
@@ -283,29 +345,34 @@ public class BidibNode {
      * @param end
      *            the end of Melderbits to be transfered
      */
-    public void getFeedbackState(int begin, int end) throws IOException, ProtocolException, InterruptedException {
-        send(new FeedbackGetRangeMessage(begin, end), false, null);
+    public void getFeedbackState(int begin, int end) throws ProtocolException {
+        sendNoWait(new FeedbackGetRangeMessage(begin, end));
     }
 
-    public int getMagic() throws IOException, ProtocolException, InterruptedException {
+    /**
+     * Get the magic from the node.
+     * @return the magic
+     * @throws ProtocolException
+     */
+    public int getMagic() throws ProtocolException {
         LOGGER.debug("Get the magic.");
 
-        BidibMessage response = send(new SysMagicMessage(), true, Integer.valueOf(SysMagicResponse.TYPE));
+        BidibMessage response = send(new SysMagicMessage(), true, SysMagicResponse.TYPE);
         LOGGER.debug("getMagic, received response: {}", response);
-
-        return ((SysMagicResponse) response).getMagic();
+        if (response instanceof SysMagicResponse) {
+            return ((SysMagicResponse) response).getMagic();
+        }
+        throw createNoResponseAvailable("get magic");
     }
 
-    public Node getNextNode() throws IOException, ProtocolException, InterruptedException {
-        Node node = null;
-        BidibMessage response = send(new NodeTabGetNextMessage(), true, Integer.valueOf(NodeTabResponse.TYPE));
-        LOGGER.debug("NodeTabGetNext returned: {}", response);
-
-        if (response instanceof NodeTabResponse) {
-            node = ((NodeTabResponse) response).getNode(addr);
-            LOGGER.debug("Fetched node: {}", node);
-        }
-        return node;
+    /**
+     * Create a ProtocolException if no response is available.
+     * @param messageName the message name that is inserted in the exception message
+     * @return the exception
+     */
+    private ProtocolException createNoResponseAvailable(String messageName) {
+        ProtocolException ex = new ProtocolException("No response received from '" + messageName + "' message.");
+        return ex;
     }
 
     /**
@@ -354,57 +421,146 @@ public class BidibNode {
         return (byte) nextSendMsgNum;
     }
 
-    public int getNodeCount() throws IOException, ProtocolException, InterruptedException {
+    /**
+     * Get the next node from the system.
+     * @return the node
+     * @throws ProtocolException
+     */
+    public Node getNextNode() throws ProtocolException {
+        BidibMessage response = send(new NodeTabGetNextMessage(), true, NodeTabResponse.TYPE);
+
+        if (response instanceof NodeTabResponse) {
+            // create a new node from the received data
+            Node node = ((NodeTabResponse) response).getNode(addr);
+            LOGGER.debug("Fetched node: {}", node);
+            return node;
+        }
+        throw createNoResponseAvailable("get next node");
+    }
+
+    /**
+     * Get the number of nodes from the system.
+     * @return the number of nodes
+     * @throws ProtocolException
+     */
+    public Integer getNodeCount() throws ProtocolException {
         LOGGER.debug("Get all registered nodes from system.");
 
-        BidibMessage response = send(new NodeTabGetAllMessage(), true, Integer.valueOf(NodeTabCountResponse.TYPE));
-        LOGGER.debug("getNodeCount, received response: {}", response);
+        BidibMessage response = send(new NodeTabGetAllMessage(), true, NodeTabCountResponse.TYPE);
 
-        // if we receive another message then NodeTabCountResponse this will
-        // cause an CCE
-        // i've seen SysMagicResponse messages on my system ...
+        if (response instanceof NodeTabCountResponse) {
+            int totalNodes = ((NodeTabCountResponse) response).getCount();
 
-        int totalNodes = ((NodeTabCountResponse) response).getCount();
-
-        LOGGER.debug("Found total nodes: {}", totalNodes);
-        return totalNodes;
+            LOGGER.debug("Found total nodes: {}", totalNodes);
+            return totalNodes;
+        }
+        throw createNoResponseAvailable("get node count");
     }
 
-    public ProtocolVersion getPVersion() throws IOException, ProtocolException, InterruptedException {
-        return ((SysPVersionResponse) send(new SysGetPVersionMessage())).getVersion();
+    /**
+     * Get the protocol version of the node.
+     * @return the protocol version
+     * @throws ProtocolException
+     */
+    public ProtocolVersion getPVersion() throws ProtocolException {
+        BidibMessage response = send(new SysGetPVersionMessage(), true, SysPVersionResponse.TYPE);
+        if (response instanceof SysPVersionResponse) {
+            return ((SysPVersionResponse) response).getVersion();
+        }
+        throw createNoResponseAvailable("get protocol version");
     }
 
-    public SoftwareVersion getSwVersion() throws IOException, ProtocolException, InterruptedException {
-        BidibMessage result = send(new SysGetSwVersionMessage(), true, Integer.valueOf(SysSwVersionResponse.TYPE));
-        return ((SysSwVersionResponse) result).getVersion();
+    /**
+     * Get the software version from the node.
+     * @return the software version
+     * @throws ProtocolException
+     */
+    public SoftwareVersion getSwVersion() throws ProtocolException {
+        BidibMessage response = send(new SysGetSwVersionMessage(), true, SysSwVersionResponse.TYPE);
+        if (response instanceof SysSwVersionResponse) {
+            return ((SysSwVersionResponse) response).getVersion();
+        }
+        throw createNoResponseAvailable("get sw version");
     }
 
-    public byte[] getUniqueId() throws IOException, ProtocolException, InterruptedException {
-        return ((SysUniqueIdResponse) send(new SysUniqueIdMessage())).getUniqueId();
+    /**
+     * Get the unique id from the node.
+     * @return the unique id
+     * @throws ProtocolException
+     */
+    public byte[] getUniqueId() throws ProtocolException {
+        BidibMessage response = send(new SysUniqueIdMessage(), true, SysUniqueIdResponse.TYPE);
+        if (response instanceof SysUniqueIdResponse) {
+            return ((SysUniqueIdResponse) response).getUniqueId();
+        }
+        throw createNoResponseAvailable("get unique id");
     }
 
-    public void identify(IdentifyState state) throws IOException, ProtocolException, InterruptedException {
-        send(new SysIdentifyMessage(state), false, null);
+    /**
+     * Sets the identify state of the node.
+     * @param state the identify state to set.
+     * @return the returned identify state
+     * @throws ProtocolException
+     */
+    public IdentifyState identify(IdentifyState state) throws ProtocolException {
+        // wait for the response
+        BidibMessage response = send(new SysIdentifyMessage(state), true, SysIdentifyResponse.TYPE);
+
+        if (response instanceof SysIdentifyResponse) {
+            SysIdentifyResponse identifyResponse = (SysIdentifyResponse) response;
+            IdentifyState resultState = identifyResponse.getState();
+            LOGGER.debug("The node replied with identify state: {}", resultState);
+            return resultState;
+        }
+        throw createNoResponseAvailable("identify");
     }
 
-    public boolean isUpdatable() throws IOException, ProtocolException, InterruptedException {
-        Feature feature = getFeature(BidibLibrary.FEATURE_FW_UPDATE_MODE);
+    public boolean isUpdatable() throws ProtocolException {
+        try {
+            Feature feature = getFeature(BidibLibrary.FEATURE_FW_UPDATE_MODE);
 
-        return feature != null && feature.getValue() == 1;
+            return feature != null && feature.getValue() == 1;
+        }
+        catch (ProtocolException ex) {
+            LOGGER.warn("Check if node is updatable caused protocol exception.", ex);
+        }
+        return false;
     }
 
-    public int ping() throws IOException, ProtocolException, InterruptedException {
-        SysPongResponse result = (SysPongResponse) send(new SysPingMessage());
-
-        return result.getNum();
+    /**
+     * Send the ping message to the node.
+     * @return the received message number
+     * @throws ProtocolException
+     */
+    public int ping() throws ProtocolException {
+        BidibMessage response = send(new SysPingMessage(), true, SysPongResponse.TYPE);
+        if (response instanceof SysPongResponse) {
+            SysPongResponse result = (SysPongResponse) response;
+            return result.getNum();
+        }
+        throw createNoResponseAvailable("ping");
     }
 
-    private BidibMessage receive(Integer expectedResponseType) throws InterruptedException {
+    /**
+     * Send the system reset message to the node.
+     * @throws ProtocolException
+     */
+    public void reset() throws ProtocolException {
+        sendNoWait(new SysResetMessage());
+    }
+
+    /**
+     * Wait until the expected response is received or the timeout has expired.
+     * @param expectedResponseTypes list of the expected response message types
+     * @return the received response
+     * @throws InterruptedException thrown if wait wait for response is interrupted
+     */
+    private BidibMessage receive(List<Integer> expectedResponseTypes) throws InterruptedException {
         BidibMessage result = null;
-        LOGGER.debug("Receive message, expected responseType: {}", expectedResponseType);
+        LOGGER.debug("Receive message, expected responseTypes: {}", expectedResponseTypes);
         fireReceiveStarted();
         try {
-            result = messageReceiver.getMessage(expectedResponseType);
+            result = messageReceiver.getMessage(expectedResponseTypes);
         }
         finally {
             if (result == null) {
@@ -414,10 +570,6 @@ public class BidibNode {
         }
         fireReceiveStopped();
         return result;
-    }
-
-    public void reset() throws IOException, ProtocolException, InterruptedException {
-        send(new SysResetMessage(), false, null);
     }
 
     private void resetNextSendMsgNum() {
@@ -437,8 +589,23 @@ public class BidibNode {
         }
     }
 
-    protected BidibMessage send(BidibMessage message) throws IOException, ProtocolException, InterruptedException {
-        return send(message, true, null);
+    /**
+     * Send a message without waiting for response.
+     * @param message the message to send
+     * @throws ProtocolException
+     */
+    protected void sendNoWait(BidibMessage message) throws ProtocolException {
+        send(message, false, (Integer) null);
+    }
+
+    /**
+     * Send a message and wait for the unspecific result.
+     * @param message the message to send
+     * @return the received result
+     * @throws ProtocolException
+     */
+    protected BidibMessage send(BidibMessage message) throws ProtocolException {
+        return send(message, true, (Integer) null);
     }
 
     /**
@@ -448,16 +615,14 @@ public class BidibNode {
      *            the message to send
      * @param expectAnswer
      *            answer is expected, this will cause to wait for an answer
-     * @param expectedResponseType
-     *            the expected type of response (optional)
+     * @param expectedResponseTypes
+     *            the list of expected type of response (optional)
      * @return the response from the node or null if no answer was expected
-     * @throws IOException
      * @throws ProtocolException
      *             thrown if no response was received if an answer was expected
-     * @throws InterruptedException
      */
-    protected synchronized BidibMessage send(BidibMessage message, boolean expectAnswer, Integer expectedResponseType)
-        throws ProtocolException {
+    protected synchronized BidibMessage send(
+        BidibMessage message, boolean expectAnswer, Integer... expectedResponseTypes) throws ProtocolException {
 
         int num = getNextSendMsgNum();
         message.setSendMsgNum(num);
@@ -497,7 +662,9 @@ public class BidibNode {
         if (expectAnswer) {
             // wait for the answer
             try {
-                result = receive(expectedResponseType);
+                result =
+                    receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
+                        .asList(expectedResponseTypes) : null);
             }
             catch (InterruptedException ex) {
                 LOGGER.warn("Waiting for response was interrupted", ex);
@@ -513,13 +680,6 @@ public class BidibNode {
 
     private void sendDelimiter() throws IOException {
         output.write((byte) BidibLibrary.BIDIB_PKT_MAGIC);
-    }
-
-    public FirmwareUpdateStat sendFirmwareUpdateOperation(FirmwareUpdateOperation operation, byte... data)
-        throws IOException, ProtocolException, InterruptedException {
-
-        BidibMessage result = send(new FwUpdateOpMessage(operation, data), true, FwUpdateStatResponse.TYPE);
-        return ((FwUpdateStatResponse) result).getUpdateStat();
     }
 
     private void sendMessage(byte[] message, BidibMessage bidibMessage) throws IOException {
@@ -557,7 +717,7 @@ public class BidibNode {
         MSG_TX_LOGGER.info(sb.toString());
 
         // send the output to Bidib
-        Bidib.getInstance().send(bytes);
+        bidib.send(bytes);
 
         // this takes 'much' time, only format if debug level enabled
         if (LOGGER.isDebugEnabled()) {
@@ -571,35 +731,117 @@ public class BidibNode {
         output.reset();
     }
 
-    public void setFeature(int number, int value) throws IOException, ProtocolException, InterruptedException {
-        send(new FeatureSetMessage(number, value));
+    /**
+     * Send an firmware update operation message to the node.
+     * @param operation the operation identifier
+     * @param data the data to send
+     * @return the returned firmware update status
+     * @throws ProtocolException
+     */
+    public FirmwareUpdateStat sendFirmwareUpdateOperation(FirmwareUpdateOperation operation, byte... data)
+        throws ProtocolException {
+
+        BidibMessage response = send(new FwUpdateOpMessage(operation, data), true, FwUpdateStatResponse.TYPE);
+        if (response instanceof FwUpdateStatResponse) {
+            return ((FwUpdateStatResponse) response).getUpdateStat();
+        }
+        throw createNoResponseAvailable("firmware update operation");
     }
 
-    public void sysDisable() throws IOException, ProtocolException, InterruptedException {
-        send(new SysDisableMessage(), false, null);
+    /**
+     * Sets the feature value on the node.
+     * @param number the feature number
+     * @param value the feature value
+     * @throws ProtocolException
+     */
+    public Feature setFeature(int number, int value) throws ProtocolException {
+        BidibMessage response =
+            send(new FeatureSetMessage(number, value), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
+        if (response instanceof FeatureResponse) {
+            Feature result = ((FeatureResponse) response).getFeature();
+            return result;
+        }
+        else if (response instanceof FeatureNotAvailableResponse) {
+            FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
+            throw new ProtocolException("The requested feature is not available, featureNumber: "
+                + result.getFeatureNumber());
+        }
+        throw createNoResponseAvailable("feature set");
     }
 
-    public void sysEnable() throws IOException, ProtocolException, InterruptedException {
-        send(new SysEnableMessage(), false, null);
+    /**
+     * Send the system disable message to the node.
+     * @throws ProtocolException
+     */
+    public void sysDisable() throws ProtocolException {
+        sendNoWait(new SysDisableMessage());
+    }
+
+    /**
+     * Send the system enable message to the node.
+     * @throws ProtocolException
+     */
+    public void sysEnable() throws ProtocolException {
+        sendNoWait(new SysEnableMessage());
     }
 
     public String toString() {
         return getClass().getSimpleName() + "@" + hashCode() + (addr != null ? Arrays.toString(addr) : "");
     }
 
-    public boolean vendorDisable() throws IOException, ProtocolException, InterruptedException {
-        return ((VendorAckResponse) send(new VendorDisableMessage())).getReturnCode() == 0;
+    /**
+     * Send the vendor disable message to the node.
+     * @return the user config mode is off
+     * @throws ProtocolException
+     */
+    public boolean vendorDisable() throws ProtocolException {
+        BidibMessage result = send(new VendorDisableMessage(), true, VendorAckResponse.TYPE);
+        if (result instanceof VendorAckResponse) {
+            return ((VendorAckResponse) result).getReturnCode() == VendorAckResponse.USER_CONFIG_MODE_OFF;
+        }
+        return false;
     }
 
-    public boolean vendorEnable(byte[] uniqueId) throws IOException, ProtocolException, InterruptedException {
-        return ((VendorAckResponse) send(new VendorEnableMessage(uniqueId))).getReturnCode() == 1;
+    /**
+     * Send the vendor enable message to the node.
+     * @return the user config mode is on
+     * @throws ProtocolException
+     */
+    public boolean vendorEnable(byte[] uniqueId) throws ProtocolException {
+        BidibMessage result = send(new VendorEnableMessage(uniqueId), true, VendorAckResponse.TYPE);
+        if (result instanceof VendorAckResponse) {
+            return ((VendorAckResponse) result).getReturnCode() == VendorAckResponse.USER_CONFIG_MODE_ON;
+        }
+        return false;
     }
 
-    public VendorData vendorGet(String name) throws IOException, ProtocolException, InterruptedException {
-        return ((VendorResponse) send(new VendorGetMessage(name))).getVendorData();
+    /**
+     * Get the vendor data with the provided name from the node.
+     * @param name the vendor specific name
+     * @return the current vendor data values received from the node
+     * @throws ProtocolException
+     */
+    public VendorData vendorGet(String name) throws ProtocolException {
+        LOGGER.info("Get vendor message, name: {}", name);
+        BidibMessage result = send(new VendorGetMessage(name), true, VendorResponse.TYPE);
+        if (result instanceof VendorResponse) {
+            return ((VendorResponse) result).getVendorData();
+        }
+        return null;
     }
 
-    public VendorData vendorSet(String name, String value) throws IOException, ProtocolException, InterruptedException {
-        return ((VendorResponse) send(new VendorSetMessage(name, value))).getVendorData();
+    /**
+     * Set the provided vendor data on the node.
+     * @param name the vendor specific name
+     * @param value the value to set
+     * @return the current vendor data values received from the node
+     * @throws ProtocolException
+     */
+    public VendorData vendorSet(String name, String value) throws ProtocolException {
+        BidibMessage result = send(new VendorSetMessage(name, value), true, VendorResponse.TYPE);
+        if (result instanceof VendorResponse) {
+            return ((VendorResponse) result).getVendorData();
+        }
+        return null;
     }
 }

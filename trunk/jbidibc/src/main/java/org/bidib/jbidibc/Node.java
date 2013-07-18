@@ -45,62 +45,6 @@ public class Node {
         return uniqueId;
     }
 
-    /**
-     * @return returns the uniqueId of the node as formatted hex string
-     */
-    public String getUniqueIdAsString() {
-        return String.format("VID %02X PID %08X", (uniqueId >> 32) & 0xff, uniqueId & 0xffffffffL);
-    }
-
-    /**
-     * @return returns if node supports accessory functions
-     */
-    public boolean hasAccessoryFunctions() {
-        return ((uniqueId >> 48) & 4) == 4;
-    }
-
-    /**
-     * @return returns if node supports booster functions
-     */
-    public boolean hasBoosterFunctions() {
-        return ((uniqueId >> 48) & 2) == 2;
-    }
-
-    /**
-     * @return returns if node supports feedback functions
-     */
-    public boolean hasFeedbackFunctions() {
-        return ((uniqueId >> 48) & 64) == 64;
-    }
-
-    /**
-     * @return returns if node supports subnodes functions
-     */
-    public boolean hasSubNodesFunctions() {
-        return ((uniqueId >> 48) & 128) == 128;
-    }
-
-    /**
-     * @return returns if node supports switch functions
-     */
-    public boolean hasSwitchFunctions() {
-        return ((uniqueId >> 48) & 1) == 1;
-    }
-
-    /**
-     * @return returns if node supports command station programming functions
-     */
-    public boolean hasCommandStationProgrammingFunctions() {
-        return ((uniqueId >> 48) & 8) == 8;
-    }
-
-    /**
-     * @return returns if node supports command station functions
-     */
-    public boolean hasCommandStationFunctions() {
-        return ((uniqueId >> 48) & 16) == 16;
-    }
-
     public String toString() {
         return getClass().getSimpleName() + "[version=" + version + ",addr=" + Arrays.toString(addr) + ",uniqueId="
             + String.format("0x%014x", uniqueId & 0xffffffffffffffL) + "]";

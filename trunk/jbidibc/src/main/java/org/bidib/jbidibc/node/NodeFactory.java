@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bidib.jbidibc.AddressData;
+import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
@@ -15,6 +16,7 @@ import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.exception.InvalidConfigurationException;
 import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -27,7 +29,23 @@ public class NodeFactory {
 
     private MessageReceiver messageReceiver;
 
+    private BidibInterface bidib;
+
     public NodeFactory() {
+    }
+
+    /**
+     * @return the bidib
+     */
+    public BidibInterface getBidib() {
+        return bidib;
+    }
+
+    /**
+     * @param bidib the bidib to set
+     */
+    public void setBidib(BidibInterface bidib) {
+        this.bidib = bidib;
     }
 
     /**
@@ -105,26 +123,11 @@ public class NodeFactory {
     }
 
     /**
-     * Convert a node address into an integer value.
-     * 
-     * @param address
-     *            node address
-     * 
-     * @return integer value for that address
-     * @deprecated moved to NodeUtils
+     * Returns the provided node as AccessoryNode instance of null if the node is not an 
+     * AccessoryNode.
+     * @param node the node
+     * @return the AccessoryNode instance
      */
-    @Deprecated
-    public static int convert(byte[] address) {
-        int result = 0;
-
-        if (address != null) {
-            for (int index = 0; index < address.length; index++) {
-                result += address[index] << (index * 8);
-            }
-        }
-        return result;
-    }
-
     public AccessoryNode getAccessoryNode(Node node) {
         BidibNode result = getNode(node);
 
@@ -135,12 +138,18 @@ public class NodeFactory {
         return null;
     }
 
+    /**
+     * Returns the provided node as BoosterNode instance of null if the node is not an 
+     * BoosterNode.
+     * @param node the node
+     * @return the BoosterNode instance
+     */
     public BoosterNode getBoosterNode(Node node) {
-        BidibNode result = getNode(node);
+        BidibNode bidibNode = getNode(node);
 
-        if (node.hasBoosterFunctions()) {
-            BoosterNode boosterNode = new BoosterNode(result);
-            LOGGER.debug("prepared command station node: {}", boosterNode);
+        if (NodeUtils.hasBoosterFunctions(node.getUniqueId())) {
+            BoosterNode boosterNode = new BoosterNode(bidibNode);
+            LOGGER.debug("prepared booster node: {}", boosterNode);
             return boosterNode;
         }
 
@@ -148,11 +157,17 @@ public class NodeFactory {
         throw new InvalidConfigurationException("The requested node is not a BoosterNode.");
     }
 
+    /**
+     * Returns the provided node as CommandStationNode instance of null if the node is not an 
+     * CommandStationNode.
+     * @param node the node
+     * @return the CommandStationNode instance
+     */
     public CommandStationNode getCommandStationNode(Node node) {
-        BidibNode result = getNode(node);
+        BidibNode bidibNode = getNode(node);
 
-        if (node.hasCommandStationFunctions()) {
-            CommandStationNode commandStationNode = new CommandStationNode(result);
+        if (NodeUtils.hasCommandStationFunctions(node.getUniqueId())) {
+            CommandStationNode commandStationNode = new CommandStationNode(bidibNode);
             LOGGER.debug("prepared command station node: {}", commandStationNode);
             return commandStationNode;
         }
@@ -166,7 +181,7 @@ public class NodeFactory {
 
         BidibNode bidibNode = null;
         synchronized (nodes) {
-            int address = convert(node.getAddr());
+            int address = NodeUtils.convertAddress(node.getAddr());
             LOGGER.debug("Fetch bidibNode from nodes, address: {}", address);
             bidibNode = nodes.get(address);
 
@@ -184,6 +199,9 @@ public class NodeFactory {
                 else {
                     bidibNode = new BidibNode(node.getAddr(), messageReceiver);
                 }
+                // initialize the node
+                bidibNode.setBidib(bidib);
+
                 // verify that a transfer listener is available
                 List<TransferListener> transferListeners = getRootNode().getTransferListeners();
                 if (transferListeners != null && transferListeners.size() > 0) {
@@ -213,26 +231,29 @@ public class NodeFactory {
         LOGGER.debug("Get the root node.");
         RootNode rootNode = null;
         synchronized (nodes) {
-
+            // get the node from the registered nodes
             rootNode = (RootNode) nodes.get(ROOT_ADDRESS);
 
             if (rootNode == null) {
+                // no root node registered, create and initialize the root node.
+                // the root node has always the local address 0 and is the interface node.
                 LOGGER.debug("Create the root node.");
                 rootNode = new RootNode(messageReceiver);
+                // initialize the root node
+                rootNode.setBidib(bidib);
                 nodes.put(ROOT_ADDRESS, rootNode);
             }
             LOGGER.debug("Root node: {}", rootNode);
         }
-
         return rootNode;
     }
 
     private void removeNode(Node node) {
         synchronized (nodes) {
             LOGGER.debug("Remove node from bidib nodes: {}", node);
-            BidibNode bidibNode = nodes.remove(convert(node.getAddr()));
+            BidibNode bidibNode = nodes.remove(NodeUtils.convertAddress(node.getAddr()));
             if (bidibNode == null) {
-                LOGGER.warn("Remove bidibNode failed for address: {}", convert(node.getAddr()));
+                LOGGER.warn("Remove bidibNode failed for address: {}", NodeUtils.convertAddress(node.getAddr()));
             }
         }
     }

@@ -92,5 +92,4 @@ public class NodeUtils {
     public static String getUniqueIdAsString(long uniqueId) {
         return String.format("VID %02X PID %08X", (uniqueId >> 32) & 0xff, uniqueId & 0xffffffffL);
     }
-
 }

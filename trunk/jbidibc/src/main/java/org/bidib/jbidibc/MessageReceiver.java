@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
@@ -34,9 +35,15 @@ import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.message.SysErrorResponse;
 import org.bidib.jbidibc.message.SysIdentifyResponse;
 import org.bidib.jbidibc.node.NodeFactory;
+import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The message receiver is responsible for creating the messages based on the received bytes from the stream.
+ * It is created and initialized by the (default) Bidib implementation.
+ */
 public class MessageReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class.getName());
 
@@ -51,14 +58,20 @@ public class MessageReceiver {
 
     private static int timeout = Bidib.DEFAULT_TIMEOUT;
 
-    private static boolean running = true;
+    private boolean running;
 
     private NodeFactory nodeFactory;
 
-    public MessageReceiver(NodeFactory nodeFactory) {
-        this.nodeFactory = nodeFactory;
+    private BidibInterface bidib;
 
+    protected MessageReceiver(NodeFactory nodeFactory) {
+        this.nodeFactory = nodeFactory;
+        running = true;
         nodeFactory.setMessageReceiver(this);
+    }
+
+    public void setBidib(BidibInterface bidib) {
+        this.bidib = bidib;
     }
 
     /**
@@ -201,14 +214,16 @@ public class MessageReceiver {
                                     else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
 
-                                        nodeFactory.getRootNode().acknowledge(node.getVersion());
+                                        // TODO for bridge/hub nodes we must use the parent of the new node ???
+                                        nodeFactory.getRootNode().acknowledgeNodeChanged(node.getVersion());
                                         fireNodeNew(node);
                                     }
                                     else if (message instanceof NodeLostResponse) {
                                         Node node = ((NodeLostResponse) message).getNode(message.getAddr());
 
                                         fireNodeLost(node);
-                                        nodeFactory.getRootNode().acknowledge(node.getVersion());
+                                        // TODO for bridge/hub nodes we must use the parent of the new node ???
+                                        nodeFactory.getRootNode().acknowledgeNodeChanged(node.getVersion());
                                         //                                        fireNodeLost(node);
                                     }
                                     else if (message instanceof SysErrorResponse) {
@@ -232,6 +247,7 @@ public class MessageReceiver {
                                     }
                                     else {
                                         // put the message into the receiveQueue because somebody waits for it ...
+                                        LOGGER.debug("Put message to receiveQueue: {}", message);
                                         receiveQueue.offer(message);
                                     }
                                 }
@@ -291,16 +307,16 @@ public class MessageReceiver {
         }
     }
 
-    public void addMessageListener(MessageListener l) {
-        listeners.add(l);
+    public void addMessageListener(MessageListener listener) {
+        listeners.add(listener);
     }
 
-    public static void disable() {
+    public void disable() {
         LOGGER.debug("disable is called.");
         running = false;
     }
 
-    public static void enable() {
+    public void enable() {
         LOGGER.debug("enable is called.");
         running = true;
     }
@@ -393,13 +409,13 @@ public class MessageReceiver {
     /**
      * Get a message from the receiveQueue for the defined timeout period.
      * 
-     * @param responseType the optional responseType id to wait for
+     * @param responseTypes the optional list of responseType ids to wait for
      *
      * @return the received message or null if no message was received during the defined period.
-     * @throws InterruptedException
+     * @throws InterruptedException thrown if wait wait for response is interrupted
      */
-    public BidibMessage getMessage(Integer responseType) throws InterruptedException {
-        LOGGER.debug("get message with responseType: {}", responseType);
+    public BidibMessage getMessage(List<Integer> responseTypes) throws InterruptedException {
+        LOGGER.debug("get message with responseType: {}", responseTypes);
         BidibMessage result = null;
 
         // wait a maximum of 3 seconds to recieve message
@@ -411,24 +427,32 @@ public class MessageReceiver {
 
             long now = System.currentTimeMillis();
 
-            if (result != null && responseType != null) {
-                LOGGER.debug("Check if the response type is equal, responseType: {}, response.type: {}", responseType
-                    .byteValue(), result.getType());
-                if (responseType.byteValue() == result.getType()) {
-                    LOGGER.debug("This is the expected response: {}", result);
-                    break;
+            // handling of specific response type
+            if (result != null && CollectionUtils.hasElements(responseTypes)) {
+                BidibMessage response = null;
+                for (Integer responseType : responseTypes) {
+                    LOGGER.debug("Check if the response type is equal, responseType: {}, response.type: {}",
+                        responseType.byteValue(), result.getType());
+
+                    if (responseType == ByteUtils.getInt(result.getType())) {
+                        LOGGER.debug("This is the expected response: {}", result);
+                        response = result;
+                        break;
+                    }
                 }
-                else {
+
+                if (response == null) {
                     LOGGER.debug("This is NOT the expected response: {}", result);
                     result = null;
                 }
 
                 LOGGER.debug("startReceive: {}, now: {}, result: {}", cancelReceiveTs, now, result);
-                if (cancelReceiveTs < now) {
+                if (result != null || cancelReceiveTs < now) {
                     LOGGER.debug("leave loop.");
                     leaveLoop = true;
                 }
             }
+            // handling if no specific response type expected ...
             else if (result != null || (cancelReceiveTs < now)) {
                 LOGGER.debug("leave loop, result: {}", result);
                 leaveLoop = true;
@@ -444,9 +468,9 @@ public class MessageReceiver {
         listeners.remove(l);
     }
 
-    public static void setTimeout(int timeout) {
+    public void setTimeout(int timeout) {
         LOGGER.info("Set the timeout for bidib messages: {}", timeout);
-        Bidib.getInstance().setTimeout(timeout);
+        bidib.setReceiveTimeout(timeout);
         MessageReceiver.timeout = timeout;
     }
 

@@ -1,6 +1,5 @@
 package org.bidib.jbidibc.node;
 
-import java.io.IOException;
 import java.util.Calendar;
 
 import org.bidib.jbidibc.MessageReceiver;
@@ -14,11 +13,33 @@ public class RootNode extends BidibNode {
         super(new byte[] { 0 }, messageReceiver);
     }
 
-    public void acknowledge(int versionNumber) throws IOException, ProtocolException, InterruptedException {
-        send(new NodeChangedAckMessage(versionNumber), false, null);
+    /**
+     * Send the node changed acknowledge message.
+     * @param versionNumber the version number of the node table
+     * @throws ProtocolException
+     */
+    public void acknowledgeNodeChanged(int versionNumber) throws ProtocolException {
+        sendNoWait(new NodeChangedAckMessage(versionNumber));
     }
 
-    public void clock(Calendar date, int factor) throws IOException, ProtocolException, InterruptedException {
-        send(new SysClockMessage(date, factor), false, null);
+    /**
+     * Send the sys clock message.
+     * @param date the current date
+     * @param factor the time factor
+     * @throws ProtocolException
+     */
+    public void clock(Calendar date, int factor) throws ProtocolException {
+        sendNoWait(new SysClockMessage(date, factor));
     }
+
+    /**
+     * Send the system reset message to the node.
+     * @throws ProtocolException
+     */
+    public void reset() throws ProtocolException {
+        super.reset();
+        // TODO reset the counters
+
+    }
+
 }

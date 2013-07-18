@@ -19,6 +19,7 @@ import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
 
 import org.bidib.jbidibc.exception.PortNotFoundException;
+import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
@@ -30,7 +31,12 @@ import org.bidib.jbidibc.utils.LibraryPathManipulator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public final class Bidib {
+/**
+ * This is the default bidib implementation.
+ * It creates and initializes the MessageReceiver and the NodeFactory that is used in the system.
+ *
+ */
+public final class Bidib implements BidibInterface {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Bidib.class);
 
@@ -48,7 +54,7 @@ public final class Bidib {
 
     private boolean librariesLoaded;
 
-    private static final Bidib instance = new Bidib();
+    private static Bidib INSTANCE;
 
     private MessageReceiver messageReceiver;
 
@@ -56,8 +62,8 @@ public final class Bidib {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
                 try {
-                    LOGGER.debug("Disable the message receiver.");
-                    MessageReceiver.disable();
+                    LOGGER.debug("Close the communication ports and perform cleanup.");
+                    //                    MessageReceiver.disable();
                     getInstance().close();
                 }
                 catch (IOException e) {
@@ -67,22 +73,36 @@ public final class Bidib {
     }
 
     private Bidib() {
+    }
+
+    /**
+     * Initialize the instance. This must only be called from this class
+     */
+    protected void initialize() {
+        LOGGER.info("Initialize Bidib.");
         nodeFactory = new NodeFactory();
+        nodeFactory.setBidib(this);
         // create the message receiver
         messageReceiver = new MessageReceiver(nodeFactory);
+        messageReceiver.setBidib(this);
     }
 
-    public static Bidib getInstance() {
-        return instance;
+    public static synchronized BidibInterface getInstance() {
+        if (INSTANCE == null) {
+            INSTANCE = new Bidib();
+            INSTANCE.initialize();
+        }
+        return INSTANCE;
     }
 
+    @Override
     public void close() throws IOException {
         if (port != null) {
             LOGGER.debug("Close the port.");
             long start = System.currentTimeMillis();
 
             // no longer process received messages
-            MessageReceiver.disable();
+            messageReceiver.disable();
 
             // this makes the close operation faster ...
             try {
@@ -106,8 +126,11 @@ public final class Bidib {
         }
     }
 
-    public List<CommPortIdentifier> getPortIdentifiers() {
-        List<CommPortIdentifier> portIdentifiers = new ArrayList<CommPortIdentifier>();
+    /**
+     * @return returns the list of serial port identifiers that are available in the system.
+     */
+    public List<String> getPortIdentifiers() {
+        List<String> portIdentifiers = new ArrayList<String>();
 
         // make sure the libraries are loaded
         loadLibraries();
@@ -118,7 +141,7 @@ public final class Bidib {
             CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
 
             if (id.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-                portIdentifiers.add(id);
+                portIdentifiers.add(id.getName());
             }
         }
         return portIdentifiers;
@@ -147,10 +170,12 @@ public final class Bidib {
      *            the node
      * @return the BidibNode instance
      */
+    @Override
     public BidibNode getNode(Node node) {
         return nodeFactory.getNode(node);
     }
 
+    @Override
     public RootNode getRootNode() {
         return nodeFactory.getRootNode();
     }
@@ -178,6 +203,7 @@ public final class Bidib {
 
     private SerialPort internalOpen(CommPortIdentifier commPort, int baudRate) throws PortInUseException,
         UnsupportedCommOperationException, TooManyListenersException {
+
         SerialPort serialPort = (SerialPort) commPort.open(Bidib.class.getName(), 2000);
 
         // set RTS high, DTR high - done early, so flow control can be configured after
@@ -197,8 +223,8 @@ public final class Bidib {
 
         clearInputStream(serialPort);
 
-        MessageReceiver.enable();
-
+        // enable the message receiver before the event listener is added
+        messageReceiver.enable();
         serialPort.addEventListener(new SerialPortEventListener() {
             {
                 if (logFile != null) {
@@ -247,9 +273,7 @@ public final class Bidib {
         }
     }
 
-    public void open(String portName) throws PortNotFoundException, PortInUseException,
-        UnsupportedCommOperationException, IOException, ProtocolException, InterruptedException,
-        TooManyListenersException, NoSuchPortException {
+    public void open(String portName) throws PortNotFoundException, PortNotOpenedException {
         if (port == null) {
             if (portName == null || portName.trim().isEmpty()) {
                 throw new PortNotFoundException("");
@@ -260,19 +284,26 @@ public final class Bidib {
             File file = new File(portName);
 
             if (file.exists()) {
-                portName = file.getCanonicalPath();
-                LOGGER.info("Changed port name to: {}", portName);
+                try {
+                    portName = file.getCanonicalPath();
+                    LOGGER.info("Changed port name to: {}", portName);
+                }
+                catch (IOException ex) {
+                    throw new PortNotFoundException(portName);
+                }
             }
 
-            CommPortIdentifier commPort = CommPortIdentifier.getPortIdentifier(portName);
+            CommPortIdentifier commPort = null;
+            try {
+                commPort = CommPortIdentifier.getPortIdentifier(portName);
+            }
+            catch (NoSuchPortException ex) {
+                throw new PortNotFoundException(portName);
+            }
 
             try {
                 portSemaphore.acquire();
-                // // 1000000 Baud
-                // close();
-                // port = open(commPort, 1000000);
-                // sendMagic();
-                // } catch (Exception e) {
+
                 try {
                     // 115200 Baud
                     close();
@@ -287,9 +318,18 @@ public final class Bidib {
                         sendMagic();
                     }
                     catch (Exception e3) {
-                        close();
+                        try {
+                            close();
+                        }
+                        catch (Exception e4) {
+                            // ignore
+                        }
                     }
                 }
+            }
+            catch (InterruptedException ex) {
+                LOGGER.warn("Wait for portSemaphore was interrupted.", ex);
+                throw new PortNotOpenedException("Open port failed: " + portName);
             }
             finally {
                 portSemaphore.release();
@@ -300,6 +340,31 @@ public final class Bidib {
         }
     }
 
+    public boolean isOpened() {
+        boolean isOpened = false;
+        try {
+            portSemaphore.acquire();
+
+            LOGGER.debug("Check if port is opened: {}", port);
+            isOpened = (port != null && port.getOutputStream() != null);
+        }
+        catch (InterruptedException ex) {
+            LOGGER.warn("Wait for portSemaphore was interrupted.", ex);
+        }
+        catch (IOException ex) {
+            LOGGER.warn("OutputStream is not available.", ex);
+        }
+        finally {
+            portSemaphore.release();
+        }
+        return isOpened;
+    }
+
+    /**
+     * Send the bytes to the outputstream.
+     * @param bytes the bytes to send
+     */
+    @Override
     public void send(final byte[] bytes) {
         if (port != null) {
             try {
@@ -341,7 +406,8 @@ public final class Bidib {
      * Set the recieve timeout for the port.
      * @param timeout the receive timeout to set
      */
-    public void setTimeout(int timeout) {
+    @Override
+    public void setReceiveTimeout(int timeout) {
         if (port != null) {
             try {
                 port.enableReceiveTimeout(timeout);
