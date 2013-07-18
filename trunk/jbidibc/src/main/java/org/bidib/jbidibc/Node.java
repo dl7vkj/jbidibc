@@ -2,26 +2,41 @@ package org.bidib.jbidibc;
 
 import java.util.Arrays;
 
+import org.bidib.jbidibc.utils.NodeUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * This class represents a Node in BiDiB
  */
 public class Node {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Node.class);
+
     private final byte[] addr;
 
     private final long uniqueId;
 
     private final int version;
 
-    public Node(byte[] addr) {
+    protected Node(byte[] addr) {
         this.addr = addr != null ? addr.clone() : null;
         this.uniqueId = 0;
         this.version = 0;
     }
 
+    /**
+     * This constructor is used when the NodeTabResponse is evaluated.
+     * @param version the version of the node
+     * @param addr the address of the node 
+     * @param uniqueId the uniqueId of the node
+     */
     public Node(int version, byte[] addr, long uniqueId) {
         this.addr = addr != null ? addr.clone() : null;
         this.uniqueId = uniqueId;
         this.version = version;
+
+        LOGGER.debug("Created new node, addr: {}, version: {}, {}", addr, version, NodeUtils
+            .getUniqueIdAsString(uniqueId));
     }
 
     /**
@@ -46,7 +61,10 @@ public class Node {
     }
 
     public String toString() {
-        return getClass().getSimpleName() + "[version=" + version + ",addr=" + Arrays.toString(addr) + ",uniqueId="
-            + String.format("0x%014x", uniqueId & 0xffffffffffffffL) + "]";
+        StringBuffer sb = new StringBuffer(getClass().getSimpleName());
+        sb
+            .append("[version=").append(version).append(",addr=").append(Arrays.toString(addr)).append(",uniqueId=")
+            .append(String.format("0x%014x", uniqueId & 0xffffffffffffffL)).append("]");
+        return sb.toString();
     }
 }

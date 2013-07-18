@@ -7,6 +7,10 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.NodeChangedAckMessage;
 import org.bidib.jbidibc.message.SysClockMessage;
 
+/**
+ * This class represents the interface node in the BiDiB system.
+ *
+ */
 public class RootNode extends BidibNode {
 
     RootNode(MessageReceiver messageReceiver) {

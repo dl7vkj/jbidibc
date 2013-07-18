@@ -386,7 +386,12 @@ public final class Bidib implements BidibInterface {
         }
     }
 
-    private int sendMagic() throws IOException, ProtocolException, InterruptedException {
+    /**
+     * Get the magic from the root node
+     * @return the magic provided by the root node
+     * @throws ProtocolException
+     */
+    private int sendMagic() throws ProtocolException {
         BidibNode rootNode = getRootNode();
 
         // Ignore the first exception ...
@@ -395,7 +400,9 @@ public final class Bidib implements BidibInterface {
         }
         catch (Exception e) {
         }
-        return rootNode.getMagic();
+        int magic = rootNode.getMagic();
+        LOGGER.debug("The node returned magic: {}", magic);
+        return magic;
     }
 
     public void setLogFile(String logFile) {

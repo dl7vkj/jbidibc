@@ -15,6 +15,8 @@ package org.bidib.jbidibc.utils;
  *
  */
 public class NodeUtils {
+    // the interface address is always 0
+    public static final int INTERFACE_ADDRESS = 0;
 
     /**
      * Convert a node address into an integer value.
