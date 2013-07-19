@@ -49,7 +49,6 @@ import org.bidib.jbidibc.message.SysEnableMessage;
 import org.bidib.jbidibc.message.SysGetPVersionMessage;
 import org.bidib.jbidibc.message.SysGetSwVersionMessage;
 import org.bidib.jbidibc.message.SysIdentifyMessage;
-import org.bidib.jbidibc.message.SysIdentifyResponse;
 import org.bidib.jbidibc.message.SysMagicMessage;
 import org.bidib.jbidibc.message.SysMagicResponse;
 import org.bidib.jbidibc.message.SysPVersionResponse;
@@ -497,22 +496,13 @@ public class BidibNode {
     }
 
     /**
-     * Sets the identify state of the node.
+     * Sets the identify state of the node. The result is received asynchronously.
      * @param state the identify state to set.
-     * @return the returned identify state
      * @throws ProtocolException
      */
-    public IdentifyState identify(IdentifyState state) throws ProtocolException {
-        // wait for the response
-        BidibMessage response = send(new SysIdentifyMessage(state), true, SysIdentifyResponse.TYPE);
-
-        if (response instanceof SysIdentifyResponse) {
-            SysIdentifyResponse identifyResponse = (SysIdentifyResponse) response;
-            IdentifyState resultState = identifyResponse.getState();
-            LOGGER.debug("The node replied with identify state: {}", resultState);
-            return resultState;
-        }
-        throw createNoResponseAvailable("identify");
+    public void identify(IdentifyState state) throws ProtocolException {
+        // do not wait for the response
+        sendNoWait(new SysIdentifyMessage(state));
     }
 
     public boolean isUpdatable() throws ProtocolException {
