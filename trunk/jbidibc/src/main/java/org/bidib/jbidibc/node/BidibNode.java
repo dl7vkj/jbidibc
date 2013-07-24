@@ -239,7 +239,10 @@ public class BidibNode {
         }
     }
 
-    protected byte[] getAddr() {
+    /**
+     * @return the address of the node
+     */
+    public byte[] getAddr() {
         return addr;
     }
 
@@ -505,6 +508,11 @@ public class BidibNode {
         sendNoWait(new SysIdentifyMessage(state));
     }
 
+    /**
+     * Verify if the node supports FW updates.
+     * @return true if the node has the FW update feature set, false otherwise
+     * @throws ProtocolException
+     */
     public boolean isUpdatable() throws ProtocolException {
         try {
             Feature feature = getFeature(BidibLibrary.FEATURE_FW_UPDATE_MODE);
