@@ -2,6 +2,7 @@ package org.bidib.jbidibc;
 
 import java.util.Arrays;
 
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,6 +59,23 @@ public class Node {
      */
     public long getUniqueId() {
         return uniqueId;
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof Node) {
+            Node node = (Node) other;
+            if (ByteUtils.arrayEquals(node.getAddr(), getAddr()) && node.getVersion() == version
+                && node.getUniqueId() == uniqueId) {
+                return true;
+            }
+        }
+        return super.equals(other);
+    }
+
+    @Override
+    public int hashCode() {
+        return (int) (NodeUtils.convertAddress(addr) + getUniqueId() + version);
     }
 
     public String toString() {
