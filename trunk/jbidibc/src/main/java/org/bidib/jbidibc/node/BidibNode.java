@@ -433,7 +433,7 @@ public class BidibNode {
 
         if (response instanceof NodeTabResponse) {
             // create a new node from the received data
-            Node node = ((NodeTabResponse) response).getNode(addr);
+            Node node = ((NodeTabResponse) response).getNode(response.getAddr()); // TODO changed addr to repsonse.getAddr()
             LOGGER.debug("Fetched node: {}", node);
             return node;
         }
