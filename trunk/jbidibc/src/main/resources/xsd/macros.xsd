@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bidib="http://www.bidib.org" targetNamespace="http://www.bidib.org" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
-	<xsd:complexType name="MacroStepType">
+	<xsd:complexType name="LcMacroStepType">
 		<xsd:sequence>
 			<xsd:element name="delay" type="bidib:MacroDelayType" minOccurs="0"/>
 			<xsd:choice>
@@ -20,9 +20,9 @@
 		</xsd:sequence>
 		<xsd:attribute name="step" type="bidib:MacroStepNumberType" use="required"/>
 	</xsd:complexType>
-	<xsd:complexType name="MacroType">
+	<xsd:complexType name="LcMacroType">
 		<xsd:sequence maxOccurs="unbounded">
-			<xsd:element ref="bidib:macroStep"/>
+			<xsd:element ref="bidib:lcMacroStep"/>
 		</xsd:sequence>
 		<xsd:attribute name="macroName" type="bidib:MacroNameType" use="required"/>
 		<xsd:attribute name="macroId" type="xsd:int" use="required"/>
@@ -203,15 +203,15 @@
 			<xsd:enumeration value="MOTORPORT"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	<xsd:element name="macro" type="bidib:MacroType"/>
-	<xsd:element name="macroStep" type="bidib:MacroStepType"/>
-	<xsd:element name="macros">
+	<xsd:element name="lcMacro" type="bidib:LcMacroType"/>
+	<xsd:element name="lcMacroStep" type="bidib:LcMacroStepType"/>
+	<xsd:element name="lcMacros">
 		<xsd:annotation>
 			<xsd:documentation>LC macros definition</xsd:documentation>
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="bidib:macro" maxOccurs="1"/>
+				<xsd:element ref="bidib:lcMacro" maxOccurs="1"/>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>

@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bidib:macros xmlns:bidib="http://www.bidib.org" 
+<bidib:lcMacros xmlns:bidib="http://www.bidib.org" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org ../../../main/resources/xsd/macros.xsd ">
-	<bidib:macro macroName="test1" macroId="1" repeat="1" slowdown="1">
-		<bidib:macroStep step="1">
+	<bidib:lcMacro macroName="test1" macroId="1" repeat="1" slowdown="1">
+		<bidib:lcMacroStep step="1">
 			<bidib:delay>6</bidib:delay>
 			<bidib:SoundPortActionType>START</bidib:SoundPortActionType>
-		</bidib:macroStep>
-		<bidib:macroStep step="2">
+		</bidib:lcMacroStep>
+		<bidib:lcMacroStep step="2">
 			<bidib:delay>60</bidib:delay>
 			<bidib:CriticalSectionActionType>BEGIN</bidib:CriticalSectionActionType>
-		</bidib:macroStep>
-		<bidib:macroStep step="3">
+		</bidib:lcMacroStep>
+		<bidib:lcMacroStep step="3">
 			<bidib:delay>6</bidib:delay>
 			<bidib:ServoPortActionType>
 				<bidib:action>START</bidib:action>
 				<bidib:destination>123</bidib:destination>
 			</bidib:ServoPortActionType>
-		</bidib:macroStep>
-	</bidib:macro>
-</bidib:macros>
+		</bidib:lcMacroStep>
+	</bidib:lcMacro>
+</bidib:lcMacros>

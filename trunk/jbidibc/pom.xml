@@ -34,6 +34,18 @@
             <artifactId>mockito-all</artifactId>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<groupId>xmlunit</groupId>
+			<artifactId>xmlunit</artifactId>
+			<version>1.4</version>
+            <scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.4</version>
+            <scope>test</scope>
+		</dependency>
     </dependencies>
     <build>
         <plugins>
@@ -88,6 +100,24 @@
                         </goals>
                     </execution>
                 </executions>
+            </plugin>
+			
+			<plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jaxb2-maven-plugin</artifactId>
+                <version>1.5</version>
+                <executions>
+                    <execution>
+                        <id>xjc</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+					<schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
+                    <packageName>org.bidib.jbidibc</packageName> <!-- The name of your generated source package -->
+                </configuration>
             </plugin>
         </plugins>
     </build>

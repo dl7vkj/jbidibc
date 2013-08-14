@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<lcMacros xmlns="http://www.bidib.org">
+    <lcMacro macroName="TestMacro1" macroId="1" repeat="1" slowdown="1">
+        <lcMacroStep step="0">
+            <delay>6</delay>
+            <LightPortActionType>ON</LightPortActionType>
+        </lcMacroStep>
+        <lcMacroStep step="1">
+            <delay>6</delay>
+            <LightPortActionType>OFF</LightPortActionType>
+        </lcMacroStep>
+    </lcMacro>
+</lcMacros>
