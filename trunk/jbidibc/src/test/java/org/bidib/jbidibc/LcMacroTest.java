@@ -3,7 +3,6 @@ package org.bidib.jbidibc;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -64,6 +63,16 @@ public class LcMacroTest {
         lcMacroStep.setStep(1);
         lcMacroStep.setDelay(6);
         lcMacroStep.setLightPortActionType(LightPortActionType.OFF);
+
+        lcMacro.getLcMacroStep().add(lcMacroStep);
+
+        lcMacroStep = new LcMacroStepType();
+        lcMacroStep.setStep(2);
+        lcMacroStep.setDelay(60);
+        ServoPortActionType servoPortActionType = new ServoPortActionType();
+        servoPortActionType.setAction(ServoActionType.START);
+        servoPortActionType.setDestination(90);
+        lcMacroStep.setServoPortActionType(servoPortActionType);
 
         lcMacro.getLcMacroStep().add(lcMacroStep);
 

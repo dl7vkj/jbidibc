@@ -9,5 +9,12 @@
             <delay>6</delay>
             <LightPortActionType>OFF</LightPortActionType>
         </lcMacroStep>
+        <lcMacroStep step="2">
+            <delay>60</delay>
+            <ServoPortActionType>
+                <action>START</action>
+                <destination>90</destination>
+            </ServoPortActionType>
+        </lcMacroStep>
     </lcMacro>
 </lcMacros>
