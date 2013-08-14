@@ -21,7 +21,7 @@ import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 public class LcMacroTest {
-    
+
     private static final Logger LOGGER = LoggerFactory.getLogger(LcMacroTest.class);
 
     @Test
@@ -44,7 +44,7 @@ public class LcMacroTest {
     public void saveMacroTest() throws JAXBException, SAXException, IOException {
 
         JAXBContext jaxbContext = JAXBContext.newInstance("org.bidib.jbidibc");
-        Marshaller marshaller=jaxbContext.createMarshaller();
+        Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
         LcMacroType lcMacro = new LcMacroType();
@@ -52,37 +52,37 @@ public class LcMacroTest {
         lcMacro.setMacroName("TestMacro1");
         lcMacro.setRepeat(1);
         lcMacro.setSlowdown(1);
-        
+
         LcMacroStepType lcMacroStep = new LcMacroStepType();
         lcMacroStep.setStep(0);
         lcMacroStep.setDelay(6);
         lcMacroStep.setLightPortActionType(LightPortActionType.ON);
 
         lcMacro.getLcMacroStep().add(lcMacroStep);
-        
+
         lcMacroStep = new LcMacroStepType();
         lcMacroStep.setStep(1);
         lcMacroStep.setDelay(6);
         lcMacroStep.setLightPortActionType(LightPortActionType.OFF);
 
         lcMacro.getLcMacroStep().add(lcMacroStep);
-        
+
         LcMacros lcMacros = new LcMacros();
         lcMacros.setLcMacro(lcMacro);
-        
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        
+
         marshaller.marshal(lcMacros, baos);
-        
+
         LOGGER.info("marshalled macro: {}", baos);
-        
+
         String d = baos.toString("UTF-8");
         Document testDoc = XMLUnit.buildControlDocument(d);
-        
+
         InputStream is = LcMacroTest.class.getResourceAsStream("/xsd/macro-export-test.xml");
         final String xmlContent = IOUtils.toString(is, "UTF-8");
         Document controlDoc = XMLUnit.buildControlDocument(xmlContent);
-        
+
         XMLAssert.assertXMLEqual(controlDoc, testDoc);
     }
 }
