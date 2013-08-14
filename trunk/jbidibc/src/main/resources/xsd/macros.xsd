@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bidib="http://www.bidib.org" targetNamespace="http://www.bidib.org" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xsd:complexType name="MacroStepType">
+		<xsd:sequence>
+			<xsd:element name="delay" type="bidib:MacroDelayType" minOccurs="0"/>
+			<xsd:choice>
+				<xsd:element ref="bidib:AnalogPortActionType"/>
+				<xsd:element ref="bidib:CriticalSectionActionType"/>
+				<xsd:element ref="bidib:FlagActionType"/>
+				<xsd:element ref="bidib:InputPortActionType"/>
+				<xsd:element ref="bidib:LightPortActionType"/>
+				<xsd:element ref="bidib:MacroActionType"/>
+				<xsd:element ref="bidib:MotorPortActionType"/>
+				<xsd:element ref="bidib:ServoPortActionType"/>
+				<xsd:element ref="bidib:SoundPortActionType"/>
+				<xsd:element ref="bidib:SwitchPortActionType"/>
+				<xsd:element ref="bidib:DelayActionType"/>
+				<xsd:element ref="bidib:RandomDelayActionType"/>
+			</xsd:choice>
+		</xsd:sequence>
+		<xsd:attribute name="step" type="bidib:MacroStepNumberType" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="MacroType">
+		<xsd:sequence maxOccurs="unbounded">
+			<xsd:element ref="bidib:macroStep"/>
+		</xsd:sequence>
+		<xsd:attribute name="macroName" type="bidib:MacroNameType" use="required"/>
+		<xsd:attribute name="macroId" type="xsd:int" use="required"/>
+		<xsd:attribute name="repeat" type="bidib:MacroRepeatType" use="required"/>
+		<xsd:attribute name="slowdown" type="bidib:MacroSlowdownFactorType" use="required"/>
+	</xsd:complexType>
+	<xsd:element name="AnalogPortActionType" type="bidib:AnalogPortActionType"/>
+	<xsd:element name="CriticalSectionActionType" type="bidib:CriticalSectionActionType"/>
+	<xsd:element name="FlagActionType" type="bidib:FlagActionType"/>
+	<xsd:element name="InputPortActionType" type="bidib:InputPortActionType"/>
+	<xsd:element name="LightPortActionType" type="bidib:LightPortActionType"/>
+	<xsd:element name="MacroActionType" type="bidib:MacroActionType"/>
+	<xsd:element name="MotorPortActionType" type="bidib:MotorPortActionType"/>
+	<xsd:element name="ServoPortActionType" type="bidib:ServoPortActionType"/>
+	<xsd:element name="SoundPortActionType" type="bidib:SoundPortActionType"/>
+	<xsd:element name="SwitchPortActionType" type="bidib:SwitchPortActionType"/>
+	<xsd:element name="DelayActionType" type="bidib:DelayActionType"/>
+	<xsd:element name="RandomDelayActionType" type="bidib:RandomDelayActionType"/>
+	<xsd:simpleType name="MacroNameType">
+		<xsd:annotation>
+			<xsd:documentation>The name of the macro</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MacroRepeatType">
+		<xsd:annotation>
+			<xsd:documentation>The number of repeats of the macro</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="250"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MacroSlowdownFactorType">
+		<xsd:annotation>
+			<xsd:documentation>The slowdown factor of the macro</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="1"/>
+			<xsd:maxInclusive value="250"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MacroStepNumberType">
+		<xsd:annotation>
+			<xsd:documentation>The number of the macro step</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="40"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MacroDelayType">
+		<xsd:annotation>
+			<xsd:documentation>The delay of the macro step</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="250"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="CriticalSectionActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="BEGIN"/>
+			<xsd:enumeration value="END"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="DelayActionType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RandomDelayActionType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FlagActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="CLEAR"/>
+			<xsd:enumeration value="QUERY"/>
+			<xsd:enumeration value="SET"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MacroActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="START"/>
+			<xsd:enumeration value="STOP"/>
+			<xsd:enumeration value="END"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SwitchPortActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ON"/>
+			<xsd:enumeration value="OFF"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InputPortActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="OFF"/>
+			<xsd:enumeration value="ON"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="SoundPortActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="START"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="AnalogPortActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="START"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="ServoPortActionType">
+		<xsd:sequence>
+			<xsd:group ref="bidib:ServoPortParams"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="ServoActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="START"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ServoDestinationType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:group name="ServoPortParams">
+		<xsd:sequence>
+			<xsd:element name="action" type="bidib:ServoActionType"/>
+			<xsd:element name="destination" type="bidib:ServoDestinationType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:simpleType name="MotorPortActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="FORWARD"/>
+			<xsd:enumeration value="BACKWARD"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LightPortActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ON"/>
+			<xsd:enumeration value="OFF"/>
+			<xsd:enumeration value="UP"/>
+			<xsd:enumeration value="DOWN"/>
+			<xsd:enumeration value="NEON"/>
+			<xsd:enumeration value="BLINKA"/>
+			<xsd:enumeration value="BLINKB"/>
+			<xsd:enumeration value="FLASHA"/>
+			<xsd:enumeration value="FLASHB"/>
+			<xsd:enumeration value="DOUBLEFLASH"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="LcOutputType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="ANALOGPORT"/>
+			<xsd:enumeration value="DELAY"/>
+			<xsd:enumeration value="RANDOMDELAY"/>
+			<xsd:enumeration value="INPUTQUERY0"/>
+			<xsd:enumeration value="INPUTQUERY1"/>
+			<xsd:enumeration value="FLAGCLEAR"/>
+			<xsd:enumeration value="FLAGSET"/>
+			<xsd:enumeration value="FLAGQUERY"/>
+			<xsd:enumeration value="CRITICALSECTION"/>
+			<xsd:enumeration value="STARTMACRO"/>
+			<xsd:enumeration value="STOPMACRO"/>
+			<xsd:enumeration value="ENDOFMACRO"/>
+			<xsd:enumeration value="LIGHTPORT"/>
+			<xsd:enumeration value="SERVOPORT"/>
+			<xsd:enumeration value="SOUNDPORT"/>
+			<xsd:enumeration value="SWITCHPORT"/>
+			<xsd:enumeration value="MOTORPORT"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:element name="macro" type="bidib:MacroType"/>
+	<xsd:element name="macroStep" type="bidib:MacroStepType"/>
+	<xsd:element name="macros">
+		<xsd:annotation>
+			<xsd:documentation>LC macros definition</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="bidib:macro" maxOccurs="1"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
