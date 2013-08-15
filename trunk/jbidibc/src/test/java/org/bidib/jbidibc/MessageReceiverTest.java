@@ -4,6 +4,7 @@ import gnu.io.SerialPort;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.util.concurrent.BlockingQueue;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -167,5 +168,36 @@ public class MessageReceiverTest {
 
         // verify that booster state is on
         Mockito.verify(messageListener, Mockito.never()).boosterState(address, BoosterState.ON);
+    }
+
+    @Test
+    public void receiveNodeTabResponseTest() throws IOException, ProtocolException {
+        NodeFactory nodeFactory = Mockito.mock(NodeFactory.class);
+        SerialPort serialPort = Mockito.mock(SerialPort.class);
+        BidibNode bidibNode = Mockito.mock(BidibNode.class);
+        MessageListener messageListener = Mockito.mock(MessageListener.class);
+        BlockingQueue<BidibMessage> receiveQueue = Mockito.mock(BlockingQueue.class);
+
+        MessageReceiver receiver = new MessageReceiver(nodeFactory);
+        receiver.addMessageListener(messageListener);
+        receiver.setReceiveQueue(receiveQueue);
+
+        // 11.08.2013 22:38:40.383: receive NodeTabResponse[[1, 0],num=2,type=137,data=[1, 0, 129, 0, 13, 114, 0, 31, 0]] : 0d 01 00 02 89 01 00 81 00 0d 72 00 1f 00 
+        byte[] message =
+            new byte[] { 0x0d, 0x01, 0x00, 0x02, (byte) 0x89, 0x01, 0x00, (byte) 0x81, 0x00, (byte) 0x0d, (byte) 0x72,
+                0x00, 0x1f, 0x00, (byte) 0xFE };
+
+        ByteArrayInputStream is = new ByteArrayInputStream(message);
+
+        Mockito.when(serialPort.getInputStream()).thenReturn(is);
+        Mockito.when(nodeFactory.getNode(Mockito.any(Node.class))).thenReturn(bidibNode);
+        Mockito.when(bidibNode.getNextReceiveMsgNum(Mockito.any(BidibMessage.class))).thenReturn(Integer.valueOf(2));
+
+        receiver.receive(serialPort);
+
+        BidibMessage response = ResponseFactory.create(message);
+
+        // verify that booster state is on
+        Mockito.verify(receiveQueue, Mockito.times(1)).offer(response);
     }
 }

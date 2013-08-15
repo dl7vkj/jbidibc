@@ -61,6 +61,7 @@ public class BidibMessage {
                 addrBytes.write(0);
             }
             addr = addrBytes.toByteArray();
+            LOGGER.debug("Current addr: {}", addr);
             index++;
 
             num = ByteUtils.getInt(message[index++]);

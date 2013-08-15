@@ -25,9 +25,12 @@ public class NodeTabResponse extends BidibMessage {
      * @return the node
      */
     public Node getNode(byte[] parentAddress) {
+        LOGGER.debug("Create new node with parent address: {}", parentAddress);
         byte[] data = getData();
         byte[] addr = new byte[parentAddress.length + 1];
         byte[] uniqueId = new byte[7];
+
+        LOGGER.debug("Current local address: {}", data[1]);
 
         System.arraycopy(parentAddress, 0, addr, 1, parentAddress.length);
         addr[0] = data[1];
@@ -35,7 +38,7 @@ public class NodeTabResponse extends BidibMessage {
 
         // create the new node with the received data
         Node node = new Node(data[0], addr, ByteUtils.convertUniqueIdToLong(uniqueId));
-        LOGGER.debug("Created new node: {}", node);
+        LOGGER.info("Created new node: {}", node);
         return node;
     }
 }

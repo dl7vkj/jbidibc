@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,6 +62,29 @@ public class ResponseFactoryTest {
 
         Assert.assertNotNull(bidibMessage);
         Assert.assertTrue(bidibMessage instanceof NodeTabResponse, "Expected a NodeTabResponse message.");
+
+        NodeTabResponse nodeTabResponse = (NodeTabResponse) bidibMessage;
+        Node node = nodeTabResponse.getNode(nodeTabResponse.getAddr());
+        Assert.assertNotNull(node);
+        Assert.assertEquals(node.getAddr(), new byte[] { 0, 0 });
+    }
+
+    @Test
+    public void createValidNodeTabResponse2Message() throws ProtocolException {
+        byte[] message =
+            new byte[] { 0x0d, 0x01, 0x00, 0x02, (byte) 0x89, 0x01, 0x00, (byte) 0x81, 0x00, (byte) 0x0d, (byte) 0x72,
+                0x00, 0x1f, 0x00 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof NodeTabResponse, "Expected a NodeTabResponse message.");
+
+        NodeTabResponse nodeTabResponse = (NodeTabResponse) bidibMessage;
+        Node node = nodeTabResponse.getNode(nodeTabResponse.getAddr());
+        Assert.assertNotNull(node);
+        // TODO .... this is not really expected, is it? ...
+        Assert.assertEquals(node.getAddr(), new byte[] { 0, 1, 0 });
     }
 
     @Test

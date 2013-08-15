@@ -51,7 +51,7 @@ public class MessageReceiver {
 
     //    private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
-    private static final BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
+    private BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
 
     private final Collection<MessageListener> listeners =
         Collections.synchronizedList(new LinkedList<MessageListener>());
@@ -72,6 +72,10 @@ public class MessageReceiver {
 
     public void setBidib(BidibInterface bidib) {
         this.bidib = bidib;
+    }
+
+    public void setReceiveQueue(BlockingQueue<BidibMessage> receiveQueue) {
+        this.receiveQueue = receiveQueue;
     }
 
     /**
@@ -241,14 +245,15 @@ public class MessageReceiver {
                                                 fireError(message.getAddr(), errorResponse.getErrorCode());
                                                 break;
                                         }
+
+                                        // TODO if we have fired an error we should release a possible thread that is waiting for a result in the receive queue ...
+                                        messageReceived(message);
                                     }
                                     else if (message instanceof SysIdentifyResponse) {
                                         fireIdentify(message.getAddr(), ((SysIdentifyResponse) message).getState());
                                     }
                                     else {
-                                        // put the message into the receiveQueue because somebody waits for it ...
-                                        LOGGER.debug("Put message to receiveQueue: {}", message);
-                                        receiveQueue.offer(message);
+                                        messageReceived(message);
                                     }
                                 }
                                 finally {
@@ -305,6 +310,12 @@ public class MessageReceiver {
                 throw new RuntimeException(e);
             }
         }
+    }
+
+    protected void messageReceived(BidibMessage message) {
+        // put the message into the receiveQueue because somebody waits for it ...
+        LOGGER.debug("Put message to receiveQueue: {}", message);
+        receiveQueue.offer(message);
     }
 
     public void addMessageListener(MessageListener listener) {
@@ -428,7 +439,11 @@ public class MessageReceiver {
             long now = System.currentTimeMillis();
 
             // handling of specific response type
-            if (result != null && CollectionUtils.hasElements(responseTypes)) {
+            if (result instanceof SysErrorResponse) {
+                LOGGER.warn("Received an error response: {}", result);
+                leaveLoop = true;
+            }
+            else if (result != null && CollectionUtils.hasElements(responseTypes)) {
                 BidibMessage response = null;
                 for (Integer responseType : responseTypes) {
                     LOGGER.debug("Check if the response type is equal, responseType: {}, response.type: {}",
