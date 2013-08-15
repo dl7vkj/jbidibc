@@ -116,7 +116,7 @@
                 </executions>
                 <configuration>
 					<schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
-                    <packageName>org.bidib.jbidibc</packageName> <!-- The name of your generated source package -->
+                    <packageName>org.bidib.jbidibc.lcmacro</packageName> <!-- The name of your generated source package -->
                 </configuration>
             </plugin>
         </plugins>

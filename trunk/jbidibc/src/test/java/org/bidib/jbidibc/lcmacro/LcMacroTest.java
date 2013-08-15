@@ -1,4 +1,4 @@
-package org.bidib.jbidibc;
+package org.bidib.jbidibc.lcmacro;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -23,9 +23,11 @@ public class LcMacroTest {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LcMacroTest.class);
 
+    private static final String JAXB_PACKAGE = "org.bidib.jbidibc.lcmacro";
+
     @Test
     public void loadMacroTest() throws JAXBException {
-        JAXBContext jaxbContext = JAXBContext.newInstance("org.bidib.jbidibc");
+        JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
@@ -42,7 +44,7 @@ public class LcMacroTest {
     @Test
     public void saveMacroTest() throws JAXBException, SAXException, IOException {
 
-        JAXBContext jaxbContext = JAXBContext.newInstance("org.bidib.jbidibc");
+        JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
 
