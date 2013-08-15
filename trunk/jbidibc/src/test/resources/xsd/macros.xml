@@ -2,15 +2,15 @@
 <bidib:lcMacros xmlns:bidib="http://www.bidib.org" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org ../../../main/resources/xsd/macros.xsd ">
 	<bidib:lcMacro macroName="test1" macroId="1" repeat="1" slowdown="1">
-		<bidib:lcMacroStep step="1">
+		<bidib:lcMacroStep stepNumber="0">
 			<bidib:delay>6</bidib:delay>
 			<bidib:SoundPortActionType>START</bidib:SoundPortActionType>
 		</bidib:lcMacroStep>
-		<bidib:lcMacroStep step="2">
+		<bidib:lcMacroStep stepNumber="1">
 			<bidib:delay>60</bidib:delay>
 			<bidib:CriticalSectionActionType>BEGIN</bidib:CriticalSectionActionType>
 		</bidib:lcMacroStep>
-		<bidib:lcMacroStep step="3">
+		<bidib:lcMacroStep stepNumber="2">
 			<bidib:delay>6</bidib:delay>
 			<bidib:ServoPortActionType>
 				<bidib:action>START</bidib:action>

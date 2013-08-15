@@ -55,21 +55,21 @@ public class LcMacroTest {
         lcMacro.setSlowdown(1);
 
         LcMacroStepType lcMacroStep = new LcMacroStepType();
-        lcMacroStep.setStep(0);
+        lcMacroStep.setStepNumber(0);
         lcMacroStep.setDelay(6);
         lcMacroStep.setLightPortActionType(LightPortActionType.ON);
 
         lcMacro.getLcMacroStep().add(lcMacroStep);
 
         lcMacroStep = new LcMacroStepType();
-        lcMacroStep.setStep(1);
+        lcMacroStep.setStepNumber(1);
         lcMacroStep.setDelay(6);
         lcMacroStep.setLightPortActionType(LightPortActionType.OFF);
 
         lcMacro.getLcMacroStep().add(lcMacroStep);
 
         lcMacroStep = new LcMacroStepType();
-        lcMacroStep.setStep(2);
+        lcMacroStep.setStepNumber(2);
         lcMacroStep.setDelay(60);
         ServoPortActionType servoPortActionType = new ServoPortActionType();
         servoPortActionType.setAction(ServoActionType.START);

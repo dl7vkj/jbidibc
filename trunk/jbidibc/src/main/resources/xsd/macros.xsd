@@ -18,7 +18,7 @@
 				<xsd:element ref="bidib:RandomDelayActionType"/>
 			</xsd:choice>
 		</xsd:sequence>
-		<xsd:attribute name="step" type="bidib:MacroStepNumberType" use="required"/>
+		<xsd:attribute name="stepNumber" type="bidib:MacroStepNumberType" use="required"/>
 	</xsd:complexType>
 	<xsd:complexType name="LcMacroType">
 		<xsd:sequence maxOccurs="unbounded">
