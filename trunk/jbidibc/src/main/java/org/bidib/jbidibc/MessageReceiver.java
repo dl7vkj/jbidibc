@@ -247,7 +247,7 @@ public class MessageReceiver {
                                         }
 
                                         // TODO if we have fired an error we should release a possible thread that is waiting for a result in the receive queue ...
-                                        messageReceived(message);
+                                        //                                        messageReceived(message);
                                     }
                                     else if (message instanceof SysIdentifyResponse) {
                                         fireIdentify(message.getAddr(), ((SysIdentifyResponse) message).getState());
