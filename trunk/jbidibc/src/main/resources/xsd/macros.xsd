@@ -6,6 +6,11 @@
 			<xsd:choice>
 				<xsd:element ref="bidib:AnalogPortActionType"/>
 				<xsd:element ref="bidib:CriticalSectionActionType"/>
+				<!-- 
+				<xsd:element ref="bidib:FlagClearActionType"/>
+				<xsd:element ref="bidib:FlagSetActionType"/>
+				<xsd:element ref="bidib:FlagQueryActionType"/>
+				 -->
 				<xsd:element ref="bidib:FlagActionType"/>
 				<xsd:element ref="bidib:InputPortActionType"/>
 				<xsd:element ref="bidib:LightPortActionType"/>
@@ -16,6 +21,8 @@
 				<xsd:element ref="bidib:SwitchPortActionType"/>
 				<xsd:element ref="bidib:DelayActionType"/>
 				<xsd:element ref="bidib:RandomDelayActionType"/>
+				<xsd:element ref="bidib:InputQuery0ActionType"/>
+				<xsd:element ref="bidib:InputQuery1ActionType"/>
 			</xsd:choice>
 		</xsd:sequence>
 		<xsd:attribute name="stepNumber" type="bidib:MacroStepNumberType" use="required"/>
@@ -31,6 +38,11 @@
 	</xsd:complexType>
 	<xsd:element name="AnalogPortActionType" type="bidib:AnalogPortActionType"/>
 	<xsd:element name="CriticalSectionActionType" type="bidib:CriticalSectionActionType"/>
+	<!-- 
+	<xsd:element name="FlagClearActionType" type="bidib:FlagClearActionType"/>
+	<xsd:element name="FlagSetActionType" type="bidib:FlagSetActionType"/>
+	<xsd:element name="FlagQueryActionType" type="bidib:FlagQueryActionType"/>
+	 -->
 	<xsd:element name="FlagActionType" type="bidib:FlagActionType"/>
 	<xsd:element name="InputPortActionType" type="bidib:InputPortActionType"/>
 	<xsd:element name="LightPortActionType" type="bidib:LightPortActionType"/>
@@ -41,6 +53,8 @@
 	<xsd:element name="SwitchPortActionType" type="bidib:SwitchPortActionType"/>
 	<xsd:element name="DelayActionType" type="bidib:DelayActionType"/>
 	<xsd:element name="RandomDelayActionType" type="bidib:RandomDelayActionType"/>
+	<xsd:element name="InputQuery0ActionType" type="bidib:InputQuery0ActionType"/>
+	<xsd:element name="InputQuery1ActionType" type="bidib:InputQuery1ActionType"/>
 	<xsd:simpleType name="MacroNameType">
 		<xsd:annotation>
 			<xsd:documentation>The name of the macro</xsd:documentation>
@@ -104,14 +118,62 @@
 			<xsd:maxInclusive value="255"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	<xsd:simpleType name="FlagActionType">
+	
+	<!-- 
+	<xsd:simpleType name="FlagClearActionType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FlagSetActionType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FlagQueryActionType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	 -->
+	 
+	<xsd:complexType name="FlagActionType">
+		<xsd:sequence>
+			<xsd:group ref="bidib:FlagParams"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="FlagParams">
+		<xsd:sequence>
+			<xsd:element name="operation" type="bidib:FlagOperationType"/>
+			<xsd:element name="portNumber" type="bidib:PortNumberType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:simpleType name="FlagOperationType">
+		<xsd:annotation>
+			<xsd:documentation>The operation that is performed on the flag</xsd:documentation>
+		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="CLEAR"/>
 			<xsd:enumeration value="QUERY"/>
 			<xsd:enumeration value="SET"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	<xsd:simpleType name="MacroActionType">
+	
+	<xsd:complexType name="MacroActionType">
+		<xsd:sequence>
+			<xsd:group ref="bidib:MacroParams"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="MacroParams">
+		<xsd:sequence>
+			<xsd:element name="operation" type="bidib:MacroOperationType"/>
+			<xsd:element name="portNumber" type="bidib:PortNumberType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:simpleType name="MacroOperationType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="START"/>
 			<xsd:enumeration value="STOP"/>
@@ -180,6 +242,24 @@
 			<xsd:enumeration value="FLASHA"/>
 			<xsd:enumeration value="FLASHB"/>
 			<xsd:enumeration value="DOUBLEFLASH"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InputQuery0ActionType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="InputQuery1ActionType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="PortNumberType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="15"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="LcOutputType">

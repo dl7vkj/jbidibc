@@ -17,5 +17,9 @@
 				<bidib:destination>123</bidib:destination>
 			</bidib:ServoPortActionType>
 		</bidib:lcMacroStep>
+		<bidib:lcMacroStep stepNumber="3">
+			<bidib:delay>60</bidib:delay>
+			<bidib:CriticalSectionActionType>END</bidib:CriticalSectionActionType>
+		</bidib:lcMacroStep>
 	</bidib:lcMacro>
 </bidib:lcMacros>

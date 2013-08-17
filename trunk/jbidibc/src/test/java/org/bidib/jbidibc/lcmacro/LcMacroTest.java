@@ -38,7 +38,16 @@ public class LcMacroTest {
         Assert.assertNotNull(macros.getLcMacro());
         Assert.assertNotNull(macros.getLcMacro().getLcMacroStep());
 
-        Assert.assertEquals(macros.getLcMacro().getLcMacroStep().size(), 3);
+        Assert.assertEquals(macros.getLcMacro().getLcMacroStep().size(), 4);
+
+        LcMacroStepType lcMacroStep = macros.getLcMacro().getLcMacroStep().get(1);
+        Assert.assertNotNull(lcMacroStep.getCriticalSectionActionType());
+        Assert.assertEquals(lcMacroStep.getCriticalSectionActionType(), CriticalSectionActionType.BEGIN);
+
+        lcMacroStep = macros.getLcMacro().getLcMacroStep().get(3);
+        Assert.assertNotNull(lcMacroStep.getCriticalSectionActionType());
+        Assert.assertEquals(lcMacroStep.getCriticalSectionActionType(), CriticalSectionActionType.END);
+
     }
 
     @Test
