@@ -218,7 +218,8 @@ public class MessageReceiver {
                                     else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
 
-                                        LOGGER.info("Send node changed acknowledge for nodetab version: {}", node.getVersion());
+                                        LOGGER.info("Send node changed acknowledge for nodetab version: {}", node
+                                            .getVersion());
 
                                         // TODO for bridge/hub nodes we must use the parent of the new node ???
                                         nodeFactory.getRootNode().acknowledgeNodeChanged(node.getVersion());
@@ -260,6 +261,9 @@ public class MessageReceiver {
                                 }
                                 finally {
                                     if (message != null) {
+                                        // TODO add a flag to the node and evaluate the message numbers only after the magic message was received ...
+
+
                                         // verify that the receive message number is valid
                                         Node node = new Node(message.getAddr());
                                         int numExpected = nodeFactory.getNode(node).getNextReceiveMsgNum(message);
