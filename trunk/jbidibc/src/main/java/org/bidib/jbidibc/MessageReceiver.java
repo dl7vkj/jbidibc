@@ -218,8 +218,11 @@ public class MessageReceiver {
                                     else if (message instanceof NodeNewResponse) {
                                         Node node = ((NodeNewResponse) message).getNode(message.getAddr());
 
+                                        LOGGER.info("Send node changed acknowledge for nodetab version: {}", node.getVersion());
+
                                         // TODO for bridge/hub nodes we must use the parent of the new node ???
                                         nodeFactory.getRootNode().acknowledgeNodeChanged(node.getVersion());
+
                                         fireNodeNew(node);
                                     }
                                     else if (message instanceof NodeLostResponse) {

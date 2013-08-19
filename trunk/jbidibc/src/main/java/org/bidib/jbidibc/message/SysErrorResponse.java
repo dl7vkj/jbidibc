@@ -24,12 +24,11 @@ public class SysErrorResponse extends BidibMessage {
                 LOGGER
                     .warn(
                         "Received SysErrorResponse, BIDIB_ERR_SEQUENCE for address: {}, errorCode: {} (0x{}), last correct sequence: {}",
-                        new Object[] { addr, errorCode, String.format("%02x", errorCode) }, ByteUtils
-                            .getInt(getData()[1]));
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
                 break;
             default:
-                LOGGER.warn("Received SysErrorResponse for address: {}, errorCode: {} (0x{})", new Object[] { addr,
-                    errorCode, String.format("%02x", errorCode) });
+                LOGGER.warn("Received SysErrorResponse for address: {}, errorCode: {} (0x{})", addr, errorCode, String
+                    .format("%02x", errorCode));
                 break;
         }
     }

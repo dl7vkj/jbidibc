@@ -642,7 +642,7 @@ public class BidibNode {
             }
         }
         else {
-            LOGGER.debug("Address the root node.");
+            LOGGER.debug("Current address is the root node.");
         }
         bytes[index++] = 0; // 'terminating zero' of the address
 
@@ -677,7 +677,7 @@ public class BidibNode {
                 throw new ProtocolNoAnswerException("Got no answer to " + message);
             }
         }
-        LOGGER.debug("Return result message: {}", result);
+        LOGGER.debug("Return the result message: {}", result);
         return result;
     }
 
