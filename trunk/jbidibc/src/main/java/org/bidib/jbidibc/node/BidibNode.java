@@ -433,7 +433,8 @@ public class BidibNode {
 
         if (response instanceof NodeTabResponse) {
             // create a new node from the received data
-            Node node = ((NodeTabResponse) response).getNode(response.getAddr()); // TODO changed addr to repsonse.getAddr()
+            LOGGER.debug("Get next tab returned: {}, own addr: {}", response, addr);
+            Node node = ((NodeTabResponse) response).getNode(addr);
             LOGGER.debug("Fetched node: {}", node);
             return node;
         }
@@ -629,18 +630,22 @@ public class BidibNode {
         BidibMessage result = null;
         byte type = message.getType();
         byte[] data = message.getData();
-        byte[] bytes = new byte[1 + (addr != null ? addr.length : 1) + 2 + (data != null ? data.length : 0)];
+        byte[] bytes = new byte[1 + (addr != null ? addr.length + 1 : 1) + 2 + (data != null ? data.length : 0)];
         int index = 0;
 
         bytes[index++] = (byte) (bytes.length - 1);
-        if (addr != null) {
+        LOGGER.debug("Current node addr: {}", addr);
+
+        if (addr != null && addr.length != 0 && addr[0] != 0) {
             for (int addrIndex = 0; addrIndex < addr.length; addrIndex++) {
                 bytes[index++] = addr[addrIndex];
             }
         }
         else {
-            bytes[index++] = 0;
+            LOGGER.debug("Address the root node.");
         }
+        bytes[index++] = 0; // 'terminating zero' of the address
+
         bytes[index++] = (byte) num;
         bytes[index++] = type;
         if (data != null) {

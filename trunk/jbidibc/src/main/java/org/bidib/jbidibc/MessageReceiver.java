@@ -231,7 +231,6 @@ public class MessageReceiver {
                                         //                                        fireNodeLost(node);
                                     }
                                     else if (message instanceof SysErrorResponse) {
-                                        //                                        && ((SysErrorResponse) message).getErrorCode() == BidibLibrary.BIDIB_ERR_IDDOUBLE) {
                                         SysErrorResponse errorResponse = (SysErrorResponse) message;
                                         switch (errorResponse.getErrorCode()) {
                                             case BidibLibrary.BIDIB_ERR_IDDOUBLE:
@@ -262,7 +261,7 @@ public class MessageReceiver {
                                         Node node = new Node(message.getAddr());
                                         int numExpected = nodeFactory.getNode(node).getNextReceiveMsgNum(message);
                                         int numReceived = message.getNum();
-                                        LOGGER.debug("Compare the message numbers, expected: {}, received: {}",
+                                        LOGGER.trace("Compare the message numbers, expected: {}, received: {}",
                                             numExpected, numReceived);
                                         if (numReceived != numExpected) {
                                             LOGGER
@@ -504,7 +503,7 @@ public class MessageReceiver {
         Collection<byte[]> result = new LinkedList<byte[]>();
         int index = 0;
 
-        LOGGER.debug("splitMessages: {}", output);
+        LOGGER.trace("splitMessages: {}", output);
 
         while (index < output.length) {
             int size = output[index] + 1;

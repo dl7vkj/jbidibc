@@ -47,7 +47,7 @@ public class MessageReceiverTest {
     @Test
     public void receiveFeedbackMultipleResponseOccupiedTest() throws IOException {
 
-        byte[] address = new byte[] { 1, 0 };
+        byte[] address = new byte[] { 1 };
 
         NodeFactory nodeFactory = Mockito.mock(NodeFactory.class);
         SerialPort serialPort = Mockito.mock(SerialPort.class);
@@ -79,7 +79,7 @@ public class MessageReceiverTest {
     @Test
     public void receiveFeedbackMultipleResponseFreeTest() throws IOException {
 
-        byte[] address = new byte[] { 1, 0 };
+        byte[] address = new byte[] { 1 };
 
         NodeFactory nodeFactory = Mockito.mock(NodeFactory.class);
         SerialPort serialPort = Mockito.mock(SerialPort.class);

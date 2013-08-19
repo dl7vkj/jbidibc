@@ -57,9 +57,10 @@ public class BidibMessage {
                     throw new ProtocolException("address too long");
                 }
             }
-            if (addrBytes.size() < 4) {
+            if (addrBytes.size() == 0) {
                 addrBytes.write(0);
             }
+
             addr = addrBytes.toByteArray();
             LOGGER.debug("Current addr: {}", addr);
             index++;

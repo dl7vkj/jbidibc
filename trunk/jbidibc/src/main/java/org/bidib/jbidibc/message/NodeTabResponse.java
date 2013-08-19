@@ -32,8 +32,14 @@ public class NodeTabResponse extends BidibMessage {
 
         LOGGER.debug("Current local address: {}", data[1]);
 
-        System.arraycopy(parentAddress, 0, addr, 1, parentAddress.length);
-        addr[0] = data[1];
+        if (parentAddress.length == 1 && parentAddress[0] == 0) {
+            addr = new byte[1];
+            addr[0] = data[1];
+        }
+        else {
+            System.arraycopy(parentAddress, 0, addr, 1, parentAddress.length);
+            addr[0] = data[1];
+        }
         System.arraycopy(data, 2, uniqueId, 0, uniqueId.length);
 
         // create the new node with the received data

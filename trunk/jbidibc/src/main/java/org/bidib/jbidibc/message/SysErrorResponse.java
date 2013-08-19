@@ -17,8 +17,21 @@ public class SysErrorResponse extends BidibMessage {
             throw new ProtocolException("no error received");
         }
 
-        LOGGER.warn("Received SysErrorResponse for address: {}, errorCode: {} (0x{})", new Object[] { addr,
-            getErrorCode(), String.format("%02x", getErrorCode()) });
+        int errorCode = getErrorCode();
+
+        switch (errorCode) {
+            case 4:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_SEQUENCE for address: {}, errorCode: {} (0x{}), last correct sequence: {}",
+                        new Object[] { addr, errorCode, String.format("%02x", errorCode) }, ByteUtils
+                            .getInt(getData()[1]));
+                break;
+            default:
+                LOGGER.warn("Received SysErrorResponse for address: {}, errorCode: {} (0x{})", new Object[] { addr,
+                    errorCode, String.format("%02x", errorCode) });
+                break;
+        }
     }
 
     public int getErrorCode() {

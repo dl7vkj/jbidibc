@@ -10,6 +10,11 @@ import org.testng.annotations.Test;
 public class NodeUtilsTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(NodeUtilsTest.class);
 
+    public static long prepareUniqueid(String uniqueId) {
+        BigInteger bigInt = new BigInteger(uniqueId, 16);
+        return bigInt.longValue();
+    }
+
     @Test
     public void convertAddress() {
         int addr = NodeUtils.convertAddress(new byte[] { 0, 0, 0, 0 });
