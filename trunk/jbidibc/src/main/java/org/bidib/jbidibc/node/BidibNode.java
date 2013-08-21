@@ -93,6 +93,8 @@ public class BidibNode {
 
     private BidibInterface bidib;
 
+    private Integer nodeMagic;
+
     /**
      * Create a new BidibNode that represents a connected node (slave) on the BiDiB bus.
      * 
@@ -116,6 +118,21 @@ public class BidibNode {
 
     protected MessageReceiver getMessageReceiver() {
         return messageReceiver;
+    }
+
+    /**
+     * @return the magic
+     */
+    public Integer getNodeMagic() {
+        return nodeMagic;
+    }
+
+    /**
+     * @param magic the magic to set
+     */
+    public void setNodeMagic(Integer magic) {
+        LOGGER.debug("Set magic of node: {}", magic);
+        this.nodeMagic = magic;
     }
 
     /**
@@ -362,7 +379,9 @@ public class BidibNode {
         BidibMessage response = send(new SysMagicMessage(), true, SysMagicResponse.TYPE);
         LOGGER.debug("getMagic, received response: {}", response);
         if (response instanceof SysMagicResponse) {
-            return ((SysMagicResponse) response).getMagic();
+            int magic = ((SysMagicResponse) response).getMagic();
+            setNodeMagic(magic);
+            return magic;
         }
         throw createNoResponseAvailable("get magic");
     }
@@ -789,7 +808,13 @@ public class BidibNode {
     }
 
     public String toString() {
-        return getClass().getSimpleName() + "@" + hashCode() + (addr != null ? Arrays.toString(addr) : "");
+        StringBuffer sb = new StringBuffer(getClass().getSimpleName()).append("@").append(hashCode());
+        if (addr != null) {
+            sb.append(Arrays.toString(addr));
+        }
+        sb.append(",magic=").append(nodeMagic);
+        return sb.toString();
+        //        return getClass().getSimpleName() + "@" + hashCode() + (addr != null ? Arrays.toString(addr) : "");
     }
 
     /**

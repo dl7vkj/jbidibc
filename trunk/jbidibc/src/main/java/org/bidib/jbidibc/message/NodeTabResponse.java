@@ -44,7 +44,7 @@ public class NodeTabResponse extends BidibMessage {
 
         // create the new node with the received data
         Node node = new Node(ByteUtils.getInt(data[0]), addr, ByteUtils.convertUniqueIdToLong(uniqueId));
-        LOGGER.info("Created new node: {}", node);
+        LOGGER.info("Created node from received data: {}", node);
         return node;
     }
 }

@@ -266,7 +266,8 @@ public class MessageReceiver {
 
                                         // verify that the receive message number is valid
                                         Node node = new Node(message.getAddr());
-                                        if (node.getMagic() != null || message instanceof SysMagicResponse) {
+                                        if (nodeFactory.getNode(node).getNodeMagic() != null
+                                            || message instanceof SysMagicResponse) {
                                             int numExpected = nodeFactory.getNode(node).getNextReceiveMsgNum(message);
                                             int numReceived = message.getNum();
                                             LOGGER.trace("Compare the message numbers, expected: {}, received: {}",

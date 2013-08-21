@@ -41,7 +41,7 @@ public abstract class BidibNodeCommand extends BidibCommand {
 
             if ((node.getUniqueId() & 0xffffffffffffffL) == nodeId.longValue()) {
                 int magic = Bidib.getInstance().getNode(node).getMagic();
-                node.setMagic(magic);
+                LOGGER.info("Node returned magic: {}", magic);
                 result = node;
                 break;
             }
