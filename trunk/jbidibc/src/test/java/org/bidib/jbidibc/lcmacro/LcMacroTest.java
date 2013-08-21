@@ -25,8 +25,12 @@ public class LcMacroTest {
 
     private static final String JAXB_PACKAGE = "org.bidib.jbidibc.lcmacro";
 
+    private static final String XSD_LOCATION = "xsd/macros.xsd";
+
     @Test
     public void loadMacroTest() throws JAXBException {
+        LOGGER.info("Load macro.");
+
         JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
@@ -41,12 +45,16 @@ public class LcMacroTest {
         Assert.assertEquals(macros.getLcMacro().getLcMacroStep().size(), 4);
 
         LcMacroStepType lcMacroStep = macros.getLcMacro().getLcMacroStep().get(1);
-        Assert.assertNotNull(lcMacroStep.getCriticalSectionActionType());
-        Assert.assertEquals(lcMacroStep.getCriticalSectionActionType(), CriticalSectionActionType.BEGIN);
+        Assert.assertTrue(lcMacroStep instanceof CriticalSectionStep);
+        CriticalSectionStep criticalSectionStep = (CriticalSectionStep) lcMacroStep;
+        Assert.assertNotNull(criticalSectionStep.getCriticalSectionActionType());
+        Assert.assertEquals(criticalSectionStep.getCriticalSectionActionType(), CriticalSectionActionType.BEGIN);
 
         lcMacroStep = macros.getLcMacro().getLcMacroStep().get(3);
-        Assert.assertNotNull(lcMacroStep.getCriticalSectionActionType());
-        Assert.assertEquals(lcMacroStep.getCriticalSectionActionType(), CriticalSectionActionType.END);
+        Assert.assertTrue(lcMacroStep instanceof CriticalSectionStep);
+        criticalSectionStep = (CriticalSectionStep) lcMacroStep;
+        Assert.assertNotNull(criticalSectionStep.getCriticalSectionActionType());
+        Assert.assertEquals(criticalSectionStep.getCriticalSectionActionType(), CriticalSectionActionType.END);
 
     }
 
@@ -54,8 +62,10 @@ public class LcMacroTest {
     public void saveMacroTest() throws JAXBException, SAXException, IOException {
 
         JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
+
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
 
         LcMacroType lcMacro = new LcMacroType();
         lcMacro.setMacroId(1);
@@ -63,29 +73,29 @@ public class LcMacroTest {
         lcMacro.setRepeat(1);
         lcMacro.setSlowdown(1);
 
-        LcMacroStepType lcMacroStep = new LcMacroStepType();
-        lcMacroStep.setStepNumber(0);
-        lcMacroStep.setDelay(6);
-        lcMacroStep.setLightPortActionType(LightPortActionType.ON);
+        LightPortStep lightPortStep = new LightPortStep();
+        lightPortStep.setStepNumber(0);
+        lightPortStep.setDelay(6);
+        lightPortStep.setLightPortActionType(LightPortActionType.ON);
 
-        lcMacro.getLcMacroStep().add(lcMacroStep);
+        lcMacro.getLcMacroStep().add(lightPortStep);
 
-        lcMacroStep = new LcMacroStepType();
-        lcMacroStep.setStepNumber(1);
-        lcMacroStep.setDelay(6);
-        lcMacroStep.setLightPortActionType(LightPortActionType.OFF);
+        lightPortStep = new LightPortStep();
+        lightPortStep.setStepNumber(1);
+        lightPortStep.setDelay(6);
+        lightPortStep.setLightPortActionType(LightPortActionType.OFF);
 
-        lcMacro.getLcMacroStep().add(lcMacroStep);
+        lcMacro.getLcMacroStep().add(lightPortStep);
 
-        lcMacroStep = new LcMacroStepType();
-        lcMacroStep.setStepNumber(2);
-        lcMacroStep.setDelay(60);
+        ServoPortStep servoPortStep = new ServoPortStep();
+        servoPortStep.setStepNumber(2);
+        servoPortStep.setDelay(60);
         ServoPortActionType servoPortActionType = new ServoPortActionType();
         servoPortActionType.setAction(ServoActionType.START);
         servoPortActionType.setDestination(90);
-        lcMacroStep.setServoPortActionType(servoPortActionType);
+        servoPortStep.setServoPortActionType(servoPortActionType);
 
-        lcMacro.getLcMacroStep().add(lcMacroStep);
+        lcMacro.getLcMacroStep().add(servoPortStep);
 
         LcMacros lcMacros = new LcMacros();
         lcMacros.setLcMacro(lcMacro);

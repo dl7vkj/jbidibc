@@ -1,32 +1,144 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:bidib="http://www.bidib.org" targetNamespace="http://www.bidib.org" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
-	<xsd:complexType name="LcMacroStepType">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns:bidib="http://www.bidib.org"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	targetNamespace="http://www.bidib.org" 
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xsd:complexType name="LcMacroStepType" abstract="true">
 		<xsd:sequence>
-			<xsd:element name="delay" type="bidib:MacroDelayType" minOccurs="0"/>
-			<xsd:choice>
-				<xsd:element ref="bidib:AnalogPortActionType"/>
-				<xsd:element ref="bidib:CriticalSectionActionType"/>
-				<!-- 
-				<xsd:element ref="bidib:FlagClearActionType"/>
-				<xsd:element ref="bidib:FlagSetActionType"/>
-				<xsd:element ref="bidib:FlagQueryActionType"/>
-				 -->
-				<xsd:element ref="bidib:FlagActionType"/>
-				<xsd:element ref="bidib:InputPortActionType"/>
-				<xsd:element ref="bidib:LightPortActionType"/>
-				<xsd:element ref="bidib:MacroActionType"/>
-				<xsd:element ref="bidib:MotorPortActionType"/>
-				<xsd:element ref="bidib:ServoPortActionType"/>
-				<xsd:element ref="bidib:SoundPortActionType"/>
-				<xsd:element ref="bidib:SwitchPortActionType"/>
-				<xsd:element ref="bidib:DelayActionType"/>
-				<xsd:element ref="bidib:RandomDelayActionType"/>
-				<xsd:element ref="bidib:InputQuery0ActionType"/>
-				<xsd:element ref="bidib:InputQuery1ActionType"/>
-			</xsd:choice>
+			<xsd:element name="delay" type="bidib:MacroDelayType"
+				minOccurs="0" />
 		</xsd:sequence>
-		<xsd:attribute name="stepNumber" type="bidib:MacroStepNumberType" use="required"/>
+		<xsd:attribute name="stepNumber" type="bidib:MacroStepNumberType"
+			use="required" />
 	</xsd:complexType>
+	<xsd:complexType name="AnalogPortStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="AnalogPortActionType" type="bidib:AnalogPortActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="CriticalSectionStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="CriticalSectionActionType" type="bidib:CriticalSectionActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DelayStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="DelayActionType" type="bidib:DelayActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FlagStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="FlagActionType" type="bidib:FlagActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InputPortStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="InputPortActionType" type="bidib:InputPortActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InputQuery0Step">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="InputQuery0ActionType" type="bidib:InputQuery0ActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="InputQuery1Step">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="InputQuery1ActionType" type="bidib:InputQuery1ActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="LightPortStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="LightPortActionType" type="bidib:LightPortActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MacroActionStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="MacroActionType" type="bidib:MacroActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="MotorPortStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="MotorPortActionType" type="bidib:MotorPortActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="RandomDelayStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="RandomDelayActionType" type="bidib:RandomDelayActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="ServoPortStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="ServoPortActionType" type="bidib:ServoPortActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SoundPortStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="SoundPortActionType" type="bidib:SoundPortActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="SwitchPortStep">
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroStepType">
+				<xsd:sequence>
+					<xsd:element name="SwitchPortActionType" type="bidib:SwitchPortActionType" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<xsd:complexType name="LcMacroType">
 		<xsd:sequence maxOccurs="unbounded">
 			<xsd:element ref="bidib:lcMacroStep"/>
@@ -38,11 +150,6 @@
 	</xsd:complexType>
 	<xsd:element name="AnalogPortActionType" type="bidib:AnalogPortActionType"/>
 	<xsd:element name="CriticalSectionActionType" type="bidib:CriticalSectionActionType"/>
-	<!-- 
-	<xsd:element name="FlagClearActionType" type="bidib:FlagClearActionType"/>
-	<xsd:element name="FlagSetActionType" type="bidib:FlagSetActionType"/>
-	<xsd:element name="FlagQueryActionType" type="bidib:FlagQueryActionType"/>
-	 -->
 	<xsd:element name="FlagActionType" type="bidib:FlagActionType"/>
 	<xsd:element name="InputPortActionType" type="bidib:InputPortActionType"/>
 	<xsd:element name="LightPortActionType" type="bidib:LightPortActionType"/>
@@ -119,27 +226,6 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 	
-	<!-- 
-	<xsd:simpleType name="FlagClearActionType">
-		<xsd:restriction base="xsd:int">
-			<xsd:minInclusive value="0"/>
-			<xsd:maxInclusive value="255"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="FlagSetActionType">
-		<xsd:restriction base="xsd:int">
-			<xsd:minInclusive value="0"/>
-			<xsd:maxInclusive value="255"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:simpleType name="FlagQueryActionType">
-		<xsd:restriction base="xsd:int">
-			<xsd:minInclusive value="0"/>
-			<xsd:maxInclusive value="255"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	 -->
-	 
 	<xsd:complexType name="FlagActionType">
 		<xsd:sequence>
 			<xsd:group ref="bidib:FlagParams"/>
