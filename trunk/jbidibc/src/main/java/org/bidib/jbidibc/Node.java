@@ -17,6 +17,8 @@ public class Node {
 
     private final long uniqueId;
 
+    private Integer magic;
+
     private final int version;
 
     protected Node(byte[] addr) {
@@ -61,6 +63,20 @@ public class Node {
         return uniqueId;
     }
 
+    /**
+     * @return the magic
+     */
+    public Integer getMagic() {
+        return magic;
+    }
+
+    /**
+     * @param magic the magic to set
+     */
+    public void setMagic(Integer magic) {
+        this.magic = magic;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other instanceof Node) {
@@ -82,7 +98,7 @@ public class Node {
         StringBuffer sb = new StringBuffer(getClass().getSimpleName());
         sb
             .append("[version=").append(version).append(",addr=").append(Arrays.toString(addr)).append(",uniqueId=")
-            .append(String.format("0x%014x", uniqueId & 0xffffffffffffffL)).append("]");
+            .append(String.format("0x%014x", uniqueId & 0xffffffffffffffL)).append(",magic=").append(magic).append("]");
         return sb.toString();
     }
 }

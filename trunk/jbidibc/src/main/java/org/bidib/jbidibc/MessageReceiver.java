@@ -34,6 +34,7 @@ import org.bidib.jbidibc.message.NodeNewResponse;
 import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.message.SysErrorResponse;
 import org.bidib.jbidibc.message.SysIdentifyResponse;
+import org.bidib.jbidibc.message.SysMagicResponse;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.CollectionUtils;
@@ -263,20 +264,26 @@ public class MessageReceiver {
                                     if (message != null) {
                                         // TODO add a flag to the node and evaluate the message numbers only after the magic message was received ...
 
-
                                         // verify that the receive message number is valid
                                         Node node = new Node(message.getAddr());
-                                        int numExpected = nodeFactory.getNode(node).getNextReceiveMsgNum(message);
-                                        int numReceived = message.getNum();
-                                        LOGGER.trace("Compare the message numbers, expected: {}, received: {}",
-                                            numExpected, numReceived);
-                                        if (numReceived != numExpected) {
+                                        if (node.getMagic() != null || message instanceof SysMagicResponse) {
+                                            int numExpected = nodeFactory.getNode(node).getNextReceiveMsgNum(message);
+                                            int numReceived = message.getNum();
+                                            LOGGER.trace("Compare the message numbers, expected: {}, received: {}",
+                                                numExpected, numReceived);
+                                            if (numReceived != numExpected) {
+
+                                                LOGGER
+                                                    .warn(
+                                                        "Received wrong message number for message: {}, expected: {}, node: {}",
+                                                        new Object[] { message, numExpected, node });
+                                                throw new ProtocolException("wrong message number: expected "
+                                                    + numExpected + " but got " + numReceived);
+                                            }
+                                        }
+                                        else {
                                             LOGGER
-                                                .warn(
-                                                    "Received wrong message number for message: {}, expected: {}, node: {}",
-                                                    new Object[] { message, numExpected, node });
-                                            throw new ProtocolException("wrong message number: expected " + numExpected
-                                                + " but got " + numReceived);
+                                                .warn("Ignore compare message number because the magic is not set on the node.");
                                         }
                                     }
                                 }
