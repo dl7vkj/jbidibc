@@ -22,15 +22,16 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.ANALOGPORT, (byte) 1 /*outputnumber*/, (BidibEnum) AnalogPortEnum.START, (byte) 1 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof AnalogPortStep);
-        AnalogPortStep analogPortStep = (AnalogPortStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof AnalogPortPoint);
+        AnalogPortPoint analogPortPoint = (AnalogPortPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
 
-        Assert.assertEquals(analogPortStep.getAnalogPortActionType(), AnalogPortActionType.START);
+        Assert.assertEquals(analogPortPoint.getAnalogPortActionType(), AnalogPortActionType.START);
+        Assert.assertEquals(analogPortPoint.getOutputNumber(), 1);
     }
 
     @Test
@@ -41,14 +42,15 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.LIGHTPORT, (byte) 1 /*outputnumber*/, (BidibEnum) LightPortEnum.ON, (byte) 1 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof LightPortStep);
-        LightPortStep lightPortStep = (LightPortStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof LightPortPoint);
+        LightPortPoint lightPortPoint = (LightPortPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(lightPortStep.getLightPortActionType(), LightPortActionType.ON);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(lightPortPoint.getLightPortActionType(), LightPortActionType.ON);
+        Assert.assertEquals(lightPortPoint.getOutputNumber(), 1);
     }
 
     @Test
@@ -59,14 +61,15 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.MOTORPORT, (byte) 1 /*outputnumber*/, (BidibEnum) MotorPortEnum.BACKWARD, (byte) 1 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof MotorPortStep);
-        MotorPortStep motorPortStep = (MotorPortStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof MotorPortPoint);
+        MotorPortPoint motorPortPoint = (MotorPortPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(motorPortStep.getMotorPortActionType(), MotorPortActionType.BACKWARD);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(motorPortPoint.getMotorPortActionType(), MotorPortActionType.BACKWARD);
+        Assert.assertEquals(motorPortPoint.getOutputNumber(), 1);
     }
 
     @Test
@@ -77,14 +80,15 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.MOTORPORT, (byte) 1 /*outputnumber*/, (BidibEnum) MotorPortEnum.FORWARD, (byte) 1 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof MotorPortStep);
-        MotorPortStep motorPortStep = (MotorPortStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof MotorPortPoint);
+        MotorPortPoint motorPortPoint = (MotorPortPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(motorPortStep.getMotorPortActionType(), MotorPortActionType.FORWARD);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(motorPortPoint.getMotorPortActionType(), MotorPortActionType.FORWARD);
+        Assert.assertEquals(motorPortPoint.getOutputNumber(), 1);
     }
 
     @Test
@@ -95,17 +99,18 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.SERVOPORT, (byte) 1 /*outputnumber*/, (BidibEnum) ServoPortEnum.START, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof ServoPortStep);
-        ServoPortStep servoPortStep = (ServoPortStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof ServoPortPoint);
+        ServoPortPoint servoPortPoint = (ServoPortPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
 
-        Assert.assertNotNull(servoPortStep.getServoPortActionType());
-        Assert.assertEquals(servoPortStep.getServoPortActionType().getAction(), ServoActionType.START);
-        Assert.assertEquals(servoPortStep.getServoPortActionType().getDestination(), 12);
+        Assert.assertNotNull(servoPortPoint.getServoPortActionType());
+        Assert.assertEquals(servoPortPoint.getServoPortActionType().getAction(), ServoActionType.START);
+        Assert.assertEquals(servoPortPoint.getServoPortActionType().getDestination(), 12);
+        Assert.assertEquals(servoPortPoint.getOutputNumber(), 1);
     }
 
     @Test
@@ -116,14 +121,15 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.SOUNDPORT, (byte) 1 /*outputnumber*/, (BidibEnum) SoundPortEnum.START, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof SoundPortStep);
-        SoundPortStep soundPortStep = (SoundPortStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof SoundPortPoint);
+        SoundPortPoint soundPortPoint = (SoundPortPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(soundPortStep.getSoundPortActionType(), SoundPortActionType.START);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(soundPortPoint.getSoundPortActionType(), SoundPortActionType.START);
+        Assert.assertEquals(soundPortPoint.getOutputNumber(), 1);
     }
 
     @Test
@@ -134,14 +140,15 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.SWITCHPORT, (byte) 1 /*outputnumber*/, (BidibEnum) SwitchPortEnum.ON, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof SwitchPortStep);
-        SwitchPortStep switchPortStep = (SwitchPortStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof SwitchPortPoint);
+        SwitchPortPoint switchPortPoint = (SwitchPortPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(switchPortStep.getSwitchPortActionType(), SwitchPortActionType.ON);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(switchPortPoint.getSwitchPortActionType(), SwitchPortActionType.ON);
+        Assert.assertEquals(switchPortPoint.getOutputNumber(), 1);
     }
 
     @Test
@@ -152,14 +159,15 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.SWITCHPORT, (byte) 1 /*outputnumber*/, (BidibEnum) SwitchPortEnum.OFF, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof SwitchPortStep);
-        SwitchPortStep switchPortStep = (SwitchPortStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof SwitchPortPoint);
+        SwitchPortPoint switchPortPoint = (SwitchPortPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(switchPortStep.getSwitchPortActionType(), SwitchPortActionType.OFF);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(switchPortPoint.getSwitchPortActionType(), SwitchPortActionType.OFF);
+        Assert.assertEquals(switchPortPoint.getOutputNumber(), 1);
     }
 
     @Test
@@ -170,14 +178,14 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/, LcOutputType.DELAY,
                 (byte) 100 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof DelayStep);
-        DelayStep delayStep = (DelayStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof DelayPoint);
+        DelayPoint delayPoint = (DelayPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(delayStep.getDelayActionType(), 100);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(delayPoint.getDelayActionType(), 100);
     }
 
     @Test
@@ -188,14 +196,14 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.RANDOM_DELAY, (byte) 100 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof RandomDelayStep);
-        RandomDelayStep randomDelayStep = (RandomDelayStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof RandomDelayPoint);
+        RandomDelayPoint randomDelayPoint = (RandomDelayPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(randomDelayStep.getRandomDelayActionType(), 100);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(randomDelayPoint.getRandomDelayActionType(), 100);
     }
 
     @Test
@@ -206,14 +214,15 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.INPUT_QUERY0, (byte) 11 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof InputQuery0Step);
-        InputQuery0Step inputQuery0Step = (InputQuery0Step) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof InputQuery0Point);
+        InputQuery0Point inputQuery0Point = (InputQuery0Point) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(inputQuery0Step.getInputQuery0ActionType(), 11);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        //        Assert.assertEquals(inputQuery0Point.getInputQuery0ActionType(), 11);
+        Assert.assertEquals(inputQuery0Point.getInputNumber(), 11);
     }
 
     @Test
@@ -224,14 +233,15 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.INPUT_QUERY1, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof InputQuery1Step);
-        InputQuery1Step inputQuery1Step = (InputQuery1Step) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof InputQuery1Point);
+        InputQuery1Point inputQuery1Point = (InputQuery1Point) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(inputQuery1Step.getInputQuery1ActionType(), 13);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        //        Assert.assertEquals(inputQuery1Point.getInputQuery1ActionType(), 13);
+        Assert.assertEquals(inputQuery1Point.getInputNumber(), 13);
     }
 
     @Test
@@ -242,18 +252,18 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.FLAG_CLEAR, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof FlagStep);
-        FlagStep flagStep = (FlagStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof FlagPoint);
+        FlagPoint flagPoint = (FlagPoint) point;
 
-        Assert.assertNotNull(flagStep.getFlagActionType());
-        Assert.assertNotNull(flagStep.getFlagActionType().getOperation());
+        Assert.assertNotNull(flagPoint.getFlagActionType());
+        Assert.assertNotNull(flagPoint.getFlagActionType().getOperation());
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(flagStep.getFlagActionType().getOperation(), FlagOperationType.CLEAR);
-        Assert.assertEquals(flagStep.getFlagActionType().getPortNumber(), 13);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(flagPoint.getFlagActionType().getOperation(), FlagOperationType.CLEAR);
+        Assert.assertEquals(flagPoint.getFlagActionType().getFlagNumber(), 13);
     }
 
     @Test
@@ -264,18 +274,18 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.FLAG_SET, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof FlagStep);
-        FlagStep flagStep = (FlagStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof FlagPoint);
+        FlagPoint flagPoint = (FlagPoint) point;
 
-        Assert.assertNotNull(flagStep.getFlagActionType());
-        Assert.assertNotNull(flagStep.getFlagActionType().getOperation());
+        Assert.assertNotNull(flagPoint.getFlagActionType());
+        Assert.assertNotNull(flagPoint.getFlagActionType().getOperation());
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(flagStep.getFlagActionType().getOperation(), FlagOperationType.SET);
-        Assert.assertEquals(flagStep.getFlagActionType().getPortNumber(), 13);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(flagPoint.getFlagActionType().getOperation(), FlagOperationType.SET);
+        Assert.assertEquals(flagPoint.getFlagActionType().getFlagNumber(), 13);
     }
 
     @Test
@@ -286,18 +296,18 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.FLAG_QUERY, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof FlagStep);
-        FlagStep flagStep = (FlagStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof FlagPoint);
+        FlagPoint flagPoint = (FlagPoint) point;
 
-        Assert.assertNotNull(flagStep.getFlagActionType());
-        Assert.assertNotNull(flagStep.getFlagActionType().getOperation());
+        Assert.assertNotNull(flagPoint.getFlagActionType());
+        Assert.assertNotNull(flagPoint.getFlagActionType().getOperation());
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(flagStep.getFlagActionType().getOperation(), FlagOperationType.QUERY);
-        Assert.assertEquals(flagStep.getFlagActionType().getPortNumber(), 13);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(flagPoint.getFlagActionType().getOperation(), FlagOperationType.QUERY);
+        Assert.assertEquals(flagPoint.getFlagActionType().getFlagNumber(), 13);
     }
 
     @Test
@@ -308,14 +318,14 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.BEGIN_CRITICAL, (byte) 0 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof CriticalSectionStep);
-        CriticalSectionStep criticalSectionStep = (CriticalSectionStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof CriticalSectionPoint);
+        CriticalSectionPoint criticalSectionPoint = (CriticalSectionPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(criticalSectionStep.getCriticalSectionActionType(), CriticalSectionActionType.BEGIN);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(criticalSectionPoint.getCriticalSectionActionType(), CriticalSectionActionType.BEGIN);
     }
 
     @Test
@@ -326,14 +336,14 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.END_CRITICAL, (byte) 0 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof CriticalSectionStep);
-        CriticalSectionStep criticalSectionStep = (CriticalSectionStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof CriticalSectionPoint);
+        CriticalSectionPoint criticalSectionPoint = (CriticalSectionPoint) point;
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(criticalSectionStep.getCriticalSectionActionType(), CriticalSectionActionType.END);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(criticalSectionPoint.getCriticalSectionActionType(), CriticalSectionActionType.END);
     }
 
     @Test
@@ -344,18 +354,18 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.STOP_MACRO, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof MacroActionStep);
-        MacroActionStep macroActionStep = (MacroActionStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof MacroActionPoint);
+        MacroActionPoint macroActionPoint = (MacroActionPoint) point;
 
-        Assert.assertNotNull(macroActionStep.getMacroActionType());
-        Assert.assertNotNull(macroActionStep.getMacroActionType().getOperation());
+        Assert.assertNotNull(macroActionPoint.getMacroActionType());
+        Assert.assertNotNull(macroActionPoint.getMacroActionType().getOperation());
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(macroActionStep.getMacroActionType().getOperation(), MacroOperationType.STOP);
-        Assert.assertEquals(macroActionStep.getMacroActionType().getPortNumber(), 13);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(macroActionPoint.getMacroActionType().getOperation(), MacroOperationType.STOP);
+        Assert.assertEquals(macroActionPoint.getMacroActionType().getMacroNumber(), 13);
     }
 
     @Test
@@ -366,18 +376,18 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.START_MACRO, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof MacroActionStep);
-        MacroActionStep macroActionStep = (MacroActionStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof MacroActionPoint);
+        MacroActionPoint macroActionPoint = (MacroActionPoint) point;
 
-        Assert.assertNotNull(macroActionStep.getMacroActionType());
-        Assert.assertNotNull(macroActionStep.getMacroActionType().getOperation());
+        Assert.assertNotNull(macroActionPoint.getMacroActionType());
+        Assert.assertNotNull(macroActionPoint.getMacroActionType().getOperation());
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(macroActionStep.getMacroActionType().getOperation(), MacroOperationType.START);
-        Assert.assertEquals(macroActionStep.getMacroActionType().getPortNumber(), 13);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(macroActionPoint.getMacroActionType().getOperation(), MacroOperationType.START);
+        Assert.assertEquals(macroActionPoint.getMacroActionType().getMacroNumber(), 13);
     }
 
     @Test
@@ -388,17 +398,17 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.END_OF_MACRO, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
-        Assert.assertNotNull(step);
-        Assert.assertTrue(step instanceof MacroActionStep);
-        MacroActionStep macroActionStep = (MacroActionStep) step;
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof MacroActionPoint);
+        MacroActionPoint macroActionPoint = (MacroActionPoint) point;
 
-        Assert.assertNotNull(macroActionStep.getMacroActionType());
-        Assert.assertNotNull(macroActionStep.getMacroActionType().getOperation());
+        Assert.assertNotNull(macroActionPoint.getMacroActionType());
+        Assert.assertNotNull(macroActionPoint.getMacroActionType().getOperation());
 
-        Assert.assertEquals(step.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(step.getStepNumber(), 1);
-        Assert.assertEquals(macroActionStep.getMacroActionType().getOperation(), MacroOperationType.END);
-        Assert.assertEquals(macroActionStep.getMacroActionType().getPortNumber(), 13);
+        Assert.assertEquals(point.getDelay(), Integer.valueOf(60));
+        Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(macroActionPoint.getMacroActionType().getOperation(), MacroOperationType.END);
+        Assert.assertEquals(macroActionPoint.getMacroActionType().getMacroNumber(), 13);
     }
 }

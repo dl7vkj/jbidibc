@@ -42,20 +42,35 @@ public class LcMacroTest {
         Assert.assertNotNull(macros.getLcMacro());
         Assert.assertNotNull(macros.getLcMacro().getLcMacroPoint());
 
-        Assert.assertEquals(macros.getLcMacro().getLcMacroPoint().size(), 4);
+        Assert.assertEquals(macros.getLcMacro().getLcMacroPoint().size(), 6);
 
-        LcMacroPointType lcMacroStep = macros.getLcMacro().getLcMacroPoint().get(1);
-        Assert.assertTrue(lcMacroStep instanceof CriticalSectionStep);
-        CriticalSectionStep criticalSectionStep = (CriticalSectionStep) lcMacroStep;
-        Assert.assertNotNull(criticalSectionStep.getCriticalSectionActionType());
-        Assert.assertEquals(criticalSectionStep.getCriticalSectionActionType(), CriticalSectionActionType.BEGIN);
+        LcMacroPointType lcMacroPoint = macros.getLcMacro().getLcMacroPoint().get(1);
+        Assert.assertTrue(lcMacroPoint instanceof CriticalSectionPoint);
+        CriticalSectionPoint criticalSectionPoint = (CriticalSectionPoint) lcMacroPoint;
+        Assert.assertNotNull(criticalSectionPoint.getCriticalSectionActionType());
+        Assert.assertEquals(criticalSectionPoint.getCriticalSectionActionType(), CriticalSectionActionType.BEGIN);
 
-        lcMacroStep = macros.getLcMacro().getLcMacroPoint().get(3);
-        Assert.assertTrue(lcMacroStep instanceof CriticalSectionStep);
-        criticalSectionStep = (CriticalSectionStep) lcMacroStep;
-        Assert.assertNotNull(criticalSectionStep.getCriticalSectionActionType());
-        Assert.assertEquals(criticalSectionStep.getCriticalSectionActionType(), CriticalSectionActionType.END);
+        lcMacroPoint = macros.getLcMacro().getLcMacroPoint().get(3);
+        Assert.assertTrue(lcMacroPoint instanceof CriticalSectionPoint);
+        criticalSectionPoint = (CriticalSectionPoint) lcMacroPoint;
+        Assert.assertNotNull(criticalSectionPoint.getCriticalSectionActionType());
+        Assert.assertEquals(criticalSectionPoint.getCriticalSectionActionType(), CriticalSectionActionType.END);
 
+        lcMacroPoint = macros.getLcMacro().getLcMacroPoint().get(4);
+        Assert.assertTrue(lcMacroPoint instanceof AnalogPortPoint);
+        AnalogPortPoint analogPortPoint = (AnalogPortPoint) lcMacroPoint;
+        Assert.assertNotNull(analogPortPoint.getAnalogPortActionType());
+        Assert.assertEquals(analogPortPoint.getAnalogPortActionType(), AnalogPortActionType.START);
+        Assert.assertEquals(analogPortPoint.getOutputNumber(), 4);
+        Assert.assertEquals(analogPortPoint.getDelay(), Integer.valueOf(30));
+
+        lcMacroPoint = macros.getLcMacro().getLcMacroPoint().get(5);
+        Assert.assertTrue(lcMacroPoint instanceof FlagPoint);
+        FlagPoint flagPoint = (FlagPoint) lcMacroPoint;
+        Assert.assertNotNull(flagPoint.getFlagActionType());
+        Assert.assertEquals(flagPoint.getFlagActionType().getOperation(), FlagOperationType.SET);
+        Assert.assertEquals(flagPoint.getFlagActionType().getFlagNumber(), 12);
+        Assert.assertEquals(flagPoint.getDelay(), Integer.valueOf(10));
     }
 
     @Test
@@ -73,29 +88,50 @@ public class LcMacroTest {
         lcMacro.setRepeat(1);
         lcMacro.setSlowdown(1);
 
-        LightPortStep lightPortStep = new LightPortStep();
-        lightPortStep.setStepNumber(0);
-        lightPortStep.setDelay(6);
-        lightPortStep.setLightPortActionType(LightPortActionType.ON);
+        LightPortPoint lightPortPoint = new LightPortPoint();
+        lightPortPoint.setIndex(0);
+        lightPortPoint.setDelay(6);
+        lightPortPoint.setOutputNumber(0);
+        lightPortPoint.setLightPortActionType(LightPortActionType.ON);
 
-        lcMacro.getLcMacroPoint().add(lightPortStep);
+        lcMacro.getLcMacroPoint().add(lightPortPoint);
 
-        lightPortStep = new LightPortStep();
-        lightPortStep.setStepNumber(1);
-        lightPortStep.setDelay(6);
-        lightPortStep.setLightPortActionType(LightPortActionType.OFF);
+        lightPortPoint = new LightPortPoint();
+        lightPortPoint.setIndex(1);
+        lightPortPoint.setDelay(6);
+        lightPortPoint.setOutputNumber(0);
+        lightPortPoint.setLightPortActionType(LightPortActionType.OFF);
 
-        lcMacro.getLcMacroPoint().add(lightPortStep);
+        lcMacro.getLcMacroPoint().add(lightPortPoint);
 
-        ServoPortStep servoPortStep = new ServoPortStep();
-        servoPortStep.setStepNumber(2);
-        servoPortStep.setDelay(60);
+        ServoPortPoint servoPortPoint = new ServoPortPoint();
+        servoPortPoint.setIndex(2);
+        servoPortPoint.setDelay(60);
+        servoPortPoint.setOutputNumber(0);
         ServoPortActionType servoPortActionType = new ServoPortActionType();
         servoPortActionType.setAction(ServoActionType.START);
         servoPortActionType.setDestination(90);
-        servoPortStep.setServoPortActionType(servoPortActionType);
+        servoPortPoint.setServoPortActionType(servoPortActionType);
 
-        lcMacro.getLcMacroPoint().add(servoPortStep);
+        lcMacro.getLcMacroPoint().add(servoPortPoint);
+
+        AnalogPortPoint analogPortPoint = new AnalogPortPoint();
+        analogPortPoint.setIndex(3);
+        analogPortPoint.setDelay(30);
+        analogPortPoint.setOutputNumber(0);
+        analogPortPoint.setAnalogPortActionType(AnalogPortActionType.START);
+
+        lcMacro.getLcMacroPoint().add(analogPortPoint);
+
+        FlagPoint flagPoint = new FlagPoint();
+        flagPoint.setIndex(4);
+        flagPoint.setDelay(10);
+        FlagActionType flagActionType = new FlagActionType();
+        flagActionType.setFlagNumber(12);
+        flagActionType.setOperation(FlagOperationType.SET);
+        flagPoint.setFlagActionType(flagActionType);
+
+        lcMacro.getLcMacroPoint().add(flagPoint);
 
         LcMacros lcMacros = new LcMacros();
         lcMacros.setLcMacro(lcMacro);

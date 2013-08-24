@@ -9,19 +9,20 @@
 			<xsd:element name="delay" type="bidib:MacroDelayType"
 				minOccurs="0" />
 		</xsd:sequence>
-		<xsd:attribute name="stepNumber" type="bidib:MacroStepNumberType"
+		<xsd:attribute name="index" type="bidib:MacroPointIndexType"
 			use="required" />
 	</xsd:complexType>
-	<xsd:complexType name="AnalogPortStep">
+	<xsd:complexType name="AnalogPortPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
 					<xsd:element name="AnalogPortActionType" type="bidib:AnalogPortActionType" />
+					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="CriticalSectionStep">
+	<xsd:complexType name="CriticalSectionPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -30,7 +31,7 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="DelayStep">
+	<xsd:complexType name="DelayPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -39,7 +40,7 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="FlagStep">
+	<xsd:complexType name="FlagPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -48,43 +49,47 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="InputPortStep">
+	<xsd:complexType name="InputPortPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
 					<xsd:element name="InputPortActionType" type="bidib:InputPortActionType" />
+					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="InputQuery0Step">
+	<xsd:complexType name="InputQuery0Point">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
-					<xsd:element name="InputQuery0ActionType" type="bidib:InputQuery0ActionType" />
+<!-- 					<xsd:element name="InputQuery0ActionType" type="bidib:InputQuery0ActionType" /> -->
+					<xsd:element name="inputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="InputQuery1Step">
+	<xsd:complexType name="InputQuery1Point">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
-					<xsd:element name="InputQuery1ActionType" type="bidib:InputQuery1ActionType" />
+<!-- 					<xsd:element name="InputQuery1ActionType" type="bidib:InputQuery1ActionType" /> -->
+					<xsd:element name="inputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="LightPortStep">
+	<xsd:complexType name="LightPortPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
 					<xsd:element name="LightPortActionType" type="bidib:LightPortActionType" />
+					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="MacroActionStep">
+	<xsd:complexType name="MacroActionPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -93,16 +98,17 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="MotorPortStep">
+	<xsd:complexType name="MotorPortPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
 					<xsd:element name="MotorPortActionType" type="bidib:MotorPortActionType" />
+					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="RandomDelayStep">
+	<xsd:complexType name="RandomDelayPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -111,29 +117,32 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="ServoPortStep">
+	<xsd:complexType name="ServoPortPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
 					<xsd:element name="ServoPortActionType" type="bidib:ServoPortActionType" />
+					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="SoundPortStep">
+	<xsd:complexType name="SoundPortPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
 					<xsd:element name="SoundPortActionType" type="bidib:SoundPortActionType" />
+					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="SwitchPortStep">
+	<xsd:complexType name="SwitchPortPoint">
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
 					<xsd:element name="SwitchPortActionType" type="bidib:SwitchPortActionType" />
+					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
@@ -160,8 +169,10 @@
 	<xsd:element name="SwitchPortActionType" type="bidib:SwitchPortActionType"/>
 	<xsd:element name="DelayActionType" type="bidib:DelayActionType"/>
 	<xsd:element name="RandomDelayActionType" type="bidib:RandomDelayActionType"/>
+	<!-- 
 	<xsd:element name="InputQuery0ActionType" type="bidib:InputQuery0ActionType"/>
 	<xsd:element name="InputQuery1ActionType" type="bidib:InputQuery1ActionType"/>
+	 -->
 	<xsd:simpleType name="MacroNameType">
 		<xsd:annotation>
 			<xsd:documentation>The name of the macro</xsd:documentation>
@@ -189,9 +200,9 @@
 			<xsd:maxInclusive value="250"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	<xsd:simpleType name="MacroStepNumberType">
+	<xsd:simpleType name="MacroPointIndexType">
 		<xsd:annotation>
-			<xsd:documentation>The number of the macro step</xsd:documentation>
+			<xsd:documentation>Index of the point within the macro</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:int">
 			<xsd:minInclusive value="0"/>
@@ -234,7 +245,7 @@
 	<xsd:group name="FlagParams">
 		<xsd:sequence>
 			<xsd:element name="operation" type="bidib:FlagOperationType"/>
-			<xsd:element name="portNumber" type="bidib:PortNumberType"/>
+			<xsd:element name="flagNumber" type="bidib:FlagNumberType"/>
 		</xsd:sequence>
 	</xsd:group>
 	<xsd:simpleType name="FlagOperationType">
@@ -256,7 +267,7 @@
 	<xsd:group name="MacroParams">
 		<xsd:sequence>
 			<xsd:element name="operation" type="bidib:MacroOperationType"/>
-			<xsd:element name="portNumber" type="bidib:PortNumberType"/>
+			<xsd:element name="macroNumber" type="bidib:MacroNumberType"/>
 		</xsd:sequence>
 	</xsd:group>
 	<xsd:simpleType name="MacroOperationType">
@@ -330,6 +341,7 @@
 			<xsd:enumeration value="DOUBLEFLASH"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<!-- 
 	<xsd:simpleType name="InputQuery0ActionType">
 		<xsd:restriction base="xsd:int">
 			<xsd:minInclusive value="0"/>
@@ -342,10 +354,23 @@
 			<xsd:maxInclusive value="15"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	<xsd:simpleType name="PortNumberType">
+	 -->
+	<xsd:simpleType name="OutputNumberType">
 		<xsd:restriction base="xsd:int">
 			<xsd:minInclusive value="0"/>
 			<xsd:maxInclusive value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="FlagNumberType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="15"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="MacroNumberType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="40"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="LcOutputType">

@@ -18,137 +18,145 @@ public class LcMacroExporter {
     public LcMacroPointType prepareLcMacroPoint(LcMacro lcMacro) {
         LOGGER.info("Export the LcMacro: {}", lcMacro);
 
-        LcMacroPointType lcMacroStep = null;
+        LcMacroPointType lcMacroPoint = null;
 
         BidibEnum val = lcMacro.getStatus();
         switch (lcMacro.getOutputType()) {
             case ANALOGPORT:
                 AnalogPortEnum analogPortEnum = AnalogPortEnum.valueOf(val.getType());
-                AnalogPortStep analogPortStep = new AnalogPortStep();
-                analogPortStep.setAnalogPortActionType(AnalogPortActionType.fromValue(analogPortEnum.name()));
-                lcMacroStep = analogPortStep;
+                AnalogPortPoint analogPortPoint = new AnalogPortPoint();
+                analogPortPoint.setAnalogPortActionType(AnalogPortActionType.fromValue(analogPortEnum.name()));
+                analogPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                lcMacroPoint = analogPortPoint;
                 break;
             case BEGIN_CRITICAL:
-                CriticalSectionStep beginCriticalSectionStep = new CriticalSectionStep();
-                beginCriticalSectionStep.setCriticalSectionActionType(CriticalSectionActionType.BEGIN);
-                lcMacroStep = beginCriticalSectionStep;
+                CriticalSectionPoint beginCriticalSectionPoint = new CriticalSectionPoint();
+                beginCriticalSectionPoint.setCriticalSectionActionType(CriticalSectionActionType.BEGIN);
+                lcMacroPoint = beginCriticalSectionPoint;
                 break;
             case DELAY:
-                DelayStep delayStep = new DelayStep();
-                delayStep.setDelayActionType(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                lcMacroStep = delayStep;
+                DelayPoint delayPoint = new DelayPoint();
+                delayPoint.setDelayActionType(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                lcMacroPoint = delayPoint;
                 break;
             case END_CRITICAL:
-                CriticalSectionStep endCriticalSectionStep = new CriticalSectionStep();
-                endCriticalSectionStep.setCriticalSectionActionType(CriticalSectionActionType.END);
-                lcMacroStep = endCriticalSectionStep;
+                CriticalSectionPoint endCriticalSectionPoint = new CriticalSectionPoint();
+                endCriticalSectionPoint.setCriticalSectionActionType(CriticalSectionActionType.END);
+                lcMacroPoint = endCriticalSectionPoint;
                 break;
             case FLAG_CLEAR:
                 FlagActionType flagClearActionType = new FlagActionType();
                 flagClearActionType.setOperation(FlagOperationType.CLEAR);
-                flagClearActionType.setPortNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                FlagStep flagClearStep = new FlagStep();
-                flagClearStep.setFlagActionType(flagClearActionType);
-                lcMacroStep = flagClearStep;
+                flagClearActionType.setFlagNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                FlagPoint flagClearPoint = new FlagPoint();
+                flagClearPoint.setFlagActionType(flagClearActionType);
+                lcMacroPoint = flagClearPoint;
                 break;
             case FLAG_SET:
                 FlagActionType flagSetActionType = new FlagActionType();
                 flagSetActionType.setOperation(FlagOperationType.SET);
-                flagSetActionType.setPortNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                FlagStep flagSetStep = new FlagStep();
-                flagSetStep.setFlagActionType(flagSetActionType);
-                lcMacroStep = flagSetStep;
+                flagSetActionType.setFlagNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                FlagPoint flagSetPoint = new FlagPoint();
+                flagSetPoint.setFlagActionType(flagSetActionType);
+                lcMacroPoint = flagSetPoint;
                 break;
             case FLAG_QUERY:
                 FlagActionType flagQueryActionType = new FlagActionType();
                 flagQueryActionType.setOperation(FlagOperationType.QUERY);
-                flagQueryActionType.setPortNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                FlagStep flagQueryStep = new FlagStep();
-                flagQueryStep.setFlagActionType(flagQueryActionType);
-                lcMacroStep = flagQueryStep;
+                flagQueryActionType.setFlagNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                FlagPoint flagQueryPoint = new FlagPoint();
+                flagQueryPoint.setFlagActionType(flagQueryActionType);
+                lcMacroPoint = flagQueryPoint;
                 break;
             case INPUT_QUERY0:
-                InputQuery0Step inputQuery0Step = new InputQuery0Step();
-                inputQuery0Step.setInputQuery0ActionType(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                lcMacroStep = inputQuery0Step;
+                InputQuery0Point inputQuery0Point = new InputQuery0Point();
+                //                inputQuery0Point.setInputQuery0ActionType(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                inputQuery0Point.setInputNumber(lcMacro.getOutputNumber());
+                lcMacroPoint = inputQuery0Point;
                 break;
             case INPUT_QUERY1:
-                InputQuery1Step inputQuery1Step = new InputQuery1Step();
-                inputQuery1Step.setInputQuery1ActionType(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                lcMacroStep = inputQuery1Step;
+                InputQuery1Point inputQuery1Point = new InputQuery1Point();
+                //                inputQuery1Point.setInputQuery1ActionType(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                inputQuery1Point.setInputNumber(lcMacro.getOutputNumber());
+                lcMacroPoint = inputQuery1Point;
                 break;
             case LIGHTPORT:
                 LightPortEnum lightPortEnum = LightPortEnum.valueOf(val.getType());
-                LightPortStep lightPortStep = new LightPortStep();
-                lightPortStep.setLightPortActionType(LightPortActionType.fromValue(lightPortEnum.name()));
-                lcMacroStep = lightPortStep;
+                LightPortPoint lightPortPoint = new LightPortPoint();
+                lightPortPoint.setLightPortActionType(LightPortActionType.fromValue(lightPortEnum.name()));
+                lightPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                lcMacroPoint = lightPortPoint;
                 break;
             case END_OF_MACRO:
                 MacroActionType macroEndActionType = new MacroActionType();
                 macroEndActionType.setOperation(MacroOperationType.END);
-                macroEndActionType.setPortNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                MacroActionStep macroEndActionStep = new MacroActionStep();
-                macroEndActionStep.setMacroActionType(macroEndActionType);
-                lcMacroStep = macroEndActionStep;
+                macroEndActionType.setMacroNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                MacroActionPoint macroEndActionPoint = new MacroActionPoint();
+                macroEndActionPoint.setMacroActionType(macroEndActionType);
+                lcMacroPoint = macroEndActionPoint;
                 break;
             case START_MACRO:
                 MacroActionType macroStartActionType = new MacroActionType();
                 macroStartActionType.setOperation(MacroOperationType.START);
-                macroStartActionType.setPortNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                MacroActionStep macroStartActionStep = new MacroActionStep();
-                macroStartActionStep.setMacroActionType(macroStartActionType);
-                lcMacroStep = macroStartActionStep;
+                macroStartActionType.setMacroNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                MacroActionPoint macroStartActionPoint = new MacroActionPoint();
+                macroStartActionPoint.setMacroActionType(macroStartActionType);
+                lcMacroPoint = macroStartActionPoint;
                 break;
             case STOP_MACRO:
                 MacroActionType macroStopActionType = new MacroActionType();
                 macroStopActionType.setOperation(MacroOperationType.STOP);
-                macroStopActionType.setPortNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                MacroActionStep macroStopActionStep = new MacroActionStep();
-                macroStopActionStep.setMacroActionType(macroStopActionType);
-                lcMacroStep = macroStopActionStep;
+                macroStopActionType.setMacroNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                MacroActionPoint macroStopActionPoint = new MacroActionPoint();
+                macroStopActionPoint.setMacroActionType(macroStopActionType);
+                lcMacroPoint = macroStopActionPoint;
                 break;
             case MOTORPORT:
                 MotorPortEnum motorPortEnum = MotorPortEnum.valueOf(val.getType());
-                MotorPortStep motorPortStep = new MotorPortStep();
-                motorPortStep.setMotorPortActionType(MotorPortActionType.fromValue(motorPortEnum.name()));
-                lcMacroStep = motorPortStep;
+                MotorPortPoint motorPortPoint = new MotorPortPoint();
+                motorPortPoint.setMotorPortActionType(MotorPortActionType.fromValue(motorPortEnum.name()));
+                motorPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                lcMacroPoint = motorPortPoint;
                 break;
             case RANDOM_DELAY:
-                RandomDelayStep randomDelayStep = new RandomDelayStep();
-                randomDelayStep.setRandomDelayActionType(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                lcMacroStep = randomDelayStep;
+                RandomDelayPoint randomDelayPoint = new RandomDelayPoint();
+                randomDelayPoint.setRandomDelayActionType(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                lcMacroPoint = randomDelayPoint;
                 break;
             case SERVOPORT:
                 ServoPortEnum servoPortEnum = ServoPortEnum.valueOf(val.getType());
                 ServoPortActionType servoPortActionType = new ServoPortActionType();
                 servoPortActionType.setAction(ServoActionType.fromValue(servoPortEnum.name()));
                 servoPortActionType.setDestination(lcMacro.getValue());
-                ServoPortStep servoPortStep = new ServoPortStep();
-                servoPortStep.setServoPortActionType(servoPortActionType);
-                lcMacroStep = servoPortStep;
+                ServoPortPoint servoPortPoint = new ServoPortPoint();
+                servoPortPoint.setServoPortActionType(servoPortActionType);
+                servoPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                lcMacroPoint = servoPortPoint;
                 break;
             case SOUNDPORT:
                 SoundPortEnum soundPortEnum = SoundPortEnum.valueOf(val.getType());
-                SoundPortStep soundPortStep = new SoundPortStep();
-                soundPortStep.setSoundPortActionType(SoundPortActionType.fromValue(soundPortEnum.name()));
-                lcMacroStep = soundPortStep;
+                SoundPortPoint soundPortPoint = new SoundPortPoint();
+                soundPortPoint.setSoundPortActionType(SoundPortActionType.fromValue(soundPortEnum.name()));
+                soundPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                lcMacroPoint = soundPortPoint;
                 break;
             case SWITCHPORT:
                 SwitchPortEnum switchPortEnum = SwitchPortEnum.valueOf(val.getType());
-                SwitchPortStep switchPortStep = new SwitchPortStep();
-                switchPortStep.setSwitchPortActionType(SwitchPortActionType.fromValue(switchPortEnum.name()));
-                lcMacroStep = switchPortStep;
+                SwitchPortPoint switchPortPoint = new SwitchPortPoint();
+                switchPortPoint.setSwitchPortActionType(SwitchPortActionType.fromValue(switchPortEnum.name()));
+                switchPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                lcMacroPoint = switchPortPoint;
                 break;
             default:
                 LOGGER.warn("Unsupported port type detected!");
-                lcMacroStep = null;
+                lcMacroPoint = null;
                 break;
         }
-        lcMacroStep.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
-        lcMacroStep.setStepNumber(ByteUtils.getInt(lcMacro.getStepNumber()));
+        lcMacroPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
+        lcMacroPoint.setIndex(ByteUtils.getInt(lcMacro.getStepNumber()));
 
-        LOGGER.info("Return lcMacroStep: {}", lcMacroStep);
-        return lcMacroStep;
+        LOGGER.info("Return lcMacroPoint: {}", lcMacroPoint);
+        return lcMacroPoint;
     }
 
 }
