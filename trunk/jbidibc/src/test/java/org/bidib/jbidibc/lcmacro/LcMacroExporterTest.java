@@ -15,14 +15,14 @@ import org.testng.annotations.Test;
 public class LcMacroExporterTest {
 
     @Test
-    public void prepareLcMacroStepAnalogPort() {
+    public void prepareLcMacroPointAnalogPort() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.ANALOGPORT, (byte) 1 /*outputnumber*/, (BidibEnum) AnalogPortEnum.START, (byte) 1 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof AnalogPortStep);
         AnalogPortStep analogPortStep = (AnalogPortStep) step;
@@ -34,14 +34,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepLightPort() {
+    public void prepareLcMacroPointLightPort() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.LIGHTPORT, (byte) 1 /*outputnumber*/, (BidibEnum) LightPortEnum.ON, (byte) 1 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof LightPortStep);
         LightPortStep lightPortStep = (LightPortStep) step;
@@ -52,14 +52,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepMotorPortBackward() {
+    public void prepareLcMacroPointMotorPortBackward() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.MOTORPORT, (byte) 1 /*outputnumber*/, (BidibEnum) MotorPortEnum.BACKWARD, (byte) 1 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof MotorPortStep);
         MotorPortStep motorPortStep = (MotorPortStep) step;
@@ -70,14 +70,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepMotorPortForward() {
+    public void prepareLcMacroPointMotorPortForward() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.MOTORPORT, (byte) 1 /*outputnumber*/, (BidibEnum) MotorPortEnum.FORWARD, (byte) 1 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof MotorPortStep);
         MotorPortStep motorPortStep = (MotorPortStep) step;
@@ -88,14 +88,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepServoPort() {
+    public void prepareLcMacroPointServoPort() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.SERVOPORT, (byte) 1 /*outputnumber*/, (BidibEnum) ServoPortEnum.START, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof ServoPortStep);
         ServoPortStep servoPortStep = (ServoPortStep) step;
@@ -109,14 +109,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepSoundPort() {
+    public void prepareLcMacroPointSoundPort() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.SOUNDPORT, (byte) 1 /*outputnumber*/, (BidibEnum) SoundPortEnum.START, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof SoundPortStep);
         SoundPortStep soundPortStep = (SoundPortStep) step;
@@ -127,14 +127,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepSwitchPortOn() {
+    public void prepareLcMacroPointSwitchPortOn() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.SWITCHPORT, (byte) 1 /*outputnumber*/, (BidibEnum) SwitchPortEnum.ON, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof SwitchPortStep);
         SwitchPortStep switchPortStep = (SwitchPortStep) step;
@@ -145,14 +145,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepSwitchPortOff() {
+    public void prepareLcMacroPointSwitchPortOff() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.SWITCHPORT, (byte) 1 /*outputnumber*/, (BidibEnum) SwitchPortEnum.OFF, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof SwitchPortStep);
         SwitchPortStep switchPortStep = (SwitchPortStep) step;
@@ -163,14 +163,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepDelay() {
+    public void prepareLcMacroPointDelay() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/, LcOutputType.DELAY,
                 (byte) 100 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof DelayStep);
         DelayStep delayStep = (DelayStep) step;
@@ -181,14 +181,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepRandomDelay() {
+    public void prepareLcMacroPointRandomDelay() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.RANDOM_DELAY, (byte) 100 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof RandomDelayStep);
         RandomDelayStep randomDelayStep = (RandomDelayStep) step;
@@ -199,14 +199,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepInputQuery0() {
+    public void prepareLcMacroPointInputQuery0() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.INPUT_QUERY0, (byte) 11 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof InputQuery0Step);
         InputQuery0Step inputQuery0Step = (InputQuery0Step) step;
@@ -217,14 +217,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepInputQuery1() {
+    public void prepareLcMacroPointInputQuery1() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.INPUT_QUERY1, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof InputQuery1Step);
         InputQuery1Step inputQuery1Step = (InputQuery1Step) step;
@@ -235,14 +235,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepFlagClear() {
+    public void prepareLcMacroPointFlagClear() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.FLAG_CLEAR, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof FlagStep);
         FlagStep flagStep = (FlagStep) step;
@@ -257,14 +257,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepFlagSet() {
+    public void prepareLcMacroPointFlagSet() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.FLAG_SET, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof FlagStep);
         FlagStep flagStep = (FlagStep) step;
@@ -279,14 +279,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepFlagQuery() {
+    public void prepareLcMacroPointFlagQuery() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.FLAG_QUERY, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof FlagStep);
         FlagStep flagStep = (FlagStep) step;
@@ -301,14 +301,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepCriticalSectionBegin() {
+    public void prepareLcMacroPointCriticalSectionBegin() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.BEGIN_CRITICAL, (byte) 0 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof CriticalSectionStep);
         CriticalSectionStep criticalSectionStep = (CriticalSectionStep) step;
@@ -319,14 +319,14 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroStepCriticalSectionEnd() {
+    public void prepareLcMacroPointCriticalSectionEnd() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.END_CRITICAL, (byte) 0 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof CriticalSectionStep);
         CriticalSectionStep criticalSectionStep = (CriticalSectionStep) step;
@@ -344,7 +344,7 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.STOP_MACRO, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof MacroActionStep);
         MacroActionStep macroActionStep = (MacroActionStep) step;
@@ -366,7 +366,7 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.START_MACRO, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof MacroActionStep);
         MacroActionStep macroActionStep = (MacroActionStep) step;
@@ -388,7 +388,7 @@ public class LcMacroExporterTest {
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
                 LcOutputType.END_OF_MACRO, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
-        LcMacroStepType step = exporter.prepareLcMacroStep(lcMacro);
+        LcMacroPointType step = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(step);
         Assert.assertTrue(step instanceof MacroActionStep);
         MacroActionStep macroActionStep = (MacroActionStep) step;

@@ -15,10 +15,10 @@ import org.slf4j.LoggerFactory;
 public class LcMacroExporter {
     private static final Logger LOGGER = LoggerFactory.getLogger(LcMacroExporter.class);
 
-    public LcMacroStepType prepareLcMacroStep(LcMacro lcMacro) {
+    public LcMacroPointType prepareLcMacroPoint(LcMacro lcMacro) {
         LOGGER.info("Export the LcMacro: {}", lcMacro);
 
-        LcMacroStepType lcMacroStep = null;
+        LcMacroPointType lcMacroStep = null;
 
         BidibEnum val = lcMacro.getStatus();
         switch (lcMacro.getOutputType()) {

@@ -2,24 +2,24 @@
 <bidib:lcMacros xmlns:bidib="http://www.bidib.org" 
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org ../../../main/resources/xsd/macros.xsd ">
 	<bidib:lcMacro macroName="test1" macroId="1" repeat="1" slowdown="1">
-		<bidib:lcMacroStep xsi:type="bidib:SoundPortStep" stepNumber="0">
+		<bidib:lcMacroPoint xsi:type="bidib:SoundPortStep" stepNumber="0">
 			<bidib:delay>6</bidib:delay>
 			<bidib:SoundPortActionType>START</bidib:SoundPortActionType>
-		</bidib:lcMacroStep>
-		<bidib:lcMacroStep xsi:type="bidib:CriticalSectionStep" stepNumber="1">
+		</bidib:lcMacroPoint>
+		<bidib:lcMacroPoint xsi:type="bidib:CriticalSectionStep" stepNumber="1">
 			<bidib:delay>60</bidib:delay>
 			<bidib:CriticalSectionActionType>BEGIN</bidib:CriticalSectionActionType>
-		</bidib:lcMacroStep>
-		<bidib:lcMacroStep xsi:type="bidib:ServoPortStep" stepNumber="2">
+		</bidib:lcMacroPoint>
+		<bidib:lcMacroPoint xsi:type="bidib:ServoPortStep" stepNumber="2">
 			<bidib:delay>6</bidib:delay>
 			<bidib:ServoPortActionType>
 				<bidib:action>START</bidib:action>
 				<bidib:destination>123</bidib:destination>
 			</bidib:ServoPortActionType>
-		</bidib:lcMacroStep>
-		<bidib:lcMacroStep xsi:type="bidib:CriticalSectionStep" stepNumber="3">
+		</bidib:lcMacroPoint>
+		<bidib:lcMacroPoint xsi:type="bidib:CriticalSectionStep" stepNumber="3">
 			<bidib:delay>60</bidib:delay>
 			<bidib:CriticalSectionActionType>END</bidib:CriticalSectionActionType>
-		</bidib:lcMacroStep>
+		</bidib:lcMacroPoint>
 	</bidib:lcMacro>
 </bidib:lcMacros>

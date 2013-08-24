@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <lcMacros xmlns="http://www.bidib.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xsd/macros.xsd">
     <lcMacro macroName="TestMacro1" macroId="1" repeat="1" slowdown="1">
-        <lcMacroStep xsi:type="LightPortStep" stepNumber="0">
+        <lcMacroPoint xsi:type="LightPortStep" stepNumber="0">
             <delay>6</delay>
             <LightPortActionType>ON</LightPortActionType>
-        </lcMacroStep>
-        <lcMacroStep xsi:type="LightPortStep" stepNumber="1">
+        </lcMacroPoint>
+        <lcMacroPoint xsi:type="LightPortStep" stepNumber="1">
             <delay>6</delay>
             <LightPortActionType>OFF</LightPortActionType>
-        </lcMacroStep>
-        <lcMacroStep xsi:type="ServoPortStep" stepNumber="2">
+        </lcMacroPoint>
+        <lcMacroPoint xsi:type="ServoPortStep" stepNumber="2">
             <delay>60</delay>
             <ServoPortActionType>
                 <action>START</action>
                 <destination>90</destination>
             </ServoPortActionType>
-        </lcMacroStep>
+        </lcMacroPoint>
     </lcMacro>
 </lcMacros>

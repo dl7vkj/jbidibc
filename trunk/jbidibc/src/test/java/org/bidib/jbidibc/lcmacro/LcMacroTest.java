@@ -40,17 +40,17 @@ public class LcMacroTest {
         Assert.assertNotNull(macros);
 
         Assert.assertNotNull(macros.getLcMacro());
-        Assert.assertNotNull(macros.getLcMacro().getLcMacroStep());
+        Assert.assertNotNull(macros.getLcMacro().getLcMacroPoint());
 
-        Assert.assertEquals(macros.getLcMacro().getLcMacroStep().size(), 4);
+        Assert.assertEquals(macros.getLcMacro().getLcMacroPoint().size(), 4);
 
-        LcMacroStepType lcMacroStep = macros.getLcMacro().getLcMacroStep().get(1);
+        LcMacroPointType lcMacroStep = macros.getLcMacro().getLcMacroPoint().get(1);
         Assert.assertTrue(lcMacroStep instanceof CriticalSectionStep);
         CriticalSectionStep criticalSectionStep = (CriticalSectionStep) lcMacroStep;
         Assert.assertNotNull(criticalSectionStep.getCriticalSectionActionType());
         Assert.assertEquals(criticalSectionStep.getCriticalSectionActionType(), CriticalSectionActionType.BEGIN);
 
-        lcMacroStep = macros.getLcMacro().getLcMacroStep().get(3);
+        lcMacroStep = macros.getLcMacro().getLcMacroPoint().get(3);
         Assert.assertTrue(lcMacroStep instanceof CriticalSectionStep);
         criticalSectionStep = (CriticalSectionStep) lcMacroStep;
         Assert.assertNotNull(criticalSectionStep.getCriticalSectionActionType());
@@ -78,14 +78,14 @@ public class LcMacroTest {
         lightPortStep.setDelay(6);
         lightPortStep.setLightPortActionType(LightPortActionType.ON);
 
-        lcMacro.getLcMacroStep().add(lightPortStep);
+        lcMacro.getLcMacroPoint().add(lightPortStep);
 
         lightPortStep = new LightPortStep();
         lightPortStep.setStepNumber(1);
         lightPortStep.setDelay(6);
         lightPortStep.setLightPortActionType(LightPortActionType.OFF);
 
-        lcMacro.getLcMacroStep().add(lightPortStep);
+        lcMacro.getLcMacroPoint().add(lightPortStep);
 
         ServoPortStep servoPortStep = new ServoPortStep();
         servoPortStep.setStepNumber(2);
@@ -95,7 +95,7 @@ public class LcMacroTest {
         servoPortActionType.setDestination(90);
         servoPortStep.setServoPortActionType(servoPortActionType);
 
-        lcMacro.getLcMacroStep().add(servoPortStep);
+        lcMacro.getLcMacroPoint().add(servoPortStep);
 
         LcMacros lcMacros = new LcMacros();
         lcMacros.setLcMacro(lcMacro);
