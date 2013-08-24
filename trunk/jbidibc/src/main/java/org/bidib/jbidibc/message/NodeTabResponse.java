@@ -8,7 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class NodeTabResponse extends BidibMessage {
-    private static final Logger LOGGER = LoggerFactory.getLogger(NodeTabResponse.class);
+    private final Logger LOGGER = LoggerFactory.getLogger(getClass());
 
     public static final Integer TYPE = BidibLibrary.MSG_NODETAB;
 
