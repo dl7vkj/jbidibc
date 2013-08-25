@@ -222,6 +222,9 @@ public class MessageReceiver {
                                         LOGGER.info("Send node changed acknowledge for nodetab version: {}", node
                                             .getVersion());
 
+                                        // create and register the new node in the node factory because we might receive spontanous messages
+                                        nodeFactory.createNode(node);
+
                                         // TODO for bridge/hub nodes we must use the parent of the new node ???
                                         nodeFactory.getRootNode().acknowledgeNodeChanged(node.getVersion());
 

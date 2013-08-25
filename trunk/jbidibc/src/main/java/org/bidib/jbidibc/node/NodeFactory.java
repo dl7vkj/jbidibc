@@ -3,6 +3,7 @@ package org.bidib.jbidibc.node;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -105,7 +106,8 @@ public class NodeFactory {
 
                 // Q: why is removeNode called instead of newNode? 
                 // A: to make sure that the node is created by the new "newNode-created-thread-" in MainController ...
-                removeNode(node);
+                // Moved to createNode() that is called from messageReceiver
+                //                removeNode(node);
             }
 
             @Override
@@ -176,6 +178,15 @@ public class NodeFactory {
         throw new InvalidConfigurationException("The requested node is not a CommandStationNode.");
     }
 
+    public BidibNode createNode(Node node) {
+        LOGGER.info("Create the new bidibNode of node: {}", node);
+        BidibNode bidibNode = null;
+        removeNode(node);
+        bidibNode = getNode(node);
+        LOGGER.info("createNode returns new bidibNode: {}", bidibNode);
+        return bidibNode;
+    }
+
     public BidibNode getNode(Node node) {
         LOGGER.debug("Get the bidibNode of node: {}", node);
 
@@ -190,7 +201,7 @@ public class NodeFactory {
             if (bidibNode == null) {
                 // get the classId of the new node
                 int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
-                LOGGER.debug("Create new bidibNode with classId: {}", classId);
+                LOGGER.info("Create new bidibNode with classId: {}", classId);
 
                 // create the new node based on the class id
                 if ((classId & 0x01) == 1) {
@@ -213,7 +224,7 @@ public class NodeFactory {
                     throw new RuntimeException("No transfer listener available on root node!!!!");
                 }
 
-                LOGGER.info("Create new bidibNode: {}, address: {}", bidibNode, address);
+                LOGGER.info("Created new bidibNode: {}, address: {}", bidibNode, address);
 
                 nodes.put(address, bidibNode);
             }
@@ -250,10 +261,49 @@ public class NodeFactory {
 
     private void removeNode(Node node) {
         synchronized (nodes) {
-            LOGGER.debug("Remove node from bidib nodes: {}", node);
-            BidibNode bidibNode = nodes.remove(NodeUtils.convertAddress(node.getAddr()));
-            if (bidibNode == null) {
-                LOGGER.warn("Remove bidibNode failed for address: {}", NodeUtils.convertAddress(node.getAddr()));
+            LOGGER.info("Remove node from bidib nodes: {}", node);
+            //            BidibNode bidibNode = nodes.remove(NodeUtils.convertAddress(node.getAddr()));
+            //            if (bidibNode == null) {
+            //                LOGGER.warn("Remove bidibNode failed for address: {}", NodeUtils.convertAddress(node.getAddr()));
+            //            }
+
+            // TODO if this is a hub node we must remove the children, too ...
+            List<Integer> nodesToRemove = new LinkedList<Integer>();
+            int address = NodeUtils.convertAddress(node.getAddr());
+            nodesToRemove.add(address);
+
+            if (NodeUtils.hasSubNodesFunctions(node.getUniqueId())) {
+                byte[] addr = node.getAddr();
+                LOGGER
+                    .info(
+                        "The removed node has subnode functions. We must remove all subnodes, too. Address of current node: {}",
+                        addr);
+                if (addr != null && addr.length > 0) {
+                    for (BidibNode currentNode : nodes.values()) {
+                        LOGGER.info("Check if we must remove the current node: {}", currentNode);
+                        byte[] currentAddr = currentNode.getAddr();
+                        if (currentAddr.length > addr.length) {
+                            // potential subnode
+                            if (currentAddr[addr.length - 1] == addr[addr.length - 1]) {
+                                // this is a subnode
+                                address = NodeUtils.convertAddress(currentAddr);
+                                LOGGER.info("Found a subnode to be removed: {}, address: {}", currentNode, address);
+
+                                nodesToRemove.add(address);
+                            }
+                        }
+                    }
+                }
+            }
+
+            for (Integer addressKey : nodesToRemove) {
+                BidibNode bidibNode = nodes.remove(addressKey);
+                if (bidibNode != null) {
+                    LOGGER.info("Removed node that must be removed: {}", bidibNode);
+                }
+                else {
+                    LOGGER.warn("Remove node from nodes map failed, address: {}", addressKey);
+                }
             }
         }
     }
