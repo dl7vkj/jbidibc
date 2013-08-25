@@ -65,12 +65,13 @@ public class Node {
     public boolean equals(Object other) {
         if (other instanceof Node) {
             Node node = (Node) other;
-            if (ByteUtils.arrayEquals(node.getAddr(), getAddr()) && node.getVersion() == version
+            if (ByteUtils.arrayEquals(node.getAddr(), getAddr())
                 && node.getUniqueId() == uniqueId) {
+                LOGGER.debug("Found equal node: {}", node);
                 return true;
             }
         }
-        return super.equals(other);
+        return false;
     }
 
     @Override

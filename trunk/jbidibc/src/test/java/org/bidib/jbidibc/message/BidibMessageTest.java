@@ -35,15 +35,6 @@ public class BidibMessageTest {
         Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_SYS_ERROR);
     }
 
-    @Test(enabled = false)
-    public void createMessageWithError2FromByteArray() throws ProtocolException {
-        byte[] message = { 0x03, 0x00, 0x00, (byte) 0x01, (byte) 0xde };
-
-        BidibMessage bidibMessage = new BidibMessage(message);
-
-        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_SYS_MAGIC);
-    }
-
     @Test
     public void createMessageFeedbackMultipleResponseFromByteArray() throws ProtocolException {
         byte[] message =
@@ -56,4 +47,14 @@ public class BidibMessageTest {
         Assert.assertEquals(bidibMessage.getType(), (byte) BidibLibrary.MSG_BM_MULTIPLE);
     }
 
+    @Test
+    public void createMessageLcConfigSet() throws ProtocolException {
+        // 25.08.2013 17:25:14.248: send LcConfigSetMessage[num=245,type=65,data=[2, 0, 0, 255, 4, 0]] : fe 0a 02 00 f5 41 02 00 00 ff 04 00 c4 fe 
+        byte[] message =
+            { 0x0a, 0x02, 0x00, (byte) 0xf5, 0x41, 0x02, 0x00, 0x00, (byte) 0xff, 0x04, 0x00, (byte) 0xc4 };
+
+        BidibMessage bidibMessage = new BidibMessage(message);
+
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_LC_CONFIG_SET);
+    }
 }
