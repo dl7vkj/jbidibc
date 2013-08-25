@@ -93,6 +93,40 @@ public class ResponseFactoryTest {
     }
 
     @Test
+    public void createValidNodeTabResponse4Message() throws ProtocolException {
+        // 15:03:15.910 [DEBUG] org.bidib.jbidibc.MessageReceiver [Thread-9] - Received raw message: 0d 01 00 03 89 02 00 81 00 0d 72 00 1e 00 16 fe 
+
+        // message: length msg_addr msg_num msg_type data
+        // 
+        // 0x0d : len -> 13
+        // 01 00 : msg_addr -> 1
+        // 03 : msg_num -> 3
+        // 0x89 : msg_type -> node tab response
+
+        // nodetab_data: nodetab_version nodetab_entry
+        // 02 : version -> 2
+        // nodetab_entry: node_addr uniqueId
+        // 00 : node_addr -> 0
+        // 81 00 0d 72 00 1e 00 16 fe
+
+        byte[] message =
+            new byte[] { 0x0d, 0x01, 0x00, 0x03, (byte) 0x89, 0x02, 0x00, (byte) 0x81, 0x00, (byte) 0x0d, (byte) 0x72,
+                0x00, 0x1e, 0x00, 0x16, (byte) 0xfe };
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof NodeTabResponse, "Expected a NodeTabResponse message.");
+
+        // 09:07:38.148 [INFO] org.bidib.jbidibc.message.NodeTabResponse [main] - Created new node: Node[version=1,addr=[0],uniqueId=0xd2000d68000036]
+        Node parentNode = new Node(1, new byte[] { 1 }, NodeUtilsTest.prepareUniqueid("81000d72001e00"));
+
+        NodeTabResponse nodeTabResponse = (NodeTabResponse) bidibMessage;
+        Node node = nodeTabResponse.getNode(parentNode.getAddr());
+        Assert.assertNotNull(node);
+        Assert.assertEquals(node.getAddr(), new byte[] { 1 });
+    }
+
+    @Test
     public void createValidNodeNewResponseMessage() throws ProtocolException {
         // 09:34:34.047 [DEBUG] org.bidib.jbidibc.MessageReceiver [Thread-9] - Received raw message: 0c 00 21 8d 06 01 05 00 0d 6b 00 69 ea aa fe 
 
@@ -116,7 +150,8 @@ public class ResponseFactoryTest {
     @Test
     public void createValidNodeNewResponse2Message() throws ProtocolException {
         // 09:34:34.047 [DEBUG] org.bidib.jbidibc.MessageReceiver [Thread-9] - Received raw message: 0c 00 21 8d 06 01 05 00 0d 6b 00 69 ea aa fe 
-        //      21:55:23.149 [DEBUG] org.bidib.jbidibc.MessageReceiver [Thread-9] - Received raw message: 0d 01 00 01 8d 06 01 42 00 0d 67 00 65 ea fb fe 
+        // 21:55:23.149 [DEBUG] org.bidib.jbidibc.MessageReceiver [Thread-9] - Received raw message: 0d 01 00 01 8d 06 01 42 00 0d 67 00 65 ea fb fe 
+        // 15:03:15.910 [DEBUG] org.bidib.jbidibc.MessageReceiver [Thread-9] - Received raw message: 0d 01 00 03 89 02 00 81 00 0d 72 00 1e 00 16 fe 
 
         // message: length msg_addr msg_num msg_type data
         // 
@@ -182,6 +217,8 @@ public class ResponseFactoryTest {
 
         Assert.assertEquals(node.getAddr(), new byte[] { 1, 1 });
     }
+
+    // 15:03:15.910 [DEBUG] org.bidib.jbidibc.MessageReceiver [Thread-9] - Received raw message: 0d 01 00 03 89 02 00 81 00 0d 72 00 1e 00 16 fe 
 
     @Test
     public void createValidFeatureResponseMessage() throws ProtocolException {

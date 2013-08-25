@@ -25,18 +25,25 @@ public class NodeTabResponse extends BidibMessage {
      * @return the node
      */
     public Node getNode(byte[] parentAddress) {
-        LOGGER.debug("Create new node with parent address: {}", parentAddress);
+        //        LOGGER.debug("Create new node with parent address: {}", parentAddress);
         byte[] data = getData();
         byte[] addr = new byte[parentAddress.length + 1];
         byte[] uniqueId = new byte[7];
 
-        LOGGER.debug("Current local address: {}", data[1]);
+        LOGGER.info("Create new node with parent address: {}, current local address: {}", parentAddress, data[1]);
 
         if (parentAddress.length == 1 && parentAddress[0] == 0) {
+            // the parent is the interface node
             addr = new byte[1];
             addr[0] = data[1];
         }
+        else if (data[1] == 0) {
+            // we have the node itself
+            addr = new byte[parentAddress.length];
+            System.arraycopy(parentAddress, 0, addr, 0, parentAddress.length);
+        }
         else {
+            // add the local address of the subnode to the parent address
             System.arraycopy(parentAddress, 0, addr, 1, parentAddress.length);
             addr[0] = data[1];
         }
