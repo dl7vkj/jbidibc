@@ -65,8 +65,7 @@ public class Node {
     public boolean equals(Object other) {
         if (other instanceof Node) {
             Node node = (Node) other;
-            if (ByteUtils.arrayEquals(node.getAddr(), getAddr())
-                && node.getUniqueId() == uniqueId) {
+            if (ByteUtils.arrayEquals(node.getAddr(), getAddr()) && node.getUniqueId() == uniqueId) {
                 LOGGER.debug("Found equal node: {}", node);
                 return true;
             }
