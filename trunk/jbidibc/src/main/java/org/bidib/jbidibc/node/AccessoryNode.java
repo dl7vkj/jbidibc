@@ -30,6 +30,7 @@ import org.bidib.jbidibc.message.LcMacroParaSetMessage;
 import org.bidib.jbidibc.message.LcMacroResponse;
 import org.bidib.jbidibc.message.LcMacroSetMessage;
 import org.bidib.jbidibc.message.LcMacroStateResponse;
+import org.bidib.jbidibc.message.LcNotAvailableResponse;
 import org.bidib.jbidibc.message.LcOutputMessage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -130,7 +131,9 @@ public class AccessoryNode extends DeviceNode {
 
     public void setConfig(LcConfig config) throws IOException, ProtocolException, InterruptedException {
         if (config != null) {
-            sendNoWait(new LcConfigSetMessage(config));
+            LOGGER.debug("Send LcConfigSet to node, config: {}", config);
+
+            send(new LcConfigSetMessage(config), true, LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE);
         }
     }
 
@@ -161,6 +164,8 @@ public class AccessoryNode extends DeviceNode {
 
     public void setOutput(LcOutputType outputType, int outputNumber, int state) throws IOException, ProtocolException,
         InterruptedException {
+        LOGGER
+            .debug("Set the new output state, type: {}, outputNumber: {}, state: {}", outputType, outputNumber, state);
         sendNoWait(new LcOutputMessage(outputType, outputNumber, state));
         // TODO not sure why this is needed here ...
         getMessageReceiver().setTimeout(Bidib.DEFAULT_TIMEOUT);
