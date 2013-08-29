@@ -218,7 +218,28 @@ public class ResponseFactoryTest {
         Assert.assertEquals(node.getAddr(), new byte[] { 1, 1 });
     }
 
-    // 15:03:15.910 [DEBUG] org.bidib.jbidibc.MessageReceiver [Thread-9] - Received raw message: 0d 01 00 03 89 02 00 81 00 0d 72 00 1e 00 16 fe 
+    @Test
+    public void createValidNodeTabResponse5Message() throws ProtocolException {
+        // 29.08.2013 07:00:29.919: receive NodeTabResponse[[2],num=1,type=137,data=[1, 1, 5, 0, 13, 108, 0, 51, 0]] : 0d 02 00 01 89 01 01 05 00 0d 6c 00 33 00 
+
+        byte[] message =
+            new byte[] { 0x0d, 0x02, 0x00, 0x01, (byte) 0x89, 0x01, 0x01, (byte) 0x05, 0x00, (byte) 0x0d, (byte) 0x6c,
+                0x00, 0x33, (byte) 0x00 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof NodeTabResponse, "Expected a NodeTabResponse message.");
+
+        // Create new node has finished: Node[version=2,addr=[1, 0],uniqueId=0x81000d72001f00]
+        Node parentNode = new Node(2, new byte[] { 2 }, NodeUtilsTest.prepareUniqueid("81000d72001f00"));
+
+        NodeTabResponse nodeTabResponse = (NodeTabResponse) bidibMessage;
+        Node node = nodeTabResponse.getNode(parentNode.getAddr());
+        Assert.assertNotNull(node);
+
+        Assert.assertEquals(node.getAddr(), new byte[] { 2, 1 });
+    }
 
     @Test
     public void createValidFeatureResponseMessage() throws ProtocolException {

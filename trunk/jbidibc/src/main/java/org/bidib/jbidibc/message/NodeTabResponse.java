@@ -44,8 +44,8 @@ public class NodeTabResponse extends BidibMessage {
         }
         else {
             // add the local address of the subnode to the parent address
-            System.arraycopy(parentAddress, 0, addr, 1, parentAddress.length);
-            addr[0] = data[1];
+            System.arraycopy(parentAddress, 0, addr, 0, parentAddress.length);
+            addr[parentAddress.length] = data[1];
         }
         System.arraycopy(data, 2, uniqueId, 0, uniqueId.length);
 
