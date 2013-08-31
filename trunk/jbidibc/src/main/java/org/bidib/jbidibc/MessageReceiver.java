@@ -225,7 +225,7 @@ public class MessageReceiver {
                                         // create and register the new node in the node factory because we might receive spontanous messages
                                         nodeFactory.createNode(node);
 
-                                        // TODO for bridge/hub nodes we must use the parent of the new node ???
+                                        // acknowledge the new nodetab version to the interface
                                         nodeFactory.getRootNode().acknowledgeNodeChanged(node.getVersion());
 
                                         fireNodeNew(node);
@@ -234,9 +234,9 @@ public class MessageReceiver {
                                         Node node = ((NodeLostResponse) message).getNode(message.getAddr());
 
                                         fireNodeLost(node);
-                                        // TODO for bridge/hub nodes we must use the parent of the new node ???
+
+                                        // acknowledge the new nodetab version to the interface
                                         nodeFactory.getRootNode().acknowledgeNodeChanged(node.getVersion());
-                                        //                                        fireNodeLost(node);
                                     }
                                     else if (message instanceof SysErrorResponse) {
                                         SysErrorResponse errorResponse = (SysErrorResponse) message;
@@ -265,7 +265,7 @@ public class MessageReceiver {
                                 }
                                 finally {
                                     if (message != null) {
-                                        // TODO add a flag to the node and evaluate the message numbers only after the magic message was received ...
+                                        // the message numbers are evaluated only after the magic message on the node was received ...
 
                                         // verify that the receive message number is valid
                                         Node node = new Node(message.getAddr());

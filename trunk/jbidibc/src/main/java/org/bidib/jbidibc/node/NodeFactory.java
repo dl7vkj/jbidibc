@@ -262,12 +262,8 @@ public class NodeFactory {
     private void removeNode(Node node) {
         synchronized (nodes) {
             LOGGER.info("Remove node from bidib nodes: {}", node);
-            //            BidibNode bidibNode = nodes.remove(NodeUtils.convertAddress(node.getAddr()));
-            //            if (bidibNode == null) {
-            //                LOGGER.warn("Remove bidibNode failed for address: {}", NodeUtils.convertAddress(node.getAddr()));
-            //            }
 
-            // TODO if this is a hub node we must remove the children, too ...
+            // if this is a hub node we must remove the children, too ...
             List<Integer> nodesToRemove = new LinkedList<Integer>();
             int address = NodeUtils.convertAddress(node.getAddr());
             nodesToRemove.add(address);
@@ -280,14 +276,14 @@ public class NodeFactory {
                         addr);
                 if (addr != null && addr.length > 0) {
                     for (BidibNode currentNode : nodes.values()) {
-                        LOGGER.info("Check if we must remove the current node: {}", currentNode);
+                        LOGGER.debug("Check if we must remove the current node: {}", currentNode);
                         byte[] currentAddr = currentNode.getAddr();
                         if (currentAddr.length > addr.length) {
                             // potential subnode
                             if (currentAddr[addr.length - 1] == addr[addr.length - 1]) {
                                 // this is a subnode
                                 address = NodeUtils.convertAddress(currentAddr);
-                                LOGGER.info("Found a subnode to be removed: {}, address: {}", currentNode, address);
+                                LOGGER.debug("Found a subnode to be removed: {}, address: {}", currentNode, address);
 
                                 nodesToRemove.add(address);
                             }
@@ -299,7 +295,7 @@ public class NodeFactory {
             for (Integer addressKey : nodesToRemove) {
                 BidibNode bidibNode = nodes.remove(addressKey);
                 if (bidibNode != null) {
-                    LOGGER.info("Removed node that must be removed: {}", bidibNode);
+                    LOGGER.debug("Removed node that must be removed: {}", bidibNode);
                 }
                 else {
                     LOGGER.warn("Remove node from nodes map failed, address: {}", addressKey);

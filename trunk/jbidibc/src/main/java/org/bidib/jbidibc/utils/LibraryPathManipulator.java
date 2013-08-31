@@ -161,7 +161,7 @@ public class LibraryPathManipulator {
                 }
                 break;
             case Solaris:
-                // TODO for unix 
+                // TODO for Solaris 
                 LOGGER
                     .error("The SOLARIS OS was detected but I don't know how to distinguish between 64 and 32 bit version ...");
                 break;
