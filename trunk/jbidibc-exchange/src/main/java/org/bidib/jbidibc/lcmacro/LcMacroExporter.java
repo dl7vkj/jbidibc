@@ -1,6 +1,10 @@
 package org.bidib.jbidibc.lcmacro;
 
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.util.zip.GZIPOutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
@@ -36,6 +40,7 @@ public class LcMacroExporter {
                 AnalogPortPoint analogPortPoint = new AnalogPortPoint();
                 analogPortPoint.setAnalogPortActionType(AnalogPortActionType.fromValue(analogPortEnum.name()));
                 analogPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                analogPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = analogPortPoint;
                 break;
             case BEGIN_CRITICAL:
@@ -94,6 +99,7 @@ public class LcMacroExporter {
                 LightPortPoint lightPortPoint = new LightPortPoint();
                 lightPortPoint.setLightPortActionType(LightPortActionType.fromValue(lightPortEnum.name()));
                 lightPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                lightPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = lightPortPoint;
                 break;
             case END_OF_MACRO:
@@ -125,6 +131,7 @@ public class LcMacroExporter {
                 MotorPortPoint motorPortPoint = new MotorPortPoint();
                 motorPortPoint.setMotorPortActionType(MotorPortActionType.fromValue(motorPortEnum.name()));
                 motorPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                motorPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = motorPortPoint;
                 break;
             case RANDOM_DELAY:
@@ -140,6 +147,7 @@ public class LcMacroExporter {
                 ServoPortPoint servoPortPoint = new ServoPortPoint();
                 servoPortPoint.setServoPortActionType(servoPortActionType);
                 servoPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                servoPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = servoPortPoint;
                 break;
             case SOUNDPORT:
@@ -147,6 +155,7 @@ public class LcMacroExporter {
                 SoundPortPoint soundPortPoint = new SoundPortPoint();
                 soundPortPoint.setSoundPortActionType(SoundPortActionType.fromValue(soundPortEnum.name()));
                 soundPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                soundPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = soundPortPoint;
                 break;
             case SWITCHPORT:
@@ -154,6 +163,7 @@ public class LcMacroExporter {
                 SwitchPortPoint switchPortPoint = new SwitchPortPoint();
                 switchPortPoint.setSwitchPortActionType(SwitchPortActionType.fromValue(switchPortEnum.name()));
                 switchPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                switchPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = switchPortPoint;
                 break;
             default:
@@ -161,7 +171,6 @@ public class LcMacroExporter {
                 lcMacroPoint = null;
                 break;
         }
-        lcMacroPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
         lcMacroPoint.setIndex(ByteUtils.getInt(lcMacro.getStepNumber()));
 
         LOGGER.info("Return lcMacroPoint: {}", lcMacroPoint);
@@ -173,7 +182,7 @@ public class LcMacroExporter {
      * @param lcMacro the macro
      * @param fileName the filename
      */
-    public void saveMacro(LcMacroType lcMacro, String fileName) {
+    public void saveMacro(LcMacroType lcMacro, String fileName, boolean gzip) {
         LOGGER.info("Save macro content to file: {}, lcMacro: {}", fileName, lcMacro);
         try {
 
@@ -186,8 +195,17 @@ public class LcMacroExporter {
             LcMacros lcMacros = new LcMacros();
             lcMacros.setLcMacro(lcMacro);
 
-            File file = new File(fileName);
-            marshaller.marshal(lcMacros, file);
+            //            File file = new File(fileName);
+
+            OutputStream os = new BufferedOutputStream(new FileOutputStream(fileName));
+            if (gzip) {
+                LOGGER.debug("Use gzip to compress macro.");
+                os = new GZIPOutputStream(os);
+            }
+
+            marshaller.marshal(lcMacros, os);
+
+            os.flush();
 
             LOGGER.info("Save macro content to file passed: {}", fileName);
         }

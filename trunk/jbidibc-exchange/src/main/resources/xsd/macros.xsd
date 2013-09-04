@@ -5,10 +5,6 @@
 	targetNamespace="http://www.bidib.org" 
 	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xsd:complexType name="LcMacroPointType" abstract="true">
-		<xsd:sequence>
-			<xsd:element name="delay" type="bidib:MacroDelayType"
-				minOccurs="0" />
-		</xsd:sequence>
 		<xsd:attribute name="index" type="bidib:MacroPointIndexType"
 			use="required" />
 	</xsd:complexType>
@@ -16,6 +12,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
+					<xsd:element name="delay" type="bidib:MacroDelayType"
+						minOccurs="0" />
 					<xsd:element name="AnalogPortActionType" type="bidib:AnalogPortActionType" />
 					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
@@ -53,6 +51,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
+					<xsd:element name="delay" type="bidib:MacroDelayType"
+						minOccurs="0" />
 					<xsd:element name="InputPortActionType" type="bidib:InputPortActionType" />
 					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
@@ -83,6 +83,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
+					<xsd:element name="delay" type="bidib:MacroDelayType"
+						minOccurs="0" />
 					<xsd:element name="LightPortActionType" type="bidib:LightPortActionType" />
 					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
@@ -102,6 +104,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
+					<xsd:element name="delay" type="bidib:MacroDelayType"
+						minOccurs="0" />
 					<xsd:element name="MotorPortActionType" type="bidib:MotorPortActionType" />
 					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
@@ -121,6 +125,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
+					<xsd:element name="delay" type="bidib:MacroDelayType"
+						minOccurs="0" />
 					<xsd:element name="ServoPortActionType" type="bidib:ServoPortActionType" />
 					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
@@ -131,6 +137,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
+					<xsd:element name="delay" type="bidib:MacroDelayType"
+						minOccurs="0" />
 					<xsd:element name="SoundPortActionType" type="bidib:SoundPortActionType" />
 					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
@@ -141,6 +149,8 @@
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
+					<xsd:element name="delay" type="bidib:MacroDelayType"
+						minOccurs="0" />
 					<xsd:element name="SwitchPortActionType" type="bidib:SwitchPortActionType" />
 					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>

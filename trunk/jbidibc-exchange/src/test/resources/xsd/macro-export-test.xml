@@ -25,7 +25,6 @@
             <outputNumber>0</outputNumber>
         </lcMacroPoint>
         <lcMacroPoint xsi:type="FlagPoint" index="4">
-            <delay>10</delay>
             <FlagActionType>
                 <operation>SET</operation>
                 <flagNumber>12</flagNumber>

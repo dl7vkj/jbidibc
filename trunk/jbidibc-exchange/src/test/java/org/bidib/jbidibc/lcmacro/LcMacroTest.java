@@ -70,7 +70,6 @@ public class LcMacroTest {
         Assert.assertNotNull(flagPoint.getFlagActionType());
         Assert.assertEquals(flagPoint.getFlagActionType().getOperation(), FlagOperationType.SET);
         Assert.assertEquals(flagPoint.getFlagActionType().getFlagNumber(), 12);
-        Assert.assertEquals(flagPoint.getDelay(), Integer.valueOf(10));
     }
 
     @Test
@@ -125,7 +124,6 @@ public class LcMacroTest {
 
         FlagPoint flagPoint = new FlagPoint();
         flagPoint.setIndex(4);
-        flagPoint.setDelay(10);
         FlagActionType flagActionType = new FlagActionType();
         flagActionType.setFlagNumber(12);
         flagActionType.setOperation(FlagOperationType.SET);

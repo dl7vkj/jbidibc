@@ -8,7 +8,6 @@
 			<bidib:outputNumber>0</bidib:outputNumber>
 		</bidib:lcMacroPoint>
 		<bidib:lcMacroPoint xsi:type="bidib:CriticalSectionPoint" index="1">
-			<bidib:delay>60</bidib:delay>
 			<bidib:CriticalSectionActionType>BEGIN</bidib:CriticalSectionActionType>
 		</bidib:lcMacroPoint>
 		<bidib:lcMacroPoint xsi:type="bidib:ServoPortPoint" index="2">
@@ -20,7 +19,6 @@
 			<bidib:outputNumber>0</bidib:outputNumber>
 		</bidib:lcMacroPoint>
 		<bidib:lcMacroPoint xsi:type="bidib:CriticalSectionPoint" index="3">
-			<bidib:delay>60</bidib:delay>
 			<bidib:CriticalSectionActionType>END</bidib:CriticalSectionActionType>
 		</bidib:lcMacroPoint>
         <bidib:lcMacroPoint xsi:type="bidib:AnalogPortPoint" index="4">
@@ -29,7 +27,6 @@
             <bidib:outputNumber>4</bidib:outputNumber>
         </bidib:lcMacroPoint>
         <bidib:lcMacroPoint xsi:type="bidib:FlagPoint" index="5">
-            <bidib:delay>10</bidib:delay>
             <bidib:FlagActionType>
                 <bidib:operation>SET</bidib:operation>
                 <bidib:flagNumber>12</bidib:flagNumber>
