@@ -1,15 +1,27 @@
 package org.bidib.jbidibc;
 
+import java.io.Serializable;
+
 import org.bidib.jbidibc.enumeration.FeatureEnum;
 
-public class Feature {
-    private final int type;
+public class Feature implements Serializable {
+    private static final long serialVersionUID = 1L;
+
+    private int type;
 
     private int value;
+
+    public Feature() {
+        type = -1;
+    }
 
     public Feature(int type, int value) {
         this.type = type;
         this.value = value;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public int getType() {
