@@ -16,9 +16,9 @@
             <artifactId>jbidibc</artifactId>
             <version>${project.version}</version>
         </dependency>
-		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -30,20 +30,20 @@
             <artifactId>testng</artifactId>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<groupId>xmlunit</groupId>
-			<artifactId>xmlunit</artifactId>
+        <dependency>
+            <groupId>xmlunit</groupId>
+            <artifactId>xmlunit</artifactId>
             <scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
             <scope>test</scope>
-		</dependency>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
-			<plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
                 <version>1.5</version>
@@ -56,9 +56,10 @@
                     </execution>
                 </executions>
                 <configuration>
-					<arguments>-extension -Xcommons-lang</arguments>
-					<schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
-                    <packageName>org.bidib.jbidibc.lcmacro</packageName> <!-- The name of your generated source package -->
+                    <arguments>-extension -Xcommons-lang</arguments>
+                    <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
+                    <packageName>org.bidib.jbidibc.lcmacro</packageName>
+                    <!-- The name of your generated source package -->
                 </configuration>
                 <dependencies>
                     <dependency>

@@ -87,6 +87,12 @@ public class LcMacroTest {
         lcMacro.setRepeat(1);
         lcMacro.setSlowdown(1);
 
+        StartClkType startClkType = new StartClkType();
+        startClkType.setHour((byte) 23);
+        startClkType.setMinute((byte) 59);
+        startClkType.setWeekday((byte) 1 /* TUESDAY */);
+        lcMacro.setStartClk(startClkType);
+
         LightPortPoint lightPortPoint = new LightPortPoint();
         lightPortPoint.setIndex(0);
         lightPortPoint.setDelay(6);

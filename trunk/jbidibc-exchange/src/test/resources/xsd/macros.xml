@@ -1,26 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bidib:lcMacros xmlns:bidib="http://www.bidib.org" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org ../../../main/resources/xsd/macros.xsd ">
-	<bidib:lcMacro macroName="test1" macroId="1" repeat="1" slowdown="1">
-		<bidib:lcMacroPoint xsi:type="bidib:SoundPortPoint" index="0">
-			<bidib:delay>6</bidib:delay>
-			<bidib:SoundPortActionType>START</bidib:SoundPortActionType>
-			<bidib:outputNumber>0</bidib:outputNumber>
-		</bidib:lcMacroPoint>
-		<bidib:lcMacroPoint xsi:type="bidib:CriticalSectionPoint" index="1">
-			<bidib:CriticalSectionActionType>BEGIN</bidib:CriticalSectionActionType>
-		</bidib:lcMacroPoint>
-		<bidib:lcMacroPoint xsi:type="bidib:ServoPortPoint" index="2">
-			<bidib:delay>6</bidib:delay>
-			<bidib:ServoPortActionType>
-				<bidib:action>START</bidib:action>
-				<bidib:destination>123</bidib:destination>
-			</bidib:ServoPortActionType>
-			<bidib:outputNumber>0</bidib:outputNumber>
-		</bidib:lcMacroPoint>
-		<bidib:lcMacroPoint xsi:type="bidib:CriticalSectionPoint" index="3">
-			<bidib:CriticalSectionActionType>END</bidib:CriticalSectionActionType>
-		</bidib:lcMacroPoint>
+<bidib:lcMacros xmlns:bidib="http://www.bidib.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org ../../../main/resources/xsd/macros.xsd ">
+    <bidib:lcMacro macroName="test1" macroId="1" repeat="1" slowdown="1">
+        <bidib:lcMacroPoint xsi:type="bidib:SoundPortPoint" index="0">
+            <bidib:delay>6</bidib:delay>
+            <bidib:SoundPortActionType>START</bidib:SoundPortActionType>
+            <bidib:outputNumber>0</bidib:outputNumber>
+        </bidib:lcMacroPoint>
+        <bidib:lcMacroPoint xsi:type="bidib:CriticalSectionPoint" index="1">
+            <bidib:CriticalSectionActionType>BEGIN</bidib:CriticalSectionActionType>
+        </bidib:lcMacroPoint>
+        <bidib:lcMacroPoint xsi:type="bidib:ServoPortPoint" index="2">
+            <bidib:delay>6</bidib:delay>
+            <bidib:ServoPortActionType>
+                <bidib:action>START</bidib:action>
+                <bidib:destination>123</bidib:destination>
+            </bidib:ServoPortActionType>
+            <bidib:outputNumber>0</bidib:outputNumber>
+        </bidib:lcMacroPoint>
+        <bidib:lcMacroPoint xsi:type="bidib:CriticalSectionPoint" index="3">
+            <bidib:CriticalSectionActionType>END</bidib:CriticalSectionActionType>
+        </bidib:lcMacroPoint>
         <bidib:lcMacroPoint xsi:type="bidib:AnalogPortPoint" index="4">
             <bidib:delay>30</bidib:delay>
             <bidib:AnalogPortActionType>START</bidib:AnalogPortActionType>
@@ -32,5 +31,5 @@
                 <bidib:flagNumber>12</bidib:flagNumber>
             </bidib:FlagActionType>
         </bidib:lcMacroPoint>
-	</bidib:lcMacro>
+    </bidib:lcMacro>
 </bidib:lcMacros>

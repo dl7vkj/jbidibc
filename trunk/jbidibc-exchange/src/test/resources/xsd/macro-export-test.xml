@@ -1,6 +1,7 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<lcMacros xmlns="http://www.bidib.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org ../../../main/resources/xsd/macros.xsd ">
+<?xml version="1.0" encoding="UTF-8"?>
+<lcMacros xmlns="http://www.bidib.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xsd/macros.xsd ">
     <lcMacro macroName="TestMacro1" macroId="1" repeat="1" slowdown="1">
+        <startClk weekday="1" hour="23" minute="59"/>
         <lcMacroPoint xsi:type="LightPortPoint" index="0">
             <delay>6</delay>
             <LightPortActionType>ON</LightPortActionType>
