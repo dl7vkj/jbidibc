@@ -1,5 +1,10 @@
 package org.bidib.jbidibc.lcmacro;
 
+import java.io.File;
+
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.Marshaller;
+
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.enumeration.AnalogPortEnum;
 import org.bidib.jbidibc.enumeration.BidibEnum;
@@ -14,6 +19,10 @@ import org.slf4j.LoggerFactory;
 
 public class LcMacroExporter {
     private static final Logger LOGGER = LoggerFactory.getLogger(LcMacroExporter.class);
+
+    public static final String JAXB_PACKAGE = "org.bidib.jbidibc.lcmacro";
+
+    public static final String XSD_LOCATION = "xsd/macros.xsd";
 
     public LcMacroPointType prepareLcMacroPoint(LcMacro lcMacro) {
         LOGGER.info("Export the LcMacro: {}", lcMacro);
@@ -159,4 +168,32 @@ public class LcMacroExporter {
         return lcMacroPoint;
     }
 
+    /**
+     * Save a single macro
+     * @param lcMacro the macro
+     * @param fileName the filename
+     */
+    public void saveMacro(LcMacroType lcMacro, String fileName) {
+        LOGGER.info("Save macro content to file: {}, lcMacro: {}", fileName, lcMacro);
+        try {
+
+            JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
+
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+            marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+
+            LcMacros lcMacros = new LcMacros();
+            lcMacros.setLcMacro(lcMacro);
+
+            File file = new File(fileName);
+            marshaller.marshal(lcMacros, file);
+
+            LOGGER.info("Save macro content to file passed: {}", fileName);
+        }
+        catch (Exception ex) {
+            // TODO add better exception handling
+            LOGGER.warn("Save macro failed.", ex);
+        }
+    }
 }
