@@ -60,10 +60,36 @@ public class VendorCVTest {
         Assert.assertEquals(versionInfo.getVendor(), "013");
 
         Assert.assertNotNull(vendorCV.getTemplates());
+        // check the led values
         Assert.assertNotNull(vendorCV.getTemplates().getLED());
-        Assert.assertEquals(vendorCV.getTemplates().getLED().getCV().size(), 5);
+        LED led = vendorCV.getTemplates().getLED();
+        Assert.assertEquals(led.getCV().size(), 5);
+        Assert.assertNotNull(led.getCV().get(0));
+        Assert.assertEquals(led.getCV().get(0).getNumber(), 0);
+        Assert.assertEquals(led.getCV().get(0).getType(), DataType.BYTE);
+        Assert.assertEquals(led.getCV().get(0).getMin(), "-");
+        // check the servo values
         Assert.assertNotNull(vendorCV.getTemplates().getServo());
         Assert.assertEquals(vendorCV.getTemplates().getServo().getCV().size(), 12);
+        
+        Assert.assertNotNull(vendorCV.getCVDefinition());
+        CVDefinitionType cvDefinition = vendorCV.getCVDefinition();
+        // basis
+        Assert.assertNotNull(cvDefinition.getBasis());
+        Basis basis = cvDefinition.getBasis();
+        Assert.assertNotNull(basis.getDCC());
+        DCC dcc = basis.getDCC();
+        Assert.assertNotNull(dcc.getCV());
+        Assert.assertEquals(dcc.getCV().size(), 2);
+        Assert.assertNotNull(basis.getCV());
+        Assert.assertEquals(basis.getCV().size(), 11);
+        // servos
+        Assert.assertNotNull(cvDefinition.getServos());
+        Servos servos = cvDefinition.getServos();
+        
+        // leds
+        Assert.assertNotNull(cvDefinition.getLEDS());
+        LEDS leds = cvDefinition.getLEDS();
     }
 
     @Test
