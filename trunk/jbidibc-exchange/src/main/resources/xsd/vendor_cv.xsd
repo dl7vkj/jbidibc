@@ -52,13 +52,36 @@
 	</xsd:complexType>
  -->
 	<xsd:complexType name="CV">
-		<xsd:attribute name="number" type="xsd:int" />
-		<xsd:attribute name="type" type="xsd:string" />
-		<xsd:attribute name="mode" type="xsd:string" />
+		<xsd:attribute name="number" type="xsd:int" use="required" />
+		<xsd:attribute name="type" type="vendorcv:DataType" use="required" />
+		<xsd:attribute name="min" type="xsd:string" />
+		<xsd:attribute name="max" type="xsd:string" />
+		<xsd:attribute name="low" type="xsd:string" />
+		<xsd:attribute name="high" type="xsd:string" />
+		<xsd:attribute name="values" type="xsd:string" />
+		<xsd:attribute name="mode" type="vendorcv:ModeType" use="required" />
+		<xsd:attribute name="descde" type="xsd:string" />
+		<xsd:attribute name="descen" type="xsd:string" />
 	</xsd:complexType>
 
 	<xsd:complexType name="CVDefinitionType">
 	</xsd:complexType>
+
+	<xsd:simpleType name="DataType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Byte"/>
+			<xsd:enumeration value="Int"/>
+			<xsd:enumeration value="Bit"/>
+			<xsd:enumeration value="GBM16TReverser"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="ModeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="rw"/>
+			<xsd:enumeration value="ro"/>
+			<xsd:enumeration value="wo"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 
 	<xsd:element name="LED" type="vendorcv:LED" />
 	<xsd:element name="Servo" type="vendorcv:Servo" />

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<VendorCV xmlns="http://www.bidib.org/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xsd/vendor_cv.xsd">
+<VendorCV xmlns="http://www.bidib.org/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
 	<Version 
 		version="0.1" 
 		LastUpdate="20130519" 
