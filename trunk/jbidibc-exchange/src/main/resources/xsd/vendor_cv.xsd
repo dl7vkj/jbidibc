@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	targetNamespace="http://www.bidib.org/vendorcv" 
+	xmlns:vendorcv="http://www.bidib.org/vendorcv" 
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+
+	<xsd:complexType name="VersionInfoType">
+		<xsd:attribute name="version" type="xsd:string" use="required" />
+		<xsd:attribute name="LastUpdate" type="xsd:string" use="required" />
+		<xsd:attribute name="author" type="xsd:string" use="required" />
+		<xsd:attribute name="PID1" type="xsd:string" use="required"/>
+		<xsd:attribute name="PID2" type="xsd:string" use="required"/>
+		<xsd:attribute name="Vendor" type="xsd:string" use="required"/>
+		<xsd:attribute name="description" type="xsd:string" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="TemplatesType">
+		<xsd:choice>
+			<xsd:element ref="vendorcv:LED" />
+			<xsd:element ref="vendorcv:Servo" />
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="LED">
+		<xsd:sequence>
+			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Servo">
+		<xsd:sequence>
+			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+<!-- 
+	<xsd:complexType name="TemplatesType">
+		<xsd:sequence>
+			<xsd:element ref="vendorcv:Template" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="TemplateType" abstract="true">
+	</xsd:complexType>
+
+	<xsd:complexType name="LED">
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded" />
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+ -->
+	<xsd:complexType name="CV">
+		<xsd:attribute name="number" type="xsd:int" />
+		<xsd:attribute name="type" type="xsd:string" />
+		<xsd:attribute name="mode" type="xsd:string" />
+	</xsd:complexType>
+
+	<xsd:complexType name="CVDefinitionType">
+	</xsd:complexType>
+
+	<xsd:element name="LED" type="vendorcv:LED" />
+	<xsd:element name="Servo" type="vendorcv:Servo" />
+	<xsd:element name="Version" type="vendorcv:VersionInfoType" />
+	<xsd:element name="Templates" type="vendorcv:TemplatesType" />
+	<xsd:element name="CVDefinition" type="vendorcv:CVDefinitionType" />
+<!-- 	<xsd:element name="Template" type="vendorcv:TemplateType" /> -->
+	<xsd:element name="CV" type="vendorcv:CV" />
+
+	<xsd:element name="VendorCV">
+		<xsd:annotation>
+			<xsd:documentation>VendorCV definition</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="vendorcv:Version" />
+				<xsd:element ref="vendorcv:Templates" />
+				<xsd:element ref="vendorcv:CVDefinition" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>	
+<!-- 	<xsd:element name="VendorCV" type="vendorcv:VendorCVType"/> -->
+	
+
+</xsd:schema>

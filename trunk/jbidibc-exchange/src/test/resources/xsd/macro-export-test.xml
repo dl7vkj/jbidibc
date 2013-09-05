@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<lcMacros xmlns="http://www.bidib.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xsd/macros.xsd ">
+<lcMacros xmlns="http://www.bidib.org/lcmacro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xsd/macros.xsd ">
     <lcMacro macroName="TestMacro1" macroId="1" repeat="1" slowdown="1">
         <startClk weekday="1" hour="23" minute="59"/>
         <lcMacroPoint xsi:type="LightPortPoint" index="0">

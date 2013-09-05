@@ -53,14 +53,36 @@
                         <goals>
                             <goal>xjc</goal>
                         </goals>
+		                <configuration>
+		                    <arguments>-extension -Xcommons-lang</arguments>
+		                    <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
+		                    <schemaFiles>macros.xsd</schemaFiles>
+		                    <packageName>org.bidib.jbidibc.lcmacro</packageName>
+		                    <staleFile>${project.build.directory}/jaxb2/.schema1XjcStaleFlag</staleFile>
+		                </configuration>
+                    </execution>
+                    <execution>
+                        <id>xjc2</id>
+                        <goals>
+                            <goal>xjc</goal>
+                        </goals>
+		                <configuration>
+		                    <arguments>-extension -Xcommons-lang</arguments>
+		                    <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
+		                    <schemaFiles>vendor_cv.xsd</schemaFiles>
+		                    <packageName>org.bidib.jbidibc.vendorcv</packageName>
+		                    <staleFile>${project.build.directory}/jaxb2/.schema2XjcStaleFlag</staleFile>
+		                    <clearOutputDir>false</clearOutputDir> <!-- THIS IS IMPORTANT !!! -->
+		                </configuration>
                     </execution>
                 </executions>
+                <!-- 
                 <configuration>
                     <arguments>-extension -Xcommons-lang</arguments>
                     <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
                     <packageName>org.bidib.jbidibc.lcmacro</packageName>
-                    <!-- The name of your generated source package -->
-                </configuration>
+                </configuration> 
+                -->
                 <dependencies>
                     <dependency>
                         <groupId>log4j</groupId>
