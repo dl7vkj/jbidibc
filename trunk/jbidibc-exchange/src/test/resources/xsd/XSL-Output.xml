@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VendorCV xmlns="http://www.bidib.org/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Version version="0.1" LastUpdate="20130519" author="BiDiB Mustermann" PID1="107" PID2="000" Vendor="013" description="BiDiB-LightControl 1">
+	</Version>
+	<Templates>
+		<LED>
+			<CV number="0" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Einstellung der Stromquelle" descen="LED: courrent source setup">	</CV>
+			<CV number="1" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Helligkeit für Zustand „aus“" descen="LED: light intensity at status 'off'">	</CV>
+			<CV number="2" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Helligkeit für Zustand „an“" descen="LED: light intensity at status 'on'"> </CV>
+			<CV number="3" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Dimmzeit in Richtung „aus“, 0 = schnell / 255 = langsam" descen="LED: time to dim, direction 'off', 0 = fast / 255 = slow ">		   </CV>
+			<CV number="4" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Dimmzeit in Richtung „an“, 0 = schnell / 255 = langsam" descen="LED: time to dim, direction 'on', 0 = fast / 255 = slow ">		   </CV>
+		</LED>
+		<Servo>
+			<CV number="0" type="Int" min="-" max="-" low="0" high="1" values="-" mode="rw" descde="Min Low" descen="Min Low">		   </CV>
+			<CV number="1" type="Int" min="-" max="-" low="0" high="1" values="-" mode="rw" descde="Min High" descen="Min High">		   </CV>
+			<CV number="2" type="Int" min="-" max="-" low="2" high="3" values="-" mode="rw" descde="Max Low" descen="Max Low">		   </CV>
+			<CV number="3" type="Int" min="-" max="-" low="2" high="3" values="-" mode="rw" descde="Max High" descen="Max High">		   </CV>
+			<CV number="4" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Modus" descen="Mode">		   </CV>
+			<CV number="5" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Wiederholung: 0 keine Wiederholung, 1 Wiederholung" descen="Repeat: 0 no repeat, 1 repeat">		   </CV>
+			<CV number="6" type="Byte" min="0" max="1" low="-" high="-" values="-" mode="rw" descde="Position: 0 vor Bewegung A, 1 vor Bewegung B" descen="Location: 0 befor move A, 1 befor move B">		   </CV>
+			<CV number="7" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Kurveneinstellungen für A" descen="curve settings for A">		   </CV>
+			<CV number="8" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Kurvenverzögerung A" descen="curve delay for A">		   </CV>
+			<CV number="9" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Kurveneinstellungen für B" descen="curve settings for B">		   </CV>
+			<CV number="10" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Kurvenverzögerung B" descen="curve delay for B">		   </CV>
+			<CV number="11" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Power OFF: 0 nicht abschalten, n * 20 ms" descen="Power OFF: 0 no off, n * 20 ms">		   </CV>
+		</Servo>
+	</Templates>
+	<CVDefinition>
+		<Basis>
+			<DCC>
+				<CV number="1" type="Int" min="0" max="255" low="1" high="9" values="-" mode="rw" descde="Decoder Adresse LOW" descen="Decoder Address LOW">				</CV>
+				<CV number="9" type="Int" min="0" max="255" low="1" high="9" values="-" mode="rw" descde="Decoder Adresse HIGH" descen="Decoder Address HIGH">				</CV>
+			</DCC>
+			<CV number="2" type="Byte" min="0" max="1" low="-" high="-" values="0;1" mode="rw" descde="1 = Eingänge aktiv, 0 = Eingänge nicht aktiv" descen="1 = Input activ, 0 = Input not activ"/>
+			<CV number="3" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Einschaltzeit für Ausgang 1" descen="Time to switch on for output 1">		   </CV>
+			<CV number="4" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Einschaltzeit für Ausgang 2" descen="Time to switch on for output 2">			   </CV>
+			<CV number="5" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Einschaltzeit für Ausgang 3" descen="Time to switch on for output 3">			   </CV>
+			<CV number="6" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Einschaltzeit für Ausgang 4" descen="Time to switch on for output 4">			   </CV>
+			<CV number="7" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="ro" descde="Softwareversion" descen="Software version">			   </CV>
+			<CV number="8" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="ro" descde="Herstellerkennung" descen="Software version">			   </CV>
+			<CV number="28" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Bi-Direktionale Kommunikation" descen="Bidirectiional communication">		   </CV>
+			<CV number="29" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Allgemeine Decoderkonfiguration" descen="Common decoder configuration">		   </CV>
+			<CV number="33" type="Byte" min="-" max="-" low="-" high="-" values="0;1;2;16;17" mode="rw" descde="Global Decoder Mode" descen="Global Decoder Mode">		   </CV>
+			<CV number="34" type="Byte" min="-" max="-" low="-" high="-" values="0;1" mode="ro" descde="OP-Mode" descen="OP-Mode">		   </CV>
+		</Basis>
+		<Servos>
+			<Servo0>
+				<Offset>65</Offset>
+				<Template>Servo</Template>
+			</Servo0>
+			<Servo1>
+				<Offset>77</Offset>
+				<Template>Servo</Template>
+			</Servo1>
+			<Servo2>
+				<Offset>93</Offset>
+				<Template>Servo</Template>
+			</Servo2>
+			<Servo3>
+				<Offset>109</Offset>
+				<Template>Servo</Template>
+			</Servo3>
+		</Servos>
+		<LEDS xmlns="" xmlns:fn="http://www.w3.org/2005/xpath-functions" xmlns:vendorcv="http://www.bidib.org/vendorcv" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+			<LED number="0">
+				<Offset xmlns="http://www.bidib.org/vendorcv">125</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="1">
+				<Offset xmlns="http://www.bidib.org/vendorcv">130</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="2">
+				<Offset xmlns="http://www.bidib.org/vendorcv">135</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="3">
+				<Offset xmlns="http://www.bidib.org/vendorcv">140</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="4">
+				<Offset xmlns="http://www.bidib.org/vendorcv">145</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="5">
+				<Offset xmlns="http://www.bidib.org/vendorcv">150</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="6">
+				<Offset xmlns="http://www.bidib.org/vendorcv">155</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="7">
+				<Offset xmlns="http://www.bidib.org/vendorcv">160</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="8">
+				<Offset xmlns="http://www.bidib.org/vendorcv">165</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="9">
+				<Offset xmlns="http://www.bidib.org/vendorcv">170</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="10">
+				<Offset xmlns="http://www.bidib.org/vendorcv">175</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="11">
+				<Offset xmlns="http://www.bidib.org/vendorcv">180</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="12">
+				<Offset xmlns="http://www.bidib.org/vendorcv">185</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="13">
+				<Offset xmlns="http://www.bidib.org/vendorcv">190</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="14">
+				<Offset xmlns="http://www.bidib.org/vendorcv">195</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="15">
+				<Offset xmlns="http://www.bidib.org/vendorcv">200</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="16">
+				<Offset xmlns="http://www.bidib.org/vendorcv">205</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="17">
+				<Offset xmlns="http://www.bidib.org/vendorcv">210</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="18">
+				<Offset xmlns="http://www.bidib.org/vendorcv">215</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="19">
+				<Offset xmlns="http://www.bidib.org/vendorcv">220</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="20">
+				<Offset xmlns="http://www.bidib.org/vendorcv">225</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="21">
+				<Offset xmlns="http://www.bidib.org/vendorcv">230</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="22">
+				<Offset xmlns="http://www.bidib.org/vendorcv">235</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="23">
+				<Offset xmlns="http://www.bidib.org/vendorcv">240</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="24">
+				<Offset xmlns="http://www.bidib.org/vendorcv">245</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="25">
+				<Offset xmlns="http://www.bidib.org/vendorcv">250</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="26">
+				<Offset xmlns="http://www.bidib.org/vendorcv">255</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="27">
+				<Offset xmlns="http://www.bidib.org/vendorcv">260</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="28">
+				<Offset xmlns="http://www.bidib.org/vendorcv">265</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="29">
+				<Offset xmlns="http://www.bidib.org/vendorcv">270</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="30">
+				<Offset xmlns="http://www.bidib.org/vendorcv">275</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+			<LED number="31">
+				<Offset xmlns="http://www.bidib.org/vendorcv">280</Offset>
+				<Template xmlns="http://www.bidib.org/vendorcv">LED</Template>
+			</LED>
+		</LEDS>
+	</CVDefinition>
+</VendorCV>
