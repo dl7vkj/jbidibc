@@ -71,7 +71,7 @@ public class VendorCVTest {
         // check the servo values
         Assert.assertNotNull(vendorCV.getTemplates().getServo());
         Assert.assertEquals(vendorCV.getTemplates().getServo().getCV().size(), 12);
-        
+
         Assert.assertNotNull(vendorCV.getCVDefinition());
         CVDefinitionType cvDefinition = vendorCV.getCVDefinition();
         // basis
@@ -86,7 +86,7 @@ public class VendorCVTest {
         // servos
         Assert.assertNotNull(cvDefinition.getServos());
         Servos servos = cvDefinition.getServos();
-        
+
         // leds
         Assert.assertNotNull(cvDefinition.getLEDS());
         LEDS leds = cvDefinition.getLEDS();

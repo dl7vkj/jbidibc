@@ -31,26 +31,6 @@
 		</xsd:sequence>
 	</xsd:complexType>
 
-<!-- 
-	<xsd:complexType name="TemplatesType">
-		<xsd:sequence>
-			<xsd:element ref="vendorcv:Template" maxOccurs="unbounded" />
-		</xsd:sequence>
-	</xsd:complexType>
-
-	<xsd:complexType name="TemplateType" abstract="true">
-	</xsd:complexType>
-
-	<xsd:complexType name="LED">
-		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded" />
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
- -->
 	<xsd:complexType name="CV">
 		<xsd:attribute name="number" type="xsd:int" use="required" />
 		<xsd:attribute name="type" type="vendorcv:DataType" use="required" />
@@ -101,6 +81,7 @@
 			<xsd:enumeration value="Byte"/>
 			<xsd:enumeration value="Int"/>
 			<xsd:enumeration value="Bit"/>
+			<xsd:enumeration value="DCC_ADDR_RG"/>
 			<xsd:enumeration value="GBM16TReverser"/>
 		</xsd:restriction>
 	</xsd:simpleType>
@@ -120,7 +101,6 @@
 	<xsd:element name="Version" type="vendorcv:VersionInfoType" />
 	<xsd:element name="Templates" type="vendorcv:TemplatesType" />
 	<xsd:element name="CVDefinition" type="vendorcv:CVDefinitionType" />
-<!-- 	<xsd:element name="Template" type="vendorcv:TemplateType" /> -->
 	<xsd:element name="DCC" type="vendorcv:DCC" />
 	<xsd:element name="CV" type="vendorcv:CV" />
 
@@ -136,7 +116,5 @@
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>	
-<!-- 	<xsd:element name="VendorCV" type="vendorcv:VendorCVType"/> -->
-	
 
 </xsd:schema>
