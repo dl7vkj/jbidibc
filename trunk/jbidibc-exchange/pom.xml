@@ -21,6 +21,10 @@
             <artifactId>commons-lang</artifactId>
         </dependency>
         <dependency>
+            <groupId>net.sf.saxon</groupId>
+            <artifactId>Saxon-HE</artifactId>
+        </dependency>
+        <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <scope>runtime</scope>
@@ -53,27 +57,28 @@
                         <goals>
                             <goal>xjc</goal>
                         </goals>
-		                <configuration>
-		                    <arguments>-extension -Xcommons-lang</arguments>
-		                    <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
-		                    <schemaFiles>macros.xsd</schemaFiles>
-		                    <packageName>org.bidib.jbidibc.lcmacro</packageName>
-		                    <staleFile>${project.build.directory}/jaxb2/.schema1XjcStaleFlag</staleFile>
-		                </configuration>
+                        <configuration>
+                            <arguments>-extension -Xcommons-lang</arguments>
+                            <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
+                            <schemaFiles>macros.xsd</schemaFiles>
+                            <packageName>org.bidib.jbidibc.lcmacro</packageName>
+                            <staleFile>${project.build.directory}/jaxb2/.schema1XjcStaleFlag</staleFile>
+                        </configuration>
                     </execution>
                     <execution>
                         <id>xjc2</id>
                         <goals>
                             <goal>xjc</goal>
                         </goals>
-		                <configuration>
-		                    <arguments>-extension -Xcommons-lang</arguments>
-		                    <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
-		                    <schemaFiles>vendor_cv.xsd</schemaFiles>
-		                    <packageName>org.bidib.jbidibc.vendorcv</packageName>
-		                    <staleFile>${project.build.directory}/jaxb2/.schema2XjcStaleFlag</staleFile>
-		                    <clearOutputDir>false</clearOutputDir> <!-- THIS IS IMPORTANT !!! -->
-		                </configuration>
+                        <configuration>
+                            <arguments>-extension -Xcommons-lang</arguments>
+                            <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
+                            <schemaFiles>vendor_cv.xsd</schemaFiles>
+                            <packageName>org.bidib.jbidibc.vendorcv</packageName>
+                            <staleFile>${project.build.directory}/jaxb2/.schema2XjcStaleFlag</staleFile>
+                            <clearOutputDir>false</clearOutputDir>
+                            <!-- THIS IS IMPORTANT !!! -->
+                        </configuration>
                     </execution>
                 </executions>
                 <!-- 
