@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<VendorCV xmlns="http://www.bidib.org/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" >
+<VendorCV>
 	<Version 
 		version="0.1" 
 		LastUpdate="20130519" 
@@ -7,8 +7,7 @@
 		PID1="107"
 		PID2="000"
 		Vendor="013"
-		description="BiDiB-LightControl 1">
-	</Version>
+		description="BiDiB-LightControl 1"/>
 	<Templates>
 		<LED>
 		   <CV number="0" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Einstellung der Stromquelle" descen="LED: courrent source setup" >	</CV>
