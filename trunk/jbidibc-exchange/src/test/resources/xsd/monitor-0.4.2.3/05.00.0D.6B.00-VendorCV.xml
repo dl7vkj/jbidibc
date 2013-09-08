@@ -1,194 +1,537 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8" ?>
 <VendorCV>
-    <Version version="0.1" LastUpdate="20130519" author="BiDiB Mustermann" PID1="107" PID2="000" Vendor="013" description="BiDiB-LightControl 1"/>
-    <Templates>
-        <LED>
-            <CV number="0" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Einstellung der Stromquelle" descen="LED: courrent source setup"></CV>
-            <CV number="1" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Helligkeit für Zustand „aus“" descen="LED: light intensity at status 'off'"></CV>
-            <CV number="2" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Helligkeit für Zustand „an“" descen="LED: light intensity at status 'on'"></CV>
-            <CV number="3" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Dimmzeit in Richtung „aus“, 0 = schnell / 255 = langsam" descen="LED: time to dim, direction 'off', 0 = fast / 255 = slow "></CV>
-            <CV number="4" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="LED: Dimmzeit in Richtung „an“, 0 = schnell / 255 = langsam" descen="LED: time to dim, direction 'on', 0 = fast / 255 = slow "></CV>
-        </LED>
-        <Servo>
-            <CV number="0" type="Int" min="-" max="-" low="0" high="1" values="-" mode="rw" descde="Min Low" descen="Min Low"></CV>
-            <CV number="1" type="Int" min="-" max="-" low="0" high="1" values="-" mode="rw" descde="Min High" descen="Min High"></CV>
-            <CV number="2" type="Int" min="-" max="-" low="2" high="3" values="-" mode="rw" descde="Max Low" descen="Max Low"></CV>
-            <CV number="3" type="Int" min="-" max="-" low="2" high="3" values="-" mode="rw" descde="Max High" descen="Max High"></CV>
-            <CV number="4" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Modus" descen="Mode"></CV>
-            <CV number="5" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Wiederholung: 0 keine Wiederholung, 1 Wiederholung" descen="Repeat: 0 no repeat, 1 repeat"></CV>
-            <CV number="6" type="Byte" min="0" max="1" low="-" high="-" values="-" mode="rw" descde="Position: 0 vor Bewegung A, 1 vor Bewegung B" descen="Location: 0 befor move A, 1 befor move B"></CV>
-            <CV number="7" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Kurveneinstellungen für A" descen="curve settings for A"></CV>
-            <CV number="8" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Kurvenverzögerung A" descen="curve delay for A"></CV>
-            <CV number="9" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Kurveneinstellungen für B" descen="curve settings for B"></CV>
-            <CV number="10" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Kurvenverzögerung B" descen="curve delay for B"></CV>
-            <CV number="11" type="Byte" min="-" max="-" low="-" high="-" values="-" mode="rw" descde="Power OFF: 0 nicht abschalten, n * 20 ms" descen="Power OFF: 0 no off, n * 20 ms"></CV>
-        </Servo>
-    </Templates>
-    <CVDefinition>
-        <Basis>
-            <DCC>
-                <CV number="1" type="Int" min="0" max="255" low="1" high="9" values="-" mode="rw" descde="Decoder Adresse LOW" descen="Decoder Address LOW"></CV>
-                <CV number="9" type="Int" min="0" max="255" low="1" high="9" values="-" mode="rw" descde="Decoder Adresse HIGH" descen="Decoder Address HIGH"></CV>
-            </DCC>
-            <CV number="2" type="Byte" min="0" max="1" low="-" high="-" values="0;1" mode="rw" descde="1 = Eingänge aktiv, 0 = Eingänge nicht aktiv" descen="1 = Input activ, 0 = Input not activ"/>
-            <CV number="3" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Einschaltzeit für Ausgang 1" descen="Time to switch on for output 1"></CV>
-            <CV number="4" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Einschaltzeit für Ausgang 2" descen="Time to switch on for output 2"></CV>
-            <CV number="5" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Einschaltzeit für Ausgang 3" descen="Time to switch on for output 3"></CV>
-            <CV number="6" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Einschaltzeit für Ausgang 4" descen="Time to switch on for output 4"></CV>
-            <CV number="7" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="ro" descde="Softwareversion" descen="Software version"></CV>
-            <CV number="8" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="ro" descde="Herstellerkennung" descen="Software version"></CV>
-            <CV number="28" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Bi-Direktionale Kommunikation" descen="Bidirectiional communication"></CV>
-            <CV number="29" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="rw" descde="Allgemeine Decoderkonfiguration" descen="Common decoder configuration"></CV>
-            <CV number="33" type="Byte" min="-" max="-" low="-" high="-" values="0;1;2;16;17" mode="rw" descde="Global Decoder Mode" descen="Global Decoder Mode"></CV>
-            <CV number="34" type="Byte" min="-" max="-" low="-" high="-" values="0;1" mode="ro" descde="OP-Mode" descen="OP-Mode"></CV>
-        </Basis>
-        <Servos>
-            <Servo0>
-                <Offset>65</Offset>
-                <Template>Servo</Template>
-            </Servo0>
-            <Servo1>
-                <Offset>77</Offset>
-                <Template>Servo</Template>
-            </Servo1>
-            <Servo2>
-                <Offset>93</Offset>
-                <Template>Servo</Template>
-            </Servo2>
-            <Servo3>
-                <Offset>109</Offset>
-                <Template>Servo</Template>
-            </Servo3>
-        </Servos>
-        <LEDS>
-            <LED0>
-                <Offset>125</Offset>
-                <Template>LED</Template>
-            </LED0>
-            <LED1>
-                <Offset>130</Offset>
-                <Template>LED</Template>
-            </LED1>
-            <LED2>
-                <Offset>135</Offset>
-                <Template>LED</Template>
-            </LED2>
-            <LED3>
-                <Offset>140</Offset>
-                <Template>LED</Template>
-            </LED3>
-            <LED4>
-                <Offset>145</Offset>
-                <Template>LED</Template>
-            </LED4>
-            <LED5>
-                <Offset>150</Offset>
-                <Template>LED</Template>
-            </LED5>
-            <LED6>
-                <Offset>155</Offset>
-                <Template>LED</Template>
-            </LED6>
-            <LED7>
-                <Offset>160</Offset>
-                <Template>LED</Template>
-            </LED7>
-            <LED8>
-                <Offset>165</Offset>
-                <Template>LED</Template>
-            </LED8>
-            <LED9>
-                <Offset>170</Offset>
-                <Template>LED</Template>
-            </LED9>
-            <LED10>
-                <Offset>175</Offset>
-                <Template>LED</Template>
-            </LED10>
-            <LED11>
-                <Offset>180</Offset>
-                <Template>LED</Template>
-            </LED11>
-            <LED12>
-                <Offset>185</Offset>
-                <Template>LED</Template>
-            </LED12>
-            <LED13>
-                <Offset>190</Offset>
-                <Template>LED</Template>
-            </LED13>
-            <LED14>
-                <Offset>195</Offset>
-                <Template>LED</Template>
-            </LED14>
-            <LED15>
-                <Offset>200</Offset>
-                <Template>LED</Template>
-            </LED15>
-            <LED16>
-                <Offset>205</Offset>
-                <Template>LED</Template>
-            </LED16>
-            <LED17>
-                <Offset>210</Offset>
-                <Template>LED</Template>
-            </LED17>
-            <LED18>
-                <Offset>215</Offset>
-                <Template>LED</Template>
-            </LED18>
-            <LED19>
-                <Offset>220</Offset>
-                <Template>LED</Template>
-            </LED19>
-            <LED20>
-                <Offset>225</Offset>
-                <Template>LED</Template>
-            </LED20>
-            <LED21>
-                <Offset>230</Offset>
-                <Template>LED</Template>
-            </LED21>
-            <LED22>
-                <Offset>235</Offset>
-                <Template>LED</Template>
-            </LED22>
-            <LED23>
-                <Offset>240</Offset>
-                <Template>LED</Template>
-            </LED23>
-            <LED24>
-                <Offset>245</Offset>
-                <Template>LED</Template>
-            </LED24>
-            <LED25>
-                <Offset>250</Offset>
-                <Template>LED</Template>
-            </LED25>
-            <LED26>
-                <Offset>255</Offset>
-                <Template>LED</Template>
-            </LED26>
-            <LED27>
-                <Offset>260</Offset>
-                <Template>LED</Template>
-            </LED27>
-            <LED28>
-                <Offset>265</Offset>
-                <Template>LED</Template>
-            </LED28>
-            <LED29>
-                <Offset>270</Offset>
-                <Template>LED</Template>
-            </LED29>
-            <LED30>
-                <Offset>275</Offset>
-                <Template>LED</Template>
-            </LED30>
-            <LED31>
-                <Offset>280</Offset>
-                <Template>LED</Template>
-            </LED31>
-        </LEDS>
-    </CVDefinition>
+	<Version 
+		version="0.1" 
+		LastUpdate="20130519" 
+		author="BiDiB Mustermann"
+		PID1="107"
+		PID2="000"
+		Vendor="013"
+		description="BiDiB-LightControl 1">
+	</Version>
+	<Templates>
+		<LED>
+			<CV> 
+			   <number>0</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>LED: Einstellung der Stromquelle</descde>
+			   <descen>LED: courrent source setup</descen>
+		   </CV>
+		   <CV> 
+			   <number>1</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>LED: Helligkeit für Zustand „aus“</descde>
+			   <descen>LED: light intensity at status 'off'</descen>
+		   </CV>
+		   <CV> 
+			   <number>2</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>LED: Helligkeit für Zustand „an“</descde>
+			   <descen>LED: light intensity at status 'on'</descen>
+		   </CV>
+		   <CV> 
+			   <number>3</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>LED: Dimmzeit in Richtung „aus“, 0 = schnell / 255 = langsam</descde>
+			   <descen>LED: time to dim, direction 'off', 0 = fast / 255 = slow </descen>
+		   </CV>
+		   <CV> 
+			   <number>4</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>LED: Dimmzeit in Richtung „an“, 0 = schnell / 255 = langsam</descde>
+			   <descen>LED: time to dim, direction 'on', 0 = fast / 255 = slow </descen>
+		   </CV>
+
+		</LED>
+		<Servo>
+			<CV> 
+			   <number>0</number> 
+			   <type>Int</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>0</low>
+			   <high>1</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Min Low</descde>
+			   <descen>Min Low</descen>
+		   </CV>
+		   <CV> 
+			   <number>1</number> 
+			   <type>Int</type> 
+			   <min>-</min>
+			   <max>-</max>
+			   <low>0</low>
+			   <high>1</high>
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Min High</descde>
+			   <descen>Min High</descen>
+		   </CV>
+		   <CV> 
+			   <number>2</number> 
+			   <type>Int</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>2</low>
+			   <high>3</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Max Low</descde>
+			   <descen>Max Low</descen>
+		   </CV>
+		   <CV> 
+			   <number>3</number> 
+			   <type>Int</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>2</low>
+			   <high>3</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Max High</descde>
+			   <descen>Max High</descen>
+		   </CV>
+		   <CV> 
+			   <number>4</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Modus</descde>
+			   <descen>Mode</descen>
+		   </CV>
+		   <CV> 
+			   <number>5</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Wiederholung: 0 keine Wiederholung, 1 Wiederholung</descde>
+			   <descen>Repeat: 0 no repeat, 1 repeat</descen>
+		   </CV>
+		   <CV> 
+			   <number>6</number> 
+			   <type>Byte</type> 
+			   <min>0</min>
+			   <max>1</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Position: 0 vor Bewegung A, 1 vor Bewegung B</descde>
+			   <descen>Location: 0 befor move A, 1 befor move B</descen>
+		   </CV>
+		   <CV> 
+			   <number>7</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Kurveneinstellungen für A</descde>
+			   <descen>curve settings for A</descen>
+		   </CV>
+		   <CV> 
+			   <number>8</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Kurvenverzögerung A</descde>
+			   <descen>curve delay for A</descen>
+		   </CV>
+		   <CV> 
+			   <number>9</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Kurveneinstellungen für B</descde>
+			   <descen>curve settings for B</descen>
+		   </CV>
+		   <CV> 
+			   <number>10</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Kurvenverzögerung B</descde>
+			   <descen>curve delay for B</descen>
+		   </CV>
+		   <CV> 
+			   <number>11</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Power OFF: 0 nicht abschalten, n * 20 ms</descde>
+			   <descen>Power OFF: 0 no off, n * 20 ms</descen>
+		   </CV>  
+
+		</Servo>
+	</Templates>
+	<CVDefinition>
+		<Basis>
+			<DCC>
+				<CV> 
+					<number>1</number> 
+					<type>Int</type> 
+					<min>0</min>
+					<max>255</max> 
+				    <low>1</low>
+				    <high>9</high> 
+					<values>-</values>
+					<mode>rw</mode> 
+					<descde>Decoder Adresse LOW</descde>
+					<descen>Decoder Address LOW</descen>
+				</CV>
+				<CV> 
+					<number>9</number> 
+					<type>Int</type> 
+					<min>0</min>
+					<max>255</max> 
+					<low>1</low>
+					<high>9</high> 
+					<values>-</values>
+					<mode>rw</mode> 
+					<descde>Decoder Adresse HIGH</descde>
+					<descen>Decoder Address HIGH</descen>
+				</CV>  
+			</DCC>
+ 			    <CV>
+				   <number>2</number> 
+				   <type>Byte</type> 
+				   <min>0</min>
+				   <max>1</max> 
+				   <low>-</low>
+				   <high>-</high> 
+				   <values>0;1</values>
+				   <mode>rw</mode> 
+				   <descde>1 = Eingänge aktiv, 0 = Eingänge nicht aktiv</descde>
+				   <descen>1 = Input activ, 0 = Input not activ</descen>
+				</CV>
+
+		   <CV> 
+			   <number>3</number> 
+			   <type>Byte</type> 
+			   <min>0</min>
+			   <max>255</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Einschaltzeit für Ausgang 1</descde>
+			   <descen>Time to switch on for output 1</descen>
+		   </CV>
+		   <CV> 
+			   <number>4</number> 
+			   <type>Byte</type> 
+			   <min>0</min>
+			   <max>255</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Einschaltzeit für Ausgang 2</descde>
+			   <descen>Time to switch on for output 2</descen>
+			   </CV>
+		   <CV> 
+			   <number>5</number> 
+			   <type>Byte</type> 
+			   <min>0</min>
+			   <max>255</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Einschaltzeit für Ausgang 3</descde>
+			   <descen>Time to switch on for output 3</descen>
+			   </CV>
+		   <CV> 
+			   <number>6</number> 
+			   <type>Byte</type> 
+			   <min>0</min>
+			   <max>255</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Einschaltzeit für Ausgang 4</descde>
+			   <descen>Time to switch on for output 4</descen>
+			   </CV>
+		   <CV> 
+			   <number>7</number> 
+			   <type>Byte</type> 
+			   <min>0</min>
+			   <max>255</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>ro</mode> 
+			   <descde>Softwareversion</descde>
+			   <descen>Software version</descen>
+			   </CV>  
+		   <CV> 
+			   <number>8</number> 
+			   <type>Byte</type> 
+			   <min>0</min>
+			   <max>255</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>ro</mode> 
+			   <descde>Herstellerkennung</descde>
+			   <descen>Software version</descen>
+			   </CV>
+
+		   <CV> 
+			   <number>28</number> 
+			   <type>Byte</type> 
+			   <min>0</min>
+			   <max>255</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Bi-Direktionale Kommunikation</descde>
+			   <descen>Bidirectiional communication</descen>
+		   </CV>
+		   <CV> 
+			   <number>29</number> 
+			   <type>Byte</type> 
+			   <min>0</min>
+			   <max>255</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>-</values>
+			   <mode>rw</mode> 
+			   <descde>Allgemeine Decoderkonfiguration</descde>
+			   <descen>Common decoder configuration</descen>
+		   </CV>
+		   <CV> 
+			   <number>33</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>0;1;2;16;17</values>
+			   <mode>rw</mode> 
+			   <descde>Global Decoder Mode</descde>
+			   <descen>Global Decoder Mode</descen>
+		   </CV>
+		   <CV> 
+			   <number>34</number> 
+			   <type>Byte</type> 
+			   <min>-</min>
+			   <max>-</max> 
+			   <low>-</low>
+			   <high>-</high> 
+			   <values>0;1</values>
+			   <mode>ro</mode> 
+			   <descde>OP-Mode</descde>
+			   <descen>OP-Mode</descen>
+		   </CV>
+		</Basis>
+		<Servos>
+			<Servo0>
+				<Offset>65</Offset>
+				<Template>Servo</Template>
+			</Servo0>
+			<Servo1>
+				<Offset>77</Offset>
+				<Template>Servo</Template>
+			</Servo1>
+	   
+			<Servo2>
+				<Offset>93</Offset>
+				<Template>Servo</Template>
+			</Servo2>
+			<Servo3>
+				<Offset>109</Offset>
+				<Template>Servo</Template>
+			</Servo3>
+		</Servos>
+		<LEDS>
+			<LED0>
+				<Offset>125</Offset>
+				<Template>LED</Template>
+			</LED0>
+			<LED1>
+				<Offset>130</Offset>
+				<Template>LED</Template>
+			</LED1>
+			<LED2>
+				<Offset>135</Offset>
+				<Template>LED</Template>
+			</LED2>
+			<LED3>
+				<Offset>140</Offset>
+				<Template>LED</Template>
+			</LED3>
+			<LED4>
+				<Offset>145</Offset>
+				<Template>LED</Template>
+			</LED4>
+			<LED5>
+				<Offset>150</Offset>
+				<Template>LED</Template>
+			</LED5>
+			<LED6>
+				<Offset>155</Offset>
+				<Template>LED</Template>
+			</LED6>
+			<LED7>
+				<Offset>160</Offset>
+				<Template>LED</Template>
+			</LED7>
+			<LED8>
+				<Offset>165</Offset>
+				<Template>LED</Template>
+			</LED8>
+			<LED9>
+				<Offset>170</Offset>
+				<Template>LED</Template>
+			</LED9>
+			<LED10>
+				<Offset>175</Offset>
+				<Template>LED</Template>
+			</LED10>
+			<LED11>
+				<Offset>180</Offset>
+				<Template>LED</Template>
+			</LED11>
+			<LED12>
+				<Offset>185</Offset>
+				<Template>LED</Template>
+			</LED12>
+			<LED13>
+				<Offset>190</Offset>
+				<Template>LED</Template>
+			</LED13>
+			<LED14>
+				<Offset>195</Offset>
+				<Template>LED</Template>
+			</LED14>
+			<LED15>
+				<Offset>200</Offset>
+				<Template>LED</Template>
+			</LED15>
+			<LED16>
+				<Offset>205</Offset>
+				<Template>LED</Template>
+			</LED16>
+			<LED17>
+				<Offset>210</Offset>
+				<Template>LED</Template>
+			</LED17>
+			<LED18>
+				<Offset>215</Offset>
+				<Template>LED</Template>
+			</LED18>
+			<LED19>
+				<Offset>220</Offset>
+				<Template>LED</Template>
+			</LED19>
+			<LED20>
+				<Offset>225</Offset>
+				<Template>LED</Template>
+			</LED20>
+			<LED21>
+				<Offset>230</Offset>
+				<Template>LED</Template>
+			</LED21>
+			<LED22>
+				<Offset>235</Offset>
+				<Template>LED</Template>
+			</LED22>
+			<LED23>
+				<Offset>240</Offset>
+				<Template>LED</Template>
+			</LED23>
+			<LED24>
+				<Offset>245</Offset>
+				<Template>LED</Template>
+			</LED24>
+			<LED25>
+				<Offset>250</Offset>
+				<Template>LED</Template>
+			</LED25>
+			<LED26>
+				<Offset>255</Offset>
+				<Template>LED</Template>
+			</LED26>
+			<LED27>
+				<Offset>260</Offset>
+				<Template>LED</Template>
+			</LED27>
+			<LED28>
+				<Offset>265</Offset>
+				<Template>LED</Template>
+			</LED28>
+			<LED29>
+				<Offset>270</Offset>
+				<Template>LED</Template>
+			</LED29>
+			<LED30>
+				<Offset>275</Offset>
+				<Template>LED</Template>
+			</LED30>
+			<LED31>
+				<Offset>280</Offset>
+				<Template>LED</Template>
+			</LED31>
+		</LEDS>
+	</CVDefinition>
 </VendorCV>

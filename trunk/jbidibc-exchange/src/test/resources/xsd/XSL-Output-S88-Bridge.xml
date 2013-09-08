@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV xmlns="http://www.bidib.org/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/vendorcv vendor_cv.xsd">
-    <Version version="0.1" LastUpdate="20130515" author="BiDiB-Mustermann" PID1="107" PID2="000" Vendor="013" description="BiDiB-s88-Bridge"></Version>
+    <Version version="0.1" LastUpdate="20130515" author="BiDiB-Mustermann" PID1="107" PID2="000" Vendor="013" description="BiDiB-s88-Bridge"/>
     <CVDefinition>
         <Basis>
             <CV number="1" type="Byte" min="0" max="255" low="-" high="-" values="-" mode="ro" descde="vendor_id" descen="vendor_id"/>

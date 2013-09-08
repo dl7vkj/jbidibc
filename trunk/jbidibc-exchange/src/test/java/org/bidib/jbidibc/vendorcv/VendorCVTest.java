@@ -60,7 +60,7 @@ public class VendorCVTest {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer(xsltSource);
 
-        InputStream is = VendorCVTest.class.getResourceAsStream("/xsd/05.00.0D.6B.00-VendorCV.xml");
+        InputStream is = VendorCVTest.class.getResourceAsStream("/xsd/monitor-0.4.2.3/05.00.0D.6B.00-VendorCV.xml");
         StreamSource xmlSource = new StreamSource(is);
 
         /*
@@ -87,7 +87,7 @@ public class VendorCVTest {
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer(xsltSource);
 
-        InputStream is = VendorCVTest.class.getResourceAsStream("/xsd/05.00.0D.6B.00-VendorCV.xml");
+        InputStream is = VendorCVTest.class.getResourceAsStream("/xsd/monitor-0.4.2.3/05.00.0D.6B.00-VendorCV.xml");
         StreamSource xmlSource = new StreamSource(is);
 
         JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);

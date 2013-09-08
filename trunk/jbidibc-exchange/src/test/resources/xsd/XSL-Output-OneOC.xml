@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV xmlns="http://www.bidib.org/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/vendorcv vendor_cv.xsd">
-    <Version version="0.1" LastUpdate="20130519" author="Tillner, Andreas" PID1="119" PID2="000" Vendor="013" description="OneOC (20x OC-Input) - BiDiBOne AddOn"></Version>
+    <Version version="0.1" LastUpdate="20130519" author="Tillner, Andreas" PID1="119" PID2="000" Vendor="013" description="OneOC (20x OC-Input) - BiDiBOne AddOn"/>
     <CVDefinition>
         <Basis>
             <CV number="51" type="Byte" min="0" max="2" next="-" values="0;1;2" mode="w" descde="0 = keine Anzeige, 1 = LED Anzeige, 2 = DOGM 3x16 Display" descen="0 = no display, 1 = LED line, 2 = DOGM 3x16 Display"/>

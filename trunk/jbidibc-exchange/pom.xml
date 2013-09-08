@@ -130,4 +130,41 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>format-resources</id>
+            <build>
+                <plugins>
+                    <!-- format XML files -->
+                    <plugin>
+                        <groupId>org.technicalsoftwareconfigurationmanagement.maven-plugin</groupId>
+                        <artifactId>tscm-maven-plugin</artifactId>
+                        <configuration>
+                            <includes>
+                                <include>**/*.xml</include>
+                            </includes>
+                            <excludes>
+                                <exclude>**/resources/xsd/**</exclude>
+                                <exclude>**/resources/xsd/**</exclude>
+                                <exclude>**/target/**</exclude>
+                                <exclude>**/test-output/**</exclude>
+                                <exclude>**/codestyle.xml</exclude>
+                                <exclude>checkstyle-config.xml</exclude>
+                                <exclude>**/OSGI-INF/**</exclude>
+                                <exclude>**/.idea/**</exclude>
+                            </excludes>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <phase>test</phase>
+                                <goals>
+                                    <goal>xmlFormatter</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
