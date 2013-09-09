@@ -13,16 +13,19 @@
             <bidib:delay>6</bidib:delay>
             <bidib:ServoPortActionType>
                 <bidib:action>START</bidib:action>
-                <bidib:destination>123</bidib:destination>
+                <bidib:destination>253</bidib:destination>
             </bidib:ServoPortActionType>
-            <bidib:outputNumber>0</bidib:outputNumber>
+            <bidib:outputNumber>1</bidib:outputNumber>
         </bidib:lcMacroPoint>
         <bidib:lcMacroPoint xsi:type="bidib:CriticalSectionPoint" index="3">
             <bidib:CriticalSectionActionType>END</bidib:CriticalSectionActionType>
         </bidib:lcMacroPoint>
         <bidib:lcMacroPoint xsi:type="bidib:AnalogPortPoint" index="4">
             <bidib:delay>30</bidib:delay>
-            <bidib:AnalogPortActionType>START</bidib:AnalogPortActionType>
+            <bidib:AnalogPortActionType>
+            	<bidib:action>START</bidib:action>
+                <bidib:value>254</bidib:value>
+			</bidib:AnalogPortActionType>
             <bidib:outputNumber>4</bidib:outputNumber>
         </bidib:lcMacroPoint>
         <bidib:lcMacroPoint xsi:type="bidib:FlagPoint" index="5">

@@ -50,6 +50,16 @@ public class LcMacroTest {
         Assert.assertNotNull(criticalSectionPoint.getCriticalSectionActionType());
         Assert.assertEquals(criticalSectionPoint.getCriticalSectionActionType(), CriticalSectionActionType.BEGIN);
 
+        lcMacroPoint = macros.getLcMacro().getLcMacroPoint().get(2);
+        Assert.assertTrue(lcMacroPoint instanceof ServoPortPoint);
+        ServoPortPoint servoPortPoint = (ServoPortPoint) lcMacroPoint;
+        Assert.assertNotNull(servoPortPoint.getServoPortActionType());
+        Assert.assertNotNull(servoPortPoint.getServoPortActionType().getAction());
+        Assert.assertEquals(servoPortPoint.getServoPortActionType().getAction(), ServoActionType.START);
+        Assert.assertEquals(servoPortPoint.getServoPortActionType().getDestination(), 253);
+        Assert.assertEquals(servoPortPoint.getOutputNumber(), 1);
+        Assert.assertEquals(servoPortPoint.getDelay(), Integer.valueOf(6));
+
         lcMacroPoint = macros.getLcMacro().getLcMacroPoint().get(3);
         Assert.assertTrue(lcMacroPoint instanceof CriticalSectionPoint);
         criticalSectionPoint = (CriticalSectionPoint) lcMacroPoint;
@@ -60,7 +70,9 @@ public class LcMacroTest {
         Assert.assertTrue(lcMacroPoint instanceof AnalogPortPoint);
         AnalogPortPoint analogPortPoint = (AnalogPortPoint) lcMacroPoint;
         Assert.assertNotNull(analogPortPoint.getAnalogPortActionType());
-        Assert.assertEquals(analogPortPoint.getAnalogPortActionType(), AnalogPortActionType.START);
+        Assert.assertNotNull(analogPortPoint.getAnalogPortActionType().getAction());
+        Assert.assertEquals(analogPortPoint.getAnalogPortActionType().getAction(), AnalogActionType.START);
+        Assert.assertEquals(analogPortPoint.getAnalogPortActionType().getValue(), 254);
         Assert.assertEquals(analogPortPoint.getOutputNumber(), 4);
         Assert.assertEquals(analogPortPoint.getDelay(), Integer.valueOf(30));
 
@@ -115,7 +127,7 @@ public class LcMacroTest {
         servoPortPoint.setOutputNumber(0);
         ServoPortActionType servoPortActionType = new ServoPortActionType();
         servoPortActionType.setAction(ServoActionType.START);
-        servoPortActionType.setDestination(90);
+        servoPortActionType.setDestination(230);
         servoPortPoint.setServoPortActionType(servoPortActionType);
 
         lcMacro.getLcMacroPoint().add(servoPortPoint);
@@ -124,7 +136,10 @@ public class LcMacroTest {
         analogPortPoint.setIndex(3);
         analogPortPoint.setDelay(30);
         analogPortPoint.setOutputNumber(0);
-        analogPortPoint.setAnalogPortActionType(AnalogPortActionType.START);
+        AnalogPortActionType analogPortAction = new AnalogPortActionType();
+        analogPortAction.setAction(AnalogActionType.START);
+        analogPortAction.setValue(250);
+        analogPortPoint.setAnalogPortActionType(analogPortAction);
 
         lcMacro.getLcMacroPoint().add(analogPortPoint);
 

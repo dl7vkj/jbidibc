@@ -309,11 +309,32 @@
 			<xsd:enumeration value="START"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	<xsd:simpleType name="AnalogPortActionType">
+	<xsd:complexType name="AnalogPortActionType">
+		<xsd:sequence>
+			<xsd:group ref="bidib:AnalogPortParams"/>
+		</xsd:sequence>
+		<!-- xsd:restriction base="xsd:string">
+			<xsd:enumeration value="START"/>
+		</xsd:restriction-->
+	</xsd:complexType>
+	<xsd:group name="AnalogPortParams">
+		<xsd:sequence>
+			<xsd:element name="action" type="bidib:AnalogActionType"/>
+			<xsd:element name="value" type="bidib:AnalogValueType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:simpleType name="AnalogActionType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="START"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="AnalogValueType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<xsd:complexType name="ServoPortActionType">
 		<xsd:sequence>
 			<xsd:group ref="bidib:ServoPortParams"/>

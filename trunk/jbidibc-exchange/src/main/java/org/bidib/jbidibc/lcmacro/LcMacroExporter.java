@@ -1,7 +1,6 @@
 package org.bidib.jbidibc.lcmacro;
 
 import java.io.BufferedOutputStream;
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
@@ -38,7 +37,10 @@ public class LcMacroExporter {
             case ANALOGPORT:
                 AnalogPortEnum analogPortEnum = AnalogPortEnum.valueOf(val.getType());
                 AnalogPortPoint analogPortPoint = new AnalogPortPoint();
-                analogPortPoint.setAnalogPortActionType(AnalogPortActionType.fromValue(analogPortEnum.name()));
+                AnalogPortActionType analogPortAction = new AnalogPortActionType();
+                analogPortAction.setAction(AnalogActionType.fromValue(analogPortEnum.name()));
+                analogPortAction.setValue(ByteUtils.getInt(lcMacro.getValue()));
+                analogPortPoint.setAnalogPortActionType(analogPortAction);
                 analogPortPoint.setOutputNumber(lcMacro.getOutputNumber());
                 analogPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = analogPortPoint;
@@ -143,7 +145,7 @@ public class LcMacroExporter {
                 ServoPortEnum servoPortEnum = ServoPortEnum.valueOf(val.getType());
                 ServoPortActionType servoPortActionType = new ServoPortActionType();
                 servoPortActionType.setAction(ServoActionType.fromValue(servoPortEnum.name()));
-                servoPortActionType.setDestination(lcMacro.getValue());
+                servoPortActionType.setDestination(ByteUtils.getInt(lcMacro.getValue()));
                 ServoPortPoint servoPortPoint = new ServoPortPoint();
                 servoPortPoint.setServoPortActionType(servoPortActionType);
                 servoPortPoint.setOutputNumber(lcMacro.getOutputNumber());

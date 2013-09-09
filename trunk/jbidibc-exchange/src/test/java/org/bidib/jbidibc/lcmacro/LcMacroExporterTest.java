@@ -30,7 +30,9 @@ public class LcMacroExporterTest {
         Assert.assertEquals(point.getIndex(), 1);
 
         Assert.assertEquals(analogPortPoint.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(analogPortPoint.getAnalogPortActionType(), AnalogPortActionType.START);
+        Assert.assertNotNull(analogPortPoint.getAnalogPortActionType());
+        Assert.assertEquals(analogPortPoint.getAnalogPortActionType().getAction(), AnalogActionType.START);
+        Assert.assertEquals(analogPortPoint.getAnalogPortActionType().getValue(), 1);
         Assert.assertEquals(analogPortPoint.getOutputNumber(), 1);
     }
 
