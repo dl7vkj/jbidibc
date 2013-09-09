@@ -43,11 +43,12 @@
 		<xsd:attribute name="max" type="xsd:string"/>
 		<xsd:attribute name="low" type="xsd:string"/>
 		<xsd:attribute name="high" type="xsd:string"/>
-		<xsd:attribute name="next" type="xsd:string" />  <!-- occurs in OneOC -->
+		<xsd:attribute name="next" type="xsd:string"/>
 		<xsd:attribute name="values" type="xsd:string"/>
 		<xsd:attribute name="mode" type="vendorcv:ModeType" use="required"/>
 		<xsd:attribute name="descde" type="xsd:string"/>
 		<xsd:attribute name="descen" type="xsd:string"/>
+		<!-- occurs in OneOC -->
 	</xsd:complexType>
 	<xsd:complexType name="Basis">
 		<xsd:sequence>
@@ -68,6 +69,11 @@
 	<xsd:complexType name="LEDS">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:LedDefinition" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Sectors">
+		<xsd:sequence>
+			<xsd:element ref="vendorcv:SectorDefinition" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="ServoDefinitionType">
@@ -95,7 +101,8 @@
 			<xsd:element ref="vendorcv:Basis"/>
 			<xsd:element ref="vendorcv:Servos" minOccurs="0"/>
 			<xsd:element ref="vendorcv:LEDS" minOccurs="0"/>
-			<xsd:element ref="vendorcv:SectorDefinition" minOccurs="0" maxOccurs="unbounded"/>  <!-- used in OneOC but I think this is different from LC schema -->
+			<xsd:element ref="vendorcv:Sectors" minOccurs="0"/>
+			<!-- used in OneOC but I think this is different from LC schema -->
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:simpleType name="DataType">
@@ -112,7 +119,8 @@
 			<xsd:enumeration value="rw"/>
 			<xsd:enumeration value="ro"/>
 			<xsd:enumeration value="wo"/>
-			<xsd:enumeration value="w"/>  <!-- occurs in OneOC -->
+			<xsd:enumeration value="w"/>
+			<!-- occurs in OneOC -->
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:element name="ServoDefinition" type="vendorcv:ServoDefinitionType"/>
@@ -120,10 +128,10 @@
 	<xsd:element name="LedDefinition" type="vendorcv:LedDefinitionType"/>
 	<xsd:element name="LEDS" type="vendorcv:LEDS"/>
 	<xsd:element name="Servos" type="vendorcv:Servos"/>
+	<xsd:element name="Sectors" type="vendorcv:Sectors"/>
 	<xsd:element name="Basis" type="vendorcv:Basis"/>
 	<xsd:element name="LED" type="vendorcv:LED"/>
 	<xsd:element name="Servo" type="vendorcv:Servo"/>
-	<!--xsd:element name="Sector" type="vendorcv:Sector"/-->
 	<xsd:element name="Version" type="vendorcv:VersionInfoType"/>
 	<xsd:element name="Templates" type="vendorcv:TemplatesType"/>
 	<xsd:element name="CVDefinition" type="vendorcv:CVDefinitionType"/>
@@ -136,7 +144,7 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element ref="vendorcv:Version"/>
-				<xsd:element ref="vendorcv:Templates" minOccurs="0" />
+				<xsd:element ref="vendorcv:Templates" minOccurs="0"/>
 				<xsd:element ref="vendorcv:CVDefinition"/>
 			</xsd:sequence>
 		</xsd:complexType>

@@ -75,22 +75,45 @@
 			</xsl:for-each>
 		</xsl:element>
 	</xsl:template>
-	<xsl:template match="CVDefinition/*" priority="9">
-		<xsl:choose>
-		<xsl:when test=".[starts-with(name(), 'Sector')]">
-			<xsl:element name="SectorDefinition" namespace="{$nsVendorCV}"
+	
+	<xsl:template match="CVDefinition" priority="9">
+		<xsl:element name="CVDefinition" namespace="{$nsVendorCV}"
+			exclude-result-prefixes="#default">
+			<xsl:for-each select="*/.[not(starts-with(name(), 'Sector'))]">
+				<xsl:element name="{name()}" namespace="{$nsVendorCV}"
+					exclude-result-prefixes="#default">
+						<xsl:apply-templates select="@* | node()" />
+				</xsl:element>
+			</xsl:for-each>
+			<xsl:element name="Sectors" namespace="{$nsVendorCV}"
 				exclude-result-prefixes="#default">
-				<xsl:attribute name="number"><xsl:value-of
-					select="substring(current()/local-name(),7)" /></xsl:attribute>
-				<xsl:apply-templates select="./*" />
+				<xsl:for-each select="*/.[starts-with(name(), 'Sector')]">
+					<xsl:element name="SectorDefinition" namespace="{$nsVendorCV}"
+						exclude-result-prefixes="#default">
+						<xsl:attribute name="number"><xsl:value-of
+							select="substring(current()/local-name(),7)" /></xsl:attribute>
+						<xsl:apply-templates select="./*" />
+					</xsl:element>
+				</xsl:for-each>
 			</xsl:element>
-		</xsl:when>
-		<xsl:otherwise>
-			<xsl:element name="{name()}" namespace="{$nsVendorCV}"
-				exclude-result-prefixes="#default">
-					<xsl:apply-templates select="@* | node()" />
-			</xsl:element>
-		</xsl:otherwise>
-		</xsl:choose>
+			<!--
+			<xsl:choose>
+			<xsl:when test=".[starts-with(name(), 'Sector')]">
+				<xsl:element name="SectorDefinition" namespace="{$nsVendorCV}"
+					exclude-result-prefixes="#default">
+					<xsl:attribute name="number"><xsl:value-of
+						select="substring(current()/local-name(),7)" /></xsl:attribute>
+					<xsl:apply-templates select="./*" />
+				</xsl:element>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:element name="{name()}" namespace="{$nsVendorCV}"
+					exclude-result-prefixes="#default">
+						<xsl:apply-templates select="@* | node()" />
+				</xsl:element>
+			</xsl:otherwise>
+			</xsl:choose>
+			-->
+		</xsl:element>
 	</xsl:template>
 </xsl:stylesheet>
