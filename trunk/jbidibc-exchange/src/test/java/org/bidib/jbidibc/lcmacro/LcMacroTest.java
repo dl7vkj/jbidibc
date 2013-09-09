@@ -102,11 +102,11 @@ public class LcMacroTest {
         StartClkType startClkType = new StartClkType();
         startClkType.setHour((byte) 23);
         startClkType.setMinute((byte) 59);
-        startClkType.setWeekday((byte) 1 /* TUESDAY */);
+        startClkType.setWeekday(RepeatWeekdayType.TUESDAY);
         lcMacro.setStartClk(startClkType);
 
         LightPortPoint lightPortPoint = new LightPortPoint();
-        lightPortPoint.setIndex(0);
+        //        lightPortPoint.setIndex(0);
         lightPortPoint.setDelay(6);
         lightPortPoint.setOutputNumber(0);
         lightPortPoint.setLightPortActionType(LightPortActionType.ON);
@@ -114,7 +114,7 @@ public class LcMacroTest {
         lcMacro.getLcMacroPoint().add(lightPortPoint);
 
         lightPortPoint = new LightPortPoint();
-        lightPortPoint.setIndex(1);
+        //        lightPortPoint.setIndex(1);
         lightPortPoint.setDelay(6);
         lightPortPoint.setOutputNumber(0);
         lightPortPoint.setLightPortActionType(LightPortActionType.OFF);
@@ -122,7 +122,7 @@ public class LcMacroTest {
         lcMacro.getLcMacroPoint().add(lightPortPoint);
 
         ServoPortPoint servoPortPoint = new ServoPortPoint();
-        servoPortPoint.setIndex(2);
+        //        servoPortPoint.setIndex(2);
         servoPortPoint.setDelay(60);
         servoPortPoint.setOutputNumber(0);
         ServoPortActionType servoPortActionType = new ServoPortActionType();
@@ -133,7 +133,7 @@ public class LcMacroTest {
         lcMacro.getLcMacroPoint().add(servoPortPoint);
 
         AnalogPortPoint analogPortPoint = new AnalogPortPoint();
-        analogPortPoint.setIndex(3);
+        //        analogPortPoint.setIndex(3);
         analogPortPoint.setDelay(30);
         analogPortPoint.setOutputNumber(0);
         AnalogPortActionType analogPortAction = new AnalogPortActionType();
@@ -144,7 +144,7 @@ public class LcMacroTest {
         lcMacro.getLcMacroPoint().add(analogPortPoint);
 
         FlagPoint flagPoint = new FlagPoint();
-        flagPoint.setIndex(4);
+        //        flagPoint.setIndex(4);
         FlagActionType flagActionType = new FlagActionType();
         flagActionType.setFlagNumber(12);
         flagActionType.setOperation(FlagOperationType.SET);

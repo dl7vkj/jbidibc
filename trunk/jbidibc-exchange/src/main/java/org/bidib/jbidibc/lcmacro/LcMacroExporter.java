@@ -2,6 +2,7 @@ package org.bidib.jbidibc.lcmacro;
 
 import java.io.BufferedOutputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -173,7 +174,7 @@ public class LcMacroExporter {
                 lcMacroPoint = null;
                 break;
         }
-        lcMacroPoint.setIndex(ByteUtils.getInt(lcMacro.getStepNumber()));
+        //        lcMacroPoint.setIndex(ByteUtils.getInt(lcMacro.getStepNumber()));
 
         LOGGER.info("Return lcMacroPoint: {}", lcMacroPoint);
         return lcMacroPoint;
@@ -186,6 +187,7 @@ public class LcMacroExporter {
      */
     public void saveMacro(LcMacroType lcMacro, String fileName, boolean gzip) {
         LOGGER.info("Save macro content to file: {}, lcMacro: {}", fileName, lcMacro);
+        OutputStream os = null;
         try {
 
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
@@ -199,7 +201,7 @@ public class LcMacroExporter {
 
             //            File file = new File(fileName);
 
-            OutputStream os = new BufferedOutputStream(new FileOutputStream(fileName));
+            os = new BufferedOutputStream(new FileOutputStream(fileName));
             if (gzip) {
                 LOGGER.debug("Use gzip to compress macro.");
                 os = new GZIPOutputStream(os);
@@ -214,6 +216,16 @@ public class LcMacroExporter {
         catch (Exception ex) {
             // TODO add better exception handling
             LOGGER.warn("Save macro failed.", ex);
+        }
+        finally {
+            if (os != null) {
+                try {
+                    os.close();
+                }
+                catch (IOException ex) {
+                    LOGGER.warn("Close outputstream failed.", ex);
+                }
+            }
         }
     }
 }

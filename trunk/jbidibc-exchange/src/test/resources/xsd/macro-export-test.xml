@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <lcMacros xmlns="http://www.bidib.org/lcmacro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xsd/macros.xsd ">
     <lcMacro macroName="TestMacro1" macroId="1" repeat="1" slowdown="1">
-        <startClk weekday="1" hour="23" minute="59"/>
-        <lcMacroPoint xsi:type="LightPortPoint" index="0">
+        <startClk weekday="TUESDAY" hour="23" minute="59"/>
+        <lcMacroPoint xsi:type="LightPortPoint">
             <delay>6</delay>
             <LightPortActionType>ON</LightPortActionType>
             <outputNumber>0</outputNumber>
         </lcMacroPoint>
-        <lcMacroPoint xsi:type="LightPortPoint" index="1">
+        <lcMacroPoint xsi:type="LightPortPoint">
             <delay>6</delay>
             <LightPortActionType>OFF</LightPortActionType>
             <outputNumber>0</outputNumber>
         </lcMacroPoint>
-        <lcMacroPoint xsi:type="ServoPortPoint" index="2">
+        <lcMacroPoint xsi:type="ServoPortPoint">
             <delay>60</delay>
             <ServoPortActionType>
                 <action>START</action>
@@ -20,7 +20,7 @@
             </ServoPortActionType>
             <outputNumber>0</outputNumber>
         </lcMacroPoint>
-        <lcMacroPoint xsi:type="AnalogPortPoint" index="3">
+        <lcMacroPoint xsi:type="AnalogPortPoint">
             <delay>30</delay>
             <AnalogPortActionType>
                 <action>START</action>
@@ -28,7 +28,7 @@
             </AnalogPortActionType>
             <outputNumber>0</outputNumber>
         </lcMacroPoint>
-        <lcMacroPoint xsi:type="FlagPoint" index="4">
+        <lcMacroPoint xsi:type="FlagPoint">
             <FlagActionType>
                 <operation>SET</operation>
                 <flagNumber>12</flagNumber>
