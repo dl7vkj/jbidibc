@@ -171,7 +171,7 @@
 		<xsd:attribute name="minute" type="xsd:byte" use="required" />
 		<xsd:attribute name="hour" type="xsd:byte" use="required" />
 		<xsd:attribute name="weekday" type="bidib:RepeatWeekdayType" use="required" />
-		<!-- xsd:attribute name="clockacceleration" type="xsd:int" use="required"/ -->
+		<xsd:attribute name="repeatPeriod" type="bidib:RepeatPeriodType" />
 	</xsd:complexType>
 	<xsd:simpleType name="RepeatWeekdayType">
 		<xsd:restriction base="xsd:string">
@@ -183,6 +183,14 @@
 			<xsd:enumeration value="THURSDAY"/>
 			<xsd:enumeration value="FRIDAY"/>
 			<xsd:enumeration value="SATURDAY"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="RepeatPeriodType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="EVERY_MINUTE"/>
+			<xsd:enumeration value="EVERY_QUARTER_HOUR"/>
+			<xsd:enumeration value="EVERY_HALF_HOUR"/>
+			<xsd:enumeration value="EVERY_HOUR"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	

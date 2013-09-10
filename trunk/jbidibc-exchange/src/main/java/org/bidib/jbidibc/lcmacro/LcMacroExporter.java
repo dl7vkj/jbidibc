@@ -1,13 +1,17 @@
 package org.bidib.jbidibc.lcmacro;
 
 import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
 
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.enumeration.AnalogPortEnum;
@@ -199,8 +203,6 @@ public class LcMacroExporter {
             LcMacros lcMacros = new LcMacros();
             lcMacros.setLcMacro(lcMacro);
 
-            //            File file = new File(fileName);
-
             os = new BufferedOutputStream(new FileOutputStream(fileName));
             if (gzip) {
                 LOGGER.debug("Use gzip to compress macro.");
@@ -227,5 +229,46 @@ public class LcMacroExporter {
                 }
             }
         }
+    }
+
+    public LcMacroType loadMacro(String fileName) {
+        LOGGER.info("Load macro content from file: {}", fileName);
+
+        // TODO
+        InputStream is = null;
+        LcMacros macros = null;
+        try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
+
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+
+            File importFile = new File(fileName);
+            is = new FileInputStream(importFile);
+
+            macros = (LcMacros) unmarshaller.unmarshal(is);
+            LOGGER.info("Loaded macros from file: {}", fileName);
+        }
+        catch (Exception ex) {
+            // TODO add better exception handling
+            LOGGER.warn("Save macro failed.", ex);
+        }
+        finally {
+            if (is != null) {
+                try {
+                    is.close();
+                }
+                catch (IOException ex) {
+                    LOGGER.warn("Close inputstream failed.", ex);
+                }
+            }
+        }
+
+        LcMacroType lcMacro = null;
+        if (macros != null) {
+            lcMacro = macros.getLcMacro();
+            LOGGER.debug("Loaded macro: {}", lcMacro);
+        }
+
+        return lcMacro;
     }
 }
