@@ -218,6 +218,8 @@ public class LcMacroExporter {
         catch (Exception ex) {
             // TODO add better exception handling
             LOGGER.warn("Save macro failed.", ex);
+
+            throw new RuntimeException("Save macro failed.", ex);
         }
         finally {
             if (os != null) {
@@ -250,7 +252,9 @@ public class LcMacroExporter {
         }
         catch (Exception ex) {
             // TODO add better exception handling
-            LOGGER.warn("Save macro failed.", ex);
+            LOGGER.warn("Load macro failed.", ex);
+
+            throw new RuntimeException("Load macro failed.", ex);
         }
         finally {
             if (is != null) {
