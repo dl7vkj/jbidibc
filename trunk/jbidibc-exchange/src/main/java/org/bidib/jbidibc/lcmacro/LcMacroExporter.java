@@ -135,8 +135,11 @@ public class LcMacroExporter {
                 break;
             case MOTORPORT:
                 MotorPortEnum motorPortEnum = MotorPortEnum.valueOf(val.getType());
+                MotorPortActionType motorPortActionType = new MotorPortActionType();
+                motorPortActionType.setAction(MotorActionType.fromValue(motorPortEnum.name()));
+                motorPortActionType.setValue(ByteUtils.getInt(lcMacro.getValue()));
                 MotorPortPoint motorPortPoint = new MotorPortPoint();
-                motorPortPoint.setMotorPortActionType(MotorPortActionType.fromValue(motorPortEnum.name()));
+                motorPortPoint.setMotorPortActionType(motorPortActionType);
                 motorPortPoint.setOutputNumber(lcMacro.getOutputNumber());
                 motorPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = motorPortPoint;
@@ -159,8 +162,11 @@ public class LcMacroExporter {
                 break;
             case SOUNDPORT:
                 SoundPortEnum soundPortEnum = SoundPortEnum.valueOf(val.getType());
+                SoundPortActionType soundPortActionType = new SoundPortActionType();
+                soundPortActionType.setAction(SoundActionType.fromValue(soundPortEnum.name()));
+                soundPortActionType.setValue(ByteUtils.getInt(lcMacro.getValue()));
                 SoundPortPoint soundPortPoint = new SoundPortPoint();
-                soundPortPoint.setSoundPortActionType(SoundPortActionType.fromValue(soundPortEnum.name()));
+                soundPortPoint.setSoundPortActionType(soundPortActionType);
                 soundPortPoint.setOutputNumber(lcMacro.getOutputNumber());
                 soundPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = soundPortPoint;

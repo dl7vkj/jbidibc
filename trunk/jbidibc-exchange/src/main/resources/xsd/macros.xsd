@@ -324,18 +324,34 @@
 			<xsd:enumeration value="ON"/>
 		</xsd:restriction>
 	</xsd:simpleType>
-	<xsd:simpleType name="SoundPortActionType">
+
+	<xsd:complexType name="SoundPortActionType">
+		<xsd:sequence>
+			<xsd:group ref="bidib:SoundPortParams"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:group name="SoundPortParams">
+		<xsd:sequence>
+			<xsd:element name="action" type="bidib:SoundActionType"/>
+			<xsd:element name="value" type="bidib:SoundValueType"/>
+		</xsd:sequence>
+	</xsd:group>
+	<xsd:simpleType name="SoundActionType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="START"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="SoundValueType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
 	<xsd:complexType name="AnalogPortActionType">
 		<xsd:sequence>
 			<xsd:group ref="bidib:AnalogPortParams"/>
 		</xsd:sequence>
-		<!-- xsd:restriction base="xsd:string">
-			<xsd:enumeration value="START"/>
-		</xsd:restriction-->
 	</xsd:complexType>
 	<xsd:group name="AnalogPortParams">
 		<xsd:sequence>
@@ -377,12 +393,31 @@
 			<xsd:element name="destination" type="bidib:ServoDestinationType"/>
 		</xsd:sequence>
 	</xsd:group>
-	<xsd:simpleType name="MotorPortActionType">
+
+	<xsd:complexType name="MotorPortActionType">
+		<xsd:sequence>
+			<xsd:group ref="bidib:MotorPortParams"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="MotorActionType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="FORWARD"/>
 			<xsd:enumeration value="BACKWARD"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="MotorValueType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:group name="MotorPortParams">
+		<xsd:sequence>
+			<xsd:element name="action" type="bidib:MotorActionType"/>
+			<xsd:element name="value" type="bidib:MotorValueType"/>
+		</xsd:sequence>
+	</xsd:group>
+	
 	<xsd:simpleType name="LightPortActionType">
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="ON"/>

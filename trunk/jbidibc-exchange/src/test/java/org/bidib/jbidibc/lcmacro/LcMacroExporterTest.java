@@ -61,7 +61,7 @@ public class LcMacroExporterTest {
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
-                LcOutputType.MOTORPORT, (byte) 1 /*outputnumber*/, (BidibEnum) MotorPortEnum.BACKWARD, (byte) 1 /*value*/);
+                LcOutputType.MOTORPORT, (byte) 1 /*outputnumber*/, (BidibEnum) MotorPortEnum.BACKWARD, (byte) 123 /*value*/);
 
         LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(point);
@@ -70,7 +70,8 @@ public class LcMacroExporterTest {
 
         //        Assert.assertEquals(point.getIndex(), 1);
         Assert.assertEquals(motorPortPoint.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(motorPortPoint.getMotorPortActionType(), MotorPortActionType.BACKWARD);
+        Assert.assertEquals(motorPortPoint.getMotorPortActionType().getAction(), MotorActionType.BACKWARD);
+        Assert.assertEquals(motorPortPoint.getMotorPortActionType().getValue(), 123);
         Assert.assertEquals(motorPortPoint.getOutputNumber(), 1);
     }
 
@@ -80,7 +81,7 @@ public class LcMacroExporterTest {
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
-                LcOutputType.MOTORPORT, (byte) 1 /*outputnumber*/, (BidibEnum) MotorPortEnum.FORWARD, (byte) 1 /*value*/);
+                LcOutputType.MOTORPORT, (byte) 1 /*outputnumber*/, (BidibEnum) MotorPortEnum.FORWARD, (byte) 123 /*value*/);
 
         LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(point);
@@ -89,7 +90,8 @@ public class LcMacroExporterTest {
 
         //        Assert.assertEquals(point.getIndex(), 1);
         Assert.assertEquals(motorPortPoint.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(motorPortPoint.getMotorPortActionType(), MotorPortActionType.FORWARD);
+        Assert.assertEquals(motorPortPoint.getMotorPortActionType().getAction(), MotorActionType.FORWARD);
+        Assert.assertEquals(motorPortPoint.getMotorPortActionType().getValue(), 123);
         Assert.assertEquals(motorPortPoint.getOutputNumber(), 1);
     }
 
@@ -130,7 +132,8 @@ public class LcMacroExporterTest {
 
         //        Assert.assertEquals(point.getIndex(), 1);
         Assert.assertEquals(soundPortPoint.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(soundPortPoint.getSoundPortActionType(), SoundPortActionType.START);
+        Assert.assertEquals(soundPortPoint.getSoundPortActionType().getAction(), SoundActionType.START);
+        Assert.assertEquals(soundPortPoint.getSoundPortActionType().getValue(), 12);
         Assert.assertEquals(soundPortPoint.getOutputNumber(), 1);
     }
 
