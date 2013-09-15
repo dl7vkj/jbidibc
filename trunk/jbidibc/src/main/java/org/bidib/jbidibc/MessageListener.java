@@ -32,7 +32,7 @@ public interface MessageListener {
      * Signals that a node was lost in the system.
      * @param node the lost node
      * 
-     * TODO refactor this into a separate interface
+     * <p>TODO refactor this into a separate interface</p>
      */
     void nodeLost(Node node);
 
@@ -40,7 +40,7 @@ public interface MessageListener {
      * Signals that a new node was found in the system.
      * @param node the new node
      * 
-     * TODO refactor this into a separate interface
+     * <p>TODO refactor this into a separate interface</p>
      */
     void nodeNew(Node node);
 
