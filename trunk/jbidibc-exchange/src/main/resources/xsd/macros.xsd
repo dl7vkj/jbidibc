@@ -5,8 +5,6 @@
 	targetNamespace="http://www.bidib.org/lcmacro" 
 	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xsd:complexType name="LcMacroPointType" abstract="true">
-		<!-- xsd:attribute name="index" type="bidib:MacroPointIndexType"
-			use="required" /-->
 	</xsd:complexType>
 	<xsd:complexType name="AnalogPortPoint">
 		<xsd:complexContent>
@@ -39,6 +37,9 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="FlagPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents a flag.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -48,36 +49,24 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="InputPortPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents an input port.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
 					<xsd:element name="delay" type="bidib:MacroDelayType"
 						minOccurs="0" />
 					<xsd:element name="InputPortActionType" type="bidib:InputPortActionType" />
-					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-	<xsd:complexType name="InputQuery0Point">
-		<xsd:complexContent>
-			<xsd:extension base="bidib:LcMacroPointType">
-				<xsd:sequence>
-					<xsd:element name="inputNumber" type="bidib:OutputNumberType"/>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
-	<xsd:complexType name="InputQuery1Point">
-		<xsd:complexContent>
-			<xsd:extension base="bidib:LcMacroPointType">
-				<xsd:sequence>
 					<xsd:element name="inputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="LightPortPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents a light port.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -90,6 +79,9 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="MacroActionPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents a macro action.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -99,6 +91,9 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="MotorPortPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents a motor port.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -111,6 +106,9 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="RandomDelayPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents a random delay.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -120,6 +118,9 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="ServoPortPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents a servo port.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -132,6 +133,9 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="SoundPortPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents a sound port.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>
@@ -144,6 +148,9 @@
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="SwitchPortPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents a switch port.</xsd:documentation>
+		</xsd:annotation>
 		<xsd:complexContent>
 			<xsd:extension base="bidib:LcMacroPointType">
 				<xsd:sequence>

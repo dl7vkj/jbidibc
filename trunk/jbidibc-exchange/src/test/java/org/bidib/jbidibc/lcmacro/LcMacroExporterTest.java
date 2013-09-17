@@ -219,12 +219,12 @@ public class LcMacroExporterTest {
 
         LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(point);
-        Assert.assertTrue(point instanceof InputQuery0Point);
-        InputQuery0Point inputQuery0Point = (InputQuery0Point) point;
+        Assert.assertTrue(point instanceof InputPortPoint);
+        InputPortPoint inputPortPoint = (InputPortPoint) point;
 
         //        Assert.assertEquals(point.getIndex(), 1);
-        //        Assert.assertEquals(inputQuery0Point.getInputQuery0ActionType(), 11);
-        Assert.assertEquals(inputQuery0Point.getInputNumber(), 11);
+        Assert.assertEquals(inputPortPoint.getInputPortActionType(), InputPortActionType.OFF);
+        Assert.assertEquals(inputPortPoint.getInputNumber(), 11);
     }
 
     @Test
@@ -233,16 +233,15 @@ public class LcMacroExporterTest {
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 255 /*delay*/,
-                LcOutputType.INPUT_QUERY1, (byte) 13 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
+                LcOutputType.INPUT_QUERY1, (byte) 11 /*outputnumber*/, (BidibEnum) null, (byte) 12 /*value*/);
 
         LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(point);
-        Assert.assertTrue(point instanceof InputQuery1Point);
-        InputQuery1Point inputQuery1Point = (InputQuery1Point) point;
+        Assert.assertTrue(point instanceof InputPortPoint);
+        InputPortPoint inputPortPoint = (InputPortPoint) point;
 
-        //        Assert.assertEquals(point.getIndex(), 1);
-        //        Assert.assertEquals(inputQuery1Point.getInputQuery1ActionType(), 13);
-        Assert.assertEquals(inputQuery1Point.getInputNumber(), 13);
+        Assert.assertEquals(inputPortPoint.getInputPortActionType(), InputPortActionType.ON);
+        Assert.assertEquals(inputPortPoint.getInputNumber(), 11);
     }
 
     @Test
@@ -261,7 +260,6 @@ public class LcMacroExporterTest {
         Assert.assertNotNull(flagPoint.getFlagActionType());
         Assert.assertNotNull(flagPoint.getFlagActionType().getOperation());
 
-        //        Assert.assertEquals(point.getIndex(), 1);
         Assert.assertEquals(flagPoint.getFlagActionType().getOperation(), FlagOperationType.CLEAR);
         Assert.assertEquals(flagPoint.getFlagActionType().getFlagNumber(), 13);
     }
