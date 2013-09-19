@@ -54,7 +54,7 @@ public class LcAccessoryTest {
         Assert.assertEquals(lcAspectPoint.getMacroId(), 4);
         Assert.assertEquals(lcAspectPoint.getAspectName(), "Abzweig");
     }
-    
+
     @Test
     public void saveAccessoryTest() throws JAXBException, SAXException, IOException {
 
