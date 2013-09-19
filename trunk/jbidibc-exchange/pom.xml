@@ -60,7 +60,7 @@
                         <configuration>
                             <arguments>-extension -Xcommons-lang</arguments>
                             <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
-                            <schemaFiles>macros.xsd</schemaFiles>
+                            <schemaFiles>macros.xsd,accessories.xsd</schemaFiles>
                             <packageName>org.bidib.jbidibc.lcmacro</packageName>
                             <staleFile>${project.build.directory}/jaxb2/.schema1XjcStaleFlag</staleFile>
                         </configuration>
