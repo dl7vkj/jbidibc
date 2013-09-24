@@ -70,7 +70,7 @@ public class AccessoryNode extends DeviceNode {
     public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws IOException, ProtocolException,
         InterruptedException {
         LcConfig result = null;
-        BidibMessage response = send(new LcConfigGetMessage(outputType, outputNumber), true, LcConfigResponse.TYPE);
+        BidibMessage response = send(new LcConfigGetMessage(outputType, outputNumber), true, LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE);
 
         if (response instanceof LcConfigResponse) {
             result = ((LcConfigResponse) response).getLcConfig();
