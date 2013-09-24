@@ -1,7 +1,5 @@
 package org.bidib.jbidibc.node;
 
-import java.io.IOException;
-
 import org.bidib.jbidibc.AccessoryState;
 import org.bidib.jbidibc.Bidib;
 import org.bidib.jbidibc.LcConfig;
@@ -44,8 +42,7 @@ public class AccessoryNode extends DeviceNode {
         super(addr, messageReceiver);
     }
 
-    public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws IOException, ProtocolException,
-        InterruptedException {
+    public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws ProtocolException {
         byte[] result = null;
         BidibMessage response =
             send(new AccessoryParaGetMessage(accessoryNumber, parameter), true, AccessoryParaResponse.TYPE);
@@ -56,8 +53,7 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
-    public AccessoryState getAccessoryState(int accessoryNumber) throws IOException, ProtocolException,
-        InterruptedException {
+    public AccessoryState getAccessoryState(int accessoryNumber) throws ProtocolException {
         AccessoryState result = null;
         BidibMessage response = send(new AccessoryGetMessage(accessoryNumber), true, AccessoryStateResponse.TYPE);
 
@@ -67,10 +63,18 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
-    public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws IOException, ProtocolException,
-        InterruptedException {
+    /**
+     * Get the configuration of the specified port.
+     * @param outputType the port type
+     * @param outputNumber the output number
+     * @return the configuration of the specified port.
+     * @throws ProtocolException
+     */
+    public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws ProtocolException {
         LcConfig result = null;
-        BidibMessage response = send(new LcConfigGetMessage(outputType, outputNumber), true, LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE);
+        BidibMessage response =
+            send(new LcConfigGetMessage(outputType, outputNumber), true, LcConfigResponse.TYPE,
+                LcNotAvailableResponse.TYPE);
 
         if (response instanceof LcConfigResponse) {
             result = ((LcConfigResponse) response).getLcConfig();
@@ -78,12 +82,12 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
-    public void getKeyState(int keyNumber) throws IOException, ProtocolException, InterruptedException {
+    public void getKeyState(int keyNumber) throws ProtocolException {
+        // response is signaled asynchronously
         sendNoWait(new LcKeyMessage(keyNumber));
     }
 
-    public byte[] getMacroParameter(int macroNumber, int parameter) throws IOException, ProtocolException,
-        InterruptedException {
+    public byte[] getMacroParameter(int macroNumber, int parameter) throws ProtocolException {
         byte[] result = null;
         BidibMessage response = send(new LcMacroParaGetMessage(macroNumber, parameter), true, LcMacroParaResponse.TYPE);
 
@@ -93,8 +97,7 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
-    public LcMacro getMacroStep(int macroNumber, int stepNumber) throws IOException, ProtocolException,
-        InterruptedException {
+    public LcMacro getMacroStep(int macroNumber, int stepNumber) throws ProtocolException {
         LcMacro result = null;
         BidibMessage response = send(new LcMacroGetMessage(macroNumber, stepNumber), true, LcMacroResponse.TYPE);
 
@@ -104,8 +107,7 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
-    public LcMacroState handleMacro(int macroNumber, LcMacroOperationCode macroOperationCode) throws IOException,
-        ProtocolException, InterruptedException {
+    public LcMacroState handleMacro(int macroNumber, LcMacroOperationCode macroOperationCode) throws ProtocolException {
         LOGGER.debug("handle macro, macroNumber: {}, macroOperationCode: {}", macroNumber, macroOperationCode);
 
         BidibMessage response =
@@ -119,17 +121,15 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
-    public void setAccessoryParameter(int accessoryNumber, int parameter, byte[] value) throws IOException,
-        ProtocolException, InterruptedException {
+    public void setAccessoryParameter(int accessoryNumber, int parameter, byte[] value) throws ProtocolException {
         sendNoWait(new AccessoryParaSetMessage(accessoryNumber, parameter, value));
     }
 
-    public void setAccessoryState(int accessoryNumber, int aspect) throws IOException, ProtocolException,
-        InterruptedException {
+    public void setAccessoryState(int accessoryNumber, int aspect) throws ProtocolException {
         sendNoWait(new AccessorySetMessage(accessoryNumber, aspect));
     }
 
-    public void setConfig(LcConfig config) throws IOException, ProtocolException, InterruptedException {
+    public void setConfig(LcConfig config) throws ProtocolException {
         if (config != null) {
             LOGGER.debug("Send LcConfigSet to node, config: {}", config);
 
@@ -137,7 +137,7 @@ public class AccessoryNode extends DeviceNode {
         }
     }
 
-    public LcMacro setMacro(LcMacro macro) throws IOException, ProtocolException, InterruptedException {
+    public LcMacro setMacro(LcMacro macro) throws ProtocolException {
         LOGGER.debug("Set macro: {}", macro);
         BidibMessage response = send(new LcMacroSetMessage(macro), true, LcMacroResponse.TYPE);
 
@@ -149,8 +149,7 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
-    public void setMacroParameter(int macroNumber, int parameter, byte... value) throws IOException, ProtocolException,
-        InterruptedException {
+    public void setMacroParameter(int macroNumber, int parameter, byte... value) throws ProtocolException {
         LOGGER.debug("Set macro parameter, macroNumber: {}, parameter: {}, value: {}", new Object[] { macroNumber,
             parameter, value });
 
@@ -162,8 +161,7 @@ public class AccessoryNode extends DeviceNode {
         }
     }
 
-    public void setOutput(LcOutputType outputType, int outputNumber, int state) throws IOException, ProtocolException,
-        InterruptedException {
+    public void setOutput(LcOutputType outputType, int outputNumber, int state) throws ProtocolException {
         LOGGER
             .debug("Set the new output state, type: {}, outputNumber: {}, state: {}", outputType, outputNumber, state);
         sendNoWait(new LcOutputMessage(outputType, outputNumber, state));
