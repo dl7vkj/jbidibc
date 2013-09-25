@@ -59,8 +59,9 @@ public class LcMacro {
     }
 
     public String toString() {
-        return getClass().getSimpleName() + "[macroNumber=" + ByteUtils.getInt(macroNumber) + ",stepNumber=" + ByteUtils.getInt(stepNumber) + ",delay="
-            + ByteUtils.getInt(delay) + ",outputType=" + outputType + ",outputNumber=" + ByteUtils.getInt(outputNumber) + ",status=" + status
-            + ",value=" + ByteUtils.getInt(value) + "]";
+        return getClass().getSimpleName() + "[macroNumber=" + ByteUtils.getInt(macroNumber) + ",stepNumber="
+            + ByteUtils.getInt(stepNumber) + ",delay=" + ByteUtils.getInt(delay) + ",outputType=" + outputType
+            + ",outputNumber=" + ByteUtils.getInt(outputNumber) + ",status=" + status + ",value="
+            + ByteUtils.getInt(value) + "]";
     }
 }

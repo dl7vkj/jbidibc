@@ -261,7 +261,7 @@ public class MessageReceiver {
                                         fireIdentify(message.getAddr(), ((SysIdentifyResponse) message).getState());
                                     }
                                     else {
-//                                        LOGGER.info("Received message: {}", message);
+                                        //                                        LOGGER.info("Received message: {}", message);
                                         messageReceived(message);
                                     }
                                 }
