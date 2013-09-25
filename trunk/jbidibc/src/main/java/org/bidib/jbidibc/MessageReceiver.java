@@ -208,6 +208,7 @@ public class MessageReceiver {
                                     }
                                     else if (message instanceof LcStatResponse) {
                                         // ignored
+                                        LOGGER.info("Received LcStatResponse: {}", message);
                                     }
                                     else if (message instanceof LcWaitResponse) {
                                         // TODO I think this does not work if the sender is already waiting for a response ...
@@ -260,6 +261,7 @@ public class MessageReceiver {
                                         fireIdentify(message.getAddr(), ((SysIdentifyResponse) message).getState());
                                     }
                                     else {
+//                                        LOGGER.info("Received message: {}", message);
                                         messageReceived(message);
                                     }
                                 }

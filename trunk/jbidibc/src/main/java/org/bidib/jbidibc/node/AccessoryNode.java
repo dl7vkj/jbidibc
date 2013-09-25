@@ -138,7 +138,7 @@ public class AccessoryNode extends DeviceNode {
     }
 
     public LcMacro setMacro(LcMacro macro) throws ProtocolException {
-        LOGGER.debug("Set macro: {}", macro);
+        LOGGER.info("Set the macro point: {}", macro);
         BidibMessage response = send(new LcMacroSetMessage(macro), true, LcMacroResponse.TYPE);
 
         LcMacro result = null;

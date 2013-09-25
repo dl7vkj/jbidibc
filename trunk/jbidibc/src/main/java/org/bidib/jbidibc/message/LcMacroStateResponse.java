@@ -23,4 +23,13 @@ public class LcMacroStateResponse extends BidibMessage {
     public LcMacroState getMacroState() {
         return LcMacroState.valueOf(getData()[1]);
     }
+    
+    public String toExtendedString() {
+        StringBuffer sb = new StringBuffer("[ ");
+        sb.append(super.toString());
+        sb.append(", macroNumber: ").append(getMacroNumber());
+        sb.append(", macroState: ").append(getMacroState());
+        return sb.toString();
+    }
+
 }

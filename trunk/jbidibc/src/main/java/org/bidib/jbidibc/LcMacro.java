@@ -2,6 +2,7 @@ package org.bidib.jbidibc;
 
 import org.bidib.jbidibc.enumeration.BidibEnum;
 import org.bidib.jbidibc.enumeration.LcOutputType;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class LcMacro {
     private final byte macroNumber;
@@ -58,8 +59,8 @@ public class LcMacro {
     }
 
     public String toString() {
-        return getClass().getSimpleName() + "[macroNumber=" + macroNumber + ",stepNumber=" + stepNumber + ",delay="
-            + (delay & 0xFF) + ",outputType=" + outputType + ",outputNumber=" + outputNumber + ",status=" + status
-            + ",value=" + value + "]";
+        return getClass().getSimpleName() + "[macroNumber=" + ByteUtils.getInt(macroNumber) + ",stepNumber=" + ByteUtils.getInt(stepNumber) + ",delay="
+            + ByteUtils.getInt(delay) + ",outputType=" + outputType + ",outputNumber=" + ByteUtils.getInt(outputNumber) + ",status=" + status
+            + ",value=" + ByteUtils.getInt(value) + "]";
     }
 }
