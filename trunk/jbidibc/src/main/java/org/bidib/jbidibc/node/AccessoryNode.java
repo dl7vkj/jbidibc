@@ -116,7 +116,8 @@ public class AccessoryNode extends DeviceNode {
         LcMacroState result = null;
         if (response instanceof LcMacroStateResponse) {
             result = ((LcMacroStateResponse) response).getMacroState();
-            LOGGER.debug("handle macro returned: {}", result);
+            LOGGER.debug("handle macro returned: {}, response: {}", result, ((LcMacroStateResponse) response)
+                .toExtendedString());
         }
         return result;
     }

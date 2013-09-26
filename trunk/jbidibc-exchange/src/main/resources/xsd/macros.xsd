@@ -327,8 +327,8 @@
 	</xsd:simpleType>
 	<xsd:simpleType name="InputPortActionType">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="OFF"/>
-			<xsd:enumeration value="ON"/>
+			<xsd:enumeration value="QUERY0"/>
+			<xsd:enumeration value="QUERY1"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 

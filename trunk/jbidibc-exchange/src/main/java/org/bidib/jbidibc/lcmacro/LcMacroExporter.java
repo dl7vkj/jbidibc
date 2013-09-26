@@ -92,14 +92,14 @@ public class LcMacroExporter {
             case INPUT_QUERY0:
                 InputPortPoint inputQuery0Point = new InputPortPoint();
                 inputQuery0Point.setInputNumber(lcMacro.getOutputNumber());
-                inputQuery0Point.setInputPortActionType(InputPortActionType.OFF);
+                inputQuery0Point.setInputPortActionType(InputPortActionType.QUERY_0);
                 inputQuery0Point.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = inputQuery0Point;
                 break;
             case INPUT_QUERY1:
                 InputPortPoint inputQuery1Point = new InputPortPoint();
                 inputQuery1Point.setInputNumber(lcMacro.getOutputNumber());
-                inputQuery1Point.setInputPortActionType(InputPortActionType.ON);
+                inputQuery1Point.setInputPortActionType(InputPortActionType.QUERY_1);
                 inputQuery1Point.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = inputQuery1Point;
                 break;

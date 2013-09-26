@@ -223,7 +223,7 @@ public class LcMacroExporterTest {
         InputPortPoint inputPortPoint = (InputPortPoint) point;
 
         //        Assert.assertEquals(point.getIndex(), 1);
-        Assert.assertEquals(inputPortPoint.getInputPortActionType(), InputPortActionType.OFF);
+        Assert.assertEquals(inputPortPoint.getInputPortActionType(), InputPortActionType.QUERY_0);
         Assert.assertEquals(inputPortPoint.getInputNumber(), 11);
     }
 
@@ -240,7 +240,7 @@ public class LcMacroExporterTest {
         Assert.assertTrue(point instanceof InputPortPoint);
         InputPortPoint inputPortPoint = (InputPortPoint) point;
 
-        Assert.assertEquals(inputPortPoint.getInputPortActionType(), InputPortActionType.ON);
+        Assert.assertEquals(inputPortPoint.getInputPortActionType(), InputPortActionType.QUERY_1);
         Assert.assertEquals(inputPortPoint.getInputNumber(), 11);
     }
 
