@@ -54,4 +54,11 @@ public interface MessageListener {
      * @param errorCode the error code
      */
     void error(byte[] address, int errorCode);
+
+    /**
+     * Signals that an accessory state message was received. 
+     * @param address the address
+     * @param accessoryState the accessory state
+     */
+    void accessoryState(byte[] address, AccessoryState accessoryState);
 }

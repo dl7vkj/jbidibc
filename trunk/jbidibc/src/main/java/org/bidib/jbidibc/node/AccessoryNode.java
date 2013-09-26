@@ -127,6 +127,7 @@ public class AccessoryNode extends DeviceNode {
     }
 
     public void setAccessoryState(int accessoryNumber, int aspect) throws ProtocolException {
+        // response is signaled asynchronously
         sendNoWait(new AccessorySetMessage(accessoryNumber, aspect));
     }
 

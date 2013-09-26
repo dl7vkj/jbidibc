@@ -3,7 +3,6 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.utils.NodeUtils;
 import org.bidib.jbidibc.utils.NodeUtilsTest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -96,6 +96,10 @@ public class BoostQuery extends BidibNodeCommand {
                     @Override
                     public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
                     }
+
+                    @Override
+                    public void accessoryState(byte[] address, AccessoryState accessoryState) {
+                    }
                 });
 
                 // verify that the booster query returns the booster state ...

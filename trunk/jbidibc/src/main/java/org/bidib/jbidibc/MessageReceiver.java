@@ -15,6 +15,7 @@ import java.util.concurrent.TimeUnit;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostCurrentResponse;
 import org.bidib.jbidibc.message.BoostDiagnosticResponse;
@@ -35,6 +36,8 @@ import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.message.SysErrorResponse;
 import org.bidib.jbidibc.message.SysIdentifyResponse;
 import org.bidib.jbidibc.message.SysMagicResponse;
+import org.bidib.jbidibc.node.AccessoryNode;
+import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.CollectionUtils;
@@ -202,6 +205,20 @@ public class MessageReceiver {
                                         fireSpeed(message.getAddr(), ((FeedbackSpeedResponse) message).getAddress(),
                                             ((FeedbackSpeedResponse) message).getSpeed());
                                     }
+                                    else if (message instanceof AccessoryStateResponse) {
+                                        // TODO process the AccessoryStateResponse message
+                                        AccessoryStateResponse accessoryStateResponse =
+                                            (AccessoryStateResponse) message;
+                                        //                                        LOGGER.info("Received {}", accessoryStateResponse.toExtendedString());
+
+                                        //                                        BidibNode node = nodeFactory.getNode(new Node(message.getAddr()));
+                                        //                                        if (node instanceof AccessoryNode) {
+                                        //                                            ((AccessoryNode) node).fireAccessoryState(accessoryStateResponse.getAccessoryState());
+                                        //                                        }
+
+                                        fireAccessoryState(message.getAddr(), accessoryStateResponse
+                                            .getAccessoryState());
+                                    }
                                     else if (message instanceof LcKeyResponse) {
                                         fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
                                             ((LcKeyResponse) message).getKeyState());
@@ -333,7 +350,6 @@ public class MessageReceiver {
 
     protected void messageReceived(BidibMessage message) {
         // put the message into the receiveQueue because somebody waits for it ...
-        LOGGER.debug("Put message to receiveQueue: {}", message);
         receiveQueue.offer(message);
     }
 
@@ -433,6 +449,12 @@ public class MessageReceiver {
         LOGGER.error("Error received from system, addr: {}, errorCode: {}", address, errorCode);
         for (MessageListener l : listeners) {
             l.error(address, errorCode);
+        }
+    }
+
+    private void fireAccessoryState(byte[] address, AccessoryState accessoryState) {
+        for (MessageListener l : listeners) {
+            l.accessoryState(address, accessoryState);
         }
     }
 

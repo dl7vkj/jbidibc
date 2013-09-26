@@ -7,6 +7,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.bidib.jbidibc.AccessoryState;
 import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.MessageListener;
@@ -120,6 +121,10 @@ public class NodeFactory {
 
             @Override
             public void error(byte[] address, int errorCode) {
+            }
+
+            @Override
+            public void accessoryState(byte[] address, AccessoryState accessoryState) {
             }
         });
     }

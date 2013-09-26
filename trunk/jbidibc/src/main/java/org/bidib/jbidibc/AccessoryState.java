@@ -1,5 +1,7 @@
 package org.bidib.jbidibc;
 
+import org.bidib.jbidibc.utils.ByteUtils;
+
 public class AccessoryState {
     private final byte accessoryNumber;
 
@@ -39,8 +41,48 @@ public class AccessoryState {
         return wait;
     }
 
+    //    public String toString() {
+    //        return getClass().getSimpleName() + "[accessoryNumber=" + ByteUtils.getInt(accessoryNumber) + ",aspect=" + ByteUtils.getInt(aspect) + ",total="
+    //            + ByteUtils.getInt(total) + ",execute=" + ByteUtils.getInt(execute) + ",wait=" + ByteUtils.getInt(wait) + "]";
+    //    }
+
     public String toString() {
-        return getClass().getSimpleName() + "[accessoryNumber=" + accessoryNumber + ",aspect=" + aspect + ",total="
-            + total + ",execute=" + execute + ",wait=" + wait + "]";
+        StringBuffer sb = new StringBuffer("[ ");
+        sb.append(getClass().getSimpleName());
+        sb.append(", accessoryNumber: ").append(ByteUtils.getInt(accessoryNumber));
+        sb.append(", aspect: ").append(ByteUtils.getInt(aspect));
+        sb.append(", total: ").append(ByteUtils.getInt(total));
+        sb.append(", execute: ").append(ByteUtils.getInt(execute));
+        if ((execute & 0x80) == 0x80) {
+            sb.append(" => Error detected.");
+        }
+        else {
+            switch (execute & 0x01) {
+                case 0x00:
+                    sb.append(" => Reached end position.");
+                    break;
+                case 0x01:
+                    sb.append(" => End position not yet reached. Check WAIT.");
+                    break;
+                default:
+                    sb.append(" => Unknown.");
+                    break;
+            }
+            switch (execute & 0x02) {
+                case 0x00:
+                    sb.append(" => End position is verified by feedback.");
+                    break;
+                case 0x02:
+                    sb.append(" => No control of end position possible.");
+                    break;
+                default:
+                    sb.append(" => Unknown.");
+                    break;
+            }
+        }
+        sb.append(", wait: ").append(ByteUtils.getInt(wait));
+        sb.append("]");
+        return sb.toString();
     }
+
 }
