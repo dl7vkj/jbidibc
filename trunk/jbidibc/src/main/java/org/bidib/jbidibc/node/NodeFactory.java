@@ -1,20 +1,15 @@
 package org.bidib.jbidibc.node;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.bidib.jbidibc.AccessoryState;
-import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.BidibInterface;
-import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
-import org.bidib.jbidibc.enumeration.BoosterState;
-import org.bidib.jbidibc.enumeration.IdentifyState;
+import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.exception.InvalidConfigurationException;
 import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.utils.ByteUtils;
@@ -58,43 +53,7 @@ public class NodeFactory {
         LOGGER.debug("Set the message receiver: {}", messageReceiver);
         this.messageReceiver = messageReceiver;
 
-        messageReceiver.addMessageListener(new MessageListener() {
-            @Override
-            public void address(byte[] address, int detectorNumber, Collection<AddressData> addressData) {
-            }
-
-            @Override
-            public void boosterCurrent(byte[] address, int current) {
-            }
-
-            @Override
-            public void boosterState(byte[] address, BoosterState state) {
-            }
-
-            @Override
-            public void boosterTemperature(byte[] address, int temperature) {
-            }
-
-            @Override
-            public void boosterVoltage(byte[] address, int voltage) {
-            }
-
-            @Override
-            public void confidence(byte[] address, int valid, int freeze, int signal) {
-            }
-
-            @Override
-            public void free(byte[] address, int detectorNumber) {
-            }
-
-            @Override
-            public void identity(byte[] address, IdentifyState identifyState) {
-            }
-
-            @Override
-            public void key(byte[] address, int keyNumber, int keyState) {
-            }
-
+        messageReceiver.addNodeListener(new NodeListener() {
             @Override
             public void nodeLost(Node node) {
                 LOGGER.debug("Node lost, node: {}", node);
@@ -109,22 +68,6 @@ public class NodeFactory {
                 // A: to make sure that the node is created by the new "newNode-created-thread-" in MainController ...
                 // Moved to createNode() that is called from messageReceiver
                 //                removeNode(node);
-            }
-
-            @Override
-            public void occupied(byte[] address, int detectorNumber) {
-            }
-
-            @Override
-            public void speed(byte[] address, AddressData addressData, int speed) {
-            }
-
-            @Override
-            public void error(byte[] address, int errorCode) {
-            }
-
-            @Override
-            public void accessoryState(byte[] address, AccessoryState accessoryState) {
             }
         });
     }

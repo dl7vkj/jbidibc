@@ -57,8 +57,10 @@ public class MessageReceiver {
 
     private BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
 
-    private final Collection<MessageListener> listeners =
+    private final Collection<MessageListener> messageListeners =
         Collections.synchronizedList(new LinkedList<MessageListener>());
+
+    private final Collection<NodeListener> nodeListeners = Collections.synchronizedList(new LinkedList<NodeListener>());
 
     private static int timeout = Bidib.DEFAULT_TIMEOUT;
 
@@ -354,8 +356,12 @@ public class MessageReceiver {
         receiveQueue.offer(message);
     }
 
-    public void addMessageListener(MessageListener listener) {
-        listeners.add(listener);
+    public void addMessageListener(MessageListener messageListener) {
+        messageListeners.add(messageListener);
+    }
+
+    public void addNodeListener(NodeListener nodeListener) {
+        nodeListeners.add(nodeListener);
     }
 
     public void disable() {
@@ -369,92 +375,92 @@ public class MessageReceiver {
     }
 
     protected void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.address(address, detectorNumber, addresses);
         }
     }
 
     protected void fireBoosterCurrent(byte[] address, int current) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.boosterCurrent(address, current);
         }
     }
 
     protected void fireBoosterState(byte[] address, BoosterState state) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.boosterState(address, state);
         }
     }
 
     protected void fireBoosterTemperature(byte[] address, int temperature) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.boosterTemperature(address, temperature);
         }
     }
 
     protected void fireBoosterVoltage(byte[] address, int voltage) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.boosterVoltage(address, voltage);
         }
     }
 
     protected void fireConfidence(byte[] address, int valid, int freeze, int signal) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.confidence(address, valid, freeze, signal);
         }
     }
 
     private void fireFree(byte[] address, int detectorNumber) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.free(address, detectorNumber);
         }
     }
 
     private void fireIdentify(byte[] address, IdentifyState identifyState) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.identity(address, identifyState);
         }
     }
 
     private void fireKey(byte[] address, int keyNumber, int keyState) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.key(address, keyNumber, keyState);
         }
     }
 
     private void fireNodeLost(Node node) {
-        for (MessageListener l : listeners) {
+        for (NodeListener l : nodeListeners) {
             l.nodeLost(node);
         }
     }
 
     private void fireNodeNew(Node node) {
-        for (MessageListener l : listeners) {
+        for (NodeListener l : nodeListeners) {
             l.nodeNew(node);
         }
     }
 
     private void fireOccupied(byte[] address, int detectorNumber) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.occupied(address, detectorNumber);
         }
     }
 
     protected void fireSpeed(byte[] address, AddressData addressData, int speed) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.speed(address, addressData, speed);
         }
     }
 
     private void fireError(byte[] address, int errorCode) {
         LOGGER.error("Error received from system, addr: {}, errorCode: {}", address, errorCode);
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.error(address, errorCode);
         }
     }
 
     private void fireAccessoryState(byte[] address, AccessoryState accessoryState) {
-        for (MessageListener l : listeners) {
+        for (MessageListener l : messageListeners) {
             l.accessoryState(address, accessoryState);
         }
     }
@@ -522,7 +528,7 @@ public class MessageReceiver {
 
     public void removeMessageListener(MessageListener l) {
 
-        listeners.remove(l);
+        messageListeners.remove(l);
     }
 
     public void setTimeout(int timeout) {

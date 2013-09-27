@@ -45,14 +45,6 @@ public class BoostQuery extends BidibNodeCommand {
                     }
 
                     @Override
-                    public void nodeNew(Node node) {
-                    }
-
-                    @Override
-                    public void nodeLost(Node node) {
-                    }
-
-                    @Override
                     public void key(byte[] address, int keyNumber, int keyState) {
                     }
 

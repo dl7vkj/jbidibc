@@ -28,22 +28,6 @@ public interface MessageListener {
 
     void key(byte[] address, int keyNumber, int keyState);
 
-    /**
-     * Signals that a node was lost in the system.
-     * @param node the lost node
-     * 
-     * <p>TODO refactor this into a separate interface</p>
-     */
-    void nodeLost(Node node);
-
-    /**
-     * Signals that a new node was found in the system.
-     * @param node the new node
-     * 
-     * <p>TODO refactor this into a separate interface</p>
-     */
-    void nodeNew(Node node);
-
     void occupied(byte[] address, int detectorNumber);
 
     void speed(byte[] address, AddressData addressData, int speed);
