@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,7 +27,7 @@ public class CommandStationAccessoryAcknowledgeResponse extends BidibMessage {
     public int getAddress() {
         byte[] data = getData();
 
-        return (data[0] & 0xFF) + ((data[1] & 0xFF) << 8);
+        return ByteUtils.getInt(data[0], data[1]);
     }
 
     public AccessoryAcknowledge getAcknState() {

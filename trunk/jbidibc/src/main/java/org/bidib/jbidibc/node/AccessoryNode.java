@@ -30,6 +30,7 @@ import org.bidib.jbidibc.message.LcMacroSetMessage;
 import org.bidib.jbidibc.message.LcMacroStateResponse;
 import org.bidib.jbidibc.message.LcNotAvailableResponse;
 import org.bidib.jbidibc.message.LcOutputMessage;
+import org.bidib.jbidibc.utils.AccessoryStateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -129,6 +130,22 @@ public class AccessoryNode extends DeviceNode {
     public void setAccessoryState(int accessoryNumber, int aspect) throws ProtocolException {
         // response is signaled asynchronously
         sendNoWait(new AccessorySetMessage(accessoryNumber, aspect));
+    }
+
+    /**
+     * Send the accessory state acknowledgement message for the specified accessory.
+     * @param accessoryState the accessory state
+     * @throws ProtocolException
+     */
+    public void acknowledgeAccessoryState(AccessoryState accessoryState) throws ProtocolException {
+        // TODO check if we must handle this differently ... currently auto-acknowledge new state
+        if (AccessoryStateUtils.hasError(accessoryState.getExecute())) {
+            int accessoryNumber = accessoryState.getAccessoryNumber();
+            byte aspect = accessoryState.getAspect();
+            LOGGER.info("Acknowledge the accessory state change for accessory number: {}, aspect: {}", accessoryNumber,
+                aspect);
+            setAccessoryState(accessoryNumber, aspect);
+        }
     }
 
     public void setConfig(LcConfig config) throws ProtocolException {

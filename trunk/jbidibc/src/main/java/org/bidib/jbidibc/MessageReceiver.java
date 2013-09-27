@@ -207,14 +207,15 @@ public class MessageReceiver {
                                     }
                                     else if (message instanceof AccessoryStateResponse) {
                                         // TODO process the AccessoryStateResponse message
+                                        BidibNode node = nodeFactory.getNode(new Node(message.getAddr()));
+                                        if (node instanceof AccessoryNode) {
+                                            ((AccessoryNode) node)
+                                                .acknowledgeAccessoryState(((AccessoryStateResponse) message)
+                                                    .getAccessoryState());
+                                        }
+
                                         AccessoryStateResponse accessoryStateResponse =
                                             (AccessoryStateResponse) message;
-                                        //                                        LOGGER.info("Received {}", accessoryStateResponse.toExtendedString());
-
-                                        //                                        BidibNode node = nodeFactory.getNode(new Node(message.getAddr()));
-                                        //                                        if (node instanceof AccessoryNode) {
-                                        //                                            ((AccessoryNode) node).fireAccessoryState(accessoryStateResponse.getAccessoryState());
-                                        //                                        }
 
                                         fireAccessoryState(message.getAddr(), accessoryStateResponse
                                             .getAccessoryState());

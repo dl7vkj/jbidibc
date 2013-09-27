@@ -1,5 +1,6 @@
 package org.bidib.jbidibc;
 
+import org.bidib.jbidibc.utils.AccessoryStateUtils;
 import org.bidib.jbidibc.utils.ByteUtils;
 
 public class AccessoryState {
@@ -57,28 +58,29 @@ public class AccessoryState {
             sb.append(" => Error detected.");
         }
         else {
-            switch (execute & 0x01) {
-                case 0x00:
-                    sb.append(" => Reached end position.");
-                    break;
-                case 0x01:
-                    sb.append(" => End position not yet reached. Check WAIT.");
-                    break;
-                default:
-                    sb.append(" => Unknown.");
-                    break;
-            }
-            switch (execute & 0x02) {
-                case 0x00:
-                    sb.append(" => End position is verified by feedback.");
-                    break;
-                case 0x02:
-                    sb.append(" => No control of end position possible.");
-                    break;
-                default:
-                    sb.append(" => Unknown.");
-                    break;
-            }
+            sb.append(AccessoryStateUtils.getOperationResult(execute));
+            //            switch (execute & 0x01) {
+            //                case 0x00:
+            //                    sb.append(" => Reached end position.");
+            //                    break;
+            //                case 0x01:
+            //                    sb.append(" => End position not yet reached. Check WAIT.");
+            //                    break;
+            //                default:
+            //                    sb.append(" => Unknown.");
+            //                    break;
+            //            }
+            //            switch (execute & 0x02) {
+            //                case 0x00:
+            //                    sb.append(" => End position is verified by feedback.");
+            //                    break;
+            //                case 0x02:
+            //                    sb.append(" => No control of end position possible.");
+            //                    break;
+            //                default:
+            //                    sb.append(" => Unknown.");
+            //                    break;
+            //            }
         }
         sb.append(", wait: ").append(ByteUtils.getInt(wait));
         sb.append("]");

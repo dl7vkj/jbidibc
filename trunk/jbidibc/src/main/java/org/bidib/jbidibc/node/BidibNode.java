@@ -165,6 +165,15 @@ public class BidibNode {
         sendNoWait(new FeedbackMirrorOccupiedMessage(detectorNumber));
     }
 
+    //    /**
+    //     * Send the accessory state acknowledgement message for the specified accessory.
+    //     * @param accessoryState the accessory state
+    //     * @throws ProtocolException
+    //     */
+    //    public void acknowledgeAccessoryState(AccessoryState accessoryState) throws ProtocolException {
+    //        // DO NOTHING
+    //    }
+
     public void addTransferListener(TransferListener l) {
         listeners.add(l);
     }
