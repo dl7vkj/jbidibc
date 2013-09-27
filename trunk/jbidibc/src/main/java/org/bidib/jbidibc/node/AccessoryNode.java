@@ -14,7 +14,6 @@ import org.bidib.jbidibc.message.AccessoryParaGetMessage;
 import org.bidib.jbidibc.message.AccessoryParaResponse;
 import org.bidib.jbidibc.message.AccessoryParaSetMessage;
 import org.bidib.jbidibc.message.AccessorySetMessage;
-import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.LcConfigGetMessage;
 import org.bidib.jbidibc.message.LcConfigResponse;
@@ -54,14 +53,16 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
-    public AccessoryState getAccessoryState(int accessoryNumber) throws ProtocolException {
-        AccessoryState result = null;
-        BidibMessage response = send(new AccessoryGetMessage(accessoryNumber), true, AccessoryStateResponse.TYPE);
-
-        if (response instanceof AccessoryStateResponse) {
-            result = ((AccessoryStateResponse) response).getAccessoryState();
-        }
-        return result;
+    public void getAccessoryState(int accessoryNumber) throws ProtocolException {
+        // response is signaled asynchronously
+        sendNoWait(new AccessoryGetMessage(accessoryNumber));
+        //        AccessoryState result = null;
+        //        BidibMessage response = send(new AccessoryGetMessage(accessoryNumber), true, AccessoryStateResponse.TYPE);
+        //
+        //        if (response instanceof AccessoryStateResponse) {
+        //            result = ((AccessoryStateResponse) response).getAccessoryState();
+        //        }
+        //        return result;
     }
 
     /**
@@ -144,7 +145,12 @@ public class AccessoryNode extends DeviceNode {
             byte aspect = accessoryState.getAspect();
             LOGGER.info("Acknowledge the accessory state change for accessory number: {}, aspect: {}", accessoryNumber,
                 aspect);
+            // send acknowledge
             setAccessoryState(accessoryNumber, aspect);
+
+            // get the errors, see 4.6.4. Uplink: Messages for accessory functions
+            // TODO verify what happens exactly before enable this ...
+            //            getAccessoryState(accessoryNumber);
         }
     }
 
