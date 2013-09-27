@@ -1027,4 +1027,14 @@ public interface BidibLibrary {
 
     /// <i>native declaration : bidib_messages.h</i>
     public static final int BIDIB_MSG_FW_UPDATE_OP_ENTER = (int) 0;
+
+    // manually added ...
+    /// <i>native declaration : bidib_messages.h</i>
+    public static final int MSG_LC_OUTPUT_QUERY = (int) ((0 + 64) + 4);
+
+    /// <i>native declaration : bidib_messages.h</i>
+    public static final int FEATURE_CTRL_PORT_QUERY_AVAILABLE = (int) 66;
+
+    /// <i>native declaration : bidib_messages.h</i>
+    public static final int FEATURE_RELEVANT_PID_BITS = (int) 253;
 }
