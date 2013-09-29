@@ -42,11 +42,6 @@ public class AccessoryState {
         return wait;
     }
 
-    //    public String toString() {
-    //        return getClass().getSimpleName() + "[accessoryNumber=" + ByteUtils.getInt(accessoryNumber) + ",aspect=" + ByteUtils.getInt(aspect) + ",total="
-    //            + ByteUtils.getInt(total) + ",execute=" + ByteUtils.getInt(execute) + ",wait=" + ByteUtils.getInt(wait) + "]";
-    //    }
-
     public String toString() {
         StringBuffer sb = new StringBuffer("[ ");
         sb.append(getClass().getSimpleName());
@@ -58,31 +53,22 @@ public class AccessoryState {
             sb.append(" => Error detected.");
         }
         else {
+            sb.append("[");
             sb.append(AccessoryStateUtils.getOperationResult(execute));
-            //            switch (execute & 0x01) {
-            //                case 0x00:
-            //                    sb.append(" => Reached end position.");
-            //                    break;
-            //                case 0x01:
-            //                    sb.append(" => End position not yet reached. Check WAIT.");
-            //                    break;
-            //                default:
-            //                    sb.append(" => Unknown.");
-            //                    break;
-            //            }
-            //            switch (execute & 0x02) {
-            //                case 0x00:
-            //                    sb.append(" => End position is verified by feedback.");
-            //                    break;
-            //                case 0x02:
-            //                    sb.append(" => No control of end position possible.");
-            //                    break;
-            //                default:
-            //                    sb.append(" => Unknown.");
-            //                    break;
-            //            }
+            sb.append("]");
         }
-        sb.append(", wait: ").append(ByteUtils.getInt(wait));
+
+        // calculate the real time ...
+        int remainingTime = 0;
+        switch (wait & 0x80) {
+            case 0x00: // 100ms
+                remainingTime = (wait & 0x7F) * 100;
+                break;
+            default: // 1s
+                remainingTime = (wait & 0x7F) * 1000;
+                break;
+        }
+        sb.append(", remaing wait time: ").append(remainingTime).append("ms");
         sb.append("]");
         return sb.toString();
     }

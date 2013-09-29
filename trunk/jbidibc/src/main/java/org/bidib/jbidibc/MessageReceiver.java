@@ -9,7 +9,6 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
@@ -55,7 +54,7 @@ public class MessageReceiver {
 
     //    private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
-    private BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
+    private BlockingQueue<BidibMessage> receiveQueue;
 
     private final Collection<MessageListener> messageListeners =
         Collections.synchronizedList(new LinkedList<MessageListener>());
@@ -208,7 +207,7 @@ public class MessageReceiver {
                                             ((FeedbackSpeedResponse) message).getSpeed());
                                     }
                                     else if (message instanceof AccessoryStateResponse) {
-                                        // TODO process the AccessoryStateResponse message
+                                        // process the AccessoryStateResponse message
                                         BidibNode node = nodeFactory.getNode(new Node(message.getAddr()));
                                         if (node instanceof AccessoryNode) {
                                             ((AccessoryNode) node)
@@ -281,7 +280,6 @@ public class MessageReceiver {
                                         fireIdentify(message.getAddr(), ((SysIdentifyResponse) message).getState());
                                     }
                                     else {
-                                        //                                        LOGGER.info("Received message: {}", message);
                                         messageReceived(message);
                                     }
                                 }
@@ -522,7 +520,7 @@ public class MessageReceiver {
             }
         }
         while (!leaveLoop);
-        LOGGER.debug("Received message: {}", result);
+        LOGGER.debug("Return received message: {}", result);
         return result;
     }
 

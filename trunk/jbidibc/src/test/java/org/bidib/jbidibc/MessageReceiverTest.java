@@ -5,6 +5,7 @@ import gnu.io.SerialPort;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -29,6 +30,8 @@ public class MessageReceiverTest {
         // prepare the object to test
         MessageReceiver receiver = new MessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
+        // set the receive queue
+        receiver.setReceiveQueue(new LinkedBlockingQueue<BidibMessage>());
 
         ByteArrayInputStream is =
             new ByteArrayInputStream(new byte[] { 0x05, 0x00, 0x01, (byte) 0x86, (byte) 0x02, (byte) 0x00, (byte) 0x46,
@@ -57,6 +60,8 @@ public class MessageReceiverTest {
         // prepare the object to test
         MessageReceiver receiver = new MessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
+        // set the receive queue
+        receiver.setReceiveQueue(new LinkedBlockingQueue<BidibMessage>());
 
         ByteArrayInputStream is =
             new ByteArrayInputStream(new byte[] { (byte) 0xfe, 0x16, (byte) 0x01, (byte) 0x00, (byte) 0x06,
@@ -89,6 +94,8 @@ public class MessageReceiverTest {
         // prepare the object to test
         MessageReceiver receiver = new MessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
+        // set the receive queue
+        receiver.setReceiveQueue(new LinkedBlockingQueue<BidibMessage>());
 
         ByteArrayInputStream is =
             new ByteArrayInputStream(new byte[] { (byte) 0xfe, 0x16, (byte) 0x01, (byte) 0x00, (byte) 0x06,
@@ -127,6 +134,8 @@ public class MessageReceiverTest {
 
         MessageReceiver receiver = new MessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
+        // set the receive queue
+        receiver.setReceiveQueue(new LinkedBlockingQueue<BidibMessage>());
 
         ByteArrayInputStream is =
             new ByteArrayInputStream(new byte[] { 0x06, 0x01, 0x00, 0x0e, (byte) 0x90, 0x00, 0x20, /*CRC*/(byte) 0xA7,
@@ -155,6 +164,8 @@ public class MessageReceiverTest {
 
         MessageReceiver receiver = new MessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
+        // set the receive queue
+        receiver.setReceiveQueue(new LinkedBlockingQueue<BidibMessage>());
 
         ByteArrayInputStream is =
             new ByteArrayInputStream(
@@ -180,6 +191,7 @@ public class MessageReceiverTest {
 
         MessageReceiver receiver = new MessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
+        // set the receive queue
         receiver.setReceiveQueue(receiveQueue);
 
         // 11.08.2013 22:38:40.383: receive NodeTabResponse[[1, 0],num=2,type=137,data=[1, 0, 129, 0, 13, 114, 0, 31, 0]] : 0d 01 00 02 89 01 00 81 00 0d 72 00 1f 00 

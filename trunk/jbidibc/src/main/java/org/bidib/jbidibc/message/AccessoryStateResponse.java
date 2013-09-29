@@ -56,7 +56,17 @@ public class AccessoryStateResponse extends BidibMessage {
                     break;
             }
         }
-        sb.append(", wait: ").append(ByteUtils.getInt(data[4]));
+        // calculate the real time ...
+        int remainingTime = 0;
+        switch (data[4] & 0x80) {
+            case 0x00: // 100ms
+                remainingTime = (data[4] & 0x7F) * 100;
+                break;
+            default: // 1s
+                remainingTime = (data[4] & 0x7F) * 1000;
+                break;
+        }
+        sb.append(", remaing wait time: ").append(remainingTime).append("ms");
         return sb.toString();
     }
 
