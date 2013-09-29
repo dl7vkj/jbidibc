@@ -18,6 +18,8 @@ public class Node {
     private final long uniqueId;
 
     private final int version;
+    
+    private int relevantPidBits;
 
     protected Node(byte[] addr) {
         this.addr = addr != null ? addr.clone() : null;
@@ -59,6 +61,20 @@ public class Node {
      */
     public long getUniqueId() {
         return uniqueId;
+    }
+
+    /**
+     * @return the relevantPidBits
+     */
+    public int getRelevantPidBits() {
+        return relevantPidBits;
+    }
+
+    /**
+     * @param relevantPidBits the relevantPidBits to set
+     */
+    public void setRelevantPidBits(int relevantPidBits) {
+        this.relevantPidBits = relevantPidBits;
     }
 
     @Override

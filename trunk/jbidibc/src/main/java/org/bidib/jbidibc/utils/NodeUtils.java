@@ -89,6 +89,18 @@ public class NodeUtils {
     }
 
     /**
+     * @param uniqueId the unique id of the node
+     * @param pidBits the relevant PID bits
+     * @return returns the uniqueId of the node as formatted hex string
+     */
+    public static String[] getPidAndSerialNumberAsString(long uniqueId, int pidBits) {
+        // TODO add support for the pidBits ...
+        
+        return new String[]{"PID: ???", "Serial: ???"};
+    }
+
+    /**
+     * @param uniqueId the unique id of the node
      * @return returns the uniqueId of the node as formatted hex string
      */
     public static String getUniqueIdAsString(long uniqueId) {

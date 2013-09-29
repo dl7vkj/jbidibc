@@ -242,7 +242,7 @@ public class MessageReceiver {
                                         LOGGER.info("Send node changed acknowledge for nodetab version: {}", node
                                             .getVersion());
 
-                                        // create and register the new node in the node factory because we might receive spontanous messages
+                                        // create and register the new node in the node factory because we might receive spontaneous messages
                                         nodeFactory.createNode(node);
 
                                         // acknowledge the new nodetab version to the interface
