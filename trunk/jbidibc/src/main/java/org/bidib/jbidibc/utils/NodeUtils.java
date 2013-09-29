@@ -95,8 +95,8 @@ public class NodeUtils {
      */
     public static String[] getPidAndSerialNumberAsString(long uniqueId, int pidBits) {
         // TODO add support for the pidBits ...
-        
-        return new String[]{"PID: ???", "Serial: ???"};
+
+        return new String[] { "PID: ???", "Serial: ???" };
     }
 
     /**

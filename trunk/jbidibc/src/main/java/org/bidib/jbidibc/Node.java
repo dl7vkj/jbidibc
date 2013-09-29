@@ -18,7 +18,7 @@ public class Node {
     private final long uniqueId;
 
     private final int version;
-    
+
     private int relevantPidBits;
 
     protected Node(byte[] addr) {
