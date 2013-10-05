@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
+import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.BoosterNode;
 import org.slf4j.Logger;
@@ -91,6 +92,10 @@ public class BoostQuery extends BidibNodeCommand {
 
                     @Override
                     public void accessoryState(byte[] address, AccessoryState accessoryState) {
+                    }
+
+                    @Override
+                    public void lcStat(byte[] address, LcOutputType portType, int portNumber, int portStatus) {
                     }
                 });
 

@@ -29,6 +29,8 @@ import org.bidib.jbidibc.message.LcMacroSetMessage;
 import org.bidib.jbidibc.message.LcMacroStateResponse;
 import org.bidib.jbidibc.message.LcNotAvailableResponse;
 import org.bidib.jbidibc.message.LcOutputMessage;
+import org.bidib.jbidibc.message.LcOutputQueryMessage;
+import org.bidib.jbidibc.message.LcStatResponse;
 import org.bidib.jbidibc.utils.AccessoryStateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -204,5 +206,10 @@ public class AccessoryNode extends DeviceNode {
         sendNoWait(new LcOutputMessage(outputType, outputNumber, state));
         // TODO not sure why this is needed here ...
         getMessageReceiver().setTimeout(Bidib.DEFAULT_TIMEOUT);
+    }
+
+    public void queryOutputState(LcOutputType outputType, int outputNumber) throws ProtocolException {
+        LOGGER.info("Query the output state, type: {}, outputNumber: {}", outputType, outputNumber);
+        sendNoWait(new LcOutputQueryMessage(outputType, outputNumber));
     }
 }

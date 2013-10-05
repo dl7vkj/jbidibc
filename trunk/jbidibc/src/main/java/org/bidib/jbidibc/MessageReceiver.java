@@ -13,6 +13,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
+import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
@@ -227,7 +228,10 @@ public class MessageReceiver {
                                     }
                                     else if (message instanceof LcStatResponse) {
                                         // ignored
-                                        LOGGER.info("Received LcStatResponse: {}", message);
+                                        LOGGER.debug("Received LcStatResponse: {}", message);
+                                        LcStatResponse lcStatResponse = (LcStatResponse) message;
+                                        fireLcStat(message.getAddr(), lcStatResponse.getPortType(), lcStatResponse
+                                            .getPortNumber(), lcStatResponse.getPortStatus());
                                     }
                                     else if (message instanceof LcWaitResponse) {
                                         // TODO I think this does not work if the sender is already waiting for a response ...
@@ -424,6 +428,12 @@ public class MessageReceiver {
     private void fireKey(byte[] address, int keyNumber, int keyState) {
         for (MessageListener l : messageListeners) {
             l.key(address, keyNumber, keyState);
+        }
+    }
+
+    private void fireLcStat(byte[] address, LcOutputType portType, int portNumber, int portStatus) {
+        for (MessageListener l : messageListeners) {
+            l.lcStat(address, portType, portNumber, portStatus);
         }
     }
 

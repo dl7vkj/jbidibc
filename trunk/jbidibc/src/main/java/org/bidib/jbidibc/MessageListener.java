@@ -4,6 +4,7 @@ import java.util.Collection;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
+import org.bidib.jbidibc.enumeration.LcOutputType;
 
 /**
  * The message Listener interface.
@@ -45,4 +46,6 @@ public interface MessageListener {
      * @param accessoryState the accessory state
      */
     void accessoryState(byte[] address, AccessoryState accessoryState);
+
+    void lcStat(byte[] address, LcOutputType portType, int portNumber, int portStatus);
 }
