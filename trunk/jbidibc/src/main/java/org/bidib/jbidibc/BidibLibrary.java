@@ -786,7 +786,7 @@ public interface BidibLibrary {
     public static final int BIDIB_OUTTYPE_SERVO = (int) 2;
 
     /// <i>native declaration : bidib_messages.h</i>
-    public static final int BIDIB_ACC_STATE_WAIT = (int) 0;
+    public static final int BIDIB_ACC_STATE_WAIT = (int) 1;
 
     /// <i>native declaration : bidib_messages.h</i>
     public static final int FEATURE_GEN_SPYMODE = (int) 100;

@@ -45,10 +45,10 @@ public class AccessoryStateUtilsTest {
 
     @Test
     public void hasError() {
-        boolean hasError = AccessoryStateUtils.hasError((byte) 0x40);
+        boolean hasError = AccessoryStateUtils.hasError((byte) 0x80);
         Assert.assertEquals(hasError, true);
 
-        hasError = AccessoryStateUtils.hasError((byte) 0x80);
+        hasError = AccessoryStateUtils.hasError((byte) 0x40);
         Assert.assertEquals(hasError, false);
     }
 

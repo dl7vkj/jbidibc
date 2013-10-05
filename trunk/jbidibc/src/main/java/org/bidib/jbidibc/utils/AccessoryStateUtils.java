@@ -1,5 +1,7 @@
 package org.bidib.jbidibc.utils;
 
+import org.bidib.jbidibc.BidibLibrary;
+
 public class AccessoryStateUtils {
     public enum ErrorAccessoryState {
         //@formatter:off
@@ -40,18 +42,21 @@ public class AccessoryStateUtils {
     }
 
     public static boolean hasError(byte execute) {
-        return (execute & 0x40) == 0x40;
+        return (execute & BidibLibrary.BIDIB_ACC_STATE_ERROR) == BidibLibrary.BIDIB_ACC_STATE_ERROR;
     }
 
     public static String getOperationResult(byte execute) {
         // TODO refactor this
         StringBuffer sb = new StringBuffer();
         switch (execute & 0x01) {
-            case 0x00:
+            case BidibLibrary.BIDIB_ACC_STATE_DONE: // done
                 sb.append(" => Reached end position.");
                 break;
-            case 0x01:
+            case BidibLibrary.BIDIB_ACC_STATE_WAIT: // wait
                 sb.append(" => End position not yet reached. Check WAIT.");
+                break;
+            case BidibLibrary.BIDIB_ACC_STATE_NO_FB_AVAILABLE: // no feedback available
+                sb.append(" => No feedback available.");
                 break;
             default:
                 sb.append(" => Unknown.");
