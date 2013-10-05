@@ -42,6 +42,13 @@ public class AccessoryNode extends DeviceNode {
         super(addr, messageReceiver);
     }
 
+    /**
+     * Get the accessory parameter of the specified accessory.
+     * @param accessoryNumber the number of the accessory 
+     * @param parameter the parameter to retrieve
+     * @return the parameter values of the accessory
+     * @throws ProtocolException
+     */
     public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws ProtocolException {
         byte[] result = null;
         BidibMessage response =
@@ -53,16 +60,14 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
+    /**
+     * Get the accessory state of the specified accessory.
+     * @param accessoryNumber the number of the accessory
+     * @throws ProtocolException
+     */
     public void getAccessoryState(int accessoryNumber) throws ProtocolException {
         // response is signaled asynchronously
         sendNoWait(new AccessoryGetMessage(accessoryNumber));
-        //        AccessoryState result = null;
-        //        BidibMessage response = send(new AccessoryGetMessage(accessoryNumber), true, AccessoryStateResponse.TYPE);
-        //
-        //        if (response instanceof AccessoryStateResponse) {
-        //            result = ((AccessoryStateResponse) response).getAccessoryState();
-        //        }
-        //        return result;
     }
 
     /**
@@ -99,6 +104,13 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
+    /**
+     * Get the macro step with the specified step number.
+     * @param macroNumber the number of the macro
+     * @param stepNumber the number of the step
+     * @return the macro step
+     * @throws ProtocolException
+     */
     public LcMacro getMacroStep(int macroNumber, int stepNumber) throws ProtocolException {
         LcMacro result = null;
         BidibMessage response = send(new LcMacroGetMessage(macroNumber, stepNumber), true, LcMacroResponse.TYPE);

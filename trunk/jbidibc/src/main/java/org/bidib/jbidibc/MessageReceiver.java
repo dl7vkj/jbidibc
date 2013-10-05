@@ -415,6 +415,7 @@ public class MessageReceiver {
     }
 
     private void fireIdentify(byte[] address, IdentifyState identifyState) {
+        LOGGER.debug("Identify, addr: {}, identifyState: {}", address, identifyState);
         for (MessageListener l : messageListeners) {
             l.identity(address, identifyState);
         }

@@ -136,6 +136,14 @@ public class BidibNode {
     }
 
     /**
+     * Returns if the node is a bootloader node with limited functionality.
+     * @return node is bootloader node
+     */
+    public boolean isBootloaderNode() {
+        return (BidibLibrary.BIDIB_BOOT_MAGIC == nodeMagic);
+    }
+
+    /**
      * Send the feedback mirror free message for the specified detector number.
      * @param detectorNumber the detector number
      * @throws ProtocolException
@@ -301,6 +309,10 @@ public class BidibNode {
      */
     public Feature getFeature(int number) throws ProtocolException {
         LOGGER.debug("get feature with number: {}", number);
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
+            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GET");
+        }
 
         // if a node does not support the feature a feature not available response is received
         BidibMessage response =
@@ -332,6 +344,11 @@ public class BidibNode {
      * @throws InterruptedException
      */
     public Integer getFeatureCount() throws ProtocolException {
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
+            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GETALL");
+        }
+
         BidibMessage response = send(new FeatureGetAllMessage(), true, FeatureCountResponse.TYPE);
         if (response instanceof FeatureCountResponse) {
             Integer result = ((FeatureCountResponse) response).getCount();
@@ -349,6 +366,11 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public Feature getNextFeature() throws ProtocolException {
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
+            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GETNEXT");
+        }
+
         BidibMessage response =
             send(new FeatureGetNextMessage(), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
         if (response instanceof FeatureResponse) {
@@ -402,6 +424,13 @@ public class BidibNode {
      */
     private ProtocolException createNoResponseAvailable(String messageName) {
         ProtocolException ex = new ProtocolException("No response received from '" + messageName + "' message.");
+        return ex;
+    }
+
+    private ProtocolException createNotSupportedByBootloaderNode(String messageName) {
+        ProtocolException ex =
+            new ProtocolException("The current node is a limited bootload node and does not support the '"
+                + messageName + "' message.");
         return ex;
     }
 
@@ -860,6 +889,11 @@ public class BidibNode {
      */
     public VendorData vendorGet(String name) throws ProtocolException {
         LOGGER.info("Get vendor message, name: {}", name);
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support vendor data requests.");
+            throw createNotSupportedByBootloaderNode("MSG_VENDOR_GET");
+        }
+
         BidibMessage result = send(new VendorGetMessage(name), true, VendorResponse.TYPE);
         if (result instanceof VendorResponse) {
             return ((VendorResponse) result).getVendorData();
@@ -875,6 +909,11 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public VendorData vendorSet(String name, String value) throws ProtocolException {
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support vendor data requests.");
+            throw createNotSupportedByBootloaderNode("MSG_VENDOR_SET");
+        }
+
         BidibMessage result = send(new VendorSetMessage(name, value), true, VendorResponse.TYPE);
         if (result instanceof VendorResponse) {
             return ((VendorResponse) result).getVendorData();
