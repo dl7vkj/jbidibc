@@ -1037,4 +1037,24 @@ public interface BidibLibrary {
 
     /// <i>native declaration : bidib_messages.h</i>
     public static final int FEATURE_RELEVANT_PID_BITS = (int) 253;
+
+    /// <i>native declaration : bidib_messages.h</i>
+    // no feedback available
+    public static final int BIDIB_ACC_STATE_NO_FB_AVAILABLE = (int) 0x02;
+
+    /// <i>native declaration : bidib_messages.h</i>
+    // always if error, + error code
+    public static final int BIDIB_ACC_STATE_ERROR = (int) 0x80;
+
+    /// <i>native declaration : bidib_messages.h</i>
+    // query input for 'pressed / activated' and send okay to accessory-module, if pressed, else send nok. (not waiting)
+    public static final int BIDIB_MSYS_ACC_OKAY_QIN1 = (int) 243;
+
+    /// <i>native declaration : bidib_messages.h</i>
+    // query input for 'released' and send okay to accessory-module, if pressed, else send nok. (not waiting)
+    public static final int BIDIB_MSYS_ACC_OKAY_QIN0 = (int) 242;
+
+    /// <i>native declaration : bidib_messages.h</i>
+    // send okay to accessory-module, no feedback available
+    public static final int BIDIB_MSYS_ACC_OKAY_NF = (int) 241;
 }

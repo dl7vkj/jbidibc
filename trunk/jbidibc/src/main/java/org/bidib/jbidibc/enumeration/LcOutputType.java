@@ -12,7 +12,9 @@ public enum LcOutputType implements BidibEnum {
         BidibLibrary.BIDIB_MSYS_FLAG_CLEAR), FLAG_SET(BidibLibrary.BIDIB_MSYS_FLAG_SET), FLAG_QUERY(
         BidibLibrary.BIDIB_MSYS_FLAG_QUERY), END_CRITICAL(BidibLibrary.BIDIB_MSYS_END_CRITCAL), BEGIN_CRITICAL(
         BidibLibrary.BIDIB_MSYS_BEGIN_CRITCAL), STOP_MACRO(BidibLibrary.BIDIB_MSYS_STOP_MACRO), START_MACRO(
-        BidibLibrary.BIDIB_MSYS_START_MACRO), END_OF_MACRO(BidibLibrary.BIDIB_MSYS_END_OF_MACRO);
+        BidibLibrary.BIDIB_MSYS_START_MACRO), END_OF_MACRO(BidibLibrary.BIDIB_MSYS_END_OF_MACRO), ACCESSORY_OKAY_INPUTQUERY0(
+        BidibLibrary.BIDIB_MSYS_ACC_OKAY_QIN0), ACCESSORY_OKAY_INPUTQUERY1(BidibLibrary.BIDIB_MSYS_ACC_OKAY_QIN1), ACCESSORY_OKAY_NF(
+        BidibLibrary.BIDIB_MSYS_ACC_OKAY_NF);
     //@formatter:on
 
     private final byte type;
