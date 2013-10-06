@@ -1028,6 +1028,7 @@ public interface BidibLibrary {
     /// <i>native declaration : bidib_messages.h</i>
     public static final int BIDIB_MSG_FW_UPDATE_OP_ENTER = (int) 0;
 
+    // =============================================================================================
     // manually added ...
     /// <i>native declaration : bidib_messages.h</i>
     public static final int MSG_LC_OUTPUT_QUERY = (int) ((0 + 64) + 4);
@@ -1057,4 +1058,12 @@ public interface BidibLibrary {
     /// <i>native declaration : bidib_messages.h</i>
     // send okay to accessory-module, no feedback available
     public static final int BIDIB_MSYS_ACC_OKAY_NF = (int) 241;
+
+    public static final int BIDIB_OUTTYPE_BACKLIGHT = (int) 6;
+
+    //number of backlight ports (intensity direct controlled)
+    public static final int FEATURE_CTRL_BACKLIGHT_COUNT = (int) 59;
+
+    // 1: node has possibility to configure SPORTs
+    public static final int FEATURE_SPORT_CONFIG_AVAILABLE = (int) 67;
 }

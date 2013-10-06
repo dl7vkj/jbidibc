@@ -51,6 +51,8 @@
 //            2013-09-26 V0.13 kw  added MSG_LC_OUTPUT_QUERY, added FEATURE_RELEVANT_PID_BITS
 //                                       FEATURE_CTRL_PORT_QUERY_AVAILABLE
 //            2013-10-04 V0.14 kw  added BIDIB_MSYS_ACC_OKAY_QIN0 ..1, BIDIB_MSYS_ACC_OKAY_NF
+//            2013-10-06       kw  added FEATURE_SPORT_CONFIG_AVAILABLE, added Ctrltype BACKLIGHT
+//                                 added FEATURE_CTRL_BACKLIGHT_COUNT, BIDIB_OUTTYPE_BACKLIGHT
 //
 //===============================================================================
 //
@@ -328,13 +330,23 @@ typedef enum
     BIDIB_MACRO_DELETE  = 255,
   } t_bidib_macro_state;
 
-// typedef for control operations
+// typedef for control operations - execute
 typedef struct
   {
     unsigned char type;                  // BIDIB_OUTTYPE_*
     unsigned char portnum;               // out number, 0 ... n
     unsigned char portstat;              // state of this output
   }  t_bidib_port;
+
+// typedef for control operations - config
+typedef struct
+  {
+    unsigned char portnum;
+    unsigned char portmode;             // operation mode of port
+    unsigned char reserved0;            // 
+    unsigned char reserved1;            // 
+    unsigned char reserved2;            // 
+  } t_bidib_sport_cfg;                  // for Switch PORTs
 
 typedef struct
   {
@@ -343,7 +355,16 @@ typedef struct
     unsigned char brightness_on;        // Brightness in state ON, range 0..255
     unsigned char dimm_off;             // time for dimming towards OFF: 0=fast ... 255=slow
     unsigned char dimm_on;              // time for dimming towards ON: 0=fast ... 255=slow
-  } t_bidib_lport_cfg;
+  } t_bidib_lport_cfg;                  // for Light PORTs
+
+typedef struct
+  {
+    unsigned char portnum;
+    unsigned char dimm_off;             // time for dimming towards OFF: 0=fast ... 255=slow
+    unsigned char dimm_on;              // time for dimming towards ON: 0=fast ... 255=slow
+    unsigned char channel;              // mapping to physical channel
+    unsigned char reserved0;            // 
+  } t_bidib_backlport_cfg;              // for BACKLIGHT
 
 typedef struct
   {
@@ -352,7 +373,7 @@ typedef struct
     unsigned char adjust_high;
     unsigned char speed;
     unsigned char reserved0;
-  } t_bidib_servo_cfg;
+  } t_bidib_servo_cfg;                  // for Servos
 
 typedef struct                              //  t_bidib_cs_accessory
   {
@@ -547,13 +568,15 @@ typedef struct                              // t_bidib_cs_pom
 #define FEATURE_CTRL_MOTOR_COUNT           56   // number of motor ports (direct controlled)
 #define FEATURE_CTRL_ANALOG_COUNT          57   // number of analog ports (direct controlled)
 #define FEATURE_CTRL_STRETCH_DIMM          58   // additional time stretch for dimming (for LPORT)
+#define FEATURE_CTRL_BACKLIGHT_COUNT       59   // number of backlight ports (intensity direct controlled)
 #define FEATURE_CTRL_MAC_LEVEL             60   // supported macro level
 #define FEATURE_CTRL_MAC_SAVE              61   // number of permanent storage places for macros
 #define FEATURE_CTRL_MAC_COUNT             62   // number of macros
 #define FEATURE_CTRL_MAC_SIZE              63   // length of each macro (entries)
 #define FEATURE_CTRL_MAC_START_MAN         64   // (local) manual control of macros enabled
 #define FEATURE_CTRL_MAC_START_DCC         65   // (local) dcc control of macros enabled
-#define FEATURE_CTRL_PORT_QUERY_AVAILABLE  66   // 1: hnode will answer to MSG_LC_OUTPUT_QUERY
+#define FEATURE_CTRL_PORT_QUERY_AVAILABLE  66   // 1: node will answer to MSG_LC_OUTPUT_QUERY
+#define FEATURE_SPORT_CONFIG_AVAILABLE     67   // 1: node has possibility to configure SPORTs
 
 //-- dcc gen
 #define FEATURE_GEN_SPYMODE                100  // 1: watch bidib handsets
@@ -734,6 +757,7 @@ typedef struct                              // t_bidib_cs_pom
 #define BIDIB_OUTTYPE_SOUND          3
 #define BIDIB_OUTTYPE_MOTOR          4
 #define BIDIB_OUTTYPE_ANALOG         5
+#define BIDIB_OUTTYPE_BACKLIGHT      6
 
 // control codes  - limited to one nibble, here for PORTs
 
