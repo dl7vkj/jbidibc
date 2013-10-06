@@ -30,7 +30,6 @@ import org.bidib.jbidibc.message.LcMacroStateResponse;
 import org.bidib.jbidibc.message.LcNotAvailableResponse;
 import org.bidib.jbidibc.message.LcOutputMessage;
 import org.bidib.jbidibc.message.LcOutputQueryMessage;
-import org.bidib.jbidibc.message.LcStatResponse;
 import org.bidib.jbidibc.utils.AccessoryStateUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
