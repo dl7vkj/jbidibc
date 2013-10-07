@@ -34,5 +34,27 @@
                 <flagNumber>12</flagNumber>
             </FlagActionType>
         </lcMacroPoint>
+        <lcMacroPoint xsi:type="BacklightPortPoint">
+            <delay>60</delay>
+            <BacklightPortActionType>
+                <action>START</action>
+                <brightness>230</brightness>
+            </BacklightPortActionType>
+            <outputNumber>0</outputNumber>
+        </lcMacroPoint>
+        <lcMacroPoint xsi:type="AccessoryOkayPoint">
+            <delay>65</delay>
+            <AccessoryOkayActionType>NO_FEEDBACK</AccessoryOkayActionType>
+        </lcMacroPoint>
+        <lcMacroPoint xsi:type="AccessoryOkayPoint">
+            <delay>65</delay>
+            <AccessoryOkayActionType>QUERY0</AccessoryOkayActionType>
+            <inputNumber>1</inputNumber>
+        </lcMacroPoint>
+        <lcMacroPoint xsi:type="AccessoryOkayPoint">
+            <delay>65</delay>
+            <AccessoryOkayActionType>QUERY1</AccessoryOkayActionType>
+            <inputNumber>1</inputNumber>
+        </lcMacroPoint>
     </lcMacro>
 </lcMacros>

@@ -614,8 +614,11 @@ public class BidibNode {
     private BidibMessage receive(List<Integer> expectedResponseTypes) throws InterruptedException {
         BidibMessage result = null;
         LOGGER.debug("Receive message, expected responseTypes: {}", expectedResponseTypes);
+
         fireReceiveStarted();
+
         try {
+            // TODO we should provide a timeout parameter here ...
             result = messageReceiver.getMessage(expectedResponseTypes);
         }
         finally {

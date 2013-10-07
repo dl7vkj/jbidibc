@@ -122,7 +122,6 @@ public class LcMacroTest {
         lcMacro.getLcMacroPoint().add(lightPortPoint);
 
         ServoPortPoint servoPortPoint = new ServoPortPoint();
-        //        servoPortPoint.setIndex(2);
         servoPortPoint.setDelay(60);
         servoPortPoint.setOutputNumber(0);
         ServoPortActionType servoPortActionType = new ServoPortActionType();
@@ -133,7 +132,6 @@ public class LcMacroTest {
         lcMacro.getLcMacroPoint().add(servoPortPoint);
 
         AnalogPortPoint analogPortPoint = new AnalogPortPoint();
-        //        analogPortPoint.setIndex(3);
         analogPortPoint.setDelay(30);
         analogPortPoint.setOutputNumber(0);
         AnalogPortActionType analogPortAction = new AnalogPortActionType();
@@ -144,13 +142,43 @@ public class LcMacroTest {
         lcMacro.getLcMacroPoint().add(analogPortPoint);
 
         FlagPoint flagPoint = new FlagPoint();
-        //        flagPoint.setIndex(4);
         FlagActionType flagActionType = new FlagActionType();
         flagActionType.setFlagNumber(12);
         flagActionType.setOperation(FlagOperationType.SET);
         flagPoint.setFlagActionType(flagActionType);
 
         lcMacro.getLcMacroPoint().add(flagPoint);
+
+        BacklightPortPoint backlightPortPoint = new BacklightPortPoint();
+        backlightPortPoint.setDelay(60);
+        backlightPortPoint.setOutputNumber(0);
+        BacklightPortActionType backlightPortActionType = new BacklightPortActionType();
+        backlightPortActionType.setAction(BacklightActionType.START);
+        backlightPortActionType.setBrightness(230);
+        backlightPortPoint.setBacklightPortActionType(backlightPortActionType);
+
+        lcMacro.getLcMacroPoint().add(backlightPortPoint);
+
+        AccessoryOkayPoint accessoryOkayPoint = new AccessoryOkayPoint();
+        accessoryOkayPoint.setDelay(65);
+        // don't set the input for NOFEEDBACK
+        accessoryOkayPoint.setAccessoryOkayActionType(AccessoryOkayActionType.NO_FEEDBACK);
+
+        lcMacro.getLcMacroPoint().add(accessoryOkayPoint);
+
+        AccessoryOkayPoint accessoryOkayPoint0 = new AccessoryOkayPoint();
+        accessoryOkayPoint0.setDelay(65);
+        accessoryOkayPoint0.setInputNumber(1);
+        accessoryOkayPoint0.setAccessoryOkayActionType(AccessoryOkayActionType.QUERY_0);
+
+        lcMacro.getLcMacroPoint().add(accessoryOkayPoint0);
+
+        AccessoryOkayPoint accessoryOkayPoint1 = new AccessoryOkayPoint();
+        accessoryOkayPoint1.setDelay(65);
+        accessoryOkayPoint1.setInputNumber(1);
+        accessoryOkayPoint1.setAccessoryOkayActionType(AccessoryOkayActionType.QUERY_1);
+
+        lcMacro.getLcMacroPoint().add(accessoryOkayPoint1);
 
         LcMacros lcMacros = new LcMacros();
         lcMacros.setLcMacro(lcMacro);

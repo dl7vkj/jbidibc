@@ -63,6 +63,21 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<xsd:complexType name="AccessoryOkayPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents an accessory okay.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroPointType">
+				<xsd:sequence>
+					<xsd:element name="delay" type="bidib:MacroDelayType"
+						minOccurs="0" />
+					<xsd:element name="AccessoryOkayActionType" type="bidib:AccessoryOkayActionType" />
+					<xsd:element name="inputNumber" type="bidib:OutputNumberType" minOccurs="0"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 	<xsd:complexType name="LightPortPoint">
 		<xsd:annotation>
 			<xsd:documentation>This macro point represents a light port.</xsd:documentation>
@@ -73,6 +88,21 @@
 					<xsd:element name="delay" type="bidib:MacroDelayType"
 						minOccurs="0" />
 					<xsd:element name="LightPortActionType" type="bidib:LightPortActionType" />
+					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BacklightPortPoint">
+		<xsd:annotation>
+			<xsd:documentation>This macro point represents a backlight port.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="bidib:LcMacroPointType">
+				<xsd:sequence>
+					<xsd:element name="delay" type="bidib:MacroDelayType"
+						minOccurs="0" />
+					<xsd:element name="BacklightPortActionType" type="bidib:BacklightPortActionType" />
 					<xsd:element name="outputNumber" type="bidib:OutputNumberType"/>
 				</xsd:sequence>
 			</xsd:extension>
@@ -207,7 +237,9 @@
 	<xsd:element name="CriticalSectionActionType" type="bidib:CriticalSectionActionType"/>
 	<xsd:element name="FlagActionType" type="bidib:FlagActionType"/>
 	<xsd:element name="InputPortActionType" type="bidib:InputPortActionType"/>
+	<xsd:element name="AccessoryOkayActionType" type="bidib:AccessoryOkayActionType"/>
 	<xsd:element name="LightPortActionType" type="bidib:LightPortActionType"/>
+	<xsd:element name="BacklightPortActionType" type="bidib:BacklightPortActionType"/>
 	<xsd:element name="MacroActionType" type="bidib:MacroActionType"/>
 	<xsd:element name="MotorPortActionType" type="bidib:MotorPortActionType"/>
 	<xsd:element name="ServoPortActionType" type="bidib:ServoPortActionType"/>
@@ -331,6 +363,13 @@
 			<xsd:enumeration value="QUERY1"/>
 		</xsd:restriction>
 	</xsd:simpleType>
+	<xsd:simpleType name="AccessoryOkayActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="NO_FEEDBACK"/>
+			<xsd:enumeration value="QUERY0"/>
+			<xsd:enumeration value="QUERY1"/>
+		</xsd:restriction>
+	</xsd:simpleType>
 
 	<xsd:complexType name="SoundPortActionType">
 		<xsd:sequence>
@@ -398,6 +437,29 @@
 		<xsd:sequence>
 			<xsd:element name="action" type="bidib:ServoActionType"/>
 			<xsd:element name="destination" type="bidib:ServoDestinationType"/>
+		</xsd:sequence>
+	</xsd:group>
+
+	<xsd:complexType name="BacklightPortActionType">
+		<xsd:sequence>
+			<xsd:group ref="bidib:BacklightPortParams"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="BacklightActionType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="START"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="BacklightBrightnessType">
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:group name="BacklightPortParams">
+		<xsd:sequence>
+			<xsd:element name="action" type="bidib:BacklightActionType"/>
+			<xsd:element name="brightness" type="bidib:BacklightBrightnessType"/>
 		</xsd:sequence>
 	</xsd:group>
 

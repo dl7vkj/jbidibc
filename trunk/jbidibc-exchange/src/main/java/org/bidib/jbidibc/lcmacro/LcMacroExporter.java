@@ -15,6 +15,7 @@ import javax.xml.bind.Unmarshaller;
 
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.enumeration.AnalogPortEnum;
+import org.bidib.jbidibc.enumeration.BacklightPortEnum;
 import org.bidib.jbidibc.enumeration.BidibEnum;
 import org.bidib.jbidibc.enumeration.LightPortEnum;
 import org.bidib.jbidibc.enumeration.MotorPortEnum;
@@ -39,6 +40,27 @@ public class LcMacroExporter {
 
         BidibEnum val = lcMacro.getStatus();
         switch (lcMacro.getOutputType()) {
+            case ACCESSORY_OKAY_NF:
+                AccessoryOkayPoint accessoryOkayNFPoint = new AccessoryOkayPoint();
+                // no input number for no feedback
+                accessoryOkayNFPoint.setAccessoryOkayActionType(AccessoryOkayActionType.NO_FEEDBACK);
+                accessoryOkayNFPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
+                lcMacroPoint = accessoryOkayNFPoint;
+                break;
+            case ACCESSORY_OKAY_INPUTQUERY0:
+                AccessoryOkayPoint accessoryOkay0Point = new AccessoryOkayPoint();
+                accessoryOkay0Point.setInputNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                accessoryOkay0Point.setAccessoryOkayActionType(AccessoryOkayActionType.QUERY_0);
+                accessoryOkay0Point.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
+                lcMacroPoint = accessoryOkay0Point;
+                break;
+            case ACCESSORY_OKAY_INPUTQUERY1:
+                AccessoryOkayPoint accessoryOkay1Point = new AccessoryOkayPoint();
+                accessoryOkay1Point.setInputNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                accessoryOkay1Point.setAccessoryOkayActionType(AccessoryOkayActionType.QUERY_1);
+                accessoryOkay1Point.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
+                lcMacroPoint = accessoryOkay1Point;
+                break;
             case ANALOGPORT:
                 AnalogPortEnum analogPortEnum = AnalogPortEnum.valueOf(val.getType());
                 AnalogPortPoint analogPortPoint = new AnalogPortPoint();
@@ -49,6 +71,17 @@ public class LcMacroExporter {
                 analogPortPoint.setOutputNumber(lcMacro.getOutputNumber());
                 analogPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = analogPortPoint;
+                break;
+            case BACKLIGHTPORT:
+                BacklightPortEnum backlightPortEnum = BacklightPortEnum.valueOf(val.getType());
+                BacklightPortActionType backlightPortActionType = new BacklightPortActionType();
+                backlightPortActionType.setAction(BacklightActionType.fromValue(backlightPortEnum.name()));
+                backlightPortActionType.setBrightness(ByteUtils.getInt(lcMacro.getValue()));
+                BacklightPortPoint backlightPortPoint = new BacklightPortPoint();
+                backlightPortPoint.setBacklightPortActionType(backlightPortActionType);
+                backlightPortPoint.setOutputNumber(lcMacro.getOutputNumber());
+                backlightPortPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
+                lcMacroPoint = backlightPortPoint;
                 break;
             case BEGIN_CRITICAL:
                 CriticalSectionPoint beginCriticalSectionPoint = new CriticalSectionPoint();
