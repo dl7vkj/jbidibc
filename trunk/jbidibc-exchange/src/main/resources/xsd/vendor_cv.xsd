@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:vendorcv="http://www.bidib.org/vendorcv" targetNamespace="http://www.bidib.org/vendorcv" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:vendorcv="http://www.bidib.org/jbidibc/vendorcv" targetNamespace="http://www.bidib.org/jbidibc/vendorcv" 
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xsd:complexType name="VersionInfoType">
 		<xsd:sequence>
 			<xsd:any minOccurs="0"/>

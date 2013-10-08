@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="2.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
-	xmlns:vendorcv="http://www.bidib.org/vendorcv" exclude-result-prefixes="#default" xmlns="http://www.bidib.org/vendorcv">
+	xmlns:vendorcv="http://www.bidib.org/jbidibc/vendorcv" exclude-result-prefixes="#default" xmlns="http://www.bidib.org/jbidibc/vendorcv">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8"
 		indent="yes" />
 	<xsl:strip-space elements="*" />
 
 	<!-- string for default namespace uri and schema location -->
-	<xsl:variable name="nsVendorCV" select="'http://www.bidib.org/vendorcv'" />
+	<xsl:variable name="nsVendorCV" select="'http://www.bidib.org/jbidibc/vendorcv'" />
 	<xsl:variable name="schemaLoc"
 		select="'http://www.bidib.org/vendorcv vendor_cv.xsd'" />
 

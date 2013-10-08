@@ -1,533 +1,524 @@
-<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <VendorCV>
-	<Version 
-		version="0.3" 
-		LastUpdate="20130702" 
-		author="Kufer, Wolfgang"
-		PID1="102"
-		PID2="000"
-		Vendor="013"
-		description="GBMBoost Node">
-	</Version>
-	<Templates>
-<GBM16T>
-	<Common>
-		<CV>
-		 <number>7</number>
-		 <type>Byte</type>
-		 <min>0</min>
-		 <max>255</max>
-		 <low>-</low>
-		 <high>-</high>
-		 <values>-</values>
-		 <mode>ro</mode> 
-		 <descde>Vendor GBM16T</descde>
-		 <descen>Vendor GBM16T</descen>
-	   </CV>
-	   <CV>
-		 <number>42</number>
-		 <type>Byte</type>
-		 <min>1</min>
-		 <max>25</max>
-		 <low>-</low>
-		 <high>-</high>
-		 <values>-</values>
-		 <mode>ro</mode> 
-		 <descde>Störungsunterdrückung</descde>
-		 <descen>Spike Suppression</descen>
-	   </CV>
-	   <CV>
-		 <number>43</number>
-		 <type>Bit</type>
-		 <min>2</min>
-		 <max>50</max>
-		 <low>-</low>
-		 <high>-</high>
-		 <values>-</values>
-		 <mode>rw</mode> 
-		 <descde>Memory (Einheit 100ms)</descde>
-		 <descen>Memory (Unit 100ms)</descen>
-	   </CV>
-	   <CV>
-		 <number>44</number>
-		 <type>Byte</type>
-		 <min>2</min>
-		 <max>50</max>
-		 <low>-</low>
-		 <high>-</high>
-		 <values>-</values>
-		 <mode>rw</mode> 
-		 <descde>Ansprechschwelle (DCC an)</descde>
-		 <descen>Threshold (DCC on)</descen>
-	   </CV>
-	   <CV>
-		 <number>45</number>
-		 <type>Byte</type>
-		 <min>4</min>
-		 <max>100</max>
-		 <low>-</low>
-		 <high>-</high>
-		 <values>-</values>
-		 <mode>rw</mode> 
-		 <descde>Ansprechschwelle (DCC aus)</descde>
-		 <descen>Threshold (DCC off)</descen>
-	   </CV>
-	   <CV>
-		 <number>37</number>
-		 <type>Byte</type>
-		 <min>1</min>
-		 <max>10</max>
-		 <low>-</low>
-		 <high>-</high>
-		 <values>-</values>
-		 <mode>rw</mode> 
-		 <descde>Gedulteter Offset ADC</descde>
-		 <descen>Allowed Offset ADC</descen>
-		</CV>
-   </Common>
-		<Reverser>
-			<CV>
-			 <number>1</number>
-			 <type>Int</type>
-			 <min>-</min>
-			 <max>-</max>
-			 <low>1</low>
-			 <high>9</high>
-			 <values>-</values>
-			 <mode>rw</mode> 
-			 <descde>DCC Adr. (low)</descde>
-			 <descen>DCC Addr. (low)</descen>
-		   </CV>
-			<CV>
-			 <number>9</number>
-			 <type>Int</type>
-			 <min>-</min>
-			 <max>-</max>
-			 <low>1</low>
-			 <high>9</high>
-			 <values>-</values>
-			 <mode>rw</mode> 
-			 <descde>DCC Adr. (high)</descde>
-			 <descen>DCC Addr. (high)</descen>
-		   </CV>
-		   <CV>
-			 <number>51</number>
-			 <type>Byte</type>
-			 <min>0</min>
-			 <max>255</max>
-			 <low>-</low>
-			 <high>-</high>
-			 <values>-</values>
-			 <mode>ro</mode> 
-			 <descde>Reverser aktuelle Stellung</descde>
-			 <descen>Reverser Current Position</descen>
-		   </CV>
-		   <CV>
-			 <number>46</number>
-			 <type>GBM16TReverser</type>
-			 <min>0</min>
-			 <max>255</max>
-			 <low>-</low>
-			 <high>-</high>
-			 <values>-</values>
-			 <mode>rw</mode> 
-			 <descde>Reverser Mode</descde>
-			 <descen>Reverser Mode</descen>
-		   </CV>
-		   <CV>
-			 <number>47</number>
-			 <type>GBM16TReverser</type>
-			 <min>0</min>
-			 <max>255</max>
-			 <low>47</low>
-			 <high>48</high>
-			 <values>-</values>
-			 <mode>rw</mode> 
-			 <descde>Reverser On Low</descde>
-			 <descen>Reverser On Low</descen>
-		   </CV>
-		   <CV>
-			 <number>48</number>
-			 <type>GBM16TReverser</type>
-			 <min>0</min>
-			 <max>255</max>
-			 <low>47</low>
-			 <high>48</high>
-			 <values>-</values>
-			 <mode>rw</mode> 
-			 <descde>Reverser On High</descde>
-			 <descen>Reverser On High</descen>
-		   </CV>
-		   <CV>
-			 <number>49</number>
-			 <type>GBM16TReverser</type>
-			 <min>0</min>
-			 <max>255</max>
-			 <low>49</low>
-			 <high>50</high>
-			 <values>-</values>
-			 <mode>rw</mode> 
-			 <descde>Reverser Off Low</descde>
-			 <descen>Reverser Off Low</descen>
-		   </CV>
-		   <CV>
-			 <number>50</number>
-			 <type>GBM16TReverser</type>
-			 <min>0</min>
-			 <max>255</max>
-			 <low>49</low>
-			 <high>50</high>
-			 <values>-</values>
-			 <mode>rw</mode> 
-			 <descde>Reverser Off High</descde>
-			 <descen>Reverser Off High</descen>
-		   </CV>
-		   <CV>
-			 <number>65</number>
-			 <type>GBM16TReverser</type>
-			 <min>0</min>
-			 <max>255</max>
-			 <low>65</low>
-			 <high>66</high>
-			 <values>-</values>
-			 <mode>rw</mode> 
-			 <descde>Reverser Prio Low</descde>
-			 <descen>Reverser Prio Low</descen>
-		   </CV>
-		   <CV>
-			 <number>66</number>
-			 <type>GBM16TReverser</type>
-			 <min>0</min>
-			 <max>255</max>
-			 <low>65</low>
-			 <high>66</high>
-			 <values>-</values>
-			 <mode>rw</mode> 
-			 <descde>Reverser Prio High</descde>
-			 <descen>Reverser Prio High</descen>
-		   </CV>
-      </Reverser>
-		<Inhibit>
-   <CV>
-     <number>61</number>
-	 <type>Byte</type>
-	 <min>-</min>
-	 <max>-</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>Inhibit On, aktueller Zustand</descde>
-	 <descen>Inhibit On, current state</descen>
-   </CV>
-   <CV>
-     <number>59</number>
-	 <type>DCC_ADDR_RG</type>
-	 <min>0</min>
-	 <max>2040</max>
-	 <low>59</low>
-	 <high>60</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Inhibit On, Addr (Low)</descde>
-	 <descen>Inhibit On, Addr (Low)</descen>
-   </CV>
-   <CV>
-     <number>60</number>
-	 <type>DCC_ADDR_RG</type>
-	 <min>0</min>
-	 <max>2040</max>
-	 <low>59</low>
-	 <high>60</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Inhibit On, Addr (High)</descde>
-	 <descen>Inhibit On, Addr (High)</descen>
-   </CV>
-   <CV>
-     <number>64</number>
-	 <type>Byte</type>
-	 <min>-</min>
-	 <max>-</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>Inhibit Off, aktueller Zustand</descde>
-	 <descen>Inhibit Off, current state</descen>
-   </CV>
-   <CV>
-     <number>62</number>
-	 <type>DCC_ADDR_RG</type>
-	 <min>0</min>
-	 <max>2040</max>
-	 <low>62</low>
-	 <high>63</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Inhibit Off, Addr (Low)</descde>
-	 <descen>Inhibit Off, Addr (Low)</descen>
-   </CV>
-   <CV>
-     <number>63</number>
-	 <type>DCC_ADDR_RG</type>
-	 <min>0</min>
-	 <max>2040</max>
-	 <low>62</low>
-	 <high>63</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Inhibit Off, Addr (High)</descde>
-	 <descen>Inhibit Off, Addr (High)</descen>
-   </CV>
-   </Inhibit>
-   <Speed>
-   <CV>
-     <number>52</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Maßstab</descde>
-	 <descen>Scale</descen>
-   </CV>
-   <CV>
-     <number>53</number>
-	 <type>Int</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>53</low>
-	 <high>54</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Länge [mm] (low)</descde>
-	 <descen>Length [mm] (low)</descen>
-   </CV>
-   <CV>
-     <number>54</number>
-	 <type>Int</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>53</low>
-	 <high>54</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Länge [mm] (high)</descde>
-	 <descen>Length [mm] (high)</descen>
-   </CV>
-   <CV>
-     <number>55</number>
-	 <type>Int</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>55</low>
-	 <high>56</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Startmelder (low)</descde>
-	 <descen>Start detector (low)</descen>
-   </CV>
-   <CV>
-     <number>56</number>
-	 <type>Int</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>55</low>
-	 <high>56</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Startmelder (high)</descde>
-	 <descen>Start detector (high)</descen>
-   </CV>
-   <CV>
-     <number>57</number>
-	 <type>Int</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>57</low>
-	 <high>58</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Stopmelder (low)</descde>
-	 <descen>Stop detector (low)</descen>
-   </CV>
-   <CV>
-     <number>58</number>
-	 <type>Int</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>57</low>
-	 <high>58</high>
-	 <values>-</values>
-	 <mode>rw</mode> 
-	 <descde>Stopmelder (high)</descde>
-	 <descen>Stop detector (high)</descen>
-   </CV>
-   </Speed>
-</GBM16T>
-</Templates>
-
-	<CVDefinition>
-		<Basis>
-   <CV>
-     <number>1</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>Parser Modus</descde>
-	 <descen>Parser Mode</descen>
-   </CV> 
-    <CV>
-     <number>2</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>DCC Herstellerkennung</descde>
-	 <descen>DCC Vendor ID</descen>
-   </CV>
-   <CV>
-     <number>3</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>Produkt-ID 1</descde>
-	 <descen>Pruduct ID 1</descen>
-   </CV>
-   <CV>
-     <number>4</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>Produkt-ID 2</descde>
-	 <descen>Pruduct ID 2</descen>
-   </CV>
-   <CV>
-     <number>5</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>Seriel-Nr. 1</descde>
-	 <descen>Serial-Nr. 1</descen>
-   </CV>
-   <CV>
-     <number>6</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>Seriel-Nr. 2</descde>
-	 <descen>Serial-Nr. 2</descen>
-   </CV>
-      <CV>
-     <number>7</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>Jumper</descde>
-	 <descen>Jumper</descen>
-   </CV>
-   <CV>
-     <number>8</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>Extended control: Generiert zus. Feedback Byte für Booster/GBM Fehler</descde>
-	 <descen>Extended control: create extra feedback byte for booster/gbm fail</descen>
-   </CV>
-   <CV>
-     <number>9</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>extended_didl: Generiert zus. s88 Byte für Booster/GBM Fehler</descde>
-	 <descen>extended_didl: create extra s88 byte for booster/gbm fail</descen>
-   </CV>
-   <CV>
-     <number>10</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>extended_didh: Generiert zus. s88 Byte für Booster/GBM Fehler</descde>
-	 <descen>extended_didh: create extra s88 byte for booster/gbm fail</descen>
-   </CV>
-   <CV>
-     <number>11</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>xp_slot_mode: Automatisch oder manuel</descde>
-	 <descen>xp_slot_mode: automatic or manuel</descen>
-   </CV>
-   <CV>
-     <number>12</number>
-	 <type>Byte</type>
-	 <min>0</min>
-	 <max>255</max>
-	 <low>-</low>
-	 <high>-</high>
-	 <values>-</values>
-	 <mode>ro</mode> 
-	 <descde>xp_slot_addr: Adresse 1..31</descde>
-	 <descen>xp_slot_addr: Address 1..31</descen>
-   </CV>
-   </Basis>
-   <GBM16T-1>
-     <Offset>10000</Offset>
-     <Template>GBM16T</Template>
-   </GBM16T-1>
-   <GBM16T-2>
-     <Offset>20000</Offset>
-     <Template>GBM16T</Template>
-   </GBM16T-2>
-   <GBM16T-3>
-     <Offset>30000</Offset>
-     <Template>GBM16T</Template>
-   </GBM16T-3>
-</CVDefinition>
+    <Version version="0.3" LastUpdate="20130702" author="Kufer, Wolfgang" PID1="102" PID2="000" Vendor="013" description="GBMBoost Node"></Version>
+    <Templates>
+        <GBM16T>
+            <Common>
+                <CV>
+                    <number>7</number>
+                    <type>Byte</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>ro</mode>
+                    <descde>Vendor GBM16T</descde>
+                    <descen>Vendor GBM16T</descen>
+                </CV>
+                <CV>
+                    <number>42</number>
+                    <type>Byte</type>
+                    <min>1</min>
+                    <max>25</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>ro</mode>
+                    <descde>Störungsunterdrückung</descde>
+                    <descen>Spike Suppression</descen>
+                </CV>
+                <CV>
+                    <number>43</number>
+                    <type>Bit</type>
+                    <min>2</min>
+                    <max>50</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Memory (Einheit 100ms)</descde>
+                    <descen>Memory (Unit 100ms)</descen>
+                </CV>
+                <CV>
+                    <number>44</number>
+                    <type>Byte</type>
+                    <min>2</min>
+                    <max>50</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Ansprechschwelle (DCC an)</descde>
+                    <descen>Threshold (DCC on)</descen>
+                </CV>
+                <CV>
+                    <number>45</number>
+                    <type>Byte</type>
+                    <min>4</min>
+                    <max>100</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Ansprechschwelle (DCC aus)</descde>
+                    <descen>Threshold (DCC off)</descen>
+                </CV>
+                <CV>
+                    <number>37</number>
+                    <type>Byte</type>
+                    <min>1</min>
+                    <max>10</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Gedulteter Offset ADC</descde>
+                    <descen>Allowed Offset ADC</descen>
+                </CV>
+            </Common>
+            <Reverser>
+                <CV>
+                    <number>1</number>
+                    <type>Int</type>
+                    <min>-</min>
+                    <max>-</max>
+                    <low>1</low>
+                    <high>9</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>DCC Adr. (low)</descde>
+                    <descen>DCC Addr. (low)</descen>
+                </CV>
+                <CV>
+                    <number>9</number>
+                    <type>Int</type>
+                    <min>-</min>
+                    <max>-</max>
+                    <low>1</low>
+                    <high>9</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>DCC Adr. (high)</descde>
+                    <descen>DCC Addr. (high)</descen>
+                </CV>
+                <CV>
+                    <number>51</number>
+                    <type>Byte</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>ro</mode>
+                    <descde>Reverser aktuelle Stellung</descde>
+                    <descen>Reverser Current Position</descen>
+                </CV>
+                <CV>
+                    <number>46</number>
+                    <type>GBM16TReverser</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Reverser Mode</descde>
+                    <descen>Reverser Mode</descen>
+                </CV>
+                <CV>
+                    <number>47</number>
+                    <type>GBM16TReverser</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>47</low>
+                    <high>48</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Reverser On Low</descde>
+                    <descen>Reverser On Low</descen>
+                </CV>
+                <CV>
+                    <number>48</number>
+                    <type>GBM16TReverser</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>47</low>
+                    <high>48</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Reverser On High</descde>
+                    <descen>Reverser On High</descen>
+                </CV>
+                <CV>
+                    <number>49</number>
+                    <type>GBM16TReverser</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>49</low>
+                    <high>50</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Reverser Off Low</descde>
+                    <descen>Reverser Off Low</descen>
+                </CV>
+                <CV>
+                    <number>50</number>
+                    <type>GBM16TReverser</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>49</low>
+                    <high>50</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Reverser Off High</descde>
+                    <descen>Reverser Off High</descen>
+                </CV>
+                <CV>
+                    <number>65</number>
+                    <type>GBM16TReverser</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>65</low>
+                    <high>66</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Reverser Prio Low</descde>
+                    <descen>Reverser Prio Low</descen>
+                </CV>
+                <CV>
+                    <number>66</number>
+                    <type>GBM16TReverser</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>65</low>
+                    <high>66</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Reverser Prio High</descde>
+                    <descen>Reverser Prio High</descen>
+                </CV>
+            </Reverser>
+            <Inhibit>
+                <CV>
+                    <number>61</number>
+                    <type>Byte</type>
+                    <min>-</min>
+                    <max>-</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>ro</mode>
+                    <descde>Inhibit On, aktueller Zustand</descde>
+                    <descen>Inhibit On, current state</descen>
+                </CV>
+                <CV>
+                    <number>59</number>
+                    <type>DCC_ADDR_RG</type>
+                    <min>0</min>
+                    <max>2040</max>
+                    <low>59</low>
+                    <high>60</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Inhibit On, Addr (Low)</descde>
+                    <descen>Inhibit On, Addr (Low)</descen>
+                </CV>
+                <CV>
+                    <number>60</number>
+                    <type>DCC_ADDR_RG</type>
+                    <min>0</min>
+                    <max>2040</max>
+                    <low>59</low>
+                    <high>60</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Inhibit On, Addr (High)</descde>
+                    <descen>Inhibit On, Addr (High)</descen>
+                </CV>
+                <CV>
+                    <number>64</number>
+                    <type>Byte</type>
+                    <min>-</min>
+                    <max>-</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>ro</mode>
+                    <descde>Inhibit Off, aktueller Zustand</descde>
+                    <descen>Inhibit Off, current state</descen>
+                </CV>
+                <CV>
+                    <number>62</number>
+                    <type>DCC_ADDR_RG</type>
+                    <min>0</min>
+                    <max>2040</max>
+                    <low>62</low>
+                    <high>63</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Inhibit Off, Addr (Low)</descde>
+                    <descen>Inhibit Off, Addr (Low)</descen>
+                </CV>
+                <CV>
+                    <number>63</number>
+                    <type>DCC_ADDR_RG</type>
+                    <min>0</min>
+                    <max>2040</max>
+                    <low>62</low>
+                    <high>63</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Inhibit Off, Addr (High)</descde>
+                    <descen>Inhibit Off, Addr (High)</descen>
+                </CV>
+            </Inhibit>
+            <Speed>
+                <CV>
+                    <number>52</number>
+                    <type>Byte</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>-</low>
+                    <high>-</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Maßstab</descde>
+                    <descen>Scale</descen>
+                </CV>
+                <CV>
+                    <number>53</number>
+                    <type>Int</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>53</low>
+                    <high>54</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Länge [mm] (low)</descde>
+                    <descen>Length [mm] (low)</descen>
+                </CV>
+                <CV>
+                    <number>54</number>
+                    <type>Int</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>53</low>
+                    <high>54</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Länge [mm] (high)</descde>
+                    <descen>Length [mm] (high)</descen>
+                </CV>
+                <CV>
+                    <number>55</number>
+                    <type>Int</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>55</low>
+                    <high>56</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Startmelder (low)</descde>
+                    <descen>Start detector (low)</descen>
+                </CV>
+                <CV>
+                    <number>56</number>
+                    <type>Int</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>55</low>
+                    <high>56</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Startmelder (high)</descde>
+                    <descen>Start detector (high)</descen>
+                </CV>
+                <CV>
+                    <number>57</number>
+                    <type>Int</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>57</low>
+                    <high>58</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Stopmelder (low)</descde>
+                    <descen>Stop detector (low)</descen>
+                </CV>
+                <CV>
+                    <number>58</number>
+                    <type>Int</type>
+                    <min>0</min>
+                    <max>255</max>
+                    <low>57</low>
+                    <high>58</high>
+                    <values>-</values>
+                    <mode>rw</mode>
+                    <descde>Stopmelder (high)</descde>
+                    <descen>Stop detector (high)</descen>
+                </CV>
+            </Speed>
+        </GBM16T>
+    </Templates>
+    <CVDefinition>
+        <Basis>
+            <CV>
+                <number>1</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>Parser Modus</descde>
+                <descen>Parser Mode</descen>
+            </CV>
+            <CV>
+                <number>2</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>DCC Herstellerkennung</descde>
+                <descen>DCC Vendor ID</descen>
+            </CV>
+            <CV>
+                <number>3</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>Produkt-ID 1</descde>
+                <descen>Pruduct ID 1</descen>
+            </CV>
+            <CV>
+                <number>4</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>Produkt-ID 2</descde>
+                <descen>Pruduct ID 2</descen>
+            </CV>
+            <CV>
+                <number>5</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>Seriel-Nr. 1</descde>
+                <descen>Serial-Nr. 1</descen>
+            </CV>
+            <CV>
+                <number>6</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>Seriel-Nr. 2</descde>
+                <descen>Serial-Nr. 2</descen>
+            </CV>
+            <CV>
+                <number>7</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>Jumper</descde>
+                <descen>Jumper</descen>
+            </CV>
+            <CV>
+                <number>8</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>Extended control: Generiert zus. Feedback Byte für Booster/GBM Fehler</descde>
+                <descen>Extended control: create extra feedback byte for booster/gbm fail</descen>
+            </CV>
+            <CV>
+                <number>9</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>extended_didl: Generiert zus. s88 Byte für Booster/GBM Fehler</descde>
+                <descen>extended_didl: create extra s88 byte for booster/gbm fail</descen>
+            </CV>
+            <CV>
+                <number>10</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>extended_didh: Generiert zus. s88 Byte für Booster/GBM Fehler</descde>
+                <descen>extended_didh: create extra s88 byte for booster/gbm fail</descen>
+            </CV>
+            <CV>
+                <number>11</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>xp_slot_mode: Automatisch oder manuel</descde>
+                <descen>xp_slot_mode: automatic or manuel</descen>
+            </CV>
+            <CV>
+                <number>12</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <low>-</low>
+                <high>-</high>
+                <values>-</values>
+                <mode>ro</mode>
+                <descde>xp_slot_addr: Adresse 1..31</descde>
+                <descen>xp_slot_addr: Address 1..31</descen>
+            </CV>
+        </Basis>
+        <GBM16T-1>
+            <Offset>10000</Offset>
+            <Template>GBM16T</Template>
+        </GBM16T-1>
+        <GBM16T-2>
+            <Offset>20000</Offset>
+            <Template>GBM16T</Template>
+        </GBM16T-2>
+        <GBM16T-3>
+            <Offset>30000</Offset>
+            <Template>GBM16T</Template>
+        </GBM16T-3>
+    </CVDefinition>
 </VendorCV>

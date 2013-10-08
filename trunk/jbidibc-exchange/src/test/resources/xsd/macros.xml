@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bidib:lcMacros xmlns:bidib="http://www.bidib.org/lcmacro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org ../../../main/resources/xsd/macros.xsd ">
+<bidib:lcMacros xmlns:bidib="http://www.bidib.org/jbidibc/lcmacro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org ../../../main/resources/xsd/macros.xsd ">
     <bidib:lcMacro macroName="test1" macroId="1" repeat="1" slowdown="1">
         <bidib:lcMacroPoint xsi:type="bidib:SoundPortPoint" index="0">
             <bidib:delay>6</bidib:delay>
@@ -23,9 +23,9 @@
         <bidib:lcMacroPoint xsi:type="bidib:AnalogPortPoint" index="4">
             <bidib:delay>30</bidib:delay>
             <bidib:AnalogPortActionType>
-            	<bidib:action>START</bidib:action>
+                <bidib:action>START</bidib:action>
                 <bidib:value>254</bidib:value>
-			</bidib:AnalogPortActionType>
+            </bidib:AnalogPortActionType>
             <bidib:outputNumber>4</bidib:outputNumber>
         </bidib:lcMacroPoint>
         <bidib:lcMacroPoint xsi:type="bidib:FlagPoint" index="5">

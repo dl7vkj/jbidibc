@@ -1,317 +1,306 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
+<?xml version="1.0" encoding="UTF-8"?>
 <VendorCV>
-	<Version 
-		version="0.1" 
-		LastUpdate="20130519" 
-		author="Tillner, Andreas"
-		PID1="119"
-		PID2="000"
-		Vendor="013"
-		description="OneOC (20x OC-Input) - BiDiBOne AddOn">
-	</Version>
-	<CVDefinition>
-		<Basis>
-			<CV>
-				 <number>51</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>2</max>
-				 <next>-</next>
-				 <values>0;1;2</values>
-				 <mode>w</mode>
-				 <descde>0 = keine Anzeige, 1 = LED Anzeige, 2 = DOGM 3x16 Display</descde>
-				 <descen>0 = no display, 1 = LED line, 2 = DOGM 3x16 Display</descen>
-			</CV> 
-			<CV>
-				 <number>52</number>
-				 <type>Byte</type>
-				 <min>-</min>
-				 <max>-</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>87;120;160</values>
-				 <descde>Masstab</descde>
-				 <descen>Scale</descen>
-			</CV>
-		</Basis>
-		<Sector1>
-			<CV>
-				 <number>53</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>1;53</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Länge der Messstrecke 1 in mm (lowbyte)(CV53+CV54*256)</descde>
-				 <descen>Length of measuring 1 track in mm (lowbyte)(CV53+CV54*256)</descen>
-			</CV>
-			<CV>
-				 <number>54</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>h;53</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Länge der Messstrecke 1 in mm (highbyte)(CV55+CV56*256)</descde>
-				 <descen>Length of measuring 1 track in mm (highbyte)(CV55+CV56*256)</descen>
-		   </CV>
-		   <CV>
-				 <number>55</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Startmelder der Messstrecke 1</descde>
-				 <descen>Startdetector of the measuring track 1</descen>
-		   </CV>
-		   <CV>
-				 <number>56</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Endmelder der Messstrecke 1</descde>
-				 <descen>Enddetector of the measuring track 1</descen>
-			</CV>
-		</Sector1>
-		<Sector2>
-
-			<CV>
-				 <number>57</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>l;54</values>
-				 <descde>Länge der Messstrecke 2 in mm (lowbyte)(CV57+CV58*256)</descde>
-				 <descen>Length of measuring 2 track in mm (lowbyte)(CV57+CV58*256)</descen>
-		   </CV>
-		   <CV>
-				 <number>58</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>h;53</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Länge der Messstrecke 2 in mm (highbyte)(CV57+CV58*256)</descde>
-				 <descen>Length of measuring 2 track in mm (highbyte)(CV57+CV58*256)</descen>
-			</CV>
-			<CV>
-				 <number>59</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Startmelder der Messstrecke 2</descde>
-				 <descen>Startdetector of measuring track 2</descen>
-			</CV>
-			<CV>
-				 <number>60</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Endmelder der Messstrecke 2</descde>
-				 <descen>Enddetector of measuring track 2</descen>
-			</CV>
-		</Sector2>
-		<Sector3>
-			<CV>
-				 <number>61</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>l;54</values>
-				 <descde>Länge der Messstrecke 3 in mm (lowbyte)(CV61+CV62*256)</descde>
-				 <descen>Length of measuring 3 track in mm (lowbyte)(CV61+CV62*256)</descen>
-			</CV>
-			<CV>
-				 <number>62</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>h;53</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Länge der Messstrecke 3 in mm (highbyte)(CV61+CV62*256)</descde>
-				 <descen>Length of measuring 3 track in mm (highbyte)(CV61+CV62*256)</descen>
-			</CV>
-			<CV>
-				 <number>63</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Startmelder der Messstrecke 3</descde>
-				 <descen>Startdetector of measuring track 3</descen>
-		   </CV>
-		   <CV>
-				 <number>64</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Endmelder der Messstrecke 3</descde>
-				 <descen>Enddetector of measuring track 3</descen>
-			</CV>
+    <Version version="0.1" LastUpdate="20130519" author="Tillner, Andreas" PID1="119" PID2="000" Vendor="013" description="OneOC (20x OC-Input) - BiDiBOne AddOn"></Version>
+    <CVDefinition>
+        <Basis>
+            <CV>
+                <number>51</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>2</max>
+                <next>-</next>
+                <values>0;1;2</values>
+                <mode>w</mode>
+                <descde>0 = keine Anzeige, 1 = LED Anzeige, 2 = DOGM 3x16 Display</descde>
+                <descen>0 = no display, 1 = LED line, 2 = DOGM 3x16 Display</descen>
+            </CV>
+            <CV>
+                <number>52</number>
+                <type>Byte</type>
+                <min>-</min>
+                <max>-</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>87;120;160</values>
+                <descde>Masstab</descde>
+                <descen>Scale</descen>
+            </CV>
+        </Basis>
+        <Sector1>
+            <CV>
+                <number>53</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>1;53</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Länge der Messstrecke 1 in mm (lowbyte)(CV53+CV54*256)</descde>
+                <descen>Length of measuring 1 track in mm (lowbyte)(CV53+CV54*256)</descen>
+            </CV>
+            <CV>
+                <number>54</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>h;53</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Länge der Messstrecke 1 in mm (highbyte)(CV55+CV56*256)</descde>
+                <descen>Length of measuring 1 track in mm (highbyte)(CV55+CV56*256)</descen>
+            </CV>
+            <CV>
+                <number>55</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Startmelder der Messstrecke 1</descde>
+                <descen>Startdetector of the measuring track 1</descen>
+            </CV>
+            <CV>
+                <number>56</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Endmelder der Messstrecke 1</descde>
+                <descen>Enddetector of the measuring track 1</descen>
+            </CV>
+        </Sector1>
+        <Sector2>
+            <CV>
+                <number>57</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>l;54</values>
+                <descde>Länge der Messstrecke 2 in mm (lowbyte)(CV57+CV58*256)</descde>
+                <descen>Length of measuring 2 track in mm (lowbyte)(CV57+CV58*256)</descen>
+            </CV>
+            <CV>
+                <number>58</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>h;53</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Länge der Messstrecke 2 in mm (highbyte)(CV57+CV58*256)</descde>
+                <descen>Length of measuring 2 track in mm (highbyte)(CV57+CV58*256)</descen>
+            </CV>
+            <CV>
+                <number>59</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Startmelder der Messstrecke 2</descde>
+                <descen>Startdetector of measuring track 2</descen>
+            </CV>
+            <CV>
+                <number>60</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Endmelder der Messstrecke 2</descde>
+                <descen>Enddetector of measuring track 2</descen>
+            </CV>
+        </Sector2>
+        <Sector3>
+            <CV>
+                <number>61</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>l;54</values>
+                <descde>Länge der Messstrecke 3 in mm (lowbyte)(CV61+CV62*256)</descde>
+                <descen>Length of measuring 3 track in mm (lowbyte)(CV61+CV62*256)</descen>
+            </CV>
+            <CV>
+                <number>62</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>h;53</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Länge der Messstrecke 3 in mm (highbyte)(CV61+CV62*256)</descde>
+                <descen>Length of measuring 3 track in mm (highbyte)(CV61+CV62*256)</descen>
+            </CV>
+            <CV>
+                <number>63</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Startmelder der Messstrecke 3</descde>
+                <descen>Startdetector of measuring track 3</descen>
+            </CV>
+            <CV>
+                <number>64</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Endmelder der Messstrecke 3</descde>
+                <descen>Enddetector of measuring track 3</descen>
+            </CV>
         </Sector3>
-		<Sector4>
-
-			<CV>
-				 <number>65</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>l;66</values>
-				 <descde>Länge der Messstrecke 4 in mm (lowbyte)(CV65+CV66*256)</descde>
-				 <descen>Length of measuring 4 track in mm (lowbyte)(CV65+CV66*256)</descen>
-		   </CV>
-		   <CV>
-				 <number>66</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>h;65</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Länge der Messstrecke 4 in mm (highbyte)(CV65+CV66*256)</descde>
-				 <descen>Length of measuring 4 track in mm (highbyte)(CV65+CV66*256)</descen>
-		   </CV>
-		   <CV>
-				 <number>67</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Startmelder der Messstrecke 4</descde>
-				 <descen>Startdetector of measuring track 4</descen>
-		   </CV>
-		   <CV>
-				 <number>68</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Endmelder der Messstrecke 4</descde>
-				 <descen>Enddetector of measuring track 4</descen>
-			</CV>
+        <Sector4>
+            <CV>
+                <number>65</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>l;66</values>
+                <descde>Länge der Messstrecke 4 in mm (lowbyte)(CV65+CV66*256)</descde>
+                <descen>Length of measuring 4 track in mm (lowbyte)(CV65+CV66*256)</descen>
+            </CV>
+            <CV>
+                <number>66</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>h;65</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Länge der Messstrecke 4 in mm (highbyte)(CV65+CV66*256)</descde>
+                <descen>Length of measuring 4 track in mm (highbyte)(CV65+CV66*256)</descen>
+            </CV>
+            <CV>
+                <number>67</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Startmelder der Messstrecke 4</descde>
+                <descen>Startdetector of measuring track 4</descen>
+            </CV>
+            <CV>
+                <number>68</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Endmelder der Messstrecke 4</descde>
+                <descen>Enddetector of measuring track 4</descen>
+            </CV>
         </Sector4>
-		<Sector5>
-
-			<CV>
-				 <number>69</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>l;70</values>
-				 <descde>Länge der Messstrecke 5 in mm (lowbyte)(CV69+CV70*256)</descde>
-				 <descen>Length of measuring 5 track in mm (lowbyte)(CV69+CV70*256)</descen>
-			</CV>
-			<CV>
-				 <number>70</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>h;69</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Länge der Messstrecke 5 in mm (highbyte)(CV69+CV70*256)</descde>
-				 <descen>Length of measuring 5 track in mm (highbyte)(CV69+CV70*256)</descen>
-			</CV>
-			<CV>
-				 <number>71</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Startmelder der Messstrecke 5</descde>
-				 <descen>Startdetector of measuring track 5</descen>
-		   </CV>
-		   <CV>
-				 <number>72</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Endmelder der Messstrecke 5</descde>
-				 <descen>Enddetector of measuring track 5</descen>
-			</CV>
+        <Sector5>
+            <CV>
+                <number>69</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>l;70</values>
+                <descde>Länge der Messstrecke 5 in mm (lowbyte)(CV69+CV70*256)</descde>
+                <descen>Length of measuring 5 track in mm (lowbyte)(CV69+CV70*256)</descen>
+            </CV>
+            <CV>
+                <number>70</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>h;69</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Länge der Messstrecke 5 in mm (highbyte)(CV69+CV70*256)</descde>
+                <descen>Length of measuring 5 track in mm (highbyte)(CV69+CV70*256)</descen>
+            </CV>
+            <CV>
+                <number>71</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Startmelder der Messstrecke 5</descde>
+                <descen>Startdetector of measuring track 5</descen>
+            </CV>
+            <CV>
+                <number>72</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Endmelder der Messstrecke 5</descde>
+                <descen>Enddetector of measuring track 5</descen>
+            </CV>
         </Sector5>
-		<Sector6>
-			<CV>
-				 <number>73</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>l;54</values>
-				 <descde>Länge der Messstrecke 6 in mm (lowbyte)(CV55+CV56*256)</descde>
-				 <descen>Length of measuring 6 track in mm (lowbyte)(CV55+CV56*256)</descen>
-		   </CV>
-		   <CV>
-				 <number>74</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>255</max>
-				 <next>h;53</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Länge der Messstrecke 6 in mm (highbyte)(CV55+CV56*256)</descde>
-				 <descen>Length of measuring 6 track in mm (highbyte)(CV55+CV56*256)</descen>
-		   </CV>
-		   <CV>
-				 <number>75</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Startmelder der Messstrecke 6</descde>
-				 <descen>Startdetector of measuring track 6</descen>
-			</CV>
-			<CV>
-				 <number>76</number>
-				 <type>Byte</type>
-				 <min>0</min>
-				 <max>19</max>
-				 <next>-</next>
-				 <mode>w</mode>
-				 <values>-</values>
-				 <descde>Endmelder der Messstrecke 6</descde>
-				 <descen>Enddetector of measuring track 6</descen>
-			</CV>
+        <Sector6>
+            <CV>
+                <number>73</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>l;54</values>
+                <descde>Länge der Messstrecke 6 in mm (lowbyte)(CV55+CV56*256)</descde>
+                <descen>Length of measuring 6 track in mm (lowbyte)(CV55+CV56*256)</descen>
+            </CV>
+            <CV>
+                <number>74</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>255</max>
+                <next>h;53</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Länge der Messstrecke 6 in mm (highbyte)(CV55+CV56*256)</descde>
+                <descen>Length of measuring 6 track in mm (highbyte)(CV55+CV56*256)</descen>
+            </CV>
+            <CV>
+                <number>75</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Startmelder der Messstrecke 6</descde>
+                <descen>Startdetector of measuring track 6</descen>
+            </CV>
+            <CV>
+                <number>76</number>
+                <type>Byte</type>
+                <min>0</min>
+                <max>19</max>
+                <next>-</next>
+                <mode>w</mode>
+                <values>-</values>
+                <descde>Endmelder der Messstrecke 6</descde>
+                <descen>Enddetector of measuring track 6</descen>
+            </CV>
         </Sector6>
-	</CVDefinition>
+    </CVDefinition>
 </VendorCV>
