@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.enumeration.AnalogPortEnum;
+import org.bidib.jbidibc.enumeration.BacklightPortEnum;
 import org.bidib.jbidibc.enumeration.BidibEnum;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.enumeration.LightPortEnum;
@@ -36,6 +37,9 @@ public class LcMacroResponse extends BidibMessage {
         if (outputType == LcOutputType.ANALOGPORT) {
             result = AnalogPortEnum.valueOf(value);
         }
+        else if (outputType == LcOutputType.BACKLIGHTPORT) {
+            result = BacklightPortEnum.valueOf(value);
+        }
         else if (outputType == LcOutputType.LIGHTPORT) {
             result = LightPortEnum.valueOf(value);
         }
@@ -54,11 +58,17 @@ public class LcMacroResponse extends BidibMessage {
         return result;
     }
 
+    // TODO ... this is completely wrong, isn't it? The macro repsonse does not deliver the value!
     private byte getValue(LcOutputType outputType, byte value) {
         byte result = 0;
 
-        if (outputType == LcOutputType.SERVOPORT) {
-            result = value;
+        switch (outputType) {
+            case BACKLIGHTPORT:
+            case SERVOPORT:
+                result = value;
+                break;
+            default:
+                break;
         }
         return result;
     }
