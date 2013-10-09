@@ -23,6 +23,9 @@ public class LcMacroResponse extends BidibMessage {
         }
     }
 
+    /**
+     * @return returns the initialized macro point
+     */
     public LcMacro getMacro() {
         byte[] data = getData();
         LcOutputType outputType = LcOutputType.valueOf(data[3]);
@@ -38,7 +41,8 @@ public class LcMacroResponse extends BidibMessage {
             result = AnalogPortEnum.valueOf(value);
         }
         else if (outputType == LcOutputType.BACKLIGHTPORT) {
-            result = BacklightPortEnum.valueOf(value);
+            // the pseudo status is always start, because the value is delivered
+            result = BacklightPortEnum.START;
         }
         else if (outputType == LcOutputType.LIGHTPORT) {
             result = LightPortEnum.valueOf(value);
@@ -47,6 +51,7 @@ public class LcMacroResponse extends BidibMessage {
             result = MotorPortEnum.valueOf(value);
         }
         else if (outputType == LcOutputType.SERVOPORT) {
+            // the pseudo status is always start, because the value is delivered
             result = ServoPortEnum.START;
         }
         else if (outputType == LcOutputType.SOUNDPORT) {
@@ -58,7 +63,7 @@ public class LcMacroResponse extends BidibMessage {
         return result;
     }
 
-    // TODO ... this is completely wrong, isn't it? The macro repsonse does not deliver the value!
+    // the value is only available for servoport and backlightport
     private byte getValue(LcOutputType outputType, byte value) {
         byte result = 0;
 
