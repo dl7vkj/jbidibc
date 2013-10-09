@@ -167,12 +167,35 @@ public class AccessoryNode extends DeviceNode {
         }
     }
 
-    public void setConfig(LcConfig config) throws ProtocolException {
-        if (config != null) {
-            LOGGER.debug("Send LcConfigSet to node, config: {}", config);
+    public LcConfig setConfig(LcConfig config) throws ProtocolException {
+        LOGGER.debug("Send LcConfigSet to node, config: {}", config);
 
+        BidibMessage response =
             send(new LcConfigSetMessage(config), true, LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE);
+        if (response instanceof LcConfigResponse) {
+            LcConfig result = ((LcConfigResponse) response).getLcConfig();
+            LOGGER.debug("Set LcConfig returned: {}", result);
+            return result;
         }
+        else if (response instanceof LcNotAvailableResponse) {
+            LcNotAvailableResponse result = (LcNotAvailableResponse) response;
+            LOGGER.warn("Set LcConfig failed. The requested port is not available, port type: {}, port number: {}",
+                result.getPortType(), result.getPortNumber());
+            throw new ProtocolException("The requested port is not available, port type: " + result.getPortType()
+                + ", port number: " + result.getPortNumber());
+        }
+
+        throw createNoResponseAvailable("LcConfigSet");
+    }
+
+    /**
+     * Create a ProtocolException if no response is available.
+     * @param messageName the message name that is inserted in the exception message
+     * @return the exception
+     */
+    private ProtocolException createNoResponseAvailable(String messageName) {
+        ProtocolException ex = new ProtocolException("No response received from '" + messageName + "' message.");
+        return ex;
     }
 
     public LcMacro setMacro(LcMacro macro) throws ProtocolException {

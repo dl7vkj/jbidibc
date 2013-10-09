@@ -234,6 +234,7 @@ public class MessageReceiver {
                                             .getPortNumber(), lcStatResponse.getPortStatus());
                                     }
                                     else if (message instanceof LcWaitResponse) {
+                                        LOGGER.info("Received LcWaitResponse: {}", message);
                                         // TODO I think this does not work if the sender is already waiting for a response ...
                                         setTimeout(((LcWaitResponse) message).getTimeout());
                                     }
