@@ -118,6 +118,7 @@ public class AccessoryNode extends DeviceNode {
 
         if (response instanceof LcMacroResponse) {
             result = ((LcMacroResponse) response).getMacro();
+            LOGGER.info("The returned macro step is: {}", result);
         }
         return result;
     }
