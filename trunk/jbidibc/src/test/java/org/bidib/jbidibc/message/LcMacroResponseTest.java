@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.enumeration.BacklightPortEnum;
+import org.bidib.jbidibc.enumeration.LcMacroState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.enumeration.LightPortEnum;
 import org.bidib.jbidibc.enumeration.ServoPortEnum;
@@ -123,5 +124,21 @@ public class LcMacroResponseTest {
         Assert.assertEquals(lcMacro.getOutputType(), LcOutputType.SERVOPORT);
         Assert.assertEquals(lcMacro.getStatus(), ServoPortEnum.START);
         Assert.assertEquals(lcMacro.getValue(), 0x25);
+    }
+
+    // 09.10.2013 15:50:50.345: receive LcMacroStateResponse[[1],num=121,type=200,data=[0, 252]] : 06 01 00 79 c8 00 fc 
+    @Test
+    public void createLcMacroStateResponseFromByteArray() throws ProtocolException {
+        byte[] message = { 0x06, 0x01, 0x00, (byte) 0x79, (byte) 0xc8, 0x00, (byte) 0xfc };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_LC_MACRO_STATE);
+
+        LcMacroStateResponse lcMacroStateResponse = (LcMacroStateResponse) bidibMessage;
+        LOGGER.info("lcMacroStateResponse: {}", lcMacroStateResponse);
+
+        Assert.assertEquals(lcMacroStateResponse.getMacroNumber(), 0);
+        Assert.assertEquals(lcMacroStateResponse.getMacroState(), LcMacroState.RESTORE);
     }
 }
