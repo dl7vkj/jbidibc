@@ -1,7 +1,9 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class LcNotAvailableResponse extends BidibMessage {
     public static final Integer TYPE = BidibLibrary.MSG_LC_NA;
@@ -13,11 +15,11 @@ public class LcNotAvailableResponse extends BidibMessage {
         }
     }
 
-    public byte getPortType() {
-        return getData()[0];
+    public LcOutputType getPortType() {
+        return LcOutputType.valueOf(getData()[0]);
     }
 
-    public byte getPortNumber() {
-        return getData()[1];
+    public int getPortNumber() {
+        return ByteUtils.getInt(getData()[1]);
     }
 }
