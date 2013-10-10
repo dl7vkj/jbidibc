@@ -55,14 +55,10 @@ public class MessageReceiver {
 
     //    private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
-    private BlockingQueue<BidibMessage> receiveQueue;
-
     private final Collection<MessageListener> messageListeners =
         Collections.synchronizedList(new LinkedList<MessageListener>());
 
     private final Collection<NodeListener> nodeListeners = Collections.synchronizedList(new LinkedList<NodeListener>());
-
-    private static int timeout = Bidib.DEFAULT_TIMEOUT;
 
     private boolean running;
 
@@ -78,10 +74,6 @@ public class MessageReceiver {
 
     public void setBidib(BidibInterface bidib) {
         this.bidib = bidib;
-    }
-
-    public void setReceiveQueue(BlockingQueue<BidibMessage> receiveQueue) {
-        this.receiveQueue = receiveQueue;
     }
 
     /**
@@ -356,7 +348,16 @@ public class MessageReceiver {
 
     protected void messageReceived(BidibMessage message) {
         // put the message into the receiveQueue because somebody waits for it ...
-        receiveQueue.offer(message);
+
+        // TODO offer the message to the node
+        LOGGER.info("Offer received message to node: {}", message);
+        BidibNode node = nodeFactory.getNode(new Node(message.getAddr()));
+        try {
+            node.getReceiveQueue().offer(message);
+        }
+        catch (Exception ex) {
+            LOGGER.error("Offer received message to node failed. Message was: " + message, ex);
+        }
     }
 
     public void addMessageListener(MessageListener messageListener) {
@@ -475,67 +476,6 @@ public class MessageReceiver {
         }
     }
 
-    /**
-     * Get a message from the receiveQueue for the defined timeout period.
-     * 
-     * @param responseTypes the optional list of responseType ids to wait for
-     *
-     * @return the received message or null if no message was received during the defined period.
-     * @throws InterruptedException thrown if wait wait for response is interrupted
-     */
-    public BidibMessage getMessage(List<Integer> responseTypes) throws InterruptedException {
-        LOGGER.debug("get message with responseType: {}", responseTypes);
-        BidibMessage result = null;
-
-        // wait a maximum of 3 seconds to recieve message
-        long cancelReceiveTs = System.currentTimeMillis() + 3000;
-        boolean leaveLoop = false;
-
-        do {
-            result = receiveQueue.poll(timeout, TimeUnit.MILLISECONDS);
-
-            long now = System.currentTimeMillis();
-
-            // handling of specific response type
-            if (result instanceof SysErrorResponse) {
-                LOGGER.warn("Received an error response: {}", result);
-                leaveLoop = true;
-            }
-            else if (result != null && CollectionUtils.hasElements(responseTypes)) {
-                BidibMessage response = null;
-                for (Integer responseType : responseTypes) {
-                    LOGGER.debug("Check if the response type is equal, responseType: {}, response.type: {}",
-                        responseType.byteValue(), result.getType());
-
-                    if (responseType == ByteUtils.getInt(result.getType())) {
-                        LOGGER.debug("This is the expected response: {}", result);
-                        response = result;
-                        break;
-                    }
-                }
-
-                if (response == null) {
-                    LOGGER.debug("This is NOT the expected response: {}", result);
-                    result = null;
-                }
-
-                LOGGER.debug("startReceive: {}, now: {}, result: {}", cancelReceiveTs, now, result);
-                if (result != null || cancelReceiveTs < now) {
-                    LOGGER.debug("leave loop.");
-                    leaveLoop = true;
-                }
-            }
-            // handling if no specific response type expected ...
-            else if (result != null || (cancelReceiveTs < now)) {
-                LOGGER.debug("leave loop, result: {}", result);
-                leaveLoop = true;
-            }
-        }
-        while (!leaveLoop);
-        LOGGER.debug("Return received message: {}", result);
-        return result;
-    }
-
     public void removeMessageListener(MessageListener l) {
 
         messageListeners.remove(l);
@@ -544,7 +484,6 @@ public class MessageReceiver {
     public void setTimeout(int timeout) {
         LOGGER.info("Set the timeout for bidib messages: {}", timeout);
         bidib.setReceiveTimeout(timeout);
-        MessageReceiver.timeout = timeout;
     }
 
     /**

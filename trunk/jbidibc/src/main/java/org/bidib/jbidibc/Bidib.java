@@ -16,13 +16,11 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.TooManyListenersException;
-import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.BoosterNode;
@@ -88,7 +86,6 @@ public final class Bidib implements BidibInterface {
         messageReceiver = new MessageReceiver(nodeFactory);
         messageReceiver.setBidib(this);
         // set the receive queue
-        messageReceiver.setReceiveQueue(new LinkedBlockingQueue<BidibMessage>());
     }
 
     public static synchronized BidibInterface getInstance() {
