@@ -125,7 +125,7 @@
                                 <include>**/*.xml</include>
                             </includes>
                             <excludes>
-                                <exclude>**/resources/xsd/**</exclude>
+                                <exclude>**/resources/bidib/**</exclude>
                                 <exclude>**/resources/xsd/**</exclude>
                                 <exclude>**/target/**</exclude>
                                 <exclude>**/test-output/**</exclude>
