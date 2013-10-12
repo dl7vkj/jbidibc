@@ -1,0 +1,453 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bidib.org/schema/bidib" targetNamespace="http://www.bidib.org/schema/bidib" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+    <!-- BiDiB Root Element -->
+	<xsd:element name="BiDiB" type="BiDiB" />
+
+	<!-- BiDiB Element -->
+	<xsd:complexType name="BiDiB">
+        <xsd:choice>
+			<xsd:element name="Products" type="Products" />
+            <xsd:element name="FeatureCodes" type="FeatureCodes" />
+			<xsd:element name="Nodes" type="Nodes" />
+			<xsd:element name="Node" type="Node" />
+			<xsd:element name="Macros" type="Macros" />
+			<xsd:element name="Macro" type="Macro" />
+			<xsd:element name="Accessories" type="Accessories" />
+			<xsd:element name="Accessory" type="Accessory" />
+        </xsd:choice>
+        <xsd:attribute name="SchemaVersion" type="xsd:decimal" use="required" />
+    </xsd:complexType>
+	
+	<!-- Products Collection -->
+	<xsd:complexType name="Products">
+        <xsd:sequence>
+            <xsd:element name="Product" type="Product" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+	
+	<!-- Product Element -->
+	<xsd:complexType name="Product">
+		<xsd:sequence> 
+			<xsd:element name="Documentation" type="Documentation" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="ManufacturerId" type="xsd:unsignedByte" use="required" />
+		<xsd:attribute name="ProductId" type="xsd:unsignedByte" use="required" />
+	</xsd:complexType>
+	
+	<!-- FeatureCodes Collection -->
+	<xsd:complexType name="FeatureCodes">
+        <xsd:sequence>
+            <xsd:element name="FeatureCode" type="FeatureCode" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+	
+	<!-- FeatureCode Element -->
+	<xsd:complexType name="FeatureCode">
+		<xsd:sequence> 
+			<xsd:element name="Documentation" type="Documentation" minOccurs="1" maxOccurs="unbounded" />
+		</xsd:sequence>
+		<xsd:attribute name="Id" type="xsd:unsignedByte" use="required" />
+	</xsd:complexType>
+	
+	<!-- Nodes Collection -->
+	<xsd:complexType name="Nodes">
+        <xsd:sequence>
+            <xsd:element name="Node" type="Node" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+	
+	<!-- Node Element -->
+	<xsd:complexType name="Node">
+		<xsd:sequence> 
+			<xsd:element name="Features" type="Features" minOccurs="0" />
+			<xsd:element name="Macros" type="Macros" minOccurs="0" />
+			<xsd:element name="Accessories" type="Accessories" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="ManufacturerId" type="xsd:unsignedByte" use="required" />
+		<xsd:attribute name="ProductId" type="xsd:unsignedInt" use="required" />
+		<xsd:attribute name="Name" type="xsd:string" use="optional" /> <!-- specified by the user -->
+	</xsd:complexType>
+	
+	<!-- Features Collection -->
+	<xsd:complexType name="Features">
+        <xsd:sequence>
+            <xsd:element name="Feature" type="Feature" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+	
+	<!-- Feature Element -->
+	<xsd:complexType name="Feature">
+		<xsd:attribute name="FeatureCodeId" type="xsd:unsignedByte" use="required" />
+		<xsd:attribute name="Value" type="xsd:unsignedByte" use="required" />
+	</xsd:complexType>
+	
+	<!-- Macros Collection -->
+	<xsd:complexType name="Macros">
+        <xsd:sequence>
+            <xsd:element name="Macro" type="Macro" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+	
+	<!-- Macro Element -->
+	<xsd:complexType name="Macro">
+		<xsd:sequence>
+			<xsd:element name="MacroParameters" type="MacroParameters" />
+			<xsd:element name="MacroPoints" type="MacroPoints" />
+        </xsd:sequence>
+		
+		<xsd:attribute name="Number" type="xsd:unsignedByte" use="required" />
+    </xsd:complexType>
+	
+	<!-- MacroParameters Collection -->
+	<xsd:complexType name="MacroParameters">
+		<xsd:sequence>
+			<xsd:element name="MacroParameterSlowdown" type="MacroParameterSlowdown" minOccurs="0" />
+			<xsd:element name="MacroParameterRepeat" type="MacroParameterRepeat" minOccurs="0" />
+			<xsd:element name="MacroParameterClockStart" type="MacroParameterClockStart" minOccurs="0" />
+		</xsd:sequence>
+    </xsd:complexType>
+	
+	<!-- Abstract MacroParameter Element -->
+	<xsd:complexType name="MacroParameter" abstract="true">
+    </xsd:complexType>
+	
+	<!-- MacroParameter Slowdown -->
+	<xsd:complexType name="MacroParameterSlowdown">
+		<xsd:complexContent>
+            <xsd:extension base="MacroParameter">
+				<xsd:attribute name="Speed" use="required">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:unsignedByte">
+							<xsd:minInclusive value="1"/>
+							<xsd:maxInclusive value="250"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+		    </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- MacroParameter Repeat -->
+	<xsd:complexType name="MacroParameterRepeat">
+		<xsd:complexContent>
+            <xsd:extension base="MacroParameter">
+				<xsd:attribute name="Repetitions" use="required">
+					<xsd:simpleType>
+						<xsd:restriction base="xsd:unsignedByte">
+							<xsd:maxInclusive value="250"/>
+						</xsd:restriction>
+					</xsd:simpleType>
+				</xsd:attribute>
+		    </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- MacroParameter ClockStart -->
+	<xsd:complexType name="MacroParameterClockStart">
+		<xsd:complexContent>
+            <xsd:extension base="MacroParameter">
+				<xsd:attribute name="IsEnabled" type="xsd:boolean" use="required" />
+				<xsd:attribute name="Weekday" type="MacroWeekday" use="required" />
+				<xsd:attribute name="Hour" type="MacroHour" use="required" />
+				<xsd:attribute name="Minute" type="MacroMinute" use="required" />
+		    </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- Weekday -->
+	<xsd:simpleType name="Weekday">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="Monday" />
+			<xsd:enumeration value="Tuesday" />
+			<xsd:enumeration value="Wednesday" />
+			<xsd:enumeration value="Thursday" />
+			<xsd:enumeration value="Friday" />
+			<xsd:enumeration value="Saturday" />
+			<xsd:enumeration value="Sunday" />
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="WeekdayExtension">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="EveryDay" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="MacroWeekday">
+		<xsd:union memberTypes="Weekday WeekdayExtension"/>
+	</xsd:simpleType>
+	
+	<!-- Hour -->
+	<xsd:simpleType name="Hour"> 
+		<xsd:restriction base="xsd:unsignedByte"> 
+			<xsd:maxExclusive value="24" /> 
+		</xsd:restriction> 
+	</xsd:simpleType>
+
+	<xsd:simpleType name="HourExtension">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="EveryHour" />
+			<xsd:enumeration value="EveryHourInDaytime" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="MacroHour">
+		<xsd:union memberTypes="Hour HourExtension"/>
+	</xsd:simpleType>
+	
+	<!-- Minute -->	
+	<xsd:simpleType name="Minute"> 
+		<xsd:restriction base="xsd:unsignedByte"> 
+			<xsd:maxExclusive value="60" /> 
+		</xsd:restriction> 
+	</xsd:simpleType> 
+	
+	<xsd:simpleType name="MinuteExtension">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="EveryMinute" />
+			<xsd:enumeration value="Every15Minutes" />
+			<xsd:enumeration value="Every30Minutes" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<xsd:simpleType name="MacroMinute">
+		<xsd:union memberTypes="Minute MinuteExtension"/>
+	</xsd:simpleType>
+	
+	<!-- MacroPoints Collection -->
+	<xsd:complexType name="MacroPoints">
+        <xsd:choice minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="MacroPointCriticalSection" type="MacroPointCriticalSection" />
+            <xsd:element name="MacroPointDelay" type="MacroPointDelay" />
+			<xsd:element name="MacroPointFlag" type="MacroPointFlag" />
+			<xsd:element name="MacroPointInput" type="MacroPointInput" />
+			<xsd:element name="MacroPointMacro" type="MacroPointMacro" />
+			<xsd:element name="MacroPointOutputAnalog" type="MacroPointOutputAnalog" />
+			<xsd:element name="MacroPointOutputLight" type="MacroPointOutputLight" />
+			<xsd:element name="MacroPointOutputMotor" type="MacroPointOutputMotor" />
+			<xsd:element name="MacroPointOutputServo" type="MacroPointOutputServo" />
+			<xsd:element name="MacroPointOutputSound" type="MacroPointOutputSound" />
+			<xsd:element name="MacroPointOutputSwitch" type="MacroPointOutputSwitch" />
+        </xsd:choice>
+    </xsd:complexType>
+	
+	<!-- Abstract MacroPoint Element -->
+	<xsd:complexType name="MacroPoint" abstract="true">
+		<xsd:attribute name="Number" type="xsd:unsignedByte" use="required" />
+    </xsd:complexType>
+	
+	<!-- MacroPoint CriticalSection -->
+	<xsd:complexType name="MacroPointCriticalSection">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPoint">
+				<xsd:attribute name="Function" type="FunctionCriticalSection" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- Function for CriticalSection -->
+	<xsd:simpleType name="FunctionCriticalSection">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Begin" />
+            <xsd:enumeration value="End" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<!-- MacroPoint Delay -->
+	<xsd:complexType name="MacroPointDelay">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPoint">
+				<xsd:attribute name="Delay" type="xsd:unsignedByte" use="required" />
+				<xsd:attribute name="Function" type="FunctionDelay" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- Function for Delay -->
+	<xsd:simpleType name="FunctionDelay">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Fixed" />
+            <xsd:enumeration value="Random" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<!-- MacroPoint Flag -->
+	<xsd:complexType name="MacroPointFlag">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPoint">
+				<xsd:attribute name="FlagNumber" type="xsd:unsignedByte" use="required" />
+				<xsd:attribute name="Function" type="FunctionFlag" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- Function for Flag -->
+	<xsd:simpleType name="FunctionFlag">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Set" />
+            <xsd:enumeration value="Reset" />
+			<xsd:enumeration value="Wait" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<!-- MacroPoint Input -->
+	<xsd:complexType name="MacroPointInput">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPoint">
+				<xsd:attribute name="InputNumber" type="xsd:unsignedByte" use="required" />
+				<xsd:attribute name="Function" type="FunctionInput" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- Function for Input -->
+	<xsd:simpleType name="FunctionInput">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="WaitFor0" />
+            <xsd:enumeration value="WaitFor1" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<!-- MacroPoint Macro -->
+	<xsd:complexType name="MacroPointMacro">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPoint">
+				<xsd:attribute name="MacroNumber" type="xsd:unsignedByte" use="required" />
+				<xsd:attribute name="Function" type="FunctionMacro" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- Function for Macro -->
+	<xsd:simpleType name="FunctionMacro">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="Start" />
+            <xsd:enumeration value="Stop" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<!-- Abstract MacroPoint for all Outputs -->
+	<xsd:complexType name="MacroPointOutput" abstract="true">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPoint">
+				<xsd:attribute name="Delay" type="xsd:unsignedByte" use="required" />
+				<xsd:attribute name="OutputNumber" type="xsd:unsignedByte" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- MacroPoint OutputAnalog -->
+	<xsd:complexType name="MacroPointOutputAnalog">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPointOutput">
+				<!-- TODO -->
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- MacroPoint OutputLight -->
+	<xsd:complexType name="MacroPointOutputLight">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPointOutput">
+				<xsd:attribute name="Function" type="FunctionOutputLight" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- Function for OutputLight -->
+	<xsd:simpleType name="FunctionOutputLight">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="TurnOff" />
+            <xsd:enumeration value="TurnOn" />
+			<xsd:enumeration value="DimDown" />
+            <xsd:enumeration value="DimUp" />
+			<xsd:enumeration value="NeonFlicker" />
+			<xsd:enumeration value="BlinkA" />
+			<xsd:enumeration value="BlinkB" />
+			<xsd:enumeration value="FlashA" />
+			<xsd:enumeration value="FlashB" />
+			<xsd:enumeration value="DoubleFlash" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<!-- MacroPoint OutputMotor -->
+	<xsd:complexType name="MacroPointOutputMotor">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPointOutput">
+				<!-- TODO -->
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- MacroPoint OutputServo -->
+	<xsd:complexType name="MacroPointOutputServo">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPointOutput">
+				<xsd:attribute name="Position" type="xsd:unsignedByte" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- MacroPoint OutputSound -->
+	<xsd:complexType name="MacroPointOutputSound">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPointOutput">
+				<!-- TODO -->
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- MacroPoint OutputSwitch -->
+	<xsd:complexType name="MacroPointOutputSwitch">
+	    <xsd:complexContent>
+            <xsd:extension base="MacroPointOutput">
+				<xsd:attribute name="Function" type="FunctionOutputSwitch" use="required" />
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+	
+	<!-- Function for OutputSwitch -->
+	<xsd:simpleType name="FunctionOutputSwitch">
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="On" />
+            <xsd:enumeration value="Off" />
+        </xsd:restriction>
+    </xsd:simpleType>
+	
+	<!-- Accessories Collection -->
+	<xsd:complexType name="Accessories">
+        <xsd:sequence>
+            <xsd:element name="Accessory" type="Accessory" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+	
+	<!-- Accessory Element -->
+	<xsd:complexType name="Accessory">
+	    <xsd:sequence>
+            <xsd:element name="Aspects" type="Aspects" />
+        </xsd:sequence>
+		
+		<xsd:attribute name="Number" type="xsd:unsignedByte" use="required" />
+    </xsd:complexType>
+	
+	<!-- Aspects Collection -->
+	<xsd:complexType name="Aspects">
+        <xsd:sequence>
+            <xsd:element name="Aspect" type="Aspect" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
+	
+	<!-- Aspect Element -->
+	<xsd:complexType name="Aspect">
+		<xsd:attribute name="Number" type="xsd:unsignedByte" use="required" />
+		<xsd:attribute name="MacroNumber" type="xsd:unsignedByte" use="required" />
+    </xsd:complexType>
+	
+	<!-- Documentation Element -->
+	<xsd:complexType name="Documentation">
+		<xsd:attribute name="Language" type="xsd:language" use="required" />
+		<xsd:attribute name="Name" type="xsd:string" use="required" />
+		<xsd:attribute name="Description" type="xsd:string" use="optional" />
+		<xsd:attribute name="Url" type="xsd:anyURI" use="optional" />
+	</xsd:complexType>
+</xsd:schema>
