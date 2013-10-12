@@ -175,7 +175,7 @@ public class AccessoryNode extends DeviceNode {
             send(new LcConfigSetMessage(config), true, LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE);
         if (response instanceof LcConfigResponse) {
             LcConfig result = ((LcConfigResponse) response).getLcConfig();
-            LOGGER.debug("Set LcConfig returned: {}", result);
+            LOGGER.info("Set LcConfig returned: {}", result);
             return result;
         }
         else if (response instanceof LcNotAvailableResponse) {

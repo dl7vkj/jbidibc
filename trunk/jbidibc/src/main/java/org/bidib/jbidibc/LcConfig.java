@@ -1,5 +1,6 @@
 package org.bidib.jbidibc;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 
 public class LcConfig {
@@ -46,5 +47,10 @@ public class LcConfig {
 
     public int getValue4() {
         return value4;
+    }
+
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
     }
 }

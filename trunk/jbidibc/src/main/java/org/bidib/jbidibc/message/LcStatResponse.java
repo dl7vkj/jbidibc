@@ -16,12 +16,12 @@ public class LcStatResponse extends BidibMessage {
         }
     }
 
-    public int getPortNumber() {
-        return ByteUtils.getInt(getData()[1]);
-    }
-
     public LcOutputType getPortType() {
         return LcOutputType.valueOf(getData()[0]);
+    }
+
+    public int getPortNumber() {
+        return ByteUtils.getInt(getData()[1]);
     }
 
     public int getPortStatus() {
