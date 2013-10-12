@@ -3,13 +3,27 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:vendorcv="http://www.bidib.org/jbidibc/vendorcv" exclude-result-prefixes="#default" xmlns="http://www.bidib.org/jbidibc/vendorcv">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8"
-		indent="yes" />
-	<xsl:strip-space elements="*" />
+		exclude-result-prefixes="xsl xs" indent="yes" />
 
+	<xsl:strip-space elements="*" />
+<!--
+	<xsl:template match="*" priority="1">      
+		<xsl:element name="{lower-case(local-name())}">
+			<xsl:apply-templates/>
+		</xsl:element>
+	  </xsl:template>
+ 	<xsl:template match="@*" priority="15">
+        <xsl:attribute name="{lower-case(local-name(.))}" >
+            <xsl:value-of select="."/>
+        </xsl:attribute>
+    </xsl:template>
+ -->
+    
 	<!-- string for default namespace uri and schema location -->
 	<xsl:variable name="nsVendorCV" select="'http://www.bidib.org/jbidibc/vendorcv'" />
 	<xsl:variable name="schemaLoc"
-		select="'http://www.bidib.org/vendorcv vendor_cv.xsd'" />
+		select="'http://www.bidib.org/jbidibc/vendorcv ./../xsd/vendor_cv.xsd'" />
+
 
 	<xsl:template match="@*|node()">
 		<xsl:copy inherit-namespaces="yes">
@@ -17,7 +31,7 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="/*" priority="1">
+	<xsl:template match="/*" priority="2">
 		<xsl:element name="{local-name()}" namespace="{$nsVendorCV}">
 			<xsl:attribute name="xsi:schemaLocation"
 				namespace="http://www.w3.org/2001/XMLSchema-instance">
@@ -46,6 +60,7 @@
 						select="node()" />
 				</xsl:attribute>
 			</xsl:for-each>
+			<xsl:apply-templates select="@*|node()" />
 		</xsl:element>
 	</xsl:template>
 
