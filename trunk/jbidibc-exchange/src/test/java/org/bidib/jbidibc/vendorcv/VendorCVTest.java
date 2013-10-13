@@ -49,6 +49,34 @@ public class VendorCVTest {
     }
 
     @Test
+    public void loadVendorCVForOneDMXAndTransformToWizardFormatTest() throws JAXBException, TransformerException,
+        IOException {
+        LOGGER.info("Load VendorCV for OneDMX and transform to wizard data.");
+
+        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+
+        InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
+        javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
+        TransformerFactory tf = TransformerFactory.newInstance();
+        Transformer transformer = tf.newTransformer(xsltSource);
+
+        InputStream is = VendorCVTest.class.getResourceAsStream("/xsd/monitor-0.4.4.0/BiDiBCV-13-115.xml");
+        StreamSource xmlSource = new StreamSource(is);
+
+        /*
+         * Perform the transform to get the report
+         */
+        File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_wizard_OneDMX.xml");
+
+        FileOutputStream reportFOS = new FileOutputStream(exportFile);
+        OutputStreamWriter osw = new OutputStreamWriter(reportFOS, "UTF-8");
+        transformer.transform(xmlSource, new StreamResult(osw));
+        osw.close();
+
+        LOGGER.info("Prepared wizard xml file: {}", exportFile.getPath());
+    }
+
+    @Test
     public void loadVendorCVForLCAndTransformToWizardFormatTest() throws JAXBException, TransformerException,
         IOException {
         LOGGER.info("Load VendorCV for LC and transform to wizard data.");
@@ -76,7 +104,7 @@ public class VendorCVTest {
         LOGGER.info("Prepared wizard xml file: {}", exportFile.getPath());
     }
 
-    @Test
+    @Test(enabled = false)
     public void loadVendorForLCAndTransformCVTest() throws JAXBException, TransformerException {
         LOGGER.info("Load VendorCV.");
 
@@ -97,9 +125,6 @@ public class VendorCVTest {
 
         LOGGER.info("Prepared outputTarget: {}", outputTarget);
 
-        //        Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-        //
-        //        VendorCV vendorCV = (VendorCV) unmarshaller.unmarshal(is);
         VendorCV vendorCV = (VendorCV) outputTarget.getResult();
         Assert.assertNotNull(vendorCV);
 
@@ -198,8 +223,9 @@ public class VendorCVTest {
         cv.setHigh("-");
         cv.setValues("-");
         cv.setMode(ModeType.RO);
-        cv.setDescde("vendor_id");
-        cv.setDescen("vendor_id");
+        // TODO
+        //        cv.setDescde("vendor_id");
+        //        cv.setDescen("vendor_id");
         basis.getCV().add(cv);
 
         cv = new CV();
@@ -211,8 +237,9 @@ public class VendorCVTest {
         cv.setHigh("-");
         cv.setValues("-");
         cv.setMode(ModeType.RO);
-        cv.setDescde("hw_id");
-        cv.setDescen("hw_id");
+        // TODO
+        //        cv.setDescde("hw_id");
+        //        cv.setDescen("hw_id");
         basis.getCV().add(cv);
 
         cvDefinition.setBasis(basis);
@@ -249,8 +276,9 @@ public class VendorCVTest {
         cv.setNumber(0);
         cv.setType(DataType.BYTE);
         cv.setMode(ModeType.RW);
-        cv.setDescde("LED: Einstellung der Stromquelle");
-        cv.setDescen("LED: courrent source setup");
+        // TODO
+        //        cv.setDescde("LED: Einstellung der Stromquelle");
+        //        cv.setDescen("LED: courrent source setup");
         cv.setMin("-");
         cv.setMax("-");
         cv.setLow("-");
@@ -261,8 +289,9 @@ public class VendorCVTest {
         cv.setNumber(1);
         cv.setType(DataType.BYTE);
         cv.setMode(ModeType.RW);
-        cv.setDescde("LED: Helligkeit für Zustand „aus“");
-        cv.setDescen("LED: light intensity at status 'off'");
+        // TODO
+        //        cv.setDescde("LED: Helligkeit für Zustand „aus“");
+        //        cv.setDescen("LED: light intensity at status 'off'");
         led.getCV().add(cv);
         templatesType.setLED(led);
 

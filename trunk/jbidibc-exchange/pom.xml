@@ -48,6 +48,33 @@
     </dependencies>
     <build>
         <plugins>
+			<plugin>
+				<groupId>net.sf.xsltmp</groupId>
+				<artifactId>xslt-generator-maven-plugin</artifactId>
+				<version>1.7</version>
+				<executions>
+					<execution>
+						<id>transform-abc</id>
+						<goals>
+							<goal>many-to-many</goal>
+						</goals>
+						<configuration>
+							<xslTemplate>src/main/resources/xsd/vendor_cv.xslt</xslTemplate>
+							<srcDir>src/main/resources/bidib</srcDir>
+							<srcIncludes>**/BiDiB*.xml</srcIncludes>
+                            <!-- addDestDirTo>resources</addDestDirTo -->
+                            <destDir>${project.build.directory}/generated-resources/xml/bidib</destDir>
+						</configuration>
+					</execution>
+				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>net.sf.saxon</groupId>
+						<artifactId>Saxon-HE</artifactId>
+						<version>${saxon-version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>

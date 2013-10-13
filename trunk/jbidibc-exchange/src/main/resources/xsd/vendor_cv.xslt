@@ -51,6 +51,7 @@
 	</xsl:template>
 
 	<!-- support format of monitor-0.4.2.3 -->
+	<!--
 	<xsl:template match="CV[not(@number)]" priority="10">
 		<xsl:element name="{name()}" namespace="{$nsVendorCV}"
 			exclude-result-prefixes="#default">
@@ -63,7 +64,19 @@
 			<xsl:apply-templates select="@*|node()" />
 		</xsl:element>
 	</xsl:template>
-
+	-->
+	<!--
+	<xsl:template match="Version" priority="10">
+		<xsl:element name="{name()}" namespace="{$nsVendorCV}"
+			exclude-result-prefixes="#default">
+			<xsl:for-each select="@*">
+					<xsl:attribute name="{lower-case(local-name())}"><xsl:value-of
+						select="." /></xsl:attribute>
+					<xsl:apply-templates select="./*" />
+			</xsl:for-each>
+		</xsl:element>
+	</xsl:template>
+	-->
 	<xsl:template match="LEDS" priority="10">
 		<xsl:element name="{name()}" namespace="{$nsVendorCV}"
 			exclude-result-prefixes="#default">
@@ -100,6 +113,7 @@
 						<xsl:apply-templates select="@* | node()" />
 				</xsl:element>
 			</xsl:for-each>
+			<!--
 			<xsl:element name="Sectors" namespace="{$nsVendorCV}"
 				exclude-result-prefixes="#default">
 				<xsl:for-each select="*/.[starts-with(name(), 'Sector')]">
@@ -111,23 +125,6 @@
 					</xsl:element>
 				</xsl:for-each>
 			</xsl:element>
-			<!--
-			<xsl:choose>
-			<xsl:when test=".[starts-with(name(), 'Sector')]">
-				<xsl:element name="SectorDefinition" namespace="{$nsVendorCV}"
-					exclude-result-prefixes="#default">
-					<xsl:attribute name="number"><xsl:value-of
-						select="substring(current()/local-name(),7)" /></xsl:attribute>
-					<xsl:apply-templates select="./*" />
-				</xsl:element>
-			</xsl:when>
-			<xsl:otherwise>
-				<xsl:element name="{name()}" namespace="{$nsVendorCV}"
-					exclude-result-prefixes="#default">
-						<xsl:apply-templates select="@* | node()" />
-				</xsl:element>
-			</xsl:otherwise>
-			</xsl:choose>
 			-->
 		</xsl:element>
 	</xsl:template>
