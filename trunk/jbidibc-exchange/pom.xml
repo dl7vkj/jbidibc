@@ -25,6 +25,14 @@
             <artifactId>Saxon-HE</artifactId>
             <scope>test</scope>
         </dependency>
+		<!-- Xerces 2 -->
+		<!--
+		<dependency>
+			<groupId>xerces</groupId>
+			<artifactId>xercesImpl</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+		-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -60,9 +68,9 @@
 						</goals>
 						<configuration>
 							<xslTemplate>src/main/resources/xsd/vendor_cv.xslt</xslTemplate>
-							<srcDir>src/main/resources/bidib</srcDir>
+							<srcDir>src/main/xml/bidib</srcDir>
 							<srcIncludes>**/BiDiB*.xml</srcIncludes>
-                            <!-- addDestDirTo>resources</addDestDirTo -->
+                            <addDestDirTo>resources</addDestDirTo>
                             <destDir>${project.build.directory}/generated-resources/xml/bidib</destDir>
 						</configuration>
 					</execution>

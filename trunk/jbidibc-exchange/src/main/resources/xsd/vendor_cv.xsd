@@ -11,13 +11,24 @@
 		<xsd:attribute name="Vendor" type="xsd:string" use="required"/>
 		<xsd:attribute name="Description" type="xsd:string" use="required"/>
 	</xsd:complexType>
-	<xsd:complexType name="AboutType">
-		<xsd:sequence>
-			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-		</xsd:sequence>
+	<xsd:complexType name="TemplateType" abstract="true">
 	</xsd:complexType>
+
+	<xsd:complexType name="AboutType">
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
+	<xsd:element name="Template" type="vendorcv:TemplateType"></xsd:element>
 	<xsd:complexType name="TemplatesType">
 		<xsd:sequence>
+			<xsd:element ref="vendorcv:Template" maxOccurs="unbounded"/>
+			<!-- 
 			<xsd:element ref="vendorcv:About"/>
 			<xsd:element ref="vendorcv:DMX" minOccurs="0" maxOccurs="1"/>
 			<xsd:element ref="vendorcv:LightPort" minOccurs="0" maxOccurs="1"/>
@@ -25,32 +36,62 @@
 			<xsd:element ref="vendorcv:Accessory-map" minOccurs="0" maxOccurs="1"/>
 			<xsd:element ref="vendorcv:LED" minOccurs="0" maxOccurs="1"/>
 			<xsd:element ref="vendorcv:Servo" minOccurs="0" maxOccurs="1"/>
+			 -->
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="LED">
-		<xsd:sequence>
-			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-		</xsd:sequence>
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="LightPort">
-		<xsd:sequence>
-			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-		</xsd:sequence>
+	<xsd:complexType name="LightPortType">
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="AccessoryMapType">
-		<xsd:sequence>
-			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-		</xsd:sequence>
+	<xsd:complexType name="Accessory-mapType">
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="Backlight">
-		<xsd:sequence>
-			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-		</xsd:sequence>
+	<xsd:complexType name="BacklightType">
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="Servo">
-		<xsd:sequence>
-			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-		</xsd:sequence>
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="DMXType">
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
 	</xsd:complexType>
 	<!--xsd:complexType name="Sector">
 		<xsd:sequence>
@@ -88,11 +129,6 @@
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="DCC">
-		<xsd:sequence>
-			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-		</xsd:sequence>
-	</xsd:complexType>
-	<xsd:complexType name="DMX">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
 		</xsd:sequence>
@@ -167,18 +203,18 @@
 	<xsd:element name="LEDS" type="vendorcv:LEDS"/>
 	<xsd:element name="Servos" type="vendorcv:Servos"/>
 	<xsd:element name="Sectors" type="vendorcv:Sectors"/>
-	<xsd:element name="Accessory-map" type="vendorcv:AccessoryMapType"/>
+	<xsd:element name="Accessory-map" type="vendorcv:Accessory-mapType"/>
 	<xsd:element name="Basis" type="vendorcv:Basis"/>
-	<xsd:element name="Backlight" type="vendorcv:Backlight"/>
+	<xsd:element name="Backlight" type="vendorcv:BacklightType"/>
 	<xsd:element name="LED" type="vendorcv:LED"/>
-	<xsd:element name="LightPort" type="vendorcv:LightPort"/>
+	<xsd:element name="LightPort" type="vendorcv:LightPortType"/>
 	<xsd:element name="Servo" type="vendorcv:Servo"/>
 	<xsd:element name="Version" type="vendorcv:VersionInfoType"/>
 	<xsd:element name="About" type="vendorcv:AboutType"/>
 	<xsd:element name="Templates" type="vendorcv:TemplatesType"/>
 	<xsd:element name="CVDefinition" type="vendorcv:CVDefinitionType"/>
 	<xsd:element name="DCC" type="vendorcv:DCC"/>
-	<xsd:element name="DMX" type="vendorcv:DMX"/>
+	<xsd:element name="DMX" type="vendorcv:DMXType"/>
 	<xsd:element name="CV" type="vendorcv:CV"/>
 	<xsd:element name="VendorCV">
 		<xsd:annotation>

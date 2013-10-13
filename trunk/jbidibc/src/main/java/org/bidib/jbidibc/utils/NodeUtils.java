@@ -106,4 +106,22 @@ public class NodeUtils {
     public static String getUniqueIdAsString(long uniqueId) {
         return String.format("VID %02X PID %08X", (uniqueId >> 32) & 0xff, uniqueId & 0xffffffffL);
     }
+
+    /**
+     * Get the vendor id from the unique id.
+     * @param uniqueId the unique id
+     * @return the vendor id
+     */
+    public static long getVendorId(long uniqueId) {
+        return (uniqueId >> 32) & 0xff;
+    }
+
+    /**
+     * Get the product id from the unique id.
+     * @param uniqueId the unique id
+     * @return the product id
+     */
+    public static long getPid(long uniqueId) {
+        return (uniqueId >> 24) & 0xffL;
+    }
 }

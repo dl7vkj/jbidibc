@@ -190,10 +190,9 @@
 	<!-- MacroPoints Collection -->
 	<xsd:complexType name="MacroPoints">
 		<xsd:sequence>
-				<xsd:element ref="MacroPoint" maxOccurs="unbounded"/>
+			<xsd:element name="MacroPoint" type="MacroPoint" maxOccurs="unbounded" />
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:element name="MacroPoint" type="MacroPoint"/>
 	<!-- Abstract MacroPoint Element -->
 	<xsd:complexType name="MacroPoint" abstract="true">
 		<xsd:attribute name="Number" type="xsd:unsignedByte" use="required"/>

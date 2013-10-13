@@ -121,4 +121,23 @@ public class NodeUtilsTest {
 
         Assert.assertTrue(hasSwitch);
     }
+
+    private static final long UUID_ONEDMX = 0x05000d730062eaL;
+
+    @Test
+    public void checkPidTest() {
+
+        // PID 115 vendor 13
+        long pid = NodeUtils.getPid(UUID_ONEDMX);
+        Assert.assertEquals(pid, 115L);
+    }
+
+    @Test
+    public void checkVendorIdTest() {
+
+        // PID 115 vendor 13
+        long vid = NodeUtils.getVendorId(UUID_ONEDMX);
+        Assert.assertEquals(vid, 13L);
+    }
+
 }
