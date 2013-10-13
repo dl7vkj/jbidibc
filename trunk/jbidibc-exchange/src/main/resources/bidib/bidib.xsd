@@ -189,20 +189,11 @@
 	</xsd:simpleType>
 	<!-- MacroPoints Collection -->
 	<xsd:complexType name="MacroPoints">
-		<xsd:choice minOccurs="0" maxOccurs="unbounded">
-			<xsd:element name="MacroPointCriticalSection" type="MacroPointCriticalSection"/>
-			<xsd:element name="MacroPointDelay" type="MacroPointDelay"/>
-			<xsd:element name="MacroPointFlag" type="MacroPointFlag"/>
-			<xsd:element name="MacroPointInput" type="MacroPointInput"/>
-			<xsd:element name="MacroPointMacro" type="MacroPointMacro"/>
-			<xsd:element name="MacroPointOutputAnalog" type="MacroPointOutputAnalog"/>
-			<xsd:element name="MacroPointOutputLight" type="MacroPointOutputLight"/>
-			<xsd:element name="MacroPointOutputMotor" type="MacroPointOutputMotor"/>
-			<xsd:element name="MacroPointOutputServo" type="MacroPointOutputServo"/>
-			<xsd:element name="MacroPointOutputSound" type="MacroPointOutputSound"/>
-			<xsd:element name="MacroPointOutputSwitch" type="MacroPointOutputSwitch"/>
-		</xsd:choice>
+		<xsd:sequence>
+				<xsd:element ref="MacroPoint" maxOccurs="unbounded"/>
+		</xsd:sequence>
 	</xsd:complexType>
+	<xsd:element name="MacroPoint" type="MacroPoint"/>
 	<!-- Abstract MacroPoint Element -->
 	<xsd:complexType name="MacroPoint" abstract="true">
 		<xsd:attribute name="Number" type="xsd:unsignedByte" use="required"/>
