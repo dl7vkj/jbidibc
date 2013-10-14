@@ -251,8 +251,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <!--ignore/-->
-                                        <runOnIncremental>false</runOnIncremental>
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
