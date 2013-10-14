@@ -121,10 +121,10 @@ public class VendorCVTest {
         File file = new File("");
         file = new File(file.getAbsoluteFile(), "src/main/xml/bidib/BiDiBCV-13-107.xml");
         LOGGER.info("Prepared file: {}", file.getAbsolutePath());
-        
+
         InputStream is = new FileInputStream(file);
-        
-//        InputStream is = VendorCVTest.class.getResourceAsStream(file.getAbsolutePath());
+
+        //        InputStream is = VendorCVTest.class.getResourceAsStream(file.getAbsolutePath());
         LOGGER.info("Loaded LC config: {}", is);
         StreamSource xmlSource = new StreamSource(is);
 

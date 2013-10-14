@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV>
-    <Version version="0.1" LastUpdate="20130519" author="Tillner, Andreas" PID1="119" PID2="000" Vendor="013" description="OneOC (20x OC-Input) - BiDiBOne AddOn"></Version>
+    <Version version="0.1" LastUpdate="20130519" author="Tillner, Andreas" PID1="119" PID2="000" Vendor="013" description="OneOC (20x OC-Input) - BiDiBOne AddOn"/>
     <CVDefinition>
         <Basis>
             <CV>

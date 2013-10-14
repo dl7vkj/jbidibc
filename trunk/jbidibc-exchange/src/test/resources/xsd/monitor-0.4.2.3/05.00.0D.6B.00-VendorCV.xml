@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV>
-    <Version version="0.1" LastUpdate="20130519" author="BiDiB Mustermann" PID1="107" PID2="000" Vendor="013" description="BiDiB-LightControl 1"></Version>
+    <Version version="0.1" LastUpdate="20130519" author="BiDiB Mustermann" PID1="107" PID2="000" Vendor="013" description="BiDiB-LightControl 1"/>
     <Templates>
         <LED>
             <CV>

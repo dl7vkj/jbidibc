@@ -4,8 +4,8 @@
         <bidib:lcMacroPoint xsi:type="bidib:SoundPortPoint">
             <bidib:delay>6</bidib:delay>
             <bidib:SoundPortActionType>
-				<bidib:action>START</bidib:action>
-				<bidib:value>2</bidib:value>
+                <bidib:action>START</bidib:action>
+                <bidib:value>2</bidib:value>
             </bidib:SoundPortActionType>
             <bidib:outputNumber>0</bidib:outputNumber>
         </bidib:lcMacroPoint>

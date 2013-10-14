@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV>
-    <Version version="0.3" LastUpdate="20130702" author="Kufer, Wolfgang" PID1="102" PID2="000" Vendor="013" description="GBMBoost Node"></Version>
+    <Version version="0.3" LastUpdate="20130702" author="Kufer, Wolfgang" PID1="102" PID2="000" Vendor="013" description="GBMBoost Node"/>
     <Templates>
         <GBM16T>
             <Common>
