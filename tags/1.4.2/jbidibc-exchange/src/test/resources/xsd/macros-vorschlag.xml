@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<BiDiB xmlns="http://www.bidib.org/schema/bidib" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" SchemaVersion="1.0" xsi:schemaLocation="http://www.bidib.org/schema/bidib bidib.xsd">
+    <Macros>
+        <Macro Number="0">
+            <MacroParameters>
+                <MacroParameterSlowdown Speed="1"/>
+                <MacroParameterRepeat Repetitions="1"/>
+                <MacroParameterClockStart IsEnabled="true" Weekday="EveryDay" Hour="EveryHour" Minute="58"/>
+            </MacroParameters>
+            <MacroPoints>
+                <MacroPoint Number="0" InputNumber="0" Function="WaitFor1" xsi:type="MacroPointInput"/>
+                <MacroPoint Number="1" Delay="0" OutputNumber="0" Position="50" xsi:type="MacroPointOutputServo"/>
+                <MacroPoint Number="2" Delay="250" Function="Fixed" xsi:type="MacroPointDelay"/>
+                <MacroPoint Number="3" Delay="0" OutputNumber="0" Position="150" xsi:type="MacroPointOutputServo"/>
+                <!-- ... -->
+                <MacroPoint Number="4" MacroNumber="0" Function="Start" xsi:type="MacroPointMacro"/>
+            </MacroPoints>
+        </Macro>
+        <Macro Number="1">
+            <MacroParameters>
+                <MacroParameterSlowdown Speed="3"/>
+                <MacroParameterRepeat Repetitions="5"/>
+                <MacroParameterClockStart IsEnabled="true" Weekday="Monday" Hour="11" Minute="11"/>
+            </MacroParameters>
+            <MacroPoints>
+                <MacroPoint Number="0" Delay="0" OutputNumber="0" Function="DimUp" xsi:type="MacroPointOutputLight"/>
+                <MacroPoint Number="1" Delay="100" Function="Random" xsi:type="MacroPointDelay"/>
+                <MacroPoint Number="2" Delay="0" OutputNumber="0" Function="DimDown" xsi:type="MacroPointOutputLight"/>
+            </MacroPoints>
+        </Macro>
+        <!-- ... -->
+    </Macros>
+</BiDiB>

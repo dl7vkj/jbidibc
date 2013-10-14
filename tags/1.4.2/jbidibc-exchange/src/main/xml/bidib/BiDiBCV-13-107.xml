@@ -1,0 +1,284 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VendorCV>
+    <Version Version="0.1" Versionm="440" Lastupdate="20130519" Author="BiDiB Mustermann" Pid="107" Vendor="013" Description="BiDiB-LightControl 1"></Version>
+    <Templates>
+        <LED>
+            <CV Number="0" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Einstellung der Stromquelle"/>
+                <Description Lang="en-EN" Text="LED: courrent source setup"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Helligkeit für Zustand 'aus'"/>
+                <Description Lang="en-EN" Text="LED: light intensity at status 'off'"/>
+            </CV>
+            <CV Number="2" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Helligkeit für Zustand 'an'"/>
+                <Description Lang="en-EN" Text="LED: light intensity at status 'on'"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Dimmzeit in Richtung 'aus', 0 = schnell / 255 = langsam"/>
+                <Description Lang="en-EN" Text="LED: time to dim, direction 'off', 0 = fast / 255 = slow"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="LED: Dimmzeit in Richtung 'an', 0 = schnell / 255 = langsam"/>
+                <Description Lang="en-EN" Text="LED: time to dim, direction 'on', 0 = fast / 255 = slow"/>
+            </CV>
+        </LED>
+        <Servo>
+            <CV Number="0" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Min Low"/>
+                <Description Lang="en-EN" Text="Min Low"/>
+            </CV>
+            <CV Number="1" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Min High"/>
+                <Description Lang="en-EN" Text="Min High"/>
+            </CV>
+            <CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Max Low"/>
+                <Description Lang="en-EN" Text="Max Low"/>
+            </CV>
+            <CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Max High"/>
+                <Description Lang="en-EN" Text="Max High"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Modus"/>
+                <Description Lang="en-EN" Text="Mode"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Wiederholung: 0 keine Wiederholung, 1 Wiederholung"/>
+                <Description Lang="en-EN" Text="Repeat: 0 no repeat, 1 repeat"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Position: 0 vor Bewegung A, 1 vor Bewegung B"/>
+                <Description Lang="en-EN" Text="Location: 0 befor move A, 1 befor move B"/>
+            </CV>
+            <CV Number="7" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurveneinstellungen für A"/>
+                <Description Lang="en-EN" Text="curve settings for A"/>
+            </CV>
+            <CV Number="8" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurvenverzögerung A"/>
+                <Description Lang="en-EN" Text="curve delay for A"/>
+            </CV>
+            <CV Number="9" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurveneinstellungen für B"/>
+                <Description Lang="en-EN" Text="curve settings for B"/>
+            </CV>
+            <CV Number="10" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurvenverzögerung B"/>
+                <Description Lang="en-EN" Text="curve delay for B"/>
+            </CV>
+            <CV Number="14" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Power OFF: 0 nicht abschalten, n * 20 ms"/>
+                <Description Lang="en-EN" Text="Power OFF: 0 no off, n * 20 ms"/>
+            </CV>
+        </Servo>
+    </Templates>
+    <CVDefinition>
+        <Basis>
+            <DCC>
+                <CV Number="1" Type="Int" Min="0" Max="255" Low="1" High="9" Values="-" Mode="rw">
+                    <Description Lang="de-DE" Text="Decoder Adresse LOW"/>
+                    <Description Lang="en-EN" Text="Decoder Address LOW"/>
+                </CV>
+                <CV Number="9" Type="Int" Min="0" Max="255" Low="1" High="9" Values="-" Mode="rw">
+                    <Description Lang="de-DE" Text="Decoder Adresse HIGH"/>
+                    <Description Lang="en-EN" Text="Decoder Address HIGH"/>
+                </CV>
+            </DCC>
+            <CV Number="2" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="0;1" Mode="rw">
+                <Description Lang="de-DE" Text="1 = Eingänge aktiv, 0 = Eingänge nicht aktiv"/>
+                <Description Lang="en-EN" Text="1 = Input activ, 0 = Input not activ"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Einschaltzeit für Ausgang 1"/>
+                <Description Lang="en-EN" Text="Time to switch on for output 1"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Einschaltzeit für Ausgang 2"/>
+                <Description Lang="en-EN" Text="Time to switch on for output 2"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Einschaltzeit für Ausgang 3"/>
+                <Description Lang="en-EN" Text="Time to switch on for output 3"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Einschaltzeit für Ausgang 4"/>
+                <Description Lang="en-EN" Text="Time to switch on for output 4"/>
+            </CV>
+            <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Softwareversion"/>
+                <Description Lang="en-EN" Text="Software version"/>
+            </CV>
+            <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Herstellerkennung"/>
+                <Description Lang="en-EN" Text="Software version"/>
+            </CV>
+            <CV Number="28" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Bi-Direktionale Kommunikation"/>
+                <Description Lang="en-EN" Text="Bidirectiional communication"/>
+            </CV>
+            <CV Number="29" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Allgemeine Decoderkonfiguration"/>
+                <Description Lang="en-EN" Text="Common decoder configuration"/>
+            </CV>
+            <CV Number="33" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="0;1;2;16;17" Mode="rw">
+                <Description Lang="de-DE" Text="Global Decoder Mode"/>
+                <Description Lang="en-EN" Text="Global Decoder Mode"/>
+            </CV>
+            <CV Number="34" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="0;1" Mode="ro">
+                <Description Lang="de-DE" Text="OP-Mode"/>
+                <Description Lang="en-EN" Text="OP-Mode"/>
+            </CV>
+        </Basis>
+        <Servos>
+            <Servo0 Offset="61" Template="Servo">
+                <Nodetext Lang="de-DE" Text="Servo 0"/>
+                <Nodetext Lang="en-EN" Text="Servo 0"/>
+            </Servo0>
+            <Servo1 Offset="77" Template="Servo">
+                <Nodetext Lang="de-DE" Text="Servo 1"/>
+                <Nodetext Lang="en-EN" Text="Servo 1"/>
+            </Servo1>
+            <Servo2 Offset="93" Template="Servo">
+                <Nodetext Lang="de-DE" Text="Servo 2"/>
+                <Nodetext Lang="en-EN" Text="Servo 2"/>
+            </Servo2>
+            <Servo3 Offset="109" Template="Servo">
+                <Nodetext Lang="de-DE" Text="Servo 3"/>
+                <Nodetext Lang="en-EN" Text="Servo 3"/>
+            </Servo3>
+        </Servos>
+        <LEDS>
+            <LED0 Offset="125" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 0"/>
+                <Nodetext Lang="en-EN" Text="LED 0"/>
+            </LED0>
+            <LED1 Offset="130" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 1"/>
+                <Nodetext Lang="en-EN" Text="LED 1"/>
+            </LED1>
+            <LED2 Offset="135" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 2"/>
+                <Nodetext Lang="en-EN" Text="LED 2"/>
+            </LED2>
+            <LED3 Offset="140" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 3"/>
+                <Nodetext Lang="en-EN" Text="LED 3"/>
+            </LED3>
+            <LED4 Offset="145" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 4"/>
+                <Nodetext Lang="en-EN" Text="LED 4"/>
+            </LED4>
+            <LED5 Offset="150" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 5"/>
+                <Nodetext Lang="en-EN" Text="LED 5"/>
+            </LED5>
+            <LED6 Offset="155" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 6"/>
+                <Nodetext Lang="en-EN" Text="LED 6"/>
+            </LED6>
+            <LED7 Offset="160" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 7"/>
+                <Nodetext Lang="en-EN" Text="LED 7"/>
+            </LED7>
+            <LED8 Offset="165" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 8"/>
+                <Nodetext Lang="en-EN" Text="LED 8"/>
+            </LED8>
+            <LED9 Offset="170" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 9"/>
+                <Nodetext Lang="en-EN" Text="LED 9"/>
+            </LED9>
+            <LED10 Offset="175" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 10"/>
+                <Nodetext Lang="en-EN" Text="LED 10"/>
+            </LED10>
+            <LED11 Offset="180" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 11"/>
+                <Nodetext Lang="en-EN" Text="LED 11"/>
+            </LED11>
+            <LED12 Offset="185" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 12"/>
+                <Nodetext Lang="en-EN" Text="LED 12"/>
+            </LED12>
+            <LED13 Offset="190" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 13"/>
+                <Nodetext Lang="en-EN" Text="LED 13"/>
+            </LED13>
+            <LED14 Offset="195" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 14"/>
+                <Nodetext Lang="en-EN" Text="LED 14"/>
+            </LED14>
+            <LED15 Offset="200" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 15"/>
+                <Nodetext Lang="en-EN" Text="LED 15"/>
+            </LED15>
+            <LED16 Offset="205" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 16"/>
+                <Nodetext Lang="en-EN" Text="LED 16"/>
+            </LED16>
+            <LED17 Offset="210" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 17"/>
+                <Nodetext Lang="en-EN" Text="LED 17"/>
+            </LED17>
+            <LED18 Offset="215" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 18"/>
+                <Nodetext Lang="en-EN" Text="LED 18"/>
+            </LED18>
+            <LED19 Offset="220" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 19"/>
+                <Nodetext Lang="en-EN" Text="LED 19"/>
+            </LED19>
+            <LED20 Offset="225" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 20"/>
+                <Nodetext Lang="en-EN" Text="LED 20"/>
+            </LED20>
+            <LED21 Offset="230" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 21"/>
+                <Nodetext Lang="en-EN" Text="LED 21"/>
+            </LED21>
+            <LED22 Offset="235" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 22"/>
+                <Nodetext Lang="en-EN" Text="LED 22"/>
+            </LED22>
+            <LED23 Offset="240" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 23"/>
+                <Nodetext Lang="en-EN" Text="LED 23"/>
+            </LED23>
+            <LED24 Offset="245" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 24"/>
+                <Nodetext Lang="en-EN" Text="LED 24"/>
+            </LED24>
+            <LED25 Offset="250" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 25"/>
+                <Nodetext Lang="en-EN" Text="LED 25"/>
+            </LED25>
+            <LED26 Offset="255" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 26"/>
+                <Nodetext Lang="en-EN" Text="LED 26"/>
+            </LED26>
+            <LED27 Offset="260" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 27"/>
+                <Nodetext Lang="en-EN" Text="LED 27"/>
+            </LED27>
+            <LED28 Offset="265" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 28"/>
+                <Nodetext Lang="en-EN" Text="LED 28"/>
+            </LED28>
+            <LED29 Offset="270" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 29"/>
+                <Nodetext Lang="en-EN" Text="LED 29"/>
+            </LED29>
+            <LED30 Offset="275" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 30"/>
+                <Nodetext Lang="en-EN" Text="LED 30"/>
+            </LED30>
+            <LED31 Offset="280" Template="LED">
+                <Nodetext Lang="de-DE" Text="LED 31"/>
+                <Nodetext Lang="en-EN" Text="LED 31"/>
+            </LED31>
+        </LEDS>
+    </CVDefinition>
+</VendorCV>
