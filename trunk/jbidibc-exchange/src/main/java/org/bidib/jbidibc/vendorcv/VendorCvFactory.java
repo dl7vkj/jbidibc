@@ -49,6 +49,9 @@ public class VendorCvFactory {
         if (is != null) {
             vendorCV = (VendorCV) unmarshaller.unmarshal(is);
         }
+        else {
+            LOGGER.info("No vendor CV file found.");
+        }
         LOGGER.debug("Loaded vendorCV: {}", vendorCV);
         return vendorCV;
     }

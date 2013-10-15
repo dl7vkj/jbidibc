@@ -32,7 +32,7 @@ public class VendorCvOneDmxTest {
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
         Reporter.log("Load the CV file.", true);
-        InputStream is = VendorCvOneDmxTest.class.getResourceAsStream("/BiDiBCV-13-115.xml");
+        InputStream is = VendorCvOneDmxTest.class.getResourceAsStream("/bidib/BiDiBCV-13-115.xml");
         LOGGER.info("Opened stream: {}", is);
         VendorCV vendorCV = (VendorCV) unmarshaller.unmarshal(is);
 

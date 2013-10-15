@@ -68,10 +68,10 @@
                         </goals>
                         <configuration>
                             <xslTemplate>src/main/resources/xsd/vendor_cv.xslt</xslTemplate>
-                            <srcDir>src/main/xml/bidib</srcDir>
-                            <srcIncludes>**/BiDiB*.xml</srcIncludes>
+                            <srcDir>src/main/xml</srcDir>
+                            <srcIncludes>bidib/BiDiB*.xml</srcIncludes>
                             <addDestDirTo>resources</addDestDirTo>
-                            <destDir>${project.build.directory}/generated-resources/xml/bidib</destDir>
+                            <destDir>${project.build.directory}/generated-resources/xml</destDir>
                         </configuration>
                     </execution>
                 </executions>
