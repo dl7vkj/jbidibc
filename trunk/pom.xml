@@ -251,7 +251,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <execute />
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
