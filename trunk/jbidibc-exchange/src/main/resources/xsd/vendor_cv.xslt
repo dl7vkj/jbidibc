@@ -87,6 +87,7 @@
 		</xsl:element>
 	</xsl:template>
 
+	<!-- 
 	<xsl:template match="LEDS" priority="10">
 		<xsl:element name="{name()}" namespace="{$nsVendorCV}"
 			exclude-result-prefixes="#default">
@@ -113,7 +114,7 @@
 			</xsl:for-each>
 		</xsl:element>
 	</xsl:template>
-	
+	 -->
 	<xsl:template match="CVDefinition" priority="9">
 		<xsl:element name="CVDefinition" namespace="{$nsVendorCV}"
 			exclude-result-prefixes="#default">

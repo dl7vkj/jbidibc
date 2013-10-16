@@ -129,22 +129,22 @@
                 <Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
                 <Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
             </CV>
-            <DMXChannel>
+            <Node>
                 <Nodetext Lang="de-DE" Text="DMX-Kanäle"/>
                 <Nodetext Lang="en-EN" Text="DMX-Channels"/>
                 <Node Offset="41" Template="DMX" Count="64" Next="1">
                     <Nodetext Lang="de-DE" Text="DMX-Kanal %%p"/>
                     <Nodetext Lang="en-EN" Text="DMX-Channel %%p"/>
                 </Node>
-            </DMXChannel>
-            <Lightports>
+            </Node>
+            <Node>
                 <Nodetext Lang="de-DE" Text="Licht-Ports"/>
                 <Nodetext Lang="en-EN" Text="Light ports"/>
                 <Node Offset="105" Template="LightPort" Count="128" Next="5">
                     <Nodetext Lang="de-DE" Text="Licht-Port %%d"/>
                     <Nodetext Lang="en-EN" Text="Light port %%d"/>
                 </Node>
-            </Lightports>
+            </Node>
             <Backlightports>
                 <Nodetext Lang="de-DE" Text="Backlight-Ports"/>
                 <Nodetext Lang="en-EN" Text="Backlight ports"/>

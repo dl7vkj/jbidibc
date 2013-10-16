@@ -39,7 +39,7 @@
 			 -->
 		</xsd:sequence>
 	</xsd:complexType>
-	<xsd:complexType name="LED">
+	<xsd:complexType name="LEDType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
 				<xsd:sequence>
@@ -75,7 +75,7 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	<xsd:complexType name="Servo">
+	<xsd:complexType name="ServoType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
 				<xsd:sequence>
@@ -93,6 +93,25 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<xsd:complexType name="GPIOType">
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="PoweroutputType">
+		<xsd:complexContent>
+			<xsd:extension base="vendorcv:TemplateType">
+				<xsd:sequence>
+					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	
 	<!--xsd:complexType name="Sector">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
@@ -206,9 +225,9 @@
 	<xsd:element name="Accessory-map" type="vendorcv:Accessory-mapType"/>
 	<xsd:element name="Basis" type="vendorcv:Basis"/>
 	<xsd:element name="Backlight" type="vendorcv:BacklightType"/>
-	<xsd:element name="LED" type="vendorcv:LED"/>
+	<!-- xsd:element name="LEDType" type="vendorcv:LEDType"/-->
 	<xsd:element name="LightPort" type="vendorcv:LightPortType"/>
-	<xsd:element name="Servo" type="vendorcv:Servo"/>
+	<!-- xsd:element name="Servo" type="vendorcv:ServoType"/-->
 	<xsd:element name="Version" type="vendorcv:VersionInfoType"/>
 	<xsd:element name="About" type="vendorcv:AboutType"/>
 	<xsd:element name="Templates" type="vendorcv:TemplatesType"/>
@@ -236,10 +255,10 @@
 				<xsd:element ref="vendorcv:CV" minOccurs="0"/>
 				<xsd:element ref="vendorcv:Node" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
-		<xsd:attribute name="Offset" type="xsd:integer" />
+		<xsd:attribute name="Offset" type="xsd:int" />
 		<xsd:attribute name="Template" type="xsd:string" />
-		<xsd:attribute name="Count" type="xsd:integer" use="optional" />
-		<xsd:attribute name="Next" type="xsd:integer" use="optional" />
+		<xsd:attribute name="Count" type="xsd:int" use="optional" />
+		<xsd:attribute name="Next" type="xsd:int" use="optional" />
 	</xsd:complexType>
 	<xsd:complexType name="NodeTextType">
 		<xsd:attribute name="Lang" type="xsd:string" />

@@ -33,7 +33,8 @@ public class VendorCvFactory {
     private static VendorCV loadCvDefintionForNode(long uniqueId) throws JAXBException {
         long pid = NodeUtils.getPid(uniqueId);
         long vid = NodeUtils.getVendorId(uniqueId);
-        LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}", uniqueId, pid, vid);
+        LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}", NodeUtils
+            .getUniqueIdAsString(uniqueId), pid, vid);
 
         StringBuffer filename = new StringBuffer("/bidib/BiDiBCV-");
         filename.append(vid).append("-").append(pid).append(".xml");

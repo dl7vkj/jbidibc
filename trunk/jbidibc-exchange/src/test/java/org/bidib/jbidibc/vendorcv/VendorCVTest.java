@@ -282,7 +282,7 @@ public class VendorCVTest {
         vendorCV.setVersion(versionInfo);
 
         TemplatesType templatesType = new TemplatesType();
-        LED led = new LED();
+        LEDType led = new LEDType();
         CV cv = new CV();
         cv.setNumber(0);
         cv.setType(DataType.BYTE);
@@ -307,7 +307,7 @@ public class VendorCVTest {
         // TODO enable
         templatesType.getTemplate().add(led);
 
-        Servo servo = new Servo();
+        ServoType servo = new ServoType();
         cv = new CV();
         cv.setNumber(0);
         cv.setType(DataType.BYTE);
