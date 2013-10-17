@@ -11,13 +11,14 @@
 		<xsd:attribute name="Vendor" type="xsd:string" use="required"/>
 		<xsd:attribute name="Description" type="xsd:string" use="required"/>
 	</xsd:complexType>
-	<xsd:complexType name="TemplateType" abstract="true"/>
+	<xsd:complexType name="TemplateType" abstract="true">
+		<xsd:sequence>
+			<xsd:element ref="vendorcv:CV" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
 	<xsd:complexType name="AboutType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
@@ -39,72 +40,48 @@
 	<xsd:complexType name="LEDType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="LightPortType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="Accessory-mapType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="BacklightType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="ServoType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="DMXType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="GPIOType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="PoweroutputType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
-				<xsd:sequence>
-					<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
-				</xsd:sequence>
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
