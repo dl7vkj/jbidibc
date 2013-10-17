@@ -115,6 +115,44 @@
 		</xsl:element>
 	</xsl:template>
 	 -->
+	 
+	<xsl:template match="CVDefinition/Node/DMXChannel" priority="10">
+		<xsl:element name="Node" namespace="{$nsVendorCV}"
+			exclude-result-prefixes="#default">
+			<xsl:attribute name="comment">
+				<xsl:value-of select="local-name()" />
+			</xsl:attribute>
+			<xsl:apply-templates select="@* | node()" />
+		 </xsl:element>
+	</xsl:template>
+	<xsl:template match="CVDefinition/Node/Lightports" priority="10">
+		<xsl:element name="Node" namespace="{$nsVendorCV}"
+			exclude-result-prefixes="#default">
+			<xsl:attribute name="comment">
+				<xsl:value-of select="local-name()" />
+			</xsl:attribute>
+			<xsl:apply-templates select="@* | node()" />
+		 </xsl:element>
+	</xsl:template>
+	<xsl:template match="CVDefinition/Node/Backlightports" priority="10">
+		<xsl:element name="Node" namespace="{$nsVendorCV}"
+			exclude-result-prefixes="#default">
+			<xsl:attribute name="comment">
+				<xsl:value-of select="local-name()" />
+			</xsl:attribute>
+			<xsl:apply-templates select="@* | node()" />
+		 </xsl:element>
+	</xsl:template>
+	<xsl:template match="CVDefinition/Node/Accessorymaps" priority="10">
+		<xsl:element name="Node" namespace="{$nsVendorCV}"
+			exclude-result-prefixes="#default">
+			<xsl:attribute name="comment">
+				<xsl:value-of select="local-name()" />
+			</xsl:attribute>
+			<xsl:apply-templates select="@* | node()" />
+		 </xsl:element>
+	</xsl:template>
+	 
 	<xsl:template match="CVDefinition" priority="9">
 		<xsl:element name="CVDefinition" namespace="{$nsVendorCV}"
 			exclude-result-prefixes="#default">

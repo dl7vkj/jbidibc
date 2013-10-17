@@ -11,9 +11,7 @@
 		<xsd:attribute name="Vendor" type="xsd:string" use="required"/>
 		<xsd:attribute name="Description" type="xsd:string" use="required"/>
 	</xsd:complexType>
-	<xsd:complexType name="TemplateType" abstract="true">
-	</xsd:complexType>
-
+	<xsd:complexType name="TemplateType" abstract="true"/>
 	<xsd:complexType name="AboutType">
 		<xsd:complexContent>
 			<xsd:extension base="vendorcv:TemplateType">
@@ -23,8 +21,7 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
-	<xsd:element name="Template" type="vendorcv:TemplateType"></xsd:element>
+	<xsd:element name="Template" type="vendorcv:TemplateType"/>
 	<xsd:complexType name="TemplatesType">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:Template" maxOccurs="unbounded"/>
@@ -111,7 +108,6 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
-	
 	<!--xsd:complexType name="Sector">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
@@ -250,18 +246,19 @@
 	<xsd:element name="Node" type="vendorcv:NodeType"/>
 	<xsd:element name="Nodetext" type="vendorcv:NodeTextType"/>
 	<xsd:complexType name="NodeType">
-			<xsd:sequence>
-				<xsd:element ref="vendorcv:Nodetext" maxOccurs="unbounded"/>
-				<xsd:element ref="vendorcv:CV" minOccurs="0"/>
-				<xsd:element ref="vendorcv:Node" minOccurs="0" maxOccurs="unbounded"/>
-			</xsd:sequence>
-		<xsd:attribute name="Offset" type="xsd:int" />
-		<xsd:attribute name="Template" type="xsd:string" />
-		<xsd:attribute name="Count" type="xsd:int" use="optional" />
-		<xsd:attribute name="Next" type="xsd:int" use="optional" />
+		<xsd:sequence>
+			<xsd:element ref="vendorcv:Nodetext" maxOccurs="unbounded"/>
+			<xsd:element ref="vendorcv:CV" minOccurs="0"/>
+			<xsd:element ref="vendorcv:Node" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="Offset" type="xsd:int"/>
+		<xsd:attribute name="Template" type="xsd:string"/>
+		<xsd:attribute name="Count" type="xsd:int" use="optional"/>
+		<xsd:attribute name="Next" type="xsd:int" use="optional"/>
+		<xsd:attribute name="Comment" type="xsd:string" use="optional"/>
 	</xsd:complexType>
 	<xsd:complexType name="NodeTextType">
-		<xsd:attribute name="Lang" type="xsd:string" />
-		<xsd:attribute name="Text" type="xsd:string" />
+		<xsd:attribute name="Lang" type="xsd:string"/>
+		<xsd:attribute name="Text" type="xsd:string"/>
 	</xsd:complexType>
 </xsd:schema>
