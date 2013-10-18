@@ -77,6 +77,11 @@
             <!--url>https://raw.github.com/benalexau/xml-formatter/master/releases/</url-->
             <url>https://raw.github.com/jamestyrrell/xml-formatter/master/releases/</url>
         </pluginRepository>
+        <pluginRepository>
+            <id>sonatype-snapshots</id>
+            <name>Sonatype Snapshot Plugin repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </pluginRepository>
     </pluginRepositories>
     <dependencyManagement>
         <dependencies>
