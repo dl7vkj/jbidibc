@@ -26,15 +26,6 @@
 	<xsd:complexType name="TemplatesType">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:Template" maxOccurs="unbounded"/>
-			<!-- 
-			<xsd:element ref="vendorcv:About"/>
-			<xsd:element ref="vendorcv:DMX" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="vendorcv:LightPort" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="vendorcv:Backlight" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="vendorcv:Accessory-map" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="vendorcv:LED" minOccurs="0" maxOccurs="1"/>
-			<xsd:element ref="vendorcv:Servo" minOccurs="0" maxOccurs="1"/>
-			 -->
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:complexType name="LEDType">
