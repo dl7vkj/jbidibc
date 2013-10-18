@@ -6,6 +6,7 @@
 		exclude-result-prefixes="xsl xs" indent="yes" />
 
 	<xsl:strip-space elements="*" />
+
 <!--
 	<xsl:template match="*" priority="1">      
 		<xsl:element name="{lower-case(local-name())}">
@@ -152,6 +153,36 @@
 			<xsl:apply-templates select="@* | node()" />
 		 </xsl:element>
 	</xsl:template>
+
+	<!-- OneControl -->
+	<xsl:template match="CVDefinition/Node/Servos" priority="10">
+		<xsl:element name="Node" namespace="{$nsVendorCV}"
+			exclude-result-prefixes="#default">
+			<xsl:attribute name="comment">
+				<xsl:value-of select="local-name()" />
+			</xsl:attribute>
+			<xsl:apply-templates select="@* | node()" />
+		 </xsl:element>
+	</xsl:template>
+	<xsl:template match="CVDefinition/Node/Poweroutputs" priority="10">
+		<xsl:element name="Node" namespace="{$nsVendorCV}"
+			exclude-result-prefixes="#default">
+			<xsl:attribute name="comment">
+				<xsl:value-of select="local-name()" />
+			</xsl:attribute>
+			<xsl:apply-templates select="@* | node()" />
+		 </xsl:element>
+	</xsl:template>
+	<xsl:template match="CVDefinition/Node/GPIOS" priority="10">
+		<xsl:element name="Node" namespace="{$nsVendorCV}"
+			exclude-result-prefixes="#default">
+			<xsl:attribute name="comment">
+				<xsl:value-of select="local-name()" />
+			</xsl:attribute>
+			<xsl:apply-templates select="@* | node()" />
+		 </xsl:element>
+	</xsl:template>
+	<!-- OneControl -->
 	 
 	<xsl:template match="CVDefinition" priority="9">
 		<xsl:element name="CVDefinition" namespace="{$nsVendorCV}"
