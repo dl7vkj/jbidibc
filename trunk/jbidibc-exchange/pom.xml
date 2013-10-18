@@ -179,6 +179,7 @@
                                 <include>**/*.xml</include>
                             </includes>
                             <excludes>
+                                <exclude>**/main/xml/bidib/**</exclude>
                                 <exclude>**/resources/bidib/**</exclude>
                                 <exclude>**/resources/xsd/**</exclude>
                                 <exclude>**/target/**</exclude>

@@ -416,6 +416,7 @@
                                 <include>**/*.xml</include>
                             </includes>
                             <excludes>
+                                <exclude>**/main/xml/bidib/**</exclude>
                                 <exclude>**/target/**</exclude>
                                 <exclude>**/test-output/**</exclude>
                                 <exclude>**/codestyle.xml</exclude>
