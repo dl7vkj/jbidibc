@@ -154,17 +154,22 @@ public class AccessoryNode extends DeviceNode {
      */
     public void acknowledgeAccessoryState(AccessoryState accessoryState) throws ProtocolException {
         // TODO check if we must handle this differently ... currently auto-acknowledge new state
-        if (AccessoryStateUtils.hasError(accessoryState.getExecute())) {
+        LOGGER.info("Accessory state change notification was received: {}", accessoryState);
+        if (!AccessoryStateUtils.hasError(accessoryState.getExecute())) {
             int accessoryNumber = accessoryState.getAccessoryNumber();
             byte aspect = accessoryState.getAspect();
             LOGGER.info("Acknowledge the accessory state change for accessory number: {}, aspect: {}", accessoryNumber,
                 aspect);
             // send acknowledge
-            setAccessoryState(accessoryNumber, aspect);
+            // TODO check how this works ... currently does not work correct ...
+            //            setAccessoryState(accessoryNumber, aspect);
 
             // get the errors, see 4.6.4. Uplink: Messages for accessory functions
             // TODO verify what happens exactly before enable this ...
             //            getAccessoryState(accessoryNumber);
+        }
+        else {
+            LOGGER.warn("An accessory error was detected: {}", accessoryState);
         }
     }
 
