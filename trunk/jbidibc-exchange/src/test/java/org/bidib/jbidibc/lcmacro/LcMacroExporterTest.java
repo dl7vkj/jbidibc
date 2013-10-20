@@ -123,7 +123,7 @@ public class LcMacroExporterTest {
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /*macronumber*/, (byte) 1/*stepnumber*/, (byte) 60 /*delay*/,
-                LcOutputType.SOUNDPORT, (byte) 1 /*outputnumber*/, (BidibEnum) SoundPortEnum.START, (byte) 12 /*value*/);
+                LcOutputType.SOUNDPORT, (byte) 1 /*outputnumber*/, (BidibEnum) SoundPortEnum.PLAY, (byte) 12 /*value*/);
 
         LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(point);
@@ -132,7 +132,7 @@ public class LcMacroExporterTest {
 
         //        Assert.assertEquals(point.getIndex(), 1);
         Assert.assertEquals(soundPortPoint.getDelay(), Integer.valueOf(60));
-        Assert.assertEquals(soundPortPoint.getSoundPortActionType().getAction(), SoundActionType.START);
+        Assert.assertEquals(soundPortPoint.getSoundPortActionType().getAction(), SoundActionType.PLAY);
         Assert.assertEquals(soundPortPoint.getSoundPortActionType().getValue(), 12);
         Assert.assertEquals(soundPortPoint.getOutputNumber(), 1);
     }

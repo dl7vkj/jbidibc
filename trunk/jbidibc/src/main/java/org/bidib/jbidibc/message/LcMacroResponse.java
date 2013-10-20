@@ -24,21 +24,7 @@ public class LcMacroResponse extends BidibMessage {
         LcOutputType outputType = LcOutputType.valueOf(data[3]);
 
         return new LcMacro(data[0], data[1], data[2], outputType, data[4], MessageUtils.toPortStatus(outputType,
-            data[5]), getValue(outputType, data[5]));
+            data[5]), MessageUtils.getPortValue(outputType, data[5]));
     }
 
-    // the value is only available for servoport and backlightport
-    private byte getValue(LcOutputType outputType, byte value) {
-        byte result = 0;
-
-        switch (outputType) {
-            case BACKLIGHTPORT:
-            case SERVOPORT:
-                result = value;
-                break;
-            default:
-                break;
-        }
-        return result;
-    }
 }

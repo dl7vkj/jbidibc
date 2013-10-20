@@ -177,7 +177,7 @@
 			<xsd:enumeration value="wo"/>
 			<xsd:enumeration value="w"/>
 			<xsd:enumeration value="h"/>
-			<!-- occurs in OneOC -->
+			<!-- occurs in OneDMX -->
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:element name="ServoDefinition" type="vendorcv:ServoDefinitionType"/>

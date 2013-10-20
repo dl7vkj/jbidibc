@@ -1,7 +1,7 @@
 package org.bidib.jbidibc.enumeration;
 
 public enum SoundPortEnum implements BidibEnum {
-    START(0);
+    PLAY(0), PAUSE(1), STOP(2);
 
     private final byte type;
 

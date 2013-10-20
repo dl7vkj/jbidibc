@@ -2,12 +2,12 @@ package org.bidib.jbidibc.enumeration;
 
 import org.bidib.jbidibc.BidibLibrary;
 
-public enum LcOutputType implements BidibEnum {
+public enum LcOutputType implements BidibEnum, PortStatusAware {
     //@formatter:off
-    SWITCHPORT(BidibLibrary.BIDIB_OUTTYPE_SPORT), LIGHTPORT(BidibLibrary.BIDIB_OUTTYPE_LPORT), SERVOPORT(
-        BidibLibrary.BIDIB_OUTTYPE_SERVO), SOUNDPORT(BidibLibrary.BIDIB_OUTTYPE_SOUND), MOTORPORT(
-        BidibLibrary.BIDIB_OUTTYPE_MOTOR), ANALOGPORT(BidibLibrary.BIDIB_OUTTYPE_ANALOG), BACKLIGHTPORT(
-        BidibLibrary.BIDIB_OUTTYPE_BACKLIGHT), DELAY(BidibLibrary.BIDIB_MSYS_DELAY_FIXED), RANDOM_DELAY(
+    SWITCHPORT(BidibLibrary.BIDIB_OUTTYPE_SPORT, true), LIGHTPORT(BidibLibrary.BIDIB_OUTTYPE_LPORT, true), SERVOPORT(
+        BidibLibrary.BIDIB_OUTTYPE_SERVO, true), SOUNDPORT(BidibLibrary.BIDIB_OUTTYPE_SOUND, true), MOTORPORT(
+        BidibLibrary.BIDIB_OUTTYPE_MOTOR, true), ANALOGPORT(BidibLibrary.BIDIB_OUTTYPE_ANALOG, true), BACKLIGHTPORT(
+        BidibLibrary.BIDIB_OUTTYPE_BACKLIGHT, true), DELAY(BidibLibrary.BIDIB_MSYS_DELAY_FIXED), RANDOM_DELAY(
         BidibLibrary.BIDIB_MSYS_DELAY_RANDOM), INPUT_QUERY0(BidibLibrary.BIDIB_MSYS_INPUT_QUERY0), INPUT_QUERY1(
         BidibLibrary.BIDIB_MSYS_INPUT_QUERY1), FLAG_CLEAR(BidibLibrary.BIDIB_MSYS_FLAG_CLEAR), FLAG_SET(
         BidibLibrary.BIDIB_MSYS_FLAG_SET), FLAG_QUERY(BidibLibrary.BIDIB_MSYS_FLAG_QUERY), END_CRITICAL(
@@ -19,12 +19,24 @@ public enum LcOutputType implements BidibEnum {
 
     private final byte type;
 
+    private final boolean hasPortStatus;
+
     LcOutputType(int type) {
+        this(type, false);
+    }
+
+    LcOutputType(int type, boolean hasPortStatus) {
         this.type = (byte) type;
+        this.hasPortStatus = hasPortStatus;
     }
 
     public byte getType() {
         return type;
+    }
+
+    @Override
+    public boolean hasPortStatus() {
+        return hasPortStatus;
     }
 
     /**
@@ -49,4 +61,5 @@ public enum LcOutputType implements BidibEnum {
         }
         return result;
     }
+
 }

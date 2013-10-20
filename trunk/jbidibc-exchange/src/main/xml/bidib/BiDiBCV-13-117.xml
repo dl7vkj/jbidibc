@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <VendorCV>
 	<Version 
-		Version="0.4" 
-		Lastupdate="20131014" 
+		Version="0.5" 
+		Lastupdate="20131015" 
 		Author="mos"
 		Pid="117"
 		Vendor="013"
@@ -160,7 +160,7 @@
         <Node>
             <Nodetext Lang="de-DE" Text="Konfiguration"/>
             <Nodetext Lang="en-EN" Text="Config"/>
-            <CV Number="41" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+            <CV Number="11" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
                 <Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
             </CV>

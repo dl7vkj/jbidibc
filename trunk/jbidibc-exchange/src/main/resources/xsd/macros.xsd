@@ -384,7 +384,9 @@
 	</xsd:group>
 	<xsd:simpleType name="SoundActionType">
 		<xsd:restriction base="xsd:string">
-			<xsd:enumeration value="START"/>
+			<xsd:enumeration value="PLAY"/>
+			<xsd:enumeration value="PAUSE"/>
+			<xsd:enumeration value="STOP"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="SoundValueType">
