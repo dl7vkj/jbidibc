@@ -104,6 +104,8 @@ public class BidibNode {
 
     private BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
 
+    protected boolean ignoreWaitTimeout;
+
     /**
      * Create a new BidibNode that represents a connected node (slave) on the BiDiB bus.
      * 
@@ -111,11 +113,13 @@ public class BidibNode {
      *            the address
      * @param messageReceiver
      *            the message receiver
+     * @param ignoreWaitTimeout ignore the wait timeout
      */
-    protected BidibNode(byte[] addr, MessageReceiver messageReceiver) {
+    protected BidibNode(byte[] addr, MessageReceiver messageReceiver, boolean ignoreWaitTimeout) {
         this.addr = addr != null ? addr.clone() : null;
         this.messageReceiver = messageReceiver;
-        LOGGER.debug("Create new BidibNode with address: {}", addr);
+        this.ignoreWaitTimeout = ignoreWaitTimeout;
+        LOGGER.debug("Create new BidibNode with address: {}, ignoreWaitTimeout: {}", addr, ignoreWaitTimeout);
     }
 
     /**
@@ -344,6 +348,11 @@ public class BidibNode {
             LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
             return null;
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
         throw createNoResponseAvailable("get feature");
     }
 
@@ -366,6 +375,10 @@ public class BidibNode {
         if (response instanceof FeatureCountResponse) {
             Integer result = ((FeatureCountResponse) response).getCount();
             return result;
+        }
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return Integer.valueOf(0);
         }
 
         throw createNoResponseAvailable("get feature count");
@@ -397,6 +410,12 @@ public class BidibNode {
             LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
             return null;
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
         throw createNoResponseAvailable("get next feature");
     }
 
@@ -427,6 +446,12 @@ public class BidibNode {
             setNodeMagic(magic);
             return magic;
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set! Return BIDIB_BOOT_MAGIC!");
+            return BidibLibrary.BIDIB_BOOT_MAGIC;
+        }
+
         throw createNoResponseAvailable("get magic");
     }
 
@@ -508,6 +533,12 @@ public class BidibNode {
             LOGGER.debug("Fetched node: {}", node);
             return node;
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
         throw createNoResponseAvailable("get next node");
     }
 
@@ -527,6 +558,12 @@ public class BidibNode {
             LOGGER.debug("Found total nodes: {}", totalNodes);
             return totalNodes;
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return Integer.valueOf(0);
+        }
+
         throw createNoResponseAvailable("get node count");
     }
 
@@ -540,6 +577,12 @@ public class BidibNode {
         if (response instanceof SysPVersionResponse) {
             return ((SysPVersionResponse) response).getVersion();
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
         throw createNoResponseAvailable("get protocol version");
     }
 
@@ -553,6 +596,12 @@ public class BidibNode {
         if (response instanceof SysSwVersionResponse) {
             return ((SysSwVersionResponse) response).getVersion();
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
         throw createNoResponseAvailable("get sw version");
     }
 
@@ -566,6 +615,12 @@ public class BidibNode {
         if (response instanceof SysUniqueIdResponse) {
             return ((SysUniqueIdResponse) response).getUniqueId();
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
         throw createNoResponseAvailable("get unique id");
     }
 
@@ -607,6 +662,12 @@ public class BidibNode {
             SysPongResponse result = (SysPongResponse) response;
             return result.getNum();
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return Integer.valueOf(0);
+        }
+
         throw createNoResponseAvailable("ping");
     }
 
@@ -763,7 +824,7 @@ public class BidibNode {
         message.setSendMsgNum(num);
         logRecord.append("send " + message + " to " + this);
 
-        BidibMessage result = null;
+        BidibMessage response = null;
         byte type = message.getType();
         byte[] data = message.getData();
         byte[] bytes = new byte[1 + (addr != null ? addr.length + 1 : 1) + 2 + (data != null ? data.length : 0)];
@@ -801,20 +862,20 @@ public class BidibNode {
         if (expectAnswer) {
             // wait for the answer
             try {
-                result =
+                response =
                     receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
                         .asList(expectedResponseTypes) : null);
             }
             catch (InterruptedException ex) {
                 LOGGER.warn("Waiting for response was interrupted", ex);
             }
-            if (result == null) {
-                LOGGER.warn("Get result failed for message:  {}", message);
+            if (response == null && !ignoreWaitTimeout) {
+                LOGGER.warn("Receive message timed out. Get response failed for message:  {}", message);
                 throw new ProtocolNoAnswerException("Got no answer to " + message);
             }
         }
-        LOGGER.debug("Return the result message: {}", result);
-        return result;
+        LOGGER.debug("Return the response message: {}", response);
+        return response;
     }
 
     private void sendDelimiter() throws IOException {
@@ -884,6 +945,12 @@ public class BidibNode {
         if (response instanceof FwUpdateStatResponse) {
             return ((FwUpdateStatResponse) response).getUpdateStat();
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
         throw createNoResponseAvailable("firmware update operation");
     }
 
@@ -905,6 +972,12 @@ public class BidibNode {
             throw new ProtocolException("The requested feature is not available, featureNumber: "
                 + result.getFeatureNumber());
         }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
         throw createNoResponseAvailable("feature set");
     }
 

@@ -28,6 +28,8 @@ public class NodeFactory {
 
     private BidibInterface bidib;
 
+    private boolean ignoreWaitTimeout;
+
     public NodeFactory() {
     }
 
@@ -43,6 +45,13 @@ public class NodeFactory {
      */
     public void setBidib(BidibInterface bidib) {
         this.bidib = bidib;
+    }
+
+    /**
+     * @param ignoreWaitTimeout the ignoreWaitTimeout flag to set
+     */
+    public void setIgnoreWaitTimeout(boolean ignoreWaitTimeout) {
+        this.ignoreWaitTimeout = ignoreWaitTimeout;
     }
 
     /**
@@ -153,10 +162,10 @@ public class NodeFactory {
 
                 // create the new node based on the class id
                 if ((classId & 0x01) == 1) {
-                    bidibNode = new AccessoryNode(node.getAddr(), messageReceiver);
+                    bidibNode = new AccessoryNode(node.getAddr(), messageReceiver, ignoreWaitTimeout);
                 }
                 else {
-                    bidibNode = new BidibNode(node.getAddr(), messageReceiver);
+                    bidibNode = new BidibNode(node.getAddr(), messageReceiver, ignoreWaitTimeout);
                 }
                 // initialize the node
                 bidibNode.setBidib(bidib);
@@ -197,7 +206,7 @@ public class NodeFactory {
                 // no root node registered, create and initialize the root node.
                 // the root node has always the local address 0 and is the interface node.
                 LOGGER.debug("Create the root node.");
-                rootNode = new RootNode(messageReceiver);
+                rootNode = new RootNode(messageReceiver, ignoreWaitTimeout);
                 // initialize the root node
                 rootNode.setBidib(bidib);
                 nodes.put(ROOT_ADDRESS, rootNode);

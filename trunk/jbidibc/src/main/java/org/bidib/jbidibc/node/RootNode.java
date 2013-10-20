@@ -15,8 +15,8 @@ public class RootNode extends BidibNode {
 
     public static final byte[] ROOTNODE_ADDR = new byte[] { 0, 0, 0, 0 };
 
-    RootNode(MessageReceiver messageReceiver) {
-        super(new byte[] { 0 }, messageReceiver);
+    RootNode(MessageReceiver messageReceiver, boolean ignoreWaitTimeout) {
+        super(new byte[] { 0 }, messageReceiver, ignoreWaitTimeout);
     }
 
     /**

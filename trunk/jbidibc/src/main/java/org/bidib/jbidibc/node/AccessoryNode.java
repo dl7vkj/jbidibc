@@ -39,8 +39,8 @@ public class AccessoryNode extends DeviceNode {
 
     // TODO check if the accessory node can be handled the same way as BoosterNode and CommandStationNode
 
-    AccessoryNode(byte[] addr, MessageReceiver messageReceiver) {
-        super(addr, messageReceiver);
+    AccessoryNode(byte[] addr, MessageReceiver messageReceiver, boolean ignoreWaitTimeout) {
+        super(addr, messageReceiver, ignoreWaitTimeout);
     }
 
     /**
@@ -189,6 +189,11 @@ public class AccessoryNode extends DeviceNode {
                 result.getPortType(), result.getPortNumber());
             throw new ProtocolException("The requested port is not available, port type: " + result.getPortType()
                 + ", port number: " + result.getPortNumber());
+        }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
         }
 
         throw createNoResponseAvailable("LcConfigSet");

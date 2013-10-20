@@ -62,7 +62,7 @@ public class FeatureGetMessageTest {
     private static final class DummyNode extends BidibNode {
 
         protected DummyNode(byte[] address, MessageReceiver messageReceiver) {
-            super(address, messageReceiver);
+            super(address, messageReceiver, false);
         }
 
         @Override

@@ -98,4 +98,9 @@ public interface BidibInterface {
      */
     List<String> getPortIdentifiers();
 
+    /**
+     * Set the ignore wait timeout flag that is used for new nodes.
+     * @param ignoreWaitTimeout the ignore wait timeout flag
+     */
+    void setIgnoreWaitTimeout(boolean ignoreWaitTimeout);
 }

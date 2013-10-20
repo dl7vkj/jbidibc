@@ -425,4 +425,14 @@ public final class Bidib implements BidibInterface {
             }
         }
     }
+
+    @Override
+    public void setIgnoreWaitTimeout(boolean ignoreWaitTimeout) {
+        if (nodeFactory != null) {
+            nodeFactory.setIgnoreWaitTimeout(ignoreWaitTimeout);
+        }
+        else {
+            LOGGER.warn("The node factory is not available, set the ignoreWaitTimeout is discarded.");
+        }
+    }
 }

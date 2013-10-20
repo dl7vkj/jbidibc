@@ -39,7 +39,7 @@ public abstract class BidibNodeCommand extends BidibCommand {
         for (int index = 1; index <= count; index++) {
             Node node = rootNode.getNextNode();
 
-            if ((node.getUniqueId() & 0xffffffffffffffL) == nodeId.longValue()) {
+            if (node != null && (node.getUniqueId() & 0xffffffffffffffL) == nodeId.longValue()) {
                 int magic = Bidib.getInstance().getNode(node).getMagic();
                 LOGGER.info("Node returned magic: {}", magic);
                 // after we fetch the magic we must try to get the FEATURE_RELEVANT_PID_BITS
