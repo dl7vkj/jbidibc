@@ -51,139 +51,14 @@
 		</xsl:element>
 	</xsl:template>
 
-	<!-- support format of monitor-0.4.2.3 -->
-	<!--
-	<xsl:template match="CV[not(@number)]" priority="10">
-		<xsl:element name="{name()}" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:for-each select="./*">
-				<xsl:attribute name="{local-name()}" >
-					<xsl:value-of
-						select="node()" />
-				</xsl:attribute>
-			</xsl:for-each>
-			<xsl:apply-templates select="@*|node()" />
-		</xsl:element>
-	</xsl:template>
-	-->
-	<!--
-	<xsl:template match="Version" priority="10">
-		<xsl:element name="{name()}" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:for-each select="@*">
-					<xsl:attribute name="{lower-case(local-name())}"><xsl:value-of
-						select="." /></xsl:attribute>
-					<xsl:apply-templates select="./*" />
-			</xsl:for-each>
-		</xsl:element>
-	</xsl:template>
-	-->
+	<!-- 	 
 	<xsl:template match="Templates/*" priority="10">
 		<xsl:element name="Template" namespace="{$nsVendorCV}"
 			exclude-result-prefixes="#default">
-			<xsl:attribute name="xsi:type">
-				<xsl:value-of select="concat(local-name(), 'Type')" />
-			</xsl:attribute>
 			<xsl:apply-templates select="@* | node()" />
 		</xsl:element>
 	</xsl:template>
 
-	<!-- 
-	<xsl:template match="LEDS" priority="10">
-		<xsl:element name="{name()}" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:for-each select="*">
-				<xsl:element name="LedDefinition" namespace="{$nsVendorCV}"
-					exclude-result-prefixes="#default">
-					<xsl:attribute name="number"><xsl:value-of
-						select="substring(current()/local-name(),4)" /></xsl:attribute>
-					<xsl:apply-templates select="./*" />
-				</xsl:element>
-			</xsl:for-each>
-		</xsl:element>
-	</xsl:template>
-	<xsl:template match="Servos" priority="10">
-		<xsl:element name="{name()}" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:for-each select="*">
-				<xsl:element name="ServoDefinition" namespace="{$nsVendorCV}"
-					exclude-result-prefixes="#default">
-					<xsl:attribute name="number"><xsl:value-of
-						select="substring(current()/local-name(),6)" /></xsl:attribute>
-					<xsl:apply-templates select="./*" />
-				</xsl:element>
-			</xsl:for-each>
-		</xsl:element>
-	</xsl:template>
-	 -->
-	 
-	<xsl:template match="CVDefinition/Node/DMXChannel" priority="10">
-		<xsl:element name="Node" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:attribute name="comment">
-				<xsl:value-of select="local-name()" />
-			</xsl:attribute>
-			<xsl:apply-templates select="@* | node()" />
-		 </xsl:element>
-	</xsl:template>
-	<xsl:template match="CVDefinition/Node/Lightports" priority="10">
-		<xsl:element name="Node" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:attribute name="comment">
-				<xsl:value-of select="local-name()" />
-			</xsl:attribute>
-			<xsl:apply-templates select="@* | node()" />
-		 </xsl:element>
-	</xsl:template>
-	<xsl:template match="CVDefinition/Node/Backlightports" priority="10">
-		<xsl:element name="Node" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:attribute name="comment">
-				<xsl:value-of select="local-name()" />
-			</xsl:attribute>
-			<xsl:apply-templates select="@* | node()" />
-		 </xsl:element>
-	</xsl:template>
-	<xsl:template match="CVDefinition/Node/Accessorymaps" priority="10">
-		<xsl:element name="Node" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:attribute name="comment">
-				<xsl:value-of select="local-name()" />
-			</xsl:attribute>
-			<xsl:apply-templates select="@* | node()" />
-		 </xsl:element>
-	</xsl:template>
-	
-	<!-- OneControl -->
-	<xsl:template match="CVDefinition/Node/Servos" priority="10">
-		<xsl:element name="Node" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:attribute name="comment">
-				<xsl:value-of select="local-name()" />
-			</xsl:attribute>
-			<xsl:apply-templates select="@* | node()" />
-		 </xsl:element>
-	</xsl:template>
-	<xsl:template match="CVDefinition/Node/Poweroutputs" priority="10">
-		<xsl:element name="Node" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:attribute name="comment">
-				<xsl:value-of select="local-name()" />
-			</xsl:attribute>
-			<xsl:apply-templates select="@* | node()" />
-		 </xsl:element>
-	</xsl:template>
-	<xsl:template match="CVDefinition/Node/GPIOS" priority="10">
-		<xsl:element name="Node" namespace="{$nsVendorCV}"
-			exclude-result-prefixes="#default">
-			<xsl:attribute name="comment">
-				<xsl:value-of select="local-name()" />
-			</xsl:attribute>
-			<xsl:apply-templates select="@* | node()" />
-		 </xsl:element>
-	</xsl:template>
-	<!-- OneControl -->
-	 
 	<xsl:template match="CVDefinition" priority="9">
 		<xsl:element name="CVDefinition" namespace="{$nsVendorCV}"
 			exclude-result-prefixes="#default">
@@ -193,19 +68,8 @@
 						<xsl:apply-templates select="@* | node()" />
 				</xsl:element>
 			</xsl:for-each>
-			<!--
-			<xsl:element name="Sectors" namespace="{$nsVendorCV}"
-				exclude-result-prefixes="#default">
-				<xsl:for-each select="*/.[starts-with(name(), 'Sector')]">
-					<xsl:element name="SectorDefinition" namespace="{$nsVendorCV}"
-						exclude-result-prefixes="#default">
-						<xsl:attribute name="number"><xsl:value-of
-							select="substring(current()/local-name(),7)" /></xsl:attribute>
-						<xsl:apply-templates select="./*" />
-					</xsl:element>
-				</xsl:for-each>
-			</xsl:element>
-			-->
 		</xsl:element>
 	</xsl:template>
+	 -->
+	
 </xsl:stylesheet>

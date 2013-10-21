@@ -49,7 +49,7 @@ public class VendorCvOneDmxTest {
 
         Map<String, Object> templatesMap = new HashMap<String, Object>();
         for (TemplateType template : templates.getTemplate()) {
-            templatesMap.put(template.getClass().getSimpleName(), template);
+            templatesMap.put(template.getName(), template);
         }
 
         LOGGER.info("Prepared templatesMap: {}", templatesMap);
@@ -68,7 +68,7 @@ public class VendorCvOneDmxTest {
             LOGGER.debug("Current templateId: {}", templateId);
 
             if (StringUtils.isNotBlank(templateId)) {
-                Object template = templatesMap.get(templateId + "Type");
+                Object template = templatesMap.get(templateId);
                 LOGGER.debug("Fetched template: {}", template);
                 Assert.assertNotNull(template);
             }

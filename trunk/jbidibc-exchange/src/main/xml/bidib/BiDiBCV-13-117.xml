@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <VendorCV>
 	<Version 
-		Version="0.5" 
-		Lastupdate="20131015" 
+		Version="0.4" 
+		Lastupdate="20131014" 
 		Author="mos"
 		Pid="117"
 		Vendor="013"
 		Description="BiDiBOne-OneControl">
 	</Version>
 	<Templates>
-		<About>
+		<Template Name="About">
 			<CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
 				<Description Lang="de-DE" Text="EEPROM Version"/>
 				<Description Lang="en-EN" Text="EEPROM Version"/>
@@ -38,8 +38,8 @@
 				<Description Lang="de-DE" Text="Firmware Sub-Index"/>
 				<Description Lang="en-EN" Text="Firmware compile run"/>
 			</CV>
-		</About>
-		<Accessory-map>
+		</Template>
+		<Template Name="AccessoryMap">
 		   <CV Number="0" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Anzahl der möglichen Begriffe"/>
 				<Description Lang="en-EN" Text="number of aspects"/>
@@ -76,8 +76,8 @@
 				<Description Lang="de-DE" Text="Makro für Begriff 7"/>
 				<Description Lang="en-EN" Text="macro for aspects 7"/>
 			</CV>
-		</Accessory-map>
-		<Poweroutput>
+		</Template>
+		<Template Name="Poweroutput">
 			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw">
 				<Description Lang="de-DE" Text="Konfiguration"/>
 				<Description Lang="en-EN" Text="Configuration"/>
@@ -90,8 +90,8 @@
 				<Description Lang="de-DE" Text="Rückmelde-Ticks: 1...255 [100 ms]"/>
 				<Description Lang="en-EN" Text="Feedback ticks, 1...255 [100 ms]"/>
 			</CV>
-		</Poweroutput>
-		<GPIO>
+		</Template>
+		<Template Name="GPIO">
 			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw">
 				<Description Lang="de-DE" Text="Konfiguration"/>
 				<Description Lang="en-EN" Text="Configuration"/>
@@ -100,8 +100,8 @@
 				<Bitdescription Bitnum="2" Lang="de-DE" Text="Aktivlage: 0=HIGH-, 1=LOW-aktiv"/>
 				<Bitdescription Bitnum="2" Lang="en-EN" Text="Polarity: 0=active-high, 1=active-low"/>
 			</CV>
-		</GPIO>
-		<Servo>
+		</Template>
+		<Template Name="Servo">
 			<CV Number="0" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Min Low"/>
 				<Description Lang="en-EN" Text="Min Low"/>
@@ -150,52 +150,52 @@
 				<Description Lang="de-DE" Text="Power OFF: 0 nicht abschalten, n * 20 ms"/>
 				<Description Lang="en-EN" Text="Power OFF: 0 no off, n * 20 ms"/>
 			</CV>  
-		</Servo>
+		</Template>
 	</Templates>
 	<CVDefinition>
-        <Node Offset="0" Template="About">
-            <Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
-            <Nodetext Lang="en-EN" Text="Common data"/>
-        </Node>
-        <Node>
-            <Nodetext Lang="de-DE" Text="Konfiguration"/>
-            <Nodetext Lang="en-EN" Text="Config"/>
-            <CV Number="11" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
-                <Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
-            </CV>
-			<Servos>
-                <Nodetext Lang="de-DE" Text="Servos"/>
-                <Nodetext Lang="en-EN" Text="Servos"/>
-				<Node Offset="51" Template="Servo" Count="8" Next="16">
-					<Nodetext Lang="de-DE" Text="Servo %%d"/>
-					<Nodetext Lang="en-EN" Text="Servo %%d"/>
-				</Node>
-			</Servos>
-			<Accessorymaps>
-                <Nodetext Lang="de-DE" Text="Accessory"/>
-                <Nodetext Lang="en-EN" Text="Accessory"/>
-				<Node Offset="179" Template="Accessory-map" Count="20" Next="9">
-					<Nodetext Lang="de-DE" Text="Accessory %%d"/>
-					<Nodetext Lang="en-EN" Text="Accessory %%d"/>
-				</Node>
-			</Accessorymaps>
-			<Poweroutputs>
-                <Nodetext Lang="de-DE" Text="Poweroutputs"/>
-                <Nodetext Lang="en-EN" Text="Poweroutputs"/>
-				<Node Offset="359" Template="Poweroutput" Count="16" Next="3">
-					<Nodetext Lang="de-DE" Text="Poweroutput %%d"/>
-					<Nodetext Lang="en-EN" Text="Poweroutput %%d"/>
-				</Node>
-			</Poweroutputs>
-			<GPIOS>
-                <Nodetext Lang="de-DE" Text="GPIOS"/>
-                <Nodetext Lang="en-EN" Text="GPIOS"/>
-				<Node Offset="407" Template="GPIO" Count="16" Next="2">
-					<Nodetext Lang="de-DE" Text="GPIO %%d"/>
-					<Nodetext Lang="en-EN" Text="GPIO %%d"/>
-				</Node>
-			</GPIOS>
-        </Node>
+		<Node Offset="1" Template="About">
+			<Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
+			<Nodetext Lang="en-EN" Text="Common data"/>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
+			<Nodetext Lang="en-EN" Text="Common settings"/>
+			<CV Number="41" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
+				<Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
+			</CV> 
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Servos"/>
+			<Nodetext Lang="en-EN" Text="Servos"/>
+			<Node Offset="51" Template="Servo" Count="8" Next="16">
+				<Nodetext Lang="de-DE" Text="Servo %%d"/>
+				<Nodetext Lang="en-EN" Text="Servo %%d"/>
+			</Node>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Accessories"/>
+			<Nodetext Lang="en-EN" Text="Accessories"/>
+			<Node Offset="179" Template="AccessoryMap" Count="20" Next="9">
+				<Nodetext Lang="de-DE" Text="Accessory %%d"/>
+				<Nodetext Lang="en-EN" Text="Accessory %%d"/>
+			</Node>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Power Ausgänge"/>
+			<Nodetext Lang="en-EN" Text="Power outputs"/>
+			<Node Offset="359" Template="Poweroutput" Count="16" Next="3">
+				<Nodetext Lang="de-DE" Text="Poweroutput %%d"/>
+				<Nodetext Lang="en-EN" Text="Poweroutput %%d"/>
+			</Node>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="GPIO"/>
+			<Nodetext Lang="en-EN" Text="GPIO"/>
+			<Node Offset="407" Template="GPIO" Count="16" Next="2">
+				<Nodetext Lang="de-DE" Text="GPIO %%d"/>
+				<Nodetext Lang="en-EN" Text="GPIO %%d"/>
+			</Node>
+		</Node>
 	</CVDefinition>
 </VendorCV>

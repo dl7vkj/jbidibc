@@ -1,81 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:vendorcv="http://www.bidib.org/jbidibc/vendorcv" targetNamespace="http://www.bidib.org/jbidibc/vendorcv" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:vendorcv="http://www.bidib.org/jbidibc/vendorcv" targetNamespace="http://www.bidib.org/jbidibc/vendorcv" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xsd:complexType name="VersionInfoType">
 		<xsd:sequence>
 			<xsd:any minOccurs="0"/>
 		</xsd:sequence>
 		<xsd:attribute name="Version" type="xsd:string" use="required"/>
+		<xsd:attribute name="Versionm" type="xsd:string" use="required"/>
 		<xsd:attribute name="Lastupdate" type="xsd:string" use="required"/>
 		<xsd:attribute name="Author" type="xsd:string" use="required"/>
 		<xsd:attribute name="Pid" type="xsd:string" use="required"/>
 		<xsd:attribute name="Vendor" type="xsd:string" use="required"/>
 		<xsd:attribute name="Description" type="xsd:string" use="required"/>
 	</xsd:complexType>
-	<xsd:complexType name="TemplateType" abstract="true">
+	<xsd:complexType name="TemplateType">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:CV" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="vendorcv:Node" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
+		<xsd:attribute name="Name" type="xsd:string" use="required"/>
 	</xsd:complexType>
+	<!--
 	<xsd:complexType name="AboutType">
 		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-			</xsd:extension>
+			<xsd:extension base="vendorcv:TemplateType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
+-->
 	<xsd:element name="Template" type="vendorcv:TemplateType"/>
 	<xsd:complexType name="TemplatesType">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:Template" maxOccurs="unbounded"/>
 		</xsd:sequence>
 	</xsd:complexType>
+	<!--
 	<xsd:complexType name="LEDType">
 		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-			</xsd:extension>
+			<xsd:extension base="vendorcv:TemplateType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="LightPortType">
 		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-			</xsd:extension>
+			<xsd:extension base="vendorcv:TemplateType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="Accessory-mapType">
 		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-			</xsd:extension>
+			<xsd:extension base="vendorcv:TemplateType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="BacklightType">
 		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-			</xsd:extension>
+			<xsd:extension base="vendorcv:TemplateType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="ServoType">
 		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-			</xsd:extension>
+			<xsd:extension base="vendorcv:TemplateType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="DMXType">
 		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-			</xsd:extension>
+			<xsd:extension base="vendorcv:TemplateType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="GPIOType">
 		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-			</xsd:extension>
+			<xsd:extension base="vendorcv:TemplateType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
 	<xsd:complexType name="PoweroutputType">
 		<xsd:complexContent>
-			<xsd:extension base="vendorcv:TemplateType">
-			</xsd:extension>
+			<xsd:extension base="vendorcv:TemplateType"/>
 		</xsd:complexContent>
 	</xsd:complexType>
+-->
 	<!--xsd:complexType name="Sector">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:CV" maxOccurs="unbounded"/>
@@ -105,6 +103,7 @@
 		<xsd:attribute name="Lang" type="xsd:string"/>
 		<xsd:attribute name="Text" type="xsd:string"/>
 	</xsd:complexType>
+	<!--
 	<xsd:complexType name="Basis">
 		<xsd:sequence>
 			<xsd:element ref="vendorcv:DCC" minOccurs="0" maxOccurs="1"/>
@@ -151,12 +150,15 @@
 		</xsd:sequence>
 		<xsd:attribute name="number" type="xsd:int" use="required"/>
 	</xsd:complexType>
+	-->
 	<xsd:complexType name="CVDefinitionType">
 		<xsd:sequence>
+			<!--
 			<xsd:element ref="vendorcv:Basis" minOccurs="0"/>
 			<xsd:element ref="vendorcv:Servos" minOccurs="0"/>
 			<xsd:element ref="vendorcv:LEDS" minOccurs="0"/>
 			<xsd:element ref="vendorcv:Sectors" minOccurs="0"/>
+-->
 			<!-- used in OneOC but I think this is different from LC schema -->
 			<xsd:element ref="vendorcv:Node" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
@@ -180,6 +182,7 @@
 			<!-- occurs in OneDMX -->
 		</xsd:restriction>
 	</xsd:simpleType>
+	<!--
 	<xsd:element name="ServoDefinition" type="vendorcv:ServoDefinitionType"/>
 	<xsd:element name="SectorDefinition" type="vendorcv:SectorDefinitionType"/>
 	<xsd:element name="LedDefinition" type="vendorcv:LedDefinitionType"/>
@@ -189,15 +192,17 @@
 	<xsd:element name="Accessory-map" type="vendorcv:Accessory-mapType"/>
 	<xsd:element name="Basis" type="vendorcv:Basis"/>
 	<xsd:element name="Backlight" type="vendorcv:BacklightType"/>
-	<!-- xsd:element name="LEDType" type="vendorcv:LEDType"/-->
 	<xsd:element name="LightPort" type="vendorcv:LightPortType"/>
+-->
 	<!-- xsd:element name="Servo" type="vendorcv:ServoType"/-->
 	<xsd:element name="Version" type="vendorcv:VersionInfoType"/>
+	<!--
 	<xsd:element name="About" type="vendorcv:AboutType"/>
-	<xsd:element name="Templates" type="vendorcv:TemplatesType"/>
-	<xsd:element name="CVDefinition" type="vendorcv:CVDefinitionType"/>
 	<xsd:element name="DCC" type="vendorcv:DCC"/>
 	<xsd:element name="DMX" type="vendorcv:DMXType"/>
+-->
+	<xsd:element name="CVDefinition" type="vendorcv:CVDefinitionType"/>
+	<xsd:element name="Templates" type="vendorcv:TemplatesType"/>
 	<xsd:element name="CV" type="vendorcv:CV"/>
 	<xsd:element name="VendorCV">
 		<xsd:annotation>
