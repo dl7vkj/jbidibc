@@ -157,7 +157,11 @@ public class BidibNode {
      * @return node is bootloader node
      */
     public boolean isBootloaderNode() {
-        return (BidibLibrary.BIDIB_BOOT_MAGIC == nodeMagic);
+        if (nodeMagic != null) {
+            return (BidibLibrary.BIDIB_BOOT_MAGIC == nodeMagic);
+        }
+        LOGGER.warn("No magic available for current node. Assume this is a bootloader node!");
+        return true;
     }
 
     /**
@@ -189,15 +193,6 @@ public class BidibNode {
     public void acknowledgeOccupied(int detectorNumber) throws ProtocolException {
         sendNoWait(new FeedbackMirrorOccupiedMessage(detectorNumber));
     }
-
-    //    /**
-    //     * Send the accessory state acknowledgement message for the specified accessory.
-    //     * @param accessoryState the accessory state
-    //     * @throws ProtocolException
-    //     */
-    //    public void acknowledgeAccessoryState(AccessoryState accessoryState) throws ProtocolException {
-    //        // DO NOTHING
-    //    }
 
     public void addTransferListener(TransferListener l) {
         listeners.add(l);
@@ -449,6 +444,7 @@ public class BidibNode {
 
         if (ignoreWaitTimeout) {
             LOGGER.warn("No response received but ignoreWaitTimeout ist set! Return BIDIB_BOOT_MAGIC!");
+            setNodeMagic(BidibLibrary.BIDIB_BOOT_MAGIC);
             return BidibLibrary.BIDIB_BOOT_MAGIC;
         }
 
