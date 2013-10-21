@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bidib.org/jbidibc/vendorcv" 
-	xmlns:vendorcv="http://www.bidib.org/jbidibc/vendorcv" targetNamespace="http://www.bidib.org/jbidibc/vendorcv" 
-	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:vendorcv="http://www.bidib.org/jbidibc/vendorcv" targetNamespace="http://www.bidib.org/jbidibc/vendorcv" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
 	<xsd:complexType name="VersionInfoType">
 		<xsd:sequence>
 			<xsd:any minOccurs="0"/>
 		</xsd:sequence>
 		<xsd:attribute name="Version" type="xsd:string" use="required"/>
-		<xsd:attribute name="Versionm" type="xsd:string" use="required"/>
+		<xsd:attribute name="Versionm" type="xsd:string" use="optional"/>
 		<xsd:attribute name="Lastupdate" type="xsd:string" use="required"/>
 		<xsd:attribute name="Author" type="xsd:string" use="required"/>
 		<xsd:attribute name="Pid" type="xsd:string" use="required"/>
@@ -29,6 +27,7 @@
 	<xsd:complexType name="CVType">
 		<xsd:sequence>
 			<xsd:element name="Description" type="vendorcv:DescriptionType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Bitdescription" type="vendorcv:BitdescriptionType" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="Number" type="xsd:int" use="required"/>
 		<xsd:attribute name="Type" type="vendorcv:DataType" use="required"/>
@@ -41,6 +40,11 @@
 		<xsd:attribute name="Mode" type="vendorcv:ModeType" use="required"/>
 	</xsd:complexType>
 	<xsd:complexType name="DescriptionType">
+		<xsd:attribute name="Lang" type="xsd:string"/>
+		<xsd:attribute name="Text" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="BitdescriptionType">
+		<xsd:attribute name="Bitnum" type="xsd:int"/>
 		<xsd:attribute name="Lang" type="xsd:string"/>
 		<xsd:attribute name="Text" type="xsd:string"/>
 	</xsd:complexType>
@@ -80,10 +84,10 @@
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:complexType name="NodeType">
-		<xsd:sequence>
-			<xsd:element name="Nodetext" type="vendorcv:NodetextType" maxOccurs="unbounded"/>
-			<xsd:element name="CV" type="vendorcv:CVType" minOccurs="0" maxOccurs="unbounded"/>
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Nodetext" type="vendorcv:NodetextType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element name="Node" type="vendorcv:NodeType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="CV" type="vendorcv:CVType" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="Offset" type="xsd:int"/>
 		<xsd:attribute name="Template" type="xsd:string"/>
