@@ -31,6 +31,7 @@ import org.bidib.jbidibc.message.LcNotAvailableResponse;
 import org.bidib.jbidibc.message.LcOutputMessage;
 import org.bidib.jbidibc.message.LcOutputQueryMessage;
 import org.bidib.jbidibc.utils.AccessoryStateUtils;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -156,10 +157,10 @@ public class AccessoryNode extends DeviceNode {
         // TODO check if we must handle this differently ... currently auto-acknowledge new state
         LOGGER.info("Accessory state change notification was received: {}", accessoryState);
         if (!AccessoryStateUtils.hasError(accessoryState.getExecute())) {
-            int accessoryNumber = accessoryState.getAccessoryNumber();
+            int accessoryNumber = ByteUtils.getInt(accessoryState.getAccessoryNumber());
             byte aspect = accessoryState.getAspect();
             LOGGER.info("Acknowledge the accessory state change for accessory number: {}, aspect: {}", accessoryNumber,
-                aspect);
+                ByteUtils.getInt(aspect));
             // send acknowledge
             // TODO check how this works ... currently does not work correct ...
             //            setAccessoryState(accessoryNumber, aspect);
