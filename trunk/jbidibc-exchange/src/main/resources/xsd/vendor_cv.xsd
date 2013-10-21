@@ -82,7 +82,7 @@
 	<xsd:complexType name="NodeType">
 		<xsd:sequence>
 			<xsd:element name="Nodetext" type="vendorcv:NodetextType" maxOccurs="unbounded"/>
-			<xsd:element name="CV" type="vendorcv:CVType" minOccurs="0"/>
+			<xsd:element name="CV" type="vendorcv:CVType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element name="Node" type="vendorcv:NodeType" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="Offset" type="xsd:int"/>
