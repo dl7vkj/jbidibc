@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<VendorCV>
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv vendor_cv.xsd">
 	<Version 
-		Version="0.4" 
-		Lastupdate="20131014" 
+		Version="0.7" 
+		Lastupdate="20131023" 
 		Author="mos"
 		Pid="117"
 		Vendor="013"
@@ -41,40 +43,40 @@
 		</Template>
 		<Template Name="AccessoryMap">
 		   <CV Number="0" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="Anzahl der möglichen Begriffe"/>
-				<Description Lang="en-EN" Text="number of aspects"/>
+				<Description Lang="de-DE" Text="Aktueller Aspekt"/>
+				<Description Lang="en-EN" Text="Current aspect"/>
 			</CV>
 		   <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Makro für Begriff 0"/>
-				<Description Lang="en-EN" Text="macro for aspects 0"/>
+				<Description Lang="en-EN" Text="Macro for aspect 0"/>
 			</CV>
 		   <CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Makro für Begriff 1"/>
-				<Description Lang="en-EN" Text="macro for aspects 1"/>
+				<Description Lang="en-EN" Text="Macro for aspect 1"/>
 			</CV>
 		   <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Makro für Begriff 2"/>
-				<Description Lang="en-EN" Text="macro for aspects 2"/>
+				<Description Lang="en-EN" Text="Macro for aspect 2"/>
 			</CV>
 		   <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Makro für Begriff 3"/>
-				<Description Lang="en-EN" Text="macro for aspects 3"/>
+				<Description Lang="en-EN" Text="Macro for aspect 3"/>
 			</CV>
 		   <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Makro für Begriff 4"/>
-				<Description Lang="en-EN" Text="macro for aspects 4"/>
+				<Description Lang="en-EN" Text="Macro for aspect 4"/>
 			</CV>
 		   <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Makro für Begriff 5"/>
-				<Description Lang="en-EN" Text="macro for aspects 5"/>
+				<Description Lang="en-EN" Text="Macro for aspect 5"/>
 			</CV>
 		   <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Makro für Begriff 6"/>
-				<Description Lang="en-EN" Text="macro for aspects 6"/>
+				<Description Lang="en-EN" Text="Macro for aspect 6"/>
 			</CV>
 		   <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Makro für Begriff 7"/>
-				<Description Lang="en-EN" Text="macro for aspects 7"/>
+				<Description Lang="en-EN" Text="Macro for aspect 7"/>
 			</CV>
 		</Template>
 		<Template Name="Poweroutput">
@@ -87,8 +89,8 @@
 				<Bitdescription Bitnum="2" Lang="en-EN" Text="Turn off switch: 0=without, 1=with "/>
 			</CV>
 			<CV Number="1" Type="Byte" Min="1" Max="255" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="Rückmelde-Ticks: 1...255 [100 ms]"/>
-				<Description Lang="en-EN" Text="Feedback ticks, 1...255 [100 ms]"/>
+				<Description Lang="de-DE" Text="Rückmelde-Ticks: 1...255 [50 ms]"/>
+				<Description Lang="en-EN" Text="Feedback ticks, 1...255 [50 ms]"/>
 			</CV>
 		</Template>
 		<Template Name="GPIO">
