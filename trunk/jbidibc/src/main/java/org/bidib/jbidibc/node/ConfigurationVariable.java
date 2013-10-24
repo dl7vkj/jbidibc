@@ -51,4 +51,18 @@ public class ConfigurationVariable implements Serializable {
         this.value = value;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ConfigurationVariable) {
+            ConfigurationVariable other = (ConfigurationVariable) obj;
+            return name.equals(other.getName());
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return name.hashCode();
+    }
+
 }
