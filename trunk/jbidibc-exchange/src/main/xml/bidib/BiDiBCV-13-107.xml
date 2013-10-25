@@ -157,7 +157,7 @@
 		<Node>
 			<Nodetext Lang="de-DE" Text="LED Einstellungen"/>
 			<Nodetext Lang="en-EN" Text="LED settings"/>
-			<Node Offset="125" Template="Servo" Count="32" Next="5">
+			<Node Offset="125" Template="LED" Count="32" Next="5">
 				<Nodetext Lang="de-DE" Text="LED %%d"/>
 				<Nodetext Lang="en-EN" Text="LED %%d"/>
 			</Node>
