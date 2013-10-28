@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+<!--
+< VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv vendor_cv.xsd">
+-->
+<VendorCV>
 	<Version 
-		Version="0.7" 
-		Lastupdate="20131023" 
+		Version="0.8" 
+		Lastupdate="20131026" 
 		Author="mos"
 		Pid="117"
 		Vendor="013"
@@ -162,9 +165,17 @@
 		<Node>
 			<Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
 			<Nodetext Lang="en-EN" Text="Common settings"/>
-			<CV Number="41" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+			<CV Number="40" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
 				<Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
+			</CV> 
+			<CV Number="43" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw">
+				<Description Lang="de-DE" Text="Test-CV - GPIOs: Verwalten der Ein- und Ausgänge"/>
+				<Description Lang="en-EN" Text="Test-CV - GPIOs: Management of inputs and outputs"/>
+				<Bitdescription Bitnum="1" Lang="de-DE" Text="Zählweise: 0=lückend, 1=lückenlos"/>
+				<Bitdescription Bitnum="1" Lang="en-EN" Text="Mode of count: 0=fragmentary, 1=consistently"/>
+				<Bitdescription Bitnum="2" Lang="de-DE" Text="Anzahl: 0=konstant (16+16), 1=variabel (0..16+16..0)"/>
+				<Bitdescription Bitnum="2" Lang="en-EN" Text="Count: 0=constant (16+16), 1=variable (0..16+16..0)"/>
 			</CV> 
 		</Node>
 		<Node>
