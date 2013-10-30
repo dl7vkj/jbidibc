@@ -20,11 +20,18 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
+		<dependency>
+			<groupId>xalan</groupId>
+			<artifactId>xalan</artifactId>
+            <scope>test</scope>
+		</dependency>
+		<!--
         <dependency>
             <groupId>net.sf.saxon</groupId>
             <artifactId>Saxon-HE</artifactId>
             <scope>test</scope>
         </dependency>
+		-->
         <!-- Xerces 2 -->
         <!--
 		<dependency>
@@ -77,10 +84,17 @@
                 </executions>
                 <dependencies>
                     <dependency>
+                        <groupId>xalan</groupId>
+                        <artifactId>xalan</artifactId>
+                        <version>${xalan-version}</version>
+                    </dependency>
+				<!--
+                    <dependency>
                         <groupId>net.sf.saxon</groupId>
                         <artifactId>Saxon-HE</artifactId>
                         <version>${saxon-version}</version>
                     </dependency>
+				-->
                 </dependencies>
             </plugin>
             <plugin>

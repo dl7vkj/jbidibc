@@ -49,7 +49,8 @@
         <testng-version>6.8</testng-version>
         <commons-lang-version>2.6</commons-lang-version>
         <commons-io-version>1.4</commons-io-version>
-        <saxon-version>9.5.1-1</saxon-version>
+        <!--saxon-version>9.5.1-1</saxon-version-->
+		<xalan-version>2.7.1</xalan-version>
         <xmlunit-version>1.4</xmlunit-version>
         <jcommander-version>1.30</jcommander-version>
         <jdepend-version>2.0-beta-2</jdepend-version>
@@ -105,11 +106,18 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j-version}</version>
             </dependency>
+			<!--
             <dependency>
                 <groupId>net.sf.saxon</groupId>
                 <artifactId>Saxon-HE</artifactId>
                 <version>${saxon-version}</version>
             </dependency>
+			-->
+			<dependency>
+				<groupId>xalan</groupId>
+				<artifactId>xalan</artifactId>
+				<version>${xalan-version}</version>
+			</dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>

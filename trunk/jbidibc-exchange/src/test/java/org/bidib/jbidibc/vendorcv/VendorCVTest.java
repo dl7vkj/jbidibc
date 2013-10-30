@@ -50,19 +50,29 @@ public class VendorCVTest {
         }
     }
 
+    private InputStream getInputStream(String filePath) throws FileNotFoundException {
+        File file = new File("");
+        file = new File(file.getAbsoluteFile(), filePath);
+        LOGGER.info("Prepared file: {}", file.getAbsolutePath());
+
+        InputStream is = new FileInputStream(file);
+        return is;
+    }
+
     @Test
     public void loadVendorCVForOneDMXAndTransformToWizardFormatTest() throws JAXBException, TransformerException,
         IOException {
         LOGGER.info("Load VendorCV for OneDMX and transform to wizard data.");
 
-        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+        //        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
 
         InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
         javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer(xsltSource);
 
-        InputStream is = VendorCVTest.class.getResourceAsStream("/xsd/monitor-0.4.4.0/BiDiBCV-13-115.xml");
+        InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-115.xml");
+        Assert.assertNotNull(is);
         StreamSource xmlSource = new StreamSource(is);
 
         /*
@@ -79,52 +89,19 @@ public class VendorCVTest {
     }
 
     @Test
-    public void loadVendorCVForLCAndTransformToWizardFormatTest() throws JAXBException, TransformerException,
-        IOException {
-        LOGGER.info("Load VendorCV for LC and transform to wizard data.");
-
-        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
-
-        InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
-        javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer(xsltSource);
-
-        InputStream is = VendorCVTest.class.getResourceAsStream("/xsd/monitor-0.4.2.3/05.00.0D.6B.00-VendorCV.xml");
-        StreamSource xmlSource = new StreamSource(is);
-
-        /*
-         * Perform the transform to get the report
-         */
-        File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_wizard_LC.xml");
-
-        FileOutputStream reportFOS = new FileOutputStream(exportFile);
-        OutputStreamWriter osw = new OutputStreamWriter(reportFOS, "UTF-8");
-        transformer.transform(xmlSource, new StreamResult(osw));
-        osw.close();
-
-        LOGGER.info("Prepared wizard xml file: {}", exportFile.getPath());
-    }
-
-    // TODO fix and enable test
-    @Test(enabled = false)
     public void loadVendorForLCAndTransformCVTest() throws JAXBException, TransformerException, FileNotFoundException {
         LOGGER.info("Load VendorCV.");
 
-        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+        //        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
 
         InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
         javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer(xsltSource);
 
-        File file = new File("");
-        file = new File(file.getAbsoluteFile(), "src/main/xml/bidib/BiDiBCV-13-107.xml");
-        LOGGER.info("Prepared file: {}", file.getAbsolutePath());
+        InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-107.xml");
+        Assert.assertNotNull(is);
 
-        InputStream is = new FileInputStream(file);
-
-        //        InputStream is = VendorCVTest.class.getResourceAsStream(file.getAbsolutePath());
         LOGGER.info("Loaded LC config: {}", is);
         StreamSource xmlSource = new StreamSource(is);
 
@@ -144,37 +121,55 @@ public class VendorCVTest {
         Assert.assertEquals(versionInfo.getVendor(), "013");
 
         Assert.assertNotNull(vendorCV.getTemplates());
+        Assert.assertEquals(vendorCV.getTemplates().getTemplate().size(), 2);
+
         // check the led values
-        // TODO enable
-        Assert.assertNotNull(vendorCV.getTemplates().getTemplate().get(0));
-        TemplateType led = vendorCV.getTemplates().getTemplate().get(0);
-        //        Assert.assertEquals(led.getCV().size(), 5);
-        //        Assert.assertNotNull(led.getCV().get(0));
-        //        Assert.assertEquals(led.getCV().get(0).getNumber(), 0);
-        //        Assert.assertEquals(led.getCV().get(0).getType(), DataType.BYTE);
-        //        Assert.assertEquals(led.getCV().get(0).getMin(), "-");
-        //        // check the servo values
-        //        Assert.assertNotNull(vendorCV.getTemplates().getServo());
-        //        Assert.assertEquals(vendorCV.getTemplates().getServo().getCV().size(), 12);
+        TemplateType ledTemplate = vendorCV.getTemplates().getTemplate().get(0);
+        Assert.assertNotNull(ledTemplate);
+        Assert.assertEquals(ledTemplate.getName(), "LED");
+        Assert.assertNotNull(ledTemplate.getCV());
+        Assert.assertEquals(ledTemplate.getCV().size(), 5);
+        Assert.assertNotNull(ledTemplate.getCV().get(0));
+        Assert.assertEquals(ledTemplate.getCV().get(0).getNumber(), 0);
+        Assert.assertEquals(ledTemplate.getCV().get(0).getType(), DataType.BYTE);
+        Assert.assertEquals(ledTemplate.getCV().get(0).getMin(), "-");
+
+        // check the servo values
+        TemplateType servoTemplate = vendorCV.getTemplates().getTemplate().get(1);
+        Assert.assertNotNull(servoTemplate);
+        Assert.assertEquals(servoTemplate.getName(), "Servo");
+        Assert.assertNotNull(servoTemplate.getCV());
+        Assert.assertEquals(servoTemplate.getCV().size(), 12);
 
         Assert.assertNotNull(vendorCV.getCVDefinition());
         CVDefinitionType cvDefinition = vendorCV.getCVDefinition();
-        // basis
-        //        Assert.assertNotNull(cvDefinition.getBasis());
-        //        Basis basis = cvDefinition.getBasis();
-        //        Assert.assertNotNull(basis.getDCC());
-        //        DCC dcc = basis.getDCC();
-        //        Assert.assertNotNull(dcc.getCV());
-        //        Assert.assertEquals(dcc.getCV().size(), 2);
-        //        Assert.assertNotNull(basis.getCV());
-        //        Assert.assertEquals(basis.getCV().size(), 11);
-        //        // servos
-        //        Assert.assertNotNull(cvDefinition.getServos());
-        //        Servos servos = cvDefinition.getServos();
-        //
-        //        // leds
-        //        Assert.assertNotNull(cvDefinition.getLEDS());
-        //        LEDS leds = cvDefinition.getLEDS();
+        Assert.assertNotNull(cvDefinition.getNode());
+        Assert.assertEquals(cvDefinition.getNode().size(), 3);
+        // common data
+        Assert.assertNotNull(cvDefinition.getNode().get(0));
+        NodeType commonData = cvDefinition.getNode().get(0);
+        Assert.assertNotNull(commonData);
+        Assert.assertNull(commonData.getTemplate());
+        Assert.assertNotNull(commonData.getNodetextAndNodeAndCV());
+        Assert.assertEquals(commonData.getNodetextAndNodeAndCV().size(), 14);
+
+        // servos
+        Assert.assertNotNull(cvDefinition.getNode().get(1));
+        NodeType servosData = cvDefinition.getNode().get(1);
+        Assert.assertNotNull(servosData.getNodetextAndNodeAndCV());
+        Assert.assertEquals(servosData.getNodetextAndNodeAndCV().size(), 3);
+
+        NodeType servoNode = (NodeType) servosData.getNodetextAndNodeAndCV().get(2);
+        Assert.assertEquals(servoNode.getTemplate(), "Servo");
+
+        // leds
+        Assert.assertNotNull(cvDefinition.getNode().get(2));
+        NodeType ledsData = cvDefinition.getNode().get(2);
+        Assert.assertNotNull(ledsData.getNodetextAndNodeAndCV());
+        Assert.assertEquals(ledsData.getNodetextAndNodeAndCV().size(), 3);
+
+        NodeType ledNode = (NodeType) ledsData.getNodetextAndNodeAndCV().get(2);
+        Assert.assertEquals(ledNode.getTemplate(), "LED");
     }
 
     @Test
@@ -182,7 +177,7 @@ public class VendorCVTest {
         IOException {
         LOGGER.info("Load VendorCV for S88Bridge and transform to wizard data.");
 
-        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+        //        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
 
         InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
         javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
@@ -190,7 +185,9 @@ public class VendorCVTest {
         Transformer transformer = tf.newTransformer(xsltSource);
         //        transformer.setOutputProperty(OutputKeys.INDENT, "no");
 
-        InputStream is = VendorCVTest.class.getResourceAsStream("/xsd/monitor-0.4.2.3/40.00.0D.69.00-VendorCV.xml");
+        InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-105.xml");
+        Assert.assertNotNull(is);
+
         StreamSource xmlSource = new StreamSource(is);
 
         /*
@@ -277,57 +274,91 @@ public class VendorCVTest {
         versionInfo.setAuthor("Max Mustermann");
         versionInfo.setVersion("0.1");
         versionInfo.setVendor("013");
+        versionInfo.setPid("107");
+        versionInfo.setDescription("BiDiB-LightControl 1");
 
         VendorCV vendorCV = new VendorCV();
         vendorCV.setVersion(versionInfo);
 
         TemplatesType templatesType = new TemplatesType();
-        //        LEDType led = new LEDType();
-        //        CV cv = new CV();
-        //        cv.setNumber(0);
-        //        cv.setType(DataType.BYTE);
-        //        cv.setMode(ModeType.RW);
-        //        // TODO
-        //        //        cv.setDescde("LED: Einstellung der Stromquelle");
-        //        //        cv.setDescen("LED: courrent source setup");
-        //        cv.setMin("-");
-        //        cv.setMax("-");
-        //        cv.setLow("-");
-        //        cv.setHigh("-");
-        //        cv.setValues("-");
-        //        led.getCV().add(cv);
-        //        cv = new CV();
-        //        cv.setNumber(1);
-        //        cv.setType(DataType.BYTE);
-        //        cv.setMode(ModeType.RW);
-        //        // TODO
-        //        //        cv.setDescde("LED: Helligkeit für Zustand „aus“");
-        //        //        cv.setDescen("LED: light intensity at status 'off'");
-        //        led.getCV().add(cv);
-        //        // TODO enable
-        //        templatesType.getTemplate().add(led);
-        //
-        //        ServoType servo = new ServoType();
-        //        cv = new CV();
-        //        cv.setNumber(0);
-        //        cv.setType(DataType.BYTE);
-        //        cv.setMode(ModeType.RW);
-        //        servo.getCV().add(cv);
-        //        cv = new CV();
-        //        cv.setNumber(1);
-        //        cv.setType(DataType.BYTE);
-        //        cv.setMode(ModeType.RW);
-        //        servo.getCV().add(cv);
-        //        templatesType.getTemplate().add(servo);
-        //
-        //        vendorCV.setTemplates(templatesType);
-        //
-        //        File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_0.xml");
-        //        OutputStream os = new BufferedOutputStream(new FileOutputStream(exportFile));
-        //
-        //        marshaller.marshal(vendorCV, os);
-        //
-        //        os.flush();
 
+        TemplateType ledTemplate = new TemplateType();
+        ledTemplate.setName("LED");
+
+        templatesType.getTemplate().add(ledTemplate);
+
+        CVType cv = new CVType();
+        cv.setNumber(0);
+        cv.setType(DataType.BYTE);
+        cv.setMode(ModeType.RW);
+        DescriptionType desc = new DescriptionType().withLang("de-DE").withText("LED: Einstellung der Stromquelle");
+        cv.getDescription().add(desc);
+        desc = new DescriptionType().withLang("en-EN").withText("LED: courrent source setup");
+        cv.getDescription().add(desc);
+        cv.setMin("-");
+        cv.setMax("-");
+        cv.setLow("-");
+        cv.setHigh("-");
+        cv.setValues("-");
+        ledTemplate.getCV().add(cv);
+
+        cv = new CVType();
+        cv.setNumber(1);
+        cv.setType(DataType.BYTE);
+        cv.setMode(ModeType.RW);
+        desc = new DescriptionType().withLang("de-DE").withText("LED: Helligkeit für Zustand „aus“");
+        cv.getDescription().add(desc);
+        desc = new DescriptionType().withLang("en-EN").withText("LED: light intensity at status 'off'");
+        cv.getDescription().add(desc);
+        cv.setMin("-");
+        cv.setMax("-");
+        cv.setLow("-");
+        cv.setHigh("-");
+        cv.setValues("-");
+        ledTemplate.getCV().add(cv);
+
+        TemplateType servoTemplate = new TemplateType();
+        servoTemplate.setName("Servo");
+
+        templatesType.getTemplate().add(servoTemplate);
+
+        cv = new CVType();
+        cv.setNumber(0);
+        cv.setType(DataType.INT);
+        cv.setMode(ModeType.RW);
+        desc = new DescriptionType().withLang("de-DE").withText("Min Low");
+        cv.getDescription().add(desc);
+        desc = new DescriptionType().withLang("en-EN").withText("Min Low");
+        cv.getDescription().add(desc);
+        cv.setMin("-");
+        cv.setMax("-");
+        cv.setLow("0");
+        cv.setHigh("1");
+        cv.setValues("-");
+        servoTemplate.getCV().add(cv);
+
+        cv = new CVType();
+        cv.setNumber(1);
+        cv.setType(DataType.INT);
+        cv.setMode(ModeType.RW);
+        desc = new DescriptionType().withLang("de-DE").withText("Min High");
+        cv.getDescription().add(desc);
+        desc = new DescriptionType().withLang("en-EN").withText("Min High");
+        cv.getDescription().add(desc);
+        cv.setMin("-");
+        cv.setMax("-");
+        cv.setLow("0");
+        cv.setHigh("1");
+        cv.setValues("-");
+        servoTemplate.getCV().add(cv);
+
+        vendorCV.setTemplates(templatesType);
+
+        File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_LC1.xml");
+        OutputStream os = new BufferedOutputStream(new FileOutputStream(exportFile));
+
+        marshaller.marshal(vendorCV, os);
+
+        os.flush();
     }
 }
