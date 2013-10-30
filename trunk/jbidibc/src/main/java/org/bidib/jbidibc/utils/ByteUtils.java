@@ -83,4 +83,14 @@ public final class ByteUtils {
         }
         return true;
     }
+
+    public static byte getLowByte(int value) {
+        byte lowByte = (byte)(value & 0xFF);
+        return lowByte;
+    }
+
+    public static byte getHighByte(int value) {
+        byte penultimateByte = (byte)((value >> 8) & 0xFF);
+        return penultimateByte;
+    }
 }
