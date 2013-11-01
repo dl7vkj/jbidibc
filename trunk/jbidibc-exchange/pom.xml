@@ -66,7 +66,7 @@
             <plugin>
                 <groupId>net.sf.xsltmp</groupId>
                 <artifactId>xslt-generator-maven-plugin</artifactId>
-                <version>1.8-SNAPSHOT</version>
+                <version>1.8</version>
                 <executions>
                     <execution>
                         <id>transform-abc</id>
