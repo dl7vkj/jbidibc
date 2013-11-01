@@ -716,7 +716,7 @@ public class BidibNode {
         BidibMessage result = null;
 
         // wait a maximum of 3 seconds to recieve message
-        long cancelReceiveTs = System.currentTimeMillis() + 3000;
+        long cancelReceiveTs = System.currentTimeMillis() + Bidib.DEFAULT_TIMEOUT;
         boolean leaveLoop = false;
 
         do {

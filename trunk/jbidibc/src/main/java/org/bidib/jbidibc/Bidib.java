@@ -40,7 +40,7 @@ public final class Bidib implements BidibInterface {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Bidib.class);
 
-    public static final int DEFAULT_TIMEOUT = 3000;
+    public static final int DEFAULT_TIMEOUT = 1500;
 
     private NodeFactory nodeFactory;
 
@@ -63,7 +63,6 @@ public final class Bidib implements BidibInterface {
             public void run() {
                 try {
                     LOGGER.debug("Close the communication ports and perform cleanup.");
-                    //                    MessageReceiver.disable();
                     getInstance().close();
                 }
                 catch (IOException e) {
