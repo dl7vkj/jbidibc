@@ -96,7 +96,7 @@
 			</CV>
 		</Template>
 		<Template Name="GPIO">
-			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw" Rebootneeded="Yes">
+			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw" Rebootneeded="true">
 				<Description Lang="de-DE" Text="Konfiguration"/>
 				<Description Lang="en-EN" Text="Configuration"/>
 				<Bitdescription Bitnum="1" Lang="de-DE" Text="Richtung: 0=Ausgang, 1=Eingang"/>
