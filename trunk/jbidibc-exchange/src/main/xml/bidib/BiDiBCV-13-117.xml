@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!--
-< VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv vendor_cv.xsd">
--->
 <VendorCV>
+<!-- xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv vendor_cv.xsd">
+		  -->
+		 
 	<Version 
 		Version="0.8" 
 		Lastupdate="20131026" 
@@ -97,7 +96,7 @@
 			</CV>
 		</Template>
 		<Template Name="GPIO">
-			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw">
+			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw" Rebootneeded="Yes">
 				<Description Lang="de-DE" Text="Konfiguration"/>
 				<Description Lang="en-EN" Text="Configuration"/>
 				<Bitdescription Bitnum="1" Lang="de-DE" Text="Richtung: 0=Ausgang, 1=Eingang"/>

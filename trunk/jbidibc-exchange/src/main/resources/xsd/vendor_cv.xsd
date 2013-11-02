@@ -38,6 +38,7 @@
 		<xsd:attribute name="Next" type="xsd:string"/>
 		<xsd:attribute name="Values" type="xsd:string"/>
 		<xsd:attribute name="Mode" type="vendorcv:ModeType" use="required"/>
+		<xsd:attribute name="Rebootneeded" type="xsd:boolean" />
 	</xsd:complexType>
 	<xsd:complexType name="DescriptionType">
 		<xsd:attribute name="Lang" type="xsd:string"/>

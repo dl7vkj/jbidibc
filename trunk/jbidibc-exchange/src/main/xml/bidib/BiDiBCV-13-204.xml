@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <VendorCV>
-	<Version Version="0.3" Versionm="441" Lastupdate="20130831" Author="Tillner, Andreas" Pid="204" Vendor="13" Description="BiDiBOne OneOC: 20x OC-Input">
+	<Version Version="0.4" Lastupdate="20131028" Author="Tillner, Andreas" Pid="204" Vendor="13" Description="BiDiBOne OneOC: 20x OC-Input">
 	</Version>
 	<Templates>
 		<Template Name="About">
@@ -60,18 +60,18 @@
 		</Template>
 	</Templates>
 	<CVDefinition>
-		<Node Offset="0" Template="About">
+		<Node Offset="1" Template="About">
 				<Nodetext Lang="de-DE" Text="Basis"/>
 				<Nodetext Lang="en-EN" Text="Basis"/>
 		</Node>
 		<Node>
 			<Nodetext Lang="de-DE" Text="Geschwindigkeits Messung"/>
 			<Nodetext Lang="en-EN" Text="Speed measuring"/>
-			<CV Number="51" Type="Byte" Min="0"  Max="2"  Low="-" High="-" Mode="rw" Values="0;1;2">
+			<CV Number="50" Type="Byte" Min="0"  Max="2"  Low="-" High="-" Mode="rw" Values="0;1;2">
 				<Description Lang="de-DE" Text="Anzeige: 0 = Aus, 1 = LED's, 2 = Display"/>
 			    <Description Lang="en-EN" Text="Display: 0 = Off, 1 = LED's, 2 = Display"/>
 			</CV>
-		    <CV Number="52" Type="Byte" Min="-"  Max="-"  Low="-" High="-" Mode="rw" Values="-">
+		    <CV Number="51" Type="Byte" Min="-"  Max="-"  Low="-" High="-" Mode="rw" Values="-">
 				<Description Lang="de-DE" Text="Massstab, z.B. HO = 87, TT = 120"/>
 			    <Description Lang="en-EN" Text="Scale: Example HO = 87, TT = 120"/>
 			</CV>
