@@ -10,6 +10,8 @@ public class ConfigurationVariable implements Serializable {
 
     private String value;
 
+    private boolean timeout;
+
     public ConfigurationVariable() {
     }
 
@@ -49,6 +51,20 @@ public class ConfigurationVariable implements Serializable {
      */
     public void setValue(String value) {
         this.value = value;
+    }
+
+    /**
+     * @return the timeout
+     */
+    public boolean isTimeout() {
+        return timeout;
+    }
+
+    /**
+     * @param timeout the timeout to set
+     */
+    public void setTimeout(boolean timeout) {
+        this.timeout = timeout;
     }
 
     @Override
