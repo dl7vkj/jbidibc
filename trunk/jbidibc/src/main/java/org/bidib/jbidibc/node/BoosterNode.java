@@ -23,7 +23,7 @@ public class BoosterNode {
      * @throws ProtocolException
      */
     public void boosterOn(byte broadcast) throws ProtocolException {
-        LOGGER.debug("Switch booster on, broadcast: {}", broadcast);
+        LOGGER.info("Switch booster on, broadcast: {}", broadcast);
         delegate.sendNoWait(new BoostOnMessage(broadcast));
     }
 
@@ -33,7 +33,7 @@ public class BoosterNode {
      * @throws ProtocolException
      */
     public void boosterOff(byte broadcast) throws ProtocolException {
-        LOGGER.debug("Switch booster off, broadcast: {}", broadcast);
+        LOGGER.info("Switch booster off, broadcast: {}", broadcast);
         delegate.sendNoWait(new BoostOffMessage(broadcast));
     }
 

@@ -57,4 +57,15 @@ public class BidibMessageTest {
 
         Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_LC_CONFIG_SET);
     }
+
+    @Test
+    public void createMessageBoostOn() throws ProtocolException {
+        // 08.11.2013 13:43:46.017: send BoostOnMessage[num=20,type=49,data=[1]] : fe 05 00 14 31 01 00 6c fe 
+        byte[] message = { 0x05, 0x00, 0x14, (byte) 0x31, 0x01, 0x00, (byte) 0x6c };
+
+        BidibMessage bidibMessage = new BidibMessage(message);
+
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_BOOST_ON);
+    }
+
 }

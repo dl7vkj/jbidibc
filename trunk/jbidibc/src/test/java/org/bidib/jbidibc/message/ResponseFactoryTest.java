@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.Node;
+import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.LcMacroState;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
@@ -304,6 +305,32 @@ public class ResponseFactoryTest {
 
         LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
 
+    }
+
+    @Test
+    public void createBoostStatOffResponseMessage() throws ProtocolException {
+        // 04 00 04 B1 2C
+        byte[] message = { 0x04, 0x00, 0x0e, (byte) 0xB0, (byte) 0x00 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof BoostStatResponse, "Expected a BoostStatResponse message.");
+
+        LOGGER.info("Booster state: {}", ((BoostStatResponse) bidibMessage).getState());
+        Assert.assertEquals(((BoostStatResponse) bidibMessage).getState(), BoosterState.OFF);
+    }
+
+    @Test
+    public void createBoostStatOffNoDccResponseMessage() throws ProtocolException {
+        // 04 00 04 B1 2C
+        byte[] message = { 0x04, 0x00, 0x11, (byte) 0xB0, (byte) 0x06 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof BoostStatResponse, "Expected a BoostStatResponse message.");
+
+        LOGGER.info("Booster state: {}", ((BoostStatResponse) bidibMessage).getState());
+        Assert.assertEquals(((BoostStatResponse) bidibMessage).getState(), BoosterState.OFF_NO_DCC);
     }
 
     @Test
