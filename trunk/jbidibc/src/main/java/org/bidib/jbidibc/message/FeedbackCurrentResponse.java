@@ -2,18 +2,15 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
-/**
- * Response from booster with the current value
- */
-@Deprecated
-public class BoostCurrentResponse extends BidibMessage {
-    public static final Integer TYPE = BidibLibrary.MSG_BOOST_CURRENT;
+public class FeedbackCurrentResponse extends BidibMessage {
+    public static final Integer TYPE = BidibLibrary.MSG_BM_CURRENT;
 
-    BoostCurrentResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
+    FeedbackCurrentResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);
         if (data == null || data.length != 1) {
-            throw new ProtocolException("no booster current");
+            throw new ProtocolException("no feedback received");
         }
     }
 
@@ -39,6 +36,12 @@ public class BoostCurrentResponse extends BidibMessage {
     }
 
     public int getCurrent() {
-        return convertCurrent(getData()[0] & 0xFF);
+        return convertCurrent(ByteUtils.getInt(getData()[0]));
+    }
+
+    public int getLocalDetectorAddress() {
+        byte[] data = getData();
+
+        return ByteUtils.getInt(data[0]);
     }
 }

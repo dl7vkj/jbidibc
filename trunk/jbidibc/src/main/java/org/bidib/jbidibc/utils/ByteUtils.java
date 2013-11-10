@@ -93,4 +93,16 @@ public final class ByteUtils {
         byte penultimateByte = (byte) ((value >> 8) & 0xFF);
         return penultimateByte;
     }
+
+    public static int convertSerial(byte[] serialData, int offset) {
+        int result = 0;
+
+        if (serialData != null) {
+            for (int index = 0; index < 4; index++) {
+                result += (serialData[index + offset] & 0xFF) << (index * 8);
+            }
+        }
+        return result;
+    }
+
 }

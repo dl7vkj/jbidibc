@@ -1,11 +1,14 @@
 package org.bidib.jbidibc.message;
 
+import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class FeedbackConfidenceResponse extends BidibMessage {
+    public static final Integer TYPE = BidibLibrary.MSG_BM_CONFIDENCE;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(FeedbackConfidenceResponse.class);
 
     FeedbackConfidenceResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {

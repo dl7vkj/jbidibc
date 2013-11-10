@@ -401,4 +401,69 @@ public class ResponseFactoryTest {
         Assert.assertEquals(lcMacroParaResponse.getParameterIndex(), 3);
         Assert.assertEquals(lcMacroParaResponse.getValue(), new byte[] { 63, (byte) 191, 127, (byte) 255 });
     }
+
+    @Test
+    public void createNewDecoderResponseFromByteArray() throws ProtocolException {
+        byte[] message =
+            { 0x0a, 0x01, 0x00, (byte) 0xd9, (byte) 0xb3, 0x01, 0x0D, (byte) 0x12, (byte) 0x34, (byte) 0x56,
+                (byte) 0x78 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_NEW_DECODER);
+
+        NewDecoderResponse response = (NewDecoderResponse) bidibMessage;
+
+        LOGGER.debug("detector address: {}, decoder vid: {}, decoder serial id: {}",
+            response.getLocalDetectorAddress(), response.getDecoderVendorId(), response.getDecoderSerialId());
+
+        Assert.assertEquals(response.getDecoderSerialId(), 0x78563412);
+        Assert.assertEquals(response.getDecoderVendorId(), 0x0D);
+        Assert.assertEquals(response.getLocalDetectorAddress(), 1);
+    }
+
+    @Test
+    public void createIdSearchAckResponseFromByteArray() throws ProtocolException {
+        byte[] message =
+            { 0x0f, 0x01, 0x00, (byte) 0xd9, (byte) 0xb4, 0x01, 0x0D, (byte) 0x12, (byte) 0x34, (byte) 0x56,
+                (byte) 0x78, 0x0D, (byte) 0x12, (byte) 0x34, (byte) 0x56, (byte) 0x78 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_ID_SEARCH_ACK);
+
+        IdSearchAckResponse response = (IdSearchAckResponse) bidibMessage;
+
+        LOGGER.debug("detector address: {}, decoder vid: {}, decoder sid: {}, search sid: {}", response
+            .getLocalDetectorAddress(), response.getDecoderVendorId(), response.getDecoderSerialId(), String.format(
+            "%08X", response.getSearchSerialId()));
+
+        Assert.assertEquals(response.getSearchSerialId(), 0x78563412);
+        Assert.assertEquals(response.getSearchVendorId(), 0x0D);
+        Assert.assertEquals(response.getDecoderSerialId(), 0x78563412);
+        Assert.assertEquals(response.getDecoderVendorId(), 0x0D);
+        Assert.assertEquals(response.getLocalDetectorAddress(), 1);
+    }
+
+    @Test
+    public void createAddrChangeAckResponseFromByteArray() throws ProtocolException {
+        byte[] message =
+            { 0x0c, 0x01, 0x00, (byte) 0xd9, (byte) 0xb5, 0x01, 0x0D, (byte) 0x12, (byte) 0x34, (byte) 0x56,
+                (byte) 0x78, 0x12, (byte) 0x34 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_ADDR_CHANGE_ACK);
+
+        AddrChangeAckResponse response = (AddrChangeAckResponse) bidibMessage;
+
+        LOGGER.debug("detector address: {}, decoder vid: {}, decoder sid: {}, new address: {}", response
+            .getLocalDetectorAddress(), response.getDecoderVendorId(), String.format("%08X", response
+            .getDecoderSerialId()), String.format("%04X", response.getNewAddress()));
+
+        Assert.assertEquals(response.getNewAddress(), 0x3412);
+        Assert.assertEquals(response.getDecoderSerialId(), 0x78563412);
+        Assert.assertEquals(response.getDecoderVendorId(), 0x0D);
+        Assert.assertEquals(response.getLocalDetectorAddress(), 1);
+    }
 }
