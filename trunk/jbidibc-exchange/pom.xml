@@ -69,7 +69,7 @@
                 <version>1.8</version>
                 <executions>
                     <execution>
-                        <id>transform-abc</id>
+                        <id>transform-vendorcv</id>
                         <goals>
                             <goal>many-to-many</goal>
                         </goals>
@@ -77,6 +77,19 @@
                             <xslTemplate>src/main/resources/xsd/vendor_cv.xslt</xslTemplate>
                             <srcDir>src/main/xml</srcDir>
                             <srcIncludes>bidib/BiDiB*.xml</srcIncludes>
+                            <addDestDirTo>resources</addDestDirTo>
+                            <destDir>${project.build.directory}/generated-resources/xml</destDir>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>transform-bidib</id>
+                        <goals>
+                            <goal>many-to-many</goal>
+                        </goals>
+                        <configuration>
+                            <xslTemplate>src/main/resources/xsd/bidib.xslt</xslTemplate>
+                            <srcDir>src/main/xml</srcDir>
+                            <srcIncludes>BiDiBProducts/Products*.bidib</srcIncludes>
                             <addDestDirTo>resources</addDestDirTo>
                             <destDir>${project.build.directory}/generated-resources/xml</destDir>
                         </configuration>
