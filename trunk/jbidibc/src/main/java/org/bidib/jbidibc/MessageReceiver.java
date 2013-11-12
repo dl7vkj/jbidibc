@@ -277,7 +277,7 @@ public class MessageReceiver {
                                                 // TODO if we have fired an error we should release a possible thread that is waiting for a result in the receive queue ...
                                                 //                                        messageReceived(message);
                                                 break;
-                                            case BidibLibrary.MSG_SYS_IDENTIFY:
+                                            case BidibLibrary.MSG_SYS_IDENTIFY_STATE:
                                                 fireIdentify(message.getAddr(), ((SysIdentifyResponse) message)
                                                     .getState());
                                                 break;

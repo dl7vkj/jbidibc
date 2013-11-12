@@ -64,6 +64,10 @@
         <compiler.fork>1.6</compiler.fork>
         <gpg.useagent>true</gpg.useagent>
         <mockito-version>1.9.5</mockito-version>
+		
+		<maven.compiler.source>1.6</maven.compiler.source>
+		<maven.compiler.target>1.6</maven.compiler.target>
+
     </properties>
     <modules>
         <module>jbidibc</module>
@@ -191,7 +195,7 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-javadoc-plugin</artifactId>
-                    <version>2.9</version>
+                    <version>2.9.1</version>
                 </plugin>
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
@@ -276,8 +280,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.6</source>
-                    <target>1.6</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                     <encoding>UTF-8</encoding>
                     <showWarnings>true</showWarnings>
                     <showDeprecation>true</showDeprecation>
@@ -290,30 +294,9 @@
                     <downloadSources>true</downloadSources>
                 </configuration>
             </plugin>
-            <!-- format Java files -->
-            <!--
-            <plugin>
-                <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
-                <artifactId>maven-java-formatter-plugin</artifactId>
-                <configuration>
-                    <compilerSource>1.6</compilerSource>
-                    <compilerCompliance>1.6</compilerCompliance>
-                    <compilerTargetPlatform>1.6</compilerTargetPlatform>
-                    <lineEnding>LF</lineEnding>
-                    <encoding>UTF-8</encoding>
-                    <configFile>${project.basedir}/../etc/codestyle.xml</configFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-			-->
         </plugins>
     </build>
+	
     <reporting>
         <plugins>
             <plugin>
@@ -321,6 +304,40 @@
                 <artifactId>jdepend-maven-plugin</artifactId>
                 <version>${jdepend-version}</version>
             </plugin>
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-project-info-reports-plugin</artifactId>
+			<version>2.7</version>
+		  </plugin>
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-pmd-plugin</artifactId>
+			<version>2.3</version>
+			<configuration>
+			  <targetJdk>${maven.compiler.target}</targetJdk>
+			</configuration>
+		  </plugin>
+		  <plugin>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-javadoc-plugin</artifactId>
+			<version>2.9.1</version>
+			<configuration>
+			  <notimestamp>true</notimestamp>
+			</configuration>
+			<reportSets>
+			  <reportSet>
+				<reports>
+				  <report>javadoc</report>
+				</reports>
+			  </reportSet>
+			  <reportSet>
+				<inherited>false</inherited>
+				<reports>
+				  <report>aggregate</report>
+				</reports>
+			  </reportSet>
+			</reportSets>
+		  </plugin>
         </plugins>
     </reporting>
     <profiles>
@@ -336,9 +353,9 @@
                         <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
                         <artifactId>maven-java-formatter-plugin</artifactId>
                         <configuration>
-                            <compilerSource>1.6</compilerSource>
-                            <compilerCompliance>1.6</compilerCompliance>
-                            <compilerTargetPlatform>1.6</compilerTargetPlatform>
+                            <compilerSource>${maven.compiler.source}</compilerSource>
+                            <compilerCompliance>${maven.compiler.target}</compilerCompliance>
+                            <compilerTargetPlatform>${maven.compiler.target}</compilerTargetPlatform>
                             <lineEnding>LF</lineEnding>
                             <encoding>UTF-8</encoding>
                             <configFile>${project.basedir}/../etc/codestyle.xml</configFile>
@@ -398,9 +415,9 @@
                         <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
                         <artifactId>maven-java-formatter-plugin</artifactId>
                         <configuration>
-                            <compilerSource>1.6</compilerSource>
-                            <compilerCompliance>1.6</compilerCompliance>
-                            <compilerTargetPlatform>1.6</compilerTargetPlatform>
+                            <compilerSource>${maven.compiler.source}</compilerSource>
+                            <compilerCompliance>${maven.compiler.target}</compilerCompliance>
+                            <compilerTargetPlatform>${maven.compiler.target}</compilerTargetPlatform>
                             <lineEnding>LF</lineEnding>
                             <encoding>UTF-8</encoding>
                             <configFile>${project.basedir}/../etc/codestyle.xml</configFile>
@@ -452,9 +469,9 @@
                         <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
                         <artifactId>maven-java-formatter-plugin</artifactId>
                         <configuration>
-                            <compilerSource>1.6</compilerSource>
-                            <compilerCompliance>1.6</compilerCompliance>
-                            <compilerTargetPlatform>1.6</compilerTargetPlatform>
+                            <compilerSource>${maven.compiler.source}</compilerSource>
+                            <compilerCompliance>${maven.compiler.target}</compilerCompliance>
+                            <compilerTargetPlatform>${maven.compiler.target}</compilerTargetPlatform>
                             <lineEnding>LF</lineEnding>
                             <encoding>UTF-8</encoding>
                             <configFile>${project.basedir}/../etc/codestyle.xml</configFile>
