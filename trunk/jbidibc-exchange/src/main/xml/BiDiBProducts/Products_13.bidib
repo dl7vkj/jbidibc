@@ -61,7 +61,7 @@
 			<Documentation Language="en-US" Text="DMX Controller" Description="16 Poweroutput, 8 Servos or 4 Servos and 16 detectors, up to 16 output lower 10mA" Url="http://wiki.fichtelbahn.de/doku.php?id=onecontrol"/>
 			<Documentation Language="de-DE" Text="Schalten, Servos, Belegtmelder" Description="16 Powerausgänge, 8 Servos oder 4 Servos und 16 Melder, bis zu 16 externe Rückmeldeingänge, bis zu 16 Kleinverbraucherausgänge" Url="http://wiki.fichtelbahn.de/doku.php?id=onecontrol"/>
 		</Product>
-		<Product ManufacturerId="13" ProductId="118" Name="BiDiBOne - OneIO">
+		<Product ManufacturerId="13" ProductTypeId="118" Name="BiDiBOne - OneIO">
 			<Documentation Language="de-DE" Text="Universelles I/O-Modul" Description="Universal Input-Output-Controller, 24 frei konfigurierbare Ports" Url="http://www.bidib.org/support/product_id.html"/>
 			<Documentation Language="en-US" Text="Universal I/O Module" Description="Universal input/output controller, 24 freely configurable ports" Url="http://www.bidib.org/support/product_id_e.html"/>
 		</Product>

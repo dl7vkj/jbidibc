@@ -26,21 +26,13 @@ public class BidibFactory {
     protected BidibFactory() {
     }
 
-    public static Product getProduct(Node node, String[] searchPaths) {
+    public static Product getProduct(Node node, String... searchPaths) {
         LOGGER.info("Load the Product info for node: {}", node);
 
-        try {
-            return new BidibFactory().loadProductForNode(node.getUniqueId(), searchPaths);
-        }
-        catch (JAXBException ex) {
-            LOGGER.warn("Load Product info failed for node: " + node, ex);
-        }
-
-        // TODO make better exception here ...
-        throw new RuntimeException("Load Product info failed.");
+        return new BidibFactory().loadProductForNode(node.getUniqueId(), searchPaths);
     }
 
-    protected Product loadProductForNode(long uniqueId, String... searchPaths) throws JAXBException {
+    protected Product loadProductForNode(long uniqueId, String... searchPaths) {
         long pid = NodeUtils.getPid(uniqueId);
         long vid = NodeUtils.getVendorId(uniqueId);
         LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}", NodeUtils
@@ -52,16 +44,30 @@ public class BidibFactory {
             filename.append(vid).append(".bidib");
 
             LOGGER.info("Prepared filename to load products: {}", filename.toString());
-            File productsFile = new File(searchPath, filename.toString());
-            if (productsFile.exists()) {
-                // try to load products
-                bidib = loadProductsFile(productsFile);
-                if (bidib != null) {
-                    break;
+            if (searchPath.startsWith("/")) {
+                String lookup = searchPath + "/" + filename.toString();
+                LOGGER.info("Lookup products file internally: {}", lookup);
+                InputStream is = BidibFactory.class.getResourceAsStream(lookup);
+                if (is != null) {
+                    bidib = loadProductsFile(is);
+                }
+                else {
+                    LOGGER.warn("Internal lookup for products file failed.");
                 }
             }
             else {
-                LOGGER.info("File does not exist: {}", productsFile.getAbsolutePath());
+                File productsFile = new File(searchPath, filename.toString());
+                if (productsFile.exists()) {
+                    LOGGER.info("Found product file: {}", productsFile.getAbsolutePath());
+                    // try to load products
+                    bidib = loadProductsFile(productsFile);
+                    if (bidib != null) {
+                        break;
+                    }
+                }
+                else {
+                    LOGGER.info("File does not exist: {}", productsFile.getAbsolutePath());
+                }
             }
         }
         Product product = null;
@@ -86,19 +92,27 @@ public class BidibFactory {
     private BiDiB loadProductsFile(File productsFile) {
 
         BiDiB bidib = null;
-        //        InputStream is = BidibFactory.class.getResourceAsStream(filename.toString());
         InputStream is;
         try {
             is = new FileInputStream(productsFile);
+            bidib = loadProductsFile(is);
+        }
+        catch (FileNotFoundException ex) {
+            LOGGER.info("No Products file found.");
+        }
+        return bidib;
+    }
+
+    private BiDiB loadProductsFile(InputStream is) {
+
+        BiDiB bidib = null;
+        try {
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
             JAXBElement<BiDiB> jaxbElement = (JAXBElement<BiDiB>) unmarshaller.unmarshal(is);
             bidib = jaxbElement.getValue();
-        }
-        catch (FileNotFoundException ex) {
-            LOGGER.info("No Products file found.");
         }
         catch (JAXBException ex) {
             LOGGER.warn("Load Products from file failed.", ex);
