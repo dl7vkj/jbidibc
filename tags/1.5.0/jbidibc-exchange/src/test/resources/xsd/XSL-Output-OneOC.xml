@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/vendorcv vendor_cv.xsd">
+    <Version version="0.1" LastUpdate="20130519" author="Tillner, Andreas" PID1="119" PID2="000" Vendor="013" description="OneOC (20x OC-Input) - BiDiBOne AddOn"/>
+    <CVDefinition>
+        <Basis>
+            <CV number="51" type="Byte" min="0" max="2" next="-" values="0;1;2" mode="w" descde="0 = keine Anzeige, 1 = LED Anzeige, 2 = DOGM 3x16 Display" descen="0 = no display, 1 = LED line, 2 = DOGM 3x16 Display"/>
+            <CV number="52" type="Byte" min="-" max="-" next="-" mode="w" values="87;120;160" descde="Masstab" descen="Scale"/>
+        </Basis>
+        <Sectors>
+            <SectorDefinition number="1">
+                <CV number="53" type="Byte" min="0" max="255" next="1;53" mode="w" values="-" descde="Länge der Messstrecke 1 in mm (lowbyte)(CV53+CV54*256)" descen="Length of measuring 1 track in mm (lowbyte)(CV53+CV54*256)"/>
+                <CV number="54" type="Byte" min="0" max="255" next="h;53" mode="w" values="-" descde="Länge der Messstrecke 1 in mm (highbyte)(CV55+CV56*256)" descen="Length of measuring 1 track in mm (highbyte)(CV55+CV56*256)"/>
+                <CV number="55" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Startmelder der Messstrecke 1" descen="Startdetector of the measuring track 1"/>
+                <CV number="56" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Endmelder der Messstrecke 1" descen="Enddetector of the measuring track 1"/>
+            </SectorDefinition>
+            <SectorDefinition number="2">
+                <CV number="57" type="Byte" min="0" max="255" next="-" mode="w" values="l;54" descde="Länge der Messstrecke 2 in mm (lowbyte)(CV57+CV58*256)" descen="Length of measuring 2 track in mm (lowbyte)(CV57+CV58*256)"/>
+                <CV number="58" type="Byte" min="0" max="255" next="h;53" mode="w" values="-" descde="Länge der Messstrecke 2 in mm (highbyte)(CV57+CV58*256)" descen="Length of measuring 2 track in mm (highbyte)(CV57+CV58*256)"/>
+                <CV number="59" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Startmelder der Messstrecke 2" descen="Startdetector of measuring track 2"/>
+                <CV number="60" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Endmelder der Messstrecke 2" descen="Enddetector of measuring track 2"/>
+            </SectorDefinition>
+            <SectorDefinition number="3">
+                <CV number="61" type="Byte" min="0" max="255" next="-" mode="w" values="l;54" descde="Länge der Messstrecke 3 in mm (lowbyte)(CV61+CV62*256)" descen="Length of measuring 3 track in mm (lowbyte)(CV61+CV62*256)"/>
+                <CV number="62" type="Byte" min="0" max="255" next="h;53" mode="w" values="-" descde="Länge der Messstrecke 3 in mm (highbyte)(CV61+CV62*256)" descen="Length of measuring 3 track in mm (highbyte)(CV61+CV62*256)"/>
+                <CV number="63" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Startmelder der Messstrecke 3" descen="Startdetector of measuring track 3"/>
+                <CV number="64" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Endmelder der Messstrecke 3" descen="Enddetector of measuring track 3"/>
+            </SectorDefinition>
+            <SectorDefinition number="4">
+                <CV number="65" type="Byte" min="0" max="255" next="-" mode="w" values="l;66" descde="Länge der Messstrecke 4 in mm (lowbyte)(CV65+CV66*256)" descen="Length of measuring 4 track in mm (lowbyte)(CV65+CV66*256)"/>
+                <CV number="66" type="Byte" min="0" max="255" next="h;65" mode="w" values="-" descde="Länge der Messstrecke 4 in mm (highbyte)(CV65+CV66*256)" descen="Length of measuring 4 track in mm (highbyte)(CV65+CV66*256)"/>
+                <CV number="67" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Startmelder der Messstrecke 4" descen="Startdetector of measuring track 4"/>
+                <CV number="68" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Endmelder der Messstrecke 4" descen="Enddetector of measuring track 4"/>
+            </SectorDefinition>
+            <SectorDefinition number="5">
+                <CV number="69" type="Byte" min="0" max="255" next="-" mode="w" values="l;70" descde="Länge der Messstrecke 5 in mm (lowbyte)(CV69+CV70*256)" descen="Length of measuring 5 track in mm (lowbyte)(CV69+CV70*256)"/>
+                <CV number="70" type="Byte" min="0" max="255" next="h;69" mode="w" values="-" descde="Länge der Messstrecke 5 in mm (highbyte)(CV69+CV70*256)" descen="Length of measuring 5 track in mm (highbyte)(CV69+CV70*256)"/>
+                <CV number="71" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Startmelder der Messstrecke 5" descen="Startdetector of measuring track 5"/>
+                <CV number="72" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Endmelder der Messstrecke 5" descen="Enddetector of measuring track 5"/>
+            </SectorDefinition>
+            <SectorDefinition number="6">
+                <CV number="73" type="Byte" min="0" max="255" next="-" mode="w" values="l;54" descde="Länge der Messstrecke 6 in mm (lowbyte)(CV55+CV56*256)" descen="Length of measuring 6 track in mm (lowbyte)(CV55+CV56*256)"/>
+                <CV number="74" type="Byte" min="0" max="255" next="h;53" mode="w" values="-" descde="Länge der Messstrecke 6 in mm (highbyte)(CV55+CV56*256)" descen="Length of measuring 6 track in mm (highbyte)(CV55+CV56*256)"/>
+                <CV number="75" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Startmelder der Messstrecke 6" descen="Startdetector of measuring track 6"/>
+                <CV number="76" type="Byte" min="0" max="19" next="-" mode="w" values="-" descde="Endmelder der Messstrecke 6" descen="Enddetector of measuring track 6"/>
+            </SectorDefinition>
+        </Sectors>
+    </CVDefinition>
+</VendorCV>
