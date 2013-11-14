@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.utils;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.utils.AccessoryStateUtils.ErrorAccessoryState.AccessoryExecutionState;
 
 public class AccessoryStateUtils {
     public enum ErrorAccessoryState {
@@ -8,6 +9,13 @@ public class AccessoryStateUtils {
         NO_MORE_ERROR(0x00), COMMAND_NOT_EXECUTABLE_UNKNOWN_COMMAND_OR_ASPECT(0x01), POWER_CONSUMPTION_HIGH(0x02), POWER_SUPPLY_BELOW_LIMITS(
             0x03), FUSE_BLOWN(0x04), TEMPERATURE_TOO_HIGH(0x05), FEEDBACK_ERROR_UNWANTED_CHANGE_POSITION(0x06), MANUAL_CONTROL(
             0x07), BULB_OUT_OF_ORDER(0x10), SERVO_OUT_OF_ORDER(0x20), INTERNAL_ERROR(0x3F);
+        //@formatter:on
+
+        //@formatter:off
+        public enum AccessoryExecutionState {
+            IDLE, RUNNING, SUCCESSFUL, ERROR, UNKNOWN;
+        }
+
         //@formatter:on
 
         private final byte errorCode;
@@ -74,6 +82,33 @@ public class AccessoryStateUtils {
                 break;
         }
         return sb.toString();
+    }
+
+    public static AccessoryExecutionState getExecutionState(byte execute) {
+        // TODO refactor this
+        AccessoryExecutionState executionState = null;
+        switch (execute & 0x01) {
+            case BidibLibrary.BIDIB_ACC_STATE_DONE: // done
+                executionState = AccessoryExecutionState.SUCCESSFUL;
+                break;
+            case BidibLibrary.BIDIB_ACC_STATE_WAIT: // wait
+                executionState = AccessoryExecutionState.RUNNING;
+                break;
+            case BidibLibrary.BIDIB_ACC_STATE_NO_FB_AVAILABLE: // no feedback available
+            default:
+                executionState = AccessoryExecutionState.UNKNOWN;
+                break;
+        }
+        switch (execute & 0x02) {
+            case 0x00:
+                executionState = AccessoryExecutionState.SUCCESSFUL;
+                break;
+            case 0x02:
+            default:
+                executionState = AccessoryExecutionState.UNKNOWN;
+                break;
+        }
+        return executionState;
     }
 
     public static boolean hasMoreErrors(byte wait) {
