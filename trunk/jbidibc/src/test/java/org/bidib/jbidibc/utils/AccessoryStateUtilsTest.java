@@ -3,6 +3,7 @@ package org.bidib.jbidibc.utils;
 import junit.framework.Assert;
 
 import org.bidib.jbidibc.utils.AccessoryStateUtils.ErrorAccessoryState;
+import org.bidib.jbidibc.utils.AccessoryStateUtils.ErrorAccessoryState.AccessoryExecutionState;
 import org.testng.annotations.Test;
 
 public class AccessoryStateUtilsTest {
@@ -62,5 +63,24 @@ public class AccessoryStateUtilsTest {
 
         hasMoreErrors = AccessoryStateUtils.hasMoreErrors((byte) 0x3F);
         Assert.assertEquals(hasMoreErrors, false);
+    }
+
+    @Test
+    public void getExecutionState() {
+
+        AccessoryExecutionState executionState = AccessoryStateUtils.getExecutionState((byte) 0x00);
+        Assert.assertEquals(AccessoryExecutionState.SUCCESSFUL, executionState);
+
+        executionState = AccessoryStateUtils.getExecutionState((byte) 0x01);
+        Assert.assertEquals(AccessoryExecutionState.RUNNING, executionState);
+
+        executionState = AccessoryStateUtils.getExecutionState((byte) 0x02);
+        Assert.assertEquals(AccessoryExecutionState.SUCCESSFUL, executionState);
+
+        executionState = AccessoryStateUtils.getExecutionState((byte) 0x03);
+        Assert.assertEquals(AccessoryExecutionState.RUNNING, executionState);
+
+        executionState = AccessoryStateUtils.getExecutionState((byte) 0x80);
+        Assert.assertEquals(AccessoryExecutionState.ERROR, executionState);
     }
 }

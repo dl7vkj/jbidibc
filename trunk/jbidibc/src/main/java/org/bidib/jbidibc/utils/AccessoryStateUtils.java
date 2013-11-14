@@ -2,8 +2,12 @@ package org.bidib.jbidibc.utils;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.utils.AccessoryStateUtils.ErrorAccessoryState.AccessoryExecutionState;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccessoryStateUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(AccessoryStateUtils.class);
+
     public enum ErrorAccessoryState {
         //@formatter:off
         NO_MORE_ERROR(0x00), COMMAND_NOT_EXECUTABLE_UNKNOWN_COMMAND_OR_ASPECT(0x01), POWER_CONSUMPTION_HIGH(0x02), POWER_SUPPLY_BELOW_LIMITS(
@@ -63,9 +67,9 @@ public class AccessoryStateUtils {
             case BidibLibrary.BIDIB_ACC_STATE_WAIT: // wait
                 sb.append(" => End position not yet reached. Check WAIT.");
                 break;
-            case BidibLibrary.BIDIB_ACC_STATE_NO_FB_AVAILABLE: // no feedback available
-                sb.append(" => No feedback available.");
-                break;
+            //            case BidibLibrary.BIDIB_ACC_STATE_NO_FB_AVAILABLE: // no feedback available
+            //                sb.append(" => No feedback available.");
+            //                break;
             default:
                 sb.append(" => Unknown.");
                 break;
@@ -85,28 +89,25 @@ public class AccessoryStateUtils {
     }
 
     public static AccessoryExecutionState getExecutionState(byte execute) {
-        // TODO refactor this
         AccessoryExecutionState executionState = null;
-        switch (execute & 0x01) {
-            case BidibLibrary.BIDIB_ACC_STATE_DONE: // done
-                executionState = AccessoryExecutionState.SUCCESSFUL;
-                break;
-            case BidibLibrary.BIDIB_ACC_STATE_WAIT: // wait
-                executionState = AccessoryExecutionState.RUNNING;
-                break;
-            case BidibLibrary.BIDIB_ACC_STATE_NO_FB_AVAILABLE: // no feedback available
-            default:
-                executionState = AccessoryExecutionState.UNKNOWN;
-                break;
+
+        if ((execute & BidibLibrary.BIDIB_ACC_STATE_ERROR) == 0x00) {
+            // normal operation
+            switch (execute & 0x03) {
+                case BidibLibrary.BIDIB_ACC_STATE_DONE: // done
+                case BidibLibrary.BIDIB_ACC_STATE_NO_FB_AVAILABLE: // no feedback available
+                    executionState = AccessoryExecutionState.SUCCESSFUL;
+                    break;
+                case BidibLibrary.BIDIB_ACC_STATE_WAIT: // wait
+                default:
+                    executionState = AccessoryExecutionState.RUNNING;
+                    break;
+            }
         }
-        switch (execute & 0x02) {
-            case 0x00:
-                executionState = AccessoryExecutionState.SUCCESSFUL;
-                break;
-            case 0x02:
-            default:
-                executionState = AccessoryExecutionState.UNKNOWN;
-                break;
+        else {
+            // error condition
+            LOGGER.warn("An error condition was detected!");
+            executionState = AccessoryExecutionState.ERROR;
         }
         return executionState;
     }
