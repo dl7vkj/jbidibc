@@ -51,6 +51,9 @@ public class BidibFactory {
                 InputStream is = BidibFactory.class.getResourceAsStream(lookup);
                 if (is != null) {
                     bidib = loadProductsFile(is);
+                    if (bidib != null) {
+                        break;
+                    }
                 }
                 else {
                     LOGGER.warn("Internal lookup for products file failed.");
@@ -86,7 +89,7 @@ public class BidibFactory {
             }
         }
 
-        LOGGER.debug("Loaded product: {}", product);
+        LOGGER.trace("Loaded product: {}", product);
         return product;
     }
 
