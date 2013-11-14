@@ -44,8 +44,9 @@ public class BidibFactory {
             filename.append(vid).append(".bidib");
 
             LOGGER.info("Prepared filename to load products: {}", filename.toString());
-            if (searchPath.startsWith("/")) {
-                String lookup = searchPath + "/" + filename.toString();
+            if (searchPath.startsWith("classpath:")) {
+                int beginIndex = "classpath:".length();
+                String lookup = searchPath.substring(beginIndex) + "/" + filename.toString();
                 LOGGER.info("Lookup products file internally: {}", lookup);
                 InputStream is = BidibFactory.class.getResourceAsStream(lookup);
                 if (is != null) {
