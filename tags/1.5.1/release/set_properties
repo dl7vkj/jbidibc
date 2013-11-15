@@ -1,0 +1,12 @@
+#!/bin/sh
+
+TAG_NAME=1.3
+NEXT_DEV_VERSION=1.4-SNAPSHOT
+
+PROJECT_NAME=jbidibc
+
+# the local path to the directory where the release will be performed (clean checkout, build, create tag, build release version)
+LOCAL_RELEASE_BASE=/tmp/release
+
+SVN_BASE_PATH=https://svn.code.sf.net/p/jbidibc/code/trunk
+SVN_TAGS_PATH=https://svn.code.sf.net/p/jbidibc/code/tags
