@@ -9,8 +9,6 @@ import java.math.BigInteger;
  * This class contains utility functions for byte conversations.
  */
 public final class ByteUtils {
-    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
-
     private ByteUtils() {
     }
 
@@ -123,22 +121,22 @@ public final class ByteUtils {
         return result;
     }
 
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
     /**
-     * Convert a byte array to a hex string.
-     * Original source: http://stackoverflow.com/questions/9655181/convert-from-byte-array-to-hex-string-in-java
+     * Convert a byte array to a hex string with spaces delimited.
+     * Original source: DatatypeConverterImpl.printHexBinary
      * @param bytes the byte array
      * @return the formatted hex string
      */
     public static String bytesToHex(byte[] bytes) {
-        char[] hexChars = new char[bytes.length * 3];
-        int v;
-        for (int j = 0; j < bytes.length; j++) {
-            v = bytes[j] & 0xFF;
-            hexChars[j * 3] = hexArray[v >>> 4];
-            hexChars[j * 3 + 1] = hexArray[v & 0x0F];
-            hexChars[j * 3 + 2] = ' ';
+        StringBuilder r = new StringBuilder(bytes.length * 3);
+        for (byte b : bytes) {
+            r.append(hexArray[(b >> 4) & 0xF]);
+            r.append(hexArray[(b & 0xF)]);
+            r.append(' ');
         }
-        return new String(hexChars);
+        return r.toString();
     }
 
     public static String byteToHex(int byteValue) {
