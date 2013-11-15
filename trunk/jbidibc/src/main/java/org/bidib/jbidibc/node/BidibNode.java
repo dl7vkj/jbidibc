@@ -874,7 +874,7 @@ public class BidibNode {
         return response;
     }
 
-    private void sendDelimiter() throws IOException {
+    private void sendDelimiter() {
         output.write((byte) BidibLibrary.BIDIB_PKT_MAGIC);
     }
 
@@ -907,9 +907,10 @@ public class BidibNode {
         StringBuilder sb = new StringBuilder("send ");
         sb.append(bidibMessage);
         sb.append(" : ");
-        for (int index = 0; index < bytes.length; index++) {
-            sb.append(String.format("%02x ", bytes[index]));
-        }
+        //        for (int index = 0; index < bytes.length; index++) {
+        //            sb.append(String.format("%02x ", bytes[index]));
+        //        }
+        sb.append(ByteUtils.bytesToHex(bytes));
         MSG_TX_LOGGER.info(sb.toString());
 
         // send the output to Bidib
@@ -918,9 +919,10 @@ public class BidibNode {
         // this takes 'much' time, only format if debug level enabled
         if (LOGGER.isDebugEnabled()) {
             logRecord.append(" : ");
-            for (int index = 0; index < bytes.length; index++) {
-                logRecord.append(String.format("%02x ", bytes[index]));
-            }
+            //            for (int index = 0; index < bytes.length; index++) {
+            //                logRecord.append(String.format("%02x ", bytes[index]));
+            //            }
+            logRecord.append(ByteUtils.bytesToHex(bytes));
             LOGGER.debug("Flush logRecord: {}", logRecord);
         }
         logRecord.setLength(0);

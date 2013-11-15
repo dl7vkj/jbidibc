@@ -9,6 +9,8 @@ import java.math.BigInteger;
  * This class contains utility functions for byte conversations.
  */
 public final class ByteUtils {
+    final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
+
     private ByteUtils() {
     }
 
@@ -84,16 +86,32 @@ public final class ByteUtils {
         return true;
     }
 
+    /**
+     * Returns the low byte of an int value.
+     * @param value the value
+     * @return the low byte
+     */
     public static byte getLowByte(int value) {
         byte lowByte = (byte) (value & 0xFF);
         return lowByte;
     }
 
+    /**
+     * Returns the high byte of an int value.
+     * @param value the value
+     * @return the high byte
+     */
     public static byte getHighByte(int value) {
         byte penultimateByte = (byte) ((value >> 8) & 0xFF);
         return penultimateByte;
     }
 
+    /**
+     * Converts the serial number to an int value.
+     * @param serialData the serial number
+     * @param offset the offset to read the data
+     * @return the serial number
+     */
     public static int convertSerial(byte[] serialData, int offset) {
         int result = 0;
 
@@ -105,4 +123,36 @@ public final class ByteUtils {
         return result;
     }
 
+    /**
+     * Convert a byte array to a hex string.
+     * Original source: http://stackoverflow.com/questions/9655181/convert-from-byte-array-to-hex-string-in-java
+     * @param bytes the byte array
+     * @return the formatted hex string
+     */
+    public static String bytesToHex(byte[] bytes) {
+        char[] hexChars = new char[bytes.length * 3];
+        int v;
+        for (int j = 0; j < bytes.length; j++) {
+            v = bytes[j] & 0xFF;
+            hexChars[j * 3] = hexArray[v >>> 4];
+            hexChars[j * 3 + 1] = hexArray[v & 0x0F];
+            hexChars[j * 3 + 2] = ' ';
+        }
+        return new String(hexChars);
+    }
+
+    public static String byteToHex(int byteValue) {
+        char[] hexChars = new char[2];
+        hexChars[0] = hexArray[byteValue >>> 4];
+        hexChars[1] = hexArray[byteValue & 0x0F];
+        return new String(hexChars);
+    }
+
+    public static String byteToHex(byte byteValue) {
+        char[] hexChars = new char[2];
+        int v = byteValue & 0xFF;
+        hexChars[0] = hexArray[v >>> 4];
+        hexChars[1] = hexArray[v & 0x0F];
+        return new String(hexChars);
+    }
 }

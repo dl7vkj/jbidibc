@@ -26,7 +26,6 @@ import org.bidib.jbidibc.message.FeedbackSpeedResponse;
 import org.bidib.jbidibc.message.LcKeyResponse;
 import org.bidib.jbidibc.message.LcStatResponse;
 import org.bidib.jbidibc.message.LcWaitResponse;
-import org.bidib.jbidibc.message.LogonResponse;
 import org.bidib.jbidibc.message.NodeLostResponse;
 import org.bidib.jbidibc.message.NodeNewResponse;
 import org.bidib.jbidibc.message.ResponseFactory;
@@ -94,10 +93,10 @@ public class MessageReceiver {
 
                     while (running && (data = input.read()) != -1) {
                         if (LOGGER.isTraceEnabled()) {
-                            LOGGER.trace("received data: {}", String.format("%02x ", data));
+                            LOGGER.trace("received data: {}", ByteUtils.byteToHex(data));
                         }
                         // append data to log record
-                        logRecord.append(String.format("%02x ", data));
+                        logRecord.append(ByteUtils.byteToHex(data)).append(" ");
 
                         // check if the current is the end of a packet
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
@@ -114,9 +113,7 @@ public class MessageReceiver {
                                     message = ResponseFactory.create(messageArray);
                                     if (MSG_RX_LOGGER.isInfoEnabled()) {
                                         StringBuilder sb = new StringBuilder();
-                                        for (int i = 0; i < messageArray.length; i++) {
-                                            sb.append(String.format("%02x ", messageArray[i]));
-                                        }
+                                        sb.append(ByteUtils.bytesToHex(messageArray));
                                         MSG_RX_LOGGER.info("receive {} : {}", message, sb);
                                     }
                                     if (message != null) {
