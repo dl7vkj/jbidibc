@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<VendorCV>
+	<Version 
+		Version="0.8" 
+		Lastupdate="20131026" 
+		Author="mos"
+		Pid="117"
+		Vendor="013"
+		Description="BiDiBOne-OneControl">
+	</Version>
+	<Templates>
+		<Template Name="About">
+			<CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="EEPROM Version"/>
+				<Description Lang="en-EN" Text="EEPROM Version"/>
+			</CV>
+			<CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Herstellerkennung"/>
+				<Description Lang="en-EN" Text="Vendor ID"/>
+			</CV>
+			<CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Produktkennung (low)"/>
+				<Description Lang="en-EN" Text="ProductID (low)"/>
+			</CV>
+			<CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Produktkennung (high)"/>
+				<Description Lang="en-EN" Text="ProductID (high)"/>
+			</CV>
+			<CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Firmware Version"/>
+				<Description Lang="en-EN" Text="Firmware main version"/>
+			</CV>
+			<CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Firmware Sub-Version"/>
+				<Description Lang="en-EN" Text="Firmware sub version"/>
+			</CV>
+			<CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Firmware Sub-Index"/>
+				<Description Lang="en-EN" Text="Firmware compile run"/>
+			</CV>
+		</Template>
+		<Template Name="AccessoryMap">
+		   <CV Number="0" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Aktueller Aspekt"/>
+				<Description Lang="en-EN" Text="Current aspect"/>
+			</CV>
+		   <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 0"/>
+				<Description Lang="en-EN" Text="Macro for aspect 0"/>
+			</CV>
+		   <CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 1"/>
+				<Description Lang="en-EN" Text="Macro for aspect 1"/>
+			</CV>
+		   <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 2"/>
+				<Description Lang="en-EN" Text="Macro for aspect 2"/>
+			</CV>
+		   <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 3"/>
+				<Description Lang="en-EN" Text="Macro for aspect 3"/>
+			</CV>
+		   <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 4"/>
+				<Description Lang="en-EN" Text="Macro for aspect 4"/>
+			</CV>
+		   <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 5"/>
+				<Description Lang="en-EN" Text="Macro for aspect 5"/>
+			</CV>
+		   <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 6"/>
+				<Description Lang="en-EN" Text="Macro for aspect 6"/>
+			</CV>
+		   <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 7"/>
+				<Description Lang="en-EN" Text="Macro for aspect 7"/>
+			</CV>
+		</Template>
+		<Template Name="Poweroutput">
+			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw">
+				<Description Lang="de-DE" Text="Konfiguration"/>
+				<Description Lang="en-EN" Text="Configuration"/>
+				<Bitdescription Bitnum="1" Lang="de-DE" Text="Rückmeldung: 0=ohne, 1=mit"/>
+				<Bitdescription Bitnum="1" Lang="en-EN" Text="Feedback: 0=without, 1=with "/>
+				<Bitdescription Bitnum="2" Lang="de-DE" Text="Endabschaltung: 0=ohne, 1=mit"/>
+				<Bitdescription Bitnum="2" Lang="en-EN" Text="Turn off switch: 0=without, 1=with "/>
+			</CV>
+			<CV Number="1" Type="Byte" Min="1" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Rückmelde-Ticks: 1...255 [50 ms]"/>
+				<Description Lang="en-EN" Text="Feedback ticks, 1...255 [50 ms]"/>
+			</CV>
+		</Template>
+		<Template Name="GPIO">
+			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw" Rebootneeded="true">
+				<Description Lang="de-DE" Text="Konfiguration"/>
+				<Description Lang="en-EN" Text="Configuration"/>
+				<Bitdescription Bitnum="1" Lang="de-DE" Text="Richtung: 0=Ausgang, 1=Eingang"/>
+				<Bitdescription Bitnum="1" Lang="en-EN" Text="Direction: 0=input, 1=output"/>
+				<Bitdescription Bitnum="2" Lang="de-DE" Text="Aktivlage: 0=HIGH-, 1=LOW-aktiv"/>
+				<Bitdescription Bitnum="2" Lang="en-EN" Text="Polarity: 0=active-high, 1=active-low"/>
+			</CV>
+		</Template>
+		<Template Name="Servo">
+			<CV Number="0" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Min Low"/>
+				<Description Lang="en-EN" Text="Min Low"/>
+			</CV>
+			<CV Number="1" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Min High"/>
+				<Description Lang="en-EN" Text="Min High"/>
+			</CV>
+			<CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Max Low"/>
+				<Description Lang="en-EN" Text="Max Low"/>
+			</CV>
+			<CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Max High"/>
+				<Description Lang="en-EN" Text="Max High"/>
+			</CV>
+			<CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Modus"/>
+				<Description Lang="en-EN" Text="Mode"/>
+			</CV>
+			<CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Wiederholung: 0 keine Wiederholung, 1 Wiederholung"/>
+				<Description Lang="en-EN" Text="Repeat: 0 no repeat, 1 repeat"/>
+			</CV>
+			<CV Number="6" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Position: 0 vor Bewegung A, 1 vor Bewegung B"/>
+				<Description Lang="en-EN" Text="Location: 0 befor move A, 1 befor move B"/>
+			</CV>
+			<CV Number="7" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Kurveneinstellungen für A"/>
+				<Description Lang="en-EN" Text="curve settings for A"/>
+			</CV>
+			<CV Number="8" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Kurvenverzögerung A"/>
+				<Description Lang="en-EN" Text="curve delay for A"/>
+			</CV>
+			<CV Number="9" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Kurveneinstellungen für B"/>
+				<Description Lang="en-EN" Text="curve settings for B"/>
+			</CV>
+			<CV Number="10" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Kurvenverzögerung B"/>
+				<Description Lang="en-EN" Text="curve delay for B"/>
+			</CV>
+			<CV Number="11" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Power OFF: 0 nicht abschalten, n * 20 ms"/>
+				<Description Lang="en-EN" Text="Power OFF: 0 no off, n * 20 ms"/>
+			</CV>  
+		</Template>
+	</Templates>
+	<CVDefinition>
+		<Node Offset="1" Template="About">
+			<Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
+			<Nodetext Lang="en-EN" Text="Common data"/>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
+			<Nodetext Lang="en-EN" Text="Common settings"/>
+			<CV Number="40" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
+				<Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
+			</CV> 
+			<CV Number="43" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw">
+				<Description Lang="de-DE" Text="Test-CV - GPIOs: Verwalten der Ein- und Ausgänge"/>
+				<Description Lang="en-EN" Text="Test-CV - GPIOs: Management of inputs and outputs"/>
+				<Bitdescription Bitnum="1" Lang="de-DE" Text="Zählweise: 0=lückend, 1=lückenlos"/>
+				<Bitdescription Bitnum="1" Lang="en-EN" Text="Mode of count: 0=fragmentary, 1=consistently"/>
+				<Bitdescription Bitnum="2" Lang="de-DE" Text="Anzahl: 0=konstant (16+16), 1=variabel (0..16+16..0)"/>
+				<Bitdescription Bitnum="2" Lang="en-EN" Text="Count: 0=constant (16+16), 1=variable (0..16+16..0)"/>
+			</CV> 
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Servos"/>
+			<Nodetext Lang="en-EN" Text="Servos"/>
+			<Node Offset="51" Template="Servo" Count="8" Next="16">
+				<Nodetext Lang="de-DE" Text="Servo %%d"/>
+				<Nodetext Lang="en-EN" Text="Servo %%d"/>
+			</Node>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Accessories"/>
+			<Nodetext Lang="en-EN" Text="Accessories"/>
+			<Node Offset="179" Template="AccessoryMap" Count="20" Next="9">
+				<Nodetext Lang="de-DE" Text="Accessory %%d"/>
+				<Nodetext Lang="en-EN" Text="Accessory %%d"/>
+			</Node>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Power Ausgänge"/>
+			<Nodetext Lang="en-EN" Text="Power outputs"/>
+			<Node Offset="359" Template="Poweroutput" Count="16" Next="3">
+				<Nodetext Lang="de-DE" Text="Poweroutput %%d"/>
+				<Nodetext Lang="en-EN" Text="Poweroutput %%d"/>
+			</Node>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="GPIO"/>
+			<Nodetext Lang="en-EN" Text="GPIO"/>
+			<Node Offset="407" Template="GPIO" Count="16" Next="2">
+				<Nodetext Lang="de-DE" Text="GPIO %%d"/>
+				<Nodetext Lang="en-EN" Text="GPIO %%d"/>
+			</Node>
+		</Node>
+	</CVDefinition>
+</VendorCV>
