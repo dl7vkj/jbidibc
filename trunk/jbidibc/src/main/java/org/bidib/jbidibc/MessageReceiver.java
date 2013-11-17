@@ -355,7 +355,9 @@ public class MessageReceiver {
                     LOGGER.debug("Leaving receive loop, RUNNING: {}", running);
 
                     if (output != null && output.size() > 0) {
-                        LOGGER.warn("Data remaining in output: {}", new Object[] { output.toByteArray() });
+                        byte[] remaining = output.toByteArray();
+                        String remainingString = ByteUtils.bytesToHex(remaining);
+                        LOGGER.warn("Data remaining in output: {}", remainingString);
                     }
                     if (logRecord != null && logRecord.length() > 0) {
                         LOGGER.warn("Data remaining in logRecord: {}", logRecord);

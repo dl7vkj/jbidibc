@@ -3,10 +3,13 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class BidibMessageTest {
+    private static final Logger LOGGER = LoggerFactory.getLogger(BidibMessageTest.class);
 
     @Test
     public void createMessageSysGetMagicFromByteArray() throws ProtocolException {
@@ -66,6 +69,17 @@ public class BidibMessageTest {
         BidibMessage bidibMessage = new BidibMessage(message);
 
         Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_BOOST_ON);
+    }
+
+    @Test
+    public void createMessageSysClock() throws ProtocolException {
+        //17.11.2013 19:30:48.688: send SysClockMessage[num=24,type=24,data=[1, 134, 70, 193]] : FE 08 00 18 18 01 86 46 C1 00 20 FE 
+
+        byte[] message = { 0x08, 0x00, 0x18, 0x18, 0x01, (byte) 0x86, (byte) 0x46, (byte) 0xC1, 0x00, 0x20 };
+
+        BidibMessage bidibMessage = new BidibMessage(message);
+        LOGGER.info("bidibMessage: {}, message: {}", bidibMessage, ByteUtils.bytesToHex(message));
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_SYS_CLOCK);
     }
 
 }
