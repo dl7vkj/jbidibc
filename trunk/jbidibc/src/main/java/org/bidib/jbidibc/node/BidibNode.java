@@ -816,11 +816,71 @@ public class BidibNode {
     protected synchronized BidibMessage send(
         BidibMessage message, boolean expectAnswer, Integer... expectedResponseTypes) throws ProtocolException {
 
-        int num = getNextSendMsgNum();
-        message.setSendMsgNum(num);
-        logRecord.append("send " + message + " to " + this);
+        prepareAndSendMessage(message);
+        //        int num = getNextSendMsgNum();
+        //        message.setSendMsgNum(num);
+        //        logRecord.append("send " + message + " to " + this);
+        //
+        //        BidibMessage response = null;
+        //        byte type = message.getType();
+        //        byte[] data = message.getData();
+        //        byte[] bytes = new byte[1 + (addr != null ? addr.length + 1 : 1) + 2 + (data != null ? data.length : 0)];
+        //        int index = 0;
+        //
+        //        bytes[index++] = (byte) (bytes.length - 1);
+        //        LOGGER.debug("Current node addr: {}", addr);
+        //
+        //        if (addr != null && addr.length != 0 && addr[0] != 0) {
+        //            for (int addrIndex = 0; addrIndex < addr.length; addrIndex++) {
+        //                bytes[index++] = addr[addrIndex];
+        //            }
+        //        }
+        //        else {
+        //            LOGGER.debug("Current address is the root node.");
+        //        }
+        //        bytes[index++] = 0; // 'terminating zero' of the address
+        //
+        //        bytes[index++] = (byte) num;
+        //        bytes[index++] = type;
+        //        if (data != null) {
+        //            for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
+        //                bytes[index++] = data[dataIndex];
+        //            }
+        //        }
+        //
+        //        try {
+        //            sendMessage(bytes, message);
+        //        }
+        //        catch (IOException ex) {
+        //            LOGGER.warn("Send message failed.", ex);
+        //            throw new ProtocolException("Send message failed: " + message);
+        //        }
 
         BidibMessage response = null;
+        if (expectAnswer) {
+            // wait for the answer
+            try {
+                response =
+                    receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
+                        .asList(expectedResponseTypes) : null);
+            }
+            catch (InterruptedException ex) {
+                LOGGER.warn("Waiting for response was interrupted", ex);
+            }
+            if (response == null && !ignoreWaitTimeout) {
+                LOGGER.warn("Receive message timed out. Get response failed for message:  {}", message);
+                throw new ProtocolNoAnswerException("Got no answer to " + message);
+            }
+        }
+        LOGGER.debug("Return the response message: {}", response);
+        return response;
+    }
+
+    private void prepareAndSendMessage(BidibMessage message) throws ProtocolException {
+        int num = getNextSendMsgNum();
+        message.setSendMsgNum(num);
+        logRecord.append("send ").append(message).append(" to ").append(this);
+
         byte type = message.getType();
         byte[] data = message.getData();
         byte[] bytes = new byte[1 + (addr != null ? addr.length + 1 : 1) + 2 + (data != null ? data.length : 0)];
@@ -855,23 +915,46 @@ public class BidibNode {
             throw new ProtocolException("Send message failed: " + message);
         }
 
+    }
+
+    protected synchronized List<BidibMessage> sendBulk(
+        List<BidibMessage> messages, boolean expectAnswer, Integer... expectedResponseTypes) throws ProtocolException {
+
+        int numMessages = messages.size();
+
+        for (BidibMessage message : messages) {
+            prepareAndSendMessage(message);
+        }
+
+        List<BidibMessage> responses = null;
         if (expectAnswer) {
+            BidibMessage response = null;
             // wait for the answer
             try {
-                response =
-                    receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
-                        .asList(expectedResponseTypes) : null);
+                int receivedMessages = 0;
+                responses = new LinkedList<BidibMessage>();
+
+                while (receivedMessages < numMessages) {
+                    receivedMessages++;
+                    response =
+                        receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
+                            .asList(expectedResponseTypes) : null);
+
+                    LOGGER.debug("Received message response: {}", response);
+                    responses.add(response);
+                }
             }
             catch (InterruptedException ex) {
                 LOGGER.warn("Waiting for response was interrupted", ex);
             }
-            if (response == null && !ignoreWaitTimeout) {
-                LOGGER.warn("Receive message timed out. Get response failed for message:  {}", message);
-                throw new ProtocolNoAnswerException("Got no answer to " + message);
+            if (responses.size() == 0 && !ignoreWaitTimeout) {
+                LOGGER.warn("Receive message timed out. Get response failed for messages:  {}", messages);
+                throw new ProtocolNoAnswerException("Got no answer to " + messages);
             }
         }
-        LOGGER.debug("Return the response message: {}", response);
-        return response;
+        LOGGER.debug("Return the response messages: {}", responses);
+        return responses;
+
     }
 
     private void sendDelimiter() {
@@ -1047,6 +1130,38 @@ public class BidibNode {
         BidibMessage result = send(new VendorGetMessage(name), true, VendorResponse.TYPE);
         if (result instanceof VendorResponse) {
             return ((VendorResponse) result).getVendorData();
+        }
+        return null;
+    }
+
+    /**
+     * Get the vendor data with the provided name from the node.
+     * @param name the vendor specific name
+     * @return the current vendor data values received from the node
+     * @throws ProtocolException
+     */
+    public List<VendorData> vendorGetBulk(String... names) throws ProtocolException {
+        LOGGER.info("Get vendor message, names: {}", new Object[] { names });
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support vendor data requests.");
+            throw createNotSupportedByBootloaderNode("MSG_VENDOR_GET");
+        }
+
+        List<BidibMessage> messages = new LinkedList<BidibMessage>();
+        for (String name : names) {
+            messages.add(new VendorGetMessage(name));
+        }
+        List<BidibMessage> results = sendBulk(messages, true, VendorResponse.TYPE);
+        if (results != null) {
+            List<VendorData> vendorDatas = new LinkedList<VendorData>();
+            for (BidibMessage result : results) {
+                if (result instanceof VendorResponse) {
+                    VendorData vendorData = ((VendorResponse) result).getVendorData();
+                    LOGGER.debug("Received vendor data: {}", vendorData);
+                    vendorDatas.add(vendorData);
+                }
+            }
+            return vendorDatas;
         }
         return null;
     }

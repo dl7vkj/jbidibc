@@ -117,7 +117,7 @@ public class VendorCVTest {
 
         Assert.assertNotNull(vendorCV.getVersion());
         VersionInfoType versionInfo = vendorCV.getVersion();
-        Assert.assertEquals(versionInfo.getVersion(), "0.1");
+        Assert.assertEquals(versionInfo.getVersion(), "0.2");
         Assert.assertEquals(versionInfo.getVendor(), "013");
 
         Assert.assertNotNull(vendorCV.getTemplates());
@@ -139,7 +139,7 @@ public class VendorCVTest {
         Assert.assertNotNull(servoTemplate);
         Assert.assertEquals(servoTemplate.getName(), "Servo");
         Assert.assertNotNull(servoTemplate.getCV());
-        Assert.assertEquals(servoTemplate.getCV().size(), 12);
+        Assert.assertEquals(servoTemplate.getCV().size(), 13);
 
         Assert.assertNotNull(vendorCV.getCVDefinition());
         CVDefinitionType cvDefinition = vendorCV.getCVDefinition();
