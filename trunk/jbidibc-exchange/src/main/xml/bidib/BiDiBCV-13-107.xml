@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <VendorCV>
 	<Version 
-		Version="0.1" 
-		Versionm="440"
-		Lastupdate="20130519" 
-		Author="BiDiB Mustermann"
+		Version="0.2" 
+		Versionm="441"
+		Lastupdate="20131113" 
+		Author="Kufer, Wolfgang"
 		Pid="107"
 		Vendor="013"
 		Description="BiDiB-LightControl 1">
@@ -81,6 +81,10 @@
 				<Description Lang="de-DE" Text="Power OFF: 0 nicht abschalten, n * 20 ms"/>
 				<Description Lang="en-EN" Text="Power OFF: 0 no off, n * 20 ms"/>
 			</CV>  
+			<CV Number="15" Type="Byte" Min="0" Max="127" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Pre Power: Einschalten, Power n * 5 ms vor Puls"/>
+				<Description Lang="en-EN" Text="Pre Power: power up n * 5 ms before pulse"/>
+			</CV>  
 		</Template>
 	</Templates>
 	<CVDefinition>
@@ -149,7 +153,7 @@
 		<Node>
 			<Nodetext Lang="de-DE" Text="Servo Einstellungen"/>
 			<Nodetext Lang="en-EN" Text="Servo settings"/>
-			<Node Offset="61" Template="Servo" Count="4" Next="15">
+			<Node Offset="61" Template="Servo" Count="4" Next="16">
 				<Nodetext Lang="de-DE" Text="Servo %%d"/>
 				<Nodetext Lang="en-EN" Text="Servo %%d"/>
 			</Node>
