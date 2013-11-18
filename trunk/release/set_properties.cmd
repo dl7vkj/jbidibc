@@ -1,4 +1,4 @@
-set TAG_NAME=1.5.1
+set TAG_NAME=1.5.2
 set NEXT_DEV_VERSION=1.6-SNAPSHOT
 
 set PROJECT_NAME=jbidibc
