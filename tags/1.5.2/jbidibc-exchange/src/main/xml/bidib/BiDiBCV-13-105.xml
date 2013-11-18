@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<VendorCV>
+	<Version 
+		Version="0.2" 
+		Versionm="440"
+		Lastupdate="20131021" 
+		Author="BiDiB-Mustermann"
+		Pid="105"
+		Vendor="013"
+		Description="BiDiB-s88-Bridge">
+	</Version>
+	<CVDefinition>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
+			<Nodetext Lang="en-EN" Text="Common settings"/>
+
+		   <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="vendor_id"/>
+				<Description Lang="en-EN" Text="vendor_id"/>
+		   </CV> 
+			<CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="hw_id"/>
+				<Description Lang="en-EN" Text="hw_id"/>
+		   </CV>
+		   <CV Number="3" Type="Int" Min="0" Max="255" Low="3" High="4" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="hw_serial_low"/>
+				<Description Lang="en-EN" Text="hw_serial_low"/>
+		   </CV>
+		   <CV Number="4" Type="Int" Min="0" Max="255" Low="3" High="4" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="hw_serial_high"/>
+				<Description Lang="en-EN" Text="hw_serial_high"/>
+		   </CV>
+		   <CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="2;4;6;8;10;12;16" Mode="rw">
+				<Description Lang="de-DE" Text="s88_size"/>
+				<Description Lang="en-EN" Text="s88_size"/>
+		   </CV>
+		   <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="s88_clk_timing"/>
+				<Description Lang="en-EN" Text="s88_clk_timing"/>
+		   </CV>
+		</Node>
+	</CVDefinition>
+</VendorCV>

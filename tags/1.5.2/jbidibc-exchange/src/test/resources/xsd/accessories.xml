@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<lcAccessories xmlns="http://www.bidib.org/jbidibc/lcmacro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="xsd/accessories.xsd">
+    <lcAccessory accessoryId="1" accessoryName="Accessory_0">
+        <lcAspectPoint macroId="1" aspectName="Gerade"/>
+        <lcAspectPoint macroId="2" aspectName="Gerade"/>
+        <lcAspectPoint macroId="3"/>
+        <lcAspectPoint macroId="4" aspectName="Abzweig"/>
+    </lcAccessory>
+</lcAccessories>

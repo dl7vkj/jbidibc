@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<VendorCV>
+	<Version 
+		Version="0.1" 
+		Versionm="440"
+		Lastupdate="20130519" 
+		Author="BiDiB Mustermann"
+		Pid="107"
+		Vendor="013"
+		Description="BiDiB-LightControl 1">
+	</Version>
+	<Templates>
+		<Template Name="LED">
+			<CV Number="0" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="LED: Einstellung der Stromquelle"/>
+				<Description Lang="en-EN" Text="LED: courrent source setup"/>
+			</CV>
+			<CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="LED: Helligkeit für Zustand 'aus'"/>
+				<Description Lang="en-EN" Text="LED: light intensity at status 'off'"/>
+			</CV>
+			<CV Number="2" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="LED: Helligkeit für Zustand 'an'"/>
+				<Description Lang="en-EN" Text="LED: light intensity at status 'on'"/>
+			</CV>
+			<CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="LED: Dimmzeit in Richtung 'aus', 0 = schnell / 255 = langsam"/>
+				<Description Lang="en-EN" Text="LED: time to dim, direction 'off', 0 = fast / 255 = slow" />
+			</CV>
+			<CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="LED: Dimmzeit in Richtung 'an', 0 = schnell / 255 = langsam"/>
+				<Description Lang="en-EN" Text="LED: time to dim, direction 'on', 0 = fast / 255 = slow" />
+			</CV>
+		</Template>
+		<Template Name="Servo">
+			<CV Number="0" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Min Low"/>
+				<Description Lang="en-EN" Text="Min Low"/>
+			</CV>
+			<CV Number="1" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Min High"/>
+				<Description Lang="en-EN" Text="Min High"/>
+			</CV>
+			<CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Max Low"/>
+				<Description Lang="en-EN" Text="Max Low"/>
+			</CV>
+			<CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Max High"/>
+				<Description Lang="en-EN" Text="Max High"/>
+			</CV>
+			<CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Modus"/>
+				<Description Lang="en-EN" Text="Mode"/>
+			</CV>
+			<CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Wiederholung: 0 keine Wiederholung, 1 Wiederholung"/>
+				<Description Lang="en-EN" Text="Repeat: 0 no repeat, 1 repeat"/>
+			</CV>
+			<CV Number="6" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Position: 0 vor Bewegung A, 1 vor Bewegung B"/>
+				<Description Lang="en-EN" Text="Location: 0 befor move A, 1 befor move B"/>
+			</CV>
+			<CV Number="7" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Kurveneinstellungen für A"/>
+				<Description Lang="en-EN" Text="curve settings for A"/>
+			</CV>
+			<CV Number="8" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Kurvenverzögerung A"/>
+				<Description Lang="en-EN" Text="curve delay for A"/>
+			</CV>
+			<CV Number="9" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Kurveneinstellungen für B"/>
+				<Description Lang="en-EN" Text="curve settings for B"/>
+			</CV>
+			<CV Number="10" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Kurvenverzögerung B"/>
+				<Description Lang="en-EN" Text="curve delay for B"/>
+			</CV>
+			<CV Number="14" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Power OFF: 0 nicht abschalten, n * 20 ms"/>
+				<Description Lang="en-EN" Text="Power OFF: 0 no off, n * 20 ms"/>
+			</CV>  
+		</Template>
+	</Templates>
+	<CVDefinition>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
+			<Nodetext Lang="en-EN" Text="Common data"/>
+
+			<Node>
+				<Nodetext Lang="de-DE" Text="DCC"/>
+				<Nodetext Lang="en-EN" Text="DCC"/>
+
+				<CV Number="1" Type="Int" Min="0" Max="255" Low="1" High="9" Values="-" Mode="rw">
+					<Description Lang="de-DE" Text="Decoder Adresse LOW"/>
+					<Description Lang="en-EN" Text="Decoder Address LOW"/>
+				</CV>
+				<CV Number="9" Type="Int" Min="0" Max="255" Low="1" High="9" Values="-" Mode="rw">
+					<Description Lang="de-DE" Text="Decoder Adresse HIGH"/>
+					<Description Lang="en-EN" Text="Decoder Address HIGH"/>
+				</CV>  
+			</Node>
+			<CV Number="2" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="0;1" Mode="rw">
+				<Description Lang="de-DE" Text="1 = Eingänge aktiv, 0 = Eingänge nicht aktiv"/>
+				<Description Lang="en-EN" Text="1 = Input activ, 0 = Input not activ" />
+			</CV>
+			<CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Einschaltzeit für Ausgang 1"/>
+				<Description Lang="en-EN" Text="Time to switch on for output 1"/>
+			</CV>
+			<CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Einschaltzeit für Ausgang 2"/>
+				<Description Lang="en-EN" Text="Time to switch on for output 2"/>
+			</CV>
+			<CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Einschaltzeit für Ausgang 3"/>
+				<Description Lang="en-EN" Text="Time to switch on for output 3"/>
+			</CV>
+			<CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Einschaltzeit für Ausgang 4"/>
+				<Description Lang="en-EN" Text="Time to switch on for output 4"/>
+			</CV>
+			<CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Softwareversion"/>
+				<Description Lang="en-EN" Text="Software version"/>
+			</CV>  
+			<CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Herstellerkennung"/>
+				<Description Lang="en-EN" Text="Software version"/>
+			</CV>
+			<CV Number="28" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Bi-Direktionale Kommunikation"/>
+				<Description Lang="en-EN" Text="Bidirectiional communication"/>
+			</CV>
+			<CV Number="29" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Allgemeine Decoderkonfiguration"/>
+				<Description Lang="en-EN" Text="Common decoder configuration"/>
+			</CV>
+			<CV Number="33" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="0;1;2;16;17" Mode="rw">
+				<Description Lang="de-DE" Text="Global Decoder Mode"/>
+				<Description Lang="en-EN" Text="Global Decoder Mode"/>
+			</CV>
+			<CV Number="34" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="0;1" Mode="ro">
+				<Description Lang="de-DE" Text="OP-Mode"/>
+				<Description Lang="en-EN" Text="OP-Mode"/>
+			</CV>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Servo Einstellungen"/>
+			<Nodetext Lang="en-EN" Text="Servo settings"/>
+			<Node Offset="61" Template="Servo" Count="4" Next="15">
+				<Nodetext Lang="de-DE" Text="Servo %%d"/>
+				<Nodetext Lang="en-EN" Text="Servo %%d"/>
+			</Node>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="LED Einstellungen"/>
+			<Nodetext Lang="en-EN" Text="LED settings"/>
+			<Node Offset="125" Template="LED" Count="32" Next="5">
+				<Nodetext Lang="de-DE" Text="LED %%d"/>
+				<Nodetext Lang="en-EN" Text="LED %%d"/>
+			</Node>
+		</Node>
+	</CVDefinition>
+</VendorCV>
