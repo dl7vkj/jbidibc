@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <VendorCV>
-	<Version Version="0.5" Versionm="444" Lastupdate="20131021" Author="Tillner, Andreas" Pid="102" Vendor="013" Description="GBMBoost Node mit Interface">
+	<Version Version="0.5" Lastupdate="20131102" Author="Tillner, Andreas" Pid="102" Vendor="013" Description="GBMBoost Node mit Interface">
 	</Version>
 	<Templates>
 		<Template Name="GBM16T">
@@ -26,7 +26,7 @@
 				<Description Lang="de-DE" Text="Vendor GBM16T" />
 				<Description Lang="en-EN" Text="Vendor GBM16T" /> 
 		   </CV>
-		   <CV Number="36" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="0;1" Mode="rw" > 
+		   <CV Number="36" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="0;1" Mode="rw" > 
 				<Description Lang="de-DE" Text="0: keine Stromquelle, 1: 10mA, wenn kein DCC" />
 				<Description Lang="en-EN" Text="0: no I source, 1: 10mA, if no DCC"/>
 			</CV>
