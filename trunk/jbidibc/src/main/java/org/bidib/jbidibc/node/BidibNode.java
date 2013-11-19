@@ -914,48 +914,67 @@ public class BidibNode {
             LOGGER.warn("Send message failed.", ex);
             throw new ProtocolException("Send message failed: " + message);
         }
-
     }
 
-    // TODO test this on the real system ...
+    /**
+     * Send a bulk of messages with a window size of 4 to the node.
+     * @param windowSize the window size
+     * @param messages the messages
+     * @param expectAnswer wait for expected answer
+     * @param expectedResponseTypes the expected response types
+     * @return the list of responses
+     * @throws ProtocolException
+     */
     protected synchronized List<BidibMessage> sendBulk(
-        List<BidibMessage> messages, boolean expectAnswer, Integer... expectedResponseTypes) throws ProtocolException {
+        int windowSize, List<BidibMessage> messages, boolean expectAnswer, Integer... expectedResponseTypes)
+        throws ProtocolException {
 
         List<BidibMessage> responses = null;
 
         int numMessages = messages.size();
-        LOGGER.info("Send bulk messages total: {}", numMessages);
+        LOGGER.debug("Send bulk messages total: {}", numMessages);
 
-        // send messages with a window-size of 4
+        // send messages with a window-size
         int fromIndex = 0;
-        int toIndex = Math.min(numMessages, 4);
+        int toIndex = Math.min(numMessages, windowSize);
+        int receivedMessages = 0;
 
-        while (fromIndex < toIndex) {
-            LOGGER.info("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
+        while (fromIndex < numMessages) {
+            LOGGER.trace("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
 
-            for (BidibMessage message : messages.subList(fromIndex, toIndex - 1)) {
+            for (BidibMessage message : messages.subList(fromIndex, toIndex)) {
                 prepareAndSendMessage(message);
             }
 
             // send the next message if one is received
             fromIndex = toIndex;
             toIndex++;
+            LOGGER.trace("Prepeared new fromIndex: {}, toIndex: {}", fromIndex, toIndex);
 
             if (expectAnswer) {
                 BidibMessage response = null;
                 // wait for the answer
                 try {
-                    int receivedMessages = 0;
-                    responses = new LinkedList<BidibMessage>();
-
+                    if (responses == null) {
+                        responses = new LinkedList<BidibMessage>();
+                    }
                     while (receivedMessages < numMessages) {
-                        receivedMessages++;
+                        LOGGER.trace("Receive response, receivedMessages: {}, numMessages: {}", receivedMessages,
+                            numMessages);
                         response =
                             receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
                                 .asList(expectedResponseTypes) : null);
 
-                        LOGGER.debug("Received message response: {}", response);
-                        responses.add(response);
+                        LOGGER.trace("Received message response: {}", response);
+                        if (response != null) {
+                            responses.add(response);
+                        }
+                        receivedMessages++;
+
+                        if (fromIndex < numMessages) {
+                            LOGGER.trace("Not all messages sent yet. Leave receive loop to send next message.");
+                            break;
+                        }
                     }
                 }
                 catch (InterruptedException ex) {
@@ -973,7 +992,6 @@ public class BidibNode {
             LOGGER.warn("Received not all responses! Expected: {}, actual: {}", numMessages, responses.size());
         }
         return responses;
-
     }
 
     private void sendDelimiter() {
@@ -1169,10 +1187,11 @@ public class BidibNode {
         // prepare all messages
         List<BidibMessage> messages = new LinkedList<BidibMessage>();
         for (String name : names) {
+            LOGGER.debug("Add new CV name: {}", name);
             messages.add(new VendorGetMessage(name));
         }
 
-        List<BidibMessage> results = sendBulk(messages, true, VendorResponse.TYPE);
+        List<BidibMessage> results = sendBulk(BULK_WINDOW_SIZE, messages, true, VendorResponse.TYPE);
         if (results != null) {
             List<VendorData> vendorDatas = new LinkedList<VendorData>();
             for (BidibMessage result : results) {
@@ -1186,6 +1205,8 @@ public class BidibNode {
         }
         return null;
     }
+
+    private static final int BULK_WINDOW_SIZE = 4;
 
     /**
      * Set the provided vendor data on the node.
