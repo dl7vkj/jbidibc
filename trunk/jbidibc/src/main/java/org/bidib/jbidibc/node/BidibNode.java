@@ -917,42 +917,61 @@ public class BidibNode {
 
     }
 
+    // TODO test this on the real system ...
     protected synchronized List<BidibMessage> sendBulk(
         List<BidibMessage> messages, boolean expectAnswer, Integer... expectedResponseTypes) throws ProtocolException {
 
-        int numMessages = messages.size();
-
-        for (BidibMessage message : messages) {
-            prepareAndSendMessage(message);
-        }
-
         List<BidibMessage> responses = null;
-        if (expectAnswer) {
-            BidibMessage response = null;
-            // wait for the answer
-            try {
-                int receivedMessages = 0;
-                responses = new LinkedList<BidibMessage>();
 
-                while (receivedMessages < numMessages) {
-                    receivedMessages++;
-                    response =
-                        receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
-                            .asList(expectedResponseTypes) : null);
+        int numMessages = messages.size();
+        LOGGER.info("Send bulk messages total: {}", numMessages);
 
-                    LOGGER.debug("Received message response: {}", response);
-                    responses.add(response);
+        // send messages with a window-size of 4
+        int fromIndex = 0;
+        int toIndex = Math.min(numMessages, 4);
+
+        while (fromIndex < toIndex) {
+            LOGGER.info("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
+
+            for (BidibMessage message : messages.subList(fromIndex, toIndex - 1)) {
+                prepareAndSendMessage(message);
+            }
+
+            // send the next message if one is received
+            fromIndex = toIndex;
+            toIndex++;
+
+            if (expectAnswer) {
+                BidibMessage response = null;
+                // wait for the answer
+                try {
+                    int receivedMessages = 0;
+                    responses = new LinkedList<BidibMessage>();
+
+                    while (receivedMessages < numMessages) {
+                        receivedMessages++;
+                        response =
+                            receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
+                                .asList(expectedResponseTypes) : null);
+
+                        LOGGER.debug("Received message response: {}", response);
+                        responses.add(response);
+                    }
                 }
-            }
-            catch (InterruptedException ex) {
-                LOGGER.warn("Waiting for response was interrupted", ex);
-            }
-            if (responses.size() == 0 && !ignoreWaitTimeout) {
-                LOGGER.warn("Receive message timed out. Get response failed for messages:  {}", messages);
-                throw new ProtocolNoAnswerException("Got no answer to " + messages);
+                catch (InterruptedException ex) {
+                    LOGGER.warn("Waiting for response was interrupted", ex);
+                }
+                if (responses.size() == 0 && !ignoreWaitTimeout) {
+                    LOGGER.warn("Receive message timed out. Get response failed for messages:  {}", messages);
+                    throw new ProtocolNoAnswerException("Got no answer to " + messages);
+                }
             }
         }
         LOGGER.debug("Return the response messages: {}", responses);
+
+        if (responses.size() < numMessages) {
+            LOGGER.warn("Received not all responses! Expected: {}, actual: {}", numMessages, responses.size());
+        }
         return responses;
 
     }
@@ -1147,10 +1166,12 @@ public class BidibNode {
             throw createNotSupportedByBootloaderNode("MSG_VENDOR_GET");
         }
 
+        // prepare all messages
         List<BidibMessage> messages = new LinkedList<BidibMessage>();
         for (String name : names) {
             messages.add(new VendorGetMessage(name));
         }
+
         List<BidibMessage> results = sendBulk(messages, true, VendorResponse.TYPE);
         if (results != null) {
             List<VendorData> vendorDatas = new LinkedList<VendorData>();
