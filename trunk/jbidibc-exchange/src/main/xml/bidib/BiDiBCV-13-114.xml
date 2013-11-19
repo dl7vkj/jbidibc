@@ -37,7 +37,7 @@
 	</Templates>
 
 	<CVDefinition>
-		<Node Offset="0" Template="About">
+		<Node Offset="1" Template="About">
 				<Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
 				<Nodetext Lang="en-EN" Text="Common data"/>
 		</Node>

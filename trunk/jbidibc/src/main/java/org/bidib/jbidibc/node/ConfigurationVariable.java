@@ -2,7 +2,7 @@ package org.bidib.jbidibc.node;
 
 import java.io.Serializable;
 
-public class ConfigurationVariable implements Serializable {
+public class ConfigurationVariable implements Serializable, Comparable<ConfigurationVariable> {
 
     private static final long serialVersionUID = 1L;
 
@@ -79,6 +79,11 @@ public class ConfigurationVariable implements Serializable {
     @Override
     public int hashCode() {
         return name.hashCode();
+    }
+
+    @Override
+    public int compareTo(ConfigurationVariable o) {
+        return name.compareTo(o.getName());
     }
 
 }

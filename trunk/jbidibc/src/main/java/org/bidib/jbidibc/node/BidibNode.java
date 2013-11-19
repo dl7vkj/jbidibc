@@ -1171,14 +1171,16 @@ public class BidibNode {
         return null;
     }
 
+    private static final int BULK_WINDOW_SIZE = 4;
+
     /**
      * Get the vendor data with the provided name from the node.
      * @param name the vendor specific name
      * @return the current vendor data values received from the node
      * @throws ProtocolException
      */
-    public List<VendorData> vendorGetBulk(String... names) throws ProtocolException {
-        LOGGER.info("Get vendor message, names: {}", new Object[] { names });
+    public List<VendorData> vendorGetBulk(List<String> cvNumbers) throws ProtocolException {
+        LOGGER.info("Get vendor message, cvNumbers: {}", cvNumbers);
         if (isBootloaderNode()) {
             LOGGER.warn("The current node is a bootloader node and does not support vendor data requests.");
             throw createNotSupportedByBootloaderNode("MSG_VENDOR_GET");
@@ -1186,7 +1188,7 @@ public class BidibNode {
 
         // prepare all messages
         List<BidibMessage> messages = new LinkedList<BidibMessage>();
-        for (String name : names) {
+        for (String name : cvNumbers) {
             LOGGER.debug("Add new CV name: {}", name);
             messages.add(new VendorGetMessage(name));
         }
@@ -1205,8 +1207,6 @@ public class BidibNode {
         }
         return null;
     }
-
-    private static final int BULK_WINDOW_SIZE = 4;
 
     /**
      * Set the provided vendor data on the node.

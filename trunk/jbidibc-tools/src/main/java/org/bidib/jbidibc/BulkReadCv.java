@@ -1,5 +1,6 @@
 package org.bidib.jbidibc;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -41,7 +42,7 @@ public class BulkReadCv extends BidibNodeCommand {
                 if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
 
                     List<VendorData> vendorDatas =
-                        bidibNode.vendorGetBulk(StringUtils.splitPreserveAllTokens(cvNumbers, ","));
+                        bidibNode.vendorGetBulk(Arrays.asList(StringUtils.splitPreserveAllTokens(cvNumbers, ",")));
                     if (vendorDatas != null) {
                         for (VendorData vendorData : vendorDatas) {
                             System.out.println("CV" + vendorData.getName() + "=" + vendorData.getValue());

@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.node;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
@@ -59,7 +60,8 @@ public class BidibNodeTest {
         }).when(bidib).send(Mockito.any(byte[].class));
 
         String cvNumbers = "1,2,3,4,5,6";
-        List<VendorData> vendorDatas = bidibNode.vendorGetBulk(StringUtils.splitPreserveAllTokens(cvNumbers, ","));
+        List<VendorData> vendorDatas =
+            bidibNode.vendorGetBulk(Arrays.asList(StringUtils.splitPreserveAllTokens(cvNumbers, ",")));
 
         Assert.assertNotNull(vendorDatas);
         Assert.assertEquals(6, vendorDatas.size());
