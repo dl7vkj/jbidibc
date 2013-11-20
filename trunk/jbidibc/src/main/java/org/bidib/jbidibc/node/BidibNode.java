@@ -253,14 +253,6 @@ public class BidibNode {
         sendNoWait(new BoostQueryMessage());
     }
 
-    private void escape(byte c) throws IOException {
-        if ((c == (byte) BidibLibrary.BIDIB_PKT_MAGIC) || (c == (byte) BidibLibrary.BIDIB_PKT_ESCAPE)) {
-            output.write((byte) BidibLibrary.BIDIB_PKT_ESCAPE);
-            c = (byte) (c ^ 0x20);
-        }
-        output.write(c);
-    }
-
     private void fireReceiveStarted() {
         for (TransferListener l : listeners) {
             l.receiveStarted();
@@ -817,44 +809,6 @@ public class BidibNode {
         BidibMessage message, boolean expectAnswer, Integer... expectedResponseTypes) throws ProtocolException {
 
         prepareAndSendMessage(message);
-        //        int num = getNextSendMsgNum();
-        //        message.setSendMsgNum(num);
-        //        logRecord.append("send " + message + " to " + this);
-        //
-        //        BidibMessage response = null;
-        //        byte type = message.getType();
-        //        byte[] data = message.getData();
-        //        byte[] bytes = new byte[1 + (addr != null ? addr.length + 1 : 1) + 2 + (data != null ? data.length : 0)];
-        //        int index = 0;
-        //
-        //        bytes[index++] = (byte) (bytes.length - 1);
-        //        LOGGER.debug("Current node addr: {}", addr);
-        //
-        //        if (addr != null && addr.length != 0 && addr[0] != 0) {
-        //            for (int addrIndex = 0; addrIndex < addr.length; addrIndex++) {
-        //                bytes[index++] = addr[addrIndex];
-        //            }
-        //        }
-        //        else {
-        //            LOGGER.debug("Current address is the root node.");
-        //        }
-        //        bytes[index++] = 0; // 'terminating zero' of the address
-        //
-        //        bytes[index++] = (byte) num;
-        //        bytes[index++] = type;
-        //        if (data != null) {
-        //            for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
-        //                bytes[index++] = data[dataIndex];
-        //            }
-        //        }
-        //
-        //        try {
-        //            sendMessage(bytes, message);
-        //        }
-        //        catch (IOException ex) {
-        //            LOGGER.warn("Send message failed.", ex);
-        //            throw new ProtocolException("Send message failed: " + message);
-        //        }
 
         BidibMessage response = null;
         if (expectAnswer) {
@@ -877,6 +831,22 @@ public class BidibNode {
     }
 
     private void prepareAndSendMessage(BidibMessage message) throws ProtocolException {
+
+        try {
+            // TODO enable encodeMessageWithStream after tests on real system
+            byte[] bytes = encodeMessage(message);
+            //            byte[] bytes = encodeMessageWithStream(message); // encodeMessageWithStream was faster with my tests ...
+
+            sendMessage(bytes, message);
+        }
+        catch (IOException ex) {
+            LOGGER.warn("Send message failed.", ex);
+            throw new ProtocolException("Send message failed: " + message);
+        }
+    }
+
+    @Deprecated
+    protected byte[] encodeMessage(BidibMessage message) {
         int num = getNextSendMsgNum();
         message.setSendMsgNum(num);
         logRecord.append("send ").append(message).append(" to ").append(this);
@@ -906,14 +876,38 @@ public class BidibNode {
                 bytes[index++] = data[dataIndex];
             }
         }
+        return bytes;
+    }
 
-        try {
-            sendMessage(bytes, message);
+    // TODO test on real system if everything works fine
+    protected byte[] encodeMessageWithStream(BidibMessage message) throws IOException {
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+
+        int num = getNextSendMsgNum();
+        message.setSendMsgNum(num);
+        logRecord.append("send ").append(message).append(" to ").append(this);
+
+        byte type = message.getType();
+        byte[] data = message.getData();
+        int len = 1 + (addr != null ? addr.length + 1 : 1) + 2 + (data != null ? data.length : 0);
+
+        stream.write(ByteUtils.getLowByte(len - 1));
+        LOGGER.debug("Current node addr: {}", addr);
+
+        if (addr != null && addr.length != 0 && addr[0] != 0) {
+            stream.write(addr);
         }
-        catch (IOException ex) {
-            LOGGER.warn("Send message failed.", ex);
-            throw new ProtocolException("Send message failed: " + message);
+        else {
+            LOGGER.debug("Current address is the root node.");
         }
+        stream.write(0); // 'terminating zero' of the address
+        stream.write(ByteUtils.getLowByte(num));
+        stream.write(type);
+        if (data != null) {
+            stream.write(data);
+        }
+        stream.write(0); // additional byte --> TODO check why this must be added here, maybe it's a problem in sendMessage
+        return stream.toByteArray();
     }
 
     /**
@@ -998,6 +992,21 @@ public class BidibNode {
         output.write((byte) BidibLibrary.BIDIB_PKT_MAGIC);
     }
 
+    private void escape(byte c) throws IOException {
+        if ((c == (byte) BidibLibrary.BIDIB_PKT_MAGIC) || (c == (byte) BidibLibrary.BIDIB_PKT_ESCAPE)) {
+            output.write((byte) BidibLibrary.BIDIB_PKT_ESCAPE);
+            c = (byte) (c ^ 0x20);
+        }
+        output.write(c);
+    }
+
+    /**
+     * Put the contents of the message into the "output" stream and call the flush method that sends the 
+     * content of the "output" stream to bidib.
+     * @param message the message contents
+     * @param bidibMessage the bidib message instance
+     * @throws IOException
+     */
     private void sendMessage(byte[] message, BidibMessage bidibMessage) throws IOException {
         LOGGER.debug("Send the message: {}", message);
 
@@ -1010,6 +1019,7 @@ public class BidibNode {
 
         int txCrc = CRC8.getCrcValue(length);
 
+        // TODO verify on real system why we must use '<= length' instead of '< length'
         for (int i = 1; i <= length; i++) {
             escape(message[i]);
             txCrc = CRC8.getCrcValue((message[i] ^ txCrc) & 0xFF);
@@ -1024,12 +1034,10 @@ public class BidibNode {
     private void flush(BidibMessage bidibMessage) throws IOException {
         byte[] bytes = output.toByteArray();
 
+        // log the bidib message and the content of the "output" stream
         StringBuilder sb = new StringBuilder("send ");
         sb.append(bidibMessage);
         sb.append(" : ");
-        //        for (int index = 0; index < bytes.length; index++) {
-        //            sb.append(String.format("%02x ", bytes[index]));
-        //        }
         sb.append(ByteUtils.bytesToHex(bytes));
         MSG_TX_LOGGER.info(sb.toString());
 
@@ -1039,9 +1047,6 @@ public class BidibNode {
         // this takes 'much' time, only format if debug level enabled
         if (LOGGER.isDebugEnabled()) {
             logRecord.append(" : ");
-            //            for (int index = 0; index < bytes.length; index++) {
-            //                logRecord.append(String.format("%02x ", bytes[index]));
-            //            }
             logRecord.append(ByteUtils.bytesToHex(bytes));
             LOGGER.debug("Flush logRecord: {}", logRecord);
         }

@@ -43,7 +43,32 @@ public class FeatureGetMessageTest {
 
         Assert.assertEquals(message.getType(), BidibLibrary.MSG_FEATURE_GET);
 
-        DummyNode dummyNode = new DummyNode(new byte[] { 0, 1 }, null);
+        DummyNode dummyNode = new DummyNode(new byte[] { 1, 0 }, null);
+        dummyNode.setBidib(Bidib.getInstance());
+
+        // send the message
+        dummyNode.sendNoWait(message);
+
+        // we assume the SendMsgNum is 0
+        Assert.assertTrue(message.getNum() == 0);
+
+        // send the message again
+        dummyNode.sendNoWait(message);
+
+        // we assume the SendMsgNum is 1 now
+        Assert.assertTrue(message.getNum() == 1);
+    }
+
+    @Test
+    public void createMessageFeatureGetAndSendFromRootNode() throws ProtocolException, IOException,
+        InterruptedException {
+
+        int number = BidibLibrary.FEATURE_CTRL_MAC_COUNT;
+        FeatureGetMessage message = new FeatureGetMessage(number);
+
+        Assert.assertEquals(message.getType(), BidibLibrary.MSG_FEATURE_GET);
+
+        DummyNode dummyNode = new DummyNode(new byte[] { 0 }, null);
         dummyNode.setBidib(Bidib.getInstance());
 
         // send the message
