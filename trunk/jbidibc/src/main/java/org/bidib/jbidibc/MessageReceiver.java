@@ -240,10 +240,11 @@ public class MessageReceiver {
                                                     node.getVersion());
 
                                                 // create and register the new node in the node factory because we might receive spontaneous messages
-                                                nodeFactory.createNode(node);
+                                                BidibNode newNode = nodeFactory.createNode(node);
 
                                                 // acknowledge the new nodetab version to the interface
-                                                nodeFactory.getRootNode().acknowledgeNodeChanged(node.getVersion());
+                                                nodeFactory.findNode(message.getAddr()).acknowledgeNodeChanged(
+                                                    node.getVersion());
 
                                                 fireNodeNew(node);
                                                 break;
@@ -253,7 +254,8 @@ public class MessageReceiver {
                                                 fireNodeLost(node);
 
                                                 // acknowledge the new nodetab version to the interface
-                                                nodeFactory.getRootNode().acknowledgeNodeChanged(node.getVersion());
+                                                nodeFactory.findNode(message.getAddr()).acknowledgeNodeChanged(
+                                                    node.getVersion());
                                                 break;
                                             case BidibLibrary.MSG_SYS_ERROR:
                                                 SysErrorResponse errorResponse = (SysErrorResponse) message;

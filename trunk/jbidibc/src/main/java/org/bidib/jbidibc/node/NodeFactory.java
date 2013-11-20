@@ -144,6 +144,29 @@ public class NodeFactory {
         return bidibNode;
     }
 
+    /**
+     * Find a node by it's address
+     * @param address the node address
+     * @return the bidib node
+     */
+    public BidibNode findNode(byte[] address) {
+        LOGGER.debug("Find the bidibNode with address: {}", address);
+
+        BidibNode bidibNode = null;
+        synchronized (nodes) {
+            int nodeAddress = NodeUtils.convertAddress(address);
+            LOGGER.debug("Fetch bidibNode from nodes, nodeAddress: {}", nodeAddress);
+            bidibNode = nodes.get(nodeAddress);
+            LOGGER.debug("Fetched bidibNode from nodes: {}", bidibNode);
+        }
+        return bidibNode;
+    }
+
+    /**
+     * Get a bidib node from the registered nodes or create a new bidib node.
+     * @param node the node
+     * @return the bidib node
+     */
     public BidibNode getNode(Node node) {
         LOGGER.debug("Get the bidibNode of node: {}", node);
 

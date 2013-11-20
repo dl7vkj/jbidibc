@@ -44,6 +44,7 @@ import org.bidib.jbidibc.message.FeedbackMirrorMultipleMessage;
 import org.bidib.jbidibc.message.FeedbackMirrorOccupiedMessage;
 import org.bidib.jbidibc.message.FwUpdateOpMessage;
 import org.bidib.jbidibc.message.FwUpdateStatResponse;
+import org.bidib.jbidibc.message.NodeChangedAckMessage;
 import org.bidib.jbidibc.message.NodeTabCountResponse;
 import org.bidib.jbidibc.message.NodeTabGetAllMessage;
 import org.bidib.jbidibc.message.NodeTabGetNextMessage;
@@ -162,6 +163,15 @@ public class BidibNode {
         }
         LOGGER.warn("No magic available for current node. Assume this is a bootloader node!");
         return true;
+    }
+
+    /**
+     * Send the node changed acknowledge message.
+     * @param versionNumber the version number of the node table
+     * @throws ProtocolException
+     */
+    public void acknowledgeNodeChanged(int versionNumber) throws ProtocolException {
+        sendNoWait(new NodeChangedAckMessage(versionNumber));
     }
 
     /**

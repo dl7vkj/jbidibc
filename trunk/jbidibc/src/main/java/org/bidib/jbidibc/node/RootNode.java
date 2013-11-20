@@ -20,15 +20,6 @@ public class RootNode extends BidibNode {
     }
 
     /**
-     * Send the node changed acknowledge message.
-     * @param versionNumber the version number of the node table
-     * @throws ProtocolException
-     */
-    public void acknowledgeNodeChanged(int versionNumber) throws ProtocolException {
-        sendNoWait(new NodeChangedAckMessage(versionNumber));
-    }
-
-    /**
      * Send the sys clock message.
      * @param date the current date
      * @param factor the time factor
