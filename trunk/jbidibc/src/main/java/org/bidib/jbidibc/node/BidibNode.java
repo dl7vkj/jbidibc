@@ -835,7 +835,7 @@ public class BidibNode {
         try {
             // TODO enable encodeMessageWithStream after tests on real system
             byte[] bytes = encodeMessage(message);
-            //            byte[] bytes = encodeMessageWithStream(message); // encodeMessageWithStream was faster with my tests ...
+            // byte[] bytes = encodeMessageWithStream(message); // encodeMessageWithStream was faster with my tests ...
 
             sendMessage(bytes, message);
         }
@@ -853,25 +853,29 @@ public class BidibNode {
 
         byte type = message.getType();
         byte[] data = message.getData();
-        byte[] bytes = new byte[1 + (addr != null ? addr.length + 1 : 1) + 2 + (data != null ? data.length : 0)];
+        byte[] bytes = null;
         int index = 0;
 
-        bytes[index++] = (byte) (bytes.length - 1);
-        LOGGER.debug("Current node addr: {}", addr);
+        LOGGER.trace("Current node addr: {}", addr);
 
         if (addr != null && addr.length != 0 && addr[0] != 0) {
+            bytes = new byte[1 + (addr.length + 1) + 2 + (data != null ? data.length : 0)];
+            bytes[index++] = (byte) (bytes.length - 1);
             for (int addrIndex = 0; addrIndex < addr.length; addrIndex++) {
                 bytes[index++] = addr[addrIndex];
             }
         }
         else {
-            LOGGER.debug("Current address is the root node.");
+            LOGGER.trace("Current address is the root node.");
+            bytes = new byte[1 + (addr.length /*len of root node*/) + 2 + (data != null ? data.length : 0)];
+            bytes[index++] = (byte) (bytes.length - 1);
         }
         bytes[index++] = 0; // 'terminating zero' of the address
 
         bytes[index++] = (byte) num;
         bytes[index++] = type;
         if (data != null) {
+            //            LOGGER.debug("Add data: {}", ByteUtils.bytesToHex(data));
             for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
                 bytes[index++] = data[dataIndex];
             }
@@ -889,24 +893,26 @@ public class BidibNode {
 
         byte type = message.getType();
         byte[] data = message.getData();
-        int len = 1 + (addr != null ? addr.length + 1 : 1) + 2 + (data != null ? data.length : 0);
-
-        stream.write(ByteUtils.getLowByte(len - 1));
-        LOGGER.debug("Current node addr: {}", addr);
+        LOGGER.trace("Current node addr: {}", addr);
 
         if (addr != null && addr.length != 0 && addr[0] != 0) {
+            int len = 1 + (addr.length + 1) + 2 + (data != null ? data.length : 0);
+            stream.write(ByteUtils.getLowByte(len - 1));
             stream.write(addr);
         }
         else {
-            LOGGER.debug("Current address is the root node.");
+            LOGGER.trace("Current address is the root node.");
+            int len = 1 + (addr.length /*len of root node*/) + 2 + (data != null ? data.length : 0);
+            stream.write(ByteUtils.getLowByte(len - 1));
         }
         stream.write(0); // 'terminating zero' of the address
+
         stream.write(ByteUtils.getLowByte(num));
         stream.write(type);
         if (data != null) {
+            //            LOGGER.debug("Add data: {}", ByteUtils.bytesToHex(data));
             stream.write(data);
         }
-        stream.write(0); // additional byte --> TODO check why this must be added here, maybe it's a problem in sendMessage
         return stream.toByteArray();
     }
 
@@ -1008,7 +1014,9 @@ public class BidibNode {
      * @throws IOException
      */
     private void sendMessage(byte[] message, BidibMessage bidibMessage) throws IOException {
-        LOGGER.debug("Send the message: {}", message);
+        if (LOGGER.isDebugEnabled()) {
+            LOGGER.debug("Send the message: {}", ByteUtils.bytesToHex(message));
+        }
 
         fireSendStarted();
         sendDelimiter();
@@ -1019,7 +1027,6 @@ public class BidibNode {
 
         int txCrc = CRC8.getCrcValue(length);
 
-        // TODO verify on real system why we must use '<= length' instead of '< length'
         for (int i = 1; i <= length; i++) {
             escape(message[i]);
             txCrc = CRC8.getCrcValue((message[i] ^ txCrc) & 0xFF);

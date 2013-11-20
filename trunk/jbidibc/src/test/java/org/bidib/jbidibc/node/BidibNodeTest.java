@@ -13,6 +13,7 @@ import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
+import org.bidib.jbidibc.message.FeedbackMirrorFreeMessage;
 import org.bidib.jbidibc.message.LcConfigSetMessage;
 import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.message.SysMagicMessage;
@@ -91,7 +92,7 @@ public class BidibNodeTest {
         Assert.assertNotNull(message);
         LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message));
 
-        Assert.assertEquals(7, message.length);
+        Assert.assertEquals(6, message.length);
     }
 
     @Test
@@ -123,7 +124,7 @@ public class BidibNodeTest {
         Assert.assertNotNull(message);
         LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message));
 
-        Assert.assertEquals(13, message.length);
+        Assert.assertEquals(12, message.length);
     }
 
     @Test
@@ -156,5 +157,94 @@ public class BidibNodeTest {
         LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message));
 
         Assert.assertEquals(12, message.length);
+    }
+
+    @Test
+    public void encodeBmMirorFreeMessageWithStream() throws IOException {
+        final byte[] address = new byte[] { 5 };
+
+        BidibInterface bidib = Mockito.mock(BidibInterface.class);
+
+        MessageReceiver messageReceiver = null;
+        boolean ignoreWaitTimeout = false;
+        final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
+        bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
+        bidibNode.setBidib(bidib);
+
+        int detectorNumber = 8;
+        BidibMessage bidibMessage = new FeedbackMirrorFreeMessage(detectorNumber);
+
+        long start = System.nanoTime();
+        byte[] message = bidibNode.encodeMessageWithStream(bidibMessage);
+        long end = System.nanoTime();
+
+        LOGGER.info("Encoding duration with stream: {}", end - start);
+
+        Assert.assertNotNull(message);
+        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message));
+
+        Assert.assertEquals(6, message.length);
+    }
+
+    @Test
+    public void bmMirorFree() throws ProtocolException {
+        final byte[] address = new byte[] { 5 };
+
+        BidibInterface bidib = Mockito.mock(BidibInterface.class);
+
+        MessageReceiver messageReceiver = null;
+        boolean ignoreWaitTimeout = false;
+        final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
+        bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
+        bidibNode.setBidib(bidib);
+
+        Mockito.doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                // Mock mock = invocation.getMock();
+
+                LOGGER.debug("Called with: {}", ByteUtils.bytesToHex((byte[]) args[0]));
+                byte[] message = (byte[]) args[0];
+                Assert.assertArrayEquals(new byte[] { (byte) 0xFE, 0x05, 0x05, 0x00, 0x00, 0x23, 0x08, 0x6F,
+                    (byte) 0xFE }, message);
+                return null;
+            }
+        }).when(bidib).send(Mockito.any(byte[].class));
+
+        int detectorNumber = 8;
+        bidibNode.acknowledgeFree(detectorNumber);
+
+        Mockito.verify(bidib, Mockito.times(1)).send(Mockito.any(byte[].class));
+    }
+
+    @Test
+    public void bmMirorFreeOnRootNode() throws ProtocolException {
+        final byte[] address = new byte[] { 0 };
+
+        BidibInterface bidib = Mockito.mock(BidibInterface.class);
+
+        MessageReceiver messageReceiver = null;
+        boolean ignoreWaitTimeout = false;
+        final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
+        bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
+        bidibNode.setBidib(bidib);
+
+        Mockito.doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                // Mock mock = invocation.getMock();
+
+                LOGGER.debug("Called with: {}", ByteUtils.bytesToHex((byte[]) args[0]));
+                byte[] message = (byte[]) args[0];
+                Assert.assertArrayEquals(new byte[] { (byte) 0xFE, 0x04, 0x00, 0x00, 0x23, 0x08, 0x49, (byte) 0xFE },
+                    message);
+                return null;
+            }
+        }).when(bidib).send(Mockito.any(byte[].class));
+
+        int detectorNumber = 8;
+        bidibNode.acknowledgeFree(detectorNumber);
+
+        Mockito.verify(bidib, Mockito.times(1)).send(Mockito.any(byte[].class));
     }
 }
