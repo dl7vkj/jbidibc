@@ -833,11 +833,10 @@ public class BidibNode {
     private void prepareAndSendMessage(BidibMessage message) throws ProtocolException {
 
         try {
-            // TODO enable encodeMessageWithStream after tests on real system
-            byte[] bytes = encodeMessage(message);
-            // byte[] bytes = encodeMessageWithStream(message); // encodeMessageWithStream was faster with my tests ...
+            EncodedMessage encodedMessage = encodeMessage(message);
+            // byte[] bytes = encodeMessageWithStream(message);
 
-            sendMessage(bytes, message);
+            sendMessage(encodedMessage, message);
         }
         catch (IOException ex) {
             LOGGER.warn("Send message failed.", ex);
@@ -845,8 +844,7 @@ public class BidibNode {
         }
     }
 
-    @Deprecated
-    protected byte[] encodeMessage(BidibMessage message) {
+    protected EncodedMessage encodeMessage(BidibMessage message) {
         int num = getNextSendMsgNum();
         message.setSendMsgNum(num);
         logRecord.append("send ").append(message).append(" to ").append(this);
@@ -880,40 +878,104 @@ public class BidibNode {
                 bytes[index++] = data[dataIndex];
             }
         }
-        return bytes;
+        EncodedMessage encodedMessage = new EncodedMessage(bytes);
+        return encodedMessage;
     }
 
-    // TODO test on real system if everything works fine
-    protected byte[] encodeMessageWithStream(BidibMessage message) throws IOException {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    //    protected EncodedMessage encodeMessageWithStream(BidibMessage message) throws IOException {
+    //        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+    //
+    //        int num = getNextSendMsgNum();
+    //        message.setSendMsgNum(num);
+    //        logRecord.append("send ").append(message).append(" to ").append(this);
+    //
+    //        byte type = message.getType();
+    //        byte[] data = message.getData();
+    //        LOGGER.trace("Current node addr: {}", addr);
+    //
+    //        if (addr != null && addr.length != 0 && addr[0] != 0) {
+    //            int len = 1 + (addr.length + 1) + 2 + (data != null ? data.length : 0);
+    //            stream.write(ByteUtils.getLowByte(len - 1));
+    //            stream.write(addr);
+    //        }
+    //        else {
+    //            LOGGER.trace("Current address is the root node.");
+    //            int len = 1 + (addr.length /*len of root node*/) + 2 + (data != null ? data.length : 0);
+    //            stream.write(ByteUtils.getLowByte(len - 1));
+    //        }
+    //        stream.write(0); // 'terminating zero' of the address
+    //
+    //        stream.write(ByteUtils.getLowByte(num));
+    //        stream.write(type);
+    //        if (data != null) {
+    //            //            LOGGER.debug("Add data: {}", ByteUtils.bytesToHex(data));
+    //            stream.write(data);
+    //        }
+    //        EncodedMessage encodedMessage = new EncodedMessage(stream.toByteArray());
+    //        return encodedMessage;
+    //    }
 
-        int num = getNextSendMsgNum();
-        message.setSendMsgNum(num);
-        logRecord.append("send ").append(message).append(" to ").append(this);
+    public static class EncodedMessage {
+        private byte[] message;
 
-        byte type = message.getType();
-        byte[] data = message.getData();
-        LOGGER.trace("Current node addr: {}", addr);
-
-        if (addr != null && addr.length != 0 && addr[0] != 0) {
-            int len = 1 + (addr.length + 1) + 2 + (data != null ? data.length : 0);
-            stream.write(ByteUtils.getLowByte(len - 1));
-            stream.write(addr);
+        public EncodedMessage(byte[] message) {
+            this.message = message;
         }
-        else {
-            LOGGER.trace("Current address is the root node.");
-            int len = 1 + (addr.length /*len of root node*/) + 2 + (data != null ? data.length : 0);
-            stream.write(ByteUtils.getLowByte(len - 1));
-        }
-        stream.write(0); // 'terminating zero' of the address
 
-        stream.write(ByteUtils.getLowByte(num));
-        stream.write(type);
-        if (data != null) {
-            //            LOGGER.debug("Add data: {}", ByteUtils.bytesToHex(data));
-            stream.write(data);
+        public byte[] getMessage() {
+            return message;
         }
-        return stream.toByteArray();
+    }
+
+    private void prepareAndSendMessages(List<BidibMessage> messages) throws ProtocolException {
+
+        try {
+            List<EncodedMessage> encodedMessages = new LinkedList<EncodedMessage>();
+            for (BidibMessage message : messages) {
+                EncodedMessage encodedMessage = encodeMessage(message);
+                // byte[] bytes = encodeMessageWithStream(message);
+                encodedMessages.add(encodedMessage);
+            }
+            sendMessages(encodedMessages, messages);
+        }
+        catch (IOException ex) {
+            LOGGER.warn("Send messages failed.", ex);
+            throw new ProtocolException("Send messages failed: " + messages);
+        }
+    }
+
+    private void sendMessages(List<EncodedMessage> encodedMessages, List<BidibMessage> bidibMessages)
+        throws IOException {
+
+        fireSendStarted();
+
+        // send the leading delimiter
+        sendDelimiter();
+
+        for (EncodedMessage encodedMessage : encodedMessages) {
+            byte[] message = encodedMessage.getMessage();
+            if (LOGGER.isDebugEnabled()) {
+                LOGGER.debug("Send the message: {}", ByteUtils.bytesToHex(message));
+            }
+
+            byte length = message[0];
+
+            escape(length);
+
+            int txCrc = CRC8.getCrcValue(length);
+
+            for (int i = 1; i <= length; i++) {
+                escape(message[i]);
+                txCrc = CRC8.getCrcValue((message[i] ^ txCrc) & 0xFF);
+            }
+            escape((byte) txCrc);
+            sendDelimiter();
+
+        }
+        // flush the messages in the buffer
+        flush(bidibMessages);
+
+        fireSendStopped();
     }
 
     /**
@@ -942,9 +1004,7 @@ public class BidibNode {
         while (fromIndex < numMessages) {
             LOGGER.trace("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
 
-            for (BidibMessage message : messages.subList(fromIndex, toIndex)) {
-                prepareAndSendMessage(message);
-            }
+            prepareAndSendMessages(messages.subList(fromIndex, toIndex));
 
             // send the next message if one is received
             fromIndex = toIndex;
@@ -1013,7 +1073,8 @@ public class BidibNode {
      * @param bidibMessage the bidib message instance
      * @throws IOException
      */
-    private void sendMessage(byte[] message, BidibMessage bidibMessage) throws IOException {
+    private void sendMessage(EncodedMessage encodedMessage, BidibMessage bidibMessage) throws IOException {
+        byte[] message = encodedMessage.getMessage();
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Send the message: {}", ByteUtils.bytesToHex(message));
         }
@@ -1044,6 +1105,29 @@ public class BidibNode {
         // log the bidib message and the content of the "output" stream
         StringBuilder sb = new StringBuilder("send ");
         sb.append(bidibMessage);
+        sb.append(" : ");
+        sb.append(ByteUtils.bytesToHex(bytes));
+        MSG_TX_LOGGER.info(sb.toString());
+
+        // send the output to Bidib
+        bidib.send(bytes);
+
+        // this takes 'much' time, only format if debug level enabled
+        if (LOGGER.isDebugEnabled()) {
+            logRecord.append(" : ");
+            logRecord.append(ByteUtils.bytesToHex(bytes));
+            LOGGER.debug("Flush logRecord: {}", logRecord);
+        }
+        logRecord.setLength(0);
+        output.reset();
+    }
+
+    private void flush(List<BidibMessage> bidibMessages) throws IOException {
+        byte[] bytes = output.toByteArray();
+
+        // log the bidib message and the content of the "output" stream
+        StringBuilder sb = new StringBuilder("send ");
+        sb.append(bidibMessages);
         sb.append(" : ");
         sb.append(ByteUtils.bytesToHex(bytes));
         MSG_TX_LOGGER.info(sb.toString());

@@ -17,6 +17,7 @@ import org.bidib.jbidibc.message.FeedbackMirrorFreeMessage;
 import org.bidib.jbidibc.message.LcConfigSetMessage;
 import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.message.SysMagicMessage;
+import org.bidib.jbidibc.node.BidibNode.EncodedMessage;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.junit.Assert;
 import org.mockito.Mockito;
@@ -46,20 +47,32 @@ public class BidibNodeTest {
 
         Mockito.doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
-                //                Object[] args = invocation.getArguments();
-                //                Mock mock = invocation.getMock();
-                byte[] message =
-                    { 0x09, 0x00, 0x05, (byte) 0x93, 0x01, 0x33, 0x03, 0x31, 0x30, 0x32, (byte) 0xBA, (byte) 0xFE };
-                BidibMessage response;
-                try {
-                    LOGGER.info("Create new response, responseCounter: {}", responseCounter);
-                    message[5] = ByteUtils.getLowByte(responseCounter + 0x30);
-                    response = ResponseFactory.create(message);
-                    bidibNode.getReceiveQueue().add(response);
-                    responseCounter++;
+                Object[] args = invocation.getArguments();
+                LOGGER.info("The args: {}", args);
+                byte[] bytes = (byte[]) args[0];
+                int count = 0;
+                for (byte current : bytes) {
+                    if (current == (byte) 0xFE) {
+                        count++;
+                    }
                 }
-                catch (ProtocolException ex) {
-                    LOGGER.warn("Put message to receive queue failed.", ex);
+
+                //                Mock mock = invocation.getMock();
+                // start from 1 because we skip the leading delimiter
+                for (int current = 1; current < count; current++) {
+                    byte[] message =
+                        { 0x09, 0x00, 0x05, (byte) 0x93, 0x01, 0x33, 0x03, 0x31, 0x30, 0x32, (byte) 0xBA, (byte) 0xFE };
+                    BidibMessage response;
+                    try {
+                        LOGGER.info("Create new response, responseCounter: {}", responseCounter);
+                        message[5] = ByteUtils.getLowByte(responseCounter + 0x30);
+                        response = ResponseFactory.create(message);
+                        bidibNode.getReceiveQueue().add(response);
+                        responseCounter++;
+                    }
+                    catch (ProtocolException ex) {
+                        LOGGER.warn("Put message to receive queue failed.", ex);
+                    }
                 }
                 return null;
             }
@@ -71,6 +84,9 @@ public class BidibNodeTest {
 
         Assert.assertNotNull(vendorDatas);
         Assert.assertEquals(6, vendorDatas.size());
+
+        // send is called 3 times (4 combined + 2)
+        Mockito.verify(bidib, Mockito.times(3)).send(Mockito.any(byte[].class));
     }
 
     @Test
@@ -87,12 +103,12 @@ public class BidibNodeTest {
 
         BidibMessage bidibMessage = new SysMagicMessage();
 
-        byte[] message = bidibNode.encodeMessageWithStream(bidibMessage);
+        BidibNode.EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
 
         Assert.assertNotNull(message);
-        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message));
+        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message.getMessage()));
 
-        Assert.assertEquals(6, message.length);
+        Assert.assertEquals(6, message.getMessage().length);
     }
 
     @Test
@@ -116,15 +132,15 @@ public class BidibNodeTest {
         BidibMessage bidibMessage = new LcConfigSetMessage(config);
 
         long start = System.nanoTime();
-        byte[] message = bidibNode.encodeMessageWithStream(bidibMessage);
+        BidibNode.EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
         long end = System.nanoTime();
 
         LOGGER.info("Encoding duration with stream: {}", end - start);
 
         Assert.assertNotNull(message);
-        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message));
+        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message.getMessage()));
 
-        Assert.assertEquals(12, message.length);
+        Assert.assertEquals(12, message.getMessage().length);
     }
 
     @Test
@@ -148,15 +164,15 @@ public class BidibNodeTest {
         BidibMessage bidibMessage = new LcConfigSetMessage(config);
 
         long start = System.nanoTime();
-        byte[] message = bidibNode.encodeMessage(bidibMessage);
+        EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
         long end = System.nanoTime();
 
         LOGGER.info("Encoding duration: {}", end - start);
 
         Assert.assertNotNull(message);
-        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message));
+        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message.getMessage()));
 
-        Assert.assertEquals(12, message.length);
+        Assert.assertEquals(12, message.getMessage().length);
     }
 
     @Test
@@ -175,15 +191,15 @@ public class BidibNodeTest {
         BidibMessage bidibMessage = new FeedbackMirrorFreeMessage(detectorNumber);
 
         long start = System.nanoTime();
-        byte[] message = bidibNode.encodeMessageWithStream(bidibMessage);
+        BidibNode.EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
         long end = System.nanoTime();
 
         LOGGER.info("Encoding duration with stream: {}", end - start);
 
         Assert.assertNotNull(message);
-        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message));
+        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message.getMessage()));
 
-        Assert.assertEquals(6, message.length);
+        Assert.assertEquals(6, message.getMessage().length);
     }
 
     @Test
