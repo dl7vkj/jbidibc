@@ -3,7 +3,7 @@
 	<Version Version="0.5" Lastupdate="20131102" Author="Tillner, Andreas" Pid="102" Vendor="013" Description="GBMBoost Node mit Interface">
 	</Version>
 	<Templates>
-		<Template Name="GBM16T">
+		<Template Name="GBM16T" SkipOnTimeout="true">
 			<Node Offset="0" Template="Common">
 				<Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
 				<Nodetext Lang="en-EN" Text="Common settings"/>
@@ -209,7 +209,7 @@
 		<Node>
 			<Nodetext Lang="de-DE" Text="GBM16T"/>
 			<Nodetext Lang="en-EN" Text="GBM16T"/>
-			<Node Offset="10000" Template="GBM16T" Count="3" Next="10000">
+			<Node Offset="10000" Template="GBM16T" Count="3" Next="10000" >
 				<Nodetext Lang="de-DE" Text="GBM16T-%%d"/>
 				<Nodetext Lang="en-EN" Text="GBM16T-%%d"/>
 			</Node>

@@ -18,6 +18,7 @@
 			<xsd:element name="Node" type="vendorcv:NodeType" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="Name" type="xsd:string" use="required"/>
+		<xsd:attribute name="SkipOnTimeout" type="xsd:boolean" use="optional"/>
 	</xsd:complexType>
 	<xsd:complexType name="TemplatesType">
 		<xsd:sequence>
