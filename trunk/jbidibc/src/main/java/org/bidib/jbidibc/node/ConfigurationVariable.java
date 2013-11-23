@@ -2,6 +2,7 @@ package org.bidib.jbidibc.node;
 
 import java.io.Serializable;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -140,4 +141,8 @@ public class ConfigurationVariable implements Serializable, Comparable<Configura
         return name.compareTo(o.getName());
     }
 
+    @Override
+    public String toString() {
+        return ToStringBuilder.reflectionToString(this);
+    }
 }
