@@ -2,16 +2,20 @@ package org.bidib.jbidibc.node;
 
 import java.util.Calendar;
 
+import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.MessageReceiver;
+import org.bidib.jbidibc.exception.NoAnswerException;
 import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.message.NodeChangedAckMessage;
 import org.bidib.jbidibc.message.SysClockMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * This class represents the interface node in the BiDiB system.
  *
  */
 public class RootNode extends BidibNode {
+    private static final Logger LOGGER = LoggerFactory.getLogger(RootNode.class);
 
     public static final byte[] ROOTNODE_ADDR = new byte[] { 0, 0, 0, 0 };
 
@@ -37,6 +41,31 @@ public class RootNode extends BidibNode {
         super.reset();
         // TODO reset the counters
 
+    }
+
+    @Override
+    public int getMagic() throws ProtocolException {
+        LOGGER.info("Get magic from root node!");
+        int magic = super.getMagic();
+        LOGGER.info("Get magic from root node returns: {}", magic);
+        if (BidibLibrary.BIDIB_BOOT_MAGIC == magic) {
+            LOGGER.warn("The interface did not respond the get magic request!");
+
+            StringBuffer sb = new StringBuffer("The interface did not respond the get magic request!");
+            byte[] remaining = getMessageReceiver().getRemainingOutputBuffer();
+            if (remaining != null) {
+                String buffer = new String(remaining);
+                LOGGER.warn("Found received data that was not identifed as BiDiB messages: {}", buffer);
+
+                sb.append("\r\n");
+                sb.append(buffer);
+            }
+
+            NoAnswerException ex = new NoAnswerException("Establish communication with interface failed.");
+            ex.setDescription(sb.toString());
+            throw ex;
+        }
+        return magic;
     }
 
 }

@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
 
+import org.bidib.jbidibc.exception.NoAnswerException;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -309,6 +310,16 @@ public final class Bidib implements BidibInterface {
                     close();
                     port = internalOpen(commPort, 115200);
                     sendMagic();
+                }
+                catch (NoAnswerException naex) {
+                    LOGGER.warn("Open communication failed.", naex);
+                    try {
+                        close();
+                    }
+                    catch (Exception e4) {
+                        // ignore
+                    }
+                    throw naex;
                 }
                 catch (Exception e2) {
                     try {

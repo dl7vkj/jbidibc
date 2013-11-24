@@ -61,6 +61,8 @@ public class MessageReceiver {
 
     private BidibInterface bidib;
 
+    private ByteArrayOutputStream output;
+
     protected MessageReceiver(NodeFactory nodeFactory) {
         this.nodeFactory = nodeFactory;
         running = true;
@@ -69,6 +71,16 @@ public class MessageReceiver {
 
     public void setBidib(BidibInterface bidib) {
         this.bidib = bidib;
+    }
+
+    public byte[] getRemainingOutputBuffer() {
+        if (output != null && output.size() > 0) {
+
+            byte[] remaining = output.toByteArray();
+            return remaining;
+        }
+
+        return null;
     }
 
     /**
@@ -80,7 +92,7 @@ public class MessageReceiver {
         synchronized (this) {
             LOGGER.debug("Starting message receiver.");
             try {
-                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                output = new ByteArrayOutputStream();
                 InputStream input = null;
 
                 if (port != null) {
@@ -91,6 +103,7 @@ public class MessageReceiver {
                     boolean escapeHot = false;
                     StringBuilder logRecord = new StringBuilder();
 
+                    // read the values from in the port
                     while (running && (data = input.read()) != -1) {
                         if (LOGGER.isTraceEnabled()) {
                             LOGGER.trace("received data: {}", ByteUtils.byteToHex(data));

@@ -3,7 +3,6 @@
  */
 package org.bidib.jbidibc;
 
-import java.io.IOException;
 import java.nio.ByteBuffer;
 
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -31,7 +30,7 @@ public abstract class BidibNodeCommand extends BidibCommand {
         return String.format("0x%08x", nodeId);
     }
 
-    protected Node findNode() throws IOException, ProtocolException, InterruptedException {
+    protected Node findNode() throws ProtocolException {
         Node result = null;
         BidibNode rootNode = Bidib.getInstance().getRootNode();
         int count = rootNode.getNodeCount();
