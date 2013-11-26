@@ -27,6 +27,19 @@ public final class ByteUtils {
     }
 
     /**
+     * Get the (unsigned) integer value from the low and high byte value.
+     * @param lowByte the low byte
+     * @param highByte the high byte
+     * @return the combined int value or null if both values are null
+     */
+    public static Integer getInteger(Byte lowByte, Byte highByte) {
+        if (lowByte != null && highByte != null) {
+            return ((highByte & 0xFF) << 8) + (lowByte & 0xFF);
+        }
+        return null;
+    }
+
+    /**
      * Get the (unsigned) int value from the byte value.
      * @param byteValue the byte value
      * @return the int value
@@ -95,6 +108,19 @@ public final class ByteUtils {
     }
 
     /**
+     * Returns the low byte of an int value.
+     * @param value the value
+     * @return the low byte
+     */
+    public static Byte getLowByte(Integer value) {
+        if (value != null) {
+            byte lowByte = (byte) (value & 0xFF);
+            return lowByte;
+        }
+        return null;
+    }
+
+    /**
      * Returns the high byte of an int value.
      * @param value the value
      * @return the high byte
@@ -102,6 +128,19 @@ public final class ByteUtils {
     public static byte getHighByte(int value) {
         byte penultimateByte = (byte) ((value >> 8) & 0xFF);
         return penultimateByte;
+    }
+
+    /**
+     * Returns the high byte of an int value.
+     * @param value the value
+     * @return the high byte
+     */
+    public static Byte getHighByte(Integer value) {
+        if (value != null) {
+            byte penultimateByte = (byte) ((value >> 8) & 0xFF);
+            return penultimateByte;
+        }
+        return null;
     }
 
     /**
