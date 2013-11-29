@@ -192,4 +192,17 @@ public final class ByteUtils {
         hexChars[1] = hexArray[v & 0x0F];
         return new String(hexChars);
     }
+
+    public static byte setBit(byte byteValue, boolean bit, int bitpos) {
+        Integer newValue = null;
+        int intValue = (byteValue & 0xFF);
+        if (bit) {
+            newValue = (intValue | (1 << bitpos));
+        }
+        else {
+            newValue = (intValue & ~(1 << bitpos));
+        }
+
+        return ByteUtils.getLowByte(newValue);
+    }
 }
