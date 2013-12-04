@@ -1,7 +1,7 @@
 package org.bidib.jbidibc.exception;
 
 public class PortNotFoundException extends Exception {
-    private static final long serialVersionUID = 1185914351410243364L;
+    private static final long serialVersionUID = 1L;
 
     public PortNotFoundException() {
         super();
