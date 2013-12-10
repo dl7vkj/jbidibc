@@ -28,6 +28,7 @@ import org.bidib.jbidibc.node.BoosterNode;
 import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.RootNode;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.LibraryPathManipulator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +41,8 @@ import org.slf4j.LoggerFactory;
 public final class Bidib implements BidibInterface {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Bidib.class);
+
+    private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
     public static final int DEFAULT_TIMEOUT = 1500;
 
@@ -380,6 +383,10 @@ public final class Bidib implements BidibInterface {
         if (port != null) {
             try {
                 sendSemaphore.acquire();
+
+                if (MSG_RAW_LOGGER.isInfoEnabled()) {
+                    MSG_RAW_LOGGER.info(">> {}", ByteUtils.bytesToHex(bytes));
+                }
 
                 OutputStream output = port.getOutputStream();
 

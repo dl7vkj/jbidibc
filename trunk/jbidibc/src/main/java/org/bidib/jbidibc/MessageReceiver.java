@@ -11,6 +11,7 @@ import java.util.LinkedList;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
+import org.bidib.jbidibc.exception.NodeAlreadyRegisteredException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
@@ -115,7 +116,9 @@ public class MessageReceiver {
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
 
                             LOGGER.debug("Received raw message: {}", logRecord);
-                            MSG_RAW_LOGGER.info("raw message: {}", logRecord);
+                            if (MSG_RAW_LOGGER.isInfoEnabled()) {
+                                MSG_RAW_LOGGER.info("<< {}", logRecord);
+                            }
                             logRecord.setLength(0);
 
                             // if a CRC error is detected in splitMessages the reading loop will terminate ...
@@ -252,14 +255,27 @@ public class MessageReceiver {
                                                 LOGGER.info("Send node changed acknowledge for nodetab version: {}",
                                                     node.getVersion());
 
-                                                // create and register the new node in the node factory because we might receive spontaneous messages
-                                                BidibNode newNode = nodeFactory.createNode(node);
-
-                                                // acknowledge the new nodetab version to the interface
-                                                nodeFactory.findNode(message.getAddr()).acknowledgeNodeChanged(
-                                                    node.getVersion());
-
-                                                fireNodeNew(node);
+                                                boolean fireNodeNew = false;
+                                                try {
+                                                    // create and register the new node in the node factory because we might receive spontaneous messages
+                                                    BidibNode newNode = nodeFactory.createNode(node);
+                                                    fireNodeNew = true;
+                                                }
+                                                catch (NodeAlreadyRegisteredException ex) {
+                                                    LOGGER
+                                                        .warn(
+                                                            "The new node is already registered in the nodes list. Signal new node to application is skipped.",
+                                                            ex);
+                                                }
+                                                finally {
+                                                    // acknowledge the new nodetab version to the interface
+                                                    nodeFactory.findNode(message.getAddr()).acknowledgeNodeChanged(
+                                                        node.getVersion());
+                                                }
+                                                if (fireNodeNew) {
+                                                    LOGGER.info("Signal new node in system to the application.");
+                                                    fireNodeNew(node);
+                                                }
                                                 break;
                                             case BidibLibrary.MSG_NODE_LOST:
                                                 node = ((NodeLostResponse) message).getNode(message.getAddr());

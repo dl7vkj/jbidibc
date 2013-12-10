@@ -447,7 +447,7 @@ public class BidibNode {
         }
 
         if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set! Return BIDIB_BOOT_MAGIC!");
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set! Return BIDIB_MAGIC_UNKNOWN!");
             setNodeMagic(BIDIB_MAGIC_UNKNOWN);
             return BIDIB_MAGIC_UNKNOWN;
         }
