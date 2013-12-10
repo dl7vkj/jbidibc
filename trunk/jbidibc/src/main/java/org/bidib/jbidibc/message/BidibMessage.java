@@ -53,7 +53,7 @@ public class BidibMessage {
             while (message[index] != 0) {
                 addrBytes.write(message[index++]);
                 if (index >= message.length) {
-                    LOGGER.warn("Invalid message: {}", message);
+                    LOGGER.warn("Invalid message: {}", ByteUtils.bytesToHex(message));
                     throw new ProtocolException("address too long");
                 }
             }

@@ -48,7 +48,7 @@ public class MessageReceiver {
 
     private static final Logger MSG_RX_LOGGER = LoggerFactory.getLogger("RX");
 
-    //    private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
+    private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
     private final Collection<MessageListener> messageListeners =
         Collections.synchronizedList(new LinkedList<MessageListener>());
@@ -115,7 +115,7 @@ public class MessageReceiver {
                         if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
 
                             LOGGER.debug("Received raw message: {}", logRecord);
-                            //                            MSG_RAW_LOGGER.info("raw message: {}", logRecord);
+                            MSG_RAW_LOGGER.info("raw message: {}", logRecord);
                             logRecord.setLength(0);
 
                             // if a CRC error is detected in splitMessages the reading loop will terminate ...

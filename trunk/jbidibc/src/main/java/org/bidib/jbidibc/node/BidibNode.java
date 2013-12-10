@@ -79,6 +79,8 @@ import org.slf4j.LoggerFactory;
 public class BidibNode {
     private static final Logger LOGGER = LoggerFactory.getLogger(BidibNode.class);
 
+    public static final int BIDIB_MAGIC_UNKNOWN = -1;
+
     private static final Logger MSG_TX_LOGGER = LoggerFactory.getLogger("TX");
 
     private final List<TransferListener> listeners = new LinkedList<TransferListener>();
@@ -446,8 +448,8 @@ public class BidibNode {
 
         if (ignoreWaitTimeout) {
             LOGGER.warn("No response received but ignoreWaitTimeout ist set! Return BIDIB_BOOT_MAGIC!");
-            setNodeMagic(BidibLibrary.BIDIB_BOOT_MAGIC);
-            return BidibLibrary.BIDIB_BOOT_MAGIC;
+            setNodeMagic(BIDIB_MAGIC_UNKNOWN);
+            return BIDIB_MAGIC_UNKNOWN;
         }
 
         throw createNoResponseAvailable("get magic");
