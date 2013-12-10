@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?><VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
-   <Version Version="0.9" Lastupdate="20131125" Author="mos" Pid="117" Vendor="013" Description="BiDiBOne-OneControl"/>
+   <Version Version="0.10" Lastupdate="20131130" Author="mos" Pid="117" Vendor="013" Description="BiDiBOne-OneControl"/>
    <Templates>
       <Template Name="About">
          <CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
@@ -70,15 +70,13 @@
          </CV>
       </Template>
       <Template Name="Poweroutput">
-         <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw" Rebootneeded="true">
+			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="1" Mode="rw">
             <Description Lang="de-DE" Text="Konfiguration"/>
             <Description Lang="en-EN" Text="Configuration"/>
             <Bitdescription Bitnum="1" Lang="de-DE" Text="Rückmeldung: 0=ohne, 1=mit"/>
             <Bitdescription Bitnum="1" Lang="en-EN" Text="Feedback: 0=without, 1=with "/>
-            <Bitdescription Bitnum="2" Lang="de-DE" Text="Endabschaltung: 0=ohne, 1=mit"/>
-            <Bitdescription Bitnum="2" Lang="en-EN" Text="Turn off switch: 0=without, 1=with "/>
          </CV>
-         <CV Number="1" Type="Byte" Min="1" Max="255" Low="-" High="-" Values="-" Mode="rw" Rebootneeded="true">
+			<CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
             <Description Lang="de-DE" Text="Rückmelde-Ticks (20...40 ms + ): 0...255 [20 ms]"/>
             <Description Lang="en-EN" Text="Feedback ticks, (20...40 ms + ): 0...255 [20 ms]"/>
          </CV>
