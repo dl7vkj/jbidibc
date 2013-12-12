@@ -982,7 +982,6 @@ public class BidibNode {
             }
             escape((byte) txCrc);
             sendDelimiter();
-
         }
         // flush the messages in the buffer
         flush(bidibMessages);
