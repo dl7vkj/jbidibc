@@ -86,7 +86,7 @@
             <Description Lang="de-DE" Text="Konfiguration"/>
             <Description Lang="en-EN" Text="Configuration"/>
             <Bitdescription Bitnum="1" Lang="de-DE" Text="Richtung: 0=Ausgang, 1=Eingang"/>
-            <Bitdescription Bitnum="1" Lang="en-EN" Text="Direction: 0=input, 1=output"/>
+            <Bitdescription Bitnum="1" Lang="en-EN" Text="Direction: 0=output, 1=input"/>
             <Bitdescription Bitnum="2" Lang="de-DE" Text="Aktivlage: 0=HIGH-, 1=LOW-aktiv"/>
             <Bitdescription Bitnum="2" Lang="en-EN" Text="Polarity: 0=active-high, 1=active-low"/>
          </CV>

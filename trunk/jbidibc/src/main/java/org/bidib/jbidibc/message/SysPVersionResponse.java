@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.ProtocolVersion;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class SysPVersionResponse extends BidibMessage {
     public static final Integer TYPE = BidibLibrary.MSG_SYS_P_VERSION;
@@ -17,6 +18,6 @@ public class SysPVersionResponse extends BidibMessage {
     public ProtocolVersion getVersion() {
         byte[] data = getData();
 
-        return new ProtocolVersion((char) data[1], (char) data[0]);
+        return new ProtocolVersion(ByteUtils.getInt(data[1]), ByteUtils.getInt(data[0]));
     }
 }
