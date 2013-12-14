@@ -964,6 +964,7 @@ public class BidibNode {
         // send the leading delimiter
         sendDelimiter();
 
+        int txCrc = 0;
         for (EncodedMessage encodedMessage : encodedMessages) {
             byte[] message = encodedMessage.getMessage();
             if (LOGGER.isDebugEnabled()) {
@@ -974,15 +975,18 @@ public class BidibNode {
 
             escape(length);
 
-            int txCrc = CRC8.getCrcValue(length);
+            txCrc = CRC8.getCrcValue((length ^ txCrc) & 0xFF);
 
             for (int i = 1; i <= length; i++) {
                 escape(message[i]);
                 txCrc = CRC8.getCrcValue((message[i] ^ txCrc) & 0xFF);
             }
-            escape((byte) txCrc);
-            sendDelimiter();
+            //            escape((byte) txCrc);
+            //            sendDelimiter();
         }
+        escape((byte) txCrc);
+        sendDelimiter();
+
         // flush the messages in the buffer
         flush(bidibMessages);
 

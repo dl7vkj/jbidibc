@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<VendorCV>
    <Version Version="0.10" Lastupdate="20131130" Author="mos" Pid="117" Vendor="013" Description="BiDiBOne-OneControl"/>
    <Templates>
       <Template Name="About">

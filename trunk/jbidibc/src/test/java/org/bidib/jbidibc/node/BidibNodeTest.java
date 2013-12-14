@@ -49,17 +49,23 @@ public class BidibNodeTest {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
                 LOGGER.info("The args: {}", args);
+
                 byte[] bytes = (byte[]) args[0];
+                LOGGER.info("Received data: {}", ByteUtils.bytesToHex(bytes));
+                // detect how many messages were received
+
                 int count = 0;
-                for (byte current : bytes) {
-                    if (current == (byte) 0xFE) {
-                        count++;
-                    }
+                int index = 1;
+                while (index < (bytes.length - 2)) {
+                    int lenOfMessage = (bytes[index] & 0xFF);
+
+                    index += lenOfMessage + 1;
+
+                    count++;
+                    LOGGER.info("len: {}, index: {}, count: {}", lenOfMessage, index, count);
                 }
 
-                //                Mock mock = invocation.getMock();
-                // start from 1 because we skip the leading delimiter
-                for (int current = 1; current < count; current++) {
+                for (int current = 0; current < count; current++) {
                     byte[] message =
                         { 0x09, 0x00, 0x05, (byte) 0x93, 0x01, 0x33, 0x03, 0x31, 0x30, 0x32, (byte) 0xBA, (byte) 0xFE };
                     BidibMessage response;
