@@ -10,6 +10,7 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.lang.StringUtils;
+import org.bidib.jbidibc.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -76,7 +77,16 @@ public class VendorCvOneControl1Test {
                 LOGGER.debug("Current node has no template assigned.");
             }
         }
-
     }
 
+    private static final long UUID_ONECONTROL = 0x05000d75002e00L;
+
+    @Test
+    public void loadConfiguredPortsTest() {
+        Node node = new Node(0, new byte[] { 1 }, UUID_ONECONTROL);
+        Integer result = VendorCvFactory.getNumberOfPorts("GPIO", node, "classpath:/bidib");
+
+        Assert.assertNotNull(result);
+        Assert.assertEquals(result.intValue(), 16);
+    }
 }
