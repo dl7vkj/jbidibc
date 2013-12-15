@@ -114,7 +114,7 @@ public final class ByteUtils {
      */
     public static Byte getLowByte(Integer value) {
         if (value != null) {
-            byte lowByte = (byte) (value & 0xFF);
+            byte lowByte = (byte) (value.intValue() & 0xFF);
             return lowByte;
         }
         return null;
