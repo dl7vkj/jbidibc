@@ -1062,4 +1062,16 @@ public interface BidibLibrary {
 
     // 1: node has possibility to configure SPORTs
     public static final int FEATURE_SPORT_CONFIG_AVAILABLE = (int) 67;
+
+    /// length of user strings, 0:n.a (default); allowed 8..24
+    public static final int FEATURE_STRING_SIZE = (int) 252;
+
+    /// <i>native declaration : bidib_messages.h</i>
+    public static final int MSG_STRING = (int) ((128 + 16) + 5);
+
+    /// <i>native declaration : bidib_messages.h</i>
+    public static final int MSG_STRING_GET = (int) ((0 + 16) + 9);
+
+    /// <i>native declaration : bidib_messages.h</i>
+    public static final int MSG_STRING_SET = (int) ((0 + 16) + 10);
 }

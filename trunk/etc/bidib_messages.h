@@ -53,6 +53,7 @@
 //            2013-10-04 V0.14 kw  added BIDIB_MSYS_ACC_OKAY_QIN0 ..1, BIDIB_MSYS_ACC_OKAY_NF
 //            2013-10-06       kw  added FEATURE_SPORT_CONFIG_AVAILABLE, added Ctrltype BACKLIGHT
 //                                 added FEATURE_CTRL_BACKLIGHT_COUNT, BIDIB_OUTTYPE_BACKLIGHT
+//            2013-12-15 V0.15 kw  added FEATURE_STRING_SIZE, MSG_STRING_GET, _STRING_SET _STRING
 //
 //===============================================================================
 //
@@ -135,6 +136,8 @@
 #define MSG_VENDOR_SET          (MSG_DFC + 0x06)        // V_NAME,V_VALUE
 #define MSG_VENDOR_GET          (MSG_DFC + 0x07)        // V_NAME
 #define MSG_SYS_CLOCK           (MSG_DFC + 0x08)     //*// 1:TCODE0, 2:TCODE1, 3:TCODE2, 4:TCODE3
+#define MSG_STRING_GET          (MSG_DFC + 0x09)        // 1:Nspace, 2:ID
+#define MSG_STRING_SET          (MSG_DFC + 0x0a)        // 1:Nspace, 2:ID, 3:Strsize, 4...n: string 
 
 //-- occupancy messages
 #define MSG_DBM                 (MSG_DSTRM + 0x20)
@@ -228,6 +231,7 @@
 #define MSG_FEATURE_COUNT       (MSG_UFC + 0x02)        // 1:count
 #define MSG_VENDOR              (MSG_UFC + 0x03)        // 1..n: length,'string',length,'value'
 #define MSG_VENDOR_ACK          (MSG_UFC + 0x04)        // 1:ack
+#define MSG_STRING_SET          (MSG_UFC + 0x05)        // 1:Nspace, 2:ID, 3:Strsize, 4...n: string 
 
 //-- occupancy messages
 #define MSG_UBM                 (MSG_USTRM +  0x20)
@@ -342,8 +346,8 @@ typedef struct
 typedef struct
   {
     unsigned char portnum;
-    unsigned char portmode;             // operation mode of port
-    unsigned char reserved0;            // 
+    unsigned char portmode;             // operation mode of port - default state?
+    unsigned char pulstime;             // Holdtime for outputs
     unsigned char reserved1;            // 
     unsigned char reserved2;            // 
   } t_bidib_sport_cfg;                  // for Switch PORTs
@@ -590,6 +594,7 @@ typedef struct                              // t_bidib_cs_pom
 #define FEATURE_GEN_LOK_LOST_DETECT        108  // 1: command station annouces lost loco
 #define FEATURE_GEN_NOTIFY_DRIVE_MANUAL    109  // 1: dcc gen reports manual operation
 
+#define FEATURE_STRING_SIZE                252  // length of user strings, 0:n.a (default); allowed 8..24
 #define FEATURE_RELEVANT_PID_BITS          253  // how many bits of 'vendor32' are relevant for PID (default 16, LSB aligned)
 #define FEATURE_FW_UPDATE_MODE             254  // 0: no fw-update, 1: intel hex (max. 10 byte / record)
 #define FEATURE_EXTENSION                  255  // 1: reserved for future expansion
