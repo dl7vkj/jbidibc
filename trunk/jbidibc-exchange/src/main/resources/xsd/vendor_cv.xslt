@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xmlns:vendorcv="http://www.bidib.org/jbidibc/vendorcv" exclude-result-prefixes="#default" xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xalan="http://xml.apache.org/xslt">
 	<xsl:output method="xml" version="1.0" encoding="UTF-8"
-		exclude-result-prefixes="xsl xs" indent="yes" xalan:indent-amount="3" />
+		exclude-result-prefixes="xsl xs" indent="yes" xalan:indent-amount="2" />
 
 	<xsl:strip-space elements="*" />
 
