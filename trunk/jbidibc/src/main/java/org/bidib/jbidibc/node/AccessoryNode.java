@@ -105,8 +105,11 @@ public class AccessoryNode extends DeviceNode {
             result = ((LcMacroParaResponse) response).getValue();
         }
         else {
-            LOGGER.warn("No response received for LcMacroParaGetMessage, macroNumber: {}, parameter: {}", macroNumber, parameter);
-            throw new ProtocolNoAnswerException(String.format("No response received for LcMacroParaGetMessage, macroNumber: %d, parameter: %d", macroNumber, parameter));
+            LOGGER.warn("No response received for LcMacroParaGetMessage, macroNumber: {}, parameter: {}", macroNumber,
+                parameter);
+            throw new ProtocolNoAnswerException(String.format(
+                "No response received for LcMacroParaGetMessage, macroNumber: %d, parameter: %d", macroNumber,
+                parameter));
         }
         return result;
     }

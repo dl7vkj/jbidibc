@@ -129,7 +129,8 @@ public class LcMacroResponseTest {
     @Test
     public void createLcMacroResponse6FromByteArray() throws ProtocolException {
         // 16.12.2013 22:32:57.578: receive LcMacroResponse[[1],num=42,type=201,data=[40, 1, 255, 244, 250, 0]] : 0A 01 00 2A C9 28 01 FF F4 FA 00 
-        byte[] message = { 0x0a, 0x01, 0x00, (byte) 0x2a, (byte) 0xc9, 0x28, 0x01, (byte) 0xFF, (byte) 0xF4, (byte) 0xFA, 0x00 };
+        byte[] message =
+            { 0x0a, 0x01, 0x00, (byte) 0x2a, (byte) 0xc9, 0x28, 0x01, (byte) 0xFF, (byte) 0xF4, (byte) 0xFA, 0x00 };
 
         BidibMessage bidibMessage = ResponseFactory.create(message);
         Assert.assertNotNull(bidibMessage);
@@ -148,7 +149,6 @@ public class LcMacroResponseTest {
         Assert.assertEquals(lcMacro.getStatus(), null);
         Assert.assertEquals(lcMacro.getValue(), 0);
     }
-
 
     // 09.10.2013 15:50:50.345: receive LcMacroStateResponse[[1],num=121,type=200,data=[0, 252]] : 06 01 00 79 c8 00 fc 
     @Test
