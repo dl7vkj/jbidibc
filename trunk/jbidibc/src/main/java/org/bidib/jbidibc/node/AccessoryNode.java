@@ -9,6 +9,7 @@ import org.bidib.jbidibc.enumeration.LcMacroOperationCode;
 import org.bidib.jbidibc.enumeration.LcMacroState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.exception.ProtocolNoAnswerException;
 import org.bidib.jbidibc.message.AccessoryGetMessage;
 import org.bidib.jbidibc.message.AccessoryParaGetMessage;
 import org.bidib.jbidibc.message.AccessoryParaResponse;
@@ -102,6 +103,10 @@ public class AccessoryNode extends DeviceNode {
 
         if (response instanceof LcMacroParaResponse) {
             result = ((LcMacroParaResponse) response).getValue();
+        }
+        else {
+            LOGGER.warn("No response received for LcMacroParaGetMessage, macroNumber: {}, parameter: {}", macroNumber, parameter);
+            throw new ProtocolNoAnswerException(String.format("No response received for LcMacroParaGetMessage, macroNumber: %d, parameter: %d", macroNumber, parameter));
         }
         return result;
     }
