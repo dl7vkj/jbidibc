@@ -21,6 +21,8 @@ public class Node {
 
     private int relevantPidBits;
 
+    private boolean switchPortConfigAvailable;
+
     protected Node(byte[] addr) {
         this.addr = addr != null ? addr.clone() : null;
         this.uniqueId = 0;
@@ -75,6 +77,20 @@ public class Node {
      */
     public void setRelevantPidBits(int relevantPidBits) {
         this.relevantPidBits = relevantPidBits;
+    }
+
+    /**
+     * @return the switchPortConfigAvailable
+     */
+    public boolean isSwitchPortConfigAvailable() {
+        return switchPortConfigAvailable;
+    }
+
+    /**
+     * @param switchPortConfigAvailable the switchPortConfigAvailable to set
+     */
+    public void setSwitchPortConfigAvailable(boolean switchPortConfigAvailable) {
+        this.switchPortConfigAvailable = switchPortConfigAvailable;
     }
 
     @Override

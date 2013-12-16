@@ -118,39 +118,7 @@ public class BidibNodeTest {
     }
 
     @Test
-    public void encodeLcConfigSetMessageWithStream() throws IOException {
-        final byte[] address = new byte[] { 1, 0 };
-
-        BidibInterface bidib = Mockito.mock(BidibInterface.class);
-
-        MessageReceiver messageReceiver = null;
-        boolean ignoreWaitTimeout = false;
-        final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
-        bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
-        bidibNode.setBidib(bidib);
-
-        int port = 2;
-        int pwmMin = 2;
-        int pwmMax = 50;
-        int dimMin = 10;
-        int dimMax = 20;
-        LcConfig config = new LcConfig(LcOutputType.LIGHTPORT, port, pwmMin, pwmMax, dimMax, dimMin);
-        BidibMessage bidibMessage = new LcConfigSetMessage(config);
-
-        long start = System.nanoTime();
-        BidibNode.EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
-        long end = System.nanoTime();
-
-        LOGGER.info("Encoding duration with stream: {}", end - start);
-
-        Assert.assertNotNull(message);
-        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message.getMessage()));
-
-        Assert.assertEquals(12, message.getMessage().length);
-    }
-
-    @Test
-    public void encodeLcConfigSetMessage() {
+    public void encodeLightPortLcConfigSetMessage() {
         final byte[] address = new byte[] { 1, 0 };
 
         BidibInterface bidib = Mockito.mock(BidibInterface.class);
@@ -182,7 +150,40 @@ public class BidibNodeTest {
     }
 
     @Test
-    public void encodeBmMirorFreeMessageWithStream() throws IOException {
+    public void encodeSwitchPortLcConfigSetMessage() {
+        final byte[] address = new byte[] { 1, 0 };
+
+        BidibInterface bidib = Mockito.mock(BidibInterface.class);
+
+        MessageReceiver messageReceiver = null;
+        boolean ignoreWaitTimeout = false;
+        final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
+        bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
+        bidibNode.setBidib(bidib);
+
+        int port = 2;
+        int ioBehaviour = 1;
+        int switchOffTime = 20;
+        LcConfig config = new LcConfig(LcOutputType.SWITCHPORT, port, ioBehaviour, switchOffTime, 0, 0);
+        BidibMessage bidibMessage = new LcConfigSetMessage(config);
+
+        long start = System.nanoTime();
+        EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
+        long end = System.nanoTime();
+
+        LOGGER.info("Encoding duration: {}", end - start);
+
+        Assert.assertNotNull(message);
+        LOGGER.info("Encoded message: {}", ByteUtils.bytesToHex(message.getMessage()));
+
+        Assert.assertEquals(12, message.getMessage().length);
+        Assert.assertEquals(2, message.getMessage()[7]);
+        Assert.assertEquals(1, message.getMessage()[8]);
+        Assert.assertEquals(20, message.getMessage()[9]);
+    }
+
+    @Test
+    public void encodeBmMirorFreeMessage() throws IOException {
         final byte[] address = new byte[] { 5 };
 
         BidibInterface bidib = Mockito.mock(BidibInterface.class);
@@ -197,7 +198,7 @@ public class BidibNodeTest {
         BidibMessage bidibMessage = new FeedbackMirrorFreeMessage(detectorNumber);
 
         long start = System.nanoTime();
-        BidibNode.EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
+        EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
         long end = System.nanoTime();
 
         LOGGER.info("Encoding duration with stream: {}", end - start);
