@@ -231,7 +231,7 @@
 #define MSG_FEATURE_COUNT       (MSG_UFC + 0x02)        // 1:count
 #define MSG_VENDOR              (MSG_UFC + 0x03)        // 1..n: length,'string',length,'value'
 #define MSG_VENDOR_ACK          (MSG_UFC + 0x04)        // 1:ack
-#define MSG_STRING_SET          (MSG_UFC + 0x05)        // 1:Nspace, 2:ID, 3:Strsize, 4...n: string 
+#define MSG_STRING              (MSG_UFC + 0x05)        // 1:Nspace, 2:ID, 3:Strsize, 4...n: string 
 
 //-- occupancy messages
 #define MSG_UBM                 (MSG_USTRM +  0x20)
