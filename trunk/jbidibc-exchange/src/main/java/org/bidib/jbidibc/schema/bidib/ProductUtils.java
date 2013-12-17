@@ -18,4 +18,16 @@ public class ProductUtils {
         }
         return false;
     }
+
+    public static boolean isOneHub(long uniqueId) {
+        long pid = NodeUtils.getPid(uniqueId);
+        long vid = NodeUtils.getVendorId(uniqueId);
+        LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}", NodeUtils
+            .getUniqueIdAsString(uniqueId), pid, vid);
+
+        if (vid == 13 && pid == 114) {
+            return true;
+        }
+        return false;
+    }
 }
