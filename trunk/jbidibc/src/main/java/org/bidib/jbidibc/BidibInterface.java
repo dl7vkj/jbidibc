@@ -1,6 +1,5 @@
 package org.bidib.jbidibc;
 
-import java.io.IOException;
 import java.util.List;
 
 import org.bidib.jbidibc.exception.PortNotFoundException;
@@ -72,9 +71,8 @@ public interface BidibInterface {
 
     /**
      * Close the communication port.
-     * @throws IOException
      */
-    void close() throws IOException;
+    void close();
 
     /**
      * Set the recieve timeout for the port.

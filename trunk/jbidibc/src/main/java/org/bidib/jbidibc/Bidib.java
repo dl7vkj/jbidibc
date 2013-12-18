@@ -69,7 +69,7 @@ public final class Bidib implements BidibInterface {
                     LOGGER.debug("Close the communication ports and perform cleanup.");
                     getInstance().close();
                 }
-                catch (IOException e) {
+                catch (Exception e) {
                 }
             }
         });
@@ -100,7 +100,7 @@ public final class Bidib implements BidibInterface {
     }
 
     @Override
-    public void close() throws IOException {
+    public void close() {
         if (port != null) {
             LOGGER.debug("Close the port.");
             long start = System.currentTimeMillis();
@@ -343,7 +343,7 @@ public final class Bidib implements BidibInterface {
             }
             catch (InterruptedException ex) {
                 LOGGER.warn("Wait for portSemaphore was interrupted.", ex);
-                throw new PortNotOpenedException("Open port failed: " + portName);
+                throw new PortNotOpenedException(portName);
             }
             finally {
                 portSemaphore.release();
