@@ -23,6 +23,11 @@ public class Node {
 
     private boolean switchPortConfigAvailable;
 
+    /**
+     * the maximum length for strings that can be stored in the node
+     */
+    private int stringSize;
+
     protected Node(byte[] addr) {
         this.addr = addr != null ? addr.clone() : null;
         this.uniqueId = 0;
@@ -91,6 +96,20 @@ public class Node {
      */
     public void setSwitchPortConfigAvailable(boolean switchPortConfigAvailable) {
         this.switchPortConfigAvailable = switchPortConfigAvailable;
+    }
+
+    /**
+     * @return the stringSize
+     */
+    public int getStringSize() {
+        return stringSize;
+    }
+
+    /**
+     * @param stringSize the stringSize to set
+     */
+    public void setStringSize(int stringSize) {
+        this.stringSize = stringSize;
     }
 
     @Override

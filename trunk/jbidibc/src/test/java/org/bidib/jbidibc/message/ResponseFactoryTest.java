@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.Node;
+import org.bidib.jbidibc.StringData;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.LcMacroState;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -465,5 +466,25 @@ public class ResponseFactoryTest {
         Assert.assertEquals(response.getDecoderSerialId(), 0x78563412);
         Assert.assertEquals(response.getDecoderVendorId(), 0x0D);
         Assert.assertEquals(response.getLocalDetectorAddress(), 1);
+    }
+
+    @Test
+    public void createStringResponseMessage() throws ProtocolException {
+        byte[] message =
+            { 0x0B, 0x00, 0x00, (byte) BidibLibrary.MSG_STRING, (byte) 0x00, (byte) 0x00, 0x05, 0x42, 0x69, 0x44, 0x69,
+                0x42 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertTrue(bidibMessage instanceof StringResponse, "Expected a StringResponse message.");
+        Assert.assertEquals(bidibMessage.getType(), (byte) BidibLibrary.MSG_STRING);
+        StringResponse stringResponse = (StringResponse) bidibMessage;
+        Assert.assertNotNull(stringResponse.getStringData());
+        StringData stringData = stringResponse.getStringData();
+
+        Assert.assertEquals(stringData.getNamespace(), 0);
+        Assert.assertEquals(stringData.getIndex(), 0);
+        Assert.assertEquals(stringData.getValue(), "BiDiB");
     }
 }

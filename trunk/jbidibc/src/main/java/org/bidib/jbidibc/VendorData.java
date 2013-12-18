@@ -1,9 +1,9 @@
 package org.bidib.jbidibc;
 
 public class VendorData {
-    private String name = null;
+    private String name;
 
-    private String value = null;
+    private String value;
 
     public String getName() {
         return name;

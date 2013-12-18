@@ -191,6 +191,9 @@ public final class ResponseFactory {
             case BidibLibrary.MSG_VENDOR_ACK:
                 result = new VendorAckResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
+            case BidibLibrary.MSG_STRING:
+                result = new StringResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                break;
             case BidibLibrary.MSG_NEW_DECODER:
                 result = new NewDecoderResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;

@@ -82,4 +82,29 @@ public class BidibMessageTest {
         Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_SYS_CLOCK);
     }
 
+    @Test
+    public void createMessageStringSet() throws ProtocolException {
+        byte[] message =
+            { 0x0B, 0x00, 0x14, (byte) BidibLibrary.MSG_STRING_SET, 0x00, 0x00, (byte) 0x05, 0x42, 0x69, 0x44, 0x69,
+                0x42 };
+
+        BidibMessage bidibMessage = new BidibMessage(message);
+
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_STRING_SET);
+        byte[] data1 = bidibMessage.getData();
+
+        StringSetMessage stringSetMessage = new StringSetMessage(0, 0, "BiDiB");
+        stringSetMessage.setSendMsgNum(0x14);
+        byte[] data2 = stringSetMessage.getData();
+
+        Assert.assertEquals(data2, data1);
+    }
+
+    @Test(expectedExceptions = IllegalArgumentException.class)
+    public void createMessageStringSetExceedMaxLen() {
+        new StringSetMessage(
+            0,
+            0,
+            "BiDiB with a string value that is too long. BiDiB with a string value that is too long. BiDiB with a string value that is too long");
+    }
 }

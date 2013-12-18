@@ -205,4 +205,20 @@ public final class ByteUtils {
 
         return ByteUtils.getLowByte(newValue);
     }
+
+    public static byte[] bstr(String value) {
+        byte[] result = new byte[value.length() + 1 /* terminating zero */];
+
+        result[0] = (byte) (value.length());
+        System.arraycopy(value.getBytes(), 0, result, 1, value.length());
+        return result;
+    }
+
+    public static String cstr(byte[] bstr, int offset) {
+        int length = bstr[offset];
+        byte[] cstr = new byte[length];
+
+        System.arraycopy(bstr, offset + 1, cstr, 0, length);
+        return new String(cstr);
+    }
 }

@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class VendorResponse extends BidibMessage {
     public static final Integer TYPE = BidibLibrary.MSG_VENDOR;
@@ -18,16 +19,8 @@ public class VendorResponse extends BidibMessage {
         VendorData result = new VendorData();
         byte[] data = getData();
 
-        result.setName(cstr(data, 0));
-        result.setValue(cstr(data, result.getName().length() + 1));
+        result.setName(ByteUtils.cstr(data, 0));
+        result.setValue(ByteUtils.cstr(data, result.getName().length() + 1));
         return result;
-    }
-
-    private static String cstr(byte[] bstr, int offset) {
-        int length = bstr[offset];
-        byte[] cstr = new byte[length];
-
-        System.arraycopy(bstr, offset + 1, cstr, 0, length);
-        return new String(cstr);
     }
 }
