@@ -1,6 +1,12 @@
 package org.bidib.jbidibc;
 
 public class StringData {
+    public static final int INDEX_PRODUCTNAME = 0;
+
+    public static final int INDEX_USERNAME = 1;
+
+    public static final int NAMESPACE_NODE = 0;
+
     private int namespace;
 
     private int index;

@@ -20,6 +20,7 @@ import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.ProtocolVersion;
 import org.bidib.jbidibc.SoftwareVersion;
+import org.bidib.jbidibc.StringData;
 import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.enumeration.FirmwareUpdateOperation;
 import org.bidib.jbidibc.enumeration.IdentifyState;
@@ -49,6 +50,9 @@ import org.bidib.jbidibc.message.NodeTabCountResponse;
 import org.bidib.jbidibc.message.NodeTabGetAllMessage;
 import org.bidib.jbidibc.message.NodeTabGetNextMessage;
 import org.bidib.jbidibc.message.NodeTabResponse;
+import org.bidib.jbidibc.message.StringGetMessage;
+import org.bidib.jbidibc.message.StringResponse;
+import org.bidib.jbidibc.message.StringSetMessage;
 import org.bidib.jbidibc.message.SysDisableMessage;
 import org.bidib.jbidibc.message.SysEnableMessage;
 import org.bidib.jbidibc.message.SysErrorResponse;
@@ -1338,6 +1342,36 @@ public class BidibNode {
         BidibMessage result = send(new VendorSetMessage(name, value), true, VendorResponse.TYPE);
         if (result instanceof VendorResponse) {
             return ((VendorResponse) result).getVendorData();
+        }
+        return null;
+    }
+
+    /**
+     * Get a string value from the node.
+     * @param namespace the namespace
+     * @param index the index
+     * @return the string data instance
+     * @throws ProtocolException
+     */
+    public StringData getString(int namespace, int index) throws ProtocolException {
+        BidibMessage response = send(new StringGetMessage(namespace, index), true, StringResponse.TYPE);
+        if (response instanceof StringResponse) {
+            return ((StringResponse) response).getStringData();
+        }
+        return null;
+    }
+
+    /**
+     * Set a string value in the node.
+     * @param namespace the namespace
+     * @param index the index
+     * @return the string data instance
+     * @throws ProtocolException
+     */
+    public StringData setString(int namespace, int index, String value) throws ProtocolException {
+        BidibMessage response = send(new StringSetMessage(namespace, index, value), true, StringResponse.TYPE);
+        if (response instanceof StringResponse) {
+            return ((StringResponse) response).getStringData();
         }
         return null;
     }

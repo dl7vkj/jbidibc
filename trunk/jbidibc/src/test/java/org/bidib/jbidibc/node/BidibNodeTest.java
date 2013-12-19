@@ -9,6 +9,7 @@ import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.LcConfig;
 import org.bidib.jbidibc.MessageReceiver;
+import org.bidib.jbidibc.StringData;
 import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -32,6 +33,104 @@ public class BidibNodeTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(BidibNodeTest.class);
 
     private int responseCounter = 1;
+
+    @Test
+    public void setStringTest() throws ProtocolException {
+        final byte[] address = new byte[] { 0 };
+
+        BidibInterface bidib = Mockito.mock(BidibInterface.class);
+
+        MessageReceiver messageReceiver = null;
+        boolean ignoreWaitTimeout = false;
+        final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
+        bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
+        bidibNode.setBidib(bidib);
+
+        Mockito.doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                byte[] bytes = (byte[]) args[0];
+                LOGGER.info("Received data: {}", ByteUtils.bytesToHex(bytes));
+                byte namespace = bytes[5];
+                byte index = bytes[6];
+
+                byte[] message =
+                    { 0x15, 0x00, 0x14, (byte) BidibLibrary.MSG_STRING, namespace, index, (byte) 0x0F, 0x42, 0x69,
+                        0x44, 0x69, 0x42, 0x20, 0x54, 0x65, 0x73, 0x74, 0x76, 0x61, 0x6C, 0x75, 0x65 };
+                BidibMessage response;
+                try {
+                    LOGGER.info("Create new response, responseCounter: {}", responseCounter);
+                    response = ResponseFactory.create(message);
+                    bidibNode.getReceiveQueue().add(response);
+                }
+                catch (ProtocolException ex) {
+                    LOGGER.warn("Put message to receive queue failed.", ex);
+                }
+
+                return null;
+            }
+        }).when(bidib).send(Mockito.any(byte[].class));
+
+        int namespace = 0;
+        int index = 1;
+        String value = "BiDiB Testvalue";
+        StringData result = bidibNode.setString(namespace, index, value);
+        LOGGER.info("Returned StringData result: {}", result);
+        Mockito.verify(bidib, Mockito.times(1)).send(Mockito.any(byte[].class));
+
+        Assert.assertEquals(namespace, result.getNamespace());
+        Assert.assertEquals(index, result.getIndex());
+        Assert.assertEquals(value, result.getValue());
+    }
+
+    @Test
+    public void getStringTest() throws ProtocolException {
+        final byte[] address = new byte[] { 0 };
+
+        BidibInterface bidib = Mockito.mock(BidibInterface.class);
+
+        MessageReceiver messageReceiver = null;
+        boolean ignoreWaitTimeout = false;
+        final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
+        bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
+        bidibNode.setBidib(bidib);
+
+        Mockito.doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                byte[] bytes = (byte[]) args[0];
+                LOGGER.info("Received data: {}", ByteUtils.bytesToHex(bytes));
+                byte namespace = bytes[5];
+                byte index = bytes[6];
+
+                byte[] message =
+                    { 0x15, 0x00, 0x14, (byte) BidibLibrary.MSG_STRING, namespace, index, (byte) 0x0F, 0x42, 0x69,
+                        0x44, 0x69, 0x42, 0x20, 0x54, 0x65, 0x73, 0x74, 0x76, 0x61, 0x6C, 0x75, 0x65 };
+                BidibMessage response;
+                try {
+                    LOGGER.info("Create new response, responseCounter: {}", responseCounter);
+                    response = ResponseFactory.create(message);
+                    bidibNode.getReceiveQueue().add(response);
+                }
+                catch (ProtocolException ex) {
+                    LOGGER.warn("Put message to receive queue failed.", ex);
+                }
+
+                return null;
+            }
+        }).when(bidib).send(Mockito.any(byte[].class));
+
+        int namespace = 1;
+        int index = 1;
+        String value = "BiDiB Testvalue";
+        StringData result = bidibNode.getString(namespace, index);
+        LOGGER.info("Returned StringData result: {}", result);
+        Mockito.verify(bidib, Mockito.times(1)).send(Mockito.any(byte[].class));
+
+        Assert.assertEquals(namespace, result.getNamespace());
+        Assert.assertEquals(index, result.getIndex());
+        Assert.assertEquals(value, result.getValue());
+    }
 
     @Test
     public void vendorGetBulk() throws ProtocolException {
