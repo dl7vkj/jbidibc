@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <VendorCV>
 	<Version 
-		Version="0.03" Versionm="441" Lastupdate="20131009" Author="Kufer, Wolfgang" Pid="115"	Vendor="013" Description="OneDMX V1.0">
+		Version="0.04" Versionm="441" Lastupdate="20131217" Author="Kufer, Wolfgang" Pid="115"	Vendor="013" Description="OneDMX V1.0">
 	</Version>
 	<Templates>
 		<Template Name="About">
@@ -129,7 +129,7 @@
 		<Node>
 			<Nodetext Lang="de-DE" Text="Konfiguration"/>
 			<Nodetext Lang="en-EN" Text="Config"/>
-			<CV Number="31" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+			<CV Number="61" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
 				<Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
 			</CV> 
@@ -138,7 +138,7 @@
 				<Nodetext Lang="de-DE" Text="DMX-Kanäle"/>
 				<Nodetext Lang="en-EN" Text="DMX-Channels"/>
 
-				<Node Offset="41" Template="DMX" Count="64" Next="1">
+				<Node Offset="71" Template="DMX" Count="64" Next="1">
 					<Nodetext Lang="de-DE" Text="DMX-Kanal %%p"/>
 					<Nodetext Lang="en-EN" Text="DMX-Channel %%p"/>
 				</Node>
@@ -146,7 +146,7 @@
 			<Node>
 				<Nodetext Lang="de-DE" Text="Licht-Ports"/>
 				<Nodetext Lang="en-EN" Text="Light ports"/>
-				<Node Offset="105" Template="LightPort" Count="128" Next="5">
+				<Node Offset="135" Template="LightPort" Count="128" Next="5">
 					<Nodetext Lang="de-DE" Text="Licht-Port %%d"/>
 					<Nodetext Lang="en-EN" Text="Light port %%d"/>
 				</Node>
@@ -154,7 +154,7 @@
 			<Node>
 				<Nodetext Lang="de-DE" Text="Backlight-Ports"/>
 				<Nodetext Lang="en-EN" Text="Backlight ports"/>
-				<Node Offset="745" Template="Backlight" Count="16" Next="4">
+				<Node Offset="775" Template="Backlight" Count="16" Next="4">
 					<Nodetext Lang="de-DE" Text="Backlight-Port %%d"/>
 					<Nodetext Lang="en-EN" Text="Backlight port %%d"/>
 				</Node>
@@ -162,7 +162,7 @@
 			<Node>
 				<Nodetext Lang="de-DE" Text="Accessory"/>
 				<Nodetext Lang="en-EN" Text="Accessory"/>
-				<Node Offset="809" Template="AccessoryMap" Count="8" Next="9">
+				<Node Offset="839" Template="AccessoryMap" Count="8" Next="9">
 					<Nodetext Lang="de-DE" Text="Accessory %%d"/>
 					<Nodetext Lang="en-EN" Text="Accessory %%d"/>
 				</Node>

@@ -38,13 +38,17 @@
 				<Description Lang="de-DE" Text="Version"/>
 				<Description Lang="en-EN" Text="Version"/>
 			</CV>
-			<CV Number="7" Type="Byte" Min="62" Max="62" Low="-" High="-" Values="-" Mode="rw">
+			<CV Number="7" Type="Byte" Min="62" Max="62" Low="-" High="-" Values="-" Mode="wo">
 				<Description Lang="de-DE" Text="Firmware Update"/>
 				<Description Lang="en-EN" Text="Firmwar update"/>
 			</CV>
 			<CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
 				<Description Lang="de-DE" Text="Manufacturer ID"/>
 				<Description Lang="en-EN" Text="Manufacturer ID"/>
+			</CV>
+			<CV Number="8" Type="Byte" Min="8" Max="8" Low="-" High="-" Values="-" Mode="wo">
+				<Description Lang="de-DE" Text="Reset"/>
+				<Description Lang="en-EN" Text="Reset"/>
 			</CV>
 			<CV Number="28" Type="Byte" Min="0" Max="3" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="RailCom-CV"/>
@@ -53,6 +57,10 @@
 			<CV Number="29" Type="Byte" Min="0" Max="248" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="DCC-Konfiguration"/>
 				<Description Lang="en-EN" Text="DCC-Configuration"/>
+			</CV>
+			<CV Number="37" Type="Byte" Min="0" Max="15" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Auflösen des Ausgangspaars"/>
+				<Description Lang="en-EN" Text="output : pair or not"/>
 			</CV>
 			<CV Number="38" Type="Byte" Min="0" Max="5" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Modus"/>
@@ -63,12 +71,16 @@
 				<Description Lang="en-EN" Text="last Servo-Position"/>
 			</CV>
 			<CV Number="65" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="PWM ein nach Erreichen der Endstellung"/>
-				<Description Lang="en-EN" Text="PWM on after reaching the end position"/>
+				<Description Lang="de-DE" Text="PWM aus nach Erreichen der Endstellung"/>
+				<Description Lang="en-EN" Text="PWM off after reaching the end position"/>
 			</CV>
 			<CV Number="66" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Weiche ist endabgeschaltet"/>
 				<Description Lang="en-EN" Text="lturn out "/>
+			</CV>
+			<CV Number="67" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Servo Nachlaufdauer"/>
+				<Description Lang="en-EN" Text="time until servo signal turns off "/>
 			</CV>
 		</Node>
 		<Node>
