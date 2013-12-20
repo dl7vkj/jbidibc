@@ -23,15 +23,15 @@ public class Node {
 
     private boolean switchPortConfigAvailable;
 
+    private String[] storedStrings;
+
     /**
      * the maximum length for strings that can be stored in the node
      */
     private int stringSize;
 
     protected Node(byte[] addr) {
-        this.addr = addr != null ? addr.clone() : null;
-        this.uniqueId = 0;
-        this.version = 0;
+        this(0, addr, 0);
     }
 
     /**
@@ -44,6 +44,8 @@ public class Node {
         this.addr = addr != null ? addr.clone() : null;
         this.uniqueId = uniqueId;
         this.version = version;
+
+        storedStrings = new String[2];
 
         LOGGER.debug("Created new node, addr: {}, version: {}, {}", addr, version, NodeUtils
             .getUniqueIdAsString(uniqueId));
@@ -110,6 +112,27 @@ public class Node {
      */
     public void setStringSize(int stringSize) {
         this.stringSize = stringSize;
+    }
+
+    public void setStoredString(int index, String value) {
+        if (index < 0 || index > 1) {
+            throw new IllegalArgumentException("Index not allowed: " + index);
+        }
+        storedStrings[index] = value;
+    }
+
+    public String getStoredString(int index) {
+        if (index < 0 || index > 1) {
+            throw new IllegalArgumentException("Index not allowed: " + index);
+        }
+        return storedStrings[index];
+    }
+
+    /**
+     * @return <code>true</code> if the node has a stored string, <code>false</code> if the node has no stored strings
+     */
+    public boolean hasStoredStrings() {
+        return storedStrings[0] != null || storedStrings[1] != null;
     }
 
     @Override
