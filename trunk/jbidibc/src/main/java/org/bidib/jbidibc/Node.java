@@ -2,6 +2,7 @@ package org.bidib.jbidibc;
 
 import java.util.Arrays;
 
+import org.apache.commons.lang.StringUtils;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
@@ -115,14 +116,14 @@ public class Node {
     }
 
     public void setStoredString(int index, String value) {
-        if (index < 0 || index > 1) {
+        if (index < StringData.INDEX_PRODUCTNAME || index > StringData.INDEX_USERNAME) {
             throw new IllegalArgumentException("Index not allowed: " + index);
         }
         storedStrings[index] = value;
     }
 
     public String getStoredString(int index) {
-        if (index < 0 || index > 1) {
+        if (index < StringData.INDEX_PRODUCTNAME || index > StringData.INDEX_USERNAME) {
             throw new IllegalArgumentException("Index not allowed: " + index);
         }
         return storedStrings[index];
@@ -132,7 +133,8 @@ public class Node {
      * @return <code>true</code> if the node has a stored string, <code>false</code> if the node has no stored strings
      */
     public boolean hasStoredStrings() {
-        return storedStrings[0] != null || storedStrings[1] != null;
+        return StringUtils.isNotBlank(storedStrings[StringData.INDEX_PRODUCTNAME])
+            || StringUtils.isNotBlank(storedStrings[StringData.INDEX_USERNAME]);
     }
 
     @Override
