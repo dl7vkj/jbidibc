@@ -1,12 +1,10 @@
 package org.bidib.jbidibc;
 
-import gnu.io.SerialPort;
-
 import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
@@ -44,29 +42,27 @@ import org.slf4j.LoggerFactory;
  * The message receiver is responsible for creating the messages based on the received bytes from the stream.
  * It is created and initialized by the (default) Bidib implementation.
  */
-public class MessageReceiver {
+public abstract class MessageReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class.getName());
 
-    private static final Logger MSG_RX_LOGGER = LoggerFactory.getLogger("RX");
+    protected static final Logger MSG_RX_LOGGER = LoggerFactory.getLogger("RX");
 
-    private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
+    protected static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
     private final Collection<MessageListener> messageListeners =
         Collections.synchronizedList(new LinkedList<MessageListener>());
 
     private final Collection<NodeListener> nodeListeners = Collections.synchronizedList(new LinkedList<NodeListener>());
 
-    private boolean running;
+    protected AtomicBoolean running = new AtomicBoolean();
 
     private NodeFactory nodeFactory;
 
     private BidibInterface bidib;
 
-    private ByteArrayOutputStream output;
-
     protected MessageReceiver(NodeFactory nodeFactory) {
         this.nodeFactory = nodeFactory;
-        running = true;
+        running.set(true);
         nodeFactory.setMessageReceiver(this);
     }
 
@@ -74,336 +70,230 @@ public class MessageReceiver {
         this.bidib = bidib;
     }
 
-    public byte[] getRemainingOutputBuffer() {
-        if (output != null && output.size() > 0) {
-
-            byte[] remaining = output.toByteArray();
-            return remaining;
-        }
-
-        return null;
-    }
+    public abstract byte[] getRemainingOutputBuffer();
 
     /**
-     * Receive messages from the configured port
+     * Process the messages in the provided byte array output stream.
+     * @param output the output stream that contains the messages
+     * @throws ProtocolException
      */
-    public void receive(final SerialPort port) {
-        LOGGER.debug("Start receiving messages.");
+    protected void processMessages(ByteArrayOutputStream output) throws ProtocolException {
 
-        synchronized (this) {
-            LOGGER.debug("Starting message receiver.");
+        // if a CRC error is detected in splitMessages the reading loop will terminate ...
+        for (byte[] messageArray : splitMessages(output.toByteArray())) {
+            BidibMessage message = null;
+
             try {
-                output = new ByteArrayOutputStream();
-                InputStream input = null;
-
-                if (port != null) {
-                    input = port.getInputStream();
+                message = ResponseFactory.create(messageArray);
+                if (MSG_RX_LOGGER.isInfoEnabled()) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ByteUtils.bytesToHex(messageArray));
+                    MSG_RX_LOGGER.info("receive {} : {}", message, sb);
                 }
-                if (input != null) {
-                    int data = 0;
-                    boolean escapeHot = false;
-                    StringBuilder logRecord = new StringBuilder();
+                if (message != null) {
 
-                    // read the values from in the port
-                    while (running && (data = input.read()) != -1) {
-                        if (LOGGER.isTraceEnabled()) {
-                            LOGGER.trace("received data: {}", ByteUtils.byteToHex(data));
-                        }
-                        // append data to log record
-                        logRecord.append(ByteUtils.byteToHex(data)).append(" ");
+                    // some messages are notified directly to listeners
+                    int type = ByteUtils.getInt(message.getType());
+                    switch (type) {
+                        case BidibLibrary.MSG_BOOST_CURRENT:
+                            fireBoosterCurrent(message.getAddr(), ((BoostCurrentResponse) message).getCurrent());
+                            break;
+                        case BidibLibrary.MSG_BOOST_DIAGNOSTIC:
+                            fireBoosterCurrent(message.getAddr(), ((BoostDiagnosticResponse) message).getCurrent());
+                            fireBoosterTemperature(message.getAddr(), ((BoostDiagnosticResponse) message)
+                                .getTemperature());
+                            fireBoosterVoltage(message.getAddr(), ((BoostDiagnosticResponse) message).getVoltage());
+                            break;
+                        case BidibLibrary.MSG_BOOST_STAT:
+                            fireBoosterState(message.getAddr(), ((BoostStatResponse) message).getState());
+                            break;
+                        case BidibLibrary.MSG_BM_ADDRESS:
+                            fireAddress(message.getAddr(), ((FeedbackAddressResponse) message).getDetectorNumber(),
+                                ((FeedbackAddressResponse) message).getAddresses());
+                            break;
+                        case BidibLibrary.MSG_BM_CONFIDENCE:
+                            fireConfidence(message.getAddr(), ((FeedbackConfidenceResponse) message).getValid(),
+                                ((FeedbackConfidenceResponse) message).getFreeze(),
+                                ((FeedbackConfidenceResponse) message).getSignal());
+                            break;
+                        case BidibLibrary.MSG_BM_FREE:
+                            // acknowledge message
+                            nodeFactory.getNode(new Node(message.getAddr())).acknowledgeFree(
+                                ((FeedbackFreeResponse) message).getDetectorNumber());
 
-                        // check if the current is the end of a packet
-                        if (data == BidibLibrary.BIDIB_PKT_MAGIC && output.size() > 0) {
+                            fireFree(message.getAddr(), ((FeedbackFreeResponse) message).getDetectorNumber());
+                            break;
+                        case BidibLibrary.MSG_BM_MULTIPLE:
+                            int baseAddress = ((FeedbackMultipleResponse) message).getBaseAddress();
+                            int size = ((FeedbackMultipleResponse) message).getSize();
+                            byte[] detectorData = ((FeedbackMultipleResponse) message).getDetectorData();
 
-                            LOGGER.debug("Received raw message: {}", logRecord);
-                            if (MSG_RAW_LOGGER.isInfoEnabled()) {
-                                MSG_RAW_LOGGER.info("<< {}", logRecord);
-                            }
-                            logRecord.setLength(0);
+                            LOGGER.debug(
+                                "Received FeedbackMultipleResponse, baseAddress: {}, size: {}, detectorData: {}",
+                                baseAddress, size, detectorData);
+                            // acknowledge message
+                            nodeFactory.getNode(new Node(message.getAddr())).acknowledgeMultiple(baseAddress, size,
+                                detectorData);
 
-                            // if a CRC error is detected in splitMessages the reading loop will terminate ...
-                            for (byte[] messageArray : splitMessages(output.toByteArray())) {
-                                BidibMessage message = null;
+                            int offset = 0;
 
-                                try {
-                                    message = ResponseFactory.create(messageArray);
-                                    if (MSG_RX_LOGGER.isInfoEnabled()) {
-                                        StringBuilder sb = new StringBuilder();
-                                        sb.append(ByteUtils.bytesToHex(messageArray));
-                                        MSG_RX_LOGGER.info("receive {} : {}", message, sb);
-                                    }
-                                    if (message != null) {
-
-                                        // some messages are notified directly to listeners
-                                        int type = ByteUtils.getInt(message.getType());
-                                        switch (type) {
-                                            case BidibLibrary.MSG_BOOST_CURRENT:
-                                                fireBoosterCurrent(message.getAddr(), ((BoostCurrentResponse) message)
-                                                    .getCurrent());
-                                                break;
-                                            case BidibLibrary.MSG_BOOST_DIAGNOSTIC:
-                                                fireBoosterCurrent(message.getAddr(),
-                                                    ((BoostDiagnosticResponse) message).getCurrent());
-                                                fireBoosterTemperature(message.getAddr(),
-                                                    ((BoostDiagnosticResponse) message).getTemperature());
-                                                fireBoosterVoltage(message.getAddr(),
-                                                    ((BoostDiagnosticResponse) message).getVoltage());
-                                                break;
-                                            case BidibLibrary.MSG_BOOST_STAT:
-                                                fireBoosterState(message.getAddr(), ((BoostStatResponse) message)
-                                                    .getState());
-                                                break;
-                                            case BidibLibrary.MSG_BM_ADDRESS:
-                                                fireAddress(message.getAddr(), ((FeedbackAddressResponse) message)
-                                                    .getDetectorNumber(), ((FeedbackAddressResponse) message)
-                                                    .getAddresses());
-                                                break;
-                                            case BidibLibrary.MSG_BM_CONFIDENCE:
-                                                fireConfidence(message.getAddr(),
-                                                    ((FeedbackConfidenceResponse) message).getValid(),
-                                                    ((FeedbackConfidenceResponse) message).getFreeze(),
-                                                    ((FeedbackConfidenceResponse) message).getSignal());
-                                                break;
-                                            case BidibLibrary.MSG_BM_FREE:
-                                                // acknowledge message
-                                                nodeFactory.getNode(new Node(message.getAddr())).acknowledgeFree(
-                                                    ((FeedbackFreeResponse) message).getDetectorNumber());
-
-                                                fireFree(message.getAddr(), ((FeedbackFreeResponse) message)
-                                                    .getDetectorNumber());
-                                                break;
-                                            case BidibLibrary.MSG_BM_MULTIPLE:
-                                                int baseAddress = ((FeedbackMultipleResponse) message).getBaseAddress();
-                                                int size = ((FeedbackMultipleResponse) message).getSize();
-                                                byte[] detectorData =
-                                                    ((FeedbackMultipleResponse) message).getDetectorData();
-
-                                                LOGGER
-                                                    .debug(
-                                                        "Received FeedbackMultipleResponse, baseAddress: {}, size: {}, detectorData: {}",
-                                                        baseAddress, size, detectorData);
-                                                // acknowledge message
-                                                nodeFactory.getNode(new Node(message.getAddr())).acknowledgeMultiple(
-                                                    baseAddress, size, detectorData);
-
-                                                int offset = 0;
-
-                                                for (byte detectorByte : detectorData) {
-                                                    if (offset >= size) {
-                                                        break;
-                                                    }
-                                                    for (int bit = 0; bit <= 7; bit++) {
-                                                        if (((detectorByte >> bit) & 1) == 1) {
-                                                            fireOccupied(message.getAddr(), baseAddress + offset);
-                                                        }
-                                                        else {
-                                                            fireFree(message.getAddr(), baseAddress + offset);
-                                                        }
-                                                        offset++;
-                                                    }
-                                                }
-                                                break;
-                                            case BidibLibrary.MSG_BM_OCC:
-                                                // acknowledge message
-                                                nodeFactory.getNode(new Node(message.getAddr())).acknowledgeOccupied(
-                                                    ((FeedbackOccupiedResponse) message).getDetectorNumber());
-
-                                                fireOccupied(message.getAddr(), ((FeedbackOccupiedResponse) message)
-                                                    .getDetectorNumber());
-                                                break;
-                                            case BidibLibrary.MSG_BM_SPEED:
-                                                fireSpeed(message.getAddr(), ((FeedbackSpeedResponse) message)
-                                                    .getAddress(), ((FeedbackSpeedResponse) message).getSpeed());
-                                                break;
-                                            case BidibLibrary.MSG_ACCESSORY_STATE:
-                                                // process the AccessoryStateResponse message
-                                                BidibNode bidibNode = nodeFactory.getNode(new Node(message.getAddr()));
-                                                if (bidibNode instanceof AccessoryNode) {
-                                                    ((AccessoryNode) bidibNode)
-                                                        .acknowledgeAccessoryState(((AccessoryStateResponse) message)
-                                                            .getAccessoryState());
-                                                }
-
-                                                AccessoryStateResponse accessoryStateResponse =
-                                                    (AccessoryStateResponse) message;
-
-                                                fireAccessoryState(message.getAddr(), accessoryStateResponse
-                                                    .getAccessoryState());
-                                                break;
-                                            case BidibLibrary.MSG_LC_KEY:
-                                                fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
-                                                    ((LcKeyResponse) message).getKeyState());
-                                                break;
-                                            case BidibLibrary.MSG_LC_STAT:
-                                                // ignored
-                                                LOGGER.debug("Received LcStatResponse: {}", message);
-                                                LcStatResponse lcStatResponse = (LcStatResponse) message;
-                                                fireLcStat(message.getAddr(), lcStatResponse.getPortType(),
-                                                    lcStatResponse.getPortNumber(), lcStatResponse.getPortStatus());
-                                                break;
-                                            case BidibLibrary.MSG_LC_WAIT:
-                                                LOGGER.info("Received LcWaitResponse: {}", message);
-                                                // TODO I think this does not work if the sender is already waiting for a response ...
-                                                setTimeout(((LcWaitResponse) message).getTimeout());
-                                                break;
-                                            case BidibLibrary.MSG_LOGON:
-                                                // ignored
-                                                break;
-                                            case BidibLibrary.MSG_NODE_NEW:
-                                                Node node = ((NodeNewResponse) message).getNode(message.getAddr());
-
-                                                LOGGER.info("Send node changed acknowledge for nodetab version: {}",
-                                                    node.getVersion());
-
-                                                boolean fireNodeNew = false;
-                                                try {
-                                                    // create and register the new node in the node factory because we might receive spontaneous messages
-                                                    BidibNode newNode = nodeFactory.createNode(node);
-                                                    fireNodeNew = true;
-                                                }
-                                                catch (NodeAlreadyRegisteredException ex) {
-                                                    LOGGER
-                                                        .warn(
-                                                            "The new node is already registered in the nodes list. Signal new node to application is skipped.",
-                                                            ex);
-                                                }
-                                                finally {
-                                                    // acknowledge the new nodetab version to the interface
-                                                    nodeFactory.findNode(message.getAddr()).acknowledgeNodeChanged(
-                                                        node.getVersion());
-                                                }
-                                                if (fireNodeNew) {
-                                                    LOGGER.info("Signal new node in system to the application.");
-                                                    fireNodeNew(node);
-                                                }
-                                                break;
-                                            case BidibLibrary.MSG_NODE_LOST:
-                                                node = ((NodeLostResponse) message).getNode(message.getAddr());
-
-                                                fireNodeLost(node);
-
-                                                // acknowledge the new nodetab version to the interface
-                                                nodeFactory.findNode(message.getAddr()).acknowledgeNodeChanged(
-                                                    node.getVersion());
-                                                break;
-                                            case BidibLibrary.MSG_SYS_ERROR:
-                                                SysErrorResponse errorResponse = (SysErrorResponse) message;
-                                                switch (errorResponse.getErrorCode()) {
-                                                    case BidibLibrary.BIDIB_ERR_IDDOUBLE:
-                                                        LOGGER
-                                                            .warn(
-                                                                "A node attempted to register with an already registered ID: {}",
-                                                                errorResponse.getAddr());
-
-                                                        // TODO forward to application!
-                                                        break;
-                                                    default:
-                                                        fireError(message.getAddr(), errorResponse.getErrorCode());
-                                                        break;
-                                                }
-
-                                                // TODO if we have fired an error we should release a possible thread that is waiting for a result in the receive queue ...
-                                                //                                        messageReceived(message);
-                                                break;
-                                            case BidibLibrary.MSG_SYS_IDENTIFY_STATE:
-                                                fireIdentify(message.getAddr(), ((SysIdentifyResponse) message)
-                                                    .getState());
-                                                break;
-                                            case BidibLibrary.MSG_NEW_DECODER:
-                                                LOGGER.warn(
-                                                    "MSG_NEW_DECODER is currently not processed by application: {}",
-                                                    message);
-                                                break;
-                                            case BidibLibrary.MSG_ID_SEARCH_ACK:
-                                                LOGGER.warn(
-                                                    "MSG_ID_SEARCH_ACK is currently not processed by application: {}",
-                                                    message);
-                                                break;
-                                            case BidibLibrary.MSG_ADDR_CHANGE_ACK:
-                                                LOGGER
-                                                    .warn(
-                                                        "MSG_ADDR_CHANGE_ACK is currently not processed by application: {}",
-                                                        message);
-                                                break;
-                                            case BidibLibrary.MSG_BM_CURRENT:
-                                                LOGGER.warn(
-                                                    "MSG_BM_CURRENT is currently not processed by application: {}",
-                                                    message);
-                                                break;
-                                            default:
-                                                messageReceived(message);
-                                                break;
-                                        }
+                            for (byte detectorByte : detectorData) {
+                                if (offset >= size) {
+                                    break;
+                                }
+                                for (int bit = 0; bit <= 7; bit++) {
+                                    if (((detectorByte >> bit) & 1) == 1) {
+                                        fireOccupied(message.getAddr(), baseAddress + offset);
                                     }
                                     else {
-                                        LOGGER.error("Ignore unknown message.");
+                                        fireFree(message.getAddr(), baseAddress + offset);
                                     }
+                                    offset++;
                                 }
-                                finally {
-                                    if (message != null) {
-                                        // the message numbers are evaluated only after the magic message on the node was received ...
-
-                                        // verify that the receive message number is valid
-                                        Node node = new Node(message.getAddr());
-                                        if (nodeFactory.getNode(node).getNodeMagic() != null
-                                            || message instanceof SysMagicResponse) {
-                                            int numExpected = nodeFactory.getNode(node).getNextReceiveMsgNum(message);
-                                            int numReceived = message.getNum();
-                                            LOGGER.trace("Compare the message numbers, expected: {}, received: {}",
-                                                numExpected, numReceived);
-                                            if (numReceived != numExpected) {
-
-                                                LOGGER
-                                                    .warn(
-                                                        "Received wrong message number for message: {}, expected: {}, node: {}",
-                                                        new Object[] { message, numExpected, node });
-                                                throw new ProtocolException("wrong message number: expected "
-                                                    + numExpected + " but got " + numReceived);
-                                            }
-                                        }
-                                        else {
-                                            LOGGER
-                                                .warn("Ignore compare message number because the magic is not set on the node.");
-                                        }
-                                    }
-                                }
-                                output.reset();
                             }
-                        }
-                        else {
-                            if (data == BidibLibrary.BIDIB_PKT_ESCAPE) {
-                                escapeHot = true;
-                            }
-                            else if (data != BidibLibrary.BIDIB_PKT_MAGIC) {
-                                if (escapeHot) {
-                                    data ^= 0x20;
-                                    escapeHot = false;
-                                }
-                                output.write((byte) data);
-                            }
-                        }
-                    }
-                    LOGGER.debug("Leaving receive loop, RUNNING: {}", running);
+                            break;
+                        case BidibLibrary.MSG_BM_OCC:
+                            // acknowledge message
+                            nodeFactory.getNode(new Node(message.getAddr())).acknowledgeOccupied(
+                                ((FeedbackOccupiedResponse) message).getDetectorNumber());
 
-                    if (output != null && output.size() > 0) {
-                        byte[] remaining = output.toByteArray();
-                        String remainingString = ByteUtils.bytesToHex(remaining);
-                        LOGGER.warn("Data remaining in output: {}", remainingString);
-                    }
-                    if (logRecord != null && logRecord.length() > 0) {
-                        LOGGER.warn("Data remaining in logRecord: {}", logRecord);
-                    }
+                            fireOccupied(message.getAddr(), ((FeedbackOccupiedResponse) message).getDetectorNumber());
+                            break;
+                        case BidibLibrary.MSG_BM_SPEED:
+                            fireSpeed(message.getAddr(), ((FeedbackSpeedResponse) message).getAddress(),
+                                ((FeedbackSpeedResponse) message).getSpeed());
+                            break;
+                        case BidibLibrary.MSG_ACCESSORY_STATE:
+                            // process the AccessoryStateResponse message
+                            BidibNode bidibNode = nodeFactory.getNode(new Node(message.getAddr()));
+                            if (bidibNode instanceof AccessoryNode) {
+                                ((AccessoryNode) bidibNode)
+                                    .acknowledgeAccessoryState(((AccessoryStateResponse) message).getAccessoryState());
+                            }
 
+                            AccessoryStateResponse accessoryStateResponse = (AccessoryStateResponse) message;
+
+                            fireAccessoryState(message.getAddr(), accessoryStateResponse.getAccessoryState());
+                            break;
+                        case BidibLibrary.MSG_LC_KEY:
+                            fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
+                                ((LcKeyResponse) message).getKeyState());
+                            break;
+                        case BidibLibrary.MSG_LC_STAT:
+                            // ignored
+                            LOGGER.debug("Received LcStatResponse: {}", message);
+                            LcStatResponse lcStatResponse = (LcStatResponse) message;
+                            fireLcStat(message.getAddr(), lcStatResponse.getPortType(), lcStatResponse.getPortNumber(),
+                                lcStatResponse.getPortStatus());
+                            break;
+                        case BidibLibrary.MSG_LC_WAIT:
+                            LOGGER.info("Received LcWaitResponse: {}", message);
+                            // TODO I think this does not work if the sender is already waiting for a response ...
+                            setTimeout(((LcWaitResponse) message).getTimeout());
+                            break;
+                        case BidibLibrary.MSG_LOGON:
+                            // ignored
+                            break;
+                        case BidibLibrary.MSG_NODE_NEW:
+                            Node node = ((NodeNewResponse) message).getNode(message.getAddr());
+
+                            LOGGER.info("Send node changed acknowledge for nodetab version: {}", node.getVersion());
+
+                            boolean fireNodeNew = false;
+                            try {
+                                // create and register the new node in the node factory because we might receive spontaneous messages
+                                BidibNode newNode = nodeFactory.createNode(node);
+                                fireNodeNew = true;
+                            }
+                            catch (NodeAlreadyRegisteredException ex) {
+                                LOGGER
+                                    .warn(
+                                        "The new node is already registered in the nodes list. Signal new node to application is skipped.",
+                                        ex);
+                            }
+                            finally {
+                                // acknowledge the new nodetab version to the interface
+                                nodeFactory.findNode(message.getAddr()).acknowledgeNodeChanged(node.getVersion());
+                            }
+                            if (fireNodeNew) {
+                                LOGGER.info("Signal new node in system to the application.");
+                                fireNodeNew(node);
+                            }
+                            break;
+                        case BidibLibrary.MSG_NODE_LOST:
+                            node = ((NodeLostResponse) message).getNode(message.getAddr());
+
+                            fireNodeLost(node);
+
+                            // acknowledge the new nodetab version to the interface
+                            nodeFactory.findNode(message.getAddr()).acknowledgeNodeChanged(node.getVersion());
+                            break;
+                        case BidibLibrary.MSG_SYS_ERROR:
+                            SysErrorResponse errorResponse = (SysErrorResponse) message;
+                            switch (errorResponse.getErrorCode()) {
+                                case BidibLibrary.BIDIB_ERR_IDDOUBLE:
+                                    LOGGER.warn("A node attempted to register with an already registered ID: {}",
+                                        errorResponse.getAddr());
+
+                                    // TODO forward to application!
+                                    break;
+                                default:
+                                    fireError(message.getAddr(), errorResponse.getErrorCode());
+                                    break;
+                            }
+
+                            // TODO if we have fired an error we should release a possible thread that is waiting for a result in the receive queue ...
+                            //                                        messageReceived(message);
+                            break;
+                        case BidibLibrary.MSG_SYS_IDENTIFY_STATE:
+                            fireIdentify(message.getAddr(), ((SysIdentifyResponse) message).getState());
+                            break;
+                        case BidibLibrary.MSG_NEW_DECODER:
+                            LOGGER.warn("MSG_NEW_DECODER is currently not processed by application: {}", message);
+                            break;
+                        case BidibLibrary.MSG_ID_SEARCH_ACK:
+                            LOGGER.warn("MSG_ID_SEARCH_ACK is currently not processed by application: {}", message);
+                            break;
+                        case BidibLibrary.MSG_ADDR_CHANGE_ACK:
+                            LOGGER.warn("MSG_ADDR_CHANGE_ACK is currently not processed by application: {}", message);
+                            break;
+                        case BidibLibrary.MSG_BM_CURRENT:
+                            LOGGER.warn("MSG_BM_CURRENT is currently not processed by application: {}", message);
+                            break;
+                        default:
+                            messageReceived(message);
+                            break;
+                    }
                 }
                 else {
-                    LOGGER.error("No input available.");
+                    LOGGER.error("Ignore unknown message.");
                 }
+            }
+            finally {
+                if (message != null) {
+                    // the message numbers are evaluated only after the magic message on the node was received ...
 
+                    // verify that the receive message number is valid
+                    Node node = new Node(message.getAddr());
+                    if (nodeFactory.getNode(node).getNodeMagic() != null || message instanceof SysMagicResponse) {
+                        int numExpected = nodeFactory.getNode(node).getNextReceiveMsgNum(message);
+                        int numReceived = message.getNum();
+                        LOGGER.trace("Compare the message numbers, expected: {}, received: {}", numExpected,
+                            numReceived);
+                        if (numReceived != numExpected) {
+
+                            LOGGER.warn("Received wrong message number for message: {}, expected: {}, node: {}",
+                                new Object[] { message, numExpected, node });
+                            throw new ProtocolException("wrong message number: expected " + numExpected + " but got "
+                                + numReceived);
+                        }
+                    }
+                    else {
+                        LOGGER.warn("Ignore compare message number because the magic is not set on the node.");
+                    }
+                }
             }
-            catch (Exception e) {
-                LOGGER.warn("Exception detected in message receiver!", e);
-                throw new RuntimeException(e);
-            }
+            output.reset();
         }
     }
 
@@ -430,12 +320,12 @@ public class MessageReceiver {
 
     public void disable() {
         LOGGER.debug("disable is called.");
-        running = false;
+        running.set(false);
     }
 
     public void enable() {
         LOGGER.debug("enable is called.");
-        running = true;
+        running.set(true);
     }
 
     protected void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {

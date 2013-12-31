@@ -27,7 +27,7 @@ public class MessageReceiverTest {
         MessageListener messageListener = Mockito.mock(MessageListener.class);
 
         // prepare the object to test
-        MessageReceiver receiver = new MessageReceiver(nodeFactory);
+        SerialMessageReceiver receiver = new SerialMessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
         // set the receive queue
 
@@ -56,7 +56,7 @@ public class MessageReceiverTest {
         MessageListener messageListener = Mockito.mock(MessageListener.class);
 
         // prepare the object to test
-        MessageReceiver receiver = new MessageReceiver(nodeFactory);
+        SerialMessageReceiver receiver = new SerialMessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
         // set the receive queue
 
@@ -89,7 +89,7 @@ public class MessageReceiverTest {
         MessageListener messageListener = Mockito.mock(MessageListener.class);
 
         // prepare the object to test
-        MessageReceiver receiver = new MessageReceiver(nodeFactory);
+        SerialMessageReceiver receiver = new SerialMessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
         // set the receive queue
 
@@ -129,7 +129,7 @@ public class MessageReceiverTest {
         MessageListener messageListener = Mockito.mock(MessageListener.class);
         BlockingQueue<BidibMessage> receiveQueue = Mockito.mock(BlockingQueue.class);
 
-        MessageReceiver receiver = new MessageReceiver(nodeFactory);
+        SerialMessageReceiver receiver = new SerialMessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
         // set the receive queue
 
@@ -159,7 +159,7 @@ public class MessageReceiverTest {
         BidibNode bidibNode = Mockito.mock(BidibNode.class);
         MessageListener messageListener = Mockito.mock(MessageListener.class);
 
-        MessageReceiver receiver = new MessageReceiver(nodeFactory);
+        SerialMessageReceiver receiver = new SerialMessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
         // set the receive queue
 
@@ -185,7 +185,7 @@ public class MessageReceiverTest {
         MessageListener messageListener = Mockito.mock(MessageListener.class);
         BlockingQueue<BidibMessage> receiveQueue = Mockito.mock(BlockingQueue.class);
 
-        MessageReceiver receiver = new MessageReceiver(nodeFactory);
+        SerialMessageReceiver receiver = new SerialMessageReceiver(nodeFactory);
         receiver.addMessageListener(messageListener);
         // set the receive queue
 

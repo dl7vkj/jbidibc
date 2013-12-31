@@ -86,7 +86,7 @@ public final class Bidib implements BidibInterface {
         nodeFactory = new NodeFactory();
         nodeFactory.setBidib(this);
         // create the message receiver
-        messageReceiver = new MessageReceiver(nodeFactory);
+        messageReceiver = new SerialMessageReceiver(nodeFactory);
         messageReceiver.setBidib(this);
         // set the receive queue
     }
@@ -249,7 +249,7 @@ public final class Bidib implements BidibInterface {
                 switch (event.getEventType()) {
                     case SerialPortEvent.DATA_AVAILABLE:
                         try {
-                            messageReceiver.receive(port);
+                            ((SerialMessageReceiver) messageReceiver).receive(port);
                         }
                         catch (Exception ex) {
                             LOGGER.error("Message receiver has terminated with an exception!", ex);
