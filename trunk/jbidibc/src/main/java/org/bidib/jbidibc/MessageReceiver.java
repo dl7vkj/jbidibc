@@ -62,8 +62,10 @@ public abstract class MessageReceiver {
 
     protected MessageReceiver(NodeFactory nodeFactory) {
         this.nodeFactory = nodeFactory;
+        this.nodeFactory.setMessageReceiver(this);
+
+        // enable the running flag
         running.set(true);
-        nodeFactory.setMessageReceiver(this);
     }
 
     public void setBidib(BidibInterface bidib) {
@@ -77,7 +79,7 @@ public abstract class MessageReceiver {
      * @param output the output stream that contains the messages
      * @throws ProtocolException
      */
-    protected void processMessages(ByteArrayOutputStream output) throws ProtocolException {
+    public void processMessages(ByteArrayOutputStream output) throws ProtocolException {
 
         // if a CRC error is detected in splitMessages the reading loop will terminate ...
         for (byte[] messageArray : splitMessages(output.toByteArray())) {

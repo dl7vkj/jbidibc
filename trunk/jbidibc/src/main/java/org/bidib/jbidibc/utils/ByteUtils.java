@@ -4,6 +4,7 @@
 package org.bidib.jbidibc.utils;
 
 import java.math.BigInteger;
+import java.util.Arrays;
 
 /**
  * This class contains utility functions for byte conversations.
@@ -57,7 +58,8 @@ public final class ByteUtils {
     }
 
     public static byte[] convertLongToUniqueId(long uniqueId) {
-        return BigInteger.valueOf(uniqueId).toByteArray();
+        byte[] value = BigInteger.valueOf(uniqueId).toByteArray();
+        return Arrays.copyOfRange(value, 1, 8);
     }
 
     public static long convertUniqueIdToLong(byte[] uniqueId) {
