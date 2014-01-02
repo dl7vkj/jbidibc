@@ -121,12 +121,21 @@ public class BidibMessage {
 
     public byte[] getContent() {
 
-        int size = 1 /*total len*/+ addr.length + 1 /*num*/+ 1 /*type*/+ data.length;
+        int size = 1 /*total len*/+ addr.length + 1 + 1 /*num*/+ 1 /*type*/+ data.length;
+        boolean rootAddr = false;
+        if (addr.length == 1 && addr[0] == 0) {
+            size = 1 /*total len*/+ addr.length + 1 /*num*/+ 1 /*type*/+ data.length;
+            rootAddr = true;
+        }
+
         byte[] content = new byte[size];
         int index = 0;
         content[index++] = ByteUtils.getLowByte(size - 1);
         System.arraycopy(addr, 0, content, index, addr.length);
         index += addr.length;
+        if (!rootAddr) {
+            content[index++] = 0;
+        }
         content[index++] = ByteUtils.getLowByte(num);
         content[index++] = type;
         System.arraycopy(data, 0, content, index, data.length);

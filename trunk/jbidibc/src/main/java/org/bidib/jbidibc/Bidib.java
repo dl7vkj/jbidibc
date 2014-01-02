@@ -151,14 +151,17 @@ public final class Bidib implements BidibInterface {
         return portIdentifiers;
     }
 
+    @Override
     public AccessoryNode getAccessoryNode(Node node) {
         return nodeFactory.getAccessoryNode(node);
     }
 
+    @Override
     public BoosterNode getBoosterNode(Node node) {
         return nodeFactory.getBoosterNode(node);
     }
 
+    @Override
     public CommandStationNode getCommandStationNode(Node node) {
         return nodeFactory.getCommandStationNode(node);
     }

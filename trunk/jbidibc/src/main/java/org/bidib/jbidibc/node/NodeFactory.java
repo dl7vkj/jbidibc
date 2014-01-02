@@ -190,7 +190,8 @@ public class NodeFactory {
 
             if (bidibNode == null) {
                 // get the classId of the new node
-                int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
+                //                int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
+                int classId = ByteUtils.getClassIdFromUniqueId(node.getUniqueId());
                 LOGGER.info("Create new bidibNode with classId: {}", classId);
 
                 // create the new node based on the class id
