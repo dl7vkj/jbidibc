@@ -58,7 +58,9 @@ public final class ByteUtils {
     }
 
     public static byte[] convertLongToUniqueId(long uniqueId) {
-        return BigInteger.valueOf(uniqueId).toByteArray();
+        byte[] value = BigInteger.valueOf(uniqueId).toByteArray();
+        int size = (value.length == 8 ? 1 : 0);
+        return Arrays.copyOfRange(value, size, 7 + size);
     }
 
     public static byte[] getVidPidFromUniqueId(long uniqueId) {
@@ -70,7 +72,6 @@ public final class ByteUtils {
     public static int getClassIdFromUniqueId(long uniqueId) {
         byte[] value = BigInteger.valueOf(uniqueId).abs().toByteArray();
         int index = (value.length == 8 ? 1 : 0);
-        //        return Arrays.copyOf(value, size);
         return ByteUtils.getInt(value[index]);
     }
 

@@ -13,8 +13,16 @@ public class ByteUtilsTest {
         long uniqueId = 0xd2000d68000036L;
         byte[] uniqueIdentifier = ByteUtils.convertLongToUniqueId(uniqueId);
 
-        Assert
-            .assertArrayEquals(new byte[] { 0x00, (byte) 0xd2, 0x00, 0x0d, 0x68, 0x00, 0x00, 0x36 }, uniqueIdentifier);
+        Assert.assertArrayEquals(new byte[] { (byte) 0xd2, 0x00, 0x0d, 0x68, 0x00, 0x00, 0x36 }, uniqueIdentifier);
+    }
+
+    @Test
+    public void convertLongToUniqueId2() {
+        long uniqueId = 0x05000d6b0069eaL;
+        byte[] uniqueIdentifier = ByteUtils.convertLongToUniqueId(uniqueId);
+
+        Assert.assertArrayEquals(new byte[] { (byte) 0x05, 0x00, 0x0d, 0x6b, 0x00, 0x69, (byte) 0xea },
+            uniqueIdentifier);
     }
 
     @Test
