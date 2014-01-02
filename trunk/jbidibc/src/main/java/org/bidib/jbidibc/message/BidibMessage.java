@@ -118,4 +118,19 @@ public class BidibMessage {
         }
         return super.equals(obj);
     }
+
+    public byte[] getContent() {
+
+        int size = 1 /*total len*/+ addr.length + 1 /*num*/+ 1 /*type*/+ data.length;
+        byte[] content = new byte[size];
+        int index = 0;
+        content[index++] = ByteUtils.getLowByte(size - 1);
+        System.arraycopy(addr, 0, content, index, addr.length);
+        index += addr.length;
+        content[index++] = ByteUtils.getLowByte(num);
+        content[index++] = type;
+        System.arraycopy(data, 0, content, index, data.length);
+
+        return content;
+    }
 }
