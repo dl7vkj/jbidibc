@@ -17,7 +17,7 @@ import org.slf4j.LoggerFactory;
 public class RootNode extends BidibNode {
     private static final Logger LOGGER = LoggerFactory.getLogger(RootNode.class);
 
-    public static final byte[] ROOTNODE_ADDR = new byte[] { 0, 0, 0, 0 };
+    public static final byte[] ROOTNODE_ADDR = new byte[] { 0 };
 
     RootNode(MessageReceiver messageReceiver, boolean ignoreWaitTimeout) {
         super(new byte[] { 0 }, messageReceiver, ignoreWaitTimeout);

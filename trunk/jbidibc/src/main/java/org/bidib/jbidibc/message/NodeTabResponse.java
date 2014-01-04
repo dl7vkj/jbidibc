@@ -19,6 +19,11 @@ public class NodeTabResponse extends BidibMessage {
         }
     }
 
+    public NodeTabResponse(byte[] addr, int num, byte version, byte localAddr, long uniqueId) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_NODETAB, ByteUtils.concat(new byte[] { version, localAddr }, ByteUtils
+            .getVidPidFromUniqueId(uniqueId)));
+    }
+
     /**
      * Create a new node based on the parent address and the received data.
      * @param parentAddress the parent address

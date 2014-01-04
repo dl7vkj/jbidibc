@@ -16,6 +16,10 @@ public class SysMagicResponse extends BidibMessage {
         }
     }
 
+    public SysMagicResponse(byte[] addr, int num, byte... data) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_SYS_MAGIC, data);
+    }
+
     public int getMagic() {
         byte[] data = getData();
 

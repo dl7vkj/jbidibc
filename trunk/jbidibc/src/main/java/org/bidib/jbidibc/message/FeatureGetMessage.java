@@ -2,6 +2,8 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.FeatureEnum;
+import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,5 +22,13 @@ public class FeatureGetMessage extends BidibMessage {
         catch (IllegalArgumentException ex) {
             LOGGER.debug("Create feature request with unknown number: {}", number, ex);
         }
+    }
+
+    public FeatureGetMessage(byte[] message) throws ProtocolException {
+        super(message);
+    }
+
+    public int getNumber() {
+        return ByteUtils.getInt(getData()[0]);
     }
 }

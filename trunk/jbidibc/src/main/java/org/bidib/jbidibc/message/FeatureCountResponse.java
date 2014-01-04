@@ -17,6 +17,10 @@ public class FeatureCountResponse extends BidibMessage {
         }
     }
 
+    public FeatureCountResponse(byte[] addr, int num, int featureCount) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_FEATURE_COUNT, ByteUtils.getLowByte(featureCount));
+    }
+
     public int getCount() {
         return ByteUtils.getInt(getData()[0]);
     }

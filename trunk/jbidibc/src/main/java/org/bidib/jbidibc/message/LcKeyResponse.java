@@ -14,6 +14,10 @@ public class LcKeyResponse extends BidibMessage {
         }
     }
 
+    public LcKeyResponse(byte[] addr, int num, byte keyNum, byte keyState) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_LC_KEY, new byte[] { keyNum, keyState });
+    }
+
     public int getKeyNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

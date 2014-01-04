@@ -20,6 +20,11 @@ public class FeedbackConfidenceResponse extends BidibMessage {
             getSignal());
     }
 
+    public FeedbackConfidenceResponse(byte[] addr, int num, byte valid, byte freeze, byte signal)
+        throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_BM_CONFIDENCE, new byte[] { valid, freeze, signal });
+    }
+
     public int getValid() {
         return ByteUtils.getInt(getData()[0]);
     }

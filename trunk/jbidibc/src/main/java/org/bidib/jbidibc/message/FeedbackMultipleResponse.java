@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.message;
 
+import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
@@ -9,6 +10,12 @@ public class FeedbackMultipleResponse extends BidibMessage {
         if (data == null || data.length < 3) {
             throw new ProtocolException("no feedback received");
         }
+    }
+
+    public FeedbackMultipleResponse(byte[] addr, int num, byte baseAddress, byte feedbackSize, byte[] feedbackMultiple)
+        throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_BM_MULTIPLE, ByteUtils.concat(new byte[] { baseAddress, feedbackSize },
+            feedbackMultiple));
     }
 
     public int getBaseAddress() {

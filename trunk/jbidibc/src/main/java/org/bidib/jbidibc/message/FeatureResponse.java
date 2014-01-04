@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.Feature;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class FeatureResponse extends BidibMessage {
 
@@ -15,9 +16,13 @@ public class FeatureResponse extends BidibMessage {
         }
     }
 
+    public FeatureResponse(byte[] addr, int num, int featureNum, int featureValue) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_FEATURE, ByteUtils.getLowByte(featureNum), ByteUtils.getLowByte(featureValue));
+    }
+
     public Feature getFeature() {
         byte[] data = getData();
 
-        return new Feature(data[0], data[1] & 0xFF);
+        return new Feature(ByteUtils.getInt(data[0]), ByteUtils.getInt(data[1]));
     }
 }

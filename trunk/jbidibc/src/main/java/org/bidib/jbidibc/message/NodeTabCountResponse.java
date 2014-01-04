@@ -20,6 +20,10 @@ public class NodeTabCountResponse extends BidibMessage {
         LOGGER.debug("Number of nodes in system: {}", getCount());
     }
 
+    public NodeTabCountResponse(byte[] addr, int num, byte tabCount) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_NODETAB_COUNT, tabCount);
+    }
+
     public int getCount() {
         return ByteUtils.getInt(getData()[0]);
     }

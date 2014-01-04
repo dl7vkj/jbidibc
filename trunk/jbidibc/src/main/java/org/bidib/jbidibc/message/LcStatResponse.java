@@ -16,6 +16,10 @@ public class LcStatResponse extends BidibMessage {
         }
     }
 
+    public LcStatResponse(byte[] addr, int num, byte portType, byte portNum, byte portStatus) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_LC_STAT, new byte[] { portType, portNum, portStatus });
+    }
+
     public LcOutputType getPortType() {
         return LcOutputType.valueOf(getData()[0]);
     }

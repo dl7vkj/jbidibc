@@ -19,6 +19,10 @@ public class FeatureNotAvailableResponse extends BidibMessage {
         }
     }
 
+    public FeatureNotAvailableResponse(byte[] addr, int num, int featureNum) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_FEATURE_NA, ByteUtils.getLowByte(featureNum));
+    }
+
     /**
      * @return the feature number
      */
