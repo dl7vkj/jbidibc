@@ -54,8 +54,16 @@ public class LibraryPathManipulator {
      *            a sub directory of <code>user.dir</code> this parameter is used to extend the path to find the
      *            matching structure.
      * 
-     *            <pre>
-     * --rxtx + --windows + --x86 + --x86_64 + --linux + --i386 + --x86_64 + --amd64 + --ia64 + --mac
+     * <pre>
+     * --rxtx 
+     *   + --windows 
+     *     + --x86 
+     *     + --x86_64 
+     *   + --linux 
+     *     + --i386 
+     *     + --x86_64 
+     *     + --arm 
+     *   + --mac
      * </pre>
      */
     public void manipulateLibraryPath(String pathToDLLs) {
