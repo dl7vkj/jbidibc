@@ -12,47 +12,50 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * The <code>LibraryPathManipulator</code> is used to manipulate the <code>java.library.path</code> after the JVM was started.
- * The solution is based on this blog: http://blog.cedarsoft.com/2010/11/setting-java-library-path-programmatically/
+ * The <code>LibraryPathManipulator</code> is used to manipulate the <code>java.library.path</code> after the JVM was
+ * started. The solution is based on this blog:
+ * http://blog.cedarsoft.com/2010/11/setting-java-library-path-programmatically/
  * </p>
  * 
- * The absolute path to location of the RXTX native libraries can be specified with the JVM property <code>jbidibc.path_to_RXTX_libs</code>.
- * <p>E.g. <code>-Djbidibc.path_to_RXTX_libs="E:/svn/jbidibc/jbidibc/jbidibc"</code> if the native libraries 
- * are located at <i>E:/svn/jbidibc/jbidibc/jbidibc/rxtx</i></p>   
+ * The absolute path to location of the RXTX native libraries can be specified with the JVM property
+ * <code>jbidibc.path_to_RXTX_libs</code>.
+ * <p>
+ * E.g. <code>-Djbidibc.path_to_RXTX_libs="E:/svn/jbidibc/jbidibc/jbidibc"</code> if the native libraries are located at
+ * <i>E:/svn/jbidibc/jbidibc/jbidibc/rxtx</i>
+ * </p>
  */
 public class LibraryPathManipulator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibraryPathManipulator.class);
 
     /**
-     * Absolute path to location of the RXTX native libraries. 
-     * This JVM property can be used in development environment to specify the path to the native libraries
-     * if the jbidib project is not opened.
-     * <p>E.g. <code>-Djbidibc.path_to_RXTX_libs="E:/svn/jbidibc/jbidibc/jbidibc"</code> if the native libraries 
-     * are located at <i>E:/svn/jbidibc/jbidibc/jbidibc/rxtx</i></p>   
+     * Absolute path to location of the RXTX native libraries. This JVM property can be used in development environment
+     * to specify the path to the native libraries if the jbidib project is not opened.
+     * <p>
+     * E.g. <code>-Djbidibc.path_to_RXTX_libs="E:/svn/jbidibc/jbidibc/jbidibc"</code> if the native libraries are
+     * located at <i>E:/svn/jbidibc/jbidibc/jbidibc/rxtx</i>
+     * </p>
      */
     public static final String PROP_PATH_TO_RXTX_LIBS = "jbidibc.path_to_RXTX_libs";
 
-    public enum Platform {
-        Windows, Mac, Unix, Solaris, unsupported
+    private enum Architecture {
+        ARM, i386, unsupported
+    }
+
+    private enum OperatingSystem {
+        Windows, MacOS, Unix, Solaris, unsupported
     }
 
     /**
      * Manipulate the library path to include the path to the DLLs and SOs.
-     * @param pathToDLLs the DLLs and SOs are expected to be in a directory rxtx with structure below. If this structure 
-     * is in a sub directory of <code>user.dir</code> this parameter is used to extend the path to find the matching 
-     * structure.   
-     * <pre>
-     * -- rxtx
-     *    +-- windows
-     *       +-- x86
-     *       +-- x86_64
-     *    +-- linux
-     *       +-- i386
-     *       +-- x86_64
-     *       +-- amd64
-     *       +-- ia64
-     *    +-- mac
+     * 
+     * @param pathToDLLs
+     *            the DLLs and SOs are expected to be in a directory rxtx with structure below. If this structure is in
+     *            a sub directory of <code>user.dir</code> this parameter is used to extend the path to find the
+     *            matching structure.
+     * 
+     *            <pre>
+     * --rxtx + --windows + --x86 + --x86_64 + --linux + --i386 + --x86_64 + --amd64 + --ia64 + --mac
      * </pre>
      */
     public void manipulateLibraryPath(String pathToDLLs) {
@@ -81,7 +84,7 @@ public class LibraryPathManipulator {
             }
 
             if (pathToDLLs != null && pathToDLLs.trim().length() > 0) {
-                // append the path to dlls 
+                // append the path to dlls
                 basePath = new File(basePath, pathToDLLs.trim());
             }
 
@@ -141,8 +144,8 @@ public class LibraryPathManipulator {
     }
 
     private String resolveOSDependentPath() {
-
         String osDependentPathToLibrary = null;
+
         switch (getOsName()) {
             case Windows:
                 if ("32".equals(getDataModel())) {
@@ -153,63 +156,83 @@ public class LibraryPathManipulator {
                 }
                 break;
             case Unix:
-                if ("32".equals(getDataModel())) {
-                    osDependentPathToLibrary = "/rxtx/linux/i386";
+                Architecture osArch = getOsArch();
+
+                if (osArch == Architecture.ARM) {
+                    osDependentPathToLibrary = "/rxtx/linux/arm";
                 }
-                else {
-                    osDependentPathToLibrary = "/rxtx/linux/x86_64";
+                else if (osArch == Architecture.i386) {
+                    if ("32".equals(getDataModel())) {
+                        osDependentPathToLibrary = "/rxtx/linux/i386";
+                    }
+                    else {
+                        osDependentPathToLibrary = "/rxtx/linux/x86_64";
+                    }
                 }
                 break;
             case Solaris:
-                // TODO for Solaris 
+                // TODO for Solaris
                 LOGGER
                     .error("The SOLARIS OS was detected but I don't know how to distinguish between 64 and 32 bit version ...");
                 break;
-            case Mac:
+            case MacOS:
                 osDependentPathToLibrary = "/rxtx/mac";
                 break;
             default:
-                LOGGER.error("Unsupported OS detected!");
                 break;
         }
-
         return osDependentPathToLibrary;
     }
 
-    private static Platform getOsName() {
+    private static Architecture getOsArch() {
+        Architecture result = Architecture.unsupported;
+        String osArch = System.getProperty("os.arch").toLowerCase();
 
+        if (osArch.equals("arm")) {
+            result = Architecture.ARM;
+        }
+        else if (osArch.equals("i386")) {
+            result = Architecture.i386;
+        }
+        else {
+            LOGGER.error("Unsupported architecture {} detected!", osArch);
+        }
+        return result;
+    }
+
+    private static OperatingSystem getOsName() {
+        OperatingSystem result = OperatingSystem.unsupported;
         String osName = System.getProperty("os.name").toLowerCase();
 
-        Platform os = Platform.unsupported;
         if (osName.indexOf("win") > -1) {
-            os = Platform.Windows; // Windows
+            result = OperatingSystem.Windows;
         }
-        if (osName.indexOf("mac") > -1) {
-            os = Platform.Mac; // Mac
+        else if (osName.indexOf("mac") > -1) {
+            result = OperatingSystem.MacOS;
         }
-        if (osName.indexOf("nux") > -1) {
-            os = Platform.Unix; // Linux
+        else if (osName.indexOf("nux") > -1) {
+            result = OperatingSystem.Unix;
         }
-        if (osName.indexOf("nix") > -1) {
-            os = Platform.Unix; // Unix
+        else if (osName.indexOf("nix") > -1) {
+            result = OperatingSystem.Unix;
         }
-        if (osName.indexOf("sunos") > -1) {
-            os = Platform.Solaris; // Solaris
+        else if (osName.indexOf("sunos") > -1) {
+            result = OperatingSystem.Solaris;
         }
-        return os;
+        else {
+            LOGGER.error("Unsupported operating system {} detected!", osName);
+        }
+        return result;
     }
 
     public String getDataModel() {
-
-        String dataModel = System.getProperty("sun.arch.data.model").toLowerCase();
-
-        return dataModel;
+        return System.getProperty("sun.arch.data.model").toLowerCase();
     }
 
     /**
      * @return the current platform is windows
      */
     public static boolean isWindows() {
-        return getOsName().equals(Platform.Windows);
+        return getOsName().equals(OperatingSystem.Windows);
     }
 }
