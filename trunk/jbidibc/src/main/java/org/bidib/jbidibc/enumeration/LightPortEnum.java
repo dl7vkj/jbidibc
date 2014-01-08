@@ -8,7 +8,7 @@ public enum LightPortEnum implements BidibEnum {
         BidibLibrary.BIDIB_PORT_DIMM_OFF), NEON(BidibLibrary.BIDIB_PORT_TURN_ON_NEON), BLINKA(
         BidibLibrary.BIDIB_PORT_BLINK_A), BLINKB(BidibLibrary.BIDIB_PORT_BLINK_B), FLASHA(
         BidibLibrary.BIDIB_PORT_FLASH_A), FLASHB(BidibLibrary.BIDIB_PORT_FLASH_B), DOUBLEFLASH(
-        BidibLibrary.BIDIB_PORT_DOUBLE_FLASH);
+        BidibLibrary.BIDIB_PORT_DOUBLE_FLASH), UNKNOWN(255);
     // @formatter:on
 
     private final byte type;
