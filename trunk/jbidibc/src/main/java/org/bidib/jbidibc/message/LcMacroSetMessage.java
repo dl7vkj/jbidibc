@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.LcMacro;
+import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.MessageUtils;
 
 public class LcMacroSetMessage extends BidibMessage {
@@ -16,4 +17,7 @@ public class LcMacroSetMessage extends BidibMessage {
             MessageUtils.getPortStatus(macro) });
     }
 
+    public LcMacroSetMessage(byte[] message) throws ProtocolException {
+        super(message);
+    }
 }

@@ -65,6 +65,18 @@ public class RequestFactory {
             case BidibLibrary.MSG_LC_OUTPUT_QUERY:
                 concreteBidibMessage = new LcOutputQueryMessage(message);
                 break;
+            case BidibLibrary.MSG_LC_MACRO_PARA_GET:
+                concreteBidibMessage = new LcMacroParaGetMessage(message);
+                break;
+            case BidibLibrary.MSG_LC_MACRO_PARA_SET:
+                concreteBidibMessage = new LcMacroParaSetMessage(message);
+                break;
+            case BidibLibrary.MSG_LC_MACRO_GET:
+                concreteBidibMessage = new LcMacroGetMessage(message);
+                break;
+            case BidibLibrary.MSG_LC_MACRO_SET:
+                concreteBidibMessage = new LcMacroSetMessage(message);
+                break;
             case BidibLibrary.MSG_BM_GET_RANGE:
                 concreteBidibMessage = new FeedbackGetRangeMessage(message);
                 break;

@@ -13,6 +13,16 @@ public final class ByteUtils {
     private ByteUtils() {
     }
 
+    public static byte[] toDWORD(int value) {
+        byte[] dword = new byte[4];
+
+        for (int index = 0; index < 4; index++) {
+            byte val = (byte) ((value >> (8 * index)) & 0xFF);
+            dword[index] = val;
+        }
+        return dword;
+    }
+
     public static int getWord(byte lowByte, byte highByte) {
         return ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
     }

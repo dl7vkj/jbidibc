@@ -15,6 +15,11 @@ public class LcMacroParaResponse extends BidibMessage {
         }
     }
 
+    public LcMacroParaResponse(byte[] addr, int num, byte macroNum, byte step, int value) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_LC_MACRO_PARA, ByteUtils.concat(new byte[] { macroNum, step }, ByteUtils
+            .toDWORD(value)));
+    }
+
     public int getMacroNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

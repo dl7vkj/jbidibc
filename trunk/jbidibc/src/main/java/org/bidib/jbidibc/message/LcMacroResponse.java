@@ -16,6 +16,11 @@ public class LcMacroResponse extends BidibMessage {
         }
     }
 
+    public LcMacroResponse(byte[] addr, int num, byte macroNum, byte step, byte delay, byte portType, byte portNum,
+        byte portStatus) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_LC_STAT, new byte[] { macroNum, step, delay, portType, portNum, portStatus });
+    }
+
     /**
      * @return returns the initialized macro point
      */
