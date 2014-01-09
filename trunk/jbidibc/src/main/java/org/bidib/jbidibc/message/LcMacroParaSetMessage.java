@@ -22,9 +22,11 @@ public class LcMacroParaSetMessage extends BidibMessage {
         return ByteUtils.getInt(getData()[1]);
     }
 
-    public int getValue() {
+    public byte[] getValue() {
         byte[] data = getData();
+        byte[] result = new byte[data.length - 2];
 
-        return ByteUtils.getDWORD(data);
+        System.arraycopy(data, 2, result, 0, result.length);
+        return result;
     }
 }
