@@ -23,6 +23,14 @@ public final class ByteUtils {
         return dword;
     }
 
+    public static int getDWORD(byte[] value) {
+        int dword = 0;
+        for (int index = 3; index > -1; index++) {
+            dword = (dword << (8 * index)) & value[index];
+        }
+        return dword;
+    }
+
     public static int getWord(byte lowByte, byte highByte) {
         return ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
     }

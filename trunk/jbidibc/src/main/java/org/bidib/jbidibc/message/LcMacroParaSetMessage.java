@@ -14,4 +14,17 @@ public class LcMacroParaSetMessage extends BidibMessage {
         super(message);
     }
 
+    public int getMacroNumber() {
+        return ByteUtils.getInt(getData()[0]);
+    }
+
+    public int getStep() {
+        return ByteUtils.getInt(getData()[1]);
+    }
+
+    public int getValue() {
+        byte[] data = getData();
+
+        return ByteUtils.getDWORD(data);
+    }
 }

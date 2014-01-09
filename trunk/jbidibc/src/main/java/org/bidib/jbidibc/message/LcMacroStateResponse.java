@@ -16,6 +16,11 @@ public class LcMacroStateResponse extends BidibMessage {
         }
     }
 
+    public LcMacroStateResponse(byte[] addr, int num, byte macroNumber, LcMacroState macroState)
+        throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_LC_MACRO_STATE, new byte[] { macroNumber, macroState.getType() });
+    }
+
     public int getMacroNumber() {
         return ByteUtils.getInt(getData()[0]);
     }
