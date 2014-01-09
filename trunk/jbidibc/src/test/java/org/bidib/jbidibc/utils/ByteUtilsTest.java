@@ -57,4 +57,42 @@ public class ByteUtilsTest {
         LOGGER.info("ClassId: {}", classId);
         Assert.assertEquals(0x05, classId);
     }
+
+    @Test
+    public void getDWORD() {
+        byte[] sample = new byte[] { 0x01, 0x02, 0x03, 0x04 };
+        int dword = ByteUtils.getDWORD(sample);
+        LOGGER.info("Converted dword: {}", dword);
+
+        Assert.assertEquals(0x04030201, dword);
+    }
+
+    @Test
+    public void getDWORD2() {
+        byte[] sample = new byte[] { (byte) 0xF1, 0x02, 0x03, (byte) 0xF4 };
+        int dword = ByteUtils.getDWORD(sample);
+        LOGGER.info("Converted dword: {}", dword);
+
+        Assert.assertEquals(0xF40302F1, dword);
+    }
+
+    @Test
+    public void toDWORD() {
+        byte[] sample = new byte[] { 0x01, 0x02, 0x03, 0x04 };
+        int dword = 0x04030201;
+        byte[] test = ByteUtils.toDWORD(dword);
+        LOGGER.info("Converted test: {}", test);
+
+        Assert.assertArrayEquals(sample, test);
+    }
+
+    @Test
+    public void toDWORD2() {
+        byte[] sample = new byte[] { (byte) 0xF1, 0x02, 0x03, (byte) 0xF4 };
+        int dword = 0xF40302F1;
+        byte[] test = ByteUtils.toDWORD(dword);
+        LOGGER.info("Converted test: {}", test);
+
+        Assert.assertArrayEquals(sample, test);
+    }
 }

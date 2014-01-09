@@ -25,8 +25,8 @@ public final class ByteUtils {
 
     public static int getDWORD(byte[] value) {
         int dword = 0;
-        for (int index = 3; index > -1; index++) {
-            dword = (dword << (8 * index)) & value[index];
+        for (int index = 3; index > -1; index--) {
+            dword = (dword << 8) | (value[index] & 0xFF);
         }
         return dword;
     }
