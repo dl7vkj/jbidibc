@@ -15,6 +15,11 @@ public class AccessoryStateResponse extends BidibMessage {
         }
     }
 
+    public AccessoryStateResponse(byte[] addr, int num, byte accessoryNum, byte aspect, byte[] value)
+        throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_ACCESSORY_STATE, ByteUtils.concat(new byte[] { accessoryNum, aspect }, value));
+    }
+
     public AccessoryState getAccessoryState() {
         byte[] data = getData();
 

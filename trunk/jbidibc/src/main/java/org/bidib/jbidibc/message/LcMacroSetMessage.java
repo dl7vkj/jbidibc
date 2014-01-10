@@ -2,7 +2,9 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.LcMacro;
+import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.MessageUtils;
 
 public class LcMacroSetMessage extends BidibMessage {
@@ -19,5 +21,24 @@ public class LcMacroSetMessage extends BidibMessage {
 
     public LcMacroSetMessage(byte[] message) throws ProtocolException {
         super(message);
+    }
+
+    public int getMacroNumber() {
+        return ByteUtils.getInt(getData()[0]);
+    }
+
+    public int getStep() {
+        return ByteUtils.getInt(getData()[1]);
+    }
+
+    /**
+     * @return returns the initialized macro point
+     */
+    public LcMacro getMacro() {
+        byte[] data = getData();
+        LcOutputType outputType = LcOutputType.valueOf(data[3]);
+
+        return new LcMacro(data[0], data[1], data[2], outputType, data[4], MessageUtils.toPortStatus(outputType,
+            data[5]), MessageUtils.getPortValue(outputType, data[5]));
     }
 }

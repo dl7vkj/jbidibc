@@ -17,6 +17,10 @@ public class CommandStationStateResponse extends BidibMessage {
         }
     }
 
+    public CommandStationStateResponse(byte[] addr, int num, byte state) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_CS_STATE, state);
+    }
+
     public CommandStationState getState() {
         return CommandStationState.valueOf(getData()[0]);
     }

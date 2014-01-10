@@ -41,6 +41,9 @@ public class RequestFactory {
             case BidibLibrary.MSG_SYS_CLOCK:
                 concreteBidibMessage = new SysClockMessage(message);
                 break;
+            case BidibLibrary.MSG_CS_SET_STATE:
+                concreteBidibMessage = new CommandStationSetStateMessage(message);
+                break;
             case BidibLibrary.MSG_FEATURE_GET:
                 concreteBidibMessage = new FeatureGetMessage(message);
                 break;
@@ -79,6 +82,18 @@ public class RequestFactory {
                 break;
             case BidibLibrary.MSG_LC_MACRO_HANDLE:
                 concreteBidibMessage = new LcMacroHandleMessage(message);
+                break;
+            case BidibLibrary.MSG_ACCESSORY_GET:
+                concreteBidibMessage = new AccessoryGetMessage(message);
+                break;
+            case BidibLibrary.MSG_ACCESSORY_SET:
+                concreteBidibMessage = new AccessorySetMessage(message);
+                break;
+            case BidibLibrary.MSG_ACCESSORY_PARA_GET:
+                concreteBidibMessage = new AccessoryParaGetMessage(message);
+                break;
+            case BidibLibrary.MSG_ACCESSORY_PARA_SET:
+                concreteBidibMessage = new AccessoryParaSetMessage(message);
                 break;
             case BidibLibrary.MSG_BM_GET_RANGE:
                 concreteBidibMessage = new FeedbackGetRangeMessage(message);

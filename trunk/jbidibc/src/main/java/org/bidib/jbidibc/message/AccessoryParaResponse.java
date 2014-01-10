@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class AccessoryParaResponse extends BidibMessage {
     public static final Integer TYPE = BidibLibrary.MSG_ACCESSORY_PARA;
@@ -11,6 +12,11 @@ public class AccessoryParaResponse extends BidibMessage {
         if (data == null || data.length < 2) {
             throw new ProtocolException("no accessory parameter received");
         }
+    }
+
+    public AccessoryParaResponse(byte[] addr, int num, byte accessoryNum, byte paraNum, byte[] value)
+        throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_ACCESSORY_PARA, ByteUtils.concat(new byte[] { accessoryNum, paraNum }, value));
     }
 
     public int getAccessoryNumber() {

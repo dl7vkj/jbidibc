@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.CommandStationState;
+import org.bidib.jbidibc.exception.ProtocolException;
 
 /**
  * Command to set the state of the command station
@@ -9,5 +10,13 @@ import org.bidib.jbidibc.enumeration.CommandStationState;
 public class CommandStationSetStateMessage extends BidibMessage {
     public CommandStationSetStateMessage(CommandStationState operation) {
         super(0, BidibLibrary.MSG_CS_SET_STATE, operation.getType());
+    }
+
+    public CommandStationSetStateMessage(byte[] message) throws ProtocolException {
+        super(message);
+    }
+
+    public CommandStationState getState() {
+        return CommandStationState.valueOf(getData()[0]);
     }
 }
