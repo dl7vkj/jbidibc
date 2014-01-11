@@ -6,8 +6,8 @@
  and deactivate for BiDiB-Monitor: -->
 <VendorCV>
   <Version
-    Version="0.13"
-    Lastupdate="20131215"
+    Version="0.16"
+    Lastupdate="20140111"
     Author="mos"
     Pid="117"
     Vendor="013"
@@ -83,27 +83,35 @@
       </CV>
     </Template>
     <Template Name="Poweroutput">
-      <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw">
+      <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="7" Mode="rw">
         <Description Lang="de-DE" Text="Konfiguration"/>
         <Description Lang="en-EN" Text="Configuration"/>
         <Bitdescription Bitnum="1" Lang="de-DE" Text="Rückmeldung: 0=ohne, 1=mit"/>
         <Bitdescription Bitnum="1" Lang="en-EN" Text="Feedback: 0=without, 1=with "/>
-        <Bitdescription Bitnum="2" Lang="de-DE" Text="Impulsbetrieb: 0=ohne, 1=mit"/>
-        <Bitdescription Bitnum="2" Lang="en-EN" Text="One-shot pulse: 0=false, 1=true"/>
+        <Bitdescription Bitnum="2" Lang="de-DE" Text="Endabschaltung: 0=ohne, 1=mit"/>
+        <Bitdescription Bitnum="2" Lang="en-EN" Text="Turn off switch: 0=false, 1=true"/>
+        <Bitdescription Bitnum="3" Lang="de-DE" Text="Impulsbetrieb: 0=ohne, 1=mit"/>
+        <Bitdescription Bitnum="3" Lang="en-EN" Text="One-shot pulse: 0=false, 1=true"/>
       </CV>
       <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Rückmelde-Ticks (20...40 ms + ): 0...255 [20 ms]"/>
-        <Description Lang="en-EN" Text="Feedback ticks, (20...40 ms + ): 0...255 [20 ms]"/>
+        <Description Lang="de-DE" Text="Rückmelde/Pulse-Ticks: 0, 1..255 [20 ms]"/>
+        <Description Lang="en-EN" Text="Feedback/pulse ticks: 0, 1..255 [20 ms]"/>
       </CV>
     </Template>
     <Template Name="GPIO">
-      <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw" Rebootneeded="true">
+      <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="7" Mode="rw" Rebootneeded="true">
         <Description Lang="de-DE" Text="Konfiguration"/>
         <Description Lang="en-EN" Text="Configuration"/>
         <Bitdescription Bitnum="1" Lang="de-DE" Text="Richtung: 0=Ausgang, 1=Eingang"/>
-            <Bitdescription Bitnum="1" Lang="en-EN" Text="Direction: 0=output, 1=input"/>
+        <Bitdescription Bitnum="1" Lang="en-EN" Text="Direction: 0=output, 1=input"/>
         <Bitdescription Bitnum="2" Lang="de-DE" Text="Aktivlage: 0=HIGH-, 1=LOW-aktiv"/>
         <Bitdescription Bitnum="2" Lang="en-EN" Text="Polarity: 0=active-high, 1=active-low"/>
+        <Bitdescription Bitnum="3" Lang="de-DE" Text="Impulsbetrieb: 0=ohne, 1=mit"/>
+        <Bitdescription Bitnum="3" Lang="en-EN" Text="One-shot pulse: 0=false, 1=true"/>
+      </CV>
+      <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+        <Description Lang="de-DE" Text="Pulse-Ticks: 0, 1...255 [20 ms]"/>
+        <Description Lang="en-EN" Text="pulse ticks: 0, 1...255 [20 ms]"/>
       </CV>
     </Template>
     <Template Name="Servo">
@@ -165,23 +173,15 @@
       <Node>
       <Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
       <Nodetext Lang="en-EN" Text="Common settings"/>
-      <CV Number="40" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+      <CV Number="70" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
         <Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
         <Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
-      </CV>
-      <CV Number="44" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="3" Mode="rw">
-        <Description Lang="de-DE" Text="Test-CV - GPIOs: Verwalten der Ein- und Ausgänge"/>
-        <Description Lang="en-EN" Text="Test-CV - GPIOs: Management of inputs and outputs"/>
-        <Bitdescription Bitnum="1" Lang="de-DE" Text="Zählweise: 0=lückend, 1=lückenlos"/>
-        <Bitdescription Bitnum="1" Lang="en-EN" Text="Mode of count: 0=fragmentary, 1=consistently"/>
-        <Bitdescription Bitnum="2" Lang="de-DE" Text="Anzahl: 0=variabel (16+0..16/16..0), 1=konstant (16+32)"/>
-        <Bitdescription Bitnum="2" Lang="en-EN" Text="Count: 0=variable (16+0..16/16..0), 1=constant (16+32)"/>
       </CV>
     </Node>
     <Node>
       <Nodetext Lang="de-DE" Text="Servos"/>
       <Nodetext Lang="en-EN" Text="Servos"/>
-      <Node Offset="51" Template="Servo" Count="8" Next="16">
+      <Node Offset="81" Template="Servo" Count="8" Next="16">
         <Nodetext Lang="de-DE" Text="Servo %%d"/>
         <Nodetext Lang="en-EN" Text="Servo %%d"/>
       </Node>
@@ -189,7 +189,7 @@
     <Node>
       <Nodetext Lang="de-DE" Text="Accessories"/>
       <Nodetext Lang="en-EN" Text="Accessories"/>
-      <Node Offset="179" Template="AccessoryMap" Count="20" Next="9">
+      <Node Offset="209" Template="AccessoryMap" Count="20" Next="9">
         <Nodetext Lang="de-DE" Text="Accessory %%d"/>
         <Nodetext Lang="en-EN" Text="Accessory %%d"/>
       </Node>
@@ -197,7 +197,7 @@
     <Node>
       <Nodetext Lang="de-DE" Text="Power Ausgänge"/>
       <Nodetext Lang="en-EN" Text="Power outputs"/>
-      <Node Offset="359" Template="Poweroutput" Count="16" Next="3">
+      <Node Offset="389" Template="Poweroutput" Count="16" Next="3">
         <Nodetext Lang="de-DE" Text="Poweroutput %%d"/>
         <Nodetext Lang="en-EN" Text="Poweroutput %%d"/>
       </Node>
@@ -205,7 +205,7 @@
     <Node>
       <Nodetext Lang="de-DE" Text="GPIO"/>
       <Nodetext Lang="en-EN" Text="GPIO"/>
-      <Node Offset="407" Template="GPIO" Count="16" Next="2">
+      <Node Offset="437" Template="GPIO" Count="16" Next="3">
         <Nodetext Lang="de-DE" Text="GPIO %%d"/>
         <Nodetext Lang="en-EN" Text="GPIO %%d"/>
       </Node>
