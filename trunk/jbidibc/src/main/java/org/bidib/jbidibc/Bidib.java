@@ -317,6 +317,16 @@ public final class Bidib implements BidibInterface {
                     port = internalOpen(commPort, 115200);
                     sendMagic();
                 }
+                catch (PortInUseException ex) {
+                    LOGGER.warn("Open communication failed  because port is in use.", ex);
+                    try {
+                        close();
+                    }
+                    catch (Exception e4) {
+                        // ignore
+                    }
+                    throw new PortNotOpenedException(portName, PortNotOpenedException.PORT_IN_USE);
+                }
                 catch (NoAnswerException naex) {
                     LOGGER.warn("Open communication failed.", naex);
                     try {
@@ -346,7 +356,7 @@ public final class Bidib implements BidibInterface {
             }
             catch (InterruptedException ex) {
                 LOGGER.warn("Wait for portSemaphore was interrupted.", ex);
-                throw new PortNotOpenedException(portName);
+                throw new PortNotOpenedException(portName, PortNotOpenedException.UNKNOWN);
             }
             finally {
                 portSemaphore.release();

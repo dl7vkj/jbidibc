@@ -48,7 +48,7 @@ public class RootNode extends BidibNode {
         LOGGER.trace("Get magic from root node!");
         int magic = super.getMagic();
         LOGGER.debug("Get magic from root node returns: {}", magic);
-        if (BidibLibrary.BIDIB_BOOT_MAGIC == magic) {
+        if (BIDIB_MAGIC_UNKNOWN == magic || BidibLibrary.BIDIB_BOOT_MAGIC == magic) {
             LOGGER.warn("The interface did not respond the get magic request!");
 
             StringBuffer sb = new StringBuffer("The interface did not respond the get magic request!");
