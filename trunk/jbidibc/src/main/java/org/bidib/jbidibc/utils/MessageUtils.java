@@ -8,6 +8,7 @@ import org.bidib.jbidibc.enumeration.BidibEnum;
 import org.bidib.jbidibc.enumeration.FlagEnum;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.enumeration.LightPortEnum;
+import org.bidib.jbidibc.enumeration.MacroEnum;
 import org.bidib.jbidibc.enumeration.MotorPortEnum;
 import org.bidib.jbidibc.enumeration.ServoPortEnum;
 import org.bidib.jbidibc.enumeration.SoundPortEnum;
@@ -94,6 +95,9 @@ public class MessageUtils {
             }
             else if (status instanceof AccessoryOkayEnum) {
                 result = ((AccessoryOkayEnum) status).getType();
+            }
+            else if (status instanceof MacroEnum) {
+                result = ((MacroEnum) status).getType();
             }
             else {
                 LOGGER.warn("Unsupported macro status detected: {}", status);
