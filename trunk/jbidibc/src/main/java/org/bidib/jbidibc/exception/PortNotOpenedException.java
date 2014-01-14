@@ -1,6 +1,6 @@
 package org.bidib.jbidibc.exception;
 
-public class PortNotOpenedException extends Exception {
+public class PortNotOpenedException extends Exception implements ReasonAware {
     private static final long serialVersionUID = 1L;
 
     public static final String PORT_IN_USE = "portInUse";
@@ -25,6 +25,7 @@ public class PortNotOpenedException extends Exception {
     /**
      * @return the reason
      */
+    @Override
     public String getReason() {
         return reason;
     }

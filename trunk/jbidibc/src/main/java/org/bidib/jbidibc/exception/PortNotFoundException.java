@@ -1,7 +1,9 @@
 package org.bidib.jbidibc.exception;
 
-public class PortNotFoundException extends Exception {
+public class PortNotFoundException extends Exception implements ReasonAware {
     private static final long serialVersionUID = 1L;
+
+    public static final String PORT_NOT_FOUND = "portNotFound";
 
     public PortNotFoundException() {
         super();
@@ -13,5 +15,13 @@ public class PortNotFoundException extends Exception {
 
     public PortNotFoundException(String message, Throwable cause) {
         super(message, cause);
+    }
+
+    /**
+     * @return the reason
+     */
+    @Override
+    public String getReason() {
+        return PORT_NOT_FOUND;
     }
 }
