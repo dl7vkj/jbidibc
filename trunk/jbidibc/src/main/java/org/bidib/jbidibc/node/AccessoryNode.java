@@ -1,13 +1,10 @@
 package org.bidib.jbidibc.node;
 
 import org.bidib.jbidibc.AccessoryState;
-import org.bidib.jbidibc.Bidib;
-import org.bidib.jbidibc.LcConfig;
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.enumeration.LcMacroOperationCode;
 import org.bidib.jbidibc.enumeration.LcMacroState;
-import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.exception.ProtocolNoAnswerException;
 import org.bidib.jbidibc.message.AccessoryGetMessage;
@@ -16,10 +13,6 @@ import org.bidib.jbidibc.message.AccessoryParaResponse;
 import org.bidib.jbidibc.message.AccessoryParaSetMessage;
 import org.bidib.jbidibc.message.AccessorySetMessage;
 import org.bidib.jbidibc.message.BidibMessage;
-import org.bidib.jbidibc.message.LcConfigGetMessage;
-import org.bidib.jbidibc.message.LcConfigResponse;
-import org.bidib.jbidibc.message.LcConfigSetMessage;
-import org.bidib.jbidibc.message.LcKeyMessage;
 import org.bidib.jbidibc.message.LcMacroGetMessage;
 import org.bidib.jbidibc.message.LcMacroHandleMessage;
 import org.bidib.jbidibc.message.LcMacroParaGetMessage;
@@ -28,9 +21,6 @@ import org.bidib.jbidibc.message.LcMacroParaSetMessage;
 import org.bidib.jbidibc.message.LcMacroResponse;
 import org.bidib.jbidibc.message.LcMacroSetMessage;
 import org.bidib.jbidibc.message.LcMacroStateResponse;
-import org.bidib.jbidibc.message.LcNotAvailableResponse;
-import org.bidib.jbidibc.message.LcOutputMessage;
-import org.bidib.jbidibc.message.LcOutputQueryMessage;
 import org.bidib.jbidibc.utils.AccessoryStateUtils;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
@@ -71,30 +61,6 @@ public class AccessoryNode extends DeviceNode {
     public void getAccessoryState(int accessoryNumber) throws ProtocolException {
         // response is signaled asynchronously
         sendNoWait(new AccessoryGetMessage(accessoryNumber));
-    }
-
-    /**
-     * Get the configuration of the specified port.
-     * @param outputType the port type
-     * @param outputNumber the output number
-     * @return the configuration of the specified port.
-     * @throws ProtocolException
-     */
-    public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws ProtocolException {
-        LcConfig result = null;
-        BidibMessage response =
-            send(new LcConfigGetMessage(outputType, outputNumber), true, LcConfigResponse.TYPE,
-                LcNotAvailableResponse.TYPE);
-
-        if (response instanceof LcConfigResponse) {
-            result = ((LcConfigResponse) response).getLcConfig();
-        }
-        return result;
-    }
-
-    public void getKeyState(int keyNumber) throws ProtocolException {
-        // response is signaled asynchronously
-        sendNoWait(new LcKeyMessage(keyNumber));
     }
 
     public byte[] getMacroParameter(int macroNumber, int parameter) throws ProtocolException {
@@ -182,42 +148,6 @@ public class AccessoryNode extends DeviceNode {
         }
     }
 
-    public LcConfig setConfig(LcConfig config) throws ProtocolException {
-        LOGGER.debug("Send LcConfigSet to node, config: {}", config);
-
-        BidibMessage response =
-            send(new LcConfigSetMessage(config), true, LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE);
-        if (response instanceof LcConfigResponse) {
-            LcConfig result = ((LcConfigResponse) response).getLcConfig();
-            LOGGER.info("Set LcConfig returned: {}", result);
-            return result;
-        }
-        else if (response instanceof LcNotAvailableResponse) {
-            LcNotAvailableResponse result = (LcNotAvailableResponse) response;
-            LOGGER.warn("Set LcConfig failed. The requested port is not available, port type: {}, port number: {}",
-                result.getPortType(), result.getPortNumber());
-            throw new ProtocolException("The requested port is not available, port type: " + result.getPortType()
-                + ", port number: " + result.getPortNumber());
-        }
-
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-            return null;
-        }
-
-        throw createNoResponseAvailable("LcConfigSet");
-    }
-
-    /**
-     * Create a ProtocolException if no response is available.
-     * @param messageName the message name that is inserted in the exception message
-     * @return the exception
-     */
-    private ProtocolException createNoResponseAvailable(String messageName) {
-        ProtocolException ex = new ProtocolException("No response received from '" + messageName + "' message.");
-        return ex;
-    }
-
     public LcMacro setMacro(LcMacro macro) throws ProtocolException {
         LOGGER.info("Set the macro point: {}", macro);
         BidibMessage response = send(new LcMacroSetMessage(macro), true, LcMacroResponse.TYPE);
@@ -240,18 +170,5 @@ public class AccessoryNode extends DeviceNode {
             int result = ((LcMacroParaResponse) response).getMacroNumber();
             LOGGER.debug("Set macro parameter returned macronumber: {}", result);
         }
-    }
-
-    public void setOutput(LcOutputType outputType, int outputNumber, int state) throws ProtocolException {
-        LOGGER
-            .debug("Set the new output state, type: {}, outputNumber: {}, state: {}", outputType, outputNumber, state);
-        sendNoWait(new LcOutputMessage(outputType, outputNumber, state));
-        // TODO not sure why this is needed here ...
-        getMessageReceiver().setTimeout(Bidib.DEFAULT_TIMEOUT);
-    }
-
-    public void queryOutputState(LcOutputType outputType, int outputNumber) throws ProtocolException {
-        LOGGER.info("Query the output state, type: {}, outputNumber: {}", outputType, outputNumber);
-        sendNoWait(new LcOutputQueryMessage(outputType, outputNumber));
     }
 }

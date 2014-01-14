@@ -16,6 +16,7 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.CRC8;
 import org.bidib.jbidibc.Feature;
 import org.bidib.jbidibc.FirmwareUpdateStat;
+import org.bidib.jbidibc.LcConfig;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.ProtocolVersion;
@@ -24,6 +25,7 @@ import org.bidib.jbidibc.StringData;
 import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.enumeration.FirmwareUpdateOperation;
 import org.bidib.jbidibc.enumeration.IdentifyState;
+import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.exception.ProtocolNoAnswerException;
 import org.bidib.jbidibc.message.BidibMessage;
@@ -45,6 +47,13 @@ import org.bidib.jbidibc.message.FeedbackMirrorMultipleMessage;
 import org.bidib.jbidibc.message.FeedbackMirrorOccupiedMessage;
 import org.bidib.jbidibc.message.FwUpdateOpMessage;
 import org.bidib.jbidibc.message.FwUpdateStatResponse;
+import org.bidib.jbidibc.message.LcConfigGetMessage;
+import org.bidib.jbidibc.message.LcConfigResponse;
+import org.bidib.jbidibc.message.LcConfigSetMessage;
+import org.bidib.jbidibc.message.LcKeyMessage;
+import org.bidib.jbidibc.message.LcNotAvailableResponse;
+import org.bidib.jbidibc.message.LcOutputMessage;
+import org.bidib.jbidibc.message.LcOutputQueryMessage;
 import org.bidib.jbidibc.message.NodeChangedAckMessage;
 import org.bidib.jbidibc.message.NodeTabCountResponse;
 import org.bidib.jbidibc.message.NodeTabGetAllMessage;
@@ -626,6 +635,11 @@ public class BidibNode {
         }
 
         throw createNoResponseAvailable("get unique id");
+    }
+
+    public void getKeyState(int keyNumber) throws ProtocolException {
+        // response is signaled asynchronously
+        sendNoWait(new LcKeyMessage(keyNumber));
     }
 
     /**
@@ -1374,5 +1388,63 @@ public class BidibNode {
             return ((StringResponse) response).getStringData();
         }
         return null;
+    }
+
+    public void setOutput(LcOutputType outputType, int outputNumber, int state) throws ProtocolException {
+        LOGGER
+            .debug("Set the new output state, type: {}, outputNumber: {}, state: {}", outputType, outputNumber, state);
+        sendNoWait(new LcOutputMessage(outputType, outputNumber, state));
+        // TODO not sure why this is needed here ...
+        getMessageReceiver().setTimeout(Bidib.DEFAULT_TIMEOUT);
+    }
+
+    public void queryOutputState(LcOutputType outputType, int outputNumber) throws ProtocolException {
+        LOGGER.info("Query the output state, type: {}, outputNumber: {}", outputType, outputNumber);
+        sendNoWait(new LcOutputQueryMessage(outputType, outputNumber));
+    }
+
+    public LcConfig setConfig(LcConfig config) throws ProtocolException {
+        LOGGER.debug("Send LcConfigSet to node, config: {}", config);
+
+        BidibMessage response =
+            send(new LcConfigSetMessage(config), true, LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE);
+        if (response instanceof LcConfigResponse) {
+            LcConfig result = ((LcConfigResponse) response).getLcConfig();
+            LOGGER.info("Set LcConfig returned: {}", result);
+            return result;
+        }
+        else if (response instanceof LcNotAvailableResponse) {
+            LcNotAvailableResponse result = (LcNotAvailableResponse) response;
+            LOGGER.warn("Set LcConfig failed. The requested port is not available, port type: {}, port number: {}",
+                result.getPortType(), result.getPortNumber());
+            throw new ProtocolException("The requested port is not available, port type: " + result.getPortType()
+                + ", port number: " + result.getPortNumber());
+        }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
+        throw createNoResponseAvailable("LcConfigSet");
+    }
+
+    /**
+     * Get the configuration of the specified port.
+     * @param outputType the port type
+     * @param outputNumber the output number
+     * @return the configuration of the specified port.
+     * @throws ProtocolException
+     */
+    public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws ProtocolException {
+        LcConfig result = null;
+        BidibMessage response =
+            send(new LcConfigGetMessage(outputType, outputNumber), true, LcConfigResponse.TYPE,
+                LcNotAvailableResponse.TYPE);
+
+        if (response instanceof LcConfigResponse) {
+            result = ((LcConfigResponse) response).getLcConfig();
+        }
+        return result;
     }
 }
