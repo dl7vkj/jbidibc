@@ -15,6 +15,11 @@ public class SysSwVersionResponse extends BidibMessage {
         }
     }
 
+    public SysSwVersionResponse(byte[] addr, int num, byte majorVersion, byte minorVersion, byte microVersion)
+        throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_SYS_SW_VERSION, majorVersion, minorVersion, microVersion);
+    }
+
     public SoftwareVersion getVersion() {
         byte[] data = getData();
 

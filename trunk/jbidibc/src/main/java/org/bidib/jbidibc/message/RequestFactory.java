@@ -1,5 +1,7 @@
 package org.bidib.jbidibc.message;
 
+import java.io.ByteArrayOutputStream;
+
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
@@ -9,23 +11,54 @@ import org.slf4j.LoggerFactory;
 public class RequestFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestFactory.class);
 
+    private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
+
     private RequestFactory() {
     }
 
+    // TODO this should work with combined messages, too ...
     public static BidibMessage create(byte[] message) throws ProtocolException {
         LOGGER.debug("Create bidib message from raw message: {}", message);
 
-        int len = message.length - 1;
-        int startIndex = 0;
-        int endIndex = len;
-        if (message[0] == (byte) 0xFE) {
-            startIndex++;
+        ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+        boolean escapeHot = false;
+        StringBuilder logRecord = new StringBuilder();
+
+        // read the values from in the port
+        for (byte data : message) {
+            if (LOGGER.isTraceEnabled()) {
+                LOGGER.trace("received data: {}", ByteUtils.byteToHex(data));
+            }
+            // append data to log record
+            logRecord.append(ByteUtils.byteToHex(data)).append(" ");
+
+            // check if the current is the end of a packet
+            if (data == ByteUtils.getLowByte(BidibLibrary.BIDIB_PKT_MAGIC) && output.size() > 0) {
+
+                LOGGER.debug("Received raw message: {}", logRecord);
+                if (MSG_RAW_LOGGER.isInfoEnabled()) {
+                    MSG_RAW_LOGGER.info("<< {}", logRecord);
+                }
+                logRecord.setLength(0);
+
+                // the message is complete
+                break;
+            }
+            else {
+                if (data == ByteUtils.getLowByte(BidibLibrary.BIDIB_PKT_ESCAPE)) {
+                    escapeHot = true;
+                }
+                else if (data != ByteUtils.getLowByte(BidibLibrary.BIDIB_PKT_MAGIC)) {
+                    if (escapeHot) {
+                        data ^= 0x20;
+                        escapeHot = false;
+                    }
+                    output.write((byte) data);
+                }
+            }
         }
-        if (message[len] == (byte) 0xFE) {
-            endIndex--;
-        }
-        byte[] result = new byte[endIndex - startIndex];
-        System.arraycopy(message, startIndex, result, 0, result.length);
+        byte[] result = output.toByteArray();
 
         BidibMessage bidibMessage = createConcreteMessage(new BidibMessage(result), result);
         return bidibMessage;
@@ -40,6 +73,18 @@ public class RequestFactory {
                 break;
             case BidibLibrary.MSG_SYS_CLOCK:
                 concreteBidibMessage = new SysClockMessage(message);
+                break;
+            case BidibLibrary.MSG_SYS_GET_P_VERSION:
+                concreteBidibMessage = new SysGetPVersionMessage(message);
+                break;
+            case BidibLibrary.MSG_SYS_GET_SW_VERSION:
+                concreteBidibMessage = new SysGetSwVersionMessage(message);
+                break;
+            case BidibLibrary.MSG_SYS_ENABLE:
+                concreteBidibMessage = new SysEnableMessage(message);
+                break;
+            case BidibLibrary.MSG_SYS_DISABLE:
+                concreteBidibMessage = new SysDisableMessage(message);
                 break;
             case BidibLibrary.MSG_CS_SET_STATE:
                 concreteBidibMessage = new CommandStationSetStateMessage(message);
@@ -103,6 +148,9 @@ public class RequestFactory {
                 break;
             case BidibLibrary.MSG_BM_GET_CONFIDENCE:
                 concreteBidibMessage = new FeedbackGetConfidenceMessage(message);
+                break;
+            case BidibLibrary.MSG_FW_UPDATE_OP:
+                concreteBidibMessage = new FwUpdateOpMessage(message);
                 break;
 
             default:

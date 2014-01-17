@@ -15,6 +15,10 @@ public class FwUpdateStatResponse extends BidibMessage {
         }
     }
 
+    public FwUpdateStatResponse(byte[] addr, int num, byte status, byte timeout) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_FW_UPDATE_STAT, status, timeout);
+    }
+
     public FirmwareUpdateStat getUpdateStat() {
         byte[] data = getData();
 

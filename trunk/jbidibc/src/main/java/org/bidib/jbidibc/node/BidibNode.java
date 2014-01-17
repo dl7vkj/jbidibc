@@ -474,7 +474,8 @@ public class BidibNode {
      * @return the exception
      */
     private ProtocolException createNoResponseAvailable(String messageName) {
-        ProtocolException ex = new ProtocolException("No response received from '" + messageName + "' message.");
+        ProtocolException ex =
+            new ProtocolNoAnswerException("No response received from '" + messageName + "' message.");
         return ex;
     }
 
@@ -1196,10 +1197,11 @@ public class BidibNode {
             return ((FwUpdateStatResponse) response).getUpdateStat();
         }
 
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-            return null;
-        }
+        // TODO if the node does not respond correct we have problem ...
+        //        if (ignoreWaitTimeout) {
+        //            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+        //            return null;
+        //        }
 
         throw createNoResponseAvailable("firmware update operation");
     }

@@ -14,10 +14,10 @@ public class FeatureGetMessage extends BidibMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(FeatureGetMessage.class);
 
     public FeatureGetMessage(int number) {
-        super(0, BidibLibrary.MSG_FEATURE_GET, new byte[] { (byte) number });
+        super(0, BidibLibrary.MSG_FEATURE_GET, ByteUtils.getLowByte(number));
 
         try {
-            LOGGER.debug("Prepared get feature: {}", FeatureEnum.valueOf((byte) number));
+            LOGGER.debug("Prepared get feature: {}", FeatureEnum.valueOf(ByteUtils.getLowByte(number)));
         }
         catch (IllegalArgumentException ex) {
             LOGGER.debug("Create feature request with unknown number: {}", number, ex);
