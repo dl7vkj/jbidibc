@@ -11,7 +11,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
 /**
- * Signal the the detection of a loco in the specified section. 
+ * Signal the detection of a loco in the specified section. 
  */
 public class FeedbackAddressResponse extends BidibMessage {
     public static final Integer TYPE = BidibLibrary.MSG_BM_ADDRESS;
@@ -29,7 +29,7 @@ public class FeedbackAddressResponse extends BidibMessage {
     }
 
     public int getDetectorNumber() {
-        return ByteUtils.getInt(getData()[0]);
+        return ByteUtils.getInt(getData()[0], 0x7F);
     }
 
     private static byte[] prepareAddressData(int detectorNumber, Collection<AddressData> addresses) {
@@ -38,34 +38,35 @@ public class FeedbackAddressResponse extends BidibMessage {
 
         if (addresses.size() > 0) {
             for (AddressData addressData : addresses) {
-                int address = addressData.getAddress();
-                if (address > 0) {
-                    // write address
-                    out.write(ByteUtils.getLowByte(address));
-                    byte highAddr = ByteUtils.getHighByte(address);
-                    switch (addressData.getType()) {
-                        case LOCOMOTIVE_BACKWARD:
-                            highAddr = (byte) (highAddr & 0x3F);
-                            highAddr = (byte) (highAddr | (1 << 7));
-                            break;
-                        case ACCESSORY:
-                            highAddr = (byte) (highAddr & 0x3F);
-                            highAddr = (byte) (highAddr | (1 << 6));
-                            break;
-                        case EXTENDED_ACCESSORY:
-                            highAddr = (byte) (highAddr | (1 << 6));
-                            highAddr = (byte) (highAddr | (1 << 7));
-                            break;
-                        default:
-                            highAddr = (byte) (highAddr & 0x3F);
-                            break;
-                    }
-                    out.write(highAddr);
-                }
-                else {
-                    out.write((byte) 0);
-                    out.write((byte) 0);
-                }
+                addressData.writeToStream(out);
+                //                int address = addressData.getAddress();
+                //                if (address > 0) {
+                //                    // write address
+                //                    out.write(ByteUtils.getLowByte(address));
+                //                    byte highAddr = ByteUtils.getHighByte(address);
+                //                    switch (addressData.getType()) {
+                //                        case LOCOMOTIVE_BACKWARD:
+                //                            highAddr = (byte) (highAddr & 0x3F);
+                //                            highAddr = (byte) (highAddr | (1 << 7));
+                //                            break;
+                //                        case ACCESSORY:
+                //                            highAddr = (byte) (highAddr & 0x3F);
+                //                            highAddr = (byte) (highAddr | (1 << 6));
+                //                            break;
+                //                        case EXTENDED_ACCESSORY:
+                //                            highAddr = (byte) (highAddr | (1 << 6));
+                //                            highAddr = (byte) (highAddr | (1 << 7));
+                //                            break;
+                //                        default:
+                //                            highAddr = (byte) (highAddr & 0x3F);
+                //                            break;
+                //                    }
+                //                    out.write(highAddr);
+                //                }
+                //                else {
+                //                    out.write((byte) 0);
+                //                    out.write((byte) 0);
+                //                }
             }
         }
         else {

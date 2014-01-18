@@ -2,15 +2,20 @@ package org.bidib.jbidibc.node;
 
 import java.util.BitSet;
 
+import org.bidib.jbidibc.AddressData;
+import org.bidib.jbidibc.enumeration.CommandStationPom;
 import org.bidib.jbidibc.enumeration.CommandStationState;
 import org.bidib.jbidibc.enumeration.DirectionEnum;
 import org.bidib.jbidibc.enumeration.DriveAcknowledge;
+import org.bidib.jbidibc.enumeration.PomAcknowledge;
 import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.CommandStationBinaryStateMessage;
 import org.bidib.jbidibc.message.CommandStationDriveAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationDriveMessage;
+import org.bidib.jbidibc.message.CommandStationPomAcknowledgeResponse;
+import org.bidib.jbidibc.message.CommandStationPomMessage;
 import org.bidib.jbidibc.message.CommandStationSetStateMessage;
 import org.bidib.jbidibc.message.CommandStationStateResponse;
 import org.slf4j.Logger;
@@ -85,6 +90,20 @@ public class CommandStationNode {
         if (response instanceof CommandStationDriveAcknowledgeResponse) {
             result = ((CommandStationDriveAcknowledgeResponse) response).getState();
         }
+        return result;
+    }
+
+    public PomAcknowledge readPom(AddressData locoAddress, CommandStationPom opCode, int cvNumber)
+        throws ProtocolException {
+        byte data = 0;
+        BidibMessage response =
+            delegate.send(new CommandStationPomMessage(locoAddress, opCode, cvNumber, data), true,
+                CommandStationPomAcknowledgeResponse.TYPE);
+        PomAcknowledge result = null;
+        if (response instanceof CommandStationPomAcknowledgeResponse) {
+            result = ((CommandStationPomAcknowledgeResponse) response).getAcknState();
+        }
+        LOGGER.debug("Return the pomAcknowledge: {}", result);
         return result;
     }
 }

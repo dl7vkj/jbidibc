@@ -97,6 +97,14 @@ public class BoostQuery extends BidibNodeCommand {
                     @Override
                     public void lcStat(byte[] address, LcOutputType portType, int portNumber, int portStatus) {
                     }
+
+                    @Override
+                    public void feedbackAccessory(byte[] address, int detectorNumber, int accessoryAddress) {
+                    }
+
+                    @Override
+                    public void feedbackCv(byte[] address, int decoderAddress, int cvNumber, int dat) {
+                    }
                 });
 
                 // verify that the booster query returns the booster state ...

@@ -204,6 +204,16 @@ public final class ResponseFactory {
                 result =
                     new AddrChangeAckResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
+            case BidibLibrary.MSG_BM_ACCESSORY:
+                result = new FeedbackAccessoryResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                break;
+            case BidibLibrary.MSG_BM_CV:
+                result = new FeedbackCvResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                break;
+            case BidibLibrary.MSG_BM_BLOCK_CV:
+                result =
+                    new FeedbackBlockCvResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                break;
             default:
                 LOGGER.error("Got unknown response with type '{}', message: {}", String.format("0x%02x", result
                     .getType()), message);

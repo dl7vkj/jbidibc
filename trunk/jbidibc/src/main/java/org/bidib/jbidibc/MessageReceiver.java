@@ -16,8 +16,10 @@ import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostCurrentResponse;
 import org.bidib.jbidibc.message.BoostDiagnosticResponse;
 import org.bidib.jbidibc.message.BoostStatResponse;
+import org.bidib.jbidibc.message.FeedbackAccessoryResponse;
 import org.bidib.jbidibc.message.FeedbackAddressResponse;
 import org.bidib.jbidibc.message.FeedbackConfidenceResponse;
+import org.bidib.jbidibc.message.FeedbackCvResponse;
 import org.bidib.jbidibc.message.FeedbackFreeResponse;
 import org.bidib.jbidibc.message.FeedbackMultipleResponse;
 import org.bidib.jbidibc.message.FeedbackOccupiedResponse;
@@ -263,6 +265,17 @@ public abstract class MessageReceiver {
                         case BidibLibrary.MSG_BM_CURRENT:
                             LOGGER.warn("MSG_BM_CURRENT is currently not processed by application: {}", message);
                             break;
+                        case BidibLibrary.MSG_BM_ACCESSORY:
+                            fireBmAccessory(message.getAddr(), ((FeedbackAccessoryResponse) message)
+                                .getDetectorNumber(), ((FeedbackAccessoryResponse) message).getAddress());
+                            break;
+                        case BidibLibrary.MSG_BM_CV:
+                            fireBmCv(message.getAddr(), ((FeedbackCvResponse) message).getAddress(),
+                                ((FeedbackCvResponse) message).getCvNumber(), ((FeedbackCvResponse) message).getDat());
+                            break;
+                        case BidibLibrary.MSG_BM_BLOCK_CV:
+                            LOGGER.warn("MSG_BM_BLOCK_CV is currently not processed by application: {}", message);
+                            break;
                         default:
                             messageReceived(message);
                             break;
@@ -334,6 +347,18 @@ public abstract class MessageReceiver {
     protected void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {
         for (MessageListener l : messageListeners) {
             l.address(address, detectorNumber, addresses);
+        }
+    }
+
+    protected void fireBmAccessory(byte[] address, int detectorNumber, int accessoryAddress) {
+        for (MessageListener l : messageListeners) {
+            l.feedbackAccessory(address, detectorNumber, accessoryAddress);
+        }
+    }
+
+    protected void fireBmCv(byte[] address, int decoderAddress, int cvNumber, int dat) {
+        for (MessageListener l : messageListeners) {
+            l.feedbackCv(address, decoderAddress, cvNumber, dat);
         }
     }
 

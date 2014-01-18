@@ -67,6 +67,21 @@ public final class ByteUtils {
         return (byteValue & 0xFF);
     }
 
+    /**
+     * Get the (unsigned) int value from the byte value.
+     * @param byteValue the byte value
+     * @return the int value
+     */
+    public static int getInt(byte byteValue, int mask) {
+        return (byteValue & mask);
+    }
+
+    /**
+     * Concat a byte array.
+     * @param array1 the first array
+     * @param array2 the second array
+     * @return the concatenated array
+     */
     public static byte[] concat(byte[] array1, byte[] array2) {
         byte[] result = new byte[array1.length + array2.length];
 

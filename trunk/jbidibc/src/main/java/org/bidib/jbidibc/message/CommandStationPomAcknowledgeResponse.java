@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
  * Response from command station with the pom acknowledge state
  */
 public class CommandStationPomAcknowledgeResponse extends BidibMessage {
-    public static final Integer TYPE = BidibLibrary.MSG_CS_DRIVE_ACK;
+    public static final Integer TYPE = BidibLibrary.MSG_CS_POM_ACK;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationPomAcknowledgeResponse.class);
 

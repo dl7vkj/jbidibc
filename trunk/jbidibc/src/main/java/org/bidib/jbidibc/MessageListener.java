@@ -13,6 +13,23 @@ import org.bidib.jbidibc.enumeration.LcOutputType;
 public interface MessageListener {
     void address(byte[] address, int detectorNumber, Collection<AddressData> addressData);
 
+    /**
+     * Accessory address was signaled from feedback device.
+     * @param address the node address
+     * @param detectorNumber the local detector number.
+     * @param accessoryAddress the accessory address
+     */
+    void feedbackAccessory(byte[] address, int detectorNumber, int accessoryAddress);
+
+    /**
+     * CV was signaled from feedback device.
+     * @param address the node address
+     * @param decoderAddress the decoder address
+     * @param cvNumber the CV number
+     * @param dat the date
+     */
+    void feedbackCv(byte[] address, int decoderAddress, int cvNumber, int dat);
+
     void boosterCurrent(byte[] address, int current);
 
     void boosterState(byte[] address, BoosterState state);
