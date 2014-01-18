@@ -4,6 +4,7 @@ import java.io.ByteArrayOutputStream;
 
 import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.DecoderIdAddressData;
 import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.enumeration.CommandStationPom;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -15,24 +16,34 @@ import org.bidib.jbidibc.utils.ByteUtils;
 public class CommandStationPomMessage extends BidibMessage {
     /**
      * Create the command for a loco decoder.
-     * @param locoAddress
+     * @param decoderAddress the decoder address
      */
-    public CommandStationPomMessage(AddressData locoAddress, CommandStationPom opCode, int cvNumber, byte data) {
-        super(0, BidibLibrary.MSG_CS_POM, prepareData(locoAddress, opCode, cvNumber, data));
+    public CommandStationPomMessage(AddressData decoderAddress, CommandStationPom opCode, int cvNumber, byte data) {
+        super(0, BidibLibrary.MSG_CS_POM, prepareData(decoderAddress, opCode, cvNumber, data));
+    }
+
+    /**
+     * Create the command for a loco decoder.
+     * @param decoderAddress the decoder address
+     * @param addressDID the DID address
+     */
+    public CommandStationPomMessage(DecoderIdAddressData addressDID, CommandStationPom opCode, int cvNumber, byte data) {
+        super(0, BidibLibrary.MSG_CS_POM, prepareData(addressDID, opCode, cvNumber, data));
     }
 
     public CommandStationPomMessage(byte[] message) throws ProtocolException {
         super(message);
     }
 
-    private static byte[] prepareData(AddressData locoAddress, CommandStationPom opCode, int cvNumber, byte data) {
+    private static byte[] prepareData(AddressData decoderAddress, CommandStationPom opCode, int cvNumber, byte data) {
 
         if (cvNumber < 1 || cvNumber > 1024) {
             throw new IllegalArgumentException("CV number is out of allowed range (1..1024).");
         }
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
-        locoAddress.writeToStream(out);
+        // write decoder address
+        decoderAddress.writeToStream(out);
         // no ADDR_XL and ADDR_XH
         out.write((byte) 0);
         out.write((byte) 0);
@@ -51,7 +62,31 @@ public class CommandStationPomMessage extends BidibMessage {
         return out.toByteArray();
     }
 
-    public AddressData getLocoAddress() {
+    private static byte[] prepareData(DecoderIdAddressData addressDID, CommandStationPom opCode, int cvNumber, byte data) {
+
+        if (cvNumber < 1 || cvNumber > 1024) {
+            throw new IllegalArgumentException("CV number is out of allowed range (1..1024).");
+        }
+
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        // write did address
+        addressDID.writeToStream(out);
+        // no MID
+        out.write(addressDID.getManufacturedId());
+        // op code
+        out.write(opCode.getType());
+        // CV number
+        out.write(ByteUtils.getLowByte(cvNumber - 1));
+        out.write(ByteUtils.getHighByte(cvNumber - 1));
+        // no XPOM
+        out.write((byte) 0);
+        // data
+        out.write(data);
+
+        return out.toByteArray();
+    }
+
+    public AddressData getDecoderAddress() {
         int index = 0;
         byte lowByte = getData()[index++];
         byte highByte = getData()[index++];

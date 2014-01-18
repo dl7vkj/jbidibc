@@ -205,7 +205,8 @@ public final class ResponseFactory {
                     new AddrChangeAckResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
             case BidibLibrary.MSG_BM_ACCESSORY:
-                result = new FeedbackAccessoryResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                result =
+                    new FeedbackAccessoryResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
             case BidibLibrary.MSG_BM_CV:
                 result = new FeedbackCvResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());

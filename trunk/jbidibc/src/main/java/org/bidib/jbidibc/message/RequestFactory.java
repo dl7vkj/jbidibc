@@ -89,6 +89,9 @@ public class RequestFactory {
             case BidibLibrary.MSG_CS_SET_STATE:
                 concreteBidibMessage = new CommandStationSetStateMessage(message);
                 break;
+            case BidibLibrary.MSG_CS_POM:
+                concreteBidibMessage = new CommandStationPomMessage(message);
+                break;
             case BidibLibrary.MSG_FEATURE_GET:
                 concreteBidibMessage = new FeatureGetMessage(message);
                 break;

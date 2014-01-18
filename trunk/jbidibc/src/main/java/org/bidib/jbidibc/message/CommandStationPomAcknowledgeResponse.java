@@ -1,8 +1,14 @@
 package org.bidib.jbidibc.message;
 
+import java.io.ByteArrayOutputStream;
+
+import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.enumeration.AddressTypeEnum;
+import org.bidib.jbidibc.enumeration.CommandStationPom;
 import org.bidib.jbidibc.enumeration.PomAcknowledge;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,10 +29,44 @@ public class CommandStationPomAcknowledgeResponse extends BidibMessage {
         LOGGER.debug("Received response, acknowledge status: {}", getAcknState());
     }
 
-    public int getAddress() {
+    public CommandStationPomAcknowledgeResponse(byte[] addr, int num, AddressData decoderAddress, byte acknowledge)
+        throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_CS_POM_ACK, prepareData(decoderAddress, acknowledge));
+    }
+
+    private static byte[] prepareData(AddressData decoderAddress, byte acknowledge) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        // write decoder address
+        decoderAddress.writeToStream(out);
+        // no ADDR_XL and ADDR_XH
+        out.write((byte) 0);
+        out.write((byte) 0);
+        // no MID
+        out.write((byte) 0);
+        // data
+        out.write(acknowledge);
+
+        return out.toByteArray();
+    }
+
+    public AddressData getAddress() {
+        int index = 0;
+        byte lowByte = getData()[index++];
+        byte highByte = getData()[index++];
+        int address = ByteUtils.getWord(lowByte, (byte) (highByte & 0x3F));
+
+        AddressData addressData = new AddressData(address, AddressTypeEnum.valueOf((byte) ((highByte & 0xC0) >> 6)));
+        return addressData;
+    }
+
+    public int getAddressX() {
         byte[] data = getData();
 
-        return (data[0] & 0xFF) + ((data[1] & 0xFF) << 8);
+        return ByteUtils.getInt(data[2], data[3]);
+    }
+
+    public int getMID() {
+        return ByteUtils.getInt(getData()[4]);
     }
 
     public PomAcknowledge getAcknState() {
