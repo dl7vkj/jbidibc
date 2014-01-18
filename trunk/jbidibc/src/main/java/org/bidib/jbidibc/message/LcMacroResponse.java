@@ -18,7 +18,8 @@ public class LcMacroResponse extends BidibMessage {
 
     public LcMacroResponse(byte[] addr, int num, byte macroNum, byte step, LcMacro lcMacro) throws ProtocolException {
         this(addr, num, BidibLibrary.MSG_LC_MACRO, new byte[] { macroNum, step, lcMacro.getDelay(),
-            lcMacro.getOutputType().getType(), lcMacro.getOutputNumber(), lcMacro.getStatus().getType() });
+            lcMacro.getOutputType() != null ? lcMacro.getOutputType().getType() : 0, lcMacro.getOutputNumber(),
+            lcMacro.getStatus() != null ? lcMacro.getStatus().getType() : 0 });
     }
 
     /**
