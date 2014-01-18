@@ -50,7 +50,7 @@
         <commons-lang-version>2.6</commons-lang-version>
         <commons-io-version>2.4</commons-io-version>
         <!--saxon-version>9.5.1-1</saxon-version-->
-		<xalan-version>2.7.1</xalan-version>
+	<xalan-version>2.7.1</xalan-version>
         <xmlunit-version>1.4</xmlunit-version>
         <jcommander-version>1.32</jcommander-version>
         <jdepend-version>2.0-beta-2</jdepend-version>
@@ -60,13 +60,13 @@
         <!-- unify the encoding for all the modules -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jdk.version>1.6</jdk.version>
-        <compiler.fork>1.6</compiler.fork>
+        <jdk.version>1.7</jdk.version>
+        <compiler.fork>1.7</compiler.fork>
         <gpg.useagent>true</gpg.useagent>
         <mockito-version>1.9.5</mockito-version>
 		
-		<maven.compiler.source>1.6</maven.compiler.source>
-		<maven.compiler.target>1.6</maven.compiler.target>
+	<maven.compiler.source>1.7</maven.compiler.source>
+	<maven.compiler.target>1.7</maven.compiler.target>
 
     </properties>
     <modules>
