@@ -5,7 +5,6 @@ import java.io.ByteArrayOutputStream;
 import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.AddressTypeEnum;
-import org.bidib.jbidibc.enumeration.CommandStationPom;
 import org.bidib.jbidibc.enumeration.PomAcknowledge;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
