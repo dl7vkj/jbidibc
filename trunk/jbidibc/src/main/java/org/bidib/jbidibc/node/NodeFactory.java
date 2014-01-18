@@ -11,7 +11,6 @@ import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.exception.InvalidConfigurationException;
-import org.bidib.jbidibc.exception.NodeAlreadyRegisteredException;
 import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.NodeUtils;
@@ -144,8 +143,9 @@ public class NodeFactory {
         bidibNode = findNode(node.getAddr());
         if (bidibNode != null) {
             LOGGER.warn("The new node is already registered in the system: {}", bidibNode);
-
-            throw new NodeAlreadyRegisteredException("The new node is already registered in the system: " + bidibNode);
+            messageReceiver.removeOrphanNode(node);
+            //            throw new NodeAlreadyRegisteredException("The new node is already registered in the system: " + bidibNode);
+            LOGGER.warn("Removed orphan node.");
         }
 
         //        removeNode(node);

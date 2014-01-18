@@ -205,6 +205,7 @@ public abstract class MessageReceiver {
                             try {
                                 // create and register the new node in the node factory because we might receive spontaneous messages
                                 BidibNode newNode = nodeFactory.createNode(node);
+                                LOGGER.info("The node factory has registered the new node: {}", newNode);
                                 fireNodeNew = true;
                             }
                             catch (NodeAlreadyRegisteredException ex) {
@@ -489,5 +490,15 @@ public abstract class MessageReceiver {
             }
         }
         return result;
+    }
+
+    /**
+     * Remove an orphan node. If the node does not disconnect according to specification 
+     * or the node is an interface node during update this update this can lead to orphan nodes.
+     * @param node the node to be removed
+     */
+    public void removeOrphanNode(Node node) {
+        LOGGER.info("Remove orphan node: {}", node);
+        fireNodeLost(node);
     }
 }
