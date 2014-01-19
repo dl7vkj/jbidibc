@@ -25,6 +25,11 @@ public class LcConfigSetMessage extends BidibMessage {
         return ByteUtils.getInt(getData()[1]);
     }
 
+    public byte[] getPortConfig() {
+        byte[] config = new byte[] { getData()[2], getData()[3], getData()[4], getData()[5] };
+        return config;
+    }
+
     public byte getValue1() {
         return getData()[2];
     }

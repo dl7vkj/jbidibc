@@ -16,9 +16,8 @@ public class LcConfigResponse extends BidibMessage {
         }
     }
 
-    public LcConfigResponse(byte[] addr, int num, byte portType, byte portNum, byte value1, byte value2, byte value3,
-        byte value4) throws ProtocolException {
-        this(addr, num, BidibLibrary.MSG_LC_CONFIG, new byte[] { portType, portNum, value1, value2, value3, value4 });
+    public LcConfigResponse(byte[] addr, int num, byte portType, byte portNum, byte[] config) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_LC_CONFIG, ByteUtils.concat(new byte[] { portType, portNum }, config));
     }
 
     public LcConfig getLcConfig() {

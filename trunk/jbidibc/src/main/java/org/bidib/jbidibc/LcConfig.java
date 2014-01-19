@@ -2,6 +2,7 @@ package org.bidib.jbidibc;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.bidib.jbidibc.enumeration.LcOutputType;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class LcConfig {
     private final LcOutputType outputType;
@@ -47,6 +48,11 @@ public class LcConfig {
 
     public int getValue4() {
         return value4;
+    }
+
+    public byte[] getPortConfig() {
+        return new byte[] { ByteUtils.getLowByte(value1), ByteUtils.getLowByte(value2), ByteUtils.getLowByte(value3),
+            ByteUtils.getLowByte(value4) };
     }
 
     @Override

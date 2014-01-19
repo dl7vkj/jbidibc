@@ -17,7 +17,7 @@ public class LcMacroParaGetMessage extends BidibMessage {
         return ByteUtils.getInt(getData()[0]);
     }
 
-    public int getStep() {
+    public int getParameterIndex() {
         return ByteUtils.getInt(getData()[1]);
     }
 }
