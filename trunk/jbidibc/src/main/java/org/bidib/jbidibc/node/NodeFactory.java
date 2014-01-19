@@ -203,6 +203,7 @@ public class NodeFactory {
                 }
                 // initialize the node
                 bidibNode.setBidib(bidib);
+                bidibNode.setResponseTimeout(bidib.getResponseTimeout());
 
                 // verify that a transfer listener is available
                 List<TransferListener> transferListeners = getRootNode().getTransferListeners();
@@ -243,6 +244,8 @@ public class NodeFactory {
                 rootNode = new RootNode(messageReceiver, ignoreWaitTimeout);
                 // initialize the root node
                 rootNode.setBidib(bidib);
+                rootNode.setResponseTimeout(bidib.getResponseTimeout());
+
                 nodes.put(ROOT_ADDRESS, rootNode);
             }
             LOGGER.debug("Root node: {}", rootNode);

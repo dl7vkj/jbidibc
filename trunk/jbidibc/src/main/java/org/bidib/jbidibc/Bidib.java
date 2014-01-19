@@ -44,6 +44,8 @@ public final class Bidib implements BidibInterface {
 
     private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
+    private int responseTimeout = Bidib.DEFAULT_TIMEOUT;
+
     public static final int DEFAULT_TIMEOUT = 1500;
 
     private NodeFactory nodeFactory;
@@ -464,5 +466,15 @@ public final class Bidib implements BidibInterface {
         else {
             LOGGER.warn("The node factory is not available, set the ignoreWaitTimeout is discarded.");
         }
+    }
+
+    @Override
+    public int getResponseTimeout() {
+        return responseTimeout;
+    }
+
+    @Override
+    public void setResponseTimeout(int responseTimeout) {
+        this.responseTimeout = responseTimeout;
     }
 }

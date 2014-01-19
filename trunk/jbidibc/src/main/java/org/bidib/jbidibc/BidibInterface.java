@@ -101,4 +101,16 @@ public interface BidibInterface {
      * @param ignoreWaitTimeout the ignore wait timeout flag
      */
     void setIgnoreWaitTimeout(boolean ignoreWaitTimeout);
+
+    /**
+     * Get the response timeout that is used to wait for response from the nodes.
+     * @return the timeout in milliseconds
+     */
+    int getResponseTimeout();
+
+    /**
+     * Set the response timeout that is used to wait for response from the nodes.
+     * @param responseTimeout the timeout in milliseconds
+     */
+    void setResponseTimeout(int responseTimeout);
 }

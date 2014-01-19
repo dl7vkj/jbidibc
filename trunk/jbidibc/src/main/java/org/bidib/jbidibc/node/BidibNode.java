@@ -122,6 +122,8 @@ public class BidibNode {
 
     protected boolean ignoreWaitTimeout;
 
+    private int responseTimeout = Bidib.DEFAULT_TIMEOUT;
+
     /**
      * Create a new BidibNode that represents a connected node (slave) on the BiDiB bus.
      * 
@@ -143,6 +145,20 @@ public class BidibNode {
      */
     public void setBidib(BidibInterface bidib) {
         this.bidib = bidib;
+    }
+
+    /**
+     * @return the responseTimeout
+     */
+    public int getResponseTimeout() {
+        return responseTimeout;
+    }
+
+    /**
+     * @param responseTimeout the responseTimeout to set
+     */
+    public void setResponseTimeout(int responseTimeout) {
+        this.responseTimeout = responseTimeout;
     }
 
     protected MessageReceiver getMessageReceiver() {
@@ -724,8 +740,6 @@ public class BidibNode {
         return result;
     }
 
-    private static int timeout = Bidib.DEFAULT_TIMEOUT;
-
     /**
      * Get a message from the receiveQueue for the defined timeout period.
      * 
@@ -743,7 +757,7 @@ public class BidibNode {
         boolean leaveLoop = false;
 
         do {
-            result = receiveQueue.poll(timeout, TimeUnit.MILLISECONDS);
+            result = receiveQueue.poll(responseTimeout, TimeUnit.MILLISECONDS);
 
             long now = System.currentTimeMillis();
 
