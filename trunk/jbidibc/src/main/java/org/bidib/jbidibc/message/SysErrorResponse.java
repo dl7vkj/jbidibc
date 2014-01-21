@@ -20,10 +20,83 @@ public class SysErrorResponse extends BidibMessage {
         int errorCode = getErrorCode();
 
         switch (errorCode) {
-            case 4:
+            case 0x00:
+                LOGGER.warn("Received SysErrorResponse, BIDIB_ERR_NONE for address: {}, errorCode: {} (0x{})", addr,
+                    errorCode, String.format("%02x", errorCode));
+                break;
+            case 0x01:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_TXT for address: {}, errorCode: {} (0x{}), text len: {}, text: {}",
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]), ByteUtils
+                            .cstr(data, 1));
+                break;
+            case 0x02:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_CRC for address: {}, errorCode: {} (0x{}), sequence num of invalid message: {}",
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
+                break;
+            case 0x03:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_SIZE for address: {}, errorCode: {} (0x{}), sequence num of invalid message: {}",
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
+                break;
+            case 0x04:
                 LOGGER
                     .warn(
                         "Received SysErrorResponse, BIDIB_ERR_SEQUENCE for address: {}, errorCode: {} (0x{}), last correct sequence: {}",
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
+                break;
+            case 0x05:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_PARAMETER for address: {}, errorCode: {} (0x{}), sequence num of invalid message: {}",
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
+                break;
+            case 0x10:
+                LOGGER.warn(
+                    "Received SysErrorResponse, BIDIB_ERR_BUS for address: {}, errorCode: {} (0x{}), error number: {}",
+                    addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
+                break;
+            case 0x11:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_ADDRSTACK for address: {}, errorCode: {} (0x{}), error number: {}",
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.toString(new byte[] { data[1],
+                            data[2], data[3], data[4] }));
+                break;
+            case 0x12:
+                LOGGER.warn("Received SysErrorResponse, BIDIB_ERR_IDDOUBLE for address: {}, errorCode: {} (0x{})",
+                    addr, errorCode, String.format("%02x", errorCode));
+                break;
+            case 0x13:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_SUBCRC for address: {}, errorCode: {} (0x{}), local node addr: {}",
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
+                break;
+            case 0x14:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_SUBTIME for address: {}, errorCode: {} (0x{}), local node addr: {}",
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
+                break;
+            case 0x15:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_SUBPAKET for address: {}, errorCode: {} (0x{}), local node addr: {}",
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
+                break;
+            case 0x16:
+                LOGGER.warn("Received SysErrorResponse, BIDIB_ERR_OVERRUN for address: {}, errorCode: {} (0x{})", addr,
+                    errorCode, String.format("%02x", errorCode));
+                break;
+            case 0x20:
+                LOGGER
+                    .warn(
+                        "Received SysErrorResponse, BIDIB_ERR_HW for address: {}, errorCode: {} (0x{}), manufacturer specific error number: {}",
                         addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
                 break;
             default:
