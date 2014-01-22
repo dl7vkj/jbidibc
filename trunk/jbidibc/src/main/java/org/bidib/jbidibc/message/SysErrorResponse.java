@@ -61,11 +61,9 @@ public class SysErrorResponse extends BidibMessage {
                     addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
                 break;
             case 0x11:
-                LOGGER
-                    .warn(
-                        "Received SysErrorResponse, BIDIB_ERR_ADDRSTACK for address: {}, errorCode: {} (0x{}), error number: {}",
-                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.toString(new byte[] { data[1],
-                            data[2], data[3], data[4] }));
+                LOGGER.warn(
+                    "Received SysErrorResponse, BIDIB_ERR_ADDRSTACK for address: {}, errorCode: {} (0x{}), data: {}",
+                    addr, errorCode, String.format("%02x", errorCode), ByteUtils.toString(data));
                 break;
             case 0x12:
                 LOGGER.warn("Received SysErrorResponse, BIDIB_ERR_IDDOUBLE for address: {}, errorCode: {} (0x{})",
