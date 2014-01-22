@@ -2,12 +2,12 @@
 <!-- Activate for BiDiB-Wizard:
 <VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv vendor_cv.xsd">
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
  and deactivate for BiDiB-Monitor: -->
 <VendorCV>
   <Version
-    Version="0.16"
-    Lastupdate="20140111"
+    Version="0.17"
+    Lastupdate="20140122"
     Author="mos"
     Pid="117"
     Vendor="013"
@@ -104,8 +104,8 @@
         <Description Lang="en-EN" Text="Configuration"/>
         <Bitdescription Bitnum="1" Lang="de-DE" Text="Richtung: 0=Ausgang, 1=Eingang"/>
         <Bitdescription Bitnum="1" Lang="en-EN" Text="Direction: 0=output, 1=input"/>
-        <Bitdescription Bitnum="2" Lang="de-DE" Text="Aktivlage: 0=HIGH-, 1=LOW-aktiv"/>
-        <Bitdescription Bitnum="2" Lang="en-EN" Text="Polarity: 0=active-high, 1=active-low"/>
+        <Bitdescription Bitnum="2" Lang="de-DE" Text="Aktivlage (Eingang): 0=HIGH-, 1=LOW-aktiv"/>
+        <Bitdescription Bitnum="2" Lang="en-EN" Text="Polarity (Input): 0=active-high, 1=active-low"/>
         <Bitdescription Bitnum="3" Lang="de-DE" Text="Impulsbetrieb: 0=ohne, 1=mit"/>
         <Bitdescription Bitnum="3" Lang="en-EN" Text="One-shot pulse: 0=false, 1=true"/>
       </CV>
@@ -159,10 +159,14 @@
         <Description Lang="de-DE" Text="Kurvenverzögerung B"/>
         <Description Lang="en-EN" Text="curve delay for B"/>
       </CV>
-      <CV Number="11" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+      <CV Number="14" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
         <Description Lang="de-DE" Text="Power OFF: 0 nicht abschalten, n * 20 ms"/>
         <Description Lang="en-EN" Text="Power OFF: 0 no off, n * 20 ms"/>
       </CV>
+		<CV Number="15" Type="Byte" Min="0" Max="127" Low="-" High="-" Values="-" Mode="rw">
+			<Description Lang="de-DE" Text="Pre Power: Einschalten, Power n * 5 ms vor Puls"/>
+			<Description Lang="en-EN" Text="Pre Power: power up n * 5 ms before pulse"/>
+		</CV>  
     </Template>
   </Templates>
   <CVDefinition>
