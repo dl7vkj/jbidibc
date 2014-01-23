@@ -25,7 +25,7 @@ public class Node {
     private boolean switchPortConfigAvailable;
 
     private String[] storedStrings;
-    
+
     private SoftwareVersion softwareVersion;
 
     /**
