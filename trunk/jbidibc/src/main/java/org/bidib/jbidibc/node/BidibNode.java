@@ -497,7 +497,7 @@ public class BidibNode {
 
     private ProtocolException createNotSupportedByBootloaderNode(String messageName) {
         ProtocolException ex =
-            new ProtocolException("The current node is a limited bootload node and does not support the '"
+            new ProtocolException("The current node is a limited bootloader node and does not support the '"
                 + messageName + "' message.");
         return ex;
     }

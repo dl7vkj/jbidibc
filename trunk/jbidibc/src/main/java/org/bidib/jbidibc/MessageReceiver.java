@@ -231,7 +231,14 @@ public abstract class MessageReceiver {
                             fireNodeLost(node);
 
                             // acknowledge the new nodetab version to the interface
-                            nodeFactory.findNode(message.getAddr()).acknowledgeNodeChanged(node.getVersion());
+                            BidibNode lostNode = nodeFactory.findNode(message.getAddr());
+                            if (lostNode != null) {
+                                lostNode.acknowledgeNodeChanged(node.getVersion());
+                            }
+                            else {
+                                LOGGER
+                                    .warn("Lost node was not registered in node factory, addr: {}", message.getAddr());
+                            }
                             break;
                         case BidibLibrary.MSG_SYS_ERROR:
                             SysErrorResponse errorResponse = (SysErrorResponse) message;

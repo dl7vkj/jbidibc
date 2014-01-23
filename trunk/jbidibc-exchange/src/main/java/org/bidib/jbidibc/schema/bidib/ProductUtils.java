@@ -42,4 +42,16 @@ public class ProductUtils {
         }
         return false;
     }
+
+    public static boolean isMobaList(long uniqueId) {
+        long pid = NodeUtils.getPid(uniqueId);
+        long vid = NodeUtils.getVendorId(uniqueId);
+        LOGGER.info("Check if node is a MobaList for uniqueId: {}, pid: {}, vid: {}", NodeUtils
+            .getUniqueIdAsString(uniqueId), pid, vid);
+
+        if (vid == 13 && pid == 108) {
+            return true;
+        }
+        return false;
+    }
 }
