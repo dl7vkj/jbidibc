@@ -25,6 +25,8 @@ public class Node {
     private boolean switchPortConfigAvailable;
 
     private String[] storedStrings;
+    
+    private SoftwareVersion softwareVersion;
 
     /**
      * the maximum length for strings that can be stored in the node
@@ -137,6 +139,20 @@ public class Node {
             || StringUtils.isNotBlank(storedStrings[StringData.INDEX_USERNAME]);
     }
 
+    /**
+     * @return the softwareVersion
+     */
+    public SoftwareVersion getSoftwareVersion() {
+        return softwareVersion;
+    }
+
+    /**
+     * @param softwareVersion the softwareVersion to set
+     */
+    public void setSoftwareVersion(SoftwareVersion softwareVersion) {
+        this.softwareVersion = softwareVersion;
+    }
+
     @Override
     public boolean equals(Object other) {
         if (other instanceof Node) {
@@ -158,7 +174,11 @@ public class Node {
         StringBuffer sb = new StringBuffer(getClass().getSimpleName());
         sb
             .append("[version=").append(version).append(",addr=").append(Arrays.toString(addr)).append(",uniqueId=")
-            .append(String.format("0x%014x", uniqueId & 0xffffffffffffffL)).append("]");
+            .append(String.format("0x%014x", uniqueId & 0xffffffffffffffL));
+        if (softwareVersion != null) {
+            sb.append(",sw-version=").append(softwareVersion);
+        }
+        sb.append("]");
         return sb.toString();
     }
 }
