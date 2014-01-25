@@ -531,7 +531,7 @@ public class BidibNode {
         return nextReceiveMsgNum;
     }
 
-    private byte getNextSendMsgNum() {
+    private int getNextSendMsgNum() {
         try {
             nextSendMsgNumSemaphore.acquire();
             nextSendMsgNum++;
@@ -545,7 +545,7 @@ public class BidibNode {
         finally {
             nextSendMsgNumSemaphore.release();
         }
-        return (byte) nextSendMsgNum;
+        return nextSendMsgNum;
     }
 
     /**

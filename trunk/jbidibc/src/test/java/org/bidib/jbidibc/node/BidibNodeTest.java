@@ -83,6 +83,60 @@ public class BidibNodeTest {
         Assert.assertEquals(value, result.getValue());
     }
 
+    // 25.01.2014 10:42:41.032: send StringSetMessage[num=88,type=26,data=[0, 1, 16, 71, 97, 110, 122, 32, 108, 97, 110, 103, 101, 114, 32, 78, 97, 109, 101]] 
+    // : FE 17 01 00 58 1A 00 01 10 47 61 6E 7A 20 6C 61 6E 67 65 72 20 4E 61 6D 65 0B FE 
+    // 25.01.2014 10:42:41.188: receive StringResponse[[1],num=89,type=149,data=[0, 1, 16, 71, 97, 110, 122, 32, 108, 97, 110, 103, 101, 114, 32, 78, 97, 109, 101]] 
+    // : 17 01 00 59 95 00 01 10 47 61 6E 7A 20 6C 61 6E 67 65 72 20 4E 61 6D 65 
+
+    @Test
+    public void setStringTest2() throws ProtocolException {
+        final byte[] address = new byte[] { 0x01 };
+
+        BidibInterface bidib = Mockito.mock(BidibInterface.class);
+
+        MessageReceiver messageReceiver = null;
+        boolean ignoreWaitTimeout = false;
+        final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
+        bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
+        bidibNode.setBidib(bidib);
+
+        Mockito.doAnswer(new Answer<Object>() {
+            public Object answer(InvocationOnMock invocation) {
+                Object[] args = invocation.getArguments();
+                byte[] bytes = (byte[]) args[0];
+                LOGGER.info("Received data: {}", ByteUtils.bytesToHex(bytes));
+                byte namespace = bytes[6];
+                byte index = bytes[7];
+
+                byte[] message =
+                    { 0x17, 0x01, 0x00, 0x59, (byte) BidibLibrary.MSG_STRING, namespace, index, (byte) 0x10, 0x47,
+                        0x61, 0x6E, 0x7A, 0x20, 0x6C, 0x61, 0x6E, 0x67, 0x65, 0x72, 0x20, 0x4E, 0x61, 0x6D, 0x65 };
+                BidibMessage response;
+                try {
+                    LOGGER.info("Create new response, responseCounter: {}", responseCounter);
+                    response = ResponseFactory.create(message);
+                    bidibNode.getReceiveQueue().add(response);
+                }
+                catch (ProtocolException ex) {
+                    LOGGER.warn("Put message to receive queue failed.", ex);
+                }
+
+                return null;
+            }
+        }).when(bidib).send(Mockito.any(byte[].class));
+
+        int namespace = 0;
+        int index = 1;
+        String value = "Ganz langer Name";
+        StringData result = bidibNode.setString(namespace, index, value);
+        LOGGER.info("Returned StringData result: {}", result);
+        Mockito.verify(bidib, Mockito.times(1)).send(Mockito.any(byte[].class));
+
+        Assert.assertEquals(namespace, result.getNamespace());
+        Assert.assertEquals(index, result.getIndex());
+        Assert.assertEquals(value, result.getValue());
+    }
+
     @Test
     public void getStringTest() throws ProtocolException {
         final byte[] address = new byte[] { 0 };

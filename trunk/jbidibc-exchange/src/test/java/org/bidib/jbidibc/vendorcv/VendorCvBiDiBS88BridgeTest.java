@@ -21,8 +21,6 @@ public class VendorCvBiDiBS88BridgeTest {
 
     private static final String JAXB_PACKAGE = "org.bidib.jbidibc.vendorcv";
 
-    private static final String XSD_LOCATION = "xsd/bidib.xsd";
-
     @Test
     public void loadNodesTest() throws JAXBException {
         LOGGER.info("Load CV file for GBMboost.");

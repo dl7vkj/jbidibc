@@ -9,6 +9,9 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.utils.NodeUtils;
@@ -50,7 +53,7 @@ public class BidibFactory {
                 LOGGER.info("Lookup products file internally: {}", lookup);
                 InputStream is = BidibFactory.class.getResourceAsStream(lookup);
                 if (is != null) {
-                    bidib = loadProductsFile(is);
+                    bidib = loadProductsFile(is, lookup);
                     if (bidib != null) {
                         break;
                     }
@@ -99,7 +102,7 @@ public class BidibFactory {
         InputStream is;
         try {
             is = new FileInputStream(productsFile);
-            bidib = loadProductsFile(is);
+            bidib = loadProductsFile(is, productsFile.getName());
         }
         catch (FileNotFoundException ex) {
             LOGGER.info("No Products file found.");
@@ -107,18 +110,22 @@ public class BidibFactory {
         return bidib;
     }
 
-    private BiDiB loadProductsFile(InputStream is) {
+    private BiDiB loadProductsFile(InputStream is, String filename) {
 
         BiDiB bidib = null;
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            
+            XMLInputFactory factory = XMLInputFactory.newInstance();
+            
+            XMLStreamReader xmlr  = factory.createXMLStreamReader(filename, is);
 
-            JAXBElement<BiDiB> jaxbElement = (JAXBElement<BiDiB>) unmarshaller.unmarshal(is);
+            JAXBElement<BiDiB> jaxbElement = (JAXBElement<BiDiB>) unmarshaller.unmarshal(xmlr, BiDiB.class);
             bidib = jaxbElement.getValue();
         }
-        catch (JAXBException ex) {
+        catch (JAXBException | XMLStreamException ex) {
             LOGGER.warn("Load Products from file failed.", ex);
         }
         return bidib;
