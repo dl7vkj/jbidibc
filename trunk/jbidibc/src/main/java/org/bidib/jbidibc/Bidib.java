@@ -46,7 +46,7 @@ public final class Bidib implements BidibInterface {
 
     private int responseTimeout = Bidib.DEFAULT_TIMEOUT;
 
-    public static final int DEFAULT_TIMEOUT = 1500;
+    public static final int DEFAULT_TIMEOUT = /*1500*/200;
 
     private NodeFactory nodeFactory;
 
@@ -475,6 +475,7 @@ public final class Bidib implements BidibInterface {
 
     @Override
     public void setResponseTimeout(int responseTimeout) {
+        LOGGER.info("Set the response timeout: {}", responseTimeout);
         this.responseTimeout = responseTimeout;
     }
 }
