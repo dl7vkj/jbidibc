@@ -78,6 +78,7 @@ public interface BidibInterface {
      * Set the recieve timeout for the port.
      * @param timeout the receive timeout to set
      */
+    @Deprecated
     void setReceiveTimeout(int timeout);
 
     /**
