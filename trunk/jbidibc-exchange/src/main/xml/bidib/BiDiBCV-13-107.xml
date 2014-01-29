@@ -49,9 +49,25 @@
 				<Description Lang="de-DE" Text="Max High"/>
 				<Description Lang="en-EN" Text="Max High"/>
 			</CV>
-			<CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="Modus"/>
-				<Description Lang="en-EN" Text="Mode"/>
+			<CV Number="4" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="160" Mode="rw" Rebootneeded="true">
+				<Description Lang="de-DE" Text="Modus" />
+				<Description Lang="en-EN" Text="Mode" />
+				<Bitdescription Bitnum="1" Lang="de-DE" Text="reserviert" />
+				<Bitdescription Bitnum="1" Lang="en-EN"	Text="reserved" />
+				<Bitdescription Bitnum="2" Lang="de-DE"	Text="reserviert" />
+				<Bitdescription Bitnum="2" Lang="en-EN"	Text="reserved" />
+				<Bitdescription Bitnum="3" Lang="de-DE"	Text="reserviert" />
+				<Bitdescription Bitnum="3" Lang="en-EN"	Text="reserved" />
+				<Bitdescription Bitnum="4" Lang="de-DE"	Text="reserviert" />
+				<Bitdescription Bitnum="4" Lang="en-EN"	Text="reserved" />
+				<Bitdescription Bitnum="5" Lang="de-DE"	Text="reserviert" />
+				<Bitdescription Bitnum="5" Lang="en-EN"	Text="reserved" />
+				<Bitdescription Bitnum="6" Lang="de-DE"	Text="Impulse auch bei keiner Bewegung: 0=nein, 1=ja" />
+				<Bitdescription Bitnum="6" Lang="en-EN"	Text="Servo pulses even when not moving: 0=false, 1=true" />
+				<Bitdescription Bitnum="7" Lang="de-DE"	Text="reserviert" />
+				<Bitdescription Bitnum="7" Lang="en-EN"	Text="reserved" />
+				<Bitdescription Bitnum="8" Lang="de-DE"	Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]" />
+				<Bitdescription Bitnum="8" Lang="en-EN"	Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]" />
 			</CV>
 			<CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Wiederholung: 0 keine Wiederholung, 1 Wiederholung"/>
