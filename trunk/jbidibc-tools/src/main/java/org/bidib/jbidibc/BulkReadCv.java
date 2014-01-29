@@ -39,7 +39,7 @@ public class BulkReadCv extends BidibNodeCommand {
             if (node != null) {
                 BidibNode bidibNode = Bidib.getInstance().getNode(node);
 
-                if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
+                if (bidibNode.vendorEnable(node.getUniqueId())) {
 
                     List<VendorData> vendorDatas =
                         bidibNode.vendorGetBulk(Arrays.asList(StringUtils.splitPreserveAllTokens(cvNumbers, ",")));

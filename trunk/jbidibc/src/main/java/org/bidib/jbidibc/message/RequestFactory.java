@@ -95,6 +95,18 @@ public class RequestFactory {
             case BidibLibrary.MSG_FEATURE_GET:
                 concreteBidibMessage = new FeatureGetMessage(message);
                 break;
+            case BidibLibrary.MSG_VENDOR_ENABLE:
+                concreteBidibMessage = new VendorEnableMessage(message);
+                break;
+            case BidibLibrary.MSG_VENDOR_DISABLE:
+                concreteBidibMessage = new VendorDisableMessage(message);
+                break;
+            case BidibLibrary.MSG_VENDOR_SET:
+                concreteBidibMessage = new VendorSetMessage(message);
+                break;
+            case BidibLibrary.MSG_VENDOR_GET:
+                concreteBidibMessage = new VendorGetMessage(message);
+                break;
             case BidibLibrary.MSG_STRING_GET:
                 concreteBidibMessage = new StringGetMessage(message);
                 break;

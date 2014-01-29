@@ -1291,7 +1291,7 @@ public class BidibNode {
      * @return the user config mode is on
      * @throws ProtocolException
      */
-    public boolean vendorEnable(byte[] uniqueId) throws ProtocolException {
+    public boolean vendorEnable(long uniqueId) throws ProtocolException {
         BidibMessage result = send(new VendorEnableMessage(uniqueId), true, VendorAckResponse.TYPE);
         if (result instanceof VendorAckResponse) {
             return ((VendorAckResponse) result).getReturnCode() == VendorAckResponse.USER_CONFIG_MODE_ON;

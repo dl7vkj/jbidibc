@@ -257,8 +257,18 @@ public final class ByteUtils {
     public static byte[] bstr(String value) {
         byte[] result = new byte[value.length() + 1 /* terminating zero */];
 
-        result[0] = (byte) (value.length());
+        result[0] = ByteUtils.getLowByte(value.length());
         System.arraycopy(value.getBytes(), 0, result, 1, value.length());
+        return result;
+    }
+
+    public static byte[] bstr(String name, String value) {
+        byte[] result = new byte[name.length() + value.length() + 2 /* 2x terminating zero */];
+
+        result[0] = ByteUtils.getLowByte(name.length());
+        System.arraycopy(name.getBytes(), 0, result, 1, name.length());
+        result[name.length() + 1] = ByteUtils.getLowByte(value.length());
+        System.arraycopy(value.getBytes(), 0, result, name.length() + 2, value.length());
         return result;
     }
 

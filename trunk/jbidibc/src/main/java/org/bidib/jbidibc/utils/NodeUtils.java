@@ -1,5 +1,7 @@
 package org.bidib.jbidibc.utils;
 
+import java.nio.ByteBuffer;
+
 /**
  * 
  * Unique ID:
@@ -105,6 +107,19 @@ public class NodeUtils {
      */
     public static String getUniqueIdAsString(long uniqueId) {
         return String.format("VID %02X PID %08X", (uniqueId >> 32) & 0xff, uniqueId & 0xffffffffL);
+    }
+
+    /**
+     * @param uniqueId the unique id of the node
+     * @return returns the uniqueId of the node as byte array
+     */
+    public static byte[] getUniqueId(long uniqueId) {
+        byte[] result = new byte[7];
+        ByteBuffer bb = ByteBuffer.allocate(8);
+
+        bb.putLong(uniqueId);
+        System.arraycopy(bb.array(), 1, result, 0, result.length);
+        return result;
     }
 
     /**

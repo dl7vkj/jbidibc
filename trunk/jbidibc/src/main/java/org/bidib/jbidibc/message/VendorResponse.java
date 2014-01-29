@@ -15,6 +15,10 @@ public class VendorResponse extends BidibMessage {
         }
     }
 
+    public VendorResponse(byte[] addr, int num, String name, String value) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_VENDOR, ByteUtils.bstr(name, value));
+    }
+
     public VendorData getVendorData() {
         VendorData result = new VendorData();
         byte[] data = getData();

@@ -18,6 +18,10 @@ public class VendorAckResponse extends BidibMessage {
         }
     }
 
+    public VendorAckResponse(byte[] addr, int num, byte userConfigMode) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_VENDOR_ACK, userConfigMode);
+    }
+
     public int getReturnCode() {
         return ByteUtils.getInt(getData()[0]);
     }

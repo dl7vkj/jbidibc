@@ -30,7 +30,7 @@ public class ReadCv extends BidibNodeCommand {
             if (node != null) {
                 BidibNode bidibNode = Bidib.getInstance().getNode(node);
 
-                if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
+                if (bidibNode.vendorEnable(node.getUniqueId())) {
 
                     VendorData vendorData = bidibNode.vendorGet(cvNumber);
 

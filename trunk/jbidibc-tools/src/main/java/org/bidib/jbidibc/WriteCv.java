@@ -33,7 +33,7 @@ public class WriteCv extends BidibNodeCommand {
             if (node != null) {
                 BidibNode bidibNode = Bidib.getInstance().getNode(node);
 
-                if (bidibNode.vendorEnable(getUniqueId(node.getUniqueId()))) {
+                if (bidibNode.vendorEnable(node.getUniqueId())) {
                     bidibNode.vendorSet(cvNumber, cvValue);
                     bidibNode.vendorDisable();
                     result = 0;

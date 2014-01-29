@@ -1,17 +1,19 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class VendorGetMessage extends BidibMessage {
     public VendorGetMessage(String name) {
-        super(0, BidibLibrary.MSG_VENDOR_GET, bstr(name));
+        super(0, BidibLibrary.MSG_VENDOR_GET, ByteUtils.bstr(name));
     }
 
-    private static byte[] bstr(String cstr) {
-        byte[] result = new byte[cstr.length() + 1];
+    public VendorGetMessage(byte[] message) throws ProtocolException {
+        super(message);
+    }
 
-        result[0] = (byte) (result.length - 1);
-        System.arraycopy(cstr.getBytes(), 0, result, 1, result.length - 1);
-        return result;
+    public String getName() {
+        return ByteUtils.cstr(getData(), 0);
     }
 }

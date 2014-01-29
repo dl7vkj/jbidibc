@@ -3,8 +3,6 @@
  */
 package org.bidib.jbidibc;
 
-import java.nio.ByteBuffer;
-
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.BidibNode;
 import org.slf4j.Logger;
@@ -52,15 +50,6 @@ public abstract class BidibNodeCommand extends BidibCommand {
                 break;
             }
         }
-        return result;
-    }
-
-    protected byte[] getUniqueId(long uniqueId) {
-        byte[] result = new byte[7];
-        ByteBuffer bb = ByteBuffer.allocate(8);
-
-        bb.putLong(uniqueId);
-        System.arraycopy(bb.array(), 1, result, 0, result.length);
         return result;
     }
 
