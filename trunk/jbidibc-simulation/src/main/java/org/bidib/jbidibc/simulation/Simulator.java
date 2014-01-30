@@ -30,4 +30,14 @@ public interface Simulator {
      * @param portClass the port class to query the status
      */
     void queryStatus(Class<?> portClass);
+
+    /**
+     * @return the uniqueId of the simulated node
+     */
+    long getUniqueId();
+
+    /**
+     * @return the node address
+     */
+    String getAddress();
 }

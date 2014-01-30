@@ -84,47 +84,6 @@ public class SimulatorRegistry {
         return simulator;
     }
 
-//    public Simulator createSimulator(long uniqueId, byte[] nodeAddress, MessageReceiver messageReceiver) {
-//        int vid = (int) NodeUtils.getVendorId(uniqueId);
-//        int pid = (int) NodeUtils.getPid(uniqueId);
-//
-//        LOGGER.info("Create new simulator with nodeAddress: {}", nodeAddress);
-//        Simulator simulator = null;
-//        if (vid == 13) {
-//            switch (pid) {
-//                case 104: // TODO GBMboost master
-//                    //                    simulator = new GBMboostMasterSimulator(nodeAddress, messageReceiver);
-//                    break;
-//                case 107: // TODO light control
-//                    //                    simulator = new LightControlSimulator(nodeAddress, messageReceiver);
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//        else if (vid == 62) {
-//            switch (pid) {
-//                case 144: // Tams BiDiB-Interface mit s88-Bridge
-//                    simulator = null;
-//                    break;
-//                case 151: // Tams MultiDecoder
-//                    simulator = null;
-//                    break;
-//                default:
-//                    break;
-//            }
-//        }
-//
-//        if (simulator != null) {
-//            LOGGER.info("Created new simulator: {}", simulator);
-//            addSimulator(ByteUtils.bytesToHex(nodeAddress), simulator);
-//        }
-//        else {
-//            LOGGER.warn("No simulator available for vid: {}, pid: {}", vid, pid);
-//        }
-//        return simulator;
-//    }
-
     private static final String JAXB_PACKAGE = "org.bidib.jbidibc.simulation.nodes";
 
     private static final String XSD_LOCATION = "/xsd/simulation.xsd";
@@ -142,51 +101,58 @@ public class SimulatorRegistry {
 
             Simulation simulation = (Simulation) unmarshaller.unmarshal(simulationConfiguration);
             MasterType master = simulation.getMaster();
-            
+
             LOGGER.info("Fetched master from simulation configuration: {}", master);
-            createSimulator(master, bidibInterface);
-            
+            Simulator simMaster = createSimulator(master, bidibInterface);
+
             if (master.getSubNodes() != null && master.getSubNodes().getNode() != null) {
-            	for (NodeType subNode : master.getSubNodes().getNode()) {
-            		createSimulator(subNode, bidibInterface);
-            	}
+                // TODO add support for hub nodes ...
+                for (NodeType subNode : master.getSubNodes().getNode()) {
+                    Simulator simNode = createSimulator(subNode, bidibInterface);
+                    if (simMaster != null && simMaster instanceof InterfaceNode) {
+                        ((InterfaceNode) simMaster).addSubNode(simNode);
+                    }
+                }
             }
-            
+
         }
         catch (Exception ex) {
             LOGGER.warn("Load simulation configuration failed.", ex);
         }
 
     }
-    
-    private void createSimulator(NodeType node, BidibInterface bidibInterface) {
-    	LOGGER.info("Create new simulator for node: {}", node);
-    	
-    	// TODO create and register the nodes in the registry
-    	String className = node.getClassName();
-    	String[] nodeAddress = node.getAddress().split("\\.");
-    	ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    	for (String addr : nodeAddress) {
-    		stream.write(Integer.parseInt(addr));
-    	}
-    	byte[] address = stream.toByteArray();
-    	
-    	try {
-    		Constructor<Simulator>[] ctors = (Constructor<Simulator>[]) Class.forName(className).getConstructors();
-			Constructor<Simulator> constructor = ctors[0];
-			Simulator simulator = constructor.newInstance(address, bidibInterface.getMessageReceiver());
-			
-			if (simulator != null) {
-	            LOGGER.info("Created new simulator: {}", simulator);
-	            addSimulator(ByteUtils.bytesToHex(address), simulator);
-	        }
-	        else {
-	            LOGGER.warn("No simulator available for configured node: {}", node);
-	        }
-		} 
-    	catch (Exception ex) {
-			LOGGER.warn("Create simulator failed.", ex);
-		}
-//    	Class.forName(className).getConstructor(byte[], MessageReceiver.class);
+
+    private Simulator createSimulator(NodeType node, BidibInterface bidibInterface) {
+        LOGGER.info("Create new simulator for node: {}", node);
+
+        // TODO create and register the nodes in the registry
+        String className = node.getClassName();
+        String[] nodeAddress = node.getAddress().split("\\.");
+        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+        for (String addr : nodeAddress) {
+            stream.write(Integer.parseInt(addr));
+        }
+        byte[] address = stream.toByteArray();
+        long uniqueId = ByteUtils.convertUniqueIdToLong(node.getUniqueId());
+        try {
+            Constructor<Simulator> constructor =
+                (Constructor<Simulator>) Class.forName(className).getConstructor(byte[].class, long.class,
+                    MessageReceiver.class);
+            Simulator simulator = constructor.newInstance(address, uniqueId, bidibInterface.getMessageReceiver());
+
+            if (simulator != null) {
+                LOGGER.info("Created new simulator: {}", simulator);
+                addSimulator(ByteUtils.bytesToHex(address), simulator);
+            }
+            else {
+                LOGGER.warn("No simulator available for configured node: {}", node);
+            }
+
+            return simulator;
+        }
+        catch (Exception ex) {
+            LOGGER.warn("Create simulator failed.", ex);
+        }
+        return null;
     }
 }
