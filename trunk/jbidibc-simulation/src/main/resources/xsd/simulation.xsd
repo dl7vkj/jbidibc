@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bidib.org/jbidibc/simulation/nodes" xmlns:sim="http://www.bidib.org/jbidibc/simulation/nodes" elementFormDefault="qualified" version="1.0">
+	<complexType name="NodeType" id="node">
+		<attribute name="uniqueId" type="hexBinary" />
+	</complexType>
+
+	<complexType name="SubNodesType">
+		<sequence>
+			<element name="node" type="sim:NodeType" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="MasterType">
+		<complexContent>
+			<extension base="sim:NodeType">
+				<sequence>
+					<element name="subNodes" type="sim:SubNodesType" />
+				</sequence>
+<!-- 				<attribute name="uniqueId" type="hexBinary" /> --> 
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<element name="simulation">
+		<annotation>
+			<documentation>Simulation configuration definition</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="master" type="sim:MasterType"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+</schema>

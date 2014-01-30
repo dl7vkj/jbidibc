@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simulation xmlns="http://www.bidib.org/jbidibc/simulation/nodes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/simulation/nodes /xsd/simulation.xsd">
+	<master uniqueId="d2000d680064ea">
+		<subNodes>
+			<node uniqueId="05340d6B901234"></node>
+			<node uniqueId="05343e97901235"></node>
+		</subNodes>
+	</master>
+</simulation>
