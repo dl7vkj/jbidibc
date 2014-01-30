@@ -4,9 +4,13 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.List;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.bidib.jbidibc.simulation.nodes.MasterType;
 import org.bidib.jbidibc.simulation.nodes.NodeType;
@@ -17,18 +21,26 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 import org.testng.Reporter;
 import org.testng.annotations.Test;
+import org.xml.sax.SAXException;
 
 public class SimulationConfigTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationConfigTest.class);
 
     private static final String JAXB_PACKAGE = "org.bidib.jbidibc.simulation.nodes";
 
+    private static final String XSD_LOCATION = "/xsd/simulation.xsd";
+
     @Test
-    public void loadNodesTest() throws FileNotFoundException, JAXBException {
+    public void loadNodesTest() throws FileNotFoundException, JAXBException, SAXException {
 
         JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
+        // create a validating unmarshaller
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        StreamSource streamSource = new StreamSource(SimulationConfigTest.class.getResourceAsStream(XSD_LOCATION));
+        Schema schema = schemaFactory.newSchema(streamSource);
+        unmarshaller.setSchema(schema);
 
         Reporter.log("Load the simulation file.", true);
         InputStream is = SimulationConfigTest.class.getResourceAsStream("/nodes/simulation.xml");

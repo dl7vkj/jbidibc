@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <simulation xmlns="http://www.bidib.org/jbidibc/simulation/nodes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/simulation/nodes /xsd/simulation.xsd">
-	<master uniqueId="d2000d680064ea">
+	<master uniqueId="d2000d680064ea" className="org.bidib.jbidibc.simulation.nodes.Master" address="0" >
 		<subNodes>
-			<node uniqueId="05340d6B901234"></node>
-			<node uniqueId="05343e97901235"></node>
+			<node uniqueId="05340d6B901234" className="org.bidib.jbidibc.simulation.nodes.Node" address="1"></node>
+			<node uniqueId="05343e97901235" className="org.bidib.jbidibc.simulation.nodes.Node" address="2"></node>
 		</subNodes>
 	</master>
 </simulation>
