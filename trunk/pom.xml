@@ -73,6 +73,7 @@
         <module>jbidibc</module>
         <module>jbidibc-exchange</module>
         <module>jbidibc-tools</module>
+        <module>jbidibc-simulation</module>
         <module>jbidibc-assembly</module>
     </modules>
     <pluginRepositories>
