@@ -1066,6 +1066,7 @@ public class BidibNode {
                     if (responses == null) {
                         responses = new LinkedList<BidibMessage>();
                     }
+
                     while (receivedMessages < numMessages) {
                         LOGGER.trace("Receive response, receivedMessages: {}, numMessages: {}", receivedMessages,
                             numMessages);
@@ -1073,7 +1074,7 @@ public class BidibNode {
                             receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
                                 .asList(expectedResponseTypes) : null);
 
-                        LOGGER.trace("Received message response: {}", response);
+                        LOGGER.trace("Inside sendBulk, received message response: {}", response);
                         if (response != null) {
                             responses.add(response);
                         }
@@ -1092,6 +1093,9 @@ public class BidibNode {
                     LOGGER.warn("Receive message timed out. Get response failed for messages:  {}", messages);
                     throw new ProtocolNoAnswerException("Got no answer to " + messages);
                 }
+            }
+            else {
+                LOGGER.debug("No answer expected in send bulk.");
             }
         }
         LOGGER.debug("Return the response messages: {}", responses);
@@ -1352,6 +1356,9 @@ public class BidibNode {
                 }
             }
             return vendorDatas;
+        }
+        else {
+            LOGGER.warn("No result returned from sendBulk!");
         }
         return null;
     }

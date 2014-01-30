@@ -81,8 +81,7 @@ public abstract class MessageReceiver {
      * @param output the output stream that contains the messages
      * @throws ProtocolException
      */
-    public void processMessages(ByteArrayOutputStream output) throws ProtocolException {
-
+    public synchronized void processMessages(ByteArrayOutputStream output) throws ProtocolException {
         // if a CRC error is detected in splitMessages the reading loop will terminate ...
         for (byte[] messageArray : splitMessages(output.toByteArray())) {
             BidibMessage message = null;
@@ -323,7 +322,7 @@ public abstract class MessageReceiver {
     protected void messageReceived(BidibMessage message) {
         // put the message into the receiveQueue because somebody waits for it ...
 
-        LOGGER.trace("Offer received message to node: {}", message);
+        LOGGER.info("Offer received message to node: {}", message);
         BidibNode node = nodeFactory.getNode(new Node(message.getAddr()));
         try {
             node.getReceiveQueue().offer(message);

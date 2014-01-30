@@ -112,9 +112,12 @@ public class SimulatorRegistry {
                     if (simMaster != null && simMaster instanceof InterfaceNode) {
                         ((InterfaceNode) simMaster).addSubNode(simNode);
                     }
+
+                    simNode.start();
                 }
             }
 
+            simMaster.start();
         }
         catch (Exception ex) {
             LOGGER.warn("Load simulation configuration failed.", ex);

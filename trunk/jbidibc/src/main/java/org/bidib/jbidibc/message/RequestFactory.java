@@ -1,6 +1,8 @@
 package org.bidib.jbidibc.message;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -16,11 +18,12 @@ public class RequestFactory {
     private RequestFactory() {
     }
 
-    // TODO this should work with combined messages, too ...
-    public static BidibMessage create(byte[] message) throws ProtocolException {
+    public static List<BidibMessage> create(byte[] message) throws ProtocolException {
         LOGGER.debug("Create bidib message from raw message: {}", message);
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+        List<BidibMessage> bidibMessages = new ArrayList<BidibMessage>();
 
         boolean escapeHot = false;
         StringBuilder logRecord = new StringBuilder();
@@ -43,6 +46,33 @@ public class RequestFactory {
                 logRecord.setLength(0);
 
                 // the message is complete
+                byte[] result = output.toByteArray();
+                if (LOGGER.isTraceEnabled()) {
+                    LOGGER.trace("prepared user data: {}, total len: {}", ByteUtils.bytesToHex(result), result.length);
+                }
+                // read the first byte that is the length of the message
+                byte len = result[0];
+                if ((len + 1) < result.length - 1) {
+                    // we have multiple messages
+                    int index = 0;
+                    while (index < result.length - 1) {
+                        len = result[index];
+                        byte[] part = new byte[len + 1];
+                        System.arraycopy(result, index, part, 0, len + 1);
+                        BidibMessage bidibMessage = createConcreteMessage(new BidibMessage(part), part);
+                        bidibMessages.add(bidibMessage);
+                        LOGGER.trace("Added new bidibMessage: {}, index: {}", bidibMessage, index);
+                        index += len + 1;
+                    }
+                }
+                else {
+                    // we have a single messages
+                    BidibMessage bidibMessage = createConcreteMessage(new BidibMessage(result), result);
+                    bidibMessages.add(bidibMessage);
+                    LOGGER.trace("Added new bidibMessage: {}", bidibMessage);
+                }
+
+                output.reset();
                 break;
             }
             else {
@@ -58,10 +88,7 @@ public class RequestFactory {
                 }
             }
         }
-        byte[] result = output.toByteArray();
-
-        BidibMessage bidibMessage = createConcreteMessage(new BidibMessage(result), result);
-        return bidibMessage;
+        return bidibMessages;
     }
 
     private static BidibMessage createConcreteMessage(BidibMessage bidibMessage, byte[] message)
