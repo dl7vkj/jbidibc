@@ -109,7 +109,13 @@ public final class ByteUtils {
     }
 
     public static long convertUniqueIdToLong(byte[] uniqueId) {
-        return new BigInteger(uniqueId).longValue();
+        long result = 0;
+
+        for (int i = 0; i < uniqueId.length; i++) {
+            result = (result << 8) + (uniqueId[i] & 0xFF);
+        }
+        return result;
+        //        return new BigInteger(uniqueId).longValue();
     }
 
     public static String toString(byte[] bytes) {
