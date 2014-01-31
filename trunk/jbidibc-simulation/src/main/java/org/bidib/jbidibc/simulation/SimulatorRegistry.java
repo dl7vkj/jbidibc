@@ -20,7 +20,6 @@ import org.bidib.jbidibc.simulation.nodes.MasterType;
 import org.bidib.jbidibc.simulation.nodes.NodeType;
 import org.bidib.jbidibc.simulation.nodes.Simulation;
 import org.bidib.jbidibc.utils.ByteUtils;
-import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,11 +28,11 @@ public class SimulatorRegistry {
 
     private static SimulatorRegistry INSTANCE;
 
-    private Map<String, Simulator> simulators;
+    private Map<String, SimulatorNode> simulators;
 
     private SimulatorRegistry() {
         LOGGER.info("Create instance of SimulatorRegistry.");
-        simulators = new HashMap<String, Simulator>();
+        simulators = new HashMap<String, SimulatorNode>();
     }
 
     public static synchronized SimulatorRegistry getInstance() {
@@ -49,7 +48,7 @@ public class SimulatorRegistry {
         LOGGER.info("removeAll() will stop the simulators and clear the registry.");
 
         synchronized (simulators) {
-            for (Simulator simulator : simulators.values()) {
+            for (SimulatorNode simulator : simulators.values()) {
                 LOGGER.info("Stop the simulator: {}", simulator);
                 simulator.stop();
             }
@@ -58,13 +57,13 @@ public class SimulatorRegistry {
         }
     }
 
-    public Map<String, Simulator> getSimulators() {
+    public Map<String, SimulatorNode> getSimulators() {
         synchronized (simulators) {
             return Collections.unmodifiableMap(simulators);
         }
     }
 
-    public void addSimulator(String nodeAddress, Simulator simulator) {
+    public void addSimulator(String nodeAddress, SimulatorNode simulator) {
         LOGGER.info("Add new simulator: {}, nodeAddress: {}", simulator, nodeAddress);
         synchronized (simulators) {
             simulators.put(nodeAddress, simulator);
@@ -73,8 +72,8 @@ public class SimulatorRegistry {
         simulator.start();
     }
 
-    public Simulator getSimulator(String nodeAddress) {
-        Simulator simulator = null;
+    public SimulatorNode getSimulator(String nodeAddress) {
+        SimulatorNode simulator = null;
         synchronized (simulators) {
             simulator = simulators.get(nodeAddress);
         }
@@ -103,12 +102,12 @@ public class SimulatorRegistry {
             MasterType master = simulation.getMaster();
 
             LOGGER.info("Fetched master from simulation configuration: {}", master);
-            Simulator simMaster = createSimulator(master, bidibInterface);
+            SimulatorNode simMaster = createSimulator(master, bidibInterface);
 
             if (master.getSubNodes() != null && master.getSubNodes().getNode() != null) {
                 // TODO add support for hub nodes ...
                 for (NodeType subNode : master.getSubNodes().getNode()) {
-                    Simulator simNode = createSimulator(subNode, bidibInterface);
+                    SimulatorNode simNode = createSimulator(subNode, bidibInterface);
                     if (simMaster != null && simMaster instanceof InterfaceNode) {
                         ((InterfaceNode) simMaster).addSubNode(simNode);
                     }
@@ -125,7 +124,7 @@ public class SimulatorRegistry {
 
     }
 
-    private Simulator createSimulator(NodeType node, BidibInterface bidibInterface) {
+    private SimulatorNode createSimulator(NodeType node, BidibInterface bidibInterface) {
         LOGGER.info("Create new simulator for node: {}", node);
 
         // TODO create and register the nodes in the registry
@@ -138,13 +137,20 @@ public class SimulatorRegistry {
         byte[] address = stream.toByteArray();
         long uniqueId = ByteUtils.convertUniqueIdToLong(node.getUniqueId());
         try {
-            Constructor<Simulator> constructor =
-                (Constructor<Simulator>) Class.forName(className).getConstructor(byte[].class, long.class,
+            Constructor<SimulatorNode> constructor =
+                (Constructor<SimulatorNode>) Class.forName(className).getConstructor(byte[].class, long.class,
                     MessageReceiver.class);
-            Simulator simulator = constructor.newInstance(address, uniqueId, bidibInterface.getMessageReceiver());
+            SimulatorNode simulator = constructor.newInstance(address, uniqueId, bidibInterface.getMessageReceiver());
 
             if (simulator != null) {
                 LOGGER.info("Created new simulator: {}", simulator);
+                if (simulator instanceof SwitchingFunctionsNode) {
+                    SwitchingFunctionsNode switchingFunctionsNode = (SwitchingFunctionsNode) simulator;
+                    switchingFunctionsNode.setPortsConfig(node.getINPUT());
+                    switchingFunctionsNode.setPortsConfig(node.getSERVO());
+                    switchingFunctionsNode.setPortsConfig(node.getSPORT());
+                    switchingFunctionsNode.setPortsConfig(node.getLPORT());
+                }
                 addSimulator(ByteUtils.bytesToHex(address), simulator);
             }
             else {

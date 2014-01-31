@@ -1,49 +1,13 @@
 package org.bidib.jbidibc.simulation.nodes;
 
-import org.bidib.jbidibc.message.BidibMessage;
-import org.bidib.jbidibc.simulation.Simulator;
+import org.bidib.jbidibc.simulation.InterfaceNode;
+import org.bidib.jbidibc.simulation.SimulatorNode;
 
-public class Master implements Simulator {
-
-    @Override
-    public void start() {
-        // TODO Auto-generated method stub
-
-    }
+public class Master extends Node implements InterfaceNode {
 
     @Override
-    public void stop() {
+    public void addSubNode(SimulatorNode simulator) {
         // TODO Auto-generated method stub
 
-    }
-
-    @Override
-    public void processRequest(BidibMessage bidibMessage) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public String getSimulationPanelClass() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public void queryStatus(Class<?> portClass) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public long getUniqueId() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public String getAddress() {
-        // TODO Auto-generated method stub
-        return null;
     }
 }

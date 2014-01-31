@@ -68,5 +68,18 @@ public class SimulationConfigTest {
         Assert.assertEquals(nodes.size(), 2);
         Assert.assertEquals(ByteUtils.convertUniqueIdToLong(nodes.get(0).getUniqueId()), 0x05340d6B901234L);
         Assert.assertEquals(ByteUtils.convertUniqueIdToLong(nodes.get(1).getUniqueId()), 0x05343e97901235L);
+
+        // first port has LPORTs and SPORTs configured
+        NodeType node = nodes.get(0);
+        Assert.assertNotNull(node.getLPORT());
+        Assert.assertEquals(node.getLPORT().getCount().intValue(), 32);
+        Assert.assertNotNull(node.getSPORT());
+        Assert.assertEquals(node.getSPORT().getCount().intValue(), 8);
+
+        // second port has no LPORTs but SPORTs configured
+        node = nodes.get(1);
+        Assert.assertNull(node.getLPORT());
+        Assert.assertNotNull(node.getSPORT());
+        Assert.assertEquals(node.getSPORT().getCount().intValue(), 8);
     }
 }

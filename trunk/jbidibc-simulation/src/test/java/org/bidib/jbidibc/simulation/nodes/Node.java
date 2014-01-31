@@ -1,9 +1,10 @@
 package org.bidib.jbidibc.simulation.nodes;
 
 import org.bidib.jbidibc.message.BidibMessage;
-import org.bidib.jbidibc.simulation.Simulator;
+import org.bidib.jbidibc.simulation.SimulatorNode;
+import org.bidib.jbidibc.simulation.SwitchingFunctionsNode;
 
-public class Node implements Simulator {
+public class Node implements SimulatorNode, SwitchingFunctionsNode {
 
     @Override
     public void start() {
@@ -45,5 +46,11 @@ public class Node implements Simulator {
     public String getAddress() {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    @Override
+    public void setPortsConfig(PortType portType) {
+        // TODO Auto-generated method stub
+
     }
 }

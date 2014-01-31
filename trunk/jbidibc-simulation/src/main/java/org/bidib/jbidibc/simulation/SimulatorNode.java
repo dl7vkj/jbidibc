@@ -2,7 +2,7 @@ package org.bidib.jbidibc.simulation;
 
 import org.bidib.jbidibc.message.BidibMessage;
 
-public interface Simulator {
+public interface SimulatorNode {
 
     /**
      * Start the simulator.

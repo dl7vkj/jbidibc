@@ -16,8 +16,41 @@
 			<minLength value="7"/>
 		</restriction>
 	</simpleType>
+	<complexType name="PortType" abstract="true">
+		<attribute name="count" type="int" />
+	</complexType>
+	<complexType name="LightPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SwitchPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ServoPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="InputPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
 
-	<complexType name="NodeType" id="node">
+	<complexType name="NodeType">
+		<sequence>
+			<element name="LPORT" type="sim:LightPortType" minOccurs="0" />
+			<element name="SPORT" type="sim:SwitchPortType" minOccurs="0" />
+			<element name="INPUT" type="sim:InputPortType" minOccurs="0" />
+			<element name="SERVO" type="sim:ServoPortType" minOccurs="0" />
+		</sequence>
 		<attribute name="uniqueId" type="sim:UniqueIdType" use="required" />
 		<attribute name="className" type="sim:StringNotEmptyType" use="required" />
 		<attribute name="address" type="sim:StringNotEmptyType" use="required" />

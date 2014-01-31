@@ -18,7 +18,7 @@ import org.bidib.jbidibc.node.BoosterNode;
 import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.RootNode;
-import org.bidib.jbidibc.simulation.Simulator;
+import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.SimulatorRegistry;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
@@ -92,7 +92,7 @@ public class SimulationBidib implements BidibInterface {
         RootNode rootNode = nodeFactory.getRootNode();
 
         String nodeAddress = ByteUtils.bytesToHex(rootNode.getAddr());
-        Simulator simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
+        SimulatorNode simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
         if (simulator == null) {
             LOGGER.warn("No simulator configured for the root node.");
         }
@@ -126,7 +126,7 @@ public class SimulationBidib implements BidibInterface {
                 BidibNode bidibNode = nodeFactory.findNode(address);
                 String nodeAddress = ByteUtils.bytesToHex(bidibNode.getAddr());
 
-                Simulator simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
+                SimulatorNode simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
                 if (simulator == null) {
                     LOGGER.warn("No simulator found for nodeAddress: {}", nodeAddress);
                 }
