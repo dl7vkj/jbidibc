@@ -24,7 +24,6 @@ import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-// TODO move to jbidibc-simulation module
 public class SimulationBidib implements BidibInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationBidib.class);
 
