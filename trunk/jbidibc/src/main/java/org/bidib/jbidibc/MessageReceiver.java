@@ -322,7 +322,7 @@ public abstract class MessageReceiver {
     protected void messageReceived(BidibMessage message) {
         // put the message into the receiveQueue because somebody waits for it ...
 
-        LOGGER.info("Offer received message to node: {}", message);
+        LOGGER.trace("Offer received message to node: {}", message);
         BidibNode node = nodeFactory.getNode(new Node(message.getAddr()));
         try {
             node.getReceiveQueue().offer(message);
