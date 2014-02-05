@@ -12,15 +12,18 @@ import org.slf4j.LoggerFactory;
 
 /**
  * <p>
- * The <code>LibraryPathManipulator</code> is used to manipulate the <code>java.library.path</code> after the JVM was
- * started. The solution is based on this blog:
+ * The <code>LibraryPathManipulator</code> is used to manipulate the
+ * <code>java.library.path</code> after the JVM was started. The solution is
+ * based on this blog:
  * http://blog.cedarsoft.com/2010/11/setting-java-library-path-programmatically/
  * </p>
  * 
- * The absolute path to location of the RXTX native libraries can be specified with the JVM property
- * <code>jbidibc.path_to_RXTX_libs</code>.
+ * The absolute path to location of the RXTX native libraries can be specified
+ * with the JVM property <code>jbidibc.path_to_RXTX_libs</code>.
  * <p>
- * E.g. <code>-Djbidibc.path_to_RXTX_libs="E:/svn/jbidibc/jbidibc/jbidibc"</code> if the native libraries are located at
+ * E.g.
+ * <code>-Djbidibc.path_to_RXTX_libs="E:/svn/jbidibc/jbidibc/jbidibc"</code> if
+ * the native libraries are located at
  * <i>E:/svn/jbidibc/jbidibc/jbidibc/rxtx</i>
  * </p>
  */
@@ -29,17 +32,24 @@ public class LibraryPathManipulator {
     private static final Logger LOGGER = LoggerFactory.getLogger(LibraryPathManipulator.class);
 
     /**
-     * Absolute path to location of the RXTX native libraries. This JVM property can be used in development environment
-     * to specify the path to the native libraries if the jbidib project is not opened.
+     * Absolute path to location of the RXTX native libraries. This JVM property
+     * can be used in development environment to specify the path to the native
+     * libraries if the jbidib project is not opened.
      * <p>
-     * E.g. <code>-Djbidibc.path_to_RXTX_libs="E:/svn/jbidibc/jbidibc/jbidibc"</code> if the native libraries are
-     * located at <i>E:/svn/jbidibc/jbidibc/jbidibc/rxtx</i>
+     * E.g.
+     * <code>-Djbidibc.path_to_RXTX_libs="E:/svn/jbidibc/jbidibc/jbidibc"</code>
+     * if the native libraries are located at
+     * <i>E:/svn/jbidibc/jbidibc/jbidibc/rxtx</i>
      * </p>
      */
     public static final String PROP_PATH_TO_RXTX_LIBS = "jbidibc.path_to_RXTX_libs";
 
     private enum Architecture {
         ARM, i386, unsupported
+    }
+
+    private enum DataModel {
+        bits32, bits64, unsupported
     }
 
     private enum OperatingSystem {
@@ -50,20 +60,13 @@ public class LibraryPathManipulator {
      * Manipulate the library path to include the path to the DLLs and SOs.
      * 
      * @param pathToDLLs
-     *            the DLLs and SOs are expected to be in a directory rxtx with structure below. If this structure is in
-     *            a sub directory of <code>user.dir</code> this parameter is used to extend the path to find the
-     *            matching structure.
+     *            the DLLs and SOs are expected to be in a directory rxtx with
+     *            structure below. If this structure is in a sub directory of
+     *            <code>user.dir</code> this parameter is used to extend the
+     *            path to find the matching structure.
      * 
-     * <pre>
-     * --rxtx 
-     *   + --windows 
-     *     + --x86 
-     *     + --x86_64 
-     *   + --linux 
-     *     + --i386 
-     *     + --x86_64 
-     *     + --arm 
-     *   + --mac
+     *            <pre>
+     * --rxtx + --windows + --x86 + --x86_64 + --linux + --i386 + --x86_64 + --arm + --mac
      * </pre>
      */
     public void manipulateLibraryPath(String pathToDLLs) {
@@ -153,13 +156,14 @@ public class LibraryPathManipulator {
 
     private String resolveOSDependentPath() {
         String osDependentPathToLibrary = null;
+        DataModel dataModel = getDataModel();
 
         switch (getOsName()) {
             case Windows:
-                if ("32".equals(getDataModel())) {
+                if (dataModel == DataModel.bits32) {
                     osDependentPathToLibrary = "/rxtx/windows/x86";
                 }
-                else {
+                else if (dataModel == DataModel.bits64) {
                     osDependentPathToLibrary = "/rxtx/windows/x86_64";
                 }
                 break;
@@ -170,10 +174,10 @@ public class LibraryPathManipulator {
                     osDependentPathToLibrary = "/rxtx/linux/arm";
                 }
                 else if (osArch == Architecture.i386) {
-                    if ("32".equals(getDataModel())) {
+                    if (dataModel == DataModel.bits32) {
                         osDependentPathToLibrary = "/rxtx/linux/i386";
                     }
-                    else {
+                    else if (dataModel == DataModel.bits64) {
                         osDependentPathToLibrary = "/rxtx/linux/x86_64";
                     }
                 }
@@ -233,8 +237,20 @@ public class LibraryPathManipulator {
         return result;
     }
 
-    public String getDataModel() {
-        return System.getProperty("sun.arch.data.model").toLowerCase();
+    private static DataModel getDataModel() {
+        DataModel result = DataModel.unsupported;
+        String dataModel = System.getProperty("sun.arch.data.model");
+
+        if (dataModel.equals("32")) {
+            result = DataModel.bits32;
+        }
+        else if (dataModel.equals("64")) {
+            result = DataModel.bits64;
+        }
+        else {
+            LOGGER.error("Unsupported data model {} detected!", dataModel);
+        }
+        return result;
     }
 
     /**
