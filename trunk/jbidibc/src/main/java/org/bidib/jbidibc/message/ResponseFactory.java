@@ -26,6 +26,10 @@ public final class ResponseFactory {
                 result =
                     new AccessoryStateResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
+            case BidibLibrary.MSG_ACCESSORY_NOTIFY:
+                result =
+                    new AccessoryNotifyResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                break;
             case BidibLibrary.MSG_BM_ADDRESS:
                 result =
                     new FeedbackAddressResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
@@ -54,6 +58,10 @@ public final class ResponseFactory {
             case BidibLibrary.MSG_BM_SPEED:
                 result =
                     new FeedbackSpeedResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                break;
+            case BidibLibrary.MSG_BM_DYN_STATE:
+                result =
+                    new FeedbackDynStateResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
             case BidibLibrary.MSG_BOOST_CURRENT:
                 result =
@@ -97,6 +105,11 @@ public final class ResponseFactory {
                 result =
                     new CommandStationPomAcknowledgeResponse(result.getAddr(), result.getNum(), result.getType(),
                         result.getData());
+                break;
+            case BidibLibrary.MSG_CS_PROG_STATE:
+                result =
+                    new CommandStationProgStateResponse(result.getAddr(), result.getNum(), result.getType(), result
+                        .getData());
                 break;
             case BidibLibrary.MSG_FEATURE:
                 result = new FeatureResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());

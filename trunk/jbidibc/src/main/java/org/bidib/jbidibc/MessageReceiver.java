@@ -11,6 +11,7 @@ import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.NodeAlreadyRegisteredException;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.message.AccessoryNotifyResponse;
 import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostCurrentResponse;
@@ -20,6 +21,7 @@ import org.bidib.jbidibc.message.FeedbackAccessoryResponse;
 import org.bidib.jbidibc.message.FeedbackAddressResponse;
 import org.bidib.jbidibc.message.FeedbackConfidenceResponse;
 import org.bidib.jbidibc.message.FeedbackCvResponse;
+import org.bidib.jbidibc.message.FeedbackDynStateResponse;
 import org.bidib.jbidibc.message.FeedbackFreeResponse;
 import org.bidib.jbidibc.message.FeedbackMultipleResponse;
 import org.bidib.jbidibc.message.FeedbackOccupiedResponse;
@@ -94,7 +96,7 @@ public abstract class MessageReceiver {
                     MSG_RX_LOGGER.info("receive {} : {}", message, sb);
                 }
                 if (message != null) {
-
+                    BidibNode bidibNode = null;
                     // some messages are notified directly to listeners
                     int type = ByteUtils.getInt(message.getType());
                     switch (type) {
@@ -166,17 +168,34 @@ public abstract class MessageReceiver {
                             fireSpeed(message.getAddr(), ((FeedbackSpeedResponse) message).getAddress(),
                                 ((FeedbackSpeedResponse) message).getSpeed());
                             break;
+                        case BidibLibrary.MSG_BM_DYN_STATE:
+                            fireDynState(message.getAddr(), ((FeedbackDynStateResponse) message).getDetectorNumber(),
+                                ((FeedbackDynStateResponse) message).getDynNumber(),
+                                ((FeedbackDynStateResponse) message).getDynValue());
+                            break;
                         case BidibLibrary.MSG_ACCESSORY_STATE:
                             // process the AccessoryStateResponse message
-                            BidibNode bidibNode = nodeFactory.getNode(new Node(message.getAddr()));
-                            if (bidibNode instanceof AccessoryNode) {
-                                ((AccessoryNode) bidibNode)
-                                    .acknowledgeAccessoryState(((AccessoryStateResponse) message).getAccessoryState());
-                            }
+                            //                            bidibNode = nodeFactory.getNode(new Node(message.getAddr()));
+                            //                            if (bidibNode instanceof AccessoryNode) {
+                            //                                ((AccessoryNode) bidibNode)
+                            //                                    .acknowledgeAccessoryState(((AccessoryStateResponse) message).getAccessoryState());
+                            //                            }
 
                             AccessoryStateResponse accessoryStateResponse = (AccessoryStateResponse) message;
 
                             fireAccessoryState(message.getAddr(), accessoryStateResponse.getAccessoryState());
+                            break;
+                        case BidibLibrary.MSG_ACCESSORY_NOTIFY:
+                            // process the AccessoryNotifyResponse message
+                            bidibNode = nodeFactory.getNode(new Node(message.getAddr()));
+                            if (bidibNode instanceof AccessoryNode) {
+                                ((AccessoryNode) bidibNode)
+                                    .acknowledgeAccessoryState(((AccessoryNotifyResponse) message).getAccessoryState());
+                            }
+
+                            AccessoryNotifyResponse accessoryNotifyResponse = (AccessoryNotifyResponse) message;
+
+                            fireAccessoryState(message.getAddr(), accessoryNotifyResponse.getAccessoryState());
                             break;
                         case BidibLibrary.MSG_LC_KEY:
                             fireKey(message.getAddr(), ((LcKeyResponse) message).getKeyNumber(),
@@ -458,6 +477,13 @@ public abstract class MessageReceiver {
         for (MessageListener l : messageListeners) {
             l.accessoryState(address, accessoryState);
         }
+    }
+
+    protected void fireDynState(byte[] address, int detectorNumber, int dynNumber, int dynValue) {
+        // TODO implement populate the dynamic state ...
+        //        for (MessageListener l : messageListeners) {
+        //            l.dynState(address, detectorNumber, dynNumber, dynValue);
+        //        }
     }
 
     public void removeMessageListener(MessageListener l) {

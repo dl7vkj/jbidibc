@@ -30,9 +30,6 @@ public interface BidibLibrary {
     };
 
     /// <i>native declaration : bidib_messages.h</i>
-    public static final int MSG_PRG_CV_BLOCKWRITE = (int) ((0 + 96) + 13);
-
-    /// <i>native declaration : bidib_messages.h</i>
     public static final int BIDIB_CS_STATE_PROGBUSY = (int) 9;
 
     /// <i>native declaration : bidib_messages.h</i>
@@ -198,9 +195,6 @@ public interface BidibLibrary {
     public static final int BIDIB_FW_UPDATE_ERROR_SIZE = (int) 5;
 
     /// <i>native declaration : bidib_messages.h</i>
-    public static final int MSG_PRG_CV_WRITE = (int) ((0 + 96) + 12);
-
-    /// <i>native declaration : bidib_messages.h</i>
     public static final int BIDIB_CS_DRIVE_FORMAT_DCC28 = (int) 2;
 
     /// <i>native declaration : bidib_messages.h</i>
@@ -279,9 +273,6 @@ public interface BidibLibrary {
     public static final int FEATURE_BST_TURNOFF_TIME = (int) 19;
 
     /// <i>native declaration : bidib_messages.h</i>
-    public static final int MSG_PRG_CV_STAT = (int) ((128 + 96) + 12);
-
-    /// <i>native declaration : bidib_messages.h</i>
     public static final int MSG_ACCESSORY_PARA_GET = (int) ((0 + 56) + 3);
 
     /// <i>native declaration : bidib_messages.h</i>
@@ -331,9 +322,6 @@ public interface BidibLibrary {
 
     /// <i>native declaration : bidib_messages.h</i>
     public static final int FEATURE_GEN_DRIVE_BUS = (int) 107;
-
-    /// <i>native declaration : bidib_messages.h</i>
-    public static final int MSG_PRG_CV_READ = (int) ((0 + 96) + 14);
 
     /// <i>native declaration : bidib_messages.h</i>
     public static final int MSG_NODETAB = (int) ((128 + 0) + 9);
@@ -1020,9 +1008,6 @@ public interface BidibLibrary {
     public static final int BIDIB_OUTTYPE_SOUND = (int) 3;
 
     /// <i>native declaration : bidib_messages.h</i>
-    public static final int MSG_PRG_CV_BLOCKREAD = (int) ((0 + 96) + 15);
-
-    /// <i>native declaration : bidib_messages.h</i>
     public static final int FEATURE_GEN_NOTIFY_DRIVE_MANUAL = (int) 109;
 
     /// <i>native declaration : bidib_messages.h</i>
@@ -1074,4 +1059,20 @@ public interface BidibLibrary {
 
     /// <i>native declaration : bidib_messages.h</i>
     public static final int MSG_STRING_SET = (int) ((0 + 16) + 10);
+
+    // 1:opcode, 2:cv_l, 3:cv_h, 4: data
+    public static final int MSG_CS_PROG = (int) ((0 + 96) + 8);
+
+    // 1:mnum, 2:addr_l, 3:addr_h, 4:dyn_num, 5:value (from loco)
+    public static final int MSG_BM_DYN_STATE = (int) ((128 + 32) + 10);
+
+    // 1:port, 2:aspect, 3:total, 4:execute, 5:wait (Spontan)
+    public static final int MSG_ACCESSORY_NOTIFY = (int) ((128 + 56) + 2);
+
+    // 1: PROG_STATE, 2:PROG_DATA
+    public static final int MSG_CS_PROG_STATE = (int) ((128 + 96) + 15);
+
+    // -- booster/occupancy2
+    // transmit interval of MSG_BM_DYN_STATE (unit 100ms)
+    public static final int FEATURE_BM_DYN_STATE_INTERVAL = (int) 28;
 }
