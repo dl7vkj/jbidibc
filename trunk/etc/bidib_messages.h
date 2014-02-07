@@ -55,7 +55,7 @@
 //                                 added FEATURE_CTRL_BACKLIGHT_COUNT, BIDIB_OUTTYPE_BACKLIGHT
 //            2013-12-15 V0.15 kw  added FEATURE_STRING_SIZE, MSG_STRING_GET, _STRING_SET _STRING
 //            2014-01-22 V0.16 kw  added MSG_BM_DYN_STATE, MSG_CS_PROG, MSG_CS_PROG_STATE, FEATURE_BM_DYN_STATE_INTERVAL
-//                                 added MSG_ACCESSORY_NOTIFY
+//            2014-02-07           added MSG_ACCESSORY_NOTIFY
 //
 //===============================================================================
 //
@@ -258,7 +258,7 @@
 #define MSG_UACC                (MSG_USTRM + 0x38)
 #define MSG_ACCESSORY_STATE     (MSG_UACC + 0x00)       // 1:port, 2:aspect, 3:total, 4:execute, 5:wait (Quittung)
 #define MSG_ACCESSORY_PARA      (MSG_UACC + 0x01)       // 1:anum, 2:para_num, 3..n: data
-#define MSG_ACCESSORY_NOTIFY    (MSG_UACC + 0x00)       // 1:port, 2:aspect, 3:total, 4:execute, 5:wait (Spontan)
+#define MSG_ACCESSORY_NOTIFY    (MSG_UACC + 0x02)       // 1:port, 2:aspect, 3:total, 4:execute, 5:wait (Spontan)
 
 //-- switch/light control messages
 #define MSG_ULC                 (MSG_USTRM +  0x40)
