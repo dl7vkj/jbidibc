@@ -63,6 +63,13 @@ public class AccessoryNode extends DeviceNode {
         sendNoWait(new AccessoryGetMessage(accessoryNumber));
     }
 
+    /**
+     * Get the macro parameter.
+     * @param macroNumber the macro numbr
+     * @param parameter the parameter number
+     * @return the parameter value
+     * @throws ProtocolException
+     */
     public byte[] getMacroParameter(int macroNumber, int parameter) throws ProtocolException {
         byte[] result = null;
         BidibMessage response = send(new LcMacroParaGetMessage(macroNumber, parameter), true, LcMacroParaResponse.TYPE);
@@ -141,7 +148,7 @@ public class AccessoryNode extends DeviceNode {
 
             // get the errors, see 4.6.4. Uplink: Messages for accessory functions
             // TODO verify what happens exactly before enable this ...
-            //            getAccessoryState(accessoryNumber);
+            getAccessoryState(accessoryNumber);
         }
         else {
             LOGGER.warn("An accessory error was detected: {}", accessoryState);
