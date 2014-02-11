@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.simulation.nodes;
 
+import org.bidib.jbidibc.Feature;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.SwitchingFunctionsNode;
@@ -52,5 +53,11 @@ public class Node implements SimulatorNode, SwitchingFunctionsNode {
     public void setPortsConfig(PortType portType) {
         // TODO Auto-generated method stub
 
+    }
+
+    @Override
+    public Feature getFeature(int featureNum) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

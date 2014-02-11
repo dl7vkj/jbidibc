@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.simulation;
 
+import org.bidib.jbidibc.Feature;
 import org.bidib.jbidibc.message.BidibMessage;
 
 public interface SimulatorNode {
@@ -40,4 +41,10 @@ public interface SimulatorNode {
      * @return the node address
      */
     String getAddress();
+
+    /**
+     * @param featureNum the requested feature number
+     * @return the corresponding feature
+     */
+    Feature getFeature(int featureNum);
 }
