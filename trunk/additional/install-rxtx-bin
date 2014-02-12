@@ -1,0 +1,5 @@
+#!/bin/sh
+
+mvn install:install-file -Dfile=bidib-rxtx-bin-2.2-pre.jar -DpomFile=bidib-rxtx-bin-2.2-pre.pom # -Dclassifier=bin
+
+#mvn gpg:sign-and-deploy-file -Dfile=bidib-rxtx-bin-2.2-pre.jar -DpomFile=bidib-rxtx-bin-2.2-pre.pom -Dclassifier=bin -Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=sonatype-nexus-staging 
