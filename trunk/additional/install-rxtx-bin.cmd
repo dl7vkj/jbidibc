@@ -1,4 +1,4 @@
 
-call mvn install:install-file -Dfile=bidib-rxtx-bin-2.2-pre.jar -DpomFile=bidib-rxtx-bin-2.2-pre.pom -Dclassifier=bin
+rem call mvn install:install-file -Dfile=bidib-rxtx-2.2-binaries.jar -DpomFile=bidib-rxtx-2.2-binaries.pom -Dclassifier=binaries
 
-rem call mvn gpg:sign-and-deploy-file -Dfile=bidib-rxtx-bin-2.2-pre.jar -DpomFile=bidib-rxtx-bin-2.2-pre.pom -Dclassifier=bin -Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=sonatype-nexus-staging 
+call mvn gpg:sign-and-deploy-file -Dfile=bidib-rxtx-2.2-binaries.jar -DpomFile=bidib-rxtx-2.2-binaries.pom -Dclassifier=binaries -Durl=https://oss.sonatype.org/service/local/staging/deploy/maven2/ -DrepositoryId=sonatype-nexus-staging 
