@@ -30,13 +30,13 @@
 				<Description Lang="de-DE" Text="hw_serial_high"/>
 				<Description Lang="en-EN" Text="hw_serial_high"/>
 		   </CV>
-		   <CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="2;4;6;8;10;12;16" Mode="rw">
-				<Description Lang="de-DE" Text="s88_size"/>
-				<Description Lang="en-EN" Text="s88_size"/>
+		   <CV Number="5" Type="Byte" Min="1" Max="16" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Anzahl der Melder (in Bytes). Wertebereich 1..16 entspricht 8..128 Melder. Nur gültig, falls alle Jumper offen."/>
+				<Description Lang="en-EN" Text="Number of detectors (in bytes). Range 1..16 equates to 8..128 detectors. Only valid if all jumpers are open."/>
 		   </CV>
 		   <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="s88_clk_timing"/>
-				<Description Lang="en-EN" Text="s88_clk_timing"/>
+				<Description Lang="de-DE" Text="Timing, in Einheiten von 10us; Wertebereich 1..50, Default: 10. Angeben ist die Zeit Clock High und Clock Low."/>
+				<Description Lang="en-EN" Text="Timing, in units of 10us. Value range 1..50, default: 10. Specified is the time of clock high and clock low."/>
 		   </CV>
 		</Node>
 	</CVDefinition>
