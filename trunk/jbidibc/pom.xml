@@ -16,17 +16,6 @@
             <artifactId>jbidibc-rxtx-2.2</artifactId>
             <version>${project.version}</version>
         </dependency>
-        <!--
-        <dependency>
-            <groupId>${rxtxcomm-groupId}</groupId>
-            <artifactId>rxtxcomm</artifactId>
-        </dependency>
-        -->
-        <dependency>
-            <groupId>org.bidib.jbidib</groupId>
-            <artifactId>bidib-rxtx</artifactId>
-            <classifier>binaries</classifier>
-        </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>

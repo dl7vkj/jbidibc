@@ -13,8 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>org.bidib.jbidib</groupId>
-            <artifactId>bidib-rxtx</artifactId>
-            <classifier>binaries</classifier>
+            <artifactId>bidib-rxtx-binaries</artifactId>
         </dependency>
     </dependencies>
     <build>

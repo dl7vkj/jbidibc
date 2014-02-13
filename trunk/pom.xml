@@ -101,9 +101,8 @@
             -->
             <dependency>
                 <groupId>org.bidib.jbidib</groupId>
-                <artifactId>bidib-rxtx</artifactId>
+                <artifactId>bidib-rxtx-binaries</artifactId>
                 <version>2.2</version>
-                <classifier>binaries</classifier>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>
