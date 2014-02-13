@@ -24,8 +24,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Helper Class used by rxtx implementation to load native libs without having 
@@ -35,48 +33,48 @@ import java.util.logging.Logger;
  * @author achr
  */
 public class LibLoader {
-    
-    private static final String LIBLOADER_VERSION_NAME = "rxtx-rebundled-2.1-7r2";
-    
+
+    private static final String LIBLOADER_VERSION_NAME = "rxtx-rebundled-2.2";
+
     /**
      * <code>Map&lt;Name of lib i.e. 'rxtxSerial', path to extracted lib&gt;</code><br>
      */
     private static final Map<String, String> extractedLibs = new HashMap<String, String>();
-    
+
     static {
-        
+
         String osName = System.getProperty("os.name");
         String osArch = System.getProperty("os.arch");
-        
-        logStdOut("os.name='"+osName+"'");
-        logStdOut("os.arch='"+osArch+"'");
-        
+
+        logStdOut("os.name='" + osName + "'");
+        logStdOut("os.arch='" + osArch + "'");
+
         // check for linux platform ..
         if (osName.toLowerCase().contains("linux")) {
-            
+
             // check for architecture 64bit
             if (osArch.toLowerCase().contains("amd64") || osArch.toLowerCase().contains("x86_64")) {
                 extractedLibs.put("rxtxSerial", extractLib("/rxtx/linux/x86_64/", "librxtxSerial64.so"));
-            } 
+            }
             // else 32bit
             else {
                 extractedLibs.put("rxtxSerial", extractLib("/rxtx/linux/i386/", "librxtxSerial.so"));
             }
-            
-        } 
+
+        }
         // check for windows platform
         else if (osName.toLowerCase().contains("windows")) {
-            
+
             // check for architecture 64bit
             if (osArch.toLowerCase().contains("amd64") || osArch.toLowerCase().contains("x86_64")) {
                 extractedLibs.put("rxtxSerial", extractLib("/rxtx/windows/x86_64/", "rxtxSerial64.dll"));
-            } 
+            }
             // else 32bit
             else {
                 extractedLibs.put("rxtxSerial", extractLib("/rxtx/windows/x86/", "rxtxSerial.dll"));
             }
-            
-        } 
+
+        }
         // check for os x platform
         else if (osName.toLowerCase().contains("os x")) {
             if (osArch.toLowerCase().contains("amd64") || osArch.toLowerCase().contains("x86_64")) {
@@ -88,13 +86,15 @@ public class LibLoader {
         }
         // other platforms are currently not supported ...
         else {
-            logStdErr("Sorry, platform '"+osName+"' currently not supported by LibLoader. Please use -Djava.library.path=<insert path to native libs here> as JVM parameter...");
+            logStdErr("Sorry, platform '"
+                + osName
+                + "' currently not supported by LibLoader. Please use -Djava.library.path=<insert path to native libs here> as JVM parameter...");
         }
-        
-        logStdOut("Map: "+extractedLibs);
-        
+
+        logStdOut("Map: " + extractedLibs);
+
     }
-    
+
     /**
      * Extracts the specified library from resource dir to a temp folder 
      * and returns the path to the extracted file
@@ -104,57 +104,62 @@ public class LibLoader {
      * @return complete path to the extracted lib
      */
     private static String extractLib(String folder, String libFileName) {
-	int written = 0;
-        
+        int written = 0;
+
         String libSource = folder + libFileName;
-        
+
         InputStream resourceAsStream = null;
-	try {
-	    resourceAsStream = LibLoader.class.getResourceAsStream(libSource);
+        try {
+            resourceAsStream = LibLoader.class.getResourceAsStream(libSource);
 
-	    if (resourceAsStream != null) {
+            if (resourceAsStream != null) {
 
-		File tempFolder = new File(System.getProperty("java.io.tmpdir"));
+                File tempFolder = new File(System.getProperty("java.io.tmpdir"));
 
                 // Workaround for getting a temp-folder
                 File tmpFile = File.createTempFile(LIBLOADER_VERSION_NAME, "", tempFolder);
                 String rxtxTmpName = tmpFile.getName();
                 tmpFile.delete();
-                
-		File rxtxTmp = new File(tempFolder, rxtxTmpName);
-		rxtxTmp.mkdirs();
-		rxtxTmp.deleteOnExit();
 
-                File libFile = File.createTempFile("tmp_", "_"+libFileName, rxtxTmp);
+                File rxtxTmp = new File(tempFolder, rxtxTmpName);
+                rxtxTmp.mkdirs();
+                rxtxTmp.deleteOnExit();
+
+                File libFile = File.createTempFile("tmp_", "_" + libFileName, rxtxTmp);
                 libFile.deleteOnExit();
 
-		FileOutputStream fos = new FileOutputStream(libFile);
-		int read = 0;
-		byte[] data = new byte[512];
-		while ((read = resourceAsStream.read(data)) != -1) {
-		    fos.write(data, 0, read);
-		    written += read;
-		}
-		fos.close();
-                logStdOut("Extracting " + libSource + " to "+libFile.getAbsolutePath()+" *done*. written bytes: " + written);
+                FileOutputStream fos = new FileOutputStream(libFile);
+                int read = 0;
+                byte[] data = new byte[512];
+                while ((read = resourceAsStream.read(data)) != -1) {
+                    fos.write(data, 0, read);
+                    written += read;
+                }
+                fos.close();
+                logStdOut("Extracting " + libSource + " to " + libFile.getAbsolutePath() + " *done*. written bytes: "
+                    + written);
                 return libFile.getAbsolutePath();
-	    } else {
-		logStdOut("Could not find " + libSource + " in resources ...");
-	    }
-	} catch (Exception ex) {
-	    logStdErr("Error extracting " + libSource  + " to temp... written bytes: " + written);
+            }
+            else {
+                logStdOut("Could not find " + libSource + " in resources ...");
+            }
+        }
+        catch (Exception ex) {
+            logStdErr("Error extracting " + libSource + " to temp... written bytes: " + written);
             logExceptionToStdErr(ex);
-	} finally {
-            if (resourceAsStream!=null) {
+        }
+        finally {
+            if (resourceAsStream != null) {
                 try {
                     resourceAsStream.close();
-                } catch (IOException ex) {
+                }
+                catch (IOException ex) {
                 }
             }
         }
         return null;
     }
-    
+
     private static void logStdOut(String msg) {
         String property = System.getProperty("rxtx.rebundled.debug", "false");
         boolean log = Boolean.parseBoolean(property);
@@ -162,7 +167,7 @@ public class LibLoader {
             System.out.println(msg);
         }
     }
-    
+
     private static void logStdErr(String msg) {
         String property = System.getProperty("rxtx.rebundled.suppress_error", "false");
         boolean suppress = Boolean.parseBoolean(property);
@@ -170,7 +175,7 @@ public class LibLoader {
             System.err.println(msg);
         }
     }
-    
+
     private static void logExceptionToStdErr(Exception ex) {
         String property = System.getProperty("rxtx.rebundled.suppress_error", "false");
         boolean suppress = Boolean.parseBoolean(property);
@@ -178,19 +183,19 @@ public class LibLoader {
             ex.printStackTrace();
         }
     }
-    
+
     public static void loadLibrary(String name) {
-        
-        logStdOut("Trying to load '"+name+"' ...");
-        
+
+        logStdOut("Trying to load '" + name + "' ...");
+
         String lib = extractedLibs.get(name);
-        
+
         // check if it's loadable via LibLoader mechanism
-        if (lib!=null) {
+        if (lib != null) {
             File f = new File(lib);
-            logStdOut("...Loading via LibLoader mechanism: "+f.getAbsolutePath());
+            logStdOut("...Loading via LibLoader mechanism: " + f.getAbsolutePath());
             System.load(f.getAbsolutePath());
-        } 
+        }
         // otherwise load it the old way ...
         else {
             logStdOut("...Loading via System.loadLibrary() call");
@@ -198,5 +203,5 @@ public class LibLoader {
         }
         logStdOut("...*done*");
     }
-    
+
 }

@@ -56,7 +56,7 @@
         <jdepend-version>2.0-beta-2</jdepend-version>
         <sysout-over-slf4j-version>1.0.2</sysout-over-slf4j-version>
         <rxtxcomm-groupId>org.bidib.jbidib.org.qbang.rxtx</rxtxcomm-groupId>
-        <rxtxcomm-version>2.2</rxtxcomm-version>
+        <rxtxcomm-version>2.2.1</rxtxcomm-version>
         <!-- unify the encoding for all the modules -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -70,6 +70,7 @@
 
     </properties>
     <modules>
+        <module>jbidibc-rxtx-2.2</module>
         <module>jbidibc</module>
         <module>jbidibc-exchange</module>
         <module>jbidibc-tools</module>
@@ -91,15 +92,18 @@
     </pluginRepositories>
     <dependencyManagement>
         <dependencies>
+            <!--
             <dependency>
                 <groupId>${rxtxcomm-groupId}</groupId>
                 <artifactId>rxtxcomm</artifactId>
                 <version>${rxtxcomm-version}</version>
             </dependency>
+            -->
             <dependency>
                 <groupId>org.bidib.jbidib</groupId>
                 <artifactId>bidib-rxtx</artifactId>
                 <version>2.2</version>
+                <classifier>binaries</classifier>
             </dependency>
             <dependency>
                 <groupId>commons-lang</groupId>

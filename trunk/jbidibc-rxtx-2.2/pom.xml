@@ -6,49 +6,15 @@
         <version>1.6-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>jbidibc</artifactId>
+    <artifactId>jbidibc-rxtx-2.2</artifactId>
     <packaging>jar</packaging>
-    <name>jBiDiB :: jbidibc Core</name>
-    <description>jBiDiB jbidibc Core Library POM</description>
+    <name>jBiDiB :: jbidibc RXTX-2.2</name>
+    <description>jBiDiB jbidibc RXTX-2.2 Library POM</description>
     <dependencies>
-        <dependency>
-            <groupId>org.bidib.jbidib</groupId>
-            <artifactId>jbidibc-rxtx-2.2</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <!--
-        <dependency>
-            <groupId>${rxtxcomm-groupId}</groupId>
-            <artifactId>rxtxcomm</artifactId>
-        </dependency>
-        -->
         <dependency>
             <groupId>org.bidib.jbidib</groupId>
             <artifactId>bidib-rxtx</artifactId>
             <classifier>binaries</classifier>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.mockito</groupId>
-            <artifactId>mockito-all</artifactId>
-            <scope>test</scope>
         </dependency>
     </dependencies>
     <build>
