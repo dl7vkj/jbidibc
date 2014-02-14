@@ -56,6 +56,10 @@ public class LibLoader {
             if (osArch.toLowerCase().contains("amd64") || osArch.toLowerCase().contains("x86_64")) {
                 extractedLibs.put("rxtxSerial", extractLib("/rxtx/linux/x86_64/", "librxtxSerial64.so"));
             }
+            // arm
+            else if (osArch.toLowerCase().equals("arm")) {
+                extractedLibs.put("rxtxSerial", extractLib("/rxtx/linux/arm/", "librxtxSerial.so"));
+            }
             // else 32bit
             else {
                 extractedLibs.put("rxtxSerial", extractLib("/rxtx/linux/i386/", "librxtxSerial.so"));
