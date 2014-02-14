@@ -307,6 +307,7 @@ public final class Bidib implements BidibInterface {
                 commPort = CommPortIdentifier.getPortIdentifier(portName);
             }
             catch (NoSuchPortException ex) {
+                LOGGER.warn("Requested port is not available: {}", portName, ex);
                 throw new PortNotFoundException(portName);
             }
 
