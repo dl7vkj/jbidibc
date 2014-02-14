@@ -61,9 +61,9 @@ public class LibLoader {
 
     public static void loadLibrary(String name) {
 
-        logStdErr("Trying to load '" + name + "' ...");
+        logStdOut("Trying to load '" + name + "' ...");
         if (loadedLibs.contains(name)) {
-            logStdErr("Library is already loaded: '" + name + "' ...");
+            logStdOut("Library is already loaded: '" + name + "' ...");
             return;
         }
 
@@ -73,11 +73,13 @@ public class LibLoader {
             return;
         }
 
-        logStdErr("Try to load library from path: " + libraryPath);
+        logStdOut("Try to load library from path: " + libraryPath);
         try {
             NativeUtils.loadLibraryFromJar(libraryPath, LIBLOADER_VERSION); // during runtime. .DLL within .JAR
         }
         catch (IOException e1) {
+            logStdErr("Load native library failed: " + libraryPath);
+            logExceptionToStdErr(e1);
             throw new RuntimeException(e1);
         }
         loadedLibs.add(name);
@@ -140,7 +142,7 @@ public class LibLoader {
                 + "' currently not supported by LibLoader. Please use -Djava.library.path=<insert path to native libs here> as JVM parameter...");
         }
 
-        logStdErr("Prepared library path: " + libraryPath);
+        logStdOut("Prepared library path: " + libraryPath);
 
         return libraryPath;
     }
