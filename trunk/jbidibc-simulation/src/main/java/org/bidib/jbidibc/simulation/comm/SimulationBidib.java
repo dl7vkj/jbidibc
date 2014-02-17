@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.bidib.jbidibc.Bidib;
 import org.bidib.jbidibc.BidibInterface;
+import org.bidib.jbidibc.ConnectionListener;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.exception.PortNotFoundException;
@@ -34,6 +35,8 @@ public class SimulationBidib implements BidibInterface {
     private NodeFactory nodeFactory;
 
     private String connectedPortName;
+
+    private ConnectionListener connectionListener;
 
     private int responseTimeout = Bidib.DEFAULT_TIMEOUT * 100;
 
@@ -143,8 +146,11 @@ public class SimulationBidib implements BidibInterface {
     private boolean isOpened = false;
 
     @Override
-    public void open(String portName) throws PortNotFoundException, PortNotOpenedException {
+    public void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
+        PortNotOpenedException {
         LOGGER.info("Open port: {}", portName);
+
+        this.connectionListener = connectionListener;
 
         // TODO load the SimulatorRegistry with the simulation configuration
         SimulatorRegistry.getInstance().removeAll();
@@ -165,6 +171,10 @@ public class SimulationBidib implements BidibInterface {
     @Override
     public void close() {
         LOGGER.info("Close port, connectedPortName: {}", connectedPortName);
+
+        if (connectionListener != null) {
+            connectionListener.closed(connectedPortName);
+        }
 
         isOpened = false;
         connectedPortName = null;

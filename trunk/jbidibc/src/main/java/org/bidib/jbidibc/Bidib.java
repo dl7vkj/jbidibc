@@ -64,6 +64,10 @@ public final class Bidib implements BidibInterface {
 
     private MessageReceiver messageReceiver;
 
+    private String requestedPortName;
+
+    private ConnectionListener connectionListener;
+
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
@@ -118,7 +122,15 @@ public final class Bidib implements BidibInterface {
             catch (UnsupportedCommOperationException e) {
                 // ignore
             }
-            port.close();
+            catch (Exception e) {
+                LOGGER.warn("Remove event listener and set receive timeout failed.", e);
+            }
+            try {
+                port.close();
+            }
+            catch (Exception e) {
+                LOGGER.warn("Close port failed.", e);
+            }
 
             long end = System.currentTimeMillis();
             LOGGER.debug("Closed the port. duration: {}", end - start);
@@ -129,6 +141,12 @@ public final class Bidib implements BidibInterface {
                 // remove all stored nodes from the node factory
                 nodeFactory.reset();
             }
+
+            if (connectionListener != null) {
+                connectionListener.closed(requestedPortName);
+            }
+
+            requestedPortName = null;
         }
     }
 
@@ -213,6 +231,7 @@ public final class Bidib implements BidibInterface {
     private SerialPort internalOpen(CommPortIdentifier commPort, int baudRate) throws PortInUseException,
         UnsupportedCommOperationException, TooManyListenersException {
 
+        // open the port
         SerialPort serialPort = (SerialPort) commPort.open(Bidib.class.getName(), 2000);
 
         // set RTS high, DTR high - done early, so flow control can be configured after
@@ -231,6 +250,9 @@ public final class Bidib implements BidibInterface {
         serialPort.enableReceiveTimeout(DEFAULT_TIMEOUT);
 
         clearInputStream(serialPort);
+
+        // react on port removed ...
+        serialPort.notifyOnCTS(true);
 
         // enable the message receiver before the event listener is added
         messageReceiver.enable();
@@ -263,6 +285,30 @@ public final class Bidib implements BidibInterface {
                     case SerialPortEvent.OUTPUT_BUFFER_EMPTY:
                         LOGGER.trace("The output buffer is empty.");
                         break;
+                    case SerialPortEvent.CTS:
+                        LOGGER.warn("The CTS value has changed, old value: {}, new value: {}", new Object[] {
+                            event.getOldValue(), event.getNewValue() });
+
+                        if (event.getNewValue() == false) {
+                            LOGGER.warn("Close the port.");
+                            Thread worker = new Thread(new Runnable() {
+                                public void run() {
+                                    LOGGER.info("Start close port because error was detected.");
+                                    try {
+                                        close();
+
+                                        // TODO notify the listeners ...
+
+                                    }
+                                    catch (Exception ex) {
+                                        LOGGER.warn("Close after error failed.", ex);
+                                    }
+                                    LOGGER.warn("The port was closed.");
+                                }
+                            });
+                            worker.start();
+                        }
+                        break;
                     default:
                         LOGGER.warn("SerialPortEvent was triggered, type: {}, old value: {}, new value: {}",
                             new Object[] { event.getEventType(), event.getOldValue(), event.getNewValue() });
@@ -282,7 +328,11 @@ public final class Bidib implements BidibInterface {
         }
     }
 
-    public void open(String portName) throws PortNotFoundException, PortNotOpenedException {
+    public void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
+        PortNotOpenedException {
+
+        this.connectionListener = connectionListener;
+
         if (port == null) {
             if (portName == null || portName.trim().isEmpty()) {
                 throw new PortNotFoundException("");
@@ -310,6 +360,8 @@ public final class Bidib implements BidibInterface {
                 LOGGER.warn("Requested port is not available: {}", portName, ex);
                 throw new PortNotFoundException(portName);
             }
+
+            requestedPortName = portName;
 
             try {
                 portSemaphore.acquire();

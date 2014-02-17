@@ -59,10 +59,12 @@ public interface BidibInterface {
     /**
      * Open the communication port with the specified name.
      * @param portName the port name
+     * @param connectionListener the connection listener
      * @throws PortNotFoundException thrown if the port is not found in the system
      * @throws PortNotOpenedException thrown if open the communication port failed
      */
-    void open(String portName) throws PortNotFoundException, PortNotOpenedException;
+    void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
+        PortNotOpenedException;
 
     /**
      * @return returns if the port is opened
