@@ -1,9 +1,11 @@
 package org.bidib.jbidibc.schema.bidib;
 
 import java.io.File;
+import java.util.List;
 
 import javax.xml.bind.JAXBException;
 
+import org.bidib.schema.bidib.MessageType;
 import org.bidib.schema.bidib.Product;
 import org.junit.Assert;
 import org.slf4j.Logger;
@@ -89,5 +91,12 @@ public class BidibFactoryTest {
 
         Product product = new BidibFactory().loadProductForNode(UUID_INVALID_PID, file.getAbsolutePath());
         Assert.assertNull(product);
+    }
+
+    @Test
+    public void loadMessageTypesTest() {
+        List<MessageType> messageTypes = BidibFactory.getMessageTypes();
+        Assert.assertNotNull(messageTypes);
+        Assert.assertEquals(118, messageTypes.size());
     }
 }

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -16,6 +17,7 @@ import javax.xml.stream.XMLStreamReader;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.utils.NodeUtils;
 import org.bidib.schema.bidib.BiDiB;
+import org.bidib.schema.bidib.MessageType;
 import org.bidib.schema.bidib.Product;
 import org.bidib.schema.bidib.Products;
 import org.slf4j.Logger;
@@ -29,10 +31,37 @@ public class BidibFactory {
     protected BidibFactory() {
     }
 
+    public static List<MessageType> getMessageTypes() {
+
+        return new BidibFactory().loadMessageTypes();
+    }
+
     public static Product getProduct(Node node, String... searchPaths) {
         LOGGER.info("Load the Product info for node: {}", node);
 
         return new BidibFactory().loadProductForNode(node.getUniqueId(), searchPaths);
+    }
+
+    protected List<MessageType> loadMessageTypes() {
+        String fileName = "/xml/protocol/Protocol.bidib";
+
+        InputStream is = BidibFactory.class.getResourceAsStream(fileName);
+        if (is != null) {
+            BiDiB bidib = loadBiDiBFile(is);
+            if (bidib != null) {
+                try {
+                    List<MessageType> messageTypes = bidib.getProtocol().getMessageTypes().getMessageType();
+                    return messageTypes;
+                }
+                catch (Exception ex) {
+                    LOGGER.warn("Get the message types failed.", ex);
+                }
+            }
+        }
+        else {
+            LOGGER.warn("Load protocol file failed.");
+        }
+        return null;
     }
 
     protected Product loadProductForNode(long uniqueId, String... searchPaths) {
@@ -53,7 +82,7 @@ public class BidibFactory {
                 LOGGER.info("Lookup products file internally: {}", lookup);
                 InputStream is = BidibFactory.class.getResourceAsStream(lookup);
                 if (is != null) {
-                    bidib = loadProductsFile(is, lookup);
+                    bidib = loadBiDiBFile(is);
                     if (bidib != null) {
                         break;
                     }
@@ -67,7 +96,7 @@ public class BidibFactory {
                 if (productsFile.exists()) {
                     LOGGER.info("Found product file: {}", productsFile.getAbsolutePath());
                     // try to load products
-                    bidib = loadProductsFile(productsFile);
+                    bidib = loadBiDiBFile(productsFile);
                     if (bidib != null) {
                         break;
                     }
@@ -96,13 +125,13 @@ public class BidibFactory {
         return product;
     }
 
-    private BiDiB loadProductsFile(File productsFile) {
+    private BiDiB loadBiDiBFile(File productsFile) {
 
         BiDiB bidib = null;
         InputStream is;
         try {
             is = new FileInputStream(productsFile);
-            bidib = loadProductsFile(is, productsFile.getName());
+            bidib = loadBiDiBFile(is);
         }
         catch (FileNotFoundException ex) {
             LOGGER.info("No Products file found.");
@@ -110,7 +139,7 @@ public class BidibFactory {
         return bidib;
     }
 
-    private BiDiB loadProductsFile(InputStream is, String filename) {
+    private BiDiB loadBiDiBFile(InputStream is) {
 
         BiDiB bidib = null;
         try {
@@ -120,7 +149,7 @@ public class BidibFactory {
             
             XMLInputFactory factory = XMLInputFactory.newInstance();
             
-            XMLStreamReader xmlr  = factory.createXMLStreamReader(filename, is);
+            XMLStreamReader xmlr  = factory.createXMLStreamReader(is);
 
             JAXBElement<BiDiB> jaxbElement = (JAXBElement<BiDiB>) unmarshaller.unmarshal(xmlr, BiDiB.class);
             bidib = jaxbElement.getValue();
