@@ -5,7 +5,7 @@ import org.bidib.jbidibc.BidibLibrary;
 /**
  * Message to query the status of the booster
  */
-public class BoostQueryMessage extends BidibMessage implements BidibCommand {
+public class BoostQueryMessage extends BidibCommandMessage {
     public BoostQueryMessage() {
         super(0, BidibLibrary.MSG_BOOST_QUERY);
     }

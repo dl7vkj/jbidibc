@@ -5,7 +5,7 @@ import org.bidib.jbidibc.BidibLibrary;
 /**
  * Command to switch track voltage (signal) off
  */
-public class BoostOffMessage extends BidibMessage implements BidibCommand {
+public class BoostOffMessage extends BidibCommandMessage {
     public static final byte BROADCAST_MESSAGE = 0;
 
     public static final byte BROADCAST_OFF = 1;

@@ -13,7 +13,7 @@ import org.bidib.jbidibc.utils.ByteUtils;
 /**
  * Command to send programming commands for 'programming on mains'
  */
-public class CommandStationPomMessage extends BidibMessage implements BidibCommand {
+public class CommandStationPomMessage extends BidibCommandMessage {
     /**
      * Create the command for a loco decoder.
      * @param decoderAddress the decoder address

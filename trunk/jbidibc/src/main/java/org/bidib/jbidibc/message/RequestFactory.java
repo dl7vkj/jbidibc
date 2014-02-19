@@ -2,10 +2,14 @@ package org.bidib.jbidibc.message;
 
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.schema.BidibFactory;
+import org.bidib.jbidibc.schema.bidib.MessageType;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,21 +19,41 @@ public class RequestFactory {
 
     private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
-    private RequestFactory() {
+    private Map<Integer, MessageType> messageTypeMap;
+
+    public RequestFactory() {
     }
 
-    public static List<BidibMessage> create(byte[] message) throws ProtocolException {
-        LOGGER.debug("Create bidib message from raw message: {}", message);
+    private Map<Integer, MessageType> getMessageTypeMap() {
+        if (messageTypeMap == null) {
+            messageTypeMap = new LinkedHashMap<Integer, MessageType>();
+
+            List<MessageType> messageTypes = BidibFactory.getMessageTypes();
+            for (MessageType messageType : messageTypes) {
+                messageTypeMap.put(Integer.valueOf(messageType.getId()), messageType);
+            }
+        }
+        return messageTypeMap;
+    }
+
+    /**
+     * Create messages from the provided byte array.
+     * @param messageData the byte array with the messages
+     * @return the list of BidibCommands
+     * @throws ProtocolException
+     */
+    public List<BidibCommand> create(byte[] messageData) throws ProtocolException {
+        LOGGER.debug("Create bidib message from raw messageData: {}", messageData);
 
         ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-        List<BidibMessage> bidibMessages = new ArrayList<BidibMessage>();
+        List<BidibCommand> bidibMessages = new ArrayList<BidibCommand>();
 
         boolean escapeHot = false;
         StringBuilder logRecord = new StringBuilder();
 
         // read the values from in the port
-        for (byte data : message) {
+        for (byte data : messageData) {
             if (LOGGER.isTraceEnabled()) {
                 LOGGER.trace("received data: {}", ByteUtils.byteToHex(data));
             }
@@ -46,20 +70,21 @@ public class RequestFactory {
                 logRecord.setLength(0);
 
                 // the message is complete
-                byte[] result = output.toByteArray();
+                byte[] messageContent = output.toByteArray();
                 if (LOGGER.isTraceEnabled()) {
-                    LOGGER.trace("prepared user data: {}, total len: {}", ByteUtils.bytesToHex(result), result.length);
+                    LOGGER.trace("prepared user data: {}, total len: {}", ByteUtils.bytesToHex(messageContent),
+                        messageContent.length);
                 }
                 // read the first byte that is the length of the message
-                byte len = result[0];
-                if ((len + 1) < result.length - 1) {
+                byte len = messageContent[0];
+                if ((len + 1) < messageContent.length - 1) {
                     // we have multiple messages
                     int index = 0;
-                    while (index < result.length - 1) {
-                        len = result[index];
+                    while (index < messageContent.length - 1) {
+                        len = messageContent[index];
                         byte[] part = new byte[len + 1];
-                        System.arraycopy(result, index, part, 0, len + 1);
-                        BidibMessage bidibMessage = createConcreteMessage(new BidibMessage(part), part);
+                        System.arraycopy(messageContent, index, part, 0, len + 1);
+                        BidibCommand bidibMessage = createConcreteMessage(part);
                         bidibMessages.add(bidibMessage);
                         LOGGER.trace("Added new bidibMessage: {}, index: {}", bidibMessage, index);
                         index += len + 1;
@@ -67,7 +92,7 @@ public class RequestFactory {
                 }
                 else {
                     // we have a single messages
-                    BidibMessage bidibMessage = createConcreteMessage(new BidibMessage(result), result);
+                    BidibCommand bidibMessage = createConcreteMessage(messageContent);
                     bidibMessages.add(bidibMessage);
                     LOGGER.trace("Added new bidibMessage: {}", bidibMessage);
                 }
@@ -91,10 +116,14 @@ public class RequestFactory {
         return bidibMessages;
     }
 
-    private static BidibMessage createConcreteMessage(BidibMessage bidibMessage, byte[] message)
-        throws ProtocolException {
-        BidibMessage concreteBidibMessage = null;
-        switch (ByteUtils.getInt(bidibMessage.getType())) {
+    private BidibCommand createConcreteMessage(byte[] message) throws ProtocolException {
+
+        // TODO find a better way to get the message type without creating a BidibMessage instance first
+        BidibMessage bidibMessage = new BidibMessage(message);
+
+        BidibCommand concreteBidibMessage = null;
+        int type = ByteUtils.getInt(bidibMessage.getType());
+        switch (type) {
             case BidibLibrary.MSG_SYS_GET_MAGIC:
                 concreteBidibMessage = new SysMagicMessage(message);
                 break;
@@ -112,6 +141,12 @@ public class RequestFactory {
                 break;
             case BidibLibrary.MSG_SYS_DISABLE:
                 concreteBidibMessage = new SysDisableMessage(message);
+                break;
+            case BidibLibrary.MSG_SYS_IDENTIFY:
+                concreteBidibMessage = new SysIdentifyMessage(message);
+                break;
+            case BidibLibrary.MSG_SYS_PING:
+                concreteBidibMessage = new SysPingMessage(message);
                 break;
             case BidibLibrary.MSG_CS_SET_STATE:
                 concreteBidibMessage = new CommandStationSetStateMessage(message);
@@ -199,9 +234,18 @@ public class RequestFactory {
                 break;
 
             default:
-                concreteBidibMessage = bidibMessage;
+                concreteBidibMessage = new UnknownCommandMessage(message);
                 break;
         }
+
+        MessageType mt = getMessageTypeMap().get(type);
+        if (mt != null) {
+            concreteBidibMessage.setAnswerSize(mt.getAnswerSize());
+        }
+        else {
+            LOGGER.warn("Unknown message detected, cannot set answer size: {}", concreteBidibMessage);
+        }
+
         return concreteBidibMessage;
     }
 }

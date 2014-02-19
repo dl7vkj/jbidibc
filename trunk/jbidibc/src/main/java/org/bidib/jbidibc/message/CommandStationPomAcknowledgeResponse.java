@@ -22,7 +22,7 @@ public class CommandStationPomAcknowledgeResponse extends BidibMessage {
     CommandStationPomAcknowledgeResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);
         if (data == null || data.length != 6) {
-            throw new ProtocolException("no command station accessory acknowledge received");
+            throw new ProtocolException("no command station pom acknowledge received");
         }
 
         LOGGER.debug("Received response, acknowledge status: {}", getAcknState());

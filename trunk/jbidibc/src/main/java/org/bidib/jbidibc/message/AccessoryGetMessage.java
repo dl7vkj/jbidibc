@@ -4,7 +4,7 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class AccessoryGetMessage extends BidibMessage implements BidibCommand {
+public class AccessoryGetMessage extends BidibCommandMessage {
     public AccessoryGetMessage(int accessoryNumber) {
         super(0, BidibLibrary.MSG_ACCESSORY_GET, new byte[] { (byte) accessoryNumber });
     }

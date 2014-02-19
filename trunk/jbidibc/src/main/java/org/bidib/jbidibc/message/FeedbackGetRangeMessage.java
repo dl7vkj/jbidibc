@@ -3,7 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 
-public class FeedbackGetRangeMessage extends BidibMessage implements BidibCommand {
+public class FeedbackGetRangeMessage extends BidibCommandMessage {
     /**
      * Get the status of the feedback bits in the specified range.
      * @param begin the start of Melderbits to be transfered 

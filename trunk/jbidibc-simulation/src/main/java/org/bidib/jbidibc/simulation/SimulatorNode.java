@@ -1,7 +1,7 @@
 package org.bidib.jbidibc.simulation;
 
 import org.bidib.jbidibc.Feature;
-import org.bidib.jbidibc.message.BidibMessage;
+import org.bidib.jbidibc.message.BidibCommand;
 
 public interface SimulatorNode {
 
@@ -19,7 +19,7 @@ public interface SimulatorNode {
      * Process the bidibMessage.
      * @param bidibMessage the bidibMessage to process
      */
-    void processRequest(final BidibMessage bidibMessage);
+    void processRequest(final BidibCommand bidibMessage);
 
     /**
      * @return the class name of the simulation panel

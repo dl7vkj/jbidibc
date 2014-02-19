@@ -7,7 +7,7 @@ import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VendorEnableMessage extends BidibMessage implements BidibCommand {
+public class VendorEnableMessage extends BidibCommandMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(VendorEnableMessage.class);
 
     public VendorEnableMessage(long uniqueId) {

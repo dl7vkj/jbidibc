@@ -7,7 +7,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 /**
  * Command to set the state of the command station
  */
-public class CommandStationSetStateMessage extends BidibMessage implements BidibCommand {
+public class CommandStationSetStateMessage extends BidibCommandMessage {
     public CommandStationSetStateMessage(CommandStationState operation) {
         super(0, BidibLibrary.MSG_CS_SET_STATE, operation.getType());
     }

@@ -13,7 +13,7 @@ import org.bidib.jbidibc.utils.ByteUtils;
 /**
  * Command to send programming commands for 'programming track'
  */
-public class CommandStationProgMessage extends BidibMessage {
+public class CommandStationProgMessage extends BidibCommandMessage {
     /**
      * Create the command for a loco decoder.
      * @param decoderAddress the decoder address
@@ -94,5 +94,10 @@ public class CommandStationProgMessage extends BidibMessage {
 
         AddressData addressData = new AddressData(address, AddressTypeEnum.valueOf((byte) ((highByte & 0xC0) >> 6)));
         return addressData;
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { CommandStationProgStateResponse.TYPE };
     }
 }

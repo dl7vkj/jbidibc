@@ -11,6 +11,7 @@ import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
+import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.node.AccessoryNode;
@@ -122,9 +123,10 @@ public class SimulationBidib implements BidibInterface {
         LOGGER.info("Send is called with bytes: {}", ByteUtils.bytesToHex(bytes));
 
         try {
-            List<BidibMessage> bidibMessages = RequestFactory.create(bytes);
-            for (BidibMessage bidibMessage : bidibMessages) {
-                byte[] address = bidibMessage.getAddr();
+            // TODO change the call to request factory
+            List<BidibCommand> bidibMessages = new RequestFactory().create(bytes);
+            for (BidibCommand bidibMessage : bidibMessages) {
+                byte[] address = ((BidibMessage) bidibMessage).getAddr();
 
                 BidibNode bidibNode = nodeFactory.findNode(address);
                 String nodeAddress = ByteUtils.bytesToHex(bidibNode.getAddr());

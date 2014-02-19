@@ -13,6 +13,10 @@ public class SysPongResponse extends BidibMessage {
         }
     }
 
+    public SysPongResponse(byte[] addr, int num, byte marker) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_SYS_PONG, new byte[] { marker });
+    }
+
     public byte getMarker() {
         return getData()[0];
     }

@@ -8,15 +8,23 @@ import org.bidib.jbidibc.utils.ByteUtils;
 import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 public class RequestFactoryTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestFactoryTest.class);
 
+    private RequestFactory requestFactory;
+
+    @BeforeClass
+    public void init() {
+        requestFactory = new RequestFactory();
+    }
+
     @Test
     public void createSysGetMagicTest() throws ProtocolException {
         byte[] message = new byte[] { (byte) 0xFE, 0x03, 0x00, 0x00, 0x01, (byte) 0xD6, (byte) 0xFE };
-        List<BidibMessage> bidibMessages = RequestFactory.create(message);
+        List<BidibCommand> bidibMessages = requestFactory.create(message);
         LOGGER.info("Created messages: {}", bidibMessages);
 
         Assert.assertNotNull(bidibMessages);
@@ -30,7 +38,7 @@ public class RequestFactoryTest {
             new byte[] { (byte) 0xFE, 0x06, 0x01, 0x00, 0x0C, 0x17, 0x01, 0x32, 0x06, 0x01, 0x00, 0x0D, 0x17, 0x01,
                 0x33, 0x06, 0x01, 0x00, 0x0E, 0x17, 0x01, 0x34, 0x06, 0x01, 0x00, 0x0F, 0x17, 0x01, 0x35, (byte) 0xD4,
                 (byte) 0xFE };
-        List<BidibMessage> bidibMessages = RequestFactory.create(message);
+        List<BidibCommand> bidibMessages = requestFactory.create(message);
         LOGGER.info("Created messages: {}", bidibMessages);
 
         Assert.assertNotNull(bidibMessages);

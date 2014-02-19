@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Command to get feature settings of a specific feature
  */
-public class FeatureGetMessage extends BidibMessage implements BidibCommand {
+public class FeatureGetMessage extends BidibCommandMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(FeatureGetMessage.class);
 
     public FeatureGetMessage(int number) {

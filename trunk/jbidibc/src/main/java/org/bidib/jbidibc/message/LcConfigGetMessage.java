@@ -5,7 +5,7 @@ import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class LcConfigGetMessage extends BidibMessage implements BidibCommand {
+public class LcConfigGetMessage extends BidibCommandMessage {
     public LcConfigGetMessage(LcOutputType outputType, int outputNumber) {
         super(0, BidibLibrary.MSG_LC_CONFIG_GET, new byte[] { outputType.getType(), (byte) outputNumber });
     }

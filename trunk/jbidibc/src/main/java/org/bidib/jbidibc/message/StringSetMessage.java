@@ -5,7 +5,7 @@ import org.bidib.jbidibc.StringData;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class StringSetMessage extends BidibMessage implements BidibCommand {
+public class StringSetMessage extends BidibCommandMessage {
     public StringSetMessage(int namespace, int stringId, String value) {
         super(0, BidibLibrary.MSG_STRING_SET, bstr(namespace, stringId, value));
     }

@@ -4,7 +4,7 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class LcMacroGetMessage extends BidibMessage implements BidibCommand {
+public class LcMacroGetMessage extends BidibCommandMessage {
     public LcMacroGetMessage(int macroNumber, int stepNumber) {
         super(0, BidibLibrary.MSG_LC_MACRO_GET, new byte[] { (byte) macroNumber, (byte) stepNumber });
     }

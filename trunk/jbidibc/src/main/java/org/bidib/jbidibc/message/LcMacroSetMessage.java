@@ -7,7 +7,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.MessageUtils;
 
-public class LcMacroSetMessage extends BidibMessage implements BidibCommand {
+public class LcMacroSetMessage extends BidibCommandMessage {
 
     /**
      * Creates a new LcMacroSetMessage instance with values from provided macro step.

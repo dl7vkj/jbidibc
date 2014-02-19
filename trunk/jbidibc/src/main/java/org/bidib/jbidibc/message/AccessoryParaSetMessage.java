@@ -4,7 +4,7 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class AccessoryParaSetMessage extends BidibMessage implements BidibCommand {
+public class AccessoryParaSetMessage extends BidibCommandMessage {
     public AccessoryParaSetMessage(int accessoryNumber, int parameter, byte[] value) {
         super(0, BidibLibrary.MSG_ACCESSORY_PARA_SET, ByteUtils.concat(new byte[] { (byte) accessoryNumber,
             (byte) parameter }, value));

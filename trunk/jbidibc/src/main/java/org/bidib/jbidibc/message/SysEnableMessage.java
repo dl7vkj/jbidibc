@@ -3,7 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 
-public class SysEnableMessage extends BidibMessage implements BidibCommand {
+public class SysEnableMessage extends BidibCommandMessage {
     public SysEnableMessage() {
         super(0, BidibLibrary.MSG_SYS_ENABLE);
     }

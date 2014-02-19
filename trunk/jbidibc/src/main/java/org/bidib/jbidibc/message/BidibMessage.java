@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 public class BidibMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(BidibMessage.class);
 
-    // The address field is only valid for a response message!
+    // The address field is not valid for a command messages that are not created from byte array!
     private byte[] addr;
 
     private int num;
@@ -36,7 +36,7 @@ public class BidibMessage {
      * Create a BidibMessage from an array of bytes.
      * 
      * @param message
-     *            array of bytes, containing the leading magic byte, but wthout
+     *            array of bytes, containing the leading magic byte, but without
      *            the trailing magic byte
      * 
      * @throws ProtocolException

@@ -858,7 +858,6 @@ public class BidibNode {
 
         try {
             EncodedMessage encodedMessage = encodeMessage(message);
-            // byte[] bytes = encodeMessageWithStream(message);
 
             sendMessage(encodedMessage, message);
         }
