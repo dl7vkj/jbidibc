@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 /**
  * Command to get feature settings of a specific feature
  */
-public class FeatureGetMessage extends BidibMessage {
+public class FeatureGetMessage extends BidibMessage implements BidibCommand {
     private static final Logger LOGGER = LoggerFactory.getLogger(FeatureGetMessage.class);
 
     public FeatureGetMessage(int number) {
@@ -30,5 +30,10 @@ public class FeatureGetMessage extends BidibMessage {
 
     public int getNumber() {
         return ByteUtils.getInt(getData()[0]);
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE };
     }
 }

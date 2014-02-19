@@ -5,7 +5,7 @@ import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class VendorSetMessage extends BidibMessage {
+public class VendorSetMessage extends BidibMessage implements BidibCommand {
     public VendorSetMessage(String name, String value) {
         super(0, BidibLibrary.MSG_VENDOR_SET, ByteUtils.bstr(name, value));
     }
@@ -21,5 +21,10 @@ public class VendorSetMessage extends BidibMessage {
         result.setName(ByteUtils.cstr(data, 0));
         result.setValue(ByteUtils.cstr(data, result.getName().length() + 1));
         return result;
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { VendorResponse.TYPE };
     }
 }

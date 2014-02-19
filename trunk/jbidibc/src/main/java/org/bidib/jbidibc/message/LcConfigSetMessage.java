@@ -6,7 +6,7 @@ import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class LcConfigSetMessage extends BidibMessage {
+public class LcConfigSetMessage extends BidibMessage implements BidibCommand {
     public LcConfigSetMessage(LcConfig config) {
         super(0, BidibLibrary.MSG_LC_CONFIG_SET, new byte[] { config.getOutputType().getType(),
             (byte) config.getOutputNumber(), (byte) config.getValue1(), (byte) config.getValue2(),
@@ -44,5 +44,10 @@ public class LcConfigSetMessage extends BidibMessage {
 
     public byte getValue4() {
         return getData()[5];
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE };
     }
 }

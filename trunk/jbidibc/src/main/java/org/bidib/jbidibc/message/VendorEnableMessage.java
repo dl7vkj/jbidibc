@@ -7,7 +7,7 @@ import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class VendorEnableMessage extends BidibMessage {
+public class VendorEnableMessage extends BidibMessage implements BidibCommand {
     private static final Logger LOGGER = LoggerFactory.getLogger(VendorEnableMessage.class);
 
     public VendorEnableMessage(long uniqueId) {
@@ -25,5 +25,10 @@ public class VendorEnableMessage extends BidibMessage {
         long uniqueIdentifier = ByteUtils.convertUniqueIdToLong(uniqueId);
         LOGGER.info("Return the uniqueId: {}", uniqueIdentifier);
         return uniqueIdentifier;
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { VendorAckResponse.TYPE };
     }
 }

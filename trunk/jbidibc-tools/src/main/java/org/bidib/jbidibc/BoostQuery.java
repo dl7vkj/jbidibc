@@ -113,6 +113,10 @@ public class BoostQuery extends BidibNodeCommand {
                     @Override
                     public void feedbackCv(byte[] address, int decoderAddress, int cvNumber, int dat) {
                     }
+
+                    @Override
+                    public void dynState(byte[] address, int detectorNumber, int dynNumber, int dynValue) {
+                    }
                 });
 
                 // verify that the booster query returns the booster state ...

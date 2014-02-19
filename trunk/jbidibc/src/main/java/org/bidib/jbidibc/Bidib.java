@@ -93,8 +93,7 @@ public final class Bidib implements BidibInterface {
         nodeFactory.setBidib(this);
         // create the message receiver
         messageReceiver = new SerialMessageReceiver(nodeFactory);
-        messageReceiver.setBidib(this);
-        // set the receive queue
+        //        messageReceiver.setBidib(this);
     }
 
     public static synchronized BidibInterface getInstance() {

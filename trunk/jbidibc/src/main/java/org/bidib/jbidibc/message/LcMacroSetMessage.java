@@ -7,7 +7,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.MessageUtils;
 
-public class LcMacroSetMessage extends BidibMessage {
+public class LcMacroSetMessage extends BidibMessage implements BidibCommand {
 
     /**
      * Creates a new LcMacroSetMessage instance with values from provided macro step.
@@ -40,5 +40,10 @@ public class LcMacroSetMessage extends BidibMessage {
 
         return new LcMacro(data[0], data[1], data[2], outputType, data[4], MessageUtils.toPortStatus(outputType,
             data[5]), MessageUtils.getPortValue(outputType, data[5]));
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { LcMacroResponse.TYPE };
     }
 }

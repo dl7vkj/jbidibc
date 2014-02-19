@@ -28,7 +28,6 @@ import org.bidib.jbidibc.message.FeedbackOccupiedResponse;
 import org.bidib.jbidibc.message.FeedbackSpeedResponse;
 import org.bidib.jbidibc.message.LcKeyResponse;
 import org.bidib.jbidibc.message.LcStatResponse;
-import org.bidib.jbidibc.message.LcWaitResponse;
 import org.bidib.jbidibc.message.NodeLostResponse;
 import org.bidib.jbidibc.message.NodeNewResponse;
 import org.bidib.jbidibc.message.ResponseFactory;
@@ -62,7 +61,7 @@ public abstract class MessageReceiver {
 
     private NodeFactory nodeFactory;
 
-    private BidibInterface bidib;
+    //    private BidibInterface bidib;
 
     protected MessageReceiver(NodeFactory nodeFactory) {
         this.nodeFactory = nodeFactory;
@@ -72,9 +71,9 @@ public abstract class MessageReceiver {
         running.set(true);
     }
 
-    public void setBidib(BidibInterface bidib) {
-        this.bidib = bidib;
-    }
+    //    public void setBidib(BidibInterface bidib) {
+    //        this.bidib = bidib;
+    //    }
 
     public abstract byte[] getRemainingOutputBuffer();
 
@@ -175,12 +174,6 @@ public abstract class MessageReceiver {
                             break;
                         case BidibLibrary.MSG_ACCESSORY_STATE:
                             // process the AccessoryStateResponse message
-                            //                            bidibNode = nodeFactory.getNode(new Node(message.getAddr()));
-                            //                            if (bidibNode instanceof AccessoryNode) {
-                            //                                ((AccessoryNode) bidibNode)
-                            //                                    .acknowledgeAccessoryState(((AccessoryStateResponse) message).getAccessoryState());
-                            //                            }
-
                             AccessoryStateResponse accessoryStateResponse = (AccessoryStateResponse) message;
 
                             fireAccessoryState(message.getAddr(), accessoryStateResponse.getAccessoryState());
@@ -211,7 +204,7 @@ public abstract class MessageReceiver {
                         case BidibLibrary.MSG_LC_WAIT:
                             LOGGER.info("Received LcWaitResponse: {}", message);
                             // TODO I think this does not work if the sender is already waiting for a response ...
-                            setTimeout(((LcWaitResponse) message).getTimeout());
+                            //                            setTimeout(((LcWaitResponse) message).getTimeout());
                             break;
                         case BidibLibrary.MSG_LOGON:
                             // ignored
@@ -481,9 +474,9 @@ public abstract class MessageReceiver {
 
     protected void fireDynState(byte[] address, int detectorNumber, int dynNumber, int dynValue) {
         // TODO implement populate the dynamic state ...
-        //        for (MessageListener l : messageListeners) {
-        //            l.dynState(address, detectorNumber, dynNumber, dynValue);
-        //        }
+        for (MessageListener l : messageListeners) {
+            l.dynState(address, detectorNumber, dynNumber, dynValue);
+        }
     }
 
     public void removeMessageListener(MessageListener l) {
@@ -491,10 +484,10 @@ public abstract class MessageReceiver {
         messageListeners.remove(l);
     }
 
-    public void setTimeout(int timeout) {
-        LOGGER.info("Set the timeout for bidib messages: {}", timeout);
-        bidib.setReceiveTimeout(timeout);
-    }
+    //    public void setTimeout(int timeout) {
+    //        LOGGER.info("Set the timeout for bidib messages: {}", timeout);
+    //        bidib.setReceiveTimeout(timeout);
+    //    }
 
     /**
      * Split the byte array into separate messages. The CRC value at the end is calculated over the whole array.

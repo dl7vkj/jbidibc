@@ -5,7 +5,7 @@ import org.bidib.jbidibc.StringData;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class StringSetMessage extends BidibMessage {
+public class StringSetMessage extends BidibMessage implements BidibCommand {
     public StringSetMessage(int namespace, int stringId, String value) {
         super(0, BidibLibrary.MSG_STRING_SET, bstr(namespace, stringId, value));
     }
@@ -48,5 +48,10 @@ public class StringSetMessage extends BidibMessage {
         stringData.setIndex(ByteUtils.getInt(data[1]));
         stringData.setValue(ByteUtils.cstr(data, 2));
         return stringData;
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { StringResponse.TYPE };
     }
 }

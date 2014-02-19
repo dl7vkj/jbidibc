@@ -47,9 +47,10 @@ public class Ping extends BidibNodeCommand {
 
                 System.out.println("PING " + nodeId + " (" + Arrays.toString(node.getAddr()) + ").");
 
+                byte marker = 1;
                 while (true) {
                     final long now = System.currentTimeMillis();
-                    final int num = bidibNode.ping();
+                    final byte num = bidibNode.ping(marker);
 
                     System.out.println("got response from " + nodeId + " (" + Arrays.toString(node.getAddr())
                         + "): seq=" + num + " time=" + (System.currentTimeMillis() - now) + "ms");
@@ -61,6 +62,7 @@ public class Ping extends BidibNodeCommand {
                             break;
                         }
                     }
+                    marker++;
                 }
                 result = 0;
             }

@@ -7,7 +7,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SysClockMessage extends BidibMessage {
+public class SysClockMessage extends BidibMessage implements BidibCommand {
     private static final Logger LOGGER = LoggerFactory.getLogger(SysClockMessage.class);
 
     public SysClockMessage(Calendar date, int factor) {
@@ -48,5 +48,10 @@ public class SysClockMessage extends BidibMessage {
 
     public static byte getMinute(int minute) {
         return (byte) (minute & 0x3F);
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return null;
     }
 }

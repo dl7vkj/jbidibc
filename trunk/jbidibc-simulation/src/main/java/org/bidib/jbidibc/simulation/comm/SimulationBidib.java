@@ -73,7 +73,7 @@ public class SimulationBidib implements BidibInterface {
                 return null;
             }
         };
-        messageReceiver.setBidib(this);
+        //        messageReceiver.setBidib(this);
     }
 
     public static synchronized BidibInterface getInstance() {

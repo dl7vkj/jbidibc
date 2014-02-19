@@ -5,7 +5,7 @@ import org.bidib.jbidibc.enumeration.LcMacroOperationCode;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class LcMacroHandleMessage extends BidibMessage {
+public class LcMacroHandleMessage extends BidibMessage implements BidibCommand {
     public LcMacroHandleMessage(int macroNumber, LcMacroOperationCode macroOperationCode) {
         super(0, BidibLibrary.MSG_LC_MACRO_HANDLE, new byte[] { (byte) macroNumber, macroOperationCode.getType() });
     }
@@ -21,5 +21,10 @@ public class LcMacroHandleMessage extends BidibMessage {
     public LcMacroOperationCode getMacroOperationCode() {
         LcMacroOperationCode lcMacroOperationCode = LcMacroOperationCode.valueOf(getData()[1]);
         return lcMacroOperationCode;
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { LcMacroStateResponse.TYPE };
     }
 }

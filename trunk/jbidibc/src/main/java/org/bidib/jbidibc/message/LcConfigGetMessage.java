@@ -5,7 +5,7 @@ import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class LcConfigGetMessage extends BidibMessage {
+public class LcConfigGetMessage extends BidibMessage implements BidibCommand {
     public LcConfigGetMessage(LcOutputType outputType, int outputNumber) {
         super(0, BidibLibrary.MSG_LC_CONFIG_GET, new byte[] { outputType.getType(), (byte) outputNumber });
     }
@@ -20,5 +20,10 @@ public class LcConfigGetMessage extends BidibMessage {
 
     public int getPortNumber() {
         return ByteUtils.getInt(getData()[1]);
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE };
     }
 }

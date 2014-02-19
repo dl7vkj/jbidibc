@@ -12,4 +12,8 @@ public class SysPongResponse extends BidibMessage {
             throw new ProtocolException("invalid data in pong response");
         }
     }
+
+    public byte getMarker() {
+        return getData()[0];
+    }
 }

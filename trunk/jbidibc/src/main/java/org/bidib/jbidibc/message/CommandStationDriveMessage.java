@@ -7,7 +7,7 @@ import org.bidib.jbidibc.enumeration.DirectionEnum;
 import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
 import org.bidib.jbidibc.utils.ByteUtils;
 
-public class CommandStationDriveMessage extends BidibMessage {
+public class CommandStationDriveMessage extends BidibMessage implements BidibCommand {
     public CommandStationDriveMessage(int address, SpeedStepsEnum speedSteps, Integer speed, DirectionEnum direction,
         BitSet activeFunctions, BitSet functions) {
         super(0, BidibLibrary.MSG_CS_DRIVE, ByteUtils.concat(new byte[] { (byte) (address & 0xFF),
@@ -81,5 +81,10 @@ public class CommandStationDriveMessage extends BidibMessage {
             }
         }
         return result;
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return new Integer[] { CommandStationDriveAcknowledgeResponse.TYPE };
     }
 }

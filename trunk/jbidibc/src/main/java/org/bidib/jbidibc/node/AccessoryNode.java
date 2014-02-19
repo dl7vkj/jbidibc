@@ -53,6 +53,18 @@ public class AccessoryNode extends DeviceNode {
         return result;
     }
 
+    public byte[] setAccessoryParameter(int accessoryNumber, int parameter, byte[] value) throws ProtocolException {
+        //        sendNoWait(new AccessoryParaSetMessage(accessoryNumber, parameter, value));
+        byte[] result = null;
+        BidibMessage response =
+            send(new AccessoryParaSetMessage(accessoryNumber, parameter, value), true, AccessoryParaResponse.TYPE);
+
+        if (response instanceof AccessoryParaResponse) {
+            result = ((AccessoryParaResponse) response).getValue();
+        }
+        return result;
+    }
+
     /**
      * Get the accessory state of the specified accessory.
      * @param accessoryNumber the number of the accessory
@@ -61,6 +73,37 @@ public class AccessoryNode extends DeviceNode {
     public void getAccessoryState(int accessoryNumber) throws ProtocolException {
         // response is signaled asynchronously
         sendNoWait(new AccessoryGetMessage(accessoryNumber));
+    }
+
+    public void setAccessoryState(int accessoryNumber, int aspect) throws ProtocolException {
+        // response is signaled asynchronously
+        sendNoWait(new AccessorySetMessage(accessoryNumber, aspect));
+    }
+
+    /**
+     * Send the accessory state acknowledgement message for the specified accessory.
+     * @param accessoryState the accessory state
+     * @throws ProtocolException
+     */
+    public void acknowledgeAccessoryState(AccessoryState accessoryState) throws ProtocolException {
+        // TODO check if we must handle this differently ... currently auto-acknowledge new state
+        LOGGER.info("Accessory state change notification was received: {}", accessoryState);
+        if (!AccessoryStateUtils.hasError(accessoryState.getExecute())) {
+            int accessoryNumber = ByteUtils.getInt(accessoryState.getAccessoryNumber());
+            byte aspect = accessoryState.getAspect();
+            LOGGER.info("Acknowledge the accessory state change for accessory number: {}, aspect: {}", accessoryNumber,
+                ByteUtils.getInt(aspect));
+            // send acknowledge
+            // TODO check how this works ... currently does not work correct ...
+            //            setAccessoryState(accessoryNumber, aspect);
+
+            // get the errors, see 4.6.4. Uplink: Messages for accessory functions
+            // TODO verify what happens exactly before enable this ...
+            getAccessoryState(accessoryNumber);
+        }
+        else {
+            LOGGER.warn("An accessory error was detected: {}", accessoryState);
+        }
     }
 
     /**
@@ -118,41 +161,6 @@ public class AccessoryNode extends DeviceNode {
                 .toExtendedString());
         }
         return result;
-    }
-
-    public void setAccessoryParameter(int accessoryNumber, int parameter, byte[] value) throws ProtocolException {
-        sendNoWait(new AccessoryParaSetMessage(accessoryNumber, parameter, value));
-    }
-
-    public void setAccessoryState(int accessoryNumber, int aspect) throws ProtocolException {
-        // response is signaled asynchronously
-        sendNoWait(new AccessorySetMessage(accessoryNumber, aspect));
-    }
-
-    /**
-     * Send the accessory state acknowledgement message for the specified accessory.
-     * @param accessoryState the accessory state
-     * @throws ProtocolException
-     */
-    public void acknowledgeAccessoryState(AccessoryState accessoryState) throws ProtocolException {
-        // TODO check if we must handle this differently ... currently auto-acknowledge new state
-        LOGGER.info("Accessory state change notification was received: {}", accessoryState);
-        if (!AccessoryStateUtils.hasError(accessoryState.getExecute())) {
-            int accessoryNumber = ByteUtils.getInt(accessoryState.getAccessoryNumber());
-            byte aspect = accessoryState.getAspect();
-            LOGGER.info("Acknowledge the accessory state change for accessory number: {}, aspect: {}", accessoryNumber,
-                ByteUtils.getInt(aspect));
-            // send acknowledge
-            // TODO check how this works ... currently does not work correct ...
-            //            setAccessoryState(accessoryNumber, aspect);
-
-            // get the errors, see 4.6.4. Uplink: Messages for accessory functions
-            // TODO verify what happens exactly before enable this ...
-            getAccessoryState(accessoryNumber);
-        }
-        else {
-            LOGGER.warn("An accessory error was detected: {}", accessoryState);
-        }
     }
 
     public LcMacro setMacro(LcMacro macro) throws ProtocolException {

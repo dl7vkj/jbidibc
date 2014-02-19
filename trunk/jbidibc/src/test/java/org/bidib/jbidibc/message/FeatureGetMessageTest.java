@@ -91,7 +91,7 @@ public class FeatureGetMessageTest {
         }
 
         @Override
-        protected void sendNoWait(BidibMessage message) throws ProtocolException {
+        protected void sendNoWait(BidibCommand message) throws ProtocolException {
             super.sendNoWait(message);
         }
 

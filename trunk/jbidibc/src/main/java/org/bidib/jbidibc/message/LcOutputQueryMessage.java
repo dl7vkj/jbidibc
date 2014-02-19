@@ -4,7 +4,7 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 
-public class LcOutputQueryMessage extends BidibMessage {
+public class LcOutputQueryMessage extends BidibMessage implements BidibCommand {
     public LcOutputQueryMessage(LcOutputType outputType, int outputNumber) {
         super(0, BidibLibrary.MSG_LC_OUTPUT_QUERY, new byte[] { outputType.getType(), (byte) outputNumber });
     }
@@ -23,5 +23,10 @@ public class LcOutputQueryMessage extends BidibMessage {
 
     public byte getOutputNum() {
         return getData()[1];
+    }
+
+    @Override
+    public Integer[] getExpectedResponseTypes() {
+        return null;
     }
 }

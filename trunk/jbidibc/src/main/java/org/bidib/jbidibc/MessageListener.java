@@ -65,4 +65,6 @@ public interface MessageListener {
     void accessoryState(byte[] address, AccessoryState accessoryState);
 
     void lcStat(byte[] address, LcOutputType portType, int portNumber, int portStatus);
+
+    void dynState(byte[] address, int detectorNumber, int dynNumber, int dynValue);
 }

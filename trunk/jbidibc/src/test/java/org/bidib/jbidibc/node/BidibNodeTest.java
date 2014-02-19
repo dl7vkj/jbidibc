@@ -13,6 +13,7 @@ import org.bidib.jbidibc.StringData;
 import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.FeedbackMirrorFreeMessage;
 import org.bidib.jbidibc.message.LcConfigSetMessage;
@@ -260,7 +261,7 @@ public class BidibNodeTest {
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
 
-        BidibMessage bidibMessage = new SysMagicMessage();
+        BidibCommand bidibMessage = new SysMagicMessage();
 
         BidibNode.EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
 
@@ -288,7 +289,7 @@ public class BidibNodeTest {
         int dimMin = 10;
         int dimMax = 20;
         LcConfig config = new LcConfig(LcOutputType.LIGHTPORT, port, pwmMin, pwmMax, dimMax, dimMin);
-        BidibMessage bidibMessage = new LcConfigSetMessage(config);
+        BidibCommand bidibMessage = new LcConfigSetMessage(config);
 
         long start = System.nanoTime();
         EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
@@ -318,7 +319,7 @@ public class BidibNodeTest {
         int ioBehaviour = 1;
         int switchOffTime = 20;
         LcConfig config = new LcConfig(LcOutputType.SWITCHPORT, port, ioBehaviour, switchOffTime, 0, 0);
-        BidibMessage bidibMessage = new LcConfigSetMessage(config);
+        BidibCommand bidibMessage = new LcConfigSetMessage(config);
 
         long start = System.nanoTime();
         EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
@@ -348,7 +349,7 @@ public class BidibNodeTest {
         bidibNode.setBidib(bidib);
 
         int detectorNumber = 8;
-        BidibMessage bidibMessage = new FeedbackMirrorFreeMessage(detectorNumber);
+        BidibCommand bidibMessage = new FeedbackMirrorFreeMessage(detectorNumber);
 
         long start = System.nanoTime();
         EncodedMessage message = bidibNode.encodeMessage(bidibMessage);

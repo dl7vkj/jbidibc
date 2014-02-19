@@ -28,6 +28,7 @@ import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.exception.ProtocolNoAnswerException;
+import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostOffMessage;
 import org.bidib.jbidibc.message.BoostOnMessage;
@@ -245,33 +246,11 @@ public class BidibNode {
 
     /**
      * Switch on track signal on the booster.
-     * 
-     * @throws ProtocolException
-     * @deprecated Use BoosterNode to send this message
-     */
-    @Deprecated
-    public void boosterOn() throws ProtocolException {
-        sendNoWait(new BoostOnMessage());
-    }
-
-    /**
-     * Switch on track signal on the booster.
      * @param broadcast broadcast command
      * @throws ProtocolException
      */
     public void boosterOn(byte broadcast) throws ProtocolException {
         sendNoWait(new BoostOnMessage(broadcast));
-    }
-
-    /**
-     * Switch off track signal on the booster.
-     * 
-     * @throws ProtocolException
-     * @deprecated Use BoosterNode to send this message
-     */
-    @Deprecated
-    public void boosterOff() throws ProtocolException {
-        sendNoWait(new BoostOffMessage());
     }
 
     /**
@@ -691,16 +670,16 @@ public class BidibNode {
      * @return the received message number
      * @throws ProtocolException
      */
-    public int ping() throws ProtocolException {
-        BidibMessage response = send(new SysPingMessage(), true, SysPongResponse.TYPE);
+    public byte ping(byte marker) throws ProtocolException {
+        BidibMessage response = send(new SysPingMessage(marker), true, SysPongResponse.TYPE);
         if (response instanceof SysPongResponse) {
             SysPongResponse result = (SysPongResponse) response;
-            return result.getNum();
+            return result.getMarker();
         }
 
         if (ignoreWaitTimeout) {
             LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-            return Integer.valueOf(0);
+            return 0;
         }
 
         throw createNoResponseAvailable("ping");
@@ -823,7 +802,7 @@ public class BidibNode {
      * @param message the message to send
      * @throws ProtocolException
      */
-    protected void sendNoWait(BidibMessage message) throws ProtocolException {
+    protected void sendNoWait(BidibCommand message) throws ProtocolException {
         send(message, false, (Integer) null);
     }
 
@@ -833,7 +812,7 @@ public class BidibNode {
      * @return the received result
      * @throws ProtocolException
      */
-    protected BidibMessage send(BidibMessage message) throws ProtocolException {
+    protected BidibMessage send(BidibCommand message) throws ProtocolException {
         return send(message, true, (Integer) null);
     }
 
@@ -851,7 +830,7 @@ public class BidibNode {
      *             thrown if no response was received if an answer was expected
      */
     protected synchronized BidibMessage send(
-        BidibMessage message, boolean expectAnswer, Integer... expectedResponseTypes) throws ProtocolException {
+        BidibCommand message, boolean expectAnswer, Integer... expectedResponseTypes) throws ProtocolException {
 
         prepareAndSendMessage(message);
 
@@ -875,7 +854,7 @@ public class BidibNode {
         return response;
     }
 
-    private void prepareAndSendMessage(BidibMessage message) throws ProtocolException {
+    private void prepareAndSendMessage(BidibCommand message) throws ProtocolException {
 
         try {
             EncodedMessage encodedMessage = encodeMessage(message);
@@ -889,7 +868,7 @@ public class BidibNode {
         }
     }
 
-    protected EncodedMessage encodeMessage(BidibMessage message) {
+    protected EncodedMessage encodeMessage(BidibCommand message) {
         int num = getNextSendMsgNum();
         message.setSendMsgNum(num);
         logRecord.append("send ").append(message).append(" to ").append(this);
@@ -927,39 +906,6 @@ public class BidibNode {
         return encodedMessage;
     }
 
-    //    protected EncodedMessage encodeMessageWithStream(BidibMessage message) throws IOException {
-    //        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-    //
-    //        int num = getNextSendMsgNum();
-    //        message.setSendMsgNum(num);
-    //        logRecord.append("send ").append(message).append(" to ").append(this);
-    //
-    //        byte type = message.getType();
-    //        byte[] data = message.getData();
-    //        LOGGER.trace("Current node addr: {}", addr);
-    //
-    //        if (addr != null && addr.length != 0 && addr[0] != 0) {
-    //            int len = 1 + (addr.length + 1) + 2 + (data != null ? data.length : 0);
-    //            stream.write(ByteUtils.getLowByte(len - 1));
-    //            stream.write(addr);
-    //        }
-    //        else {
-    //            LOGGER.trace("Current address is the root node.");
-    //            int len = 1 + (addr.length /*len of root node*/) + 2 + (data != null ? data.length : 0);
-    //            stream.write(ByteUtils.getLowByte(len - 1));
-    //        }
-    //        stream.write(0); // 'terminating zero' of the address
-    //
-    //        stream.write(ByteUtils.getLowByte(num));
-    //        stream.write(type);
-    //        if (data != null) {
-    //            //            LOGGER.debug("Add data: {}", ByteUtils.bytesToHex(data));
-    //            stream.write(data);
-    //        }
-    //        EncodedMessage encodedMessage = new EncodedMessage(stream.toByteArray());
-    //        return encodedMessage;
-    //    }
-
     public static class EncodedMessage {
         private byte[] message;
 
@@ -972,13 +918,12 @@ public class BidibNode {
         }
     }
 
-    private void prepareAndSendMessages(List<BidibMessage> messages) throws ProtocolException {
+    private void prepareAndSendMessages(List<BidibCommand> messages) throws ProtocolException {
 
         try {
             List<EncodedMessage> encodedMessages = new LinkedList<EncodedMessage>();
-            for (BidibMessage message : messages) {
+            for (BidibCommand message : messages) {
                 EncodedMessage encodedMessage = encodeMessage(message);
-                // byte[] bytes = encodeMessageWithStream(message);
                 encodedMessages.add(encodedMessage);
             }
             sendMessages(encodedMessages, messages);
@@ -989,7 +934,7 @@ public class BidibNode {
         }
     }
 
-    private void sendMessages(List<EncodedMessage> encodedMessages, List<BidibMessage> bidibMessages)
+    private void sendMessages(List<EncodedMessage> encodedMessages, List<BidibCommand> bidibMessages)
         throws IOException {
 
         fireSendStarted();
@@ -1027,7 +972,7 @@ public class BidibNode {
     }
 
     /**
-     * Send a bulk of messages with a window size of 4 to the node.
+     * Send a bulk of messages with a specified window size to the node.
      * @param windowSize the window size
      * @param messages the messages
      * @param expectAnswer wait for expected answer
@@ -1036,7 +981,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     protected synchronized List<BidibMessage> sendBulk(
-        int windowSize, List<BidibMessage> messages, boolean expectAnswer, Integer... expectedResponseTypes)
+        int windowSize, List<BidibCommand> messages, boolean expectAnswer, Integer... expectedResponseTypes)
         throws ProtocolException {
 
         List<BidibMessage> responses = null;
@@ -1052,7 +997,22 @@ public class BidibNode {
         while (fromIndex < numMessages) {
             LOGGER.trace("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
 
-            prepareAndSendMessages(messages.subList(fromIndex, toIndex));
+            // get the sublist with the messages to send
+            List<BidibCommand> messagesToSend = messages.subList(fromIndex, toIndex);
+
+            List<BidibCommand> messagesToWaitForResponse = new LinkedList<BidibCommand>();
+            // check if we have to wait for responses
+            for (BidibCommand message : messagesToSend) {
+                if (message.getExpectedResponseTypes() != null) {
+                    // we must wait for the response
+                    messagesToWaitForResponse.add(message);
+                }
+            }
+
+            // send the messages
+            prepareAndSendMessages(messagesToSend);
+
+            // TODO handle received responses ...
 
             // send the next message if one is received
             fromIndex = toIndex;
@@ -1128,7 +1088,7 @@ public class BidibNode {
      * @param bidibMessage the bidib message instance
      * @throws IOException
      */
-    private void sendMessage(EncodedMessage encodedMessage, BidibMessage bidibMessage) throws IOException {
+    private void sendMessage(EncodedMessage encodedMessage, BidibCommand bidibMessage) throws IOException {
         byte[] message = encodedMessage.getMessage();
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Send the message: {}", ByteUtils.bytesToHex(message));
@@ -1154,7 +1114,7 @@ public class BidibNode {
         fireSendStopped();
     }
 
-    private void flush(BidibMessage bidibMessage) throws IOException {
+    private void flush(BidibCommand bidibMessage) throws IOException {
         byte[] bytes = output.toByteArray();
 
         // log the bidib message and the content of the "output" stream
@@ -1177,7 +1137,7 @@ public class BidibNode {
         output.reset();
     }
 
-    private void flush(List<BidibMessage> bidibMessages) throws IOException {
+    private void flush(List<BidibCommand> bidibMessages) throws IOException {
         byte[] bytes = output.toByteArray();
 
         // log the bidib message and the content of the "output" stream
@@ -1339,7 +1299,7 @@ public class BidibNode {
         }
 
         // prepare all messages
-        List<BidibMessage> messages = new LinkedList<BidibMessage>();
+        List<BidibCommand> messages = new LinkedList<BidibCommand>();
         for (String name : cvNumbers) {
             LOGGER.debug("Add new CV name: {}", name);
             messages.add(new VendorGetMessage(name));
@@ -1416,9 +1376,11 @@ public class BidibNode {
     public void setOutput(LcOutputType outputType, int outputNumber, int state) throws ProtocolException {
         LOGGER
             .debug("Set the new output state, type: {}, outputNumber: {}, state: {}", outputType, outputNumber, state);
+
+        // the response MSG_LC_STAT is signaled asynchronously
         sendNoWait(new LcOutputMessage(outputType, outputNumber, state));
         // TODO not sure why this is needed here ...
-        getMessageReceiver().setTimeout(Bidib.DEFAULT_TIMEOUT);
+        //        getMessageReceiver().setTimeout(Bidib.DEFAULT_TIMEOUT);
     }
 
     public void queryOutputState(LcOutputType outputType, int outputNumber) throws ProtocolException {
