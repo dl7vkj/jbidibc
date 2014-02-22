@@ -238,14 +238,14 @@ public class BidibNodeTest {
             }
         }).when(bidib).send(Mockito.any(byte[].class));
 
-        String cvNumbers = "1,2,3,4,5,6";
+        String cvNumbers = "1,2,3,4,5,6,7,8,9";
         List<VendorData> vendorDatas =
             bidibNode.vendorGetBulk(Arrays.asList(StringUtils.splitPreserveAllTokens(cvNumbers, ",")));
 
         Assert.assertNotNull(vendorDatas);
-        Assert.assertEquals(6, vendorDatas.size());
+        Assert.assertEquals(9, vendorDatas.size());
 
-        // send is called 3 times (4 combined + 2)
+        // send is called 3 times (4 combined + 4 combined + 1)
         Mockito.verify(bidib, Mockito.times(3)).send(Mockito.any(byte[].class));
     }
 

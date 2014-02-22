@@ -974,13 +974,10 @@ public class BidibNode {
      * Send a bulk of messages with a specified window size to the node.
      * @param windowSize the window size
      * @param messages the messages
-     * @param expectAnswer wait for expected answer
-     * @param expectedResponseTypes the expected response types
      * @return the list of responses
      * @throws ProtocolException
      */
-    protected synchronized List<BidibMessage> sendBulk(
-        int windowSize, List<BidibCommand> messages, boolean expectAnswer, Integer... expectedResponseTypes)
+    protected synchronized List<BidibMessage> sendBulk(int windowSize, List<BidibCommand> messages)
         throws ProtocolException {
 
         List<BidibMessage> responses = null;
@@ -990,16 +987,19 @@ public class BidibNode {
 
         // send messages with a window-size
         int fromIndex = 0;
-        int toIndex = Math.min(numMessages, windowSize);
         int receivedMessages = 0;
+        List<BidibCommand> messagesToWaitForResponse = new LinkedList<BidibCommand>();
 
         while (fromIndex < numMessages) {
+            // calculate the index of messages to send
+            int toIndex = Math.min(numMessages - fromIndex, windowSize) + fromIndex;
             LOGGER.trace("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
 
             // get the sublist with the messages to send
             List<BidibCommand> messagesToSend = messages.subList(fromIndex, toIndex);
 
-            List<BidibCommand> messagesToWaitForResponse = new LinkedList<BidibCommand>();
+            // clear the messages to wait for a response
+            messagesToWaitForResponse.clear();
             // check if we have to wait for responses
             for (BidibCommand message : messagesToSend) {
                 if (message.getExpectedResponseTypes() != null) {
@@ -1011,33 +1011,44 @@ public class BidibNode {
             // send the messages
             prepareAndSendMessages(messagesToSend);
 
-            // TODO handle received responses ...
-
             // send the next message if one is received
             fromIndex = toIndex;
             toIndex++;
             LOGGER.trace("Prepeared new fromIndex: {}, toIndex: {}", fromIndex, toIndex);
 
-            if (expectAnswer) {
+            // TODO handle received responses ...
+
+            if (!messagesToWaitForResponse.isEmpty()) {
                 BidibMessage response = null;
                 // wait for the answer
                 try {
                     if (responses == null) {
                         responses = new LinkedList<BidibMessage>();
                     }
-
+                    int responseIndex = 0;
                     while (receivedMessages < numMessages) {
                         LOGGER.trace("Receive response, receivedMessages: {}, numMessages: {}", receivedMessages,
                             numMessages);
                         response =
-                            receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
-                                .asList(expectedResponseTypes) : null);
+                            receive(Arrays.asList(messagesToWaitForResponse
+                                .get(responseIndex).getExpectedResponseTypes()));
+
+                        responseIndex++;
 
                         LOGGER.trace("Inside sendBulk, received message response: {}", response);
                         if (response != null) {
                             responses.add(response);
                         }
                         receivedMessages++;
+
+                        if (receivedMessages < fromIndex) {
+                            LOGGER
+                                .trace(
+                                    "Wait for all messages that were send in the current window, receivedMessages: {}, fromIndex: {}",
+                                    receivedMessages, fromIndex);
+                            continue;
+                        }
+                        LOGGER.trace("All messages of the sent window were received.");
 
                         if (fromIndex < numMessages) {
                             LOGGER.trace("Not all messages sent yet. Leave receive loop to send next message.");
@@ -1145,6 +1156,9 @@ public class BidibNode {
         sb.append(" : ");
         sb.append(ByteUtils.bytesToHex(bytes));
         MSG_TX_LOGGER.info(sb.toString());
+
+        // TODO remove logger
+        //        LOGGER.info("Send total length: {}", bytes.length);
 
         // send the output to Bidib
         bidib.send(bytes);
@@ -1304,7 +1318,7 @@ public class BidibNode {
             messages.add(new VendorGetMessage(name));
         }
 
-        List<BidibMessage> results = sendBulk(BULK_WINDOW_SIZE, messages, true, VendorResponse.TYPE);
+        List<BidibMessage> results = sendBulk(BULK_WINDOW_SIZE, messages);
         if (results != null) {
             List<VendorData> vendorDatas = new LinkedList<VendorData>();
             for (BidibMessage result : results) {
