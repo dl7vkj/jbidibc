@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 public class FeatureGetMessage extends BidibCommandMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(FeatureGetMessage.class);
 
-    public FeatureGetMessage(int number) {
+    protected FeatureGetMessage(int number) {
         super(0, BidibLibrary.MSG_FEATURE_GET, ByteUtils.getLowByte(number));
 
         try {

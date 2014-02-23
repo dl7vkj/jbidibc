@@ -9,7 +9,8 @@ public abstract class BidibCommandMessage extends BidibMessage implements BidibC
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BidibCommandMessage.class);
 
-    private int answerSize;
+    // set a default size of 5
+    private int answerSize = 5;
 
     BidibCommandMessage(int num, int type, byte... data) {
         super(num, type, data);

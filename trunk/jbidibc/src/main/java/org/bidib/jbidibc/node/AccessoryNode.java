@@ -1,7 +1,11 @@
 package org.bidib.jbidibc.node;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.bidib.jbidibc.AccessoryState;
 import org.bidib.jbidibc.LcMacro;
+import org.bidib.jbidibc.LcMacroParaValue;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.enumeration.LcMacroOperationCode;
 import org.bidib.jbidibc.enumeration.LcMacroState;
@@ -12,10 +16,10 @@ import org.bidib.jbidibc.message.AccessoryParaGetMessage;
 import org.bidib.jbidibc.message.AccessoryParaResponse;
 import org.bidib.jbidibc.message.AccessoryParaSetMessage;
 import org.bidib.jbidibc.message.AccessorySetMessage;
+import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.LcMacroGetMessage;
 import org.bidib.jbidibc.message.LcMacroHandleMessage;
-import org.bidib.jbidibc.message.LcMacroParaGetMessage;
 import org.bidib.jbidibc.message.LcMacroParaResponse;
 import org.bidib.jbidibc.message.LcMacroParaSetMessage;
 import org.bidib.jbidibc.message.LcMacroResponse;
@@ -23,6 +27,7 @@ import org.bidib.jbidibc.message.LcMacroSetMessage;
 import org.bidib.jbidibc.message.LcMacroStateResponse;
 import org.bidib.jbidibc.utils.AccessoryStateUtils;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,12 +118,13 @@ public class AccessoryNode extends DeviceNode {
      * @return the parameter value
      * @throws ProtocolException
      */
-    public byte[] getMacroParameter(int macroNumber, int parameter) throws ProtocolException {
-        byte[] result = null;
-        BidibMessage response = send(new LcMacroParaGetMessage(macroNumber, parameter), true, LcMacroParaResponse.TYPE);
+    public LcMacroParaValue getMacroParameter(int macroNumber, int parameter) throws ProtocolException {
+        LcMacroParaValue result = null;
+        BidibMessage response =
+            send(getRequestFactory().createLcMacroParaGet(macroNumber, parameter), true, LcMacroParaResponse.TYPE);
 
         if (response instanceof LcMacroParaResponse) {
-            result = ((LcMacroParaResponse) response).getValue();
+            result = ((LcMacroParaResponse) response).getLcMacroParaValue();
         }
         else {
             LOGGER.warn("No response received for LcMacroParaGetMessage, macroNumber: {}, parameter: {}", macroNumber,
@@ -128,6 +134,46 @@ public class AccessoryNode extends DeviceNode {
                 parameter));
         }
         return result;
+    }
+
+    /**
+     * Get the macro parameter.
+     * @param macroNumber the macro numbr
+     * @param parameter the parameter number
+     * @return the parameter value
+     * @throws ProtocolException
+     */
+    public List<LcMacroParaValue> getMacroParameters(int macroNumber, int... parameters) throws ProtocolException {
+        List<LcMacroParaValue> results = new LinkedList<>();
+        List<BidibCommand> messages = new LinkedList<>();
+        for (int parameter : parameters) {
+            
+            messages.add(getRequestFactory().createLcMacroParaGet(macroNumber, parameter));
+        }
+        List<BidibMessage> responses = sendBulk(4, messages);
+        
+        if (CollectionUtils.hasElements(responses)) {
+            int index = 0;
+            for (BidibMessage response : responses) {
+                if (response instanceof LcMacroParaResponse) {
+                    LcMacroParaValue result = ((LcMacroParaResponse) response).getLcMacroParaValue();
+                    results.add(result);
+                }
+                else {
+                    LOGGER.warn("No response received for LcMacroParaGetMessage, macroNumber: {}, parameter: {}", macroNumber,
+                        parameters[index]);
+                    
+                    LcMacroParaValue result = new LcMacroParaValue(macroNumber, parameters[index], null);
+                    results.add(result);
+                    throw new ProtocolNoAnswerException(String.format(
+                        "No response received for LcMacroParaGetMessage, macroNumber: %d, parameter: %d", macroNumber,
+                        parameters[index]));
+                }
+                
+                index++;
+            }
+        }
+        return results;
     }
 
     /**

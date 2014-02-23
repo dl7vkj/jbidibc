@@ -34,12 +34,8 @@ import org.bidib.jbidibc.message.BoostOffMessage;
 import org.bidib.jbidibc.message.BoostOnMessage;
 import org.bidib.jbidibc.message.BoostQueryMessage;
 import org.bidib.jbidibc.message.FeatureCountResponse;
-import org.bidib.jbidibc.message.FeatureGetAllMessage;
-import org.bidib.jbidibc.message.FeatureGetMessage;
-import org.bidib.jbidibc.message.FeatureGetNextMessage;
 import org.bidib.jbidibc.message.FeatureNotAvailableResponse;
 import org.bidib.jbidibc.message.FeatureResponse;
-import org.bidib.jbidibc.message.FeatureSetMessage;
 import org.bidib.jbidibc.message.FeedbackGetAddressRangeMessage;
 import org.bidib.jbidibc.message.FeedbackGetConfidenceMessage;
 import org.bidib.jbidibc.message.FeedbackGetRangeMessage;
@@ -48,7 +44,6 @@ import org.bidib.jbidibc.message.FeedbackMirrorMultipleMessage;
 import org.bidib.jbidibc.message.FeedbackMirrorOccupiedMessage;
 import org.bidib.jbidibc.message.FwUpdateOpMessage;
 import org.bidib.jbidibc.message.FwUpdateStatResponse;
-import org.bidib.jbidibc.message.LcConfigGetMessage;
 import org.bidib.jbidibc.message.LcConfigResponse;
 import org.bidib.jbidibc.message.LcConfigSetMessage;
 import org.bidib.jbidibc.message.LcKeyMessage;
@@ -57,19 +52,15 @@ import org.bidib.jbidibc.message.LcOutputMessage;
 import org.bidib.jbidibc.message.LcOutputQueryMessage;
 import org.bidib.jbidibc.message.NodeChangedAckMessage;
 import org.bidib.jbidibc.message.NodeTabCountResponse;
-import org.bidib.jbidibc.message.NodeTabGetAllMessage;
-import org.bidib.jbidibc.message.NodeTabGetNextMessage;
 import org.bidib.jbidibc.message.NodeTabResponse;
+import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.message.StringGetMessage;
 import org.bidib.jbidibc.message.StringResponse;
 import org.bidib.jbidibc.message.StringSetMessage;
-import org.bidib.jbidibc.message.SysDisableMessage;
-import org.bidib.jbidibc.message.SysEnableMessage;
 import org.bidib.jbidibc.message.SysErrorResponse;
 import org.bidib.jbidibc.message.SysGetPVersionMessage;
 import org.bidib.jbidibc.message.SysGetSwVersionMessage;
 import org.bidib.jbidibc.message.SysIdentifyMessage;
-import org.bidib.jbidibc.message.SysMagicMessage;
 import org.bidib.jbidibc.message.SysMagicResponse;
 import org.bidib.jbidibc.message.SysPVersionResponse;
 import org.bidib.jbidibc.message.SysPingMessage;
@@ -81,7 +72,6 @@ import org.bidib.jbidibc.message.SysUniqueIdResponse;
 import org.bidib.jbidibc.message.VendorAckResponse;
 import org.bidib.jbidibc.message.VendorDisableMessage;
 import org.bidib.jbidibc.message.VendorEnableMessage;
-import org.bidib.jbidibc.message.VendorGetMessage;
 import org.bidib.jbidibc.message.VendorResponse;
 import org.bidib.jbidibc.message.VendorSetMessage;
 import org.bidib.jbidibc.node.listener.TransferListener;
@@ -125,6 +115,8 @@ public class BidibNode {
 
     private int responseTimeout = Bidib.DEFAULT_TIMEOUT;
 
+    private RequestFactory requestFactory;
+
     /**
      * Create a new BidibNode that represents a connected node (slave) on the BiDiB bus.
      * 
@@ -149,6 +141,17 @@ public class BidibNode {
     }
 
     /**
+     * @param requestFactory the requestFactory to set
+     */
+    public void setRequestFactory(RequestFactory requestFactory) {
+        this.requestFactory = requestFactory;
+    }
+
+    protected RequestFactory getRequestFactory() {
+        return requestFactory;
+    }
+
+    /**
      * @return the responseTimeout
      */
     public int getResponseTimeout() {
@@ -168,6 +171,15 @@ public class BidibNode {
 
     public BlockingQueue<BidibMessage> getReceiveQueue() {
         return receiveQueue;
+    }
+
+    public String toString() {
+        StringBuffer sb = new StringBuffer(getClass().getSimpleName()).append("@").append(hashCode());
+        if (addr != null) {
+            sb.append(Arrays.toString(addr));
+        }
+        sb.append(",magic=").append(nodeMagic);
+        return sb.toString();
     }
 
     /**
@@ -197,80 +209,12 @@ public class BidibNode {
         return true;
     }
 
-    /**
-     * Send the node changed acknowledge message.
-     * @param versionNumber the version number of the node table
-     * @throws ProtocolException
-     */
-    public void acknowledgeNodeChanged(int versionNumber) throws ProtocolException {
-        sendNoWait(new NodeChangedAckMessage(versionNumber));
-    }
-
-    /**
-     * Send the feedback mirror free message for the specified detector number.
-     * @param detectorNumber the detector number
-     * @throws ProtocolException
-     */
-    public void acknowledgeFree(int detectorNumber) throws ProtocolException {
-        sendNoWait(new FeedbackMirrorFreeMessage(detectorNumber));
-    }
-
-    /**
-     * Send the feedback mirror multiple message.
-     * @param baseAddress the base address
-     * @param size the size
-     * @param detectorData the detector data
-     * @throws ProtocolException
-     */
-    public void acknowledgeMultiple(int baseAddress, int size, byte[] detectorData) throws ProtocolException {
-        LOGGER.debug("Send acknowledge multiple to baseAddress: {}", baseAddress);
-        sendNoWait(new FeedbackMirrorMultipleMessage(baseAddress, size, detectorData));
-    }
-
-    /**
-     * Send the feedback mirror occupied message for the specified detector number.
-     * @param detectorNumber the detector number
-     * @throws ProtocolException
-     */
-    public void acknowledgeOccupied(int detectorNumber) throws ProtocolException {
-        sendNoWait(new FeedbackMirrorOccupiedMessage(detectorNumber));
-    }
-
     public void addTransferListener(TransferListener l) {
         listeners.add(l);
     }
 
     public List<TransferListener> getTransferListeners() {
         return listeners;
-    }
-
-    /**
-     * Switch on track signal on the booster.
-     * @param broadcast broadcast command
-     * @throws ProtocolException
-     */
-    public void boosterOn(byte broadcast) throws ProtocolException {
-        sendNoWait(new BoostOnMessage(broadcast));
-    }
-
-    /**
-     * Switch off track signal on the booster.
-     * @param broadcast broadcast command
-     * @throws ProtocolException
-     */
-    public void boosterOff(byte broadcast) throws ProtocolException {
-        sendNoWait(new BoostOffMessage(broadcast));
-    }
-
-    /**
-     * Query the booster state. We don't wait for the response because the {@link MessageReceiver} fires the booster
-     * status callback on receipt.
-     * 
-     * @throws ProtocolException
-     * @deprecated Use BoosterNode to send this message
-     */
-    public void boosterQuery() throws ProtocolException {
-        sendNoWait(new BoostQueryMessage());
     }
 
     private void fireReceiveStarted() {
@@ -302,165 +246,6 @@ public class BidibNode {
      */
     public byte[] getAddr() {
         return addr;
-    }
-
-    /**
-     * Get the loco addresses in the specified range from the feedback system.
-     * 
-     * @param begin
-     *            the start of Melderbits to be transfered
-     * @param end
-     *            the end of Melderbits to be transfered
-     */
-    public void getAddressState(int begin, int end) throws ProtocolException {
-        sendNoWait(new FeedbackGetAddressRangeMessage(begin, end));
-    }
-
-    /**
-     * Get the current 'quality' of the track sensoring.
-     */
-    public void getConfidence() throws ProtocolException {
-        sendNoWait(new FeedbackGetConfidenceMessage());
-    }
-
-    /**
-     * Get the feature with the specified number from the node.
-     * 
-     * @param number
-     *            the feature number
-     * @return the returned feature
-     * @throws ProtocolException
-     */
-    public Feature getFeature(int number) throws ProtocolException {
-        LOGGER.debug("get feature with number: {}", number);
-        if (isBootloaderNode()) {
-            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
-            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GET");
-        }
-
-        // if a node does not support the feature a feature not available response is received
-        BidibMessage response =
-            send(new FeatureGetMessage(number), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
-
-        LOGGER.debug("get feature with number '{}' returned: {}", number, response);
-        if (response instanceof FeatureResponse) {
-            Feature result = ((FeatureResponse) response).getFeature();
-            return result;
-        }
-        else if (response instanceof FeatureNotAvailableResponse) {
-            FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
-            // TODO change this in version 2.0 to throw an exception
-            //            throw new ProtocolException("The requested feature is not available, featureNumber: "
-            //                + result.getFeatureNumber());
-            LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
-            return null;
-        }
-
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-            return null;
-        }
-        throw createNoResponseAvailable("get feature");
-    }
-
-    /**
-     * Request the number of features of the node. This call will reset the internal counter for the next
-     * <code>getNextFeature()</code> request.
-     * 
-     * @return number of features on the node
-     * @throws IOException
-     * @throws ProtocolException
-     * @throws InterruptedException
-     */
-    public Integer getFeatureCount() throws ProtocolException {
-        if (isBootloaderNode()) {
-            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
-            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GETALL");
-        }
-
-        BidibMessage response = send(new FeatureGetAllMessage(), true, FeatureCountResponse.TYPE);
-        if (response instanceof FeatureCountResponse) {
-            Integer result = ((FeatureCountResponse) response).getCount();
-            return result;
-        }
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-            return Integer.valueOf(0);
-        }
-
-        throw createNoResponseAvailable("get feature count");
-    }
-
-    /**
-     * Returns the next feature of the node. Call <code>getFeatureCount()</code> to reset the internal counter for the
-     * feature index
-     * 
-     * @return a feature or null if no more features available
-     * @throws ProtocolException
-     */
-    public Feature getNextFeature() throws ProtocolException {
-        if (isBootloaderNode()) {
-            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
-            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GETNEXT");
-        }
-
-        BidibMessage response =
-            send(new FeatureGetNextMessage(), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
-        if (response instanceof FeatureResponse) {
-            return ((FeatureResponse) response).getFeature();
-        }
-        else if (response instanceof FeatureNotAvailableResponse) {
-            FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
-            // TODO change this in version 2.0 to throw an exception
-            //            throw new ProtocolException("The requested feature is not available, featureNumber: "
-            //                + result.getFeatureNumber());
-            LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
-            return null;
-        }
-
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-            return null;
-        }
-
-        throw createNoResponseAvailable("get next feature");
-    }
-
-    /**
-     * Get the status of the track sensoring in the specified range.
-     * 
-     * @param begin
-     *            the start of Melderbits to be transfered
-     * @param end
-     *            the end of Melderbits to be transfered
-     */
-    public void getFeedbackState(int begin, int end) throws ProtocolException {
-        sendNoWait(new FeedbackGetRangeMessage(begin, end));
-    }
-
-    /**
-     * Get the magic from the node.
-     * @return the magic
-     * @throws ProtocolException
-     */
-    public int getMagic() throws ProtocolException {
-        LOGGER.debug("Get the magic.");
-
-        BidibMessage response = send(new SysMagicMessage(), true, SysMagicResponse.TYPE);
-        LOGGER.debug("getMagic, received response: {}", response);
-        if (response instanceof SysMagicResponse) {
-            int magic = ((SysMagicResponse) response).getMagic();
-            setNodeMagic(magic);
-            return magic;
-        }
-
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set! Return BIDIB_MAGIC_UNKNOWN!");
-            setNodeMagic(BIDIB_MAGIC_UNKNOWN);
-            return BIDIB_MAGIC_UNKNOWN;
-        }
-
-        throw createNoResponseAvailable("get magic");
     }
 
     /**
@@ -528,12 +313,286 @@ public class BidibNode {
     }
 
     /**
+     * Send the node changed acknowledge message.
+     * @param versionNumber the version number of the node table
+     * @throws ProtocolException
+     */
+    public void acknowledgeNodeChanged(int versionNumber) throws ProtocolException {
+        sendNoWait(new NodeChangedAckMessage(versionNumber));
+    }
+
+    /**
+     * Send the feedback mirror free message for the specified detector number.
+     * @param detectorNumber the detector number
+     * @throws ProtocolException
+     */
+    public void acknowledgeFree(int detectorNumber) throws ProtocolException {
+        sendNoWait(new FeedbackMirrorFreeMessage(detectorNumber));
+    }
+
+    /**
+     * Send the feedback mirror multiple message.
+     * @param baseAddress the base address
+     * @param size the size
+     * @param detectorData the detector data
+     * @throws ProtocolException
+     */
+    public void acknowledgeMultiple(int baseAddress, int size, byte[] detectorData) throws ProtocolException {
+        LOGGER.debug("Send acknowledge multiple to baseAddress: {}", baseAddress);
+        sendNoWait(new FeedbackMirrorMultipleMessage(baseAddress, size, detectorData));
+    }
+
+    /**
+     * Send the feedback mirror occupied message for the specified detector number.
+     * @param detectorNumber the detector number
+     * @throws ProtocolException
+     */
+    public void acknowledgeOccupied(int detectorNumber) throws ProtocolException {
+        sendNoWait(new FeedbackMirrorOccupiedMessage(detectorNumber));
+    }
+
+    /**
+     * Switch on track signal on the booster.
+     * @param broadcast broadcast command
+     * @throws ProtocolException
+     */
+    public void boosterOn(byte broadcast) throws ProtocolException {
+        sendNoWait(new BoostOnMessage(broadcast));
+    }
+
+    /**
+     * Switch off track signal on the booster.
+     * @param broadcast broadcast command
+     * @throws ProtocolException
+     */
+    public void boosterOff(byte broadcast) throws ProtocolException {
+        sendNoWait(new BoostOffMessage(broadcast));
+    }
+
+    /**
+     * Query the booster state. We don't wait for the response because the {@link MessageReceiver} fires the booster
+     * status callback on receipt.
+     * 
+     * @throws ProtocolException
+     * @deprecated Use BoosterNode to send this message
+     */
+    public void boosterQuery() throws ProtocolException {
+        sendNoWait(new BoostQueryMessage());
+    }
+
+    /**
+     * Get the loco addresses in the specified range from the feedback system.
+     * 
+     * @param begin
+     *            the start of Melderbits to be transfered
+     * @param end
+     *            the end of Melderbits to be transfered
+     */
+    public void getAddressState(int begin, int end) throws ProtocolException {
+        sendNoWait(new FeedbackGetAddressRangeMessage(begin, end));
+    }
+
+    /**
+     * Get the current 'quality' of the track sensoring.
+     */
+    public void getConfidence() throws ProtocolException {
+        sendNoWait(new FeedbackGetConfidenceMessage());
+    }
+
+    /**
+     * Get the feature with the specified number from the node.
+     * 
+     * @param number
+     *            the feature number
+     * @return the returned feature
+     * @throws ProtocolException
+     */
+    public Feature getFeature(int number) throws ProtocolException {
+        LOGGER.debug("get feature with number: {}", number);
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
+            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GET");
+        }
+
+        // if a node does not support the feature a feature not available response is received
+        BidibMessage response =
+            send(requestFactory.createFeatureGet(number), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
+
+        LOGGER.debug("get feature with number '{}' returned: {}", number, response);
+        if (response instanceof FeatureResponse) {
+            Feature result = ((FeatureResponse) response).getFeature();
+            return result;
+        }
+        else if (response instanceof FeatureNotAvailableResponse) {
+            FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
+            // TODO change this in version 2.0 to throw an exception
+            //            throw new ProtocolException("The requested feature is not available, featureNumber: "
+            //                + result.getFeatureNumber());
+            LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
+            return null;
+        }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+        throw createNoResponseAvailable("get feature");
+    }
+
+    /**
+     * Request the number of features of the node. This call will reset the internal counter for the next
+     * <code>getNextFeature()</code> request.
+     * 
+     * @return number of features on the node
+     * @throws IOException
+     * @throws ProtocolException
+     * @throws InterruptedException
+     */
+    public Integer getFeatureCount() throws ProtocolException {
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
+            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GETALL");
+        }
+
+        BidibMessage response = send(requestFactory.createFeatureGetAll(), true, FeatureCountResponse.TYPE);
+        if (response instanceof FeatureCountResponse) {
+            Integer result = ((FeatureCountResponse) response).getCount();
+            return result;
+        }
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return Integer.valueOf(0);
+        }
+
+        throw createNoResponseAvailable("get feature count");
+    }
+
+    /**
+     * Returns the next feature of the node. Call <code>getFeatureCount()</code> to reset the internal counter for the
+     * feature index
+     * 
+     * @return a feature or null if no more features available
+     * @throws ProtocolException
+     */
+    public Feature getNextFeature() throws ProtocolException {
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
+            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GETNEXT");
+        }
+
+        BidibMessage response =
+            send(requestFactory.createFeatureGetNext(), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
+        if (response instanceof FeatureResponse) {
+            return ((FeatureResponse) response).getFeature();
+        }
+        else if (response instanceof FeatureNotAvailableResponse) {
+            FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
+            // TODO change this in version 2.0 to throw an exception
+            //            throw new ProtocolException("The requested feature is not available, featureNumber: "
+            //                + result.getFeatureNumber());
+            LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
+            return null;
+        }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
+        throw createNoResponseAvailable("get next feature");
+    }
+
+    /**
+     * Returns the features of the node up top the provided feature count. 
+     * Call <code>getFeatureCount()</code> to reset the internal counter for the
+     * feature index and use the returned feature count as parameter for the call
+     * of this method.
+     * 
+     * @param featureCount the number of features to read
+     * @return list of features or null if no features available
+     * @throws ProtocolException
+     */
+    public List<Feature> getFeaturesBulk(int featureCount) throws ProtocolException {
+        if (isBootloaderNode()) {
+            LOGGER.warn("The current node is a bootloader node and does not support feature requests.");
+            throw createNotSupportedByBootloaderNode("MSG_FEATURE_GETNEXT");
+        }
+
+        List<BidibCommand> messages = new LinkedList<>();
+        for (int index = 0; index < featureCount; index++) {
+            messages.add(requestFactory.createFeatureGetNext());
+        }
+        List<BidibMessage> responses = sendBulk(BULK_WINDOW_SIZE, messages);
+        if (CollectionUtils.hasElements(responses)) {
+            List<Feature> features = new LinkedList<>();
+            for (BidibMessage response : responses) {
+                if (response instanceof FeatureResponse) {
+                    Feature feature = ((FeatureResponse) response).getFeature();
+                    features.add(feature);
+                }
+                else if (response instanceof FeatureNotAvailableResponse) {
+                    FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
+                    // TODO change this in version 2.0 to throw an exception
+                    //            throw new ProtocolException("The requested feature is not available, featureNumber: "
+                    //                + result.getFeatureNumber());
+                    LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
+                }
+            }
+            return features;
+        }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
+        throw createNoResponseAvailable("get next feature");
+    }
+
+    /**
+     * Get the status of the track sensoring in the specified range.
+     * 
+     * @param begin
+     *            the start of Melderbits to be transfered
+     * @param end
+     *            the end of Melderbits to be transfered
+     */
+    public void getFeedbackState(int begin, int end) throws ProtocolException {
+        sendNoWait(new FeedbackGetRangeMessage(begin, end));
+    }
+
+    /**
+     * Get the magic from the node.
+     * @return the magic
+     * @throws ProtocolException
+     */
+    public int getMagic() throws ProtocolException {
+        LOGGER.debug("Get the magic.");
+
+        BidibMessage response = send(requestFactory.createSysMagic(), true, SysMagicResponse.TYPE);
+        LOGGER.debug("getMagic, received response: {}", response);
+        if (response instanceof SysMagicResponse) {
+            int magic = ((SysMagicResponse) response).getMagic();
+            setNodeMagic(magic);
+            return magic;
+        }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set! Return BIDIB_MAGIC_UNKNOWN!");
+            setNodeMagic(BIDIB_MAGIC_UNKNOWN);
+            return BIDIB_MAGIC_UNKNOWN;
+        }
+
+        throw createNoResponseAvailable("get magic");
+    }
+
+    /**
      * Get the next node from the system.
      * @return the node
      * @throws ProtocolException
      */
     public Node getNextNode() throws ProtocolException {
-        BidibMessage response = send(new NodeTabGetNextMessage(), true, NodeTabResponse.TYPE);
+        BidibMessage response = send(requestFactory.createNodeTabGetNext(), true, NodeTabResponse.TYPE);
 
         if (response instanceof NodeTabResponse) {
             // create a new node from the received data
@@ -559,7 +618,7 @@ public class BidibNode {
     public Integer getNodeCount() throws ProtocolException {
         LOGGER.debug("Get all registered nodes from system.");
 
-        BidibMessage response = send(new NodeTabGetAllMessage(), true, NodeTabCountResponse.TYPE);
+        BidibMessage response = send(requestFactory.createNodeTabGetAll(), true, NodeTabCountResponse.TYPE);
 
         if (response instanceof NodeTabCountResponse) {
             int totalNodes = ((NodeTabCountResponse) response).getCount();
@@ -992,12 +1051,33 @@ public class BidibNode {
 
         while (fromIndex < numMessages) {
             // calculate the index of messages to send
-            int toIndex = Math.min(numMessages - fromIndex, windowSize) + fromIndex;
-            LOGGER.trace("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
-
+//            int toIndex = Math.min(numMessages - fromIndex, windowSize) + fromIndex;
+//            LOGGER.trace("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
+            LOGGER.trace("Send bulk messages fromIndex: {}, numMessages: {}", fromIndex, numMessages);
             // get the sublist with the messages to send
-            List<BidibCommand> messagesToSend = messages.subList(fromIndex, toIndex);
+//            List<BidibCommand> messagesToSend = messages.subList(fromIndex, toIndex);
 
+            // the window size must be dynamically calculated on the maximum expected size of the responses of 48 bytes
+            // see http://forum.opendcc.de/viewtopic.php?f=31&t=1332
+            int toIndex = fromIndex;
+            int maxTotalExpectedResponseLength = 48; 
+            int totalExpectedResponseLength = 0;
+            List<BidibCommand> messagesToSend = new LinkedList<>();
+            for (int index = fromIndex; index < numMessages; index++) {
+                BidibCommand command = messages.get(index);
+                if (totalExpectedResponseLength + command.getAnswerSize() <= maxTotalExpectedResponseLength) {
+                    // add the command to send
+                    messagesToSend.add(command);
+                    toIndex++;
+//                    fromIndex++;
+                    totalExpectedResponseLength += command.getAnswerSize();
+                }
+                else {
+                    // max total response size exceeded
+                    break;
+                }
+            }
+            
             // clear the messages to wait for a response
             messagesToWaitForResponse.clear();
             // check if we have to wait for responses
@@ -1013,8 +1093,8 @@ public class BidibNode {
 
             // send the next message if one is received
             fromIndex = toIndex;
-            toIndex++;
-            LOGGER.trace("Prepeared new fromIndex: {}, toIndex: {}", fromIndex, toIndex);
+//            toIndex++;
+            LOGGER.debug("Prepeared new fromIndex: {}, toIndex: {}", fromIndex, toIndex);
 
             // TODO handle received responses ...
 
@@ -1205,7 +1285,8 @@ public class BidibNode {
      */
     public Feature setFeature(int number, int value) throws ProtocolException {
         BidibMessage response =
-            send(new FeatureSetMessage(number, value), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
+            send(requestFactory.createFeatureSet(number, value), true, FeatureResponse.TYPE,
+                FeatureNotAvailableResponse.TYPE);
         if (response instanceof FeatureResponse) {
             Feature result = ((FeatureResponse) response).getFeature();
             return result;
@@ -1229,7 +1310,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public void sysDisable() throws ProtocolException {
-        sendNoWait(new SysDisableMessage());
+        sendNoWait(requestFactory.createSysDisable());
     }
 
     /**
@@ -1237,17 +1318,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public void sysEnable() throws ProtocolException {
-        sendNoWait(new SysEnableMessage());
-    }
-
-    public String toString() {
-        StringBuffer sb = new StringBuffer(getClass().getSimpleName()).append("@").append(hashCode());
-        if (addr != null) {
-            sb.append(Arrays.toString(addr));
-        }
-        sb.append(",magic=").append(nodeMagic);
-        return sb.toString();
-        //        return getClass().getSimpleName() + "@" + hashCode() + (addr != null ? Arrays.toString(addr) : "");
+        sendNoWait(requestFactory.createSysEnable());
     }
 
     /**
@@ -1289,7 +1360,8 @@ public class BidibNode {
             throw createNotSupportedByBootloaderNode("MSG_VENDOR_GET");
         }
 
-        BidibMessage result = send(new VendorGetMessage(name), true, VendorResponse.TYPE);
+        BidibCommand bidibCommand = requestFactory.createVendorGet(name);
+        BidibMessage result = send(bidibCommand, true, VendorResponse.TYPE);
         if (result instanceof VendorResponse) {
             return ((VendorResponse) result).getVendorData();
         }
@@ -1315,20 +1387,21 @@ public class BidibNode {
         List<BidibCommand> messages = new LinkedList<BidibCommand>();
         for (String name : cvNumbers) {
             LOGGER.debug("Add new CV name: {}", name);
-            messages.add(new VendorGetMessage(name));
+            BidibCommand bidibCommand = requestFactory.createVendorGet(name);
+            messages.add(bidibCommand);
         }
 
         List<BidibMessage> results = sendBulk(BULK_WINDOW_SIZE, messages);
         if (results != null) {
-            List<VendorData> vendorDatas = new LinkedList<VendorData>();
+            List<VendorData> vendorDataList = new LinkedList<VendorData>();
             for (BidibMessage result : results) {
                 if (result instanceof VendorResponse) {
                     VendorData vendorData = ((VendorResponse) result).getVendorData();
                     LOGGER.debug("Received vendor data: {}", vendorData);
-                    vendorDatas.add(vendorData);
+                    vendorDataList.add(vendorData);
                 }
             }
-            return vendorDatas;
+            return vendorDataList;
         }
         else {
             LOGGER.warn("No result returned from sendBulk!");
@@ -1437,11 +1510,38 @@ public class BidibNode {
     public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws ProtocolException {
         LcConfig result = null;
         BidibMessage response =
-            send(new LcConfigGetMessage(outputType, outputNumber), true, LcConfigResponse.TYPE,
+            send(requestFactory.createLcConfigGet(outputType, outputNumber), true, LcConfigResponse.TYPE,
                 LcNotAvailableResponse.TYPE);
 
         if (response instanceof LcConfigResponse) {
             result = ((LcConfigResponse) response).getLcConfig();
+        }
+        return result;
+    }
+
+    /**
+     * Get the configuration of the specified port.
+     * @param outputType the port type
+     * @param outputNumber the output number
+     * @return the configuration of the specified port.
+     * @throws ProtocolException
+     */
+    public List<LcConfig> getConfigBulk(LcOutputType outputType, int... outputNumbers) throws ProtocolException {
+        List<LcConfig> result = null;
+        
+        List<BidibCommand> messages = new LinkedList<>();
+        for (int outputNumber : outputNumbers) {
+            messages.add(requestFactory.createLcConfigGet(outputType, outputNumber));
+        }
+
+        List<BidibMessage> responses = sendBulk(BULK_WINDOW_SIZE, messages);
+        if (CollectionUtils.hasElements(responses)) {
+            result = new LinkedList<>();
+            for (BidibMessage response : responses) {
+                if (response instanceof LcConfigResponse) {
+                    result.add(((LcConfigResponse) response).getLcConfig());
+                }
+            }
         }
         return result;
     }

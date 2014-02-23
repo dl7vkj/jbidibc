@@ -5,7 +5,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
 public class VendorGetMessage extends BidibCommandMessage {
-    public VendorGetMessage(String name) {
+    protected VendorGetMessage(String name) {
         super(0, BidibLibrary.MSG_VENDOR_GET, ByteUtils.bstr(name));
     }
 

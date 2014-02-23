@@ -27,8 +27,8 @@
       <MessageType Id="19" Direction="Down" Category="Feature, User Config" Name="MSG_FEATURE_SET" AnswerSize="6" />
       <MessageType Id="20" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_ENABLE" AnswerSize="5" />
       <MessageType Id="21" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_DISABLE" AnswerSize="5" />
-      <MessageType Id="22" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_SET" AnswerSize="32" />
-      <MessageType Id="23" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_GET" AnswerSize="32" />
+      <MessageType Id="22" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_SET" AnswerSize="12" />
+      <MessageType Id="23" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_GET" AnswerSize="12" />
       <MessageType Id="24" Direction="Down" Category="Feature, User Config" Name="MSG_SYS_CLOCK" AnswerSize="0" />
       <MessageType Id="25" Direction="Down" Category="Feature, User Config" Name="MSG_STRING_GET" AnswerSize="30" />
       <MessageType Id="26" Direction="Down" Category="Feature, User Config" Name="MSG_STRING_SET" AnswerSize="30" />

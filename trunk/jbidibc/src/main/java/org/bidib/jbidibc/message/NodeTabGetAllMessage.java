@@ -1,14 +1,19 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.exception.ProtocolException;
 
 /**
  * Message to start fetching the mapping table of unique id and local address from the interface.
  *
  */
 public class NodeTabGetAllMessage extends BidibCommandMessage {
-    public NodeTabGetAllMessage() {
+    protected NodeTabGetAllMessage() {
         super(0, BidibLibrary.MSG_NODETAB_GETALL);
+    }
+
+    public NodeTabGetAllMessage(byte[] message) throws ProtocolException {
+        super(message);
     }
 
     @Override

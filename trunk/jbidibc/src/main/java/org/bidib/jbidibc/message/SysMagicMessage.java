@@ -4,7 +4,7 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 
 public class SysMagicMessage extends BidibCommandMessage {
-    public SysMagicMessage() {
+    protected SysMagicMessage() {
         super(0, BidibLibrary.MSG_SYS_GET_MAGIC);
     }
 

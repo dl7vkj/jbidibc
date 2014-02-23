@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.schema.BidibFactory;
 import org.bidib.jbidibc.schema.bidib.MessageType;
@@ -148,6 +149,12 @@ public class RequestFactory {
             case BidibLibrary.MSG_SYS_PING:
                 concreteBidibMessage = new SysPingMessage(message);
                 break;
+            case BidibLibrary.MSG_NODETAB_GETALL:
+                concreteBidibMessage = new NodeTabGetAllMessage(message);
+                break;
+            case BidibLibrary.MSG_NODETAB_GETNEXT:
+                concreteBidibMessage = new NodeTabGetNextMessage(message);
+                break;
             case BidibLibrary.MSG_CS_SET_STATE:
                 concreteBidibMessage = new CommandStationSetStateMessage(message);
                 break;
@@ -159,6 +166,15 @@ public class RequestFactory {
                 break;
             case BidibLibrary.MSG_FEATURE_GET:
                 concreteBidibMessage = new FeatureGetMessage(message);
+                break;
+            case BidibLibrary.MSG_FEATURE_GETNEXT:
+                concreteBidibMessage = new FeatureGetNextMessage(message);
+                break;
+            case BidibLibrary.MSG_FEATURE_GETALL:
+                concreteBidibMessage = new FeatureGetAllMessage(message);
+                break;
+            case BidibLibrary.MSG_FEATURE_SET:
+                concreteBidibMessage = new FeatureSetMessage(message);
                 break;
             case BidibLibrary.MSG_VENDOR_ENABLE:
                 concreteBidibMessage = new VendorEnableMessage(message);
@@ -248,4 +264,79 @@ public class RequestFactory {
 
         return concreteBidibMessage;
     }
+
+    private BidibCommand initializeCommand(BidibCommand bidibCommand) {
+
+        MessageType mt = getMessageTypeMap().get(Integer.valueOf(ByteUtils.getInt(bidibCommand.getType())));
+        if (mt != null) {
+            bidibCommand.setAnswerSize(mt.getAnswerSize());
+        }
+        else {
+            LOGGER.warn("Unknown command detected, cannot set answer size: {}", bidibCommand);
+        }
+
+        return bidibCommand;
+    }
+
+    public BidibCommand createVendorGet(String name) {
+        BidibCommand bidibCommand = new VendorGetMessage(name);
+        bidibCommand = initializeCommand(bidibCommand);
+        return bidibCommand;
+    }
+
+    public BidibCommand createFeatureSet(int number, int value) {
+        BidibCommand bidibCommand = new FeatureSetMessage(number, value);
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createFeatureGet(int number) {
+        BidibCommand bidibCommand = new FeatureGetMessage(number);
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createFeatureGetNext() {
+        BidibCommand bidibCommand = new FeatureGetNextMessage();
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createFeatureGetAll() {
+        BidibCommand bidibCommand = new FeatureGetAllMessage();
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createSysDisable() {
+        BidibCommand bidibCommand = new SysDisableMessage();
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createSysEnable() {
+        BidibCommand bidibCommand = new SysEnableMessage();
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createSysMagic() {
+        BidibCommand bidibCommand = new SysMagicMessage();
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createNodeTabGetAll() {
+        BidibCommand bidibCommand = new NodeTabGetAllMessage();
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createNodeTabGetNext() {
+        BidibCommand bidibCommand = new NodeTabGetNextMessage();
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createLcMacroParaGet(int macroNumber, int parameter) {
+        BidibCommand bidibCommand = new LcMacroParaGetMessage(macroNumber, parameter);
+        return initializeCommand(bidibCommand);
+    }
+
+    public BidibCommand createLcConfigGet(LcOutputType outputType, int outputNumber) {
+        BidibCommand bidibCommand = new LcConfigGetMessage(outputType, outputNumber);
+        return initializeCommand(bidibCommand);
+    }
+
 }

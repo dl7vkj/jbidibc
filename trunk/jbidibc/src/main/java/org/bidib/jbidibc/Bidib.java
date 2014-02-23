@@ -22,6 +22,7 @@ import org.bidib.jbidibc.exception.NoAnswerException;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.BoosterNode;
@@ -49,6 +50,8 @@ public final class Bidib implements BidibInterface {
     public static final int DEFAULT_TIMEOUT = /*1500*/200;
 
     private NodeFactory nodeFactory;
+
+    private RequestFactory requestFactory;
 
     private SerialPort port;
 
@@ -91,6 +94,8 @@ public final class Bidib implements BidibInterface {
         LOGGER.info("Initialize Bidib.");
         nodeFactory = new NodeFactory();
         nodeFactory.setBidib(this);
+        requestFactory = new RequestFactory();
+        nodeFactory.setRequestFactory(requestFactory);
         // create the message receiver
         messageReceiver = new SerialMessageReceiver(nodeFactory);
         //        messageReceiver.setBidib(this);

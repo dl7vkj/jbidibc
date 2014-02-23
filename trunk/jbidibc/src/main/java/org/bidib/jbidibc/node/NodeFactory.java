@@ -11,6 +11,7 @@ import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.exception.InvalidConfigurationException;
+import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.NodeUtils;
@@ -27,6 +28,8 @@ public class NodeFactory {
     private MessageReceiver messageReceiver;
 
     private BidibInterface bidib;
+
+    private RequestFactory requestFactory;
 
     private boolean ignoreWaitTimeout;
 
@@ -45,6 +48,20 @@ public class NodeFactory {
      */
     public void setBidib(BidibInterface bidib) {
         this.bidib = bidib;
+    }
+
+    /**
+     * @return the requestFactory
+     */
+    public RequestFactory getRequestFactory() {
+        return requestFactory;
+    }
+
+    /**
+     * @param requestFactory the requestFactory to set
+     */
+    public void setRequestFactory(RequestFactory requestFactory) {
+        this.requestFactory = requestFactory;
     }
 
     /**
@@ -203,6 +220,7 @@ public class NodeFactory {
                 }
                 // initialize the node
                 bidibNode.setBidib(bidib);
+                bidibNode.setRequestFactory(requestFactory);
                 bidibNode.setResponseTimeout(bidib.getResponseTimeout());
 
                 // verify that a transfer listener is available
@@ -244,6 +262,7 @@ public class NodeFactory {
                 rootNode = new RootNode(messageReceiver, ignoreWaitTimeout);
                 // initialize the root node
                 rootNode.setBidib(bidib);
+                rootNode.setRequestFactory(requestFactory);
                 rootNode.setResponseTimeout(bidib.getResponseTimeout());
 
                 nodes.put(ROOT_ADDRESS, rootNode);

@@ -4,7 +4,7 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 
 public class SysDisableMessage extends BidibCommandMessage {
-    public SysDisableMessage() {
+    protected SysDisableMessage() {
         super(0, BidibLibrary.MSG_SYS_DISABLE);
     }
 

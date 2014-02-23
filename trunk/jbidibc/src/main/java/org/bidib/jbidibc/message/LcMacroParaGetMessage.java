@@ -5,7 +5,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
 public class LcMacroParaGetMessage extends BidibCommandMessage {
-    public LcMacroParaGetMessage(int macroNumber, int parameter) {
+    protected LcMacroParaGetMessage(int macroNumber, int parameter) {
         super(0, BidibLibrary.MSG_LC_MACRO_PARA_GET, new byte[] { (byte) macroNumber, (byte) parameter });
     }
 

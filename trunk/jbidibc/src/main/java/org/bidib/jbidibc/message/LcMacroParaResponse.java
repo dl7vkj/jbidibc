@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.LcMacroParaValue;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
@@ -36,11 +37,11 @@ public class LcMacroParaResponse extends BidibMessage {
      * Get the parameter value
      * @return the parameter value
      */
-    public byte[] getValue() {
+    public LcMacroParaValue getLcMacroParaValue() {
         byte[] data = getData();
         byte[] result = new byte[data.length - 2];
 
         System.arraycopy(data, 2, result, 0, result.length);
-        return result;
+        return new LcMacroParaValue(getMacroNumber(), getParameterIndex(), result);
     }
 }

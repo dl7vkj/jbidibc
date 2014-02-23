@@ -17,6 +17,7 @@ import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.FeedbackMirrorFreeMessage;
 import org.bidib.jbidibc.message.LcConfigSetMessage;
+import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.message.SysMagicMessage;
 import org.bidib.jbidibc.node.BidibNode.EncodedMessage;
@@ -27,6 +28,7 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class BidibNodeTest {
@@ -34,6 +36,14 @@ public class BidibNodeTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(BidibNodeTest.class);
 
     private int responseCounter = 1;
+
+    private RequestFactory requestFactory;
+
+    @BeforeTest
+    public void prepare() {
+        LOGGER.info("Prepare the request factory.");
+        requestFactory = new RequestFactory();
+    }
 
     @Test
     public void setStringTest() throws ProtocolException {
@@ -46,6 +56,7 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
         Mockito.doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
@@ -100,6 +111,7 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
         Mockito.doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
@@ -149,6 +161,7 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
         Mockito.doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
@@ -198,6 +211,7 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
         Mockito.doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
@@ -260,8 +274,9 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
-        BidibCommand bidibMessage = new SysMagicMessage();
+        BidibCommand bidibMessage = requestFactory.createSysMagic();
 
         BidibNode.EncodedMessage message = bidibNode.encodeMessage(bidibMessage);
 
@@ -282,6 +297,7 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
         int port = 2;
         int pwmMin = 2;
@@ -314,6 +330,7 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
         int port = 2;
         int ioBehaviour = 1;
@@ -347,6 +364,7 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
         int detectorNumber = 8;
         BidibCommand bidibMessage = new FeedbackMirrorFreeMessage(detectorNumber);
@@ -374,6 +392,7 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
         Mockito.doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
@@ -405,6 +424,7 @@ public class BidibNodeTest {
         final BidibNode bidibNode = new BidibNode(address, messageReceiver, ignoreWaitTimeout);
         bidibNode.setNodeMagic(BidibLibrary.BIDIB_SYS_MAGIC);
         bidibNode.setBidib(bidib);
+        bidibNode.setRequestFactory(requestFactory);
 
         Mockito.doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {

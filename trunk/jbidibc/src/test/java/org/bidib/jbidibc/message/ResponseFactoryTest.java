@@ -400,7 +400,9 @@ public class ResponseFactoryTest {
         LOGGER.info("lcMacroParaResponse: {}", lcMacroParaResponse);
         Assert.assertEquals(lcMacroParaResponse.getMacroNumber(), 0);
         Assert.assertEquals(lcMacroParaResponse.getParameterIndex(), 3);
-        Assert.assertEquals(lcMacroParaResponse.getValue(), new byte[] { 63, (byte) 191, 127, (byte) 255 });
+        Assert.assertNotNull(lcMacroParaResponse.getLcMacroParaValue());
+        Assert.assertEquals(lcMacroParaResponse.getLcMacroParaValue().getValue(), new byte[] { 63, (byte) 191, 127,
+            (byte) 255 });
     }
 
     @Test
