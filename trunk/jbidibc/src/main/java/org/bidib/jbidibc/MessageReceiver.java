@@ -61,8 +61,6 @@ public abstract class MessageReceiver {
 
     private NodeFactory nodeFactory;
 
-    //    private BidibInterface bidib;
-
     protected MessageReceiver(NodeFactory nodeFactory) {
         this.nodeFactory = nodeFactory;
         this.nodeFactory.setMessageReceiver(this);
@@ -70,10 +68,6 @@ public abstract class MessageReceiver {
         // enable the running flag
         running.set(true);
     }
-
-    //    public void setBidib(BidibInterface bidib) {
-    //        this.bidib = bidib;
-    //    }
 
     public abstract byte[] getRemainingOutputBuffer();
 
@@ -352,6 +346,18 @@ public abstract class MessageReceiver {
         nodeListeners.add(nodeListener);
     }
 
+    public void removeMessageListener(MessageListener messageListener) {
+        messageListeners.remove(messageListener);
+    }
+
+    public void clearMessageListeners() {
+        messageListeners.clear();
+    }
+
+    public void clearNodeListeners() {
+        nodeListeners.clear();
+    }
+
     public void disable() {
         LOGGER.debug("disable is called.");
         running.set(false);
@@ -478,16 +484,6 @@ public abstract class MessageReceiver {
             l.dynState(address, detectorNumber, dynNumber, dynValue);
         }
     }
-
-    public void removeMessageListener(MessageListener l) {
-
-        messageListeners.remove(l);
-    }
-
-    //    public void setTimeout(int timeout) {
-    //        LOGGER.info("Set the timeout for bidib messages: {}", timeout);
-    //        bidib.setReceiveTimeout(timeout);
-    //    }
 
     /**
      * Split the byte array into separate messages. The CRC value at the end is calculated over the whole array.

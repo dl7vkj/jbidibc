@@ -98,7 +98,6 @@ public final class Bidib implements BidibInterface {
         nodeFactory.setRequestFactory(requestFactory);
         // create the message receiver
         messageReceiver = new SerialMessageReceiver(nodeFactory);
-        //        messageReceiver.setBidib(this);
     }
 
     public static synchronized BidibInterface getInstance() {
@@ -144,6 +143,11 @@ public final class Bidib implements BidibInterface {
             if (nodeFactory != null) {
                 // remove all stored nodes from the node factory
                 nodeFactory.reset();
+            }
+
+            if (messageReceiver != null) {
+                messageReceiver.clearMessageListeners();
+                messageReceiver.clearNodeListeners();
             }
 
             if (connectionListener != null) {
