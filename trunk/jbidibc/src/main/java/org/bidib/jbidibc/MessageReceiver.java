@@ -14,7 +14,6 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.AccessoryNotifyResponse;
 import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
-import org.bidib.jbidibc.message.BoostCurrentResponse;
 import org.bidib.jbidibc.message.BoostDiagnosticResponse;
 import org.bidib.jbidibc.message.BoostStatResponse;
 import org.bidib.jbidibc.message.FeedbackAccessoryResponse;
@@ -93,9 +92,6 @@ public abstract class MessageReceiver {
                     // some messages are notified directly to listeners
                     int type = ByteUtils.getInt(message.getType());
                     switch (type) {
-                        case BidibLibrary.MSG_BOOST_CURRENT:
-                            fireBoosterCurrent(message.getAddr(), ((BoostCurrentResponse) message).getCurrent());
-                            break;
                         case BidibLibrary.MSG_BOOST_DIAGNOSTIC:
                             fireBoosterCurrent(message.getAddr(), ((BoostDiagnosticResponse) message).getCurrent());
                             fireBoosterTemperature(message.getAddr(), ((BoostDiagnosticResponse) message)

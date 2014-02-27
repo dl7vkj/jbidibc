@@ -35,6 +35,8 @@ public class SimulationBidib implements BidibInterface {
 
     private NodeFactory nodeFactory;
 
+    private RequestFactory requestFactory;
+
     private String connectedPortName;
 
     private ConnectionListener connectionListener;
@@ -65,6 +67,8 @@ public class SimulationBidib implements BidibInterface {
         LOGGER.info("Initialize SimulationBidib.");
         nodeFactory = new NodeFactory();
         nodeFactory.setBidib(this);
+        requestFactory = new RequestFactory();
+        nodeFactory.setRequestFactory(requestFactory);
         // create the message receiver
         messageReceiver = new MessageReceiver(
             nodeFactory) {
@@ -74,7 +78,6 @@ public class SimulationBidib implements BidibInterface {
                 return null;
             }
         };
-        //        messageReceiver.setBidib(this);
     }
 
     public static synchronized BidibInterface getInstance() {

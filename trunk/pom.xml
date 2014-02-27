@@ -72,6 +72,8 @@
     <modules>
         <module>jbidibc-rxtx-2.2</module>
         <module>jbidibc</module>
+        <module>jbidibc-serial</module>
+        <module>jbidibc-net</module>
         <module>jbidibc-exchange</module>
         <module>jbidibc-tools</module>
         <module>jbidibc-simulation</module>
