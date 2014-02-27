@@ -3,6 +3,7 @@ package org.bidib.jbidibc;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.AccessoryNode;
+import org.bidib.jbidibc.serial.Bidib;
 
 import com.beust.jcommander.Parameters;
 

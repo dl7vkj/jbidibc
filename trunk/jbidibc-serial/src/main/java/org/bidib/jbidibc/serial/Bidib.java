@@ -1,4 +1,4 @@
-package org.bidib.jbidibc;
+package org.bidib.jbidibc.serial;
 
 import gnu.io.CommPortIdentifier;
 import gnu.io.NoSuchPortException;
@@ -18,6 +18,11 @@ import java.util.List;
 import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
 
+import org.bidib.jbidibc.BidibInterface;
+import org.bidib.jbidibc.ConnectionListener;
+import org.bidib.jbidibc.LogFileAnalyzer;
+import org.bidib.jbidibc.MessageReceiver;
+import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.exception.NoAnswerException;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;

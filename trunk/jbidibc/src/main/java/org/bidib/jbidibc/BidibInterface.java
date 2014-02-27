@@ -12,6 +12,10 @@ import org.bidib.jbidibc.node.RootNode;
 
 public interface BidibInterface {
 
+    static final int DEFAULT_TIMEOUT = /*1500*/200;
+
+    final int responseTimeout = DEFAULT_TIMEOUT;
+
     /**
      * returns the cached node or creates a new instance
      * 

@@ -13,7 +13,7 @@
     <dependencies>
         <dependency>
             <groupId>org.bidib.jbidib</groupId>
-            <artifactId>jbidibc</artifactId>
+            <artifactId>jbidibc-serial</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

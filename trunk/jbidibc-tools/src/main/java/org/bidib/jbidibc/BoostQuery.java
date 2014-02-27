@@ -7,6 +7,7 @@ import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.BoosterNode;
+import org.bidib.jbidibc.serial.Bidib;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -4,7 +4,6 @@ import java.io.File;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bidib.jbidibc.Bidib;
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
 import org.bidib.jbidibc.MessageReceiver;
@@ -41,7 +40,7 @@ public class SimulationBidib implements BidibInterface {
 
     private ConnectionListener connectionListener;
 
-    private int responseTimeout = Bidib.DEFAULT_TIMEOUT * 100;
+    private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT * 100;
 
     //////////////////////////////////////////////////////////////////////////////
     static {

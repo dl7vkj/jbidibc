@@ -5,6 +5,7 @@ package org.bidib.jbidibc;
 
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.BidibNode;
+import org.bidib.jbidibc.serial.Bidib;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -2,10 +2,12 @@ package org.bidib.jbidibc.node;
 
 import java.math.BigInteger;
 
-import org.bidib.jbidibc.Bidib;
+import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.exception.InvalidConfigurationException;
+import org.mockito.Mockito;
 import org.testng.Assert;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 /**
@@ -13,10 +15,17 @@ import org.testng.annotations.Test;
  */
 public class NodeFactoryTest {
 
+    private BidibInterface bidib;
+
+    @BeforeTest
+    public void prepare() {
+        bidib = Mockito.mock(BidibInterface.class);
+    }
+
     @Test
     public void getRootNodeTest() {
         NodeFactory nodeFactory = new NodeFactory();
-        nodeFactory.setBidib(Bidib.getInstance());
+        nodeFactory.setBidib(bidib);
 
         RootNode rootNode = nodeFactory.getRootNode();
 
@@ -27,7 +36,7 @@ public class NodeFactoryTest {
     @Test
     public void getCommandStationNodeTest() {
         NodeFactory nodeFactory = new NodeFactory();
-        nodeFactory.setBidib(Bidib.getInstance());
+        nodeFactory.setBidib(bidib);
 
         RootNode rootNode = nodeFactory.getRootNode();
 
@@ -45,7 +54,7 @@ public class NodeFactoryTest {
     @Test(expectedExceptions = { InvalidConfigurationException.class })
     public void getCommandStationNodeInvalidTest() {
         NodeFactory nodeFactory = new NodeFactory();
-        nodeFactory.setBidib(Bidib.getInstance());
+        nodeFactory.setBidib(bidib);
 
         RootNode rootNode = nodeFactory.getRootNode();
 
@@ -63,7 +72,7 @@ public class NodeFactoryTest {
     @Test
     public void getBoosterNodeTest() {
         NodeFactory nodeFactory = new NodeFactory();
-        nodeFactory.setBidib(Bidib.getInstance());
+        nodeFactory.setBidib(bidib);
 
         RootNode rootNode = nodeFactory.getRootNode();
 
@@ -81,7 +90,7 @@ public class NodeFactoryTest {
     @Test(expectedExceptions = { InvalidConfigurationException.class })
     public void getBoosterNodeInvalidTest() {
         NodeFactory nodeFactory = new NodeFactory();
-        nodeFactory.setBidib(Bidib.getInstance());
+        nodeFactory.setBidib(bidib);
 
         RootNode rootNode = nodeFactory.getRootNode();
 

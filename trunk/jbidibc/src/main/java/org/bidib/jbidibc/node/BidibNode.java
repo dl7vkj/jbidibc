@@ -10,7 +10,6 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
 
-import org.bidib.jbidibc.Bidib;
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.CRC8;
@@ -113,7 +112,7 @@ public class BidibNode {
 
     protected boolean ignoreWaitTimeout;
 
-    private int responseTimeout = Bidib.DEFAULT_TIMEOUT;
+    private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT;
 
     private RequestFactory requestFactory;
 
@@ -791,7 +790,7 @@ public class BidibNode {
         BidibMessage result = null;
 
         // wait a maximum of 3 seconds to recieve message
-        long cancelReceiveTs = System.currentTimeMillis() + Bidib.DEFAULT_TIMEOUT;
+        long cancelReceiveTs = System.currentTimeMillis() + BidibInterface.DEFAULT_TIMEOUT;
         boolean leaveLoop = false;
 
         do {

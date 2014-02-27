@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.commons.lang.StringUtils;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.node.BidibNode;
+import org.bidib.jbidibc.serial.Bidib;
 
 import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;

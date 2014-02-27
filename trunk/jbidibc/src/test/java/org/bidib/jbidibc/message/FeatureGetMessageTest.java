@@ -2,12 +2,12 @@ package org.bidib.jbidibc.message;
 
 import java.io.IOException;
 
-import org.bidib.jbidibc.Bidib;
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.BidibNode;
+import org.mockito.Mockito;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -30,7 +30,7 @@ public class FeatureGetMessageTest {
         LOGGER.info("Prepare the request factory.");
         requestFactory = new RequestFactory();
 
-        bidib = Bidib.getInstance();
+        bidib = Mockito.mock(BidibInterface.class);
     }
 
     @Test

@@ -1,10 +1,12 @@
-package org.bidib.jbidibc;
+package org.bidib.jbidibc.serial;
 
 import gnu.io.SerialPort;
 
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
+import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;

@@ -12,11 +12,6 @@
     <description>jBiDiB jbidibc Core Library POM</description>
     <dependencies>
         <dependency>
-            <groupId>org.bidib.jbidib</groupId>
-            <artifactId>jbidibc-rxtx-2.2</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
