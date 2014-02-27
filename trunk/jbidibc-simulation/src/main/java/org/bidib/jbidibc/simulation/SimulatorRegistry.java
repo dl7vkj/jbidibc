@@ -68,8 +68,6 @@ public class SimulatorRegistry {
         synchronized (simulators) {
             simulators.put(nodeAddress, simulator);
         }
-        // start the simulator
-        simulator.start();
     }
 
     public SimulatorNode getSimulator(String nodeAddress) {
@@ -112,10 +110,12 @@ public class SimulatorRegistry {
                         ((InterfaceNode) simMaster).addSubNode(simNode);
                     }
 
+                    // start the simulator
                     simNode.start();
                 }
             }
 
+            // start the simulator
             simMaster.start();
         }
         catch (Exception ex) {
