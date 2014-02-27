@@ -15,6 +15,9 @@ public class NetMessageReceiver extends MessageReceiver {
      * Receive messages from the configured port
      */
     public void receive(final DatagramPacket packet) {
+        // TODO a datagramm packet was received ... process the envelope and extract the message
+
+        // TODO for the first magic response we need special processing because we need to keep the session key
     }
 
     @Override

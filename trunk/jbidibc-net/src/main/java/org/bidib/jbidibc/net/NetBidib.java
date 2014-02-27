@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.net;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -21,6 +22,7 @@ import org.bidib.jbidibc.node.BoosterNode;
 import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.RootNode;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -45,6 +47,10 @@ public class NetBidib implements BidibInterface {
     private InetAddress address;
 
     private int portNumber;
+
+    private int sessionKey;
+
+    private int sequence;
 
     private ConnectionListener connectionListener;
 
@@ -131,8 +137,8 @@ public class NetBidib implements BidibInterface {
 
             try {
                 close();
-                port = internalOpen(portName);
-                LOGGER.info("Port is opened, send the magic.");
+                port = internalOpen(connectedPortName);
+                LOGGER.info("Port is opened, send the magic. The connected port is: {}", connectedPortName);
                 sendMagic();
             }
             catch (Exception ex) {
@@ -203,15 +209,35 @@ public class NetBidib implements BidibInterface {
     public void send(byte[] bytes) {
         // TODO Auto-generated method stub
         if (port != null) {
+
             try {
-                port.send(bytes, address, portNumber);
+                // TODO add the UDP packet wrapper ...
+                ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                bos.write(ByteUtils.getHighByte(sessionKey));
+                bos.write(ByteUtils.getLowByte(sessionKey));
+                bos.write(ByteUtils.getHighByte(sequence));
+                bos.write(ByteUtils.getLowByte(sequence));
+                bos.write(bytes);
+
+                port.send(bos.toByteArray(), address, portNumber);
+
+                // increment the sequence counter after sending the message sucessfully
+                prepareNextSequence();
             }
-            catch (IOException e) {
-                throw new RuntimeException("Send message to datagram socket failed.", e);
+            catch (IOException ex) {
+                LOGGER.warn("Send message to port failed.", ex);
+                throw new RuntimeException("Send message to datagram socket failed.", ex);
             }
         }
         else {
             LOGGER.warn("Send not possible, the port is closed.");
+        }
+    }
+
+    private void prepareNextSequence() {
+        sequence++;
+        if (sequence > 65535) {
+            sequence = 0;
         }
     }
 
@@ -248,8 +274,7 @@ public class NetBidib implements BidibInterface {
 
     @Override
     public MessageReceiver getMessageReceiver() {
-        // TODO Auto-generated method stub
-        return null;
+        return messageReceiver;
     }
 
     @Override
