@@ -88,7 +88,7 @@ abstract class RawPort extends CommPort {
 
     public static final int STOPBITS_1 = 1;
 
-    public static final int STOPBITS_1_5 = 0; //wrong
+    public static final int STOPBITS_1_5 = 0; // wrong
 
     public static final int STOPBITS_2 = 2;
 

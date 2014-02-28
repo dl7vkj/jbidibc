@@ -8,25 +8,34 @@ import org.bidib.jbidibc.enumeration.LcOutputType;
 
 /**
  * The message Listener interface.
- *
+ * 
  */
 public interface MessageListener {
     void address(byte[] address, int detectorNumber, Collection<AddressData> addressData);
 
     /**
      * Accessory address was signaled from feedback device.
-     * @param address the node address
-     * @param detectorNumber the local detector number.
-     * @param accessoryAddress the accessory address
+     * 
+     * @param address
+     *            the node address
+     * @param detectorNumber
+     *            the local detector number.
+     * @param accessoryAddress
+     *            the accessory address
      */
     void feedbackAccessory(byte[] address, int detectorNumber, int accessoryAddress);
 
     /**
      * CV was signaled from feedback device.
-     * @param address the node address
-     * @param decoderAddress the decoder address
-     * @param cvNumber the CV number
-     * @param dat the date
+     * 
+     * @param address
+     *            the node address
+     * @param decoderAddress
+     *            the decoder address
+     * @param cvNumber
+     *            the CV number
+     * @param dat
+     *            the date
      */
     void feedbackCv(byte[] address, int decoderAddress, int cvNumber, int dat);
 
@@ -51,16 +60,22 @@ public interface MessageListener {
     void speed(byte[] address, AddressData addressData, int speed);
 
     /**
-     * Signals that an error message was received. 
-     * @param address the address
-     * @param errorCode the error code
+     * Signals that an error message was received.
+     * 
+     * @param address
+     *            the address
+     * @param errorCode
+     *            the error code
      */
     void error(byte[] address, int errorCode);
 
     /**
-     * Signals that an accessory state message was received. 
-     * @param address the address
-     * @param accessoryState the accessory state
+     * Signals that an accessory state message was received.
+     * 
+     * @param address
+     *            the address
+     * @param accessoryState
+     *            the accessory state
      */
     void accessoryState(byte[] address, AccessoryState accessoryState);
 

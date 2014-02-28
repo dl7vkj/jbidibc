@@ -17,7 +17,9 @@ public interface SimulatorNode {
 
     /**
      * Process the bidibMessage.
-     * @param bidibMessage the bidibMessage to process
+     * 
+     * @param bidibMessage
+     *            the bidibMessage to process
      */
     void processRequest(final BidibCommand bidibMessage);
 
@@ -27,8 +29,10 @@ public interface SimulatorNode {
     String getSimulationPanelClass();
 
     /**
-     * Trigger query the status of the provided port class. 
-     * @param portClass the port class to query the status
+     * Trigger query the status of the provided port class.
+     * 
+     * @param portClass
+     *            the port class to query the status
      */
     void queryStatus(Class<?> portClass);
 
@@ -43,7 +47,8 @@ public interface SimulatorNode {
     String getAddress();
 
     /**
-     * @param featureNum the requested feature number
+     * @param featureNum
+     *            the requested feature number
      * @return the corresponding feature
      */
     Feature getFeature(int featureNum);

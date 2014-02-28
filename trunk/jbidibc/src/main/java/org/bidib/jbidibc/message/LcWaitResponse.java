@@ -4,9 +4,9 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
 /**
- * This response is sent as direct response to a request that takes some time to execute. The
- * final execution state will be signaled by a LcStatResponse message.
- *
+ * This response is sent as direct response to a request that takes some time to execute. The final execution state will
+ * be signaled by a LcStatResponse message.
+ * 
  */
 public class LcWaitResponse extends BidibMessage {
     LcWaitResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {

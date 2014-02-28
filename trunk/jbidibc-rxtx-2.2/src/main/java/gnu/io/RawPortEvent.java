@@ -94,7 +94,7 @@ public class RawPortEvent extends EventObject {
 
     private int eventType;
 
-    /*public int eventType           =0; depricated */
+    /* public int eventType =0; depricated */
 
     public RawPortEvent(RawPort srcport, int eventtype, boolean oldvalue, boolean newvalue) {
         super(srcport);

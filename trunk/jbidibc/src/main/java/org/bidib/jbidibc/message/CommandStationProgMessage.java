@@ -16,7 +16,9 @@ import org.bidib.jbidibc.utils.ByteUtils;
 public class CommandStationProgMessage extends BidibCommandMessage {
     /**
      * Create the command for a loco decoder.
-     * @param decoderAddress the decoder address
+     * 
+     * @param decoderAddress
+     *            the decoder address
      */
     public CommandStationProgMessage(AddressData decoderAddress, CommandStationPom opCode, int cvNumber, byte data) {
         super(0, BidibLibrary.MSG_CS_PROG, prepareData(decoderAddress, opCode, cvNumber, data));
@@ -24,8 +26,11 @@ public class CommandStationProgMessage extends BidibCommandMessage {
 
     /**
      * Create the command for a loco decoder.
-     * @param decoderAddress the decoder address
-     * @param addressDID the DID address
+     * 
+     * @param decoderAddress
+     *            the decoder address
+     * @param addressDID
+     *            the DID address
      */
     public CommandStationProgMessage(DecoderIdAddressData addressDID, CommandStationPom opCode, int cvNumber, byte data) {
         super(0, BidibLibrary.MSG_CS_PROG, prepareData(addressDID, opCode, cvNumber, data));

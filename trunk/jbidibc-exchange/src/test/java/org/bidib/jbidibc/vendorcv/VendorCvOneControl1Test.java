@@ -48,7 +48,7 @@ public class VendorCvOneControl1Test {
 
         Assert.assertNotNull(vendorCV);
 
-        //        LOGGER.info("Loaded VendorCV for OneDMX: {}", vendorCV);
+        // LOGGER.info("Loaded VendorCV for OneDMX: {}", vendorCV);
 
         VersionInfoType versionInfo = vendorCV.getVersion();
         Assert.assertNotNull(versionInfo);

@@ -56,7 +56,7 @@ public class NetBidib implements BidibInterface {
 
     private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT * 100;
 
-    //////////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////////
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {
@@ -243,6 +243,7 @@ public class NetBidib implements BidibInterface {
 
     /**
      * Get the magic from the root node
+     * 
      * @return the magic provided by the root node
      * @throws ProtocolException
      */

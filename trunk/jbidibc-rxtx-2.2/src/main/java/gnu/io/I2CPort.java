@@ -89,7 +89,7 @@ abstract class I2CPort extends CommPort {
 
     public static final int STOPBITS_1 = 1;
 
-    public static final int STOPBITS_1_5 = 0; //wrong
+    public static final int STOPBITS_1_5 = 0; // wrong
 
     public static final int STOPBITS_2 = 2;
 
@@ -159,8 +159,7 @@ abstract class I2CPort extends CommPort {
 
     public abstract void notifyOnBreakInterrupt(boolean enable);
     /*
-     public abstract void setRcvFifoTrigger(int trigger); 
-     deprecated
+     * public abstract void setRcvFifoTrigger(int trigger); deprecated
      */
 
 }

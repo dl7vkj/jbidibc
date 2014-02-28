@@ -23,8 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Helper Class used by rxtx implementation to load native libs without having 
- * java.library.path property specified. 
+ * Helper Class used by rxtx implementation to load native libs without having java.library.path property specified.
  * Native libs will be extracted and loaded automatically, if possible
  * 
  * @author achr

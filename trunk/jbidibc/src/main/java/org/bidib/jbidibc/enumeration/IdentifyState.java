@@ -1,9 +1,9 @@
 package org.bidib.jbidibc.enumeration;
 
 public enum IdentifyState implements BidibEnum {
-    //@formatter:off
+    // @formatter:off
     STOP(0), START(1);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

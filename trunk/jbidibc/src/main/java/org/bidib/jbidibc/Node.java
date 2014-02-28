@@ -39,9 +39,13 @@ public class Node {
 
     /**
      * This constructor is used when the NodeTabResponse is evaluated.
-     * @param version the version of the node
-     * @param addr the address of the node 
-     * @param uniqueId the uniqueId of the node
+     * 
+     * @param version
+     *            the version of the node
+     * @param addr
+     *            the address of the node
+     * @param uniqueId
+     *            the uniqueId of the node
      */
     public Node(int version, byte[] addr, long uniqueId) {
         this.addr = addr != null ? addr.clone() : null;
@@ -50,8 +54,8 @@ public class Node {
 
         storedStrings = new String[2];
 
-        LOGGER.debug("Created new node, addr: {}, version: {}, {}", addr, version, NodeUtils
-            .getUniqueIdAsString(uniqueId));
+        LOGGER.debug("Created new node, addr: {}, version: {}, {}", addr, version,
+            NodeUtils.getUniqueIdAsString(uniqueId));
     }
 
     /**
@@ -83,7 +87,8 @@ public class Node {
     }
 
     /**
-     * @param relevantPidBits the relevantPidBits to set
+     * @param relevantPidBits
+     *            the relevantPidBits to set
      */
     public void setRelevantPidBits(int relevantPidBits) {
         this.relevantPidBits = relevantPidBits;
@@ -97,7 +102,8 @@ public class Node {
     }
 
     /**
-     * @param switchPortConfigAvailable the switchPortConfigAvailable to set
+     * @param switchPortConfigAvailable
+     *            the switchPortConfigAvailable to set
      */
     public void setSwitchPortConfigAvailable(boolean switchPortConfigAvailable) {
         this.switchPortConfigAvailable = switchPortConfigAvailable;
@@ -111,7 +117,8 @@ public class Node {
     }
 
     /**
-     * @param stringSize the stringSize to set
+     * @param stringSize
+     *            the stringSize to set
      */
     public void setStringSize(int stringSize) {
         this.stringSize = stringSize;
@@ -147,7 +154,8 @@ public class Node {
     }
 
     /**
-     * @param softwareVersion the softwareVersion to set
+     * @param softwareVersion
+     *            the softwareVersion to set
      */
     public void setSoftwareVersion(SoftwareVersion softwareVersion) {
         this.softwareVersion = softwareVersion;
@@ -172,8 +180,7 @@ public class Node {
 
     public String toString() {
         StringBuffer sb = new StringBuffer(getClass().getSimpleName());
-        sb
-            .append("[version=").append(version).append(",addr=").append(Arrays.toString(addr)).append(",uniqueId=")
+        sb.append("[version=").append(version).append(",addr=").append(Arrays.toString(addr)).append(",uniqueId=")
             .append(String.format("0x%014x", uniqueId & 0xffffffffffffffL));
         if (softwareVersion != null) {
             sb.append(",sw-version=").append(softwareVersion);

@@ -83,21 +83,19 @@ final class LPRPort extends ParallelPort {
     public LPRPort(String name) throws PortInUseException {
         if (debug)
             System.out.println("LPRPort:LPRPort(" + name + ")");
-        /* 
-           commapi/javadocs/API_users_guide.html specifies that whenever
-           an application tries to open a port in use by another application
-           the PortInUseException will be thrown
-
-           I know some didnt like it this way but I'm not sure how to avoid
-           it.  We will just be writing to a bogus fd if we catch the 
-           exeption
-
-           Trent
+        /*
+         * commapi/javadocs/API_users_guide.html specifies that whenever an application tries to open a port in use by
+         * another application the PortInUseException will be thrown
+         * 
+         * I know some didnt like it this way but I'm not sure how to avoid it. We will just be writing to a bogus fd if
+         * we catch the exeption
+         * 
+         * Trent
          */
-        //	try {
+        // try {
         fd = open(name);
         this.name = name;
-        //	} catch ( PortInUseException e ){}
+        // } catch ( PortInUseException e ){}
         if (debug)
             System.out.println("LPRPort:LPRPort(" + name + ") fd = " + fd);
     }
@@ -121,8 +119,9 @@ final class LPRPort extends ParallelPort {
         return in;
     }
 
-    /** return current mode LPT_MODE_SPP, LPT_MODE_PS2, LPT_MODE_EPP,
-        or LPT_MODE_ECP */
+    /**
+     * return current mode LPT_MODE_SPP, LPT_MODE_PS2, LPT_MODE_EPP, or LPT_MODE_ECP
+     */
     private int lprmode = LPT_MODE_ANY;
 
     public int getMode() {
@@ -236,8 +235,7 @@ final class LPRPort extends ParallelPort {
     };
 
     /**
-    	Input/output buffers
-    	These are native stubs...
+     * Input/output buffers These are native stubs...
      */
 
     public native void setInputBufferSize(int size);
@@ -334,9 +332,10 @@ final class LPRPort extends ParallelPort {
         }
     }
 
-    /** Note: these have to be separate boolean flags because the
-       ParallelPortEvent constants are NOT bit-flags, they are just
-       defined as integers from 1 to 10  -DPL */
+    /**
+     * Note: these have to be separate boolean flags because the ParallelPortEvent constants are NOT bit-flags, they are
+     * just defined as integers from 1 to 10 -DPL
+     */
     public synchronized void notifyOnError(boolean enable) {
         System.out.println("notifyOnError is not implemented yet");
         monThread.monError = enable;
@@ -376,7 +375,7 @@ final class LPRPort extends ParallelPort {
         public synchronized void flush() throws IOException {
             if (fd == 0)
                 throw new IOException();
-            //drain();
+            // drain();
         }
     }
 

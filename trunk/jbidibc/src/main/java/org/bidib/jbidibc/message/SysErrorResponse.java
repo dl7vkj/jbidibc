@@ -28,8 +28,8 @@ public class SysErrorResponse extends BidibMessage {
                 LOGGER
                     .warn(
                         "Received SysErrorResponse, BIDIB_ERR_TXT for address: {}, errorCode: {} (0x{}), text len: {}, text: {}",
-                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]), ByteUtils
-                            .cstr(data, 1));
+                        addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]),
+                        ByteUtils.cstr(data, 1));
                 break;
             case 0x02:
                 LOGGER
@@ -98,8 +98,8 @@ public class SysErrorResponse extends BidibMessage {
                         addr, errorCode, String.format("%02x", errorCode), ByteUtils.getInt(getData()[1]));
                 break;
             default:
-                LOGGER.warn("Received SysErrorResponse for address: {}, errorCode: {} (0x{})", addr, errorCode, String
-                    .format("%02x", errorCode));
+                LOGGER.warn("Received SysErrorResponse for address: {}, errorCode: {} (0x{})", addr, errorCode,
+                    String.format("%02x", errorCode));
                 break;
         }
     }

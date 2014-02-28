@@ -158,18 +158,16 @@ public abstract class SerialPort extends CommPort {
     public abstract void notifyOnBreakInterrupt(boolean enable);
 
     /*
-     public abstract void setRcvFifoTrigger(int trigger);
-     deprecated
+     * public abstract void setRcvFifoTrigger(int trigger); deprecated
      */
-    /* ----------------------   end of commapi ------------------------ */
+    /* ---------------------- end of commapi ------------------------ */
 
     /*
-     can't have static abstract?
-
-     public abstract static boolean staticSetDTR( String port, boolean flag )
-     throws UnsupportedCommOperationException;
-     public abstract static boolean staticSetRTS( String port, boolean flag )
-     throws UnsupportedCommOperationException;
+     * can't have static abstract?
+     * 
+     * public abstract static boolean staticSetDTR( String port, boolean flag ) throws
+     * UnsupportedCommOperationException; public abstract static boolean staticSetRTS( String port, boolean flag )
+     * throws UnsupportedCommOperationException;
      */
     public abstract byte getParityErrorChar() throws UnsupportedCommOperationException;
 

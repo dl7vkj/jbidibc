@@ -94,7 +94,7 @@ public class I2CPortEvent extends EventObject {
 
     private int eventType;
 
-    /*public int eventType           =0; depricated */
+    /* public int eventType =0; depricated */
 
     public I2CPortEvent(I2CPort srcport, int eventtype, boolean oldvalue, boolean newvalue) {
         super(srcport);

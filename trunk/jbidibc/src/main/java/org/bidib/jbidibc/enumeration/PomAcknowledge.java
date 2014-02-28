@@ -1,9 +1,9 @@
 package org.bidib.jbidibc.enumeration;
 
 public enum PomAcknowledge implements BidibEnum {
-    //@formatter:off
+    // @formatter:off
     NOT_ACKNOWLEDGED(0), ACKNOWLEDGED(1), DELAYED(2);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

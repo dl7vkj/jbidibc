@@ -65,12 +65,13 @@ import java.lang.Math;
 
 /**
  * An extension of gnu.io.SerialPort
+ * 
  * @see gnu.io.SerialPort
  */
 
 final public class RXTXPort extends SerialPort {
-    /* I had a report that some JRE's complain when MonitorThread
-       tries to access private variables
+    /*
+     * I had a report that some JRE's complain when MonitorThread tries to access private variables
      */
 
     protected final static boolean debug = false;
@@ -105,27 +106,27 @@ final public class RXTXPort extends SerialPort {
 
     boolean MonitorThreadAlive = false;
 
-    /** 
-     *  Open the named port
-     *  @param name the name of the device to open
-     *  @throws  PortInUseException
-     *  @see gnu.io.SerialPort
+    /**
+     * Open the named port
+     * 
+     * @param name
+     *            the name of the device to open
+     * @throws PortInUseException
+     * @see gnu.io.SerialPort
      */
     public RXTXPort(String name) throws PortInUseException {
         if (debug)
             z.reportln("RXTXPort:RXTXPort(" + name + ") called");
-        /* 
-           commapi/javadocs/API_users_guide.html specifies that whenever
-           an application tries to open a port in use by another application
-           the PortInUseException will be thrown
-
-           I know some didnt like it this way but I'm not sure how to avoid
-           it.  We will just be writing to a bogus fd if we catch the 
-           exeption
-
-           Trent
+        /*
+         * commapi/javadocs/API_users_guide.html specifies that whenever an application tries to open a port in use by
+         * another application the PortInUseException will be thrown
+         * 
+         * I know some didnt like it this way but I'm not sure how to avoid it. We will just be writing to a bogus fd if
+         * we catch the exeption
+         * 
+         * Trent
          */
-        //	try {
+        // try {
         fd = open(name);
         this.name = name;
 
@@ -135,7 +136,7 @@ final public class RXTXPort extends SerialPort {
         monThread.start();
         waitForTheNativeCodeSilly();
         MonitorThreadAlive = true;
-        //	} catch ( PortInUseException e ){}
+        // } catch ( PortInUseException e ){}
         timeout = -1; /* default disabled timeout */
         if (debug)
             z.reportln("RXTXPort:RXTXPort(" + name + ") returns with fd = " + fd);
@@ -151,11 +152,11 @@ final public class RXTXPort extends SerialPort {
     /** File descriptor */
     private int fd = 0;
 
-    /** a pointer to the event info structure used to share information
-        between threads so write threads can send output buffer empty
-        from a pthread if need be.
-
-        long for 64 bit pointers.
+    /**
+     * a pointer to the event info structure used to share information between threads so write threads can send output
+     * buffer empty from a pthread if need be.
+     * 
+     * long for 64 bit pointers.
      */
     long eis = 0;
 
@@ -168,9 +169,10 @@ final public class RXTXPort extends SerialPort {
     /** Output stream */
     private final SerialOutputStream out = new SerialOutputStream();
 
-    /** 
-     *  get the OutputStream
-     *  @return OutputStream
+    /**
+     * get the OutputStream
+     * 
+     * @return OutputStream
      */
     public OutputStream getOutputStream() {
         if (debug)
@@ -181,10 +183,11 @@ final public class RXTXPort extends SerialPort {
     /** Input stream */
     private final SerialInputStream in = new SerialInputStream();
 
-    /** 
-     *  get the InputStream
-     *  @return InputStream
-     *  @see java.io.InputStream
+    /**
+     * get the InputStream
+     * 
+     * @return InputStream
+     * @see java.io.InputStream
      */
     public InputStream getInputStream() {
         if (debug)
@@ -192,18 +195,21 @@ final public class RXTXPort extends SerialPort {
         return in;
     }
 
-    /** 
-     *  Set the SerialPort parameters
-     *  1.5 stop bits requires 5 databits
-     *  @param  b baudrate
-     *  @param  d databits
-     *  @param  s stopbits
-     *  @param  p parity
-     *  @throws UnsupportedCommOperationException
-     *  @see gnu.io.UnsupportedCommOperationException
-
-     *  If speed is not a predifined speed it is assumed to be
-     *  the actual speed desired.
+    /**
+     * Set the SerialPort parameters 1.5 stop bits requires 5 databits
+     * 
+     * @param b
+     *            baudrate
+     * @param d
+     *            databits
+     * @param s
+     *            stopbits
+     * @param p
+     *            parity
+     * @throws UnsupportedCommOperationException
+     * @see gnu.io.UnsupportedCommOperationException
+     * 
+     *      If speed is not a predifined speed it is assumed to be the actual speed desired.
      */
     private native int nativeGetParity(int fd);
 
@@ -225,9 +231,8 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Set the native serial port parameters
-     *  If speed is not a predifined speed it is assumed to be
-     *  the actual speed desired.
+     * Set the native serial port parameters If speed is not a predifined speed it is assumed to be the actual speed
+     * desired.
      */
     private native boolean nativeSetSerialPortParams(int speed, int dataBits, int stopBits, int parity)
         throws UnsupportedCommOperationException;
@@ -235,9 +240,8 @@ final public class RXTXPort extends SerialPort {
     /** Line speed in bits-per-second */
     private int speed = 9600;
 
-    /** 
-     *  @return  int representing the baudrate
-     *  This will not behave as expected with custom speeds
+    /**
+     * @return int representing the baudrate This will not behave as expected with custom speeds
      */
     public int getBaudRate() {
         if (debug)
@@ -248,8 +252,8 @@ final public class RXTXPort extends SerialPort {
     /** Data bits port parameter */
     private int dataBits = DATABITS_8;
 
-    /** 
-     *  @return int representing the databits
+    /**
+     * @return int representing the databits
      */
     public int getDataBits() {
         if (debug)
@@ -260,8 +264,8 @@ final public class RXTXPort extends SerialPort {
     /** Stop bits port parameter */
     private int stopBits = SerialPort.STOPBITS_1;
 
-    /** 
-     *  @return int representing the stopbits
+    /**
+     * @return int representing the stopbits
      */
     public int getStopBits() {
         if (debug)
@@ -272,8 +276,8 @@ final public class RXTXPort extends SerialPort {
     /** Parity port parameter */
     private int parity = SerialPort.PARITY_NONE;
 
-    /** 
-     *  @return int representing the parity
+    /**
+     * @return int representing the parity
      */
     public int getParity() {
         if (debug)
@@ -284,9 +288,10 @@ final public class RXTXPort extends SerialPort {
     /** Flow control */
     private int flowmode = SerialPort.FLOWCONTROL_NONE;
 
-    /** 
-     *  @param  flowcontrol FLOWCONTROL_NONE is default
-     *  @see gnu.io.SerialPort#FLOWCONTROL_NONE
+    /**
+     * @param flowcontrol
+     *            FLOWCONTROL_NONE is default
+     * @see gnu.io.SerialPort#FLOWCONTROL_NONE
      */
     public void setFlowControlMode(int flowcontrol) {
         if (debug)
@@ -308,8 +313,8 @@ final public class RXTXPort extends SerialPort {
             z.reportln("RXTXPort:setFlowControlMode( " + flowcontrol + " ) returning");
     }
 
-    /** 
-     *  @return  int representing the flowmode
+    /**
+     * @return int representing the flowmode
      */
     public int getFlowControlMode() {
         if (debug)
@@ -320,13 +325,14 @@ final public class RXTXPort extends SerialPort {
     native void setflowcontrol(int flowcontrol) throws IOException;
 
     /*
-    linux/drivers/char/n_hdlc.c? FIXME
-    	taj@www.linux.org.uk
+     * linux/drivers/char/n_hdlc.c? FIXME taj@www.linux.org.uk
      */
     /**
-     *  Receive framing control
-     *  @param  f framming
-     *  @throws UnsupportedCommOperationException
+     * Receive framing control
+     * 
+     * @param f
+     *            framming
+     * @throws UnsupportedCommOperationException
      */
     public void enableReceiveFraming(int f) throws UnsupportedCommOperationException {
         if (debug)
@@ -341,8 +347,8 @@ final public class RXTXPort extends SerialPort {
             z.reportln("RXTXPort:disableReceiveFramming() called and returning (noop)");
     }
 
-    /** 
-     *  @return true if framing is enabled
+    /**
+     * @return true if framing is enabled
      */
     public boolean isReceiveFramingEnabled() {
         if (debug)
@@ -350,8 +356,8 @@ final public class RXTXPort extends SerialPort {
         return false;
     }
 
-    /** 
-     *  @return  int representing the framing byte
+    /**
+     * @return int representing the framing byte
      */
     public int getReceiveFramingByte() {
         if (debug)
@@ -362,20 +368,20 @@ final public class RXTXPort extends SerialPort {
     /** Receive timeout control */
     private int timeout;
 
-    /** 
-     *  @return  int the timeout
+    /**
+     * @return int the timeout
      */
     public native int NativegetReceiveTimeout();
 
-    /** 
-     *  @return  bloolean true if recieve timeout is enabled
+    /**
+     * @return bloolean true if recieve timeout is enabled
      */
     private native boolean NativeisReceiveTimeoutEnabled();
 
-    /** 
-     *  @param  time
-     *  @param  threshold
-     *  @param  InputBuffer
+    /**
+     * @param time
+     * @param threshold
+     * @param InputBuffer
      */
     private native void NativeEnableReceiveTimeoutThreshold(int time, int threshold, int InputBuffer);
 
@@ -390,8 +396,8 @@ final public class RXTXPort extends SerialPort {
             z.reportln("RXTXPort:disableReceiveTimeout() returning");
     }
 
-    /** 
-     *  @param time
+    /**
+     * @param time
      */
     public void enableReceiveTimeout(int time) {
         if (debug)
@@ -407,8 +413,8 @@ final public class RXTXPort extends SerialPort {
             z.reportln("RXTXPort:enableReceiveTimeout() returning");
     }
 
-    /** 
-     *  @return  boolean true if recieve timeout is enabled
+    /**
+     * @return boolean true if recieve timeout is enabled
      */
     public boolean isReceiveTimeoutEnabled() {
         if (debug)
@@ -416,8 +422,8 @@ final public class RXTXPort extends SerialPort {
         return (NativeisReceiveTimeoutEnabled());
     }
 
-    /** 
-     *  @return  int the timeout
+    /**
+     * @return int the timeout
      */
     public int getReceiveTimeout() {
         if (debug)
@@ -429,8 +435,9 @@ final public class RXTXPort extends SerialPort {
 
     private int threshold = 0;
 
-    /** 
-     *  @param thresh threshold
+    /**
+     * @param thresh
+     *            threshold
      */
     public void enableReceiveThreshold(int thresh) {
         if (debug)
@@ -455,8 +462,8 @@ final public class RXTXPort extends SerialPort {
         enableReceiveThreshold(0);
     }
 
-    /** 
-     *  @return  int the recieve threshold
+    /**
+     * @return int the recieve threshold
      */
     public int getReceiveThreshold() {
         if (debug)
@@ -464,8 +471,8 @@ final public class RXTXPort extends SerialPort {
         return threshold;
     }
 
-    /** 
-     *  @return  boolean true if receive threshold is enabled
+    /**
+     * @return boolean true if receive threshold is enabled
      */
     public boolean isReceiveThresholdEnabled() {
         if (debug)
@@ -474,18 +481,17 @@ final public class RXTXPort extends SerialPort {
     }
 
     /** Input/output buffers */
-    /** FIXME I think this refers to
-    	FOPEN(3)/SETBUF(3)/FREAD(3)/FCLOSE(3)
-    	taj@www.linux.org.uk
-
-    	These are native stubs...
+    /**
+     * FIXME I think this refers to FOPEN(3)/SETBUF(3)/FREAD(3)/FCLOSE(3) taj@www.linux.org.uk
+     * 
+     * These are native stubs...
      */
     private int InputBuffer = 0;
 
     private int OutputBuffer = 0;
 
-    /** 
-     *  @param size
+    /**
+     * @param size
      */
     public void setInputBufferSize(int size) {
         if (debug)
@@ -506,8 +512,8 @@ final public class RXTXPort extends SerialPort {
         return (InputBuffer);
     }
 
-    /** 
-     *  @param size
+    /**
+     * @param size
      */
     public void setOutputBufferSize(int size) {
         if (debug)
@@ -521,8 +527,8 @@ final public class RXTXPort extends SerialPort {
 
     }
 
-    /** 
-     *  @return  in the output buffer size
+    /**
+     * @return in the output buffer size
      */
     public int getOutputBufferSize() {
         if (debug)
@@ -533,53 +539,54 @@ final public class RXTXPort extends SerialPort {
     /* =================== cleaned messages to here */
 
     /**
-     *  Line status methods
+     * Line status methods
      */
     /**
-     *  @return true if DTR is set
+     * @return true if DTR is set
      */
     public native boolean isDTR();
 
-    /** 
-     *  @param state
+    /**
+     * @param state
      */
     public native void setDTR(boolean state);
 
-    /** 
-     *  @param state
+    /**
+     * @param state
      */
     public native void setRTS(boolean state);
 
     private native void setDSR(boolean state);
 
-    /** 
-     *  @return boolean true if CTS is set
+    /**
+     * @return boolean true if CTS is set
      */
     public native boolean isCTS();
 
-    /** 
-     *  @return boolean true if DSR is set
+    /**
+     * @return boolean true if DSR is set
      */
     public native boolean isDSR();
 
-    /** 
-     *  @return boolean true if CD is set
+    /**
+     * @return boolean true if CD is set
      */
     public native boolean isCD();
 
-    /** 
-     *  @return boolean true if RI is set
+    /**
+     * @return boolean true if RI is set
      */
     public native boolean isRI();
 
-    /** 
-     *  @return boolean true if RTS is set
+    /**
+     * @return boolean true if RTS is set
      */
     public native boolean isRTS();
 
     /**
-     *  Write to the port
-     *  @param duration
+     * Write to the port
+     * 
+     * @param duration
      */
     public native void sendBreak(int duration);
 
@@ -607,8 +614,8 @@ final public class RXTXPort extends SerialPort {
     /** Process SerialPortEvents */
     native void eventLoop();
 
-    /** 
-     *  @return boolean  true if monitor thread is interrupted
+    /**
+     * @return boolean true if monitor thread is interrupted
      */
     boolean monThreadisInterrupted = true;
 
@@ -627,10 +634,10 @@ final public class RXTXPort extends SerialPort {
         return (true);
     }
 
-    /** 
-     *  @param event
-     *  @param state
-     *  @return boolean true if the port is closing
+    /**
+     * @param event
+     * @param state
+     * @return boolean true if the port is closing
      */
     public boolean sendEvent(int event, boolean state) {
         if (debug_events)
@@ -761,16 +768,18 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Add an event listener
-     *  @param lsnr SerialPortEventListener
-     *  @throws TooManyListenersException
+     * Add an event listener
+     * 
+     * @param lsnr
+     *            SerialPortEventListener
+     * @throws TooManyListenersException
      */
 
     boolean MonitorThreadLock = true;
 
     public void addEventListener(SerialPortEventListener lsnr) throws TooManyListenersException {
-        /*  Don't let and notification requests happen until the
-            Eventloop is ready
+        /*
+         * Don't let and notification requests happen until the Eventloop is ready
          */
 
         if (debug)
@@ -792,13 +801,13 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Remove the serial port event listener
+     * Remove the serial port event listener
      */
     public void removeEventListener() {
         if (debug)
             z.reportln("RXTXPort:removeEventListener() called");
         waitForTheNativeCodeSilly();
-        //if( monThread != null && monThread.isAlive() )
+        // if( monThread != null && monThread.isAlive() )
         if (monThreadisInterrupted == true) {
             z.reportln("	RXTXPort:removeEventListener() already interrupted");
             monThread = null;
@@ -810,9 +819,8 @@ final public class RXTXPort extends SerialPort {
                 z.reportln("	RXTXPort:Interrupt=true");
             monThreadisInterrupted = true;
             /*
-               Notify all threads in this PID that something is up
-               They will call back to see if its their thread
-               using isInterrupted().
+             * Notify all threads in this PID that something is up They will call back to see if its their thread using
+             * isInterrupted().
              */
             if (debug)
                 z.reportln("	RXTXPort:calling interruptEventLoop");
@@ -827,7 +835,7 @@ final public class RXTXPort extends SerialPort {
             }
             catch (InterruptedException ex) {
                 // somebody called interrupt() on us (ie wants us to abort)
-                // we dont propagate InterruptedExceptions so lets re-set the flag 
+                // we dont propagate InterruptedExceptions so lets re-set the flag
                 Thread.currentThread().interrupt();
                 return;
             }
@@ -847,12 +855,11 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *	Give the native code a chance to start listening to the hardware
-     *	or should we say give the native code control of the issue.
-     *
-     *	This is important for applications that flicker the Monitor
-     *	thread while keeping the port open.
-     *	In worst case test cases this loops once or twice every time.
+     * Give the native code a chance to start listening to the hardware or should we say give the native code control of
+     * the issue.
+     * 
+     * This is important for applications that flicker the Monitor thread while keeping the port open. In worst case
+     * test cases this loops once or twice every time.
      */
 
     protected void waitForTheNativeCodeSilly() {
@@ -866,7 +873,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     private native void nativeSetEventFlag(int fd, int event, boolean flag);
 
@@ -883,7 +890,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     public void notifyOnOutputEmpty(boolean enable) {
         if (debug)
@@ -896,7 +903,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     public void notifyOnCTS(boolean enable) {
         if (debug)
@@ -909,7 +916,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     public void notifyOnDSR(boolean enable) {
         if (debug)
@@ -922,7 +929,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     public void notifyOnRingIndicator(boolean enable) {
         if (debug)
@@ -935,7 +942,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     public void notifyOnCarrierDetect(boolean enable) {
         if (debug)
@@ -948,7 +955,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     public void notifyOnOverrunError(boolean enable) {
         if (debug)
@@ -961,7 +968,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     public void notifyOnParityError(boolean enable) {
         if (debug)
@@ -974,7 +981,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     public void notifyOnFramingError(boolean enable) {
         if (debug)
@@ -987,7 +994,7 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  @param enable
+     * @param enable
      */
     public void notifyOnBreakInterrupt(boolean enable) {
         if (debug)
@@ -1070,8 +1077,8 @@ final public class RXTXPort extends SerialPort {
     /** Inner class for SerialOutputStream */
     class SerialOutputStream extends OutputStream {
         /**
-         *  @param b
-         *  @throws IOException
+         * @param b
+         * @throws IOException
          */
         public void write(int b) throws IOException {
             if (debug_write)
@@ -1101,12 +1108,13 @@ final public class RXTXPort extends SerialPort {
         }
 
         /**
-         *  @param b[]
-         *  @throws IOException
+         * @param b
+         *            []
+         * @throws IOException
          */
         public void write(byte b[]) throws IOException {
             if (debug_write) {
-                z.reportln("Entering RXTXPort:SerialOutputStream:write(" + b.length + ") "/* + new String(b)*/);
+                z.reportln("Entering RXTXPort:SerialOutputStream:write(" + b.length + ") "/* + new String(b) */);
             }
             if (speed == 0)
                 return;
@@ -1133,10 +1141,11 @@ final public class RXTXPort extends SerialPort {
         }
 
         /**
-         *  @param b[]
-         *  @param off
-         *  @param len
-         *  @throws IOException
+         * @param b
+         *            []
+         * @param off
+         * @param len
+         * @throws IOException
          */
         public void write(byte b[], int off, int len) throws IOException {
             if (speed == 0)
@@ -1149,7 +1158,7 @@ final public class RXTXPort extends SerialPort {
             System.arraycopy(b, off, send, 0, len);
             if (debug_write) {
                 z.reportln("Entering RXTXPort:SerialOutputStream:write(" + send.length + " " + off + " " + len + " "
-                    + ") " /*+  new String(send) */);
+                    + ") " /* + new String(send) */);
             }
             if (fd == 0)
                 throw new IOException();
@@ -1164,7 +1173,7 @@ final public class RXTXPort extends SerialPort {
                 writeArray(send, 0, len, monThreadisInterrupted);
                 if (debug_write)
                     z.reportln("Leaving RXTXPort:SerialOutputStream:write(" + send.length + " " + off + " " + len + " "
-                        + ") " /*+ new String(send)*/);
+                        + ") " /* + new String(send) */);
             }
             finally {
                 synchronized (IOLockedMutex) {
@@ -1192,9 +1201,8 @@ final public class RXTXPort extends SerialPort {
             }
             try {
                 waitForTheNativeCodeSilly();
-                /* 
-                   this is probably good on all OS's but for now
-                   just sendEvent from java on Sol
+                /*
+                 * this is probably good on all OS's but for now just sendEvent from java on Sol
                  */
                 if (nativeDrain(monThreadisInterrupted))
                     sendEvent(SerialPortEvent.OUTPUT_BUFFER_EMPTY, true);
@@ -1212,19 +1220,14 @@ final public class RXTXPort extends SerialPort {
     /** Inner class for SerialInputStream */
     class SerialInputStream extends InputStream {
         /**
-         *  @return int the int read
-         *  @throws IOException
-         *  @see java.io.InputStream
-         *
-         *timeout threshold       Behavior
-         *------------------------------------------------------------------------
-         *0       0       blocks until 1 byte is available timeout > 0,
-         *                threshold = 0, blocks until timeout occurs, returns -1
-         *                on timeout
-         *>0      >0      blocks until timeout, returns - 1 on timeout, magnitude
-         *                of threshold doesn't play a role.
-         *0       >0      Blocks until 1 byte, magnitude of  threshold doesn't
-         *                play a role
+         * @return int the int read
+         * @throws IOException
+         * @see java.io.InputStream
+         * 
+         *      timeout threshold Behavior ------------------------------------------------------------------------ 0 0
+         *      blocks until 1 byte is available timeout > 0, threshold = 0, blocks until timeout occurs, returns -1 on
+         *      timeout >0 >0 blocks until timeout, returns - 1 on timeout, magnitude of threshold doesn't play a role.
+         *      0 >0 Blocks until 1 byte, magnitude of threshold doesn't play a role
          */
         public synchronized int read() throws IOException {
             if (debug_read)
@@ -1245,7 +1248,7 @@ final public class RXTXPort extends SerialPort {
                     z.reportln("RXTXPort:SerialInputStream:read() N");
                 int result = readByte();
                 if (debug_read_results)
-                    //z.reportln(  "RXTXPort:SerialInputStream:read() returns byte = " + result );
+                    // z.reportln( "RXTXPort:SerialInputStream:read() returns byte = " + result );
                     z.reportln("RXTXPort:SerialInputStream:read() returns");
                 return (result);
             }
@@ -1257,17 +1260,15 @@ final public class RXTXPort extends SerialPort {
         }
 
         /**
-         *  @param b[]
-         *  @return int  number of bytes read
-         *  @throws IOException
-         *
-         *timeout threshold       Behavior
-         *------------------------------------------------------------------------
-         *0       0       blocks until 1 byte is available
-         *>0      0       blocks until timeout occurs, returns 0 on timeout
-         *>0      >0      blocks until timeout or reads threshold bytes,
-                     returns 0 on timeout
-         *0       >0      blocks until reads threshold bytes
+         * @param b
+         *            []
+         * @return int number of bytes read
+         * @throws IOException
+         * 
+         *             timeout threshold Behavior
+         *             ------------------------------------------------------------------------ 0 0 blocks until 1 byte
+         *             is available >0 0 blocks until timeout occurs, returns 0 on timeout >0 >0 blocks until timeout or
+         *             reads threshold bytes, returns 0 on timeout 0 >0 blocks until reads threshold bytes
          */
         public synchronized int read(byte b[]) throws IOException {
             int result;
@@ -1294,29 +1295,30 @@ final public class RXTXPort extends SerialPort {
         }
 
         /*
-         read(byte b[], int, int)
-         Documentation is at http://java.sun.com/products/jdk/1.2/docs/api/java/io/InputStream.html#read(byte[], int, int)
+         * read(byte b[], int, int) Documentation is at
+         * http://java.sun.com/products/jdk/1.2/docs/api/java/io/InputStream.html#read(byte[], int, int)
          */
         /**
-         *  @param b[]
-         *  @param off
-         *  @param len
-         *  @return int  number of bytes read
-         *  @throws IOException
-         *
-         *timeout threshold       Behavior
-         *------------------------------------------------------------------------
-         *0       0       blocks until 1 byte is available
-         *>0      0       blocks until timeout occurs, returns 0 on timeout
-         *>0      >0      blocks until timeout or reads threshold bytes,
-                     returns 0 on timeout
-         *0       >0      blocks until either threshold # of bytes or len bytes,
-                     whichever was lower.
+         * @param b
+         *            []
+         * @param off
+         * @param len
+         * @return int number of bytes read
+         * @throws IOException
+         * 
+         *             timeout threshold Behavior
+         *             ------------------------------------------------------------------------ 0 0 blocks until 1 byte
+         *             is available >0 0 blocks until timeout occurs, returns 0 on timeout >0 >0 blocks until timeout or
+         *             reads threshold bytes, returns 0 on timeout 0 >0 blocks until either threshold # of bytes or len
+         *             bytes, whichever was lower.
          */
         public synchronized int read(byte b[], int off, int len) throws IOException {
             if (debug_read)
-                z
-                    .reportln("RXTXPort:SerialInputStream:read(" + b.length + " " + off + " " + len + ") called" /*+ new String(b) */);
+                z.reportln("RXTXPort:SerialInputStream:read(" + b.length + " " + off + " " + len + ") called" /*
+                                                                                                               * + new
+                                                                                                               * String
+                                                                                                               * (b)
+                                                                                                               */);
             int result;
             /*
              * Some sanity checks
@@ -1357,10 +1359,8 @@ final public class RXTXPort extends SerialPort {
 
             if (threshold == 0) {
                 /*
-                 * If threshold is disabled, read should return as soon
-                 * as data are available (up to the amount of available
-                 * bytes in order to avoid blocking)
-                 * Read may return earlier depending of the receive time
+                 * If threshold is disabled, read should return as soon as data are available (up to the amount of
+                 * available bytes in order to avoid blocking) Read may return earlier depending of the receive time
                  * out.
                  */
                 int a = nativeavailable();
@@ -1371,8 +1371,7 @@ final public class RXTXPort extends SerialPort {
             }
             else {
                 /*
-                 * Threshold is enabled. Read should return when
-                 * 'threshold' bytes have been received (or when the
+                 * Threshold is enabled. Read should return when 'threshold' bytes have been received (or when the
                  * receive timeout expired)
                  */
                 Minimum = Math.min(Minimum, threshold);
@@ -1390,7 +1389,7 @@ final public class RXTXPort extends SerialPort {
                 result = readArray(b, off, Minimum);
                 if (debug_read_results)
                     z.reportln("RXTXPort:SerialInputStream:read(" + b.length + " " + off + " " + len + ") returned "
-                        + result + " bytes" /*+ new String(b) */);
+                        + result + " bytes" /* + new String(b) */);
                 return (result);
             }
             finally {
@@ -1401,26 +1400,30 @@ final public class RXTXPort extends SerialPort {
         }
 
         /**
-         *  @param b[]
-         *  @param off
-         *  @param len
-         *  @param t[]
-         *  @return int  number of bytes read
-         *  @throws IOException
-
-           We are trying to catch the terminator in the native code
-           Right now it is assumed that t[] is an array of 2 bytes.
-        
-           if the read encounters the two bytes, it will return and the
-           array will contain the terminator.  Otherwise read behavior should
-           be the same as read( b[], off, len ).  Timeouts have not been well
-           tested.
+         * @param b
+         *            []
+         * @param off
+         * @param len
+         * @param t
+         *            []
+         * @return int number of bytes read
+         * @throws IOException
+         * 
+         *             We are trying to catch the terminator in the native code Right now it is assumed that t[] is an
+         *             array of 2 bytes.
+         * 
+         *             if the read encounters the two bytes, it will return and the array will contain the terminator.
+         *             Otherwise read behavior should be the same as read( b[], off, len ). Timeouts have not been well
+         *             tested.
          */
 
         public synchronized int read(byte b[], int off, int len, byte t[]) throws IOException {
             if (debug_read)
-                z
-                    .reportln("RXTXPort:SerialInputStream:read(" + b.length + " " + off + " " + len + ") called" /*+ new String(b) */);
+                z.reportln("RXTXPort:SerialInputStream:read(" + b.length + " " + off + " " + len + ") called" /*
+                                                                                                               * + new
+                                                                                                               * String
+                                                                                                               * (b)
+                                                                                                               */);
             int result;
             /*
              * Some sanity checks
@@ -1461,10 +1464,8 @@ final public class RXTXPort extends SerialPort {
 
             if (threshold == 0) {
                 /*
-                 * If threshold is disabled, read should return as soon
-                 * as data are available (up to the amount of available
-                 * bytes in order to avoid blocking)
-                 * Read may return earlier depending of the receive time
+                 * If threshold is disabled, read should return as soon as data are available (up to the amount of
+                 * available bytes in order to avoid blocking) Read may return earlier depending of the receive time
                  * out.
                  */
                 int a = nativeavailable();
@@ -1475,8 +1476,7 @@ final public class RXTXPort extends SerialPort {
             }
             else {
                 /*
-                 * Threshold is enabled. Read should return when
-                 * 'threshold' bytes have been received (or when the
+                 * Threshold is enabled. Read should return when 'threshold' bytes have been received (or when the
                  * receive timeout expired)
                  */
                 Minimum = Math.min(Minimum, threshold);
@@ -1494,7 +1494,7 @@ final public class RXTXPort extends SerialPort {
                 result = readTerminatedArray(b, off, Minimum, t);
                 if (debug_read_results)
                     z.reportln("RXTXPort:SerialInputStream:read(" + b.length + " " + off + " " + len + ") returned "
-                        + result + " bytes" /*+ new String(b) */);
+                        + result + " bytes" /* + new String(b) */);
                 return (result);
             }
             finally {
@@ -1505,8 +1505,8 @@ final public class RXTXPort extends SerialPort {
         }
 
         /**
-         *  @return int bytes available
-         *  @throws IOException
+         * @return int bytes available
+         * @throws IOException
          */
         public synchronized int available() throws IOException {
             if (monThreadisInterrupted == true) {
@@ -1534,9 +1534,10 @@ final public class RXTXPort extends SerialPort {
     /**
      */
     class MonitorThread extends Thread {
-        /** Note: these have to be separate boolean flags because the
-           SerialPortEvent constants are NOT bit-flags, they are just
-           defined as integers from 1 to 10  -DPL */
+        /**
+         * Note: these have to be separate boolean flags because the SerialPortEvent constants are NOT bit-flags, they
+         * are just defined as integers from 1 to 10 -DPL
+         */
         private volatile boolean CTS = false;
 
         private volatile boolean DSR = false;
@@ -1563,7 +1564,7 @@ final public class RXTXPort extends SerialPort {
         }
 
         /**
-         *  run the thread and call the event loop.
+         * run the thread and call the event loop.
          */
         public void run() {
             if (debug)
@@ -1581,8 +1582,9 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  A dummy method added so RXTX compiles on Kaffee
-     *  @deprecated deprecated but used in Kaffe 
+     * A dummy method added so RXTX compiles on Kaffee
+     * 
+     * @deprecated deprecated but used in Kaffe
      */
     public void setRcvFifoTrigger(int trigger) {
     };
@@ -1652,17 +1654,16 @@ final public class RXTXPort extends SerialPort {
     private native boolean nativeClearCommInput() throws UnsupportedCommOperationException;
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  This is only accurate up to 38600 baud currently.
-     *
-     *  @param  port the name of the port thats been preopened
-     *  @return BaudRate on success
-     *  @throws UnsupportedCommOperationException;
-     *  This will not behave as expected with custom speeds
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * This is only accurate up to 38600 baud currently.
+     * 
+     * @param port
+     *            the name of the port thats been preopened
+     * @return BaudRate on success
+     * @throws UnsupportedCommOperationException
+     *             ; This will not behave as expected with custom speeds
+     * 
      */
     public static int staticGetBaudRate(String port) throws UnsupportedCommOperationException {
         if (debug)
@@ -1671,14 +1672,14 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  @param  port the name of the port thats been preopened
-     *  @return DataBits on success
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * @param port
+     *            the name of the port thats been preopened
+     * @return DataBits on success
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
     public static int staticGetDataBits(String port) throws UnsupportedCommOperationException {
         if (debug)
@@ -1687,14 +1688,14 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  @param  port the name of the port thats been preopened
-     *  @return Parity on success
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * @param port
+     *            the name of the port thats been preopened
+     * @return Parity on success
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
     public static int staticGetParity(String port) throws UnsupportedCommOperationException {
         if (debug)
@@ -1703,14 +1704,14 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  @param  port the name of the port thats been preopened
-     *  @return StopBits on success
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * @param port
+     *            the name of the port thats been preopened
+     * @return StopBits on success
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
     public static int staticGetStopBits(String port) throws UnsupportedCommOperationException {
         if (debug)
@@ -1718,21 +1719,24 @@ final public class RXTXPort extends SerialPort {
         return (nativeStaticGetStopBits(port));
     }
 
-    /** 
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  Set the SerialPort parameters
-     *  1.5 stop bits requires 5 databits
-     *  @param  f filename
-     *  @param  b baudrate
-     *  @param  d databits
-     *  @param  s stopbits
-     *  @param  p parity
-     *
-     *  @throws UnsupportedCommOperationException
-     *  @see gnu.io.UnsupportedCommOperationException
+    /**
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * Set the SerialPort parameters 1.5 stop bits requires 5 databits
+     * 
+     * @param f
+     *            filename
+     * @param b
+     *            baudrate
+     * @param d
+     *            databits
+     * @param s
+     *            stopbits
+     * @param p
+     *            parity
+     * 
+     * @throws UnsupportedCommOperationException
+     * @see gnu.io.UnsupportedCommOperationException
      */
 
     public static void staticSetSerialPortParams(String f, int b, int d, int s, int p)
@@ -1743,17 +1747,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  Open the port and set DSR.  remove lockfile and do not close
-     *  This is so some software can appear to set the DSR before 'opening'
-     *  the port a second time later on.
-     *
-     *  @return true on success
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * Open the port and set DSR. remove lockfile and do not close This is so some software can appear to set the DSR
+     * before 'opening' the port a second time later on.
+     * 
+     * @return true on success
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
 
     public static boolean staticSetDSR(String port, boolean flag) throws UnsupportedCommOperationException {
@@ -1763,17 +1765,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  Open the port and set DTR.  remove lockfile and do not close
-     *  This is so some software can appear to set the DTR before 'opening'
-     *  the port a second time later on.
-     *
-     *  @return true on success
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * Open the port and set DTR. remove lockfile and do not close This is so some software can appear to set the DTR
+     * before 'opening' the port a second time later on.
+     * 
+     * @return true on success
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
 
     public static boolean staticSetDTR(String port, boolean flag) throws UnsupportedCommOperationException {
@@ -1783,17 +1783,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  Open the port and set RTS.  remove lockfile and do not close
-     *  This is so some software can appear to set the RTS before 'opening'
-     *  the port a second time later on.
-     *
-     *  @return none
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * Open the port and set RTS. remove lockfile and do not close This is so some software can appear to set the RTS
+     * before 'opening' the port a second time later on.
+     * 
+     * @return none
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
 
     public static boolean staticSetRTS(String port, boolean flag) throws UnsupportedCommOperationException {
@@ -1803,16 +1801,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  find the fd and return RTS without using a Java open() call
-     *
-     *  @param port
-     *  @return true if asserted
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * find the fd and return RTS without using a Java open() call
+     * 
+     * @param port
+     * @return true if asserted
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
 
     public static boolean staticIsRTS(String port) throws UnsupportedCommOperationException {
@@ -1822,16 +1819,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  find the fd and return CD without using a Java open() call
-     *
-     *  @param port
-     *  @return true if asserted
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * find the fd and return CD without using a Java open() call
+     * 
+     * @param port
+     * @return true if asserted
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
 
     public static boolean staticIsCD(String port) throws UnsupportedCommOperationException {
@@ -1841,16 +1837,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  find the fd and return CTS without using a Java open() call
-     *
-     *  @param port
-     *  @return true if asserted
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * find the fd and return CTS without using a Java open() call
+     * 
+     * @param port
+     * @return true if asserted
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
 
     public static boolean staticIsCTS(String port) throws UnsupportedCommOperationException {
@@ -1860,16 +1855,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  find the fd and return DSR without using a Java open() call
-     *
-     *  @param port
-     *  @return true if asserted
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * find the fd and return DSR without using a Java open() call
+     * 
+     * @param port
+     * @return true if asserted
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
 
     public static boolean staticIsDSR(String port) throws UnsupportedCommOperationException {
@@ -1879,16 +1873,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  find the fd and return DTR without using a Java open() call
-     *
-     *  @param port
-     *  @return true if asserted
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * find the fd and return DTR without using a Java open() call
+     * 
+     * @param port
+     * @return true if asserted
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
 
     public static boolean staticIsDTR(String port) throws UnsupportedCommOperationException {
@@ -1898,16 +1891,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *
-     *  find the fd and return RI without using a Java open() call
-     *
-     *  @param port
-     *  @return true if asserted
-     *  @throws UnsupportedCommOperationException;
-     *
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * find the fd and return RI without using a Java open() call
+     * 
+     * @param port
+     * @return true if asserted
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
      */
 
     public static boolean staticIsRI(String port) throws UnsupportedCommOperationException {
@@ -1917,13 +1909,13 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *  @return int the Parity Error Character
-     *  @throws UnsupportedCommOperationException;
-     *
-     *  Anyone know how to do this in Unix?
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * @return int the Parity Error Character
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
+     *             Anyone know how to do this in Unix?
      */
 
     public byte getParityErrorChar() throws UnsupportedCommOperationException {
@@ -1937,14 +1929,15 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *  @param b Parity Error Character
-     *  @return boolean true on success
-     *  @throws UnsupportedCommOperationException;
-     *
-     *  Anyone know how to do this in Unix?
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * @param b
+     *            Parity Error Character
+     * @return boolean true on success
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
+     *             Anyone know how to do this in Unix?
      */
 
     public boolean setParityErrorChar(byte b) throws UnsupportedCommOperationException {
@@ -1954,13 +1947,13 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *  @return int the End of Input Character
-     *  @throws UnsupportedCommOperationException;
-     *
-     *  Anyone know how to do this in Unix?
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * @return int the End of Input Character
+     * @throws UnsupportedCommOperationException
+     *             ;
+     * 
+     *             Anyone know how to do this in Unix?
      */
 
     public byte getEndOfInputChar() throws UnsupportedCommOperationException {
@@ -1974,12 +1967,13 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *  @param b End Of Input Character
-     *  @return boolean true on success
-     *  @throws UnsupportedCommOperationException;
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * @param b
+     *            End Of Input Character
+     * @return boolean true on success
+     * @throws UnsupportedCommOperationException
+     *             ;
      */
 
     public boolean setEndOfInputChar(byte b) throws UnsupportedCommOperationException {
@@ -1989,15 +1983,16 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *  @param type String representation of the UART type which mayb
-     *  be "none", "8250", "16450", "16550", "16550A", "16650", "16550V2"
-     *  or "16750".
-     *  @param test boolean flag to determin if the UART should be tested.
-     *  @return boolean true on success
-     *  @throws UnsupportedCommOperationException;
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * @param type
+     *            String representation of the UART type which mayb be "none", "8250", "16450", "16550", "16550A",
+     *            "16650", "16550V2" or "16750".
+     * @param test
+     *            boolean flag to determin if the UART should be tested.
+     * @return boolean true on success
+     * @throws UnsupportedCommOperationException
+     *             ;
      */
     public boolean setUARTType(String type, boolean test) throws UnsupportedCommOperationException {
         if (debug)
@@ -2006,25 +2001,25 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  This is an extension to CommAPI.  It may not be supported on
-     *  all operating systems.
-     *  @return type String representation of the UART type which mayb
-     *  be "none", "8250", "16450", "16550", "16550A", "16650", "16550V2"
-     *  or "16750".
-     *  @throws UnsupportedCommOperationException;
+     * Extension to CommAPI This is an extension to CommAPI. It may not be supported on all operating systems.
+     * 
+     * @return type String representation of the UART type which mayb be "none", "8250", "16450", "16550", "16550A",
+     *         "16650", "16550V2" or "16750".
+     * @throws UnsupportedCommOperationException
+     *             ;
      */
     public String getUARTType() throws UnsupportedCommOperationException {
         return nativeGetUartType();
     }
 
     /**
-     *  Extension to CommAPI.  Set Baud Base to 38600 on Linux and W32
-     *  before using.
-     *  @param BaudBase The clock frequency divided by 16.  Default
-     *  BaudBase is 115200.
-     *  @return true on success
-     *  @throws UnsupportedCommOperationException, IOException
+     * Extension to CommAPI. Set Baud Base to 38600 on Linux and W32 before using.
+     * 
+     * @param BaudBase
+     *            The clock frequency divided by 16. Default BaudBase is 115200.
+     * @return true on success
+     * @throws UnsupportedCommOperationException
+     *             , IOException
      */
 
     public boolean setBaudBase(int BaudBase) throws UnsupportedCommOperationException, IOException {
@@ -2034,9 +2029,11 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  @return BaudBase
-     *  @throws UnsupportedCommOperationException, IOException
+     * Extension to CommAPI
+     * 
+     * @return BaudBase
+     * @throws UnsupportedCommOperationException
+     *             , IOException
      */
 
     public int getBaudBase() throws UnsupportedCommOperationException, IOException {
@@ -2046,10 +2043,11 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI.  Set Baud Base to 38600 on Linux and W32
-     *  before using.
-     *  @param Divisor
-     *  @throws UnsupportedCommOperationException, IOException
+     * Extension to CommAPI. Set Baud Base to 38600 on Linux and W32 before using.
+     * 
+     * @param Divisor
+     * @throws UnsupportedCommOperationException
+     *             , IOException
      */
 
     public boolean setDivisor(int Divisor) throws UnsupportedCommOperationException, IOException {
@@ -2059,9 +2057,11 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  @return Divisor;
-     *  @throws UnsupportedCommOperationException, IOException
+     * Extension to CommAPI
+     * 
+     * @return Divisor;
+     * @throws UnsupportedCommOperationException
+     *             , IOException
      */
 
     public int getDivisor() throws UnsupportedCommOperationException, IOException {
@@ -2071,9 +2071,9 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  returns boolean true on success
-     *  @throws UnsupportedCommOperationException
+     * Extension to CommAPI returns boolean true on success
+     * 
+     * @throws UnsupportedCommOperationException
      */
 
     public boolean setLowLatency() throws UnsupportedCommOperationException {
@@ -2083,9 +2083,9 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  returns boolean true on success
-     *  @throws UnsupportedCommOperationException
+     * Extension to CommAPI returns boolean true on success
+     * 
+     * @throws UnsupportedCommOperationException
      */
 
     public boolean getLowLatency() throws UnsupportedCommOperationException {
@@ -2095,9 +2095,9 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  returns boolean true on success
-     *  @throws UnsupportedCommOperationException
+     * Extension to CommAPI returns boolean true on success
+     * 
+     * @throws UnsupportedCommOperationException
      */
 
     public boolean setCallOutHangup(boolean NoHup) throws UnsupportedCommOperationException {
@@ -2107,9 +2107,9 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  returns boolean true on success
-     *  @throws UnsupportedCommOperationException
+     * Extension to CommAPI returns boolean true on success
+     * 
+     * @throws UnsupportedCommOperationException
      */
 
     public boolean getCallOutHangup() throws UnsupportedCommOperationException {
@@ -2119,9 +2119,9 @@ final public class RXTXPort extends SerialPort {
     }
 
     /**
-     *  Extension to CommAPI
-     *  returns boolean true on success
-     *  @throws UnsupportedCommOperationException
+     * Extension to CommAPI returns boolean true on success
+     * 
+     * @throws UnsupportedCommOperationException
      */
 
     public boolean clearCommInput() throws UnsupportedCommOperationException {

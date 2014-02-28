@@ -36,8 +36,8 @@ public final class ResponseFactory {
                 break;
             case BidibLibrary.MSG_BM_CONFIDENCE:
                 result =
-                    new FeedbackConfidenceResponse(result.getAddr(), result.getNum(), result.getType(), result
-                        .getData());
+                    new FeedbackConfidenceResponse(result.getAddr(), result.getNum(), result.getType(),
+                        result.getData());
                 break;
             case BidibLibrary.MSG_BM_CURRENT:
                 result =
@@ -82,19 +82,19 @@ public final class ResponseFactory {
             case BidibLibrary.MSG_CS_DRIVE_MANUAL:
                 // drive manual
                 result =
-                    new CommandStationDriveManualResponse(result.getAddr(), result.getNum(), result.getType(), result
-                        .getData());
+                    new CommandStationDriveManualResponse(result.getAddr(), result.getNum(), result.getType(),
+                        result.getData());
                 break;
             case BidibLibrary.MSG_CS_DRIVE_EVENT:
                 // drive event
                 result =
-                    new CommandStationDriveEventResponse(result.getAddr(), result.getNum(), result.getType(), result
-                        .getData());
+                    new CommandStationDriveEventResponse(result.getAddr(), result.getNum(), result.getType(),
+                        result.getData());
                 break;
             case BidibLibrary.MSG_CS_STATE:
                 result =
-                    new CommandStationStateResponse(result.getAddr(), result.getNum(), result.getType(), result
-                        .getData());
+                    new CommandStationStateResponse(result.getAddr(), result.getNum(), result.getType(),
+                        result.getData());
                 break;
             case BidibLibrary.MSG_CS_ACCESSORY_ACK:
                 result =
@@ -108,8 +108,8 @@ public final class ResponseFactory {
                 break;
             case BidibLibrary.MSG_CS_PROG_STATE:
                 result =
-                    new CommandStationProgStateResponse(result.getAddr(), result.getNum(), result.getType(), result
-                        .getData());
+                    new CommandStationProgStateResponse(result.getAddr(), result.getNum(), result.getType(),
+                        result.getData());
                 break;
             case BidibLibrary.MSG_FEATURE:
                 result = new FeatureResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
@@ -120,8 +120,8 @@ public final class ResponseFactory {
                 break;
             case BidibLibrary.MSG_FEATURE_NA:
                 result =
-                    new FeatureNotAvailableResponse(result.getAddr(), result.getNum(), result.getType(), result
-                        .getData());
+                    new FeatureNotAvailableResponse(result.getAddr(), result.getNum(), result.getType(),
+                        result.getData());
                 break;
             case BidibLibrary.MSG_FW_UPDATE_STAT:
                 result =
@@ -229,8 +229,8 @@ public final class ResponseFactory {
                     new FeedbackBlockCvResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
             default:
-                LOGGER.error("Got unknown response with type '{}', message: {}", String.format("0x%02x", result
-                    .getType()), message);
+                LOGGER.error("Got unknown response with type '{}', message: {}",
+                    String.format("0x%02x", result.getType()), message);
 
                 String msg = "got unknown response with type " + (result.getType() & 0xFF);
                 // TODO remove this ... and ignore unknown message

@@ -42,7 +42,7 @@ public class SimulationBidib implements BidibInterface {
 
     private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT * 100;
 
-    //////////////////////////////////////////////////////////////////////////////
+    // ////////////////////////////////////////////////////////////////////////////
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
             public void run() {

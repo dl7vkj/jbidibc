@@ -41,8 +41,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * The message receiver is responsible for creating the messages based on the received bytes from the stream.
- * It is created and initialized by the (default) Bidib implementation.
+ * The message receiver is responsible for creating the messages based on the received bytes from the stream. It is
+ * created and initialized by the (default) Bidib implementation.
  */
 public abstract class MessageReceiver {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class.getName());
@@ -51,8 +51,8 @@ public abstract class MessageReceiver {
 
     protected static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
-    private final Collection<MessageListener> messageListeners =
-        Collections.synchronizedList(new LinkedList<MessageListener>());
+    private final Collection<MessageListener> messageListeners = Collections
+        .synchronizedList(new LinkedList<MessageListener>());
 
     private final Collection<NodeListener> nodeListeners = Collections.synchronizedList(new LinkedList<NodeListener>());
 
@@ -72,7 +72,9 @@ public abstract class MessageReceiver {
 
     /**
      * Process the messages in the provided byte array output stream.
-     * @param output the output stream that contains the messages
+     * 
+     * @param output
+     *            the output stream that contains the messages
      * @throws ProtocolException
      */
     public synchronized void processMessages(ByteArrayOutputStream output) throws ProtocolException {
@@ -94,8 +96,8 @@ public abstract class MessageReceiver {
                     switch (type) {
                         case BidibLibrary.MSG_BOOST_DIAGNOSTIC:
                             fireBoosterCurrent(message.getAddr(), ((BoostDiagnosticResponse) message).getCurrent());
-                            fireBoosterTemperature(message.getAddr(), ((BoostDiagnosticResponse) message)
-                                .getTemperature());
+                            fireBoosterTemperature(message.getAddr(),
+                                ((BoostDiagnosticResponse) message).getTemperature());
                             fireBoosterVoltage(message.getAddr(), ((BoostDiagnosticResponse) message).getVoltage());
                             break;
                         case BidibLibrary.MSG_BOOST_STAT:
@@ -194,7 +196,7 @@ public abstract class MessageReceiver {
                         case BidibLibrary.MSG_LC_WAIT:
                             LOGGER.info("Received LcWaitResponse: {}", message);
                             // TODO I think this does not work if the sender is already waiting for a response ...
-                            //                            setTimeout(((LcWaitResponse) message).getTimeout());
+                            // setTimeout(((LcWaitResponse) message).getTimeout());
                             break;
                         case BidibLibrary.MSG_LOGON:
                             // ignored
@@ -206,7 +208,8 @@ public abstract class MessageReceiver {
 
                             boolean fireNodeNew = false;
                             try {
-                                // create and register the new node in the node factory because we might receive spontaneous messages
+                                // create and register the new node in the node factory because we might receive
+                                // spontaneous messages
                                 BidibNode newNode = nodeFactory.createNode(node);
                                 LOGGER.info("The node factory has registered the new node: {}", newNode);
                                 fireNodeNew = true;
@@ -255,8 +258,9 @@ public abstract class MessageReceiver {
                                     break;
                             }
 
-                            // TODO if we have fired an error we should release a possible thread that is waiting for a result in the receive queue ...
-                            //                                        messageReceived(message);
+                            // TODO if we have fired an error we should release a possible thread that is waiting for a
+                            // result in the receive queue ...
+                            // messageReceived(message);
                             break;
                         case BidibLibrary.MSG_SYS_IDENTIFY_STATE:
                             fireIdentify(message.getAddr(), ((SysIdentifyResponse) message).getState());
@@ -274,8 +278,9 @@ public abstract class MessageReceiver {
                             LOGGER.warn("MSG_BM_CURRENT is currently not processed by application: {}", message);
                             break;
                         case BidibLibrary.MSG_BM_ACCESSORY:
-                            fireBmAccessory(message.getAddr(), ((FeedbackAccessoryResponse) message)
-                                .getDetectorNumber(), ((FeedbackAccessoryResponse) message).getAddress());
+                            fireBmAccessory(message.getAddr(),
+                                ((FeedbackAccessoryResponse) message).getDetectorNumber(),
+                                ((FeedbackAccessoryResponse) message).getAddress());
                             break;
                         case BidibLibrary.MSG_BM_CV:
                             fireBmCv(message.getAddr(), ((FeedbackCvResponse) message).getAddress(),
@@ -535,9 +540,11 @@ public abstract class MessageReceiver {
     }
 
     /**
-     * Remove an orphan node. If the node does not disconnect according to specification 
-     * or the node is an interface node during update this update this can lead to orphan nodes.
-     * @param node the node to be removed
+     * Remove an orphan node. If the node does not disconnect according to specification or the node is an interface
+     * node during update this update this can lead to orphan nodes.
+     * 
+     * @param node
+     *            the node to be removed
      */
     public void removeOrphanNode(Node node) {
         LOGGER.info("Remove orphan node: {}", node);

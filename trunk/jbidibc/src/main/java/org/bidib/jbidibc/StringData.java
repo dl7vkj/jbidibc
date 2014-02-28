@@ -21,7 +21,8 @@ public class StringData {
     }
 
     /**
-     * @param namespace the namespace to set
+     * @param namespace
+     *            the namespace to set
      */
     public void setNamespace(int namespace) {
         this.namespace = namespace;
@@ -35,7 +36,8 @@ public class StringData {
     }
 
     /**
-     * @param index the index to set
+     * @param index
+     *            the index to set
      */
     public void setIndex(int index) {
         this.index = index;

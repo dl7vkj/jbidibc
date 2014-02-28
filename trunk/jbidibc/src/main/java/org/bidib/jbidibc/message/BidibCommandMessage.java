@@ -20,8 +20,7 @@ public abstract class BidibCommandMessage extends BidibMessage implements BidibC
      * Create a BidibCommandMessage from an array of bytes.
      * 
      * @param message
-     *            array of bytes, containing the leading magic byte, but without
-     *            the trailing magic byte
+     *            array of bytes, containing the leading magic byte, but without the trailing magic byte
      * 
      * @throws ProtocolException
      *             Thrown if the leading magic byte was missing.

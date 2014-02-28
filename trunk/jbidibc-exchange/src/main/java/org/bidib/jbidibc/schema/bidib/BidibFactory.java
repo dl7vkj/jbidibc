@@ -67,8 +67,8 @@ public class BidibFactory {
     protected Product loadProductForNode(long uniqueId, String... searchPaths) {
         long pid = NodeUtils.getPid(uniqueId);
         long vid = NodeUtils.getVendorId(uniqueId);
-        LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}", NodeUtils
-            .getUniqueIdAsString(uniqueId), pid, vid);
+        LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}",
+            NodeUtils.getUniqueIdAsString(uniqueId), pid, vid);
 
         BiDiB bidib = null;
         for (String searchPath : searchPaths) {
@@ -146,10 +146,10 @@ public class BidibFactory {
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            
+
             XMLInputFactory factory = XMLInputFactory.newInstance();
-            
-            XMLStreamReader xmlr  = factory.createXMLStreamReader(is);
+
+            XMLStreamReader xmlr = factory.createXMLStreamReader(is);
 
             JAXBElement<BiDiB> jaxbElement = (JAXBElement<BiDiB>) unmarshaller.unmarshal(xmlr, BiDiB.class);
             bidib = jaxbElement.getValue();

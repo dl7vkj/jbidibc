@@ -64,7 +64,7 @@ public class VendorCVTest {
         IOException {
         LOGGER.info("Load VendorCV for OneDMX and transform to wizard data.");
 
-        //        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+        // System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
 
         InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
         javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
@@ -92,7 +92,7 @@ public class VendorCVTest {
     public void loadVendorForLCAndTransformCVTest() throws JAXBException, TransformerException, FileNotFoundException {
         LOGGER.info("Load VendorCV.");
 
-        //        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+        // System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
 
         InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
         javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
@@ -177,13 +177,13 @@ public class VendorCVTest {
         IOException {
         LOGGER.info("Load VendorCV for S88Bridge and transform to wizard data.");
 
-        //        System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+        // System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
 
         InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
         javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
         TransformerFactory tf = TransformerFactory.newInstance();
         Transformer transformer = tf.newTransformer(xsltSource);
-        //        transformer.setOutputProperty(OutputKeys.INDENT, "no");
+        // transformer.setOutputProperty(OutputKeys.INDENT, "no");
 
         InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-105.xml");
         Assert.assertNotNull(is);
@@ -221,44 +221,44 @@ public class VendorCVTest {
         vendorCV.setVersion(versionInfo);
 
         CVDefinitionType cvDefinition = new CVDefinitionType();
-        //        Basis basis = new Basis();
-        //        CV cv = new CV();
-        //        cv.setNumber(1);
-        //        cv.setType(DataType.BYTE);
-        //        cv.setMin("0");
-        //        cv.setMax("255");
-        //        cv.setLow("-");
-        //        cv.setHigh("-");
-        //        cv.setValues("-");
-        //        cv.setMode(ModeType.RO);
-        //        // TODO
-        //        //        cv.setDescde("vendor_id");
-        //        //        cv.setDescen("vendor_id");
-        //        basis.getCV().add(cv);
+        // Basis basis = new Basis();
+        // CV cv = new CV();
+        // cv.setNumber(1);
+        // cv.setType(DataType.BYTE);
+        // cv.setMin("0");
+        // cv.setMax("255");
+        // cv.setLow("-");
+        // cv.setHigh("-");
+        // cv.setValues("-");
+        // cv.setMode(ModeType.RO);
+        // // TODO
+        // // cv.setDescde("vendor_id");
+        // // cv.setDescen("vendor_id");
+        // basis.getCV().add(cv);
         //
-        //        cv = new CV();
-        //        cv.setNumber(2);
-        //        cv.setType(DataType.BYTE);
-        //        cv.setMin("0");
-        //        cv.setMax("255");
-        //        cv.setLow("-");
-        //        cv.setHigh("-");
-        //        cv.setValues("-");
-        //        cv.setMode(ModeType.RO);
-        //        // TODO
-        //        //        cv.setDescde("hw_id");
-        //        //        cv.setDescen("hw_id");
-        //        basis.getCV().add(cv);
+        // cv = new CV();
+        // cv.setNumber(2);
+        // cv.setType(DataType.BYTE);
+        // cv.setMin("0");
+        // cv.setMax("255");
+        // cv.setLow("-");
+        // cv.setHigh("-");
+        // cv.setValues("-");
+        // cv.setMode(ModeType.RO);
+        // // TODO
+        // // cv.setDescde("hw_id");
+        // // cv.setDescen("hw_id");
+        // basis.getCV().add(cv);
         //
-        //        cvDefinition.setBasis(basis);
-        //        vendorCV.setCVDefinition(cvDefinition);
+        // cvDefinition.setBasis(basis);
+        // vendorCV.setCVDefinition(cvDefinition);
         //
-        //        File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_S88Bridge.xml");
-        //        OutputStream os = new BufferedOutputStream(new FileOutputStream(exportFile));
+        // File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_S88Bridge.xml");
+        // OutputStream os = new BufferedOutputStream(new FileOutputStream(exportFile));
         //
-        //        marshaller.marshal(vendorCV, os);
+        // marshaller.marshal(vendorCV, os);
         //
-        //        os.flush();
+        // os.flush();
     }
 
     @Test

@@ -24,8 +24,9 @@ public class SysClockMessage extends BidibCommandMessage {
     }
 
     /**
-     * @param day 0=every day, 1=SUNDAY,7=SATURDAY
-     *
+     * @param day
+     *            0=every day, 1=SUNDAY,7=SATURDAY
+     * 
      * @return day value in BiDiB format
      */
     public static byte getDay(int day) {

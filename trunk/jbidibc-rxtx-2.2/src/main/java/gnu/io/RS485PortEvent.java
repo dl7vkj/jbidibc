@@ -93,7 +93,7 @@ public class RS485PortEvent extends EventObject {
 
     private int eventType;
 
-    /*public int eventType           =0; depricated */
+    /* public int eventType =0; depricated */
 
     public RS485PortEvent(RS485Port srcport, int eventtype, boolean oldvalue, boolean newvalue) {
         super(srcport);

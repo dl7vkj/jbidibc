@@ -40,9 +40,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * This is the default bidib implementation.
- * It creates and initializes the MessageReceiver and the NodeFactory that is used in the system.
- *
+ * This is the default bidib implementation. It creates and initializes the MessageReceiver and the NodeFactory that is
+ * used in the system.
+ * 
  */
 public final class Bidib implements BidibInterface {
 
@@ -52,7 +52,7 @@ public final class Bidib implements BidibInterface {
 
     private int responseTimeout = Bidib.DEFAULT_TIMEOUT;
 
-    public static final int DEFAULT_TIMEOUT = /*1500*/200;
+    public static final int DEFAULT_TIMEOUT = /* 1500 */200;
 
     private NodeFactory nodeFactory;
 
@@ -299,8 +299,8 @@ public final class Bidib implements BidibInterface {
                         LOGGER.trace("The output buffer is empty.");
                         break;
                     case SerialPortEvent.CTS:
-                        LOGGER.warn("The CTS value has changed, old value: {}, new value: {}", new Object[] {
-                            event.getOldValue(), event.getNewValue() });
+                        LOGGER.warn("The CTS value has changed, old value: {}, new value: {}",
+                            new Object[] { event.getOldValue(), event.getNewValue() });
 
                         if (event.getNewValue() == false) {
                             LOGGER.warn("Close the port.");
@@ -457,7 +457,9 @@ public final class Bidib implements BidibInterface {
 
     /**
      * Send the bytes to the outputstream.
-     * @param bytes the bytes to send
+     * 
+     * @param bytes
+     *            the bytes to send
      */
     @Override
     public void send(final byte[] bytes) {
@@ -487,6 +489,7 @@ public final class Bidib implements BidibInterface {
 
     /**
      * Get the magic from the root node
+     * 
      * @return the magic provided by the root node
      * @throws ProtocolException
      */
@@ -510,7 +513,9 @@ public final class Bidib implements BidibInterface {
 
     /**
      * Set the recieve timeout for the port.
-     * @param timeout the receive timeout to set
+     * 
+     * @param timeout
+     *            the receive timeout to set
      */
     @Override
     public void setReceiveTimeout(int timeout) {

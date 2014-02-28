@@ -15,7 +15,7 @@ import com.beust.jcommander.Parameters;
 
 /**
  * This commands reads the value of the specified CV from the specified node.
- *
+ * 
  */
 @Parameters(separators = "=")
 public class BoostQuery extends BidibNodeCommand {
@@ -42,7 +42,7 @@ public class BoostQuery extends BidibNodeCommand {
             Node node = findNode();
 
             if (node != null) {
-                //                BidibNode bidibNode = Bidib.getInstance().getNode(node);
+                // BidibNode bidibNode = Bidib.getInstance().getNode(node);
                 final BoosterStateHelper boosterStateHelper = new BoosterStateHelper();
                 Bidib.getInstance().getMessageReceiver().addMessageListener(new MessageListener() {
 

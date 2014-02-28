@@ -10,7 +10,7 @@ import com.beust.jcommander.Parameters;
 
 /**
  * This commands stops the macro on the specified node.
- *
+ * 
  */
 @Parameters(separators = "=")
 public class StopMacro extends BidibNodeCommand {

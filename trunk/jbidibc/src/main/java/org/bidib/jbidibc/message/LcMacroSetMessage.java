@@ -11,7 +11,9 @@ public class LcMacroSetMessage extends BidibCommandMessage {
 
     /**
      * Creates a new LcMacroSetMessage instance with values from provided macro step.
-     * @param macro the macro step.
+     * 
+     * @param macro
+     *            the macro step.
      */
     public LcMacroSetMessage(LcMacro macro) {
         super(0, BidibLibrary.MSG_LC_MACRO_SET, new byte[] { macro.getMacroNumber(), macro.getStepNumber(),

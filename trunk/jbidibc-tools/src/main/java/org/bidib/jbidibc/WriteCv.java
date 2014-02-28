@@ -9,7 +9,7 @@ import com.beust.jcommander.Parameters;
 
 /**
  * This commands writes the value into the specified CV of the specified node.
- *
+ * 
  */
 @Parameters(separators = "=")
 public class WriteCv extends BidibNodeCommand {

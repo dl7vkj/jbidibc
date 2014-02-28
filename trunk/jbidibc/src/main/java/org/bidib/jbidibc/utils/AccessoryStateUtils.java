@@ -9,18 +9,18 @@ public class AccessoryStateUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccessoryStateUtils.class);
 
     public enum ErrorAccessoryState {
-        //@formatter:off
+        // @formatter:off
         NO_MORE_ERROR(0x00), COMMAND_NOT_EXECUTABLE_UNKNOWN_COMMAND_OR_ASPECT(0x01), POWER_CONSUMPTION_HIGH(0x02), POWER_SUPPLY_BELOW_LIMITS(
             0x03), FUSE_BLOWN(0x04), TEMPERATURE_TOO_HIGH(0x05), FEEDBACK_ERROR_UNWANTED_CHANGE_POSITION(0x06), MANUAL_CONTROL(
             0x07), BULB_OUT_OF_ORDER(0x10), SERVO_OUT_OF_ORDER(0x20), INTERNAL_ERROR(0x3F);
-        //@formatter:on
+        // @formatter:on
 
-        //@formatter:off
+        // @formatter:off
         public enum AccessoryExecutionState {
             IDLE, RUNNING, SUCCESSFUL, ERROR, UNKNOWN;
         }
 
-        //@formatter:on
+        // @formatter:on
 
         private final byte errorCode;
 
@@ -67,9 +67,9 @@ public class AccessoryStateUtils {
             case BidibLibrary.BIDIB_ACC_STATE_WAIT: // wait
                 sb.append(" => End position not yet reached. Check WAIT.");
                 break;
-            //            case BidibLibrary.BIDIB_ACC_STATE_NO_FB_AVAILABLE: // no feedback available
-            //                sb.append(" => No feedback available.");
-            //                break;
+            // case BidibLibrary.BIDIB_ACC_STATE_NO_FB_AVAILABLE: // no feedback available
+            // sb.append(" => No feedback available.");
+            // break;
             default:
                 sb.append(" => Unknown.");
                 break;

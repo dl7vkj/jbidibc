@@ -31,7 +31,8 @@ public class RequestFactoryTest {
         Assert.assertEquals(BidibLibrary.MSG_SYS_GET_MAGIC, ByteUtils.getInt(bidibMessages.get(0).getType()));
     }
 
-    // 22:39:33.288 [INFO] org.bidib.wizard.comm.mock.SimulationBidib [AWT-EventQueue-0] - Send is called with bytes: FE 06 01 00 0C 17 01 32 06 01 00 0D 17 01 33 06 01 00 0E 17 01 34 06 01 00 0F 17 01 35 D4 FE 
+    // 22:39:33.288 [INFO] org.bidib.wizard.comm.mock.SimulationBidib [AWT-EventQueue-0] - Send is called with bytes: FE
+    // 06 01 00 0C 17 01 32 06 01 00 0D 17 01 33 06 01 00 0E 17 01 34 06 01 00 0F 17 01 35 D4 FE
     @Test
     public void bulkGetVendorTest() throws ProtocolException {
         byte[] message =

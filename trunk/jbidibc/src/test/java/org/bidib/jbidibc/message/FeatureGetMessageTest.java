@@ -16,7 +16,7 @@ import org.testng.annotations.Test;
 
 /**
  * Tests for FeatureGetMessage
- *
+ * 
  */
 public class FeatureGetMessageTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(FeatureGetMessageTest.class);

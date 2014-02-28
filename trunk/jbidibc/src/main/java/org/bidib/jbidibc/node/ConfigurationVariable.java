@@ -28,8 +28,11 @@ public class ConfigurationVariable implements Serializable, Comparable<Configura
 
     /**
      * Creates a new instance of ConfigurationVariable
-     * @param name the CV name
-     * @param value the CV value
+     * 
+     * @param name
+     *            the CV name
+     * @param value
+     *            the CV value
      */
     public ConfigurationVariable(String name, String value) {
         this.name = name;
@@ -44,7 +47,8 @@ public class ConfigurationVariable implements Serializable, Comparable<Configura
     }
 
     /**
-     * @param name the name to set
+     * @param name
+     *            the name to set
      */
     public void setName(String name) {
         this.name = name;
@@ -58,7 +62,8 @@ public class ConfigurationVariable implements Serializable, Comparable<Configura
     }
 
     /**
-     * @param value the value to set
+     * @param value
+     *            the value to set
      */
     public void setValue(String value) {
         this.value = value;
@@ -72,7 +77,8 @@ public class ConfigurationVariable implements Serializable, Comparable<Configura
     }
 
     /**
-     * @param timeout the timeout to set
+     * @param timeout
+     *            the timeout to set
      */
     public void setTimeout(boolean timeout) {
         this.timeout = timeout;
@@ -86,7 +92,8 @@ public class ConfigurationVariable implements Serializable, Comparable<Configura
     }
 
     /**
-     * @param skipOnTimeout the skipOnTimeout flag to set
+     * @param skipOnTimeout
+     *            the skipOnTimeout flag to set
      */
     public void setSkipOnTimeout(boolean skipOnTimeout) {
         this.skipOnTimeout = skipOnTimeout;
@@ -100,7 +107,8 @@ public class ConfigurationVariable implements Serializable, Comparable<Configura
     }
 
     /**
-     * @param minCvNumber the maxCvNumber to set
+     * @param minCvNumber
+     *            the maxCvNumber to set
      */
     public void setMinCvNumber(int minCvNumber) {
         LOGGER.debug("Set the minCvNumber: {}", minCvNumber);
@@ -115,7 +123,8 @@ public class ConfigurationVariable implements Serializable, Comparable<Configura
     }
 
     /**
-     * @param maxCvNumber the maxCvNumber to set
+     * @param maxCvNumber
+     *            the maxCvNumber to set
      */
     public void setMaxCvNumber(int maxCvNumber) {
         LOGGER.debug("Set the maxCvNumber: {}", maxCvNumber);

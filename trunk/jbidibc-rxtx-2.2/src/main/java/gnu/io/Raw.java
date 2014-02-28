@@ -169,10 +169,10 @@ final class Raw extends RawPort {
     native void setflowcontrol(int flowcontrol) throws IOException;
 
     /*
-    linux/drivers/char/n_hdlc.c? FIXME
-    	taj@www.linux.org.uk
+     * linux/drivers/char/n_hdlc.c? FIXME taj@www.linux.org.uk
      */
-    /** Receive framing control 
+    /**
+     * Receive framing control
      */
     public void enableReceiveFraming(int f) throws UnsupportedCommOperationException {
         throw new UnsupportedCommOperationException("Not supported");
@@ -248,11 +248,10 @@ final class Raw extends RawPort {
     }
 
     /** Input/output buffers */
-    /** FIXME I think this refers to 
-    	FOPEN(3)/SETBUF(3)/FREAD(3)/FCLOSE(3) 
-    	taj@www.linux.org.uk
-
-    	These are native stubs...
+    /**
+     * FIXME I think this refers to FOPEN(3)/SETBUF(3)/FREAD(3)/FCLOSE(3) taj@www.linux.org.uk
+     * 
+     * These are native stubs...
      */
     private int InputBuffer = 0;
 
@@ -332,21 +331,9 @@ final class Raw extends RawPort {
                     break;
                 return;
                 /*
-                 if( monThread.DSR ) break;
-                 return;
-                 if (isDSR())
-                 {
-                 if (!dsrFlag) 
-                 {
-                 dsrFlag = true;
-                 RawPortEvent e = new RawPortEvent(this, RawPortEvent.DSR, !dsrFlag, dsrFlag );
-                 }
-                 }
-                 else if (dsrFlag)
-                 {
-                 dsrFlag = false;
-                 RawPortEvent e = new RawPortEvent(this, RawPortEvent.DSR, !dsrFlag, dsrFlag );
-                 }
+                 * if( monThread.DSR ) break; return; if (isDSR()) { if (!dsrFlag) { dsrFlag = true; RawPortEvent e =
+                 * new RawPortEvent(this, RawPortEvent.DSR, !dsrFlag, dsrFlag ); } } else if (dsrFlag) { dsrFlag =
+                 * false; RawPortEvent e = new RawPortEvent(this, RawPortEvent.DSR, !dsrFlag, dsrFlag ); }
                  */
             case RawPortEvent.CTS:
                 if (monThread.CTS)
@@ -499,10 +486,8 @@ final class Raw extends RawPort {
             int i = 0, Minimum = 0;
             int intArray[] = { b.length, InputBuffer, len };
             /*
-            	find the lowest nonzero value
-            	timeout and threshold are handled on the native side
-            	see  NativeEnableReceiveTimeoutThreshold in
-            	RawImp.c
+             * find the lowest nonzero value timeout and threshold are handled on the native side see
+             * NativeEnableReceiveTimeoutThreshold in RawImp.c
              */
             while (intArray[i] == 0 && i < intArray.length)
                 i++;
@@ -527,9 +512,10 @@ final class Raw extends RawPort {
     }
 
     class MonitorThread extends Thread {
-        /** Note: these have to be separate boolean flags because the
-           RawPortEvent constants are NOT bit-flags, they are just
-           defined as integers from 1 to 10  -DPL */
+        /**
+         * Note: these have to be separate boolean flags because the RawPortEvent constants are NOT bit-flags, they are
+         * just defined as integers from 1 to 10 -DPL
+         */
         private boolean CTS = false;
 
         private boolean DSR = false;

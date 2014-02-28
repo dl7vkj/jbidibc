@@ -7,7 +7,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
 /**
- * Signal the detection of a dynamic state from loco in the specified section. 
+ * Signal the detection of a dynamic state from loco in the specified section.
  */
 public class FeedbackDynStateResponse extends BidibMessage {
     public static final Integer TYPE = BidibLibrary.MSG_BM_DYN_STATE;

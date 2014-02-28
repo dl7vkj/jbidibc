@@ -3,7 +3,7 @@ package org.bidib.jbidibc.enumeration;
 import org.bidib.jbidibc.BidibLibrary;
 
 public enum LcOutputType implements BidibEnum, PortStatusAware {
-    //@formatter:off
+    // @formatter:off
     SWITCHPORT(BidibLibrary.BIDIB_OUTTYPE_SPORT, true), LIGHTPORT(BidibLibrary.BIDIB_OUTTYPE_LPORT, true), SERVOPORT(
         BidibLibrary.BIDIB_OUTTYPE_SERVO, true), SOUNDPORT(BidibLibrary.BIDIB_OUTTYPE_SOUND, true), MOTORPORT(
         BidibLibrary.BIDIB_OUTTYPE_MOTOR, true), ANALOGPORT(BidibLibrary.BIDIB_OUTTYPE_ANALOG, true), BACKLIGHTPORT(
@@ -15,7 +15,7 @@ public enum LcOutputType implements BidibEnum, PortStatusAware {
         BidibLibrary.BIDIB_MSYS_STOP_MACRO), START_MACRO(BidibLibrary.BIDIB_MSYS_START_MACRO), END_OF_MACRO(
         BidibLibrary.BIDIB_MSYS_END_OF_MACRO), ACCESSORY_OKAY_INPUTQUERY0(BidibLibrary.BIDIB_MSYS_ACC_OKAY_QIN0), ACCESSORY_OKAY_INPUTQUERY1(
         BidibLibrary.BIDIB_MSYS_ACC_OKAY_QIN1), ACCESSORY_OKAY_NF(BidibLibrary.BIDIB_MSYS_ACC_OKAY_NF);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

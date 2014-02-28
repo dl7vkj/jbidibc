@@ -44,7 +44,8 @@ public class NodeFactory {
     }
 
     /**
-     * @param bidib the bidib to set
+     * @param bidib
+     *            the bidib to set
      */
     public void setBidib(BidibInterface bidib) {
         this.bidib = bidib;
@@ -58,14 +59,16 @@ public class NodeFactory {
     }
 
     /**
-     * @param requestFactory the requestFactory to set
+     * @param requestFactory
+     *            the requestFactory to set
      */
     public void setRequestFactory(RequestFactory requestFactory) {
         this.requestFactory = requestFactory;
     }
 
     /**
-     * @param ignoreWaitTimeout the ignoreWaitTimeout flag to set
+     * @param ignoreWaitTimeout
+     *            the ignoreWaitTimeout flag to set
      */
     public void setIgnoreWaitTimeout(boolean ignoreWaitTimeout) {
         this.ignoreWaitTimeout = ignoreWaitTimeout;
@@ -90,18 +93,19 @@ public class NodeFactory {
             public void nodeNew(Node node) {
                 LOGGER.debug("Found new node in system: {}", node);
 
-                // Q: why is removeNode called instead of newNode? 
+                // Q: why is removeNode called instead of newNode?
                 // A: to make sure that the node is created by the new "newNode-created-thread-" in MainController ...
                 // Moved to createNode() that is called from messageReceiver
-                //                removeNode(node);
+                // removeNode(node);
             }
         });
     }
 
     /**
-     * Returns the provided node as AccessoryNode instance of null if the node is not an 
-     * AccessoryNode.
-     * @param node the node
+     * Returns the provided node as AccessoryNode instance of null if the node is not an AccessoryNode.
+     * 
+     * @param node
+     *            the node
      * @return the AccessoryNode instance
      */
     public AccessoryNode getAccessoryNode(Node node) {
@@ -115,9 +119,10 @@ public class NodeFactory {
     }
 
     /**
-     * Returns the provided node as BoosterNode instance of null if the node is not an 
-     * BoosterNode.
-     * @param node the node
+     * Returns the provided node as BoosterNode instance of null if the node is not an BoosterNode.
+     * 
+     * @param node
+     *            the node
      * @return the BoosterNode instance
      */
     public BoosterNode getBoosterNode(Node node) {
@@ -134,9 +139,10 @@ public class NodeFactory {
     }
 
     /**
-     * Returns the provided node as CommandStationNode instance of null if the node is not an 
-     * CommandStationNode.
-     * @param node the node
+     * Returns the provided node as CommandStationNode instance of null if the node is not an CommandStationNode.
+     * 
+     * @param node
+     *            the node
      * @return the CommandStationNode instance
      */
     public CommandStationNode getCommandStationNode(Node node) {
@@ -161,11 +167,12 @@ public class NodeFactory {
         if (bidibNode != null) {
             LOGGER.warn("The new node is already registered in the system: {}", bidibNode);
             messageReceiver.removeOrphanNode(node);
-            //            throw new NodeAlreadyRegisteredException("The new node is already registered in the system: " + bidibNode);
+            // throw new NodeAlreadyRegisteredException("The new node is already registered in the system: " +
+            // bidibNode);
             LOGGER.warn("Removed orphan node.");
         }
 
-        //        removeNode(node);
+        // removeNode(node);
         bidibNode = getNode(node);
         LOGGER.info("createNode returns new bidibNode: {}", bidibNode);
         return bidibNode;
@@ -173,7 +180,9 @@ public class NodeFactory {
 
     /**
      * Find a node by it's address
-     * @param address the node address
+     * 
+     * @param address
+     *            the node address
      * @return the bidib node
      */
     public BidibNode findNode(byte[] address) {
@@ -191,7 +200,9 @@ public class NodeFactory {
 
     /**
      * Get a bidib node from the registered nodes or create a new bidib node.
-     * @param node the node
+     * 
+     * @param node
+     *            the node
      * @return the bidib node
      */
     public BidibNode getNode(Node node) {
@@ -207,7 +218,7 @@ public class NodeFactory {
 
             if (bidibNode == null) {
                 // get the classId of the new node
-                //                int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
+                // int classId = ByteUtils.convertLongToUniqueId(node.getUniqueId())[0];
                 int classId = ByteUtils.getClassIdFromUniqueId(node.getUniqueId());
                 LOGGER.info("Create new bidibNode with classId: {}", classId);
 

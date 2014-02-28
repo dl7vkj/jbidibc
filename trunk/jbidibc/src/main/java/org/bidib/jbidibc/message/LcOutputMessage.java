@@ -31,7 +31,7 @@ public class LcOutputMessage extends BidibCommandMessage {
 
     @Override
     public Integer[] getExpectedResponseTypes() {
-        // the response MSG_LC_STAT is signaled asynchronously 
+        // the response MSG_LC_STAT is signaled asynchronously
         return null;
     }
 }

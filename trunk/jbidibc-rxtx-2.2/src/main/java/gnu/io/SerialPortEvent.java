@@ -92,7 +92,7 @@ public class SerialPortEvent extends EventObject {
 
     private int eventType;
 
-    /*public int eventType           =0; depricated */
+    /* public int eventType =0; depricated */
 
     public SerialPortEvent(SerialPort srcport, int eventtype, boolean oldvalue, boolean newvalue) {
         super(srcport);

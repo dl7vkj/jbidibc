@@ -47,7 +47,7 @@ public class LogFileAnalyzer {
                     || parts[1].startsWith("receive BoostStatResponse")
                     || parts[1].startsWith("receive FeedbackAddressResponse")
                     || parts[1].startsWith("receive FeedbackConfidenceResponse") || parts[1]
-                    .startsWith("receive FeedbackSpeedResponse"))) {
+                        .startsWith("receive FeedbackSpeedResponse"))) {
                 try {
                     LOGGER.debug("Parsing message, date: {}, raw: {}", parts[0], parts[2]);
                     messages.add(new Message(dateFormat.parse(parts[0].trim()).getTime(), ResponseFactory

@@ -48,7 +48,7 @@ public class VendorCvGBMboostWithBoosterTest {
 
         Assert.assertNotNull(vendorCV);
 
-        //        LOGGER.info("Loaded VendorCV for GBMboost: {}", vendorCV);
+        // LOGGER.info("Loaded VendorCV for GBMboost: {}", vendorCV);
 
         VersionInfoType versionInfo = vendorCV.getVersion();
         Assert.assertNotNull(versionInfo);

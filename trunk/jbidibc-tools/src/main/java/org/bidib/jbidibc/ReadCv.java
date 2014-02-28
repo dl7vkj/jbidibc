@@ -9,7 +9,7 @@ import com.beust.jcommander.Parameters;
 
 /**
  * This commands reads the value of the specified CV from the specified node.
- *
+ * 
  */
 @Parameters(separators = "=")
 public class ReadCv extends BidibNodeCommand {

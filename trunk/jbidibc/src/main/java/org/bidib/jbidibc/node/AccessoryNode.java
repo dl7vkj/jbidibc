@@ -42,8 +42,11 @@ public class AccessoryNode extends DeviceNode {
 
     /**
      * Get the accessory parameter of the specified accessory.
-     * @param accessoryNumber the number of the accessory 
-     * @param parameter the parameter to retrieve
+     * 
+     * @param accessoryNumber
+     *            the number of the accessory
+     * @param parameter
+     *            the parameter to retrieve
      * @return the parameter values of the accessory
      * @throws ProtocolException
      */
@@ -59,7 +62,7 @@ public class AccessoryNode extends DeviceNode {
     }
 
     public byte[] setAccessoryParameter(int accessoryNumber, int parameter, byte[] value) throws ProtocolException {
-        //        sendNoWait(new AccessoryParaSetMessage(accessoryNumber, parameter, value));
+        // sendNoWait(new AccessoryParaSetMessage(accessoryNumber, parameter, value));
         byte[] result = null;
         BidibMessage response =
             send(new AccessoryParaSetMessage(accessoryNumber, parameter, value), true, AccessoryParaResponse.TYPE);
@@ -72,7 +75,9 @@ public class AccessoryNode extends DeviceNode {
 
     /**
      * Get the accessory state of the specified accessory.
-     * @param accessoryNumber the number of the accessory
+     * 
+     * @param accessoryNumber
+     *            the number of the accessory
      * @throws ProtocolException
      */
     public void getAccessoryState(int accessoryNumber) throws ProtocolException {
@@ -87,7 +92,9 @@ public class AccessoryNode extends DeviceNode {
 
     /**
      * Send the accessory state acknowledgement message for the specified accessory.
-     * @param accessoryState the accessory state
+     * 
+     * @param accessoryState
+     *            the accessory state
      * @throws ProtocolException
      */
     public void acknowledgeAccessoryState(AccessoryState accessoryState) throws ProtocolException {
@@ -100,7 +107,7 @@ public class AccessoryNode extends DeviceNode {
                 ByteUtils.getInt(aspect));
             // send acknowledge
             // TODO check how this works ... currently does not work correct ...
-            //            setAccessoryState(accessoryNumber, aspect);
+            // setAccessoryState(accessoryNumber, aspect);
 
             // get the errors, see 4.6.4. Uplink: Messages for accessory functions
             // TODO verify what happens exactly before enable this ...
@@ -113,8 +120,11 @@ public class AccessoryNode extends DeviceNode {
 
     /**
      * Get the macro parameter.
-     * @param macroNumber the macro numbr
-     * @param parameter the parameter number
+     * 
+     * @param macroNumber
+     *            the macro numbr
+     * @param parameter
+     *            the parameter number
      * @return the parameter value
      * @throws ProtocolException
      */
@@ -138,8 +148,11 @@ public class AccessoryNode extends DeviceNode {
 
     /**
      * Get the macro parameter.
-     * @param macroNumber the macro numbr
-     * @param parameter the parameter number
+     * 
+     * @param macroNumber
+     *            the macro numbr
+     * @param parameter
+     *            the parameter number
      * @return the parameter value
      * @throws ProtocolException
      */
@@ -147,11 +160,11 @@ public class AccessoryNode extends DeviceNode {
         List<LcMacroParaValue> results = new LinkedList<>();
         List<BidibCommand> messages = new LinkedList<>();
         for (int parameter : parameters) {
-            
+
             messages.add(getRequestFactory().createLcMacroParaGet(macroNumber, parameter));
         }
         List<BidibMessage> responses = sendBulk(4, messages);
-        
+
         if (CollectionUtils.hasElements(responses)) {
             int index = 0;
             for (BidibMessage response : responses) {
@@ -160,16 +173,16 @@ public class AccessoryNode extends DeviceNode {
                     results.add(result);
                 }
                 else {
-                    LOGGER.warn("No response received for LcMacroParaGetMessage, macroNumber: {}, parameter: {}", macroNumber,
-                        parameters[index]);
-                    
+                    LOGGER.warn("No response received for LcMacroParaGetMessage, macroNumber: {}, parameter: {}",
+                        macroNumber, parameters[index]);
+
                     LcMacroParaValue result = new LcMacroParaValue(macroNumber, parameters[index], null);
                     results.add(result);
                     throw new ProtocolNoAnswerException(String.format(
                         "No response received for LcMacroParaGetMessage, macroNumber: %d, parameter: %d", macroNumber,
                         parameters[index]));
                 }
-                
+
                 index++;
             }
         }
@@ -178,8 +191,11 @@ public class AccessoryNode extends DeviceNode {
 
     /**
      * Get the macro step with the specified step number.
-     * @param macroNumber the number of the macro
-     * @param stepNumber the number of the step
+     * 
+     * @param macroNumber
+     *            the number of the macro
+     * @param stepNumber
+     *            the number of the step
      * @return the macro step
      * @throws ProtocolException
      */
@@ -203,8 +219,8 @@ public class AccessoryNode extends DeviceNode {
         LcMacroState result = null;
         if (response instanceof LcMacroStateResponse) {
             result = ((LcMacroStateResponse) response).getMacroState();
-            LOGGER.debug("handle macro returned: {}, response: {}", result, ((LcMacroStateResponse) response)
-                .toExtendedString());
+            LOGGER.debug("handle macro returned: {}, response: {}", result,
+                ((LcMacroStateResponse) response).toExtendedString());
         }
         return result;
     }

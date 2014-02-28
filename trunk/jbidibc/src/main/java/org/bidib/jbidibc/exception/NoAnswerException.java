@@ -2,7 +2,7 @@ package org.bidib.jbidibc.exception;
 
 /**
  * This exception is thrown if no answer was received from communication partner.
- *
+ * 
  */
 public class NoAnswerException extends RuntimeException {
     private static final long serialVersionUID = 1L;
@@ -33,7 +33,8 @@ public class NoAnswerException extends RuntimeException {
     }
 
     /**
-     * @param description the description to set
+     * @param description
+     *            the description to set
      */
     public void setDescription(String description) {
         this.description = description;

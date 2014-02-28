@@ -6,8 +6,11 @@ import org.bidib.jbidibc.exception.ProtocolException;
 public class FeedbackGetRangeMessage extends BidibCommandMessage {
     /**
      * Get the status of the feedback bits in the specified range.
-     * @param begin the start of Melderbits to be transfered 
-     * @param end the end of Melderbits to be transfered
+     * 
+     * @param begin
+     *            the start of Melderbits to be transfered
+     * @param end
+     *            the end of Melderbits to be transfered
      */
     public FeedbackGetRangeMessage(int begin, int end) {
         super(0, BidibLibrary.MSG_BM_GET_RANGE, new byte[] { (byte) begin, (byte) end });

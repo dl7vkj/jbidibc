@@ -13,7 +13,7 @@ import com.beust.jcommander.Parameters;
 
 /**
  * This commands sends the Ping message to the specified node.
- *
+ * 
  */
 @Parameters(separators = "=")
 public class Ping extends BidibNodeCommand {

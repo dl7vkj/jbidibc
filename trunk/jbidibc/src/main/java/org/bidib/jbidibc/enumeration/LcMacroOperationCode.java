@@ -3,10 +3,10 @@ package org.bidib.jbidibc.enumeration;
 import org.bidib.jbidibc.BidibLibrary;
 
 public enum LcMacroOperationCode implements BidibEnum {
-    //@formatter:off
+    // @formatter:off
     OFF(BidibLibrary.BIDIB_MACRO_OFF), START(BidibLibrary.BIDIB_MACRO_START), RESTORE(BidibLibrary.BIDIB_MACRO_RESTORE), SAVE(
         BidibLibrary.BIDIB_MACRO_SAVE), DELETE(BidibLibrary.BIDIB_MACRO_DELETE);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

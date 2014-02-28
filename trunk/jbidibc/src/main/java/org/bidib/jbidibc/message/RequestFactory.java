@@ -39,7 +39,9 @@ public class RequestFactory {
 
     /**
      * Create messages from the provided byte array.
-     * @param messageData the byte array with the messages
+     * 
+     * @param messageData
+     *            the byte array with the messages
      * @return the list of BidibCommands
      * @throws ProtocolException
      */

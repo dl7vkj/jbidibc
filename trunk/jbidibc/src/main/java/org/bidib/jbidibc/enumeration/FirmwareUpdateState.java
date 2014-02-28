@@ -3,10 +3,10 @@ package org.bidib.jbidibc.enumeration;
 import org.bidib.jbidibc.BidibLibrary;
 
 public enum FirmwareUpdateState implements BidibEnum {
-    //@formatter:off
+    // @formatter:off
     READY(BidibLibrary.BIDIB_MSG_FW_UPDATE_STAT_READY), EXIT(BidibLibrary.BIDIB_MSG_FW_UPDATE_STAT_EXIT), DATA(
         BidibLibrary.BIDIB_MSG_FW_UPDATE_STAT_DATA), ERROR(BidibLibrary.BIDIB_MSG_FW_UPDATE_STAT_ERROR);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

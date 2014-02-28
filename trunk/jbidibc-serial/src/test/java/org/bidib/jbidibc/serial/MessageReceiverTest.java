@@ -137,8 +137,8 @@ public class MessageReceiverTest {
         // set the receive queue
 
         ByteArrayInputStream is =
-            new ByteArrayInputStream(new byte[] { 0x06, 0x01, 0x00, 0x0e, (byte) 0x90, 0x00, 0x20, /*CRC*/(byte) 0xA7,
-                (byte) 0xFE, /*start 2nd message*/0x06, 0x01, 0x00, 0x0f, (byte) 0x90, 0x00, 0x20, /*CRC*/
+            new ByteArrayInputStream(new byte[] { 0x06, 0x01, 0x00, 0x0e, (byte) 0x90, 0x00, 0x20, /* CRC */
+                (byte) 0xA7, (byte) 0xFE, /* start 2nd message */0x06, 0x01, 0x00, 0x0f, (byte) 0x90, 0x00, 0x20, /* CRC */
                 (byte) 0x28, (byte) 0xFE });
 
         Mockito.when(serialPort.getInputStream()).thenReturn(is);
@@ -192,7 +192,8 @@ public class MessageReceiverTest {
         receiver.addMessageListener(messageListener);
         // set the receive queue
 
-        // 11.08.2013 22:38:40.383: receive NodeTabResponse[[1, 0],num=2,type=137,data=[1, 0, 129, 0, 13, 114, 0, 31, 0]] : 0d 01 00 02 89 01 00 81 00 0d 72 00 1f 00 
+        // 11.08.2013 22:38:40.383: receive NodeTabResponse[[1, 0],num=2,type=137,data=[1, 0, 129, 0, 13, 114, 0, 31,
+        // 0]] : 0d 01 00 02 89 01 00 81 00 0d 72 00 1f 00
         byte[] message =
             new byte[] { 0x0d, 0x01, 0x00, 0x02, (byte) 0x89, 0x01, 0x00, (byte) 0x81, 0x00, (byte) 0x0d, (byte) 0x72,
                 0x00, 0x1f, 0x00, (byte) 0xFE };

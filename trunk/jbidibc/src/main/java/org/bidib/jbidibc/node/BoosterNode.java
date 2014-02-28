@@ -19,7 +19,9 @@ public class BoosterNode {
 
     /**
      * Switch on track signal on the booster.
-     * @param broadcast broadcast message mode (see {@link BoostOnMessage} ) 
+     * 
+     * @param broadcast
+     *            broadcast message mode (see {@link BoostOnMessage} )
      * @throws ProtocolException
      */
     public void boosterOn(byte broadcast) throws ProtocolException {
@@ -29,7 +31,9 @@ public class BoosterNode {
 
     /**
      * Switch off track signal on the booster.
-     * @param broadcast broadcast message mode (see {@link BoostOffMessage} ) 
+     * 
+     * @param broadcast
+     *            broadcast message mode (see {@link BoostOffMessage} )
      * @throws ProtocolException
      */
     public void boosterOff(byte broadcast) throws ProtocolException {
@@ -38,8 +42,8 @@ public class BoosterNode {
     }
 
     /**
-     * Query the booster state. We don't wait for the response because the MessageReceiver fires the booster
-     * status callback on receipt.
+     * Query the booster state. We don't wait for the response because the MessageReceiver fires the booster status
+     * callback on receipt.
      * 
      * @throws ProtocolException
      */

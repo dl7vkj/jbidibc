@@ -199,7 +199,7 @@ public class CommPortIdentifier extends Object /* extends Vector? */
         if (debug)
             System.out.println("CommPortIdentifier:addPortOwnershipListener()");
 
-        /*  is the Vector instantiated? */
+        /* is the Vector instantiated? */
 
         if (ownershipListener == null) {
             ownershipListener = new Vector();
@@ -259,10 +259,11 @@ public class CommPortIdentifier extends Object /* extends Vector? */
                 index = index.next;
             }
             if (index == null) {
-                /* This may slow things down but if you pass the string for the port after
-                   a device is plugged in, you can find it now.
-
-                   http://bugzilla.qbang.org/show_bug.cgi?id=48
+                /*
+                 * This may slow things down but if you pass the string for the port after a device is plugged in, you
+                 * can find it now.
+                 * 
+                 * http://bugzilla.qbang.org/show_bug.cgi?id=48
                  */
                 getPortIdentifiers();
                 index = CommPortIndex;
@@ -316,10 +317,10 @@ public class CommPortIdentifier extends Object /* extends Vector? */
     static public Enumeration getPortIdentifiers() {
         if (debug)
             System.out.println("static CommPortIdentifier:getPortIdentifiers()");
-        //Do not allow anybody get any ports while we are re-initializing
-        //because the CommPortIndex points to invalid instances during that time
+        // Do not allow anybody get any ports while we are re-initializing
+        // because the CommPortIndex points to invalid instances during that time
         synchronized (Sync) {
-            //Remember old ports in order to restore them for ownership events later
+            // Remember old ports in order to restore them for ownership events later
             HashMap oldPorts = new HashMap();
             CommPortIdentifier p = CommPortIndex;
             while (p != null) {
@@ -328,21 +329,21 @@ public class CommPortIdentifier extends Object /* extends Vector? */
             }
             CommPortIndex = null;
             try {
-                //Initialize RXTX: This leads to detecting all ports
-                //and writing them into our CommPortIndex through our method
-                //{@link #addPortName(java.lang.String, int, gnu.io.CommDriver)}
-                //This works while lock on Sync is held
+                // Initialize RXTX: This leads to detecting all ports
+                // and writing them into our CommPortIndex through our method
+                // {@link #addPortName(java.lang.String, int, gnu.io.CommDriver)}
+                // This works while lock on Sync is held
                 CommDriver RXTXDriver = (CommDriver) Class.forName("gnu.io.RXTXCommDriver").newInstance();
                 RXTXDriver.initialize();
-                //Restore old CommPortIdentifier objects where possible, 
-                //in order to support proper ownership event handling.
-                //Clients might still have references to old identifiers!
+                // Restore old CommPortIdentifier objects where possible,
+                // in order to support proper ownership event handling.
+                // Clients might still have references to old identifiers!
                 CommPortIdentifier curPort = CommPortIndex;
                 CommPortIdentifier prevPort = null;
                 while (curPort != null) {
                     CommPortIdentifier matchingOldPort = (CommPortIdentifier) oldPorts.get(curPort.PortName);
                     if (matchingOldPort != null && matchingOldPort.PortType == curPort.PortType) {
-                        //replace new port by old one
+                        // replace new port by old one
                         matchingOldPort.RXTXDriver = curPort.RXTXDriver;
                         matchingOldPort.next = curPort.next;
                         if (prevPort == null) {
@@ -429,14 +430,14 @@ public class CommPortIdentifier extends Object /* extends Vector? */
         synchronized (this) {
             isAvailable = this.Available;
             if (isAvailable) {
-                //assume ownership inside the synchronized block
+                // assume ownership inside the synchronized block
                 this.Available = false;
                 this.Owner = TheOwner;
             }
         }
         if (!isAvailable) {
             long waitTimeEnd = System.currentTimeMillis() + i;
-            //fire the ownership event outside the synchronized block
+            // fire the ownership event outside the synchronized block
             fireOwnershipEvent(CommPortOwnershipListener.PORT_OWNERSHIP_REQUESTED);
             long waitTimeCurr;
             synchronized (this) {
@@ -451,7 +452,7 @@ public class CommPortIdentifier extends Object /* extends Vector? */
                 }
                 isAvailable = this.Available;
                 if (isAvailable) {
-                    //assume ownership inside the synchronized block
+                    // assume ownership inside the synchronized block
                     this.Available = false;
                     this.Owner = TheOwner;
                 }
@@ -460,7 +461,7 @@ public class CommPortIdentifier extends Object /* extends Vector? */
         if (!isAvailable) {
             throw new gnu.io.PortInUseException(getCurrentOwner());
         }
-        //At this point, the CommPortIdentifier is owned by us.
+        // At this point, the CommPortIdentifier is owned by us.
         try {
             if (commport == null) {
                 commport = RXTXDriver.getCommPort(PortName, PortType);
@@ -482,7 +483,7 @@ public class CommPortIdentifier extends Object /* extends Vector? */
         }
         finally {
             if (commport == null) {
-                //something went wrong reserving the commport -> unown the port
+                // something went wrong reserving the commport -> unown the port
                 synchronized (this) {
                     this.Available = true;
                     this.Owner = null;
@@ -522,7 +523,7 @@ public class CommPortIdentifier extends Object /* extends Vector? */
             Owner = null;
             Available = true;
             commport = null;
-            /*  this tosses null pointer?? */
+            /* this tosses null pointer?? */
             notifyAll();
         }
         fireOwnershipEvent(CommPortOwnershipListener.PORT_UNOWNED);

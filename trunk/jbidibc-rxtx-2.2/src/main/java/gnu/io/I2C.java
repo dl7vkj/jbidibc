@@ -171,10 +171,10 @@ final class I2C extends I2CPort {
     native void setflowcontrol(int flowcontrol) throws IOException;
 
     /*
-    linux/drivers/char/n_hdlc.c? FIXME
-    	taj@www.linux.org.uk
+     * linux/drivers/char/n_hdlc.c? FIXME taj@www.linux.org.uk
      */
-    /** Receive framing control 
+    /**
+     * Receive framing control
      */
     public void enableReceiveFraming(int f) throws UnsupportedCommOperationException {
         throw new UnsupportedCommOperationException("Not supported");
@@ -250,11 +250,10 @@ final class I2C extends I2CPort {
     }
 
     /** Input/output buffers */
-    /** FIXME I think this refers to 
-    	FOPEN(3)/SETBUF(3)/FREAD(3)/FCLOSE(3) 
-    	taj@www.linux.org.uk
-
-    	These are native stubs...
+    /**
+     * FIXME I think this refers to FOPEN(3)/SETBUF(3)/FREAD(3)/FCLOSE(3) taj@www.linux.org.uk
+     * 
+     * These are native stubs...
      */
     private int InputBuffer = 0;
 
@@ -334,21 +333,9 @@ final class I2C extends I2CPort {
                     break;
                 return;
                 /*
-                 if( monThread.DSR ) break;
-                 return;
-                 if (isDSR())
-                 {
-                 if (!dsrFlag) 
-                 {
-                 dsrFlag = true;
-                 I2CPortEvent e = new I2CPortEvent(this, I2CPortEvent.DSR, !dsrFlag, dsrFlag );
-                 }
-                 }
-                 else if (dsrFlag)
-                 {
-                 dsrFlag = false;
-                 I2CPortEvent e = new I2CPortEvent(this, I2CPortEvent.DSR, !dsrFlag, dsrFlag );
-                 }
+                 * if( monThread.DSR ) break; return; if (isDSR()) { if (!dsrFlag) { dsrFlag = true; I2CPortEvent e =
+                 * new I2CPortEvent(this, I2CPortEvent.DSR, !dsrFlag, dsrFlag ); } } else if (dsrFlag) { dsrFlag =
+                 * false; I2CPortEvent e = new I2CPortEvent(this, I2CPortEvent.DSR, !dsrFlag, dsrFlag ); }
                  */
             case I2CPortEvent.CTS:
                 if (monThread.CTS)
@@ -502,10 +489,8 @@ final class I2C extends I2CPort {
             int i = 0, Minimum = 0;
             int intArray[] = { b.length, InputBuffer, len };
             /*
-            	find the lowest nonzero value
-            	timeout and threshold are handled on the native side
-            	see  NativeEnableReceiveTimeoutThreshold in
-            	I2CImp.c
+             * find the lowest nonzero value timeout and threshold are handled on the native side see
+             * NativeEnableReceiveTimeoutThreshold in I2CImp.c
              */
             while (intArray[i] == 0 && i < intArray.length)
                 i++;
@@ -530,9 +515,10 @@ final class I2C extends I2CPort {
     }
 
     class MonitorThread extends Thread {
-        /** Note: these have to be separate boolean flags because the
-           I2CPortEvent constants are NOT bit-flags, they are just
-           defined as integers from 1 to 10  -DPL */
+        /**
+         * Note: these have to be separate boolean flags because the I2CPortEvent constants are NOT bit-flags, they are
+         * just defined as integers from 1 to 10 -DPL
+         */
         private boolean CTS = false;
 
         private boolean DSR = false;

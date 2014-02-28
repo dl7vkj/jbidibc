@@ -36,8 +36,7 @@ public class BidibMessage {
      * Create a BidibMessage from an array of bytes.
      * 
      * @param message
-     *            array of bytes, containing the leading magic byte, but without
-     *            the trailing magic byte
+     *            array of bytes, containing the leading magic byte, but without the trailing magic byte
      * 
      * @throws ProtocolException
      *             Thrown if the leading magic byte was missing.
@@ -121,10 +120,10 @@ public class BidibMessage {
 
     public byte[] getContent() {
 
-        int size = 1 /*total len*/+ addr.length + 1 + 1 /*num*/+ 1 /*type*/+ data.length;
+        int size = 1 /* total len */+ addr.length + 1 + 1 /* num */+ 1 /* type */+ data.length;
         boolean rootAddr = false;
         if (addr.length == 1 && addr[0] == 0) {
-            size = 1 /*total len*/+ addr.length + 1 /*num*/+ 1 /*type*/+ data.length;
+            size = 1 /* total len */+ addr.length + 1 /* num */+ 1 /* type */+ data.length;
             rootAddr = true;
         }
 

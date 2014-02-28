@@ -16,8 +16,8 @@ public class StringResponse extends BidibMessage {
     }
 
     public StringResponse(byte[] addr, int num, byte namespace, byte index, String data) throws ProtocolException {
-        this(addr, num, BidibLibrary.MSG_STRING, ByteUtils.concat(new byte[] { namespace, index,
-            ByteUtils.getLowByte(data.length()) }, data.getBytes()));
+        this(addr, num, BidibLibrary.MSG_STRING, ByteUtils.concat(
+            new byte[] { namespace, index, ByteUtils.getLowByte(data.length()) }, data.getBytes()));
     }
 
     public StringData getStringData() {

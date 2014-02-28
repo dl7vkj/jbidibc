@@ -25,8 +25,11 @@ public class LcAccessoryExporter {
 
     /**
      * Save a single accessory
-     * @param lcAccessory the accessory
-     * @param fileName the filename
+     * 
+     * @param lcAccessory
+     *            the accessory
+     * @param fileName
+     *            the filename
      */
     public void saveAccessory(LcAccessoryType lcAccessory, String fileName, boolean gzip) {
         LOGGER.info("Save accessory content to file: {}, lcMacro: {}", fileName, lcAccessory);

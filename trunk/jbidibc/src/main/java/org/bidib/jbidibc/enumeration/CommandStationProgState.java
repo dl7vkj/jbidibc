@@ -1,9 +1,9 @@
 package org.bidib.jbidibc.enumeration;
 
 public enum CommandStationProgState implements BidibEnum {
-    //@formatter:off
+    // @formatter:off
     PROG_STATE(1), PROG_DATA(2);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

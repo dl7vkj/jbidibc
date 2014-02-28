@@ -8,7 +8,7 @@ import com.beust.jcommander.Parameters;
 
 /**
  * This commands gets the list of nodes from the specified port.
- *
+ * 
  */
 @Parameters(separators = "=")
 public class GetNodeList extends BidibCommand {

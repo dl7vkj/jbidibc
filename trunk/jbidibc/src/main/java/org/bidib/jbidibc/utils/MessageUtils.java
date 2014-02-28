@@ -21,8 +21,11 @@ public class MessageUtils {
 
     /**
      * Convert the value of an output type to the corresponding BidibEnum.
-     * @param outputType the output type
-     * @param value the value.
+     * 
+     * @param outputType
+     *            the output type
+     * @param value
+     *            the value.
      * @return the BidibEnum value
      */
     public static BidibEnum toPortStatus(LcOutputType outputType, byte value) {
@@ -61,7 +64,9 @@ public class MessageUtils {
 
     /**
      * Get the port status value from the provided macro step.
-     * @param macro the macro step
+     * 
+     * @param macro
+     *            the macro step
      * @return the port status
      */
     public static byte getPortStatus(LcMacro macro) {

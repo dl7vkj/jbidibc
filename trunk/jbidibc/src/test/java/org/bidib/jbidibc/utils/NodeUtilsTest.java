@@ -142,7 +142,8 @@ public class NodeUtilsTest {
 
     @Test
     public void hasBoosterAndNoCommandStationFunctions() {
-        // 13:43:12.898 [INFO] org.bidib.wizard.mvc.main.controller.MainController [main] - Create new 'wizard' node from jbidibc.Node: Node[version=1,addr=[0],uniqueId=0xc2000d6800d3ea]
+        // 13:43:12.898 [INFO] org.bidib.wizard.mvc.main.controller.MainController [main] - Create new 'wizard' node
+        // from jbidibc.Node: Node[version=1,addr=[0],uniqueId=0xc2000d6800d3ea]
 
         BigInteger bigInt = new BigInteger("c2000d6800d3ea", 16);
         long uniqueId = bigInt.longValue();

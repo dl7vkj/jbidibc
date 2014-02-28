@@ -52,7 +52,8 @@ public class BidibMessageTest {
 
     @Test
     public void createMessageLcConfigSet() throws ProtocolException {
-        // 25.08.2013 17:25:14.248: send LcConfigSetMessage[num=245,type=65,data=[2, 0, 0, 255, 4, 0]] : fe 0a 02 00 f5 41 02 00 00 ff 04 00 c4 fe 
+        // 25.08.2013 17:25:14.248: send LcConfigSetMessage[num=245,type=65,data=[2, 0, 0, 255, 4, 0]] : fe 0a 02 00 f5
+        // 41 02 00 00 ff 04 00 c4 fe
         byte[] message =
             { 0x0a, 0x02, 0x00, (byte) 0xf5, 0x41, 0x02, 0x00, 0x00, (byte) 0xff, 0x04, 0x00, (byte) 0xc4 };
 
@@ -63,7 +64,7 @@ public class BidibMessageTest {
 
     @Test
     public void createMessageBoostOn() throws ProtocolException {
-        // 08.11.2013 13:43:46.017: send BoostOnMessage[num=20,type=49,data=[1]] : fe 05 00 14 31 01 00 6c fe 
+        // 08.11.2013 13:43:46.017: send BoostOnMessage[num=20,type=49,data=[1]] : fe 05 00 14 31 01 00 6c fe
         byte[] message = { 0x05, 0x00, 0x14, (byte) 0x31, 0x01, 0x00, (byte) 0x6c };
 
         BidibMessage bidibMessage = new BidibMessage(message);
@@ -73,7 +74,8 @@ public class BidibMessageTest {
 
     @Test
     public void createMessageSysClock() throws ProtocolException {
-        //17.11.2013 19:30:48.688: send SysClockMessage[num=24,type=24,data=[1, 134, 70, 193]] : FE 08 00 18 18 01 86 46 C1 00 20 FE 
+        // 17.11.2013 19:30:48.688: send SysClockMessage[num=24,type=24,data=[1, 134, 70, 193]] : FE 08 00 18 18 01 86
+        // 46 C1 00 20 FE
 
         byte[] message = { 0x08, 0x00, 0x18, 0x18, 0x01, (byte) 0x86, (byte) 0x46, (byte) 0xC1, 0x00, 0x20 };
 

@@ -4,26 +4,18 @@ import java.nio.ByteBuffer;
 
 /**
  * 
- * Unique ID:
- *  1. Byte: Class ID
- *    Bit 7: interface node (has subnodes)
- *    Bit 6: feedback functions
- *    Bit 5: 
- *    Bit 4: command station functions
- *    Bit 3: command station programming functions
- *    Bit 2: accessory functions
- *    Bit 1: booster functions
- *    Bit 0: switch functions
- *
+ * Unique ID: 1. Byte: Class ID Bit 7: interface node (has subnodes) Bit 6: feedback functions Bit 5: Bit 4: command
+ * station functions Bit 3: command station programming functions Bit 2: accessory functions Bit 1: booster functions
+ * Bit 0: switch functions
+ * 
  */
 public class NodeUtils {
     // the interface address is always 0
     public static final int INTERFACE_ADDRESS = 0;
 
     /**
-     * Convert a node address into an integer value.
-     * All byte parts are converted into an int value by shifting the parts to their position
-     * in the int value.
+     * Convert a node address into an integer value. All byte parts are converted into an int value by shifting the
+     * parts to their position in the int value.
      * 
      * @param address
      *            node address
@@ -91,8 +83,10 @@ public class NodeUtils {
     }
 
     /**
-     * @param uniqueId the unique id of the node
-     * @param pidBits the relevant PID bits
+     * @param uniqueId
+     *            the unique id of the node
+     * @param pidBits
+     *            the relevant PID bits
      * @return returns the uniqueId of the node as formatted hex string
      */
     public static String[] getPidAndSerialNumberAsString(long uniqueId, int pidBits) {
@@ -102,7 +96,8 @@ public class NodeUtils {
     }
 
     /**
-     * @param uniqueId the unique id of the node
+     * @param uniqueId
+     *            the unique id of the node
      * @return returns the uniqueId of the node as formatted hex string
      */
     public static String getUniqueIdAsString(long uniqueId) {
@@ -110,7 +105,8 @@ public class NodeUtils {
     }
 
     /**
-     * @param uniqueId the unique id of the node
+     * @param uniqueId
+     *            the unique id of the node
      * @return returns the uniqueId of the node as byte array
      */
     public static byte[] getUniqueId(long uniqueId) {
@@ -124,7 +120,9 @@ public class NodeUtils {
 
     /**
      * Get the vendor id from the unique id.
-     * @param uniqueId the unique id
+     * 
+     * @param uniqueId
+     *            the unique id
      * @return the vendor id
      */
     public static long getVendorId(long uniqueId) {
@@ -133,7 +131,9 @@ public class NodeUtils {
 
     /**
      * Get the product id from the unique id.
-     * @param uniqueId the unique id
+     * 
+     * @param uniqueId
+     *            the unique id
      * @return the product id
      */
     public static long getPid(long uniqueId) {

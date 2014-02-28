@@ -1,9 +1,9 @@
 package org.bidib.jbidibc.enumeration;
 
 public enum AddressTypeEnum implements BidibEnum {
-    //@formatter:off
+    // @formatter:off
     LOCOMOTIVE_FORWARD(0), ACCESSORY(1), LOCOMOTIVE_BACKWARD(2), EXTENDED_ACCESSORY(3);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

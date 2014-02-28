@@ -21,7 +21,8 @@ public class LcMacroParaValue {
     }
 
     /**
-     * @param macroNumber the macroNumber to set
+     * @param macroNumber
+     *            the macroNumber to set
      */
     public void setMacroNumber(int macroNumber) {
         this.macroNumber = macroNumber;
@@ -35,7 +36,8 @@ public class LcMacroParaValue {
     }
 
     /**
-     * @param parameter the parameter to set
+     * @param parameter
+     *            the parameter to set
      */
     public void setParameter(int parameter) {
         this.parameter = parameter;

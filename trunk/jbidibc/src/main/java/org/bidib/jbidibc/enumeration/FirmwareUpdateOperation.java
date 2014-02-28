@@ -3,11 +3,11 @@ package org.bidib.jbidibc.enumeration;
 import org.bidib.jbidibc.BidibLibrary;
 
 public enum FirmwareUpdateOperation implements BidibEnum {
-    //@formatter:off
+    // @formatter:off
     ENTER(BidibLibrary.BIDIB_MSG_FW_UPDATE_OP_ENTER), EXIT(BidibLibrary.BIDIB_MSG_FW_UPDATE_OP_EXIT), SETDEST(
         BidibLibrary.BIDIB_MSG_FW_UPDATE_OP_SETDEST), DATA(BidibLibrary.BIDIB_MSG_FW_UPDATE_OP_DATA), DONE(
         BidibLibrary.BIDIB_MSG_FW_UPDATE_OP_DONE);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

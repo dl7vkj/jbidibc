@@ -56,8 +56,8 @@ public class SimulationConfigTest {
         Assert.assertNotNull(master.getUniqueId());
 
         byte[] expected = ByteUtils.convertLongToUniqueId(0xd2000d680064eaL);
-        LOGGER.info("expected: {}, received: {}", ByteUtils.bytesToHex(expected), ByteUtils.bytesToHex(master
-            .getUniqueId()));
+        LOGGER.info("expected: {}, received: {}", ByteUtils.bytesToHex(expected),
+            ByteUtils.bytesToHex(master.getUniqueId()));
 
         Assert.assertEquals(master.getUniqueId(), expected);
         Assert.assertEquals(ByteUtils.convertUniqueIdToLong(master.getUniqueId()), 0xd2000d680064eaL);

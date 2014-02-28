@@ -123,7 +123,8 @@ public class BidibNode {
      *            the address
      * @param messageReceiver
      *            the message receiver
-     * @param ignoreWaitTimeout ignore the wait timeout
+     * @param ignoreWaitTimeout
+     *            ignore the wait timeout
      */
     protected BidibNode(byte[] addr, MessageReceiver messageReceiver, boolean ignoreWaitTimeout) {
         this.addr = addr != null ? addr.clone() : null;
@@ -133,14 +134,16 @@ public class BidibNode {
     }
 
     /**
-     * @param bidib the bidib to set
+     * @param bidib
+     *            the bidib to set
      */
     public void setBidib(BidibInterface bidib) {
         this.bidib = bidib;
     }
 
     /**
-     * @param requestFactory the requestFactory to set
+     * @param requestFactory
+     *            the requestFactory to set
      */
     public void setRequestFactory(RequestFactory requestFactory) {
         this.requestFactory = requestFactory;
@@ -158,7 +161,8 @@ public class BidibNode {
     }
 
     /**
-     * @param responseTimeout the responseTimeout to set
+     * @param responseTimeout
+     *            the responseTimeout to set
      */
     public void setResponseTimeout(int responseTimeout) {
         this.responseTimeout = responseTimeout;
@@ -189,7 +193,8 @@ public class BidibNode {
     }
 
     /**
-     * @param magic the magic to set
+     * @param magic
+     *            the magic to set
      */
     public void setNodeMagic(Integer magic) {
         LOGGER.debug("Set magic of node: {}", magic);
@@ -198,6 +203,7 @@ public class BidibNode {
 
     /**
      * Returns if the node is a bootloader node with limited functionality.
+     * 
      * @return node is bootloader node
      */
     public boolean isBootloaderNode() {
@@ -249,7 +255,9 @@ public class BidibNode {
 
     /**
      * Create a ProtocolException if no response is available.
-     * @param messageName the message name that is inserted in the exception message
+     * 
+     * @param messageName
+     *            the message name that is inserted in the exception message
      * @return the exception
      */
     private ProtocolException createNoResponseAvailable(String messageName) {
@@ -313,7 +321,9 @@ public class BidibNode {
 
     /**
      * Send the node changed acknowledge message.
-     * @param versionNumber the version number of the node table
+     * 
+     * @param versionNumber
+     *            the version number of the node table
      * @throws ProtocolException
      */
     public void acknowledgeNodeChanged(int versionNumber) throws ProtocolException {
@@ -322,7 +332,9 @@ public class BidibNode {
 
     /**
      * Send the feedback mirror free message for the specified detector number.
-     * @param detectorNumber the detector number
+     * 
+     * @param detectorNumber
+     *            the detector number
      * @throws ProtocolException
      */
     public void acknowledgeFree(int detectorNumber) throws ProtocolException {
@@ -331,9 +343,13 @@ public class BidibNode {
 
     /**
      * Send the feedback mirror multiple message.
-     * @param baseAddress the base address
-     * @param size the size
-     * @param detectorData the detector data
+     * 
+     * @param baseAddress
+     *            the base address
+     * @param size
+     *            the size
+     * @param detectorData
+     *            the detector data
      * @throws ProtocolException
      */
     public void acknowledgeMultiple(int baseAddress, int size, byte[] detectorData) throws ProtocolException {
@@ -343,7 +359,9 @@ public class BidibNode {
 
     /**
      * Send the feedback mirror occupied message for the specified detector number.
-     * @param detectorNumber the detector number
+     * 
+     * @param detectorNumber
+     *            the detector number
      * @throws ProtocolException
      */
     public void acknowledgeOccupied(int detectorNumber) throws ProtocolException {
@@ -352,7 +370,9 @@ public class BidibNode {
 
     /**
      * Switch on track signal on the booster.
-     * @param broadcast broadcast command
+     * 
+     * @param broadcast
+     *            broadcast command
      * @throws ProtocolException
      */
     public void boosterOn(byte broadcast) throws ProtocolException {
@@ -361,7 +381,9 @@ public class BidibNode {
 
     /**
      * Switch off track signal on the booster.
-     * @param broadcast broadcast command
+     * 
+     * @param broadcast
+     *            broadcast command
      * @throws ProtocolException
      */
     public void boosterOff(byte broadcast) throws ProtocolException {
@@ -425,8 +447,8 @@ public class BidibNode {
         else if (response instanceof FeatureNotAvailableResponse) {
             FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
             // TODO change this in version 2.0 to throw an exception
-            //            throw new ProtocolException("The requested feature is not available, featureNumber: "
-            //                + result.getFeatureNumber());
+            // throw new ProtocolException("The requested feature is not available, featureNumber: "
+            // + result.getFeatureNumber());
             LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
             return null;
         }
@@ -487,8 +509,8 @@ public class BidibNode {
         else if (response instanceof FeatureNotAvailableResponse) {
             FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
             // TODO change this in version 2.0 to throw an exception
-            //            throw new ProtocolException("The requested feature is not available, featureNumber: "
-            //                + result.getFeatureNumber());
+            // throw new ProtocolException("The requested feature is not available, featureNumber: "
+            // + result.getFeatureNumber());
             LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
             return null;
         }
@@ -502,12 +524,12 @@ public class BidibNode {
     }
 
     /**
-     * Returns the features of the node up top the provided feature count. 
-     * Call <code>getFeatureCount()</code> to reset the internal counter for the
-     * feature index and use the returned feature count as parameter for the call
-     * of this method.
+     * Returns the features of the node up top the provided feature count. Call <code>getFeatureCount()</code> to reset
+     * the internal counter for the feature index and use the returned feature count as parameter for the call of this
+     * method.
      * 
-     * @param featureCount the number of features to read
+     * @param featureCount
+     *            the number of features to read
      * @return list of features or null if no features available
      * @throws ProtocolException
      */
@@ -532,8 +554,8 @@ public class BidibNode {
                 else if (response instanceof FeatureNotAvailableResponse) {
                     FeatureNotAvailableResponse result = (FeatureNotAvailableResponse) response;
                     // TODO change this in version 2.0 to throw an exception
-                    //            throw new ProtocolException("The requested feature is not available, featureNumber: "
-                    //                + result.getFeatureNumber());
+                    // throw new ProtocolException("The requested feature is not available, featureNumber: "
+                    // + result.getFeatureNumber());
                     LOGGER.warn("The requested feature is not available, featureNumber: {}", result.getFeatureNumber());
                 }
             }
@@ -562,6 +584,7 @@ public class BidibNode {
 
     /**
      * Get the magic from the node.
+     * 
      * @return the magic
      * @throws ProtocolException
      */
@@ -587,6 +610,7 @@ public class BidibNode {
 
     /**
      * Get the next node from the system.
+     * 
      * @return the node
      * @throws ProtocolException
      */
@@ -611,6 +635,7 @@ public class BidibNode {
 
     /**
      * Get the number of nodes from the system.
+     * 
      * @return the number of nodes
      * @throws ProtocolException
      */
@@ -636,6 +661,7 @@ public class BidibNode {
 
     /**
      * Get the protocol version of the node.
+     * 
      * @return the protocol version
      * @throws ProtocolException
      */
@@ -655,6 +681,7 @@ public class BidibNode {
 
     /**
      * Get the software version from the node.
+     * 
      * @return the software version
      * @throws ProtocolException
      */
@@ -674,6 +701,7 @@ public class BidibNode {
 
     /**
      * Get the unique id from the node.
+     * 
      * @return the unique id
      * @throws ProtocolException
      */
@@ -698,7 +726,9 @@ public class BidibNode {
 
     /**
      * Sets the identify state of the node. The result is received asynchronously.
-     * @param state the identify state to set.
+     * 
+     * @param state
+     *            the identify state to set.
      * @throws ProtocolException
      */
     public void identify(IdentifyState state) throws ProtocolException {
@@ -708,6 +738,7 @@ public class BidibNode {
 
     /**
      * Verify if the node supports FW updates.
+     * 
      * @return true if the node has the FW update feature set, false otherwise
      * @throws ProtocolException
      */
@@ -725,6 +756,7 @@ public class BidibNode {
 
     /**
      * Send the ping message to the node.
+     * 
      * @return the received message number
      * @throws ProtocolException
      */
@@ -745,6 +777,7 @@ public class BidibNode {
 
     /**
      * Send the system reset message to the node.
+     * 
      * @throws ProtocolException
      */
     public void reset() throws ProtocolException {
@@ -753,9 +786,12 @@ public class BidibNode {
 
     /**
      * Wait until the expected response is received or the timeout has expired.
-     * @param expectedResponseTypes list of the expected response message types
+     * 
+     * @param expectedResponseTypes
+     *            list of the expected response message types
      * @return the received response
-     * @throws InterruptedException thrown if wait wait for response is interrupted
+     * @throws InterruptedException
+     *             thrown if wait wait for response is interrupted
      */
     private BidibMessage receive(List<Integer> expectedResponseTypes) throws InterruptedException {
         BidibMessage result = null;
@@ -780,10 +816,12 @@ public class BidibNode {
     /**
      * Get a message from the receiveQueue for the defined timeout period.
      * 
-     * @param responseTypes the optional list of responseType ids to wait for
-     *
+     * @param responseTypes
+     *            the optional list of responseType ids to wait for
+     * 
      * @return the received message or null if no message was received during the defined period.
-     * @throws InterruptedException thrown if wait wait for response is interrupted
+     * @throws InterruptedException
+     *             thrown if wait wait for response is interrupted
      */
     public BidibMessage getMessage(List<Integer> responseTypes) throws InterruptedException {
         LOGGER.debug("get message with responseType: {}", responseTypes);
@@ -857,7 +895,9 @@ public class BidibNode {
 
     /**
      * Send a message without waiting for response.
-     * @param message the message to send
+     * 
+     * @param message
+     *            the message to send
      * @throws ProtocolException
      */
     protected void sendNoWait(BidibCommand message) throws ProtocolException {
@@ -866,7 +906,9 @@ public class BidibNode {
 
     /**
      * Send a message and wait for the unspecific result.
-     * @param message the message to send
+     * 
+     * @param message
+     *            the message to send
      * @return the received result
      * @throws ProtocolException
      */
@@ -946,7 +988,7 @@ public class BidibNode {
         }
         else {
             LOGGER.trace("Current address is the root node.");
-            bytes = new byte[1 + (addr.length /*len of root node*/) + 2 + (data != null ? data.length : 0)];
+            bytes = new byte[1 + (addr.length /* len of root node */) + 2 + (data != null ? data.length : 0)];
             bytes[index++] = (byte) (bytes.length - 1);
         }
         bytes[index++] = 0; // 'terminating zero' of the address
@@ -954,7 +996,7 @@ public class BidibNode {
         bytes[index++] = (byte) num;
         bytes[index++] = type;
         if (data != null) {
-            //            LOGGER.debug("Add data: {}", ByteUtils.bytesToHex(data));
+            // LOGGER.debug("Add data: {}", ByteUtils.bytesToHex(data));
             for (int dataIndex = 0; dataIndex < data.length; dataIndex++) {
                 bytes[index++] = data[dataIndex];
             }
@@ -1016,8 +1058,8 @@ public class BidibNode {
                 escape(message[i]);
                 txCrc = CRC8.getCrcValue((message[i] ^ txCrc) & 0xFF);
             }
-            //            escape((byte) txCrc);
-            //            sendDelimiter();
+            // escape((byte) txCrc);
+            // sendDelimiter();
         }
         escape((byte) txCrc);
         sendDelimiter();
@@ -1030,8 +1072,11 @@ public class BidibNode {
 
     /**
      * Send a bulk of messages with a specified window size to the node.
-     * @param windowSize the window size
-     * @param messages the messages
+     * 
+     * @param windowSize
+     *            the window size
+     * @param messages
+     *            the messages
      * @return the list of responses
      * @throws ProtocolException
      */
@@ -1050,16 +1095,16 @@ public class BidibNode {
 
         while (fromIndex < numMessages) {
             // calculate the index of messages to send
-//            int toIndex = Math.min(numMessages - fromIndex, windowSize) + fromIndex;
-//            LOGGER.trace("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
+            // int toIndex = Math.min(numMessages - fromIndex, windowSize) + fromIndex;
+            // LOGGER.trace("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
             LOGGER.trace("Send bulk messages fromIndex: {}, numMessages: {}", fromIndex, numMessages);
             // get the sublist with the messages to send
-//            List<BidibCommand> messagesToSend = messages.subList(fromIndex, toIndex);
+            // List<BidibCommand> messagesToSend = messages.subList(fromIndex, toIndex);
 
             // the window size must be dynamically calculated on the maximum expected size of the responses of 48 bytes
             // see http://forum.opendcc.de/viewtopic.php?f=31&t=1332
             int toIndex = fromIndex;
-            int maxTotalExpectedResponseLength = 48; 
+            int maxTotalExpectedResponseLength = 48;
             int totalExpectedResponseLength = 0;
             List<BidibCommand> messagesToSend = new LinkedList<>();
             for (int index = fromIndex; index < numMessages; index++) {
@@ -1068,7 +1113,7 @@ public class BidibNode {
                     // add the command to send
                     messagesToSend.add(command);
                     toIndex++;
-//                    fromIndex++;
+                    // fromIndex++;
                     totalExpectedResponseLength += command.getAnswerSize();
                 }
                 else {
@@ -1076,7 +1121,7 @@ public class BidibNode {
                     break;
                 }
             }
-            
+
             // clear the messages to wait for a response
             messagesToWaitForResponse.clear();
             // check if we have to wait for responses
@@ -1092,7 +1137,7 @@ public class BidibNode {
 
             // send the next message if one is received
             fromIndex = toIndex;
-//            toIndex++;
+            // toIndex++;
             LOGGER.debug("Prepeared new fromIndex: {}, toIndex: {}", fromIndex, toIndex);
 
             // TODO handle received responses ...
@@ -1171,10 +1216,13 @@ public class BidibNode {
     }
 
     /**
-     * Put the contents of the message into the "output" stream and call the flush method that sends the 
-     * content of the "output" stream to bidib.
-     * @param message the message contents
-     * @param bidibMessage the bidib message instance
+     * Put the contents of the message into the "output" stream and call the flush method that sends the content of the
+     * "output" stream to bidib.
+     * 
+     * @param message
+     *            the message contents
+     * @param bidibMessage
+     *            the bidib message instance
      * @throws IOException
      */
     private void sendMessage(EncodedMessage encodedMessage, BidibCommand bidibMessage) throws IOException {
@@ -1237,7 +1285,7 @@ public class BidibNode {
         MSG_TX_LOGGER.info(sb.toString());
 
         // TODO remove logger
-        //        LOGGER.info("Send total length: {}", bytes.length);
+        // LOGGER.info("Send total length: {}", bytes.length);
 
         // send the output to Bidib
         bidib.send(bytes);
@@ -1254,8 +1302,11 @@ public class BidibNode {
 
     /**
      * Send an firmware update operation message to the node.
-     * @param operation the operation identifier
-     * @param data the data to send
+     * 
+     * @param operation
+     *            the operation identifier
+     * @param data
+     *            the data to send
      * @return the returned firmware update status
      * @throws ProtocolException
      */
@@ -1268,18 +1319,21 @@ public class BidibNode {
         }
 
         // TODO if the node does not respond correct we have problem ...
-        //        if (ignoreWaitTimeout) {
-        //            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-        //            return null;
-        //        }
+        // if (ignoreWaitTimeout) {
+        // LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+        // return null;
+        // }
 
         throw createNoResponseAvailable("firmware update operation");
     }
 
     /**
      * Sets the feature value on the node.
-     * @param number the feature number
-     * @param value the feature value
+     * 
+     * @param number
+     *            the feature number
+     * @param value
+     *            the feature value
      * @throws ProtocolException
      */
     public Feature setFeature(int number, int value) throws ProtocolException {
@@ -1306,6 +1360,7 @@ public class BidibNode {
 
     /**
      * Send the system disable message to the node.
+     * 
      * @throws ProtocolException
      */
     public void sysDisable() throws ProtocolException {
@@ -1314,6 +1369,7 @@ public class BidibNode {
 
     /**
      * Send the system enable message to the node.
+     * 
      * @throws ProtocolException
      */
     public void sysEnable() throws ProtocolException {
@@ -1322,6 +1378,7 @@ public class BidibNode {
 
     /**
      * Send the vendor disable message to the node.
+     * 
      * @return the user config mode is off
      * @throws ProtocolException
      */
@@ -1335,6 +1392,7 @@ public class BidibNode {
 
     /**
      * Send the vendor enable message to the node.
+     * 
      * @return the user config mode is on
      * @throws ProtocolException
      */
@@ -1348,7 +1406,9 @@ public class BidibNode {
 
     /**
      * Get the vendor data with the provided name from the node.
-     * @param name the vendor specific name
+     * 
+     * @param name
+     *            the vendor specific name
      * @return the current vendor data values received from the node
      * @throws ProtocolException
      */
@@ -1371,7 +1431,9 @@ public class BidibNode {
 
     /**
      * Get the vendor data with the provided name from the node.
-     * @param name the vendor specific name
+     * 
+     * @param name
+     *            the vendor specific name
      * @return the current vendor data values received from the node
      * @throws ProtocolException
      */
@@ -1410,8 +1472,11 @@ public class BidibNode {
 
     /**
      * Set the provided vendor data on the node.
-     * @param name the vendor specific name
-     * @param value the value to set
+     * 
+     * @param name
+     *            the vendor specific name
+     * @param value
+     *            the value to set
      * @return the current vendor data values received from the node
      * @throws ProtocolException
      */
@@ -1430,8 +1495,11 @@ public class BidibNode {
 
     /**
      * Get a string value from the node.
-     * @param namespace the namespace
-     * @param index the index
+     * 
+     * @param namespace
+     *            the namespace
+     * @param index
+     *            the index
      * @return the string data instance
      * @throws ProtocolException
      */
@@ -1445,8 +1513,11 @@ public class BidibNode {
 
     /**
      * Set a string value in the node.
-     * @param namespace the namespace
-     * @param index the index
+     * 
+     * @param namespace
+     *            the namespace
+     * @param index
+     *            the index
      * @return the string data instance
      * @throws ProtocolException
      */
@@ -1465,7 +1536,7 @@ public class BidibNode {
         // the response MSG_LC_STAT is signaled asynchronously
         sendNoWait(new LcOutputMessage(outputType, outputNumber, state));
         // TODO not sure why this is needed here ...
-        //        getMessageReceiver().setTimeout(Bidib.DEFAULT_TIMEOUT);
+        // getMessageReceiver().setTimeout(Bidib.DEFAULT_TIMEOUT);
     }
 
     public void queryOutputState(LcOutputType outputType, int outputNumber) throws ProtocolException {
@@ -1501,8 +1572,11 @@ public class BidibNode {
 
     /**
      * Get the configuration of the specified port.
-     * @param outputType the port type
-     * @param outputNumber the output number
+     * 
+     * @param outputType
+     *            the port type
+     * @param outputNumber
+     *            the output number
      * @return the configuration of the specified port.
      * @throws ProtocolException
      */
@@ -1520,14 +1594,17 @@ public class BidibNode {
 
     /**
      * Get the configuration of the specified port.
-     * @param outputType the port type
-     * @param outputNumber the output number
+     * 
+     * @param outputType
+     *            the port type
+     * @param outputNumber
+     *            the output number
      * @return the configuration of the specified port.
      * @throws ProtocolException
      */
     public List<LcConfig> getConfigBulk(LcOutputType outputType, int... outputNumbers) throws ProtocolException {
         List<LcConfig> result = null;
-        
+
         List<BidibCommand> messages = new LinkedList<>();
         for (int outputNumber : outputNumbers) {
             messages.add(requestFactory.createLcConfigGet(outputType, outputNumber));

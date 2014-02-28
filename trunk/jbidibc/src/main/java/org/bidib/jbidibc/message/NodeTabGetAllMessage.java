@@ -5,7 +5,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 
 /**
  * Message to start fetching the mapping table of unique id and local address from the interface.
- *
+ * 
  */
 public class NodeTabGetAllMessage extends BidibCommandMessage {
     protected NodeTabGetAllMessage() {

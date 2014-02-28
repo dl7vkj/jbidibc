@@ -106,7 +106,7 @@ public class LcMacroTest {
         lcMacro.setStartClk(startClkType);
 
         LightPortPoint lightPortPoint = new LightPortPoint();
-        //        lightPortPoint.setIndex(0);
+        // lightPortPoint.setIndex(0);
         lightPortPoint.setDelay(6);
         lightPortPoint.setOutputNumber(0);
         lightPortPoint.setLightPortActionType(LightPortActionType.ON);
@@ -114,7 +114,7 @@ public class LcMacroTest {
         lcMacro.getLcMacroPoint().add(lightPortPoint);
 
         lightPortPoint = new LightPortPoint();
-        //        lightPortPoint.setIndex(1);
+        // lightPortPoint.setIndex(1);
         lightPortPoint.setDelay(6);
         lightPortPoint.setOutputNumber(0);
         lightPortPoint.setLightPortActionType(LightPortActionType.OFF);

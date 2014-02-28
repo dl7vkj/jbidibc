@@ -27,6 +27,7 @@ public class LcMacroParaResponse extends BidibMessage {
 
     /**
      * Get the parameter index
+     * 
      * @return the parameter index
      */
     public int getParameterIndex() {
@@ -35,6 +36,7 @@ public class LcMacroParaResponse extends BidibMessage {
 
     /**
      * Get the parameter value
+     * 
      * @return the parameter value
      */
     public LcMacroParaValue getLcMacroParaValue() {

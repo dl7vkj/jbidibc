@@ -6,7 +6,7 @@ import org.bidib.jbidibc.BidibLibrary;
  * The features
  */
 public enum FeatureEnum implements BidibEnum {
-    //@formatter:off
+    // @formatter:off
     // BELEGTMELDER
     FEATURE_BM_SIZE(BidibLibrary.FEATURE_BM_SIZE, 0, 128), FEATURE_BM_ON(BidibLibrary.FEATURE_BM_ON, 0, 1), FEATURE_BM_SECACK_AVAILABLE(
         BidibLibrary.FEATURE_BM_SECACK_AVAILABLE, 0, 1), FEATURE_BM_SECACK_ON(BidibLibrary.FEATURE_BM_SECACK_ON, 0, 1), FEATURE_BM_CURMEAS_AVAILABLE(
@@ -64,7 +64,7 @@ public enum FeatureEnum implements BidibEnum {
         BidibLibrary.FEATURE_CTRL_MAC_START_MAN, 0, 1), FEATURE_CTRL_MAC_SAVE(BidibLibrary.FEATURE_CTRL_MAC_SAVE), FEATURE_CTRL_PORT_QUERY_AVAILABLE(
         BidibLibrary.FEATURE_CTRL_PORT_QUERY_AVAILABLE, 0, 1), FEATURE_SPORT_CONFIG_AVAILABLE(
         BidibLibrary.FEATURE_SPORT_CONFIG_AVAILABLE, 0, 1);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

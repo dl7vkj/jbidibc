@@ -3,14 +3,14 @@ package org.bidib.jbidibc.enumeration;
 import org.bidib.jbidibc.BidibLibrary;
 
 public enum BoosterState implements BidibEnum {
-    //@formatter:off
+    // @formatter:off
     OFF(BidibLibrary.BIDIB_BST_STATE_OFF), SHORT(BidibLibrary.BIDIB_BST_STATE_OFF_SHORT), OFF_HOT(
         BidibLibrary.BIDIB_BST_STATE_OFF_HOT), NO_POWER(BidibLibrary.BIDIB_BST_STATE_OFF_NOPOWER), GO_REQ(
         BidibLibrary.BIDIB_BST_STATE_OFF_GO_REQ), OFF_HERE(BidibLibrary.BIDIB_BST_STATE_OFF_HERE), OFF_NO_DCC(
         BidibLibrary.BIDIB_BST_STATE_OFF_NO_DCC), ON(BidibLibrary.BIDIB_BST_STATE_ON), ON_LIMIT(
         BidibLibrary.BIDIB_BST_STATE_ON_LIMIT), ON_HOT(BidibLibrary.BIDIB_BST_STATE_ON_HOT), ON_STOP_REQ(
         BidibLibrary.BIDIB_BST_STATE_ON_STOP_REQ), ON_HERE(BidibLibrary.BIDIB_BST_STATE_ON_HERE);
-    //@formatter:on
+    // @formatter:on
 
     private final byte type;
 

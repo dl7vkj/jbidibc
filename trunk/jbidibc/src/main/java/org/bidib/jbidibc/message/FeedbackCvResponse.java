@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Signal the CV message from feedback device. 
+ * Signal the CV message from feedback device.
  */
 public class FeedbackCvResponse extends BidibMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(FeedbackCvResponse.class);

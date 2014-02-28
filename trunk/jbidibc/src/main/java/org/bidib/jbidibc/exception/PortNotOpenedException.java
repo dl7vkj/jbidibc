@@ -31,7 +31,8 @@ public class PortNotOpenedException extends Exception implements ReasonAware {
     }
 
     /**
-     * @param reason the reason to set
+     * @param reason
+     *            the reason to set
      */
     public void setReason(String reason) {
         this.reason = reason;

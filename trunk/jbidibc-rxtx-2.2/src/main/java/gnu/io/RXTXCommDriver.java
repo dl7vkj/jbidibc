@@ -72,7 +72,7 @@ import java.util.Properties;
 import java.util.StringTokenizer;
 
 /**
- This is the JavaComm for Linux driver.
+ * This is the JavaComm for Linux driver.
  */
 public class RXTXCommDriver implements CommDriver {
 
@@ -88,14 +88,12 @@ public class RXTXCommDriver implements CommDriver {
         RXTXVersion.loadLibrary("rxtxSerial");
 
         /*
-           Perform a crude check to make sure people don't mix
-           versions of the Jar and native lib
-
-           Mixing the libs can create a nightmare.
-
-           It could be possible to move this over to RXTXVersion
-           but All we want to do is warn people when first loading
-           the Library.
+         * Perform a crude check to make sure people don't mix versions of the Jar and native lib
+         * 
+         * Mixing the libs can create a nightmare.
+         * 
+         * It could be possible to move this over to RXTXVersion but All we want to do is warn people when first loading
+         * the Library.
          */
         String JarVersion = RXTXVersion.getVersion();
         String LibVersion;
@@ -144,15 +142,12 @@ public class RXTXCommDriver implements CommDriver {
     // FIXME: This method is never called.
     private final String[] getValidPortPrefixes(String CandidatePortPrefixes[]) {
         /*
-        256 is the number of prefixes ( COM, cua, ttyS, ...) not
-        the number of devices (ttyS0, ttyS1, ttyS2, ...)
-
-        On a Linux system there are about 400 prefixes in
-        deviceDirectory.
-        registerScannedPorts() assigns CandidatePortPrefixes to
-        something less than 50 prefixes.
-
-        Trent
+         * 256 is the number of prefixes ( COM, cua, ttyS, ...) not the number of devices (ttyS0, ttyS1, ttyS2, ...)
+         * 
+         * On a Linux system there are about 400 prefixes in deviceDirectory. registerScannedPorts() assigns
+         * CandidatePortPrefixes to something less than 50 prefixes.
+         * 
+         * Trent
          */
 
         String ValidPortPrefixes[] = new String[256];
@@ -191,12 +186,7 @@ public class RXTXCommDriver implements CommDriver {
                     .println("\nRXTXCommDriver:getValidPortPrefixes()\nThe following port prefixes have been identified as valid on "
                         + osName + ":\n");
             /*
-             for(int j=0;j<returnArray.length;j++)
-             {
-             if (debug)
-             System.out.println("\t" + j + " " +
-             returnArray[j]);
-             }
+             * for(int j=0;j<returnArray.length;j++) { if (debug) System.out.println("\t" + j + " " + returnArray[j]); }
              */
         }
         return returnArray;
@@ -221,18 +211,12 @@ public class RXTXCommDriver implements CommDriver {
     private void registerValidPorts(String CandidateDeviceNames[], String ValidPortPrefixes[], int PortType) {
         int i = 0;
         int p = 0;
-        /* FIXME quick fix to get COM1-8 on windows working.  The
-           Read test is not working properly and its crunch time...
-        if(osName.toLowerCase().indexOf("windows") != -1 )
-        {
-        	for( i=0;i < CandidateDeviceNames.length;i++ )
-        	{
-        	CommPortIdentifier.addPortName( CandidateDeviceNames[i],
-        					PortType, this );
-        	}
-        	return;
-
-        }
+        /*
+         * FIXME quick fix to get COM1-8 on windows working. The Read test is not working properly and its crunch
+         * time... if(osName.toLowerCase().indexOf("windows") != -1 ) { for( i=0;i < CandidateDeviceNames.length;i++ ) {
+         * CommPortIdentifier.addPortName( CandidateDeviceNames[i], PortType, this ); } return;
+         * 
+         * }
          */
         if (debug) {
             System.out.println("Entering registerValidPorts()");
@@ -248,20 +232,13 @@ public class RXTXCommDriver implements CommDriver {
         if (CandidateDeviceNames != null && ValidPortPrefixes != null) {
             for (i = 0; i < CandidateDeviceNames.length; i++) {
                 for (p = 0; p < ValidPortPrefixes.length; p++) {
-                    /* this determines:
-                     * device file         Valid ports
-                     * /dev/ttyR[0-9]*  != /dev/ttyS[0-9]*
-                     * /dev/ttySI[0-9]* != /dev/ttyS[0-9]*
-                     * /dev/ttyS[0-9]*  == /dev/ttyS[0-9]*
-
-                     * Otherwise we check some ports
-                     * multiple times.  Perl would rock
-                     * here.
-                     *
-                     * If the above passes, we try to read
-                     * from the port.  If there is no err
-                     * the port is added.
-                     * Trent
+                    /*
+                     * this determines: device file Valid ports /dev/ttyR[0-9]* != /dev/ttyS[0-9]* /dev/ttySI[0-9]* !=
+                     * /dev/ttyS[0-9]* /dev/ttyS[0-9]* == /dev/ttyS[0-9]*
+                     * 
+                     * Otherwise we check some ports multiple times. Perl would rock here.
+                     * 
+                     * If the above passes, we try to read from the port. If there is no err the port is added. Trent
                      */
                     String V = ValidPortPrefixes[p];
                     int VL = V.length();
@@ -297,29 +274,19 @@ public class RXTXCommDriver implements CommDriver {
     }
 
     /*
-     * initialize() will be called by the CommPortIdentifier's static
-     * initializer. The responsibility of this method is:
-     * 1) Ensure that that the hardware is present.
-     * 2) Load any required native libraries.
-     * 3) Register the port names with the CommPortIdentifier.
-     *
+     * initialize() will be called by the CommPortIdentifier's static initializer. The responsibility of this method is:
+     * 1) Ensure that that the hardware is present. 2) Load any required native libraries. 3) Register the port names
+     * with the CommPortIdentifier.
+     * 
      * <p>From the NullDriver.java CommAPI sample.
-     *
-     * added printerport stuff
-     * Holger Lehmann
-     * July 12, 1999
-     * IBM
-
-     * Added ttyM for Moxa boards
-     * Removed obsolete device cuaa
-     * Peter Bennett
-     * January 02, 2000
-     * Bencom
-
+     * 
+     * added printerport stuff Holger Lehmann July 12, 1999 IBM
+     * 
+     * Added ttyM for Moxa boards Removed obsolete device cuaa Peter Bennett January 02, 2000 Bencom
      */
 
     /**
-     *  Determine the OS and where the OS has the devices located
+     * Determine the OS and where the OS has the devices located
      */
     public void initialize() {
 
@@ -330,8 +297,7 @@ public class RXTXCommDriver implements CommDriver {
         deviceDirectory = getDeviceDirectory();
 
         /*
-         First try to register ports specified in the properties
-         file.  If that doesn't exist, then scan for ports.
+         * First try to register ports specified in the properties file. If that doesn't exist, then scan for ports.
          */
         for (int PortType = CommPortIdentifier.PORT_SERIAL; PortType <= CommPortIdentifier.PORT_PARALLEL; PortType++) {
             if (!registerSpecifiedPorts(PortType)) {
@@ -362,24 +328,20 @@ public class RXTXCommDriver implements CommDriver {
     }
 
     /*
-     * Register ports specified in the file "gnu.io.rxtx.properties"
-     * Key system properties:
-     *                   gnu.io.rxtx.SerialPorts
-     * 			gnu.io.rxtx.ParallelPorts
-     *
-     * Tested only with sun jdk1.3
-     * The file gnu.io.rxtx.properties may reside in the java extension dir,
-     * or it can be anywhere in the classpath.
-     *
+     * Register ports specified in the file "gnu.io.rxtx.properties" Key system properties: gnu.io.rxtx.SerialPorts
+     * gnu.io.rxtx.ParallelPorts
+     * 
+     * Tested only with sun jdk1.3 The file gnu.io.rxtx.properties may reside in the java extension dir, or it can be
+     * anywhere in the classpath.
+     * 
      * Example: /usr/local/java/jre/lib/ext/gnu.io.rxtx.properties
-     *
+     * 
      * The file contains the following key properties:
-     *
-     *  gnu.io.rxtx.SerialPorts=/dev/ttyS0:/dev/ttyS1:
-     *  gnu.io.rxtx.ParallelPorts=/dev/lp0:
-     *
+     * 
+     * gnu.io.rxtx.SerialPorts=/dev/ttyS0:/dev/ttyS1: gnu.io.rxtx.ParallelPorts=/dev/lp0:
+     * 
      * Chris Bartley (bartley@cmu.edu) edited on 2011.01.24 to add the ability to specify the properties as a system
-     * property (e.g. via a -D command line switch).  If specified, they are only used as a last resort (i.e. properties
+     * property (e.g. via a -D command line switch). If specified, they are only used as a last resort (i.e. properties
      * file takes precendence).
      */
     private boolean registerSpecifiedPorts(int PortType) {
@@ -516,10 +478,8 @@ public class RXTXCommDriver implements CommDriver {
     }
 
     /*
-     * Look for all entries in deviceDirectory, and if they look like they should
-     * be serial ports on this OS and they can be opened then register
-     * them.
-     *
+     * Look for all entries in deviceDirectory, and if they look like they should be serial ports on this OS and they
+     * can be opened then register them.
      */
     private void registerScannedPorts(int PortType) {
         String[] CandidateDeviceNames;
@@ -540,39 +500,26 @@ public class RXTXCommDriver implements CommDriver {
             CandidateDeviceNames = temp;
         }
         else if (osName.equals("Solaris") || osName.equals("SunOS")) {
-            /* Solaris uses a few different ways to identify ports.
-               They could be /dev/term/a /dev/term0 /dev/cua/a /dev/cuaa
-               the /dev/???/a appears to be on more systems.
-
-               The uucp lock files should not cause problems.
+            /*
+             * Solaris uses a few different ways to identify ports. They could be /dev/term/a /dev/term0 /dev/cua/a
+             * /dev/cuaa the /dev/???/a appears to be on more systems.
+             * 
+             * The uucp lock files should not cause problems.
              */
             /*
-            			File dev = new File( "/dev/term" );
-            			String deva[] = dev.list();
-            			dev = new File( "/dev/cua" );
-            			String devb[] = dev.list();
-            			String[] temp = new String[ deva.length + devb.length ];
-            			for(int j =0;j<deva.length;j++)
-            				deva[j] = "term/" + deva[j];
-            			for(int j =0;j<devb.length;j++)
-            				devb[j] = "cua/" + devb[j];
-            			System.arraycopy( deva, 0, temp, 0, deva.length );
-            			System.arraycopy( devb, 0, temp,
-            					deva.length, devb.length );
-            			if( debug ) {
-            				for( int j = 0; j< temp.length;j++)
-            					System.out.println( temp[j] );
-            			}
-            			CandidateDeviceNames=temp;
+             * File dev = new File( "/dev/term" ); String deva[] = dev.list(); dev = new File( "/dev/cua" ); String
+             * devb[] = dev.list(); String[] temp = new String[ deva.length + devb.length ]; for(int j
+             * =0;j<deva.length;j++) deva[j] = "term/" + deva[j]; for(int j =0;j<devb.length;j++) devb[j] = "cua/" +
+             * devb[j]; System.arraycopy( deva, 0, temp, 0, deva.length ); System.arraycopy( devb, 0, temp, deva.length,
+             * devb.length ); if( debug ) { for( int j = 0; j< temp.length;j++) System.out.println( temp[j] ); }
+             * CandidateDeviceNames=temp;
              */
 
             /*
-
-            	ok..  Look the the dirctories representing the port
-            	kernel driver interface.
-
-            	If there are entries there are possibly ports we can
-            	use and need to enumerate.
+             * 
+             * ok.. Look the the dirctories representing the port kernel driver interface.
+             * 
+             * If there are entries there are possibly ports we can use and need to enumerate.
              */
 
             String term[] = new String[2];
@@ -583,9 +530,7 @@ public class RXTXCommDriver implements CommDriver {
             if (dev.list().length > 0)
                 term[l++] = "term/";
             /*
-            			dev = new File( "/dev/cua0" );
-            			if( dev.list().length > 0 )
-            				term[l++] = "cua/";
+             * dev = new File( "/dev/cua0" ); if( dev.list().length > 0 ) term[l++] = "cua/";
              */
             String[] temp = new String[l];
             for (l--; l >= 0; l--)
@@ -609,18 +554,15 @@ public class RXTXCommDriver implements CommDriver {
                 if (debug)
                     System.out.println("scanning for serial ports for os " + osName);
 
-                /*  There are _many_ possible ports that can be used
-                    on Linux.  See below in the fake Linux-all-ports
-                    case for a list.  You may add additional ports
-                    here but be warned that too many will significantly
-                    slow down port enumeration.  Linux 2.6 has udev
-                    support which should be faster as only ports the
-                    kernel finds should be exposed in /dev
-
-                    See also how to override port enumeration and
-                    specifying port in INSTALL.
-
-                    taj
+                /*
+                 * There are _many_ possible ports that can be used on Linux. See below in the fake Linux-all-ports case
+                 * for a list. You may add additional ports here but be warned that too many will significantly slow
+                 * down port enumeration. Linux 2.6 has udev support which should be faster as only ports the kernel
+                 * finds should be exposed in /dev
+                 * 
+                 * See also how to override port enumeration and specifying port in INSTALL.
+                 * 
+                 * taj
                  */
 
                 if (osName.equals("Linux")) {
@@ -634,8 +576,8 @@ public class RXTXCommDriver implements CommDriver {
                     CandidatePortPrefixes = Temp;
                 }
                 else if (osName.equals("Linux-all-ports")) {
-                    /* if you want to enumerate all ports ~5000
-                       possible, then replace the above with this
+                    /*
+                     * if you want to enumerate all ports ~5000 possible, then replace the above with this
                      */
                     String[] Temp = { "comx", // linux COMMX synchronous serial card
                         "holter", // custom card for heart monitoring
@@ -663,7 +605,7 @@ public class RXTXCommDriver implements CommDriver {
                         "ttySI",// linux SmartIO serial card
                         "ttySR",// linux Specialix RIO serial card 257+
                         "ttyT", // linux Technology Concepts serial card
-                        "ttyUSB",//linux USB serial converters
+                        "ttyUSB",// linux USB serial converters
                         "ttyV", // linux Comtrol VS-1000 serial controller
                         "ttyW", // linux specialix cards
                         "ttyX" // linux SpecialX serial card
@@ -687,28 +629,28 @@ public class RXTXCommDriver implements CommDriver {
                     };
                     CandidatePortPrefixes = Temp;
                 }
-                else if (osName.equals("FreeBSD")) //FIXME this is probably wrong
+                else if (osName.equals("FreeBSD")) // FIXME this is probably wrong
                 {
-                    String[] Temp = { "ttyd", //general purpose serial ports
-                        "cuaa", //dialout serial ports
-                        "ttyA", //Specialix SI/XIO dialin ports
-                        "cuaA", //Specialix SI/XIO dialout ports
-                        "ttyD", //Digiboard - 16 dialin ports
-                        "cuaD", //Digiboard - 16 dialout ports
-                        "ttyE", //Stallion EasyIO (stl) dialin ports
-                        "cuaE", //Stallion EasyIO (stl) dialout ports
-                        "ttyF", //Stallion Brumby (stli) dialin ports
-                        "cuaF", //Stallion Brumby (stli) dialout ports
-                        "ttyR", //Rocketport dialin ports
-                        "cuaR", //Rocketport dialout ports
-                        "stl" //Stallion EasyIO board or Brumby N
+                    String[] Temp = { "ttyd", // general purpose serial ports
+                        "cuaa", // dialout serial ports
+                        "ttyA", // Specialix SI/XIO dialin ports
+                        "cuaA", // Specialix SI/XIO dialout ports
+                        "ttyD", // Digiboard - 16 dialin ports
+                        "cuaD", // Digiboard - 16 dialout ports
+                        "ttyE", // Stallion EasyIO (stl) dialin ports
+                        "cuaE", // Stallion EasyIO (stl) dialout ports
+                        "ttyF", // Stallion Brumby (stli) dialin ports
+                        "cuaF", // Stallion Brumby (stli) dialout ports
+                        "ttyR", // Rocketport dialin ports
+                        "cuaR", // Rocketport dialout ports
+                        "stl" // Stallion EasyIO board or Brumby N
                     };
                     CandidatePortPrefixes = Temp;
                 }
                 else if (osName.equals("NetBSD")) // FIXME this is probably wrong
                 {
                     String[] Temp = { "tty0" // netbsd serial ports
-                        };
+                    };
                     CandidatePortPrefixes = Temp;
                 }
                 else if (osName.equals("Solaris") || osName.equals("SunOS")) {
@@ -740,19 +682,19 @@ public class RXTXCommDriver implements CommDriver {
                     CandidatePortPrefixes = Temp;
                 }
                 else if (osName.equals("Compaq's Digital UNIX") || osName.equals("OSF1")) {
-                    String[] Temp = { "tty0" //  Digital Unix serial ports
-                        };
+                    String[] Temp = { "tty0" // Digital Unix serial ports
+                    };
                     CandidatePortPrefixes = Temp;
                 }
 
                 else if (osName.equals("BeOS")) {
                     String[] Temp = { "serial" // BeOS serial ports
-                        };
+                    };
                     CandidatePortPrefixes = Temp;
                 }
                 else if (osName.equals("Mac OS X")) {
                     String[] Temp = {
-                    // Keyspan USA-28X adapter, USB port 1
+                        // Keyspan USA-28X adapter, USB port 1
                         "cu.KeyUSA28X191.",
                         // Keyspan USA-28X adapter, USB port 1
                         "tty.KeyUSA28X191.",
@@ -768,7 +710,7 @@ public class RXTXCommDriver implements CommDriver {
                 }
                 else if (osName.toLowerCase().indexOf("windows") != -1) {
                     String[] Temp = { "COM" // win32 serial ports
-                        //"//./COM"    // win32 serial ports
+                    // "//./COM" // win32 serial ports
                         };
                     CandidatePortPrefixes = Temp;
                 }
@@ -782,22 +724,17 @@ public class RXTXCommDriver implements CommDriver {
             case CommPortIdentifier.PORT_PARALLEL:
                 if (debug)
                     System.out.println("scanning for parallel ports for os " + osName);
-                /** Get the Parallel port prefixes for the running os
-                 * Holger Lehmann
-                 * July 12, 1999
-                 * IBM
+                /**
+                 * Get the Parallel port prefixes for the running os Holger Lehmann July 12, 1999 IBM
                  */
                 if (osName.equals("Linux")
                 /*
-                	|| osName.equals("NetBSD") FIXME
-                	|| osName.equals("HP-UX")  FIXME
-                	|| osName.equals("Irix")   FIXME
-                	|| osName.equals("BeOS")   FIXME
-                	|| osName.equals("Compaq's Digital UNIX")   FIXME
+                 * || osName.equals("NetBSD") FIXME || osName.equals("HP-UX") FIXME || osName.equals("Irix") FIXME ||
+                 * osName.equals("BeOS") FIXME || osName.equals("Compaq's Digital UNIX") FIXME
                  */
                 ) {
                     String[] temp = { "lp" // linux printer port
-                        };
+                    };
                     CandidatePortPrefixes = temp;
                 }
                 else if (osName.equals("FreeBSD")) {
@@ -826,13 +763,13 @@ public class RXTXCommDriver implements CommDriver {
      * <p>From the NullDriver.java CommAPI sample.
      */
     /**
-     *  @param PortName The name of the port the OS recognizes
-     *  @param PortType CommPortIdentifier.PORT_SERIAL or PORT_PARALLEL
-     *  @return CommPort
-     *  getCommPort() will be called by CommPortIdentifier from its
-     *  openPort() method. PortName is a string that was registered earlier
-     *  using the CommPortIdentifier.addPortName() method. getCommPort()
-     *  returns an object that extends either SerialPort or ParallelPort.
+     * @param PortName
+     *            The name of the port the OS recognizes
+     * @param PortType
+     *            CommPortIdentifier.PORT_SERIAL or PORT_PARALLEL
+     * @return CommPort getCommPort() will be called by CommPortIdentifier from its openPort() method. PortName is a
+     *         string that was registered earlier using the CommPortIdentifier.addPortName() method. getCommPort()
+     *         returns an object that extends either SerialPort or ParallelPort.
      */
     public CommPort getCommPort(String PortName, int PortType) {
         if (debug)
@@ -861,7 +798,7 @@ public class RXTXCommDriver implements CommDriver {
         return null;
     }
 
-    /*  Yikes.  Trying to call println from C for odd reasons */
+    /* Yikes. Trying to call println from C for odd reasons */
     public void Report(String arg) {
         System.out.println(arg);
     }

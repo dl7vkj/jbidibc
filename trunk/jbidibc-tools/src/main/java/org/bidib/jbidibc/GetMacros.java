@@ -9,7 +9,7 @@ import com.beust.jcommander.Parameters;
 
 /**
  * This commands gets the list of macros from the specified node.
- *
+ * 
  */
 @Parameters(separators = "=")
 public class GetMacros extends BidibNodeCommand {

@@ -37,8 +37,11 @@ public final class ByteUtils {
 
     /**
      * Get the (unsigned) int value from the low and high byte value.
-     * @param lowByte the low byte
-     * @param highByte the high byte
+     * 
+     * @param lowByte
+     *            the low byte
+     * @param highByte
+     *            the high byte
      * @return the combined int value
      */
     public static int getInt(byte lowByte, byte highByte) {
@@ -47,8 +50,11 @@ public final class ByteUtils {
 
     /**
      * Get the (unsigned) integer value from the low and high byte value.
-     * @param lowByte the low byte
-     * @param highByte the high byte
+     * 
+     * @param lowByte
+     *            the low byte
+     * @param highByte
+     *            the high byte
      * @return the combined int value or null if both values are null
      */
     public static Integer getInteger(Byte lowByte, Byte highByte) {
@@ -60,7 +66,9 @@ public final class ByteUtils {
 
     /**
      * Get the (unsigned) int value from the byte value.
-     * @param byteValue the byte value
+     * 
+     * @param byteValue
+     *            the byte value
      * @return the int value
      */
     public static int getInt(byte byteValue) {
@@ -69,7 +77,9 @@ public final class ByteUtils {
 
     /**
      * Get the (unsigned) int value from the byte value.
-     * @param byteValue the byte value
+     * 
+     * @param byteValue
+     *            the byte value
      * @return the int value
      */
     public static int getInt(byte byteValue, int mask) {
@@ -78,8 +88,11 @@ public final class ByteUtils {
 
     /**
      * Concat a byte array.
-     * @param array1 the first array
-     * @param array2 the second array
+     * 
+     * @param array1
+     *            the first array
+     * @param array2
+     *            the second array
      * @return the concatenated array
      */
     public static byte[] concat(byte[] array1, byte[] array2) {
@@ -115,7 +128,7 @@ public final class ByteUtils {
             result = (result << 8) + (uniqueId[i] & 0xFF);
         }
         return result;
-        //        return new BigInteger(uniqueId).longValue();
+        // return new BigInteger(uniqueId).longValue();
     }
 
     public static String toString(byte[] bytes) {
@@ -135,8 +148,11 @@ public final class ByteUtils {
 
     /**
      * Compare two byte arrays.
-     * @param a1 the first byte array
-     * @param a2 the second byte array
+     * 
+     * @param a1
+     *            the first byte array
+     * @param a2
+     *            the second byte array
      * @return true if both arrays are equal
      */
     public static boolean arrayEquals(byte[] a1, byte[] a2) {
@@ -153,7 +169,9 @@ public final class ByteUtils {
 
     /**
      * Returns the low byte of an int value.
-     * @param value the value
+     * 
+     * @param value
+     *            the value
      * @return the low byte
      */
     public static byte getLowByte(int value) {
@@ -163,7 +181,9 @@ public final class ByteUtils {
 
     /**
      * Returns the low byte of an int value.
-     * @param value the value
+     * 
+     * @param value
+     *            the value
      * @return the low byte
      */
     public static Byte getLowByte(Integer value) {
@@ -176,7 +196,9 @@ public final class ByteUtils {
 
     /**
      * Returns the high byte of an int value.
-     * @param value the value
+     * 
+     * @param value
+     *            the value
      * @return the high byte
      */
     public static byte getHighByte(int value) {
@@ -186,7 +208,9 @@ public final class ByteUtils {
 
     /**
      * Returns the high byte of an int value.
-     * @param value the value
+     * 
+     * @param value
+     *            the value
      * @return the high byte
      */
     public static Byte getHighByte(Integer value) {
@@ -199,8 +223,11 @@ public final class ByteUtils {
 
     /**
      * Converts the serial number to an int value.
-     * @param serialData the serial number
-     * @param offset the offset to read the data
+     * 
+     * @param serialData
+     *            the serial number
+     * @param offset
+     *            the offset to read the data
      * @return the serial number
      */
     public static int convertSerial(byte[] serialData, int offset) {
@@ -217,9 +244,10 @@ public final class ByteUtils {
     final protected static char[] hexArray = "0123456789ABCDEF".toCharArray();
 
     /**
-     * Convert a byte array to a hex string with spaces delimited.
-     * Original source: DatatypeConverterImpl.printHexBinary
-     * @param bytes the byte array
+     * Convert a byte array to a hex string with spaces delimited. Original source: DatatypeConverterImpl.printHexBinary
+     * 
+     * @param bytes
+     *            the byte array
      * @return the formatted hex string
      */
     public static String bytesToHex(byte[] bytes) {

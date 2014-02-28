@@ -219,7 +219,7 @@ public class LcMacroExporter {
                 lcMacroPoint = null;
                 break;
         }
-        //        lcMacroPoint.setIndex(ByteUtils.getInt(lcMacro.getStepNumber()));
+        // lcMacroPoint.setIndex(ByteUtils.getInt(lcMacro.getStepNumber()));
 
         LOGGER.info("Return lcMacroPoint: {}", lcMacroPoint);
         return lcMacroPoint;
@@ -227,8 +227,11 @@ public class LcMacroExporter {
 
     /**
      * Save a single macro
-     * @param lcMacro the macro
-     * @param fileName the filename
+     * 
+     * @param lcMacro
+     *            the macro
+     * @param fileName
+     *            the filename
      */
     public void saveMacro(LcMacroType lcMacro, String fileName, boolean gzip) {
         LOGGER.info("Save macro content to file: {}, lcMacro: {}", fileName, lcMacro);

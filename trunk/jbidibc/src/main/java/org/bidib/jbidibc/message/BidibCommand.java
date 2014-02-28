@@ -21,7 +21,8 @@ public interface BidibCommand {
     int getAnswerSize();
 
     /**
-     * @param answerSize the answerSize to set
+     * @param answerSize
+     *            the answerSize to set
      */
     void setAnswerSize(int answerSize);
 }

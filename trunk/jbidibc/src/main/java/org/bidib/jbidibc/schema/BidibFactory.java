@@ -58,10 +58,10 @@ public class BidibFactory {
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
-            
+
             XMLInputFactory factory = XMLInputFactory.newInstance();
-            
-            XMLStreamReader xmlr  = factory.createXMLStreamReader(is);
+
+            XMLStreamReader xmlr = factory.createXMLStreamReader(is);
 
             JAXBElement<BiDiB> jaxbElement = (JAXBElement<BiDiB>) unmarshaller.unmarshal(xmlr, BiDiB.class);
             bidib = jaxbElement.getValue();

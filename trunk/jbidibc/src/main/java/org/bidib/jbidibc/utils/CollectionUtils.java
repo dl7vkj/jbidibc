@@ -6,8 +6,10 @@ import java.util.Map;
 public class CollectionUtils {
 
     /**
-     * Check if the provided collection is null or empty. 
-     * @param c the collection
+     * Check if the provided collection is null or empty.
+     * 
+     * @param c
+     *            the collection
      * @return false if collection is null or empty, true otherwise
      */
     public static boolean hasElements(Collection<?> c) {
@@ -15,8 +17,10 @@ public class CollectionUtils {
     }
 
     /**
-     * Check if the provided map is null or empty. 
-     * @param c the map
+     * Check if the provided map is null or empty.
+     * 
+     * @param c
+     *            the map
      * @return false if map is null or empty, true otherwise
      */
     public static boolean hasElements(Map<?, ?> c) {

@@ -12,7 +12,7 @@ import org.slf4j.LoggerFactory;
 
 /**
  * This class represents the interface node in the BiDiB system.
- *
+ * 
  */
 public class RootNode extends BidibNode {
     private static final Logger LOGGER = LoggerFactory.getLogger(RootNode.class);
@@ -25,8 +25,11 @@ public class RootNode extends BidibNode {
 
     /**
      * Send the sys clock message.
-     * @param date the current date
-     * @param factor the time factor
+     * 
+     * @param date
+     *            the current date
+     * @param factor
+     *            the time factor
      * @throws ProtocolException
      */
     public void clock(Calendar date, int factor) throws ProtocolException {
@@ -35,6 +38,7 @@ public class RootNode extends BidibNode {
 
     /**
      * Send the system reset message to the node.
+     * 
      * @throws ProtocolException
      */
     public void reset() throws ProtocolException {

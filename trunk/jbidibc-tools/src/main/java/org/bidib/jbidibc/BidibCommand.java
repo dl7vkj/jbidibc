@@ -29,6 +29,7 @@ public abstract class BidibCommand {
 
     /**
      * Execute the command
+     * 
      * @return the exit code
      */
     public abstract int execute();

@@ -77,15 +77,14 @@ public class Zystem {
     static int mode;
 
     static {
-        /* 
-        The rxtxZystem library uses Python code and is not
-        included with RXTX.  A seperate library will be released
-        to avoid potential license conflicts.
-
-        Trent Jarvi taj@www.linux.org.uk
+        /*
+         * The rxtxZystem library uses Python code and is not included with RXTX. A seperate library will be released to
+         * avoid potential license conflicts.
+         * 
+         * Trent Jarvi taj@www.linux.org.uk
          */
 
-        //System.loadLibrary( "rxtxZystem" );
+        // System.loadLibrary( "rxtxZystem" );
         mode = SILENT_MODE;
     }
 
@@ -97,15 +96,15 @@ public class Zystem {
     }
 
     /**
-     * Constructor.
-     * Mode is taken from the java system property "gnu.io.log.mode". The available values are :<ul>
-     * <li> SILENT_MODE No logging
-     * <li> FILE_MODE log to file
-     * <li> NET_MODE
-     * <li> MEX_MODE
-     * <li> PRINT_MODE
-     * <li> J2EE_MSG_MODE
-     * <li> J2SE_LOG_MODE log to java.util.logging
+     * Constructor. Mode is taken from the java system property "gnu.io.log.mode". The available values are :
+     * <ul>
+     * <li>SILENT_MODE No logging
+     * <li>FILE_MODE log to file
+     * <li>NET_MODE
+     * <li>MEX_MODE
+     * <li>PRINT_MODE
+     * <li>J2EE_MSG_MODE
+     * <li>J2SE_LOG_MODE log to java.util.logging
      * </ul>
      */
     public Zystem() throws UnSupportedLoggerException {
@@ -149,37 +148,26 @@ public class Zystem {
 
     public void startLogger() throws UnSupportedLoggerException {
         if (mode == SILENT_MODE || mode == PRINT_MODE) {
-            //nativeNetInit( );
+            // nativeNetInit( );
             return;
         }
         throw new UnSupportedLoggerException("Target Not Allowed");
     }
 
-    /*  accept the host or file to log to. */
+    /* accept the host or file to log to. */
 
     public void startLogger(String t) throws UnSupportedLoggerException {
         target = t;
         /*
-        	if ( mode == NET_MODE )
-        	{
-        		nativeNetInit( );
-        	}
-        	if ( nativeInit( ) )
-        	{
-        		throw new UnSupportedLoggerException(
-        			"Port initializion failed" );
-        	}
+         * if ( mode == NET_MODE ) { nativeNetInit( ); } if ( nativeInit( ) ) { throw new UnSupportedLoggerException(
+         * "Port initializion failed" ); }
          */
         return;
     }
 
     public void finalize() {
         /*
-        	if ( mode == NET_MODE )
-        	{
-        		nativeNetFinalize( );
-        	}
-        	nativeFinalize();
+         * if ( mode == NET_MODE ) { nativeNetFinalize( ); } nativeFinalize();
          */
         mode = SILENT_MODE;
         target = null;
@@ -199,14 +187,14 @@ public class Zystem {
 
     public boolean report(String s) {
         if (mode == NET_MODE) {
-            //	return( nativeNetReportln( s ) );
+            // return( nativeNetReportln( s ) );
         }
         else if (mode == PRINT_MODE) {
             System.out.println(s);
             return (true);
         }
         else if (mode == MEX_MODE) {
-            //	return( nativeMexReport( s ) );
+            // return( nativeMexReport( s ) );
         }
         else if (mode == SILENT_MODE) {
             return (true);
@@ -227,16 +215,16 @@ public class Zystem {
     public boolean reportln() {
         boolean b;
         if (mode == NET_MODE) {
-            //	b= nativeNetReportln( "\n" );
-            //	return(b);
+            // b= nativeNetReportln( "\n" );
+            // return(b);
         }
         else if (mode == PRINT_MODE) {
             System.out.println();
             return (true);
         }
         else if (mode == MEX_MODE) {
-            //	b = nativeMexReportln( "\n" );
-            //	return(b);
+            // b = nativeMexReportln( "\n" );
+            // return(b);
         }
         else if (mode == SILENT_MODE) {
             return (true);
@@ -253,16 +241,16 @@ public class Zystem {
     public boolean reportln(String s) {
         boolean b;
         if (mode == NET_MODE) {
-            //	b= nativeNetReportln( s + "\n" );
-            //	return(b);
+            // b= nativeNetReportln( s + "\n" );
+            // return(b);
         }
         else if (mode == PRINT_MODE) {
             System.out.println(s);
             return (true);
         }
         else if (mode == MEX_MODE) {
-            //	b = nativeMexReportln( s + "\n" );
-            //	return(b);
+            // b = nativeMexReportln( s + "\n" );
+            // return(b);
         }
         else if (mode == SILENT_MODE) {
             return (true);
@@ -280,25 +268,21 @@ public class Zystem {
     }
 
     /*
-     private native boolean nativeInit( );
-     private native void nativeFinalize();
+     * private native boolean nativeInit( ); private native void nativeFinalize();
      */
 
     /* open and close the socket */
     /*
-     private native boolean nativeNetInit( );
-     private native void nativeNetFinalize();
+     * private native boolean nativeNetInit( ); private native void nativeNetFinalize();
      */
 
     /* dumping to a remote machine */
     /*
-     public native boolean nativeNetReport( String s );
-     public native boolean nativeNetReportln( String s );
+     * public native boolean nativeNetReport( String s ); public native boolean nativeNetReportln( String s );
      */
 
-    /*  specific to Matlab */
+    /* specific to Matlab */
     /*
-     public native boolean nativeMexReport( String s );
-     public native boolean nativeMexReportln( String s );
+     * public native boolean nativeMexReport( String s ); public native boolean nativeMexReportln( String s );
      */
 }

@@ -9,7 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Signal the feedback of an accessory decoder. 
+ * Signal the feedback of an accessory decoder.
  */
 public class FeedbackAccessoryResponse extends BidibMessage {
     private static final Logger LOGGER = LoggerFactory.getLogger(FeedbackAccessoryResponse.class);

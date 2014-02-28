@@ -34,8 +34,8 @@ public class VendorCvFactory {
     private VendorCV loadCvDefintionForNode(long uniqueId, String... searchPaths) {
         long pid = NodeUtils.getPid(uniqueId);
         long vid = NodeUtils.getVendorId(uniqueId);
-        LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}", NodeUtils
-            .getUniqueIdAsString(uniqueId), pid, vid);
+        LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}",
+            NodeUtils.getUniqueIdAsString(uniqueId), pid, vid);
 
         VendorCV vendorCV = null;
         for (String searchPath : searchPaths) {
@@ -115,10 +115,10 @@ public class VendorCvFactory {
     private Integer getNumberOfPorts(String portType, long uniqueId, String... searchPaths) {
         long pid = NodeUtils.getPid(uniqueId);
         long vid = NodeUtils.getVendorId(uniqueId);
-        LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}", NodeUtils
-            .getUniqueIdAsString(uniqueId), pid, vid);
+        LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}",
+            NodeUtils.getUniqueIdAsString(uniqueId), pid, vid);
 
-        //        VendorCV vendorCV = null;
+        // VendorCV vendorCV = null;
         Integer numberOfPorts = null;
         for (String searchPath : searchPaths) {
             StringBuffer filename = new StringBuffer("BiDiBCV-");
@@ -176,7 +176,7 @@ public class VendorCvFactory {
         XPath xPath = XPathFactory.newInstance().newXPath();
         String expression = "VendorCV/CVDefinition/Node/Node[@Template='" + portType + "']/@Count";
         try {
-            String configuredPorts = xPath.compile(expression).evaluate(xmlDocument/*, XPathConstants.NODE*/);
+            String configuredPorts = xPath.compile(expression).evaluate(xmlDocument/* , XPathConstants.NODE */);
             LOGGER.info("Found requested node: {}", configuredPorts);
             numberOfPorts = Integer.valueOf(configuredPorts);
         }

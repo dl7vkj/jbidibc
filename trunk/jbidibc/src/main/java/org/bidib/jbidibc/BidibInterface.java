@@ -12,7 +12,7 @@ import org.bidib.jbidibc.node.RootNode;
 
 public interface BidibInterface {
 
-    static final int DEFAULT_TIMEOUT = /*1500*/200;
+    static final int DEFAULT_TIMEOUT = /* 1500 */200;
 
     final int responseTimeout = DEFAULT_TIMEOUT;
 
@@ -31,41 +31,51 @@ public interface BidibInterface {
     RootNode getRootNode();
 
     /**
-     * Returns the provided node as AccessoryNode instance of null if the node is not an 
-     * AccessoryNode.
-     * @param node the node
+     * Returns the provided node as AccessoryNode instance of null if the node is not an AccessoryNode.
+     * 
+     * @param node
+     *            the node
      * @return the AccessoryNode instance
      */
     AccessoryNode getAccessoryNode(Node node);
 
     /**
-     * Returns the provided node as BoosterNode instance of null if the node is not an 
-     * BoosterNode.
-     * @param node the node
+     * Returns the provided node as BoosterNode instance of null if the node is not an BoosterNode.
+     * 
+     * @param node
+     *            the node
      * @return the BoosterNode instance
      */
     BoosterNode getBoosterNode(Node node);
 
     /**
-     * Returns the provided node as CommandStationNode instance of null if the node is not a 
-     * CommandStationNode.
-     * @param node the node
+     * Returns the provided node as CommandStationNode instance of null if the node is not a CommandStationNode.
+     * 
+     * @param node
+     *            the node
      * @return the CommandStationNode instance
      */
     CommandStationNode getCommandStationNode(Node node);
 
     /**
      * Send the bytes to the outputstream.
-     * @param bytes the bytes to send
+     * 
+     * @param bytes
+     *            the bytes to send
      */
     void send(final byte[] bytes);
 
     /**
      * Open the communication port with the specified name.
-     * @param portName the port name
-     * @param connectionListener the connection listener
-     * @throws PortNotFoundException thrown if the port is not found in the system
-     * @throws PortNotOpenedException thrown if open the communication port failed
+     * 
+     * @param portName
+     *            the port name
+     * @param connectionListener
+     *            the connection listener
+     * @throws PortNotFoundException
+     *             thrown if the port is not found in the system
+     * @throws PortNotOpenedException
+     *             thrown if open the communication port failed
      */
     void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
         PortNotOpenedException;
@@ -82,14 +92,18 @@ public interface BidibInterface {
 
     /**
      * Set the recieve timeout for the port.
-     * @param timeout the receive timeout to set
+     * 
+     * @param timeout
+     *            the receive timeout to set
      */
     @Deprecated
     void setReceiveTimeout(int timeout);
 
     /**
      * Set the logfile for offline research purposes.
-     * @param logFile the logfile path
+     * 
+     * @param logFile
+     *            the logfile path
      */
     void setLogFile(String logFile);
 
@@ -105,19 +119,24 @@ public interface BidibInterface {
 
     /**
      * Set the ignore wait timeout flag that is used for new nodes.
-     * @param ignoreWaitTimeout the ignore wait timeout flag
+     * 
+     * @param ignoreWaitTimeout
+     *            the ignore wait timeout flag
      */
     void setIgnoreWaitTimeout(boolean ignoreWaitTimeout);
 
     /**
      * Get the response timeout that is used to wait for response from the nodes.
+     * 
      * @return the timeout in milliseconds
      */
     int getResponseTimeout();
 
     /**
      * Set the response timeout that is used to wait for response from the nodes.
-     * @param responseTimeout the timeout in milliseconds
+     * 
+     * @param responseTimeout
+     *            the timeout in milliseconds
      */
     void setResponseTimeout(int responseTimeout);
 }

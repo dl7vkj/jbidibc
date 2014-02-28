@@ -60,7 +60,7 @@ package gnu.io;
 import de.root1.rxtxrebundled.LibLoader;
 
 /**
- A class to keep the current version in
+ * A class to keep the current version in
  */
 
 public class RXTXVersion {
@@ -82,9 +82,9 @@ public class RXTXVersion {
     }
 
     /**
-     *  static method to return the current version of RXTX
-     *  unique to RXTX.
-     *  @return a string representing the version  "RXTX-1.4-9"
+     * static method to return the current version of RXTX unique to RXTX.
+     * 
+     * @return a string representing the version "RXTX-1.4-9"
      */
     public static String getVersion() {
         return (Version);
