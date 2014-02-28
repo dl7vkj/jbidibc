@@ -37,6 +37,7 @@ import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.MessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -79,7 +80,7 @@ public abstract class MessageReceiver {
      */
     public synchronized void processMessages(ByteArrayOutputStream output) throws ProtocolException {
         // if a CRC error is detected in splitMessages the reading loop will terminate ...
-        for (byte[] messageArray : splitMessages(output.toByteArray())) {
+        for (byte[] messageArray : MessageUtils.splitBidibMessages(output.toByteArray())) {
             BidibMessage message = null;
 
             try {
@@ -486,58 +487,58 @@ public abstract class MessageReceiver {
         }
     }
 
-    /**
-     * Split the byte array into separate messages. The CRC value at the end is calculated over the whole array.
-     * 
-     * @param output
-     *            array containing at least one message
-     * 
-     * @return list of the separated messages
-     * 
-     * @throws ProtocolException
-     *             Thrown if the CRC failed.
-     */
-    private static Collection<byte[]> splitMessages(byte[] output) throws ProtocolException {
-        Collection<byte[]> result = new LinkedList<byte[]>();
-        int index = 0;
-
-        LOGGER.trace("splitMessages: {}", output);
-
-        while (index < output.length) {
-            int size = output[index] + 1;
-
-            if (size <= 0) {
-                throw new ProtocolException("cannot split messages, array size is " + size);
-            }
-
-            byte[] message = new byte[size];
-
-            try {
-                System.arraycopy(output, index, message, 0, message.length);
-            }
-            catch (ArrayIndexOutOfBoundsException ex) {
-                LOGGER.warn("Failed to copy, msg.len: " + message.length + ", size: " + size + ", output.len: "
-                    + output.length, ex);
-                throw ex;
-            }
-            result.add(message);
-            index += size;
-
-            // CRC
-            if (index == output.length - 1) {
-                int crc = 0;
-
-                for (index = 0; index < output.length - 1; index++) {
-                    crc = CRC8.getCrcValue((output[index] ^ crc) & 0xFF);
-                }
-                if (crc != (output[index] & 0xFF)) {
-                    throw new ProtocolException("CRC failed: should be " + crc + " but was " + (output[index] & 0xFF));
-                }
-                break;
-            }
-        }
-        return result;
-    }
+    // /**
+    // * Split the byte array into separate messages. The CRC value at the end is calculated over the whole array.
+    // *
+    // * @param output
+    // * array containing at least one message
+    // *
+    // * @return list of the separated messages
+    // *
+    // * @throws ProtocolException
+    // * Thrown if the CRC failed.
+    // */
+    // private static Collection<byte[]> splitMessages(byte[] output) throws ProtocolException {
+    // Collection<byte[]> result = new LinkedList<byte[]>();
+    // int index = 0;
+    //
+    // LOGGER.trace("splitMessages: {}", output);
+    //
+    // while (index < output.length) {
+    // int size = output[index] + 1;
+    //
+    // if (size <= 0) {
+    // throw new ProtocolException("cannot split messages, array size is " + size);
+    // }
+    //
+    // byte[] message = new byte[size];
+    //
+    // try {
+    // System.arraycopy(output, index, message, 0, message.length);
+    // }
+    // catch (ArrayIndexOutOfBoundsException ex) {
+    // LOGGER.warn("Failed to copy, msg.len: " + message.length + ", size: " + size + ", output.len: "
+    // + output.length, ex);
+    // throw ex;
+    // }
+    // result.add(message);
+    // index += size;
+    //
+    // // CRC
+    // if (index == output.length - 1) {
+    // int crc = 0;
+    //
+    // for (index = 0; index < output.length - 1; index++) {
+    // crc = CRC8.getCrcValue((output[index] ^ crc) & 0xFF);
+    // }
+    // if (crc != (output[index] & 0xFF)) {
+    // throw new ProtocolException("CRC failed: should be " + crc + " but was " + (output[index] & 0xFF));
+    // }
+    // break;
+    // }
+    // }
+    // return result;
+    // }
 
     /**
      * Remove an orphan node. If the node does not disconnect according to specification or the node is an interface

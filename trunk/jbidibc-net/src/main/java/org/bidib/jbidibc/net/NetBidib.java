@@ -11,32 +11,29 @@ import java.util.List;
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
 import org.bidib.jbidibc.MessageReceiver;
-import org.bidib.jbidibc.Node;
+import org.bidib.jbidibc.core.AbstractBidib;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.message.RequestFactory;
-import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
-import org.bidib.jbidibc.node.BoosterNode;
-import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.NodeFactory;
-import org.bidib.jbidibc.node.RootNode;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class NetBidib implements BidibInterface {
+public class NetBidib extends AbstractBidib {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(NetBidib.class);
 
+    public static final int BIDIB_UDP_PORT_NUMBER = 62875;
+
     private static NetBidib INSTANCE;
 
-    private MessageReceiver messageReceiver;
-
-    private NodeFactory nodeFactory;
-
-    private RequestFactory requestFactory;
+    // private MessageReceiver messageReceiver;
+    //
+    // private NodeFactory nodeFactory;
+    //
+    // private RequestFactory requestFactory;
 
     private NetBidibPort port;
 
@@ -52,9 +49,9 @@ public class NetBidib implements BidibInterface {
 
     private int sequence;
 
-    private ConnectionListener connectionListener;
+    // private ConnectionListener connectionListener;
 
-    private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT * 100;
+    // private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT * 100;
 
     // ////////////////////////////////////////////////////////////////////////////
     static {
@@ -74,17 +71,9 @@ public class NetBidib implements BidibInterface {
 
     }
 
-    /**
-     * Initialize the instance. This must only be called from this class
-     */
-    protected void initialize() {
-        LOGGER.info("Initialize NetBidib.");
-        nodeFactory = new NodeFactory();
-        nodeFactory.setBidib(this);
-        requestFactory = new RequestFactory();
-        nodeFactory.setRequestFactory(requestFactory);
-        // create the message receiver
-        messageReceiver = new NetMessageReceiver(nodeFactory);
+    @Override
+    protected MessageReceiver createMessageReceiver(NodeFactory nodeFactory) {
+        return new DefaultNetMessageReceiver(nodeFactory);
     }
 
     public static synchronized BidibInterface getInstance() {
@@ -96,37 +85,11 @@ public class NetBidib implements BidibInterface {
     }
 
     @Override
-    public BidibNode getNode(Node node) {
-        LOGGER.info("Get node: {}", node);
-        return nodeFactory.getNode(node);
-    }
-
-    @Override
-    public RootNode getRootNode() {
-        return nodeFactory.getRootNode();
-    }
-
-    @Override
-    public AccessoryNode getAccessoryNode(Node node) {
-        return nodeFactory.getAccessoryNode(node);
-    }
-
-    @Override
-    public BoosterNode getBoosterNode(Node node) {
-        return nodeFactory.getBoosterNode(node);
-    }
-
-    @Override
-    public CommandStationNode getCommandStationNode(Node node) {
-        return nodeFactory.getCommandStationNode(node);
-    }
-
-    @Override
     public void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
         PortNotOpenedException {
         LOGGER.info("Open port: {}", portName);
 
-        this.connectionListener = connectionListener;
+        setConnectionListener(connectionListener);
 
         if (port == null) {
             if (portName == null || portName.trim().isEmpty()) {
@@ -160,11 +123,11 @@ public class NetBidib implements BidibInterface {
         LOGGER.info("Configured address: {}, portNumber: {}", address, portNumber);
 
         // enable the message receiver before the event listener is added
-        messageReceiver.enable();
+        getMessageReceiver().enable();
 
         DatagramSocket datagramSocket = new DatagramSocket();
         // open the port
-        NetBidibPort netBidibPort = new NetBidibPort(datagramSocket, (NetMessageReceiver) messageReceiver);
+        NetBidibPort netBidibPort = new NetBidibPort(datagramSocket, (NetMessageReceiver) getMessageReceiver());
 
         LOGGER.info("Prepare and start the port worker.");
 
@@ -176,7 +139,6 @@ public class NetBidib implements BidibInterface {
 
     @Override
     public boolean isOpened() {
-        // TODO Auto-generated method stub
         return port != null;
     }
 
@@ -274,32 +236,8 @@ public class NetBidib implements BidibInterface {
     }
 
     @Override
-    public MessageReceiver getMessageReceiver() {
-        return messageReceiver;
-    }
-
-    @Override
     public List<String> getPortIdentifiers() {
         // TODO Auto-generated method stub
         return null;
     }
-
-    @Override
-    public void setIgnoreWaitTimeout(boolean ignoreWaitTimeout) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public int getResponseTimeout() {
-        // TODO Auto-generated method stub
-        return 0;
-    }
-
-    @Override
-    public void setResponseTimeout(int responseTimeout) {
-        // TODO Auto-generated method stub
-
-    }
-
 }

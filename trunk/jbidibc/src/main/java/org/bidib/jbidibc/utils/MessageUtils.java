@@ -1,5 +1,9 @@
 package org.bidib.jbidibc.utils;
 
+import java.util.Collection;
+import java.util.LinkedList;
+
+import org.bidib.jbidibc.CRC8;
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.enumeration.AccessoryOkayEnum;
 import org.bidib.jbidibc.enumeration.AnalogPortEnum;
@@ -13,6 +17,7 @@ import org.bidib.jbidibc.enumeration.MotorPortEnum;
 import org.bidib.jbidibc.enumeration.ServoPortEnum;
 import org.bidib.jbidibc.enumeration.SoundPortEnum;
 import org.bidib.jbidibc.enumeration.SwitchPortEnum;
+import org.bidib.jbidibc.exception.ProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -126,4 +131,56 @@ public class MessageUtils {
         return result;
     }
 
+    /**
+     * Split the byte array into separate messages. The CRC value at the end is calculated over the whole array.
+     * 
+     * @param output
+     *            array containing at least one message
+     * 
+     * @return list of the separated messages
+     * 
+     * @throws ProtocolException
+     *             Thrown if the CRC failed.
+     */
+    public static Collection<byte[]> splitBidibMessages(byte[] output) throws ProtocolException {
+        Collection<byte[]> result = new LinkedList<byte[]>();
+        int index = 0;
+
+        LOGGER.trace("splitMessages: {}", output);
+
+        while (index < output.length) {
+            int size = output[index] + 1;
+
+            if (size <= 0) {
+                throw new ProtocolException("cannot split messages, array size is " + size);
+            }
+
+            byte[] message = new byte[size];
+
+            try {
+                System.arraycopy(output, index, message, 0, message.length);
+            }
+            catch (ArrayIndexOutOfBoundsException ex) {
+                LOGGER.warn("Failed to copy, msg.len: " + message.length + ", size: " + size + ", output.len: "
+                    + output.length, ex);
+                throw ex;
+            }
+            result.add(message);
+            index += size;
+
+            // CRC
+            if (index == output.length - 1) {
+                int crc = 0;
+
+                for (index = 0; index < output.length - 1; index++) {
+                    crc = CRC8.getCrcValue((output[index] ^ crc) & 0xFF);
+                }
+                if (crc != (output[index] & 0xFF)) {
+                    throw new ProtocolException("CRC failed: should be " + crc + " but was " + (output[index] & 0xFF));
+                }
+                break;
+            }
+        }
+        return result;
+    }
 }

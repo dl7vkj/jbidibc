@@ -36,11 +36,21 @@ public class NetBidibPort implements Runnable {
                 datagramSocket.receive(receivePacket);
 
                 // forward processing to handler
-                messageReceiver.receive(receivePacket);
+                if (messageReceiver != null) {
+                    messageReceiver.receive(receivePacket);
+                }
+                else {
+                    LOGGER.warn("No message receiver configured, received packet: {}", receivePacket);
+                }
             }
         }
         catch (IOException ex) {
-            LOGGER.warn("--- Interrupt NetBidibPort-run", ex);
+            if (runEnabled.get()) {
+                LOGGER.warn("--- Interrupt NetBidibPort-run", ex);
+            }
+            else {
+                LOGGER.info("The NetBidibPort worker is terminating.");
+            }
         }
 
         LOGGER.info("Receiver thread has finished.");

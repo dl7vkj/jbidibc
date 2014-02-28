@@ -260,6 +260,26 @@ public final class ByteUtils {
         return r.toString();
     }
 
+    /**
+     * Convert a byte array to a hex string with spaces delimited. Original source: DatatypeConverterImpl.printHexBinary
+     * 
+     * @param bytes
+     *            the byte array
+     * @param length
+     *            the number of bytes to append
+     * @return the formatted hex string
+     */
+    public static String bytesToHex(byte[] bytes, int length) {
+        StringBuilder r = new StringBuilder(length * 3);
+        for (int index = 0; index < length; index++) {
+            byte b = bytes[index];
+            r.append(hexArray[(b >> 4) & 0xF]);
+            r.append(hexArray[(b & 0xF)]);
+            r.append(' ');
+        }
+        return r.toString();
+    }
+
     public static String byteToHex(int byteValue) {
         char[] hexChars = new char[2];
         hexChars[0] = hexArray[byteValue >>> 4];
