@@ -138,8 +138,8 @@ public class MessageReceiverTest {
 
         ByteArrayInputStream is =
             new ByteArrayInputStream(new byte[] { 0x06, 0x01, 0x00, 0x0e, (byte) 0x90, 0x00, 0x20, /* CRC */
-                (byte) 0xA7, (byte) 0xFE, /* start 2nd message */0x06, 0x01, 0x00, 0x0f, (byte) 0x90, 0x00, 0x20, /* CRC */
-                (byte) 0x28, (byte) 0xFE });
+            (byte) 0xA7, (byte) 0xFE, /* start 2nd message */0x06, 0x01, 0x00, 0x0f, (byte) 0x90, 0x00, 0x20, /* CRC */
+            (byte) 0x28, (byte) 0xFE });
 
         Mockito.when(serialPort.getInputStream()).thenReturn(is);
         Mockito.when(nodeFactory.getNode(Mockito.any(Node.class))).thenReturn(bidibNode);

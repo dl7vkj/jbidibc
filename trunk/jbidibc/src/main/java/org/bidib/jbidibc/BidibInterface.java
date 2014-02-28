@@ -17,7 +17,7 @@ public interface BidibInterface {
     final int responseTimeout = DEFAULT_TIMEOUT;
 
     /**
-     * returns the cached node or creates a new instance
+     * Returns the cached node or creates a new instance.
      * 
      * @param node
      *            the node

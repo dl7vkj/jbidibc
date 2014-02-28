@@ -7,16 +7,13 @@ import java.util.List;
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
 import org.bidib.jbidibc.MessageReceiver;
-import org.bidib.jbidibc.Node;
+import org.bidib.jbidibc.core.AbstractBidib;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.RequestFactory;
-import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
-import org.bidib.jbidibc.node.BoosterNode;
-import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.RootNode;
 import org.bidib.jbidibc.simulation.SimulatorNode;
@@ -25,22 +22,16 @@ import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SimulationBidib implements BidibInterface {
+public class SimulationBidib extends AbstractBidib {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationBidib.class);
 
     private static SimulationBidib INSTANCE;
 
-    private MessageReceiver messageReceiver;
-
-    private NodeFactory nodeFactory;
-
-    private RequestFactory requestFactory;
-
     private String connectedPortName;
 
-    private ConnectionListener connectionListener;
+    // private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT * 100;
 
-    private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT * 100;
+    private boolean isOpened = false;
 
     // ////////////////////////////////////////////////////////////////////////////
     static {
@@ -59,17 +50,9 @@ public class SimulationBidib implements BidibInterface {
     private SimulationBidib() {
     }
 
-    /**
-     * Initialize the instance. This must only be called from this class
-     */
-    protected void initialize() {
-        LOGGER.info("Initialize SimulationBidib.");
-        nodeFactory = new NodeFactory();
-        nodeFactory.setBidib(this);
-        requestFactory = new RequestFactory();
-        nodeFactory.setRequestFactory(requestFactory);
-        // create the message receiver
-        messageReceiver = new MessageReceiver(
+    @Override
+    protected MessageReceiver createMessageReceiver(NodeFactory nodeFactory) {
+        return new MessageReceiver(
             nodeFactory) {
 
             @Override
@@ -88,36 +71,16 @@ public class SimulationBidib implements BidibInterface {
     }
 
     @Override
-    public BidibNode getNode(Node node) {
-        LOGGER.info("Get node: {}", node);
-        return nodeFactory.getNode(node);
-    }
-
-    @Override
     public RootNode getRootNode() {
-        RootNode rootNode = nodeFactory.getRootNode();
+        RootNode rootNode = super.getRootNode();
 
         String nodeAddress = ByteUtils.bytesToHex(rootNode.getAddr());
         SimulatorNode simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
         if (simulator == null) {
             LOGGER.warn("No simulator configured for the root node.");
         }
+
         return rootNode;
-    }
-
-    @Override
-    public AccessoryNode getAccessoryNode(Node node) {
-        return nodeFactory.getAccessoryNode(node);
-    }
-
-    @Override
-    public BoosterNode getBoosterNode(Node node) {
-        return nodeFactory.getBoosterNode(node);
-    }
-
-    @Override
-    public CommandStationNode getCommandStationNode(Node node) {
-        return nodeFactory.getCommandStationNode(node);
     }
 
     @Override
@@ -130,7 +93,7 @@ public class SimulationBidib implements BidibInterface {
             for (BidibCommand bidibMessage : bidibMessages) {
                 byte[] address = ((BidibMessage) bidibMessage).getAddr();
 
-                BidibNode bidibNode = nodeFactory.findNode(address);
+                BidibNode bidibNode = getNodeFactory().findNode(address);
                 String nodeAddress = ByteUtils.bytesToHex(bidibNode.getAddr());
 
                 SimulatorNode simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
@@ -147,14 +110,12 @@ public class SimulationBidib implements BidibInterface {
         }
     }
 
-    private boolean isOpened = false;
-
     @Override
     public void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
         PortNotOpenedException {
         LOGGER.info("Open port: {}", portName);
 
-        this.connectionListener = connectionListener;
+        setConnectionListener(connectionListener);
 
         // TODO load the SimulatorRegistry with the simulation configuration
         SimulatorRegistry.getInstance().removeAll();
@@ -176,8 +137,8 @@ public class SimulationBidib implements BidibInterface {
     public void close() {
         LOGGER.info("Close port, connectedPortName: {}", connectedPortName);
 
-        if (connectionListener != null) {
-            connectionListener.closed(connectedPortName);
+        if (getConnectionListener() != null) {
+            getConnectionListener().closed(connectedPortName);
         }
 
         isOpened = false;
@@ -200,35 +161,9 @@ public class SimulationBidib implements BidibInterface {
     }
 
     @Override
-    public MessageReceiver getMessageReceiver() {
-        return messageReceiver;
-    }
-
-    @Override
     public List<String> getPortIdentifiers() {
         List<String> portIdentifiers = new LinkedList<>();
         portIdentifiers.add("mock");
         return portIdentifiers;
-    }
-
-    @Override
-    public void setIgnoreWaitTimeout(boolean ignoreWaitTimeout) {
-        if (nodeFactory != null) {
-            nodeFactory.setIgnoreWaitTimeout(ignoreWaitTimeout);
-        }
-        else {
-            LOGGER.warn("The node factory is not available, set the ignoreWaitTimeout is discarded.");
-        }
-    }
-
-    @Override
-    public int getResponseTimeout() {
-        return responseTimeout;
-    }
-
-    @Override
-    public void setResponseTimeout(int responseTimeout) {
-        LOGGER.info("Set the response timeout: {} --> used for simulation: {}", responseTimeout, responseTimeout * 100);
-        this.responseTimeout = responseTimeout * 100;
     }
 }

@@ -22,18 +22,13 @@ import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
 import org.bidib.jbidibc.LogFileAnalyzer;
 import org.bidib.jbidibc.MessageReceiver;
-import org.bidib.jbidibc.Node;
+import org.bidib.jbidibc.core.AbstractBidib;
 import org.bidib.jbidibc.exception.NoAnswerException;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.message.RequestFactory;
-import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
-import org.bidib.jbidibc.node.BoosterNode;
-import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.NodeFactory;
-import org.bidib.jbidibc.node.RootNode;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.LibraryPathManipulator;
 import org.slf4j.Logger;
@@ -44,19 +39,11 @@ import org.slf4j.LoggerFactory;
  * used in the system.
  * 
  */
-public final class Bidib implements BidibInterface {
+public final class Bidib extends AbstractBidib {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Bidib.class);
 
     private static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
-
-    private int responseTimeout = Bidib.DEFAULT_TIMEOUT;
-
-    public static final int DEFAULT_TIMEOUT = /* 1500 */200;
-
-    private NodeFactory nodeFactory;
-
-    private RequestFactory requestFactory;
 
     private SerialPort port;
 
@@ -70,11 +57,7 @@ public final class Bidib implements BidibInterface {
 
     private static Bidib INSTANCE;
 
-    private MessageReceiver messageReceiver;
-
     private String requestedPortName;
-
-    private ConnectionListener connectionListener;
 
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -92,17 +75,9 @@ public final class Bidib implements BidibInterface {
     private Bidib() {
     }
 
-    /**
-     * Initialize the instance. This must only be called from this class
-     */
-    protected void initialize() {
-        LOGGER.info("Initialize Bidib.");
-        nodeFactory = new NodeFactory();
-        nodeFactory.setBidib(this);
-        requestFactory = new RequestFactory();
-        nodeFactory.setRequestFactory(requestFactory);
-        // create the message receiver
-        messageReceiver = new SerialMessageReceiver(nodeFactory);
+    @Override
+    protected MessageReceiver createMessageReceiver(NodeFactory nodeFactory) {
+        return new SerialMessageReceiver(nodeFactory);
     }
 
     public static synchronized BidibInterface getInstance() {
@@ -120,7 +95,7 @@ public final class Bidib implements BidibInterface {
             long start = System.currentTimeMillis();
 
             // no longer process received messages
-            messageReceiver.disable();
+            getMessageReceiver().disable();
 
             // this makes the close operation faster ...
             try {
@@ -145,18 +120,18 @@ public final class Bidib implements BidibInterface {
 
             port = null;
 
-            if (nodeFactory != null) {
+            if (getNodeFactory() != null) {
                 // remove all stored nodes from the node factory
-                nodeFactory.reset();
+                getNodeFactory().reset();
             }
 
-            if (messageReceiver != null) {
-                messageReceiver.clearMessageListeners();
-                messageReceiver.clearNodeListeners();
+            if (getMessageReceiver() != null) {
+                getMessageReceiver().clearMessageListeners();
+                getMessageReceiver().clearNodeListeners();
             }
 
-            if (connectionListener != null) {
-                connectionListener.closed(requestedPortName);
+            if (getConnectionListener() != null) {
+                getConnectionListener().closed(requestedPortName);
             }
 
             requestedPortName = null;
@@ -182,42 +157,6 @@ public final class Bidib implements BidibInterface {
             }
         }
         return portIdentifiers;
-    }
-
-    @Override
-    public AccessoryNode getAccessoryNode(Node node) {
-        return nodeFactory.getAccessoryNode(node);
-    }
-
-    @Override
-    public BoosterNode getBoosterNode(Node node) {
-        return nodeFactory.getBoosterNode(node);
-    }
-
-    @Override
-    public CommandStationNode getCommandStationNode(Node node) {
-        return nodeFactory.getCommandStationNode(node);
-    }
-
-    public MessageReceiver getMessageReceiver() {
-        return messageReceiver;
-    }
-
-    /**
-     * returns the cached node or creates a new instance
-     * 
-     * @param node
-     *            the node
-     * @return the BidibNode instance
-     */
-    @Override
-    public BidibNode getNode(Node node) {
-        return nodeFactory.getNode(node);
-    }
-
-    @Override
-    public RootNode getRootNode() {
-        return nodeFactory.getRootNode();
     }
 
     private void clearInputStream(SerialPort serialPort) {
@@ -268,13 +207,13 @@ public final class Bidib implements BidibInterface {
         serialPort.notifyOnCTS(true);
 
         // enable the message receiver before the event listener is added
-        messageReceiver.enable();
+        getMessageReceiver().enable();
         serialPort.addEventListener(new SerialPortEventListener() {
             {
                 if (logFile != null) {
                     LOGGER.warn("Logfile is set: {}", logFile);
                     try {
-                        new LogFileAnalyzer(new File(logFile), messageReceiver);
+                        new LogFileAnalyzer(new File(logFile), getMessageReceiver());
                     }
                     catch (IOException e) {
                         LOGGER.warn("Create LogFileAnalyzer failed.", e);
@@ -289,7 +228,7 @@ public final class Bidib implements BidibInterface {
                 switch (event.getEventType()) {
                     case SerialPortEvent.DATA_AVAILABLE:
                         try {
-                            ((SerialMessageReceiver) messageReceiver).receive(port);
+                            ((SerialMessageReceiver) getMessageReceiver()).receive(port);
                         }
                         catch (Exception ex) {
                             LOGGER.error("Message receiver has terminated with an exception!", ex);
@@ -344,7 +283,7 @@ public final class Bidib implements BidibInterface {
     public void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
         PortNotOpenedException {
 
-        this.connectionListener = connectionListener;
+        this.setConnectionListener(connectionListener);
 
         if (port == null) {
             if (portName == null || portName.trim().isEmpty()) {
@@ -527,26 +466,5 @@ public final class Bidib implements BidibInterface {
                 throw new RuntimeException(e);
             }
         }
-    }
-
-    @Override
-    public void setIgnoreWaitTimeout(boolean ignoreWaitTimeout) {
-        if (nodeFactory != null) {
-            nodeFactory.setIgnoreWaitTimeout(ignoreWaitTimeout);
-        }
-        else {
-            LOGGER.warn("The node factory is not available, set the ignoreWaitTimeout is discarded.");
-        }
-    }
-
-    @Override
-    public int getResponseTimeout() {
-        return responseTimeout;
-    }
-
-    @Override
-    public void setResponseTimeout(int responseTimeout) {
-        LOGGER.info("Set the response timeout: {}", responseTimeout);
-        this.responseTimeout = responseTimeout;
     }
 }
