@@ -7,8 +7,6 @@ import java.io.InputStream;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.MessageReceiver;
-import org.bidib.jbidibc.core.Context;
-import org.bidib.jbidibc.core.DefaultContext;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
@@ -23,11 +21,12 @@ public class SerialMessageReceiver extends MessageReceiver {
         super(nodeFactory);
     }
 
-    public byte[] getRemainingOutputBuffer() {
+    @Override
+    public String getErrorInformation() {
         if (output != null && output.size() > 0) {
 
             byte[] remaining = output.toByteArray();
-            return remaining;
+            return new String(remaining);
         }
 
         return null;
@@ -71,8 +70,7 @@ public class SerialMessageReceiver extends MessageReceiver {
                             logRecord.setLength(0);
 
                             // if a CRC error is detected in splitMessages the reading loop will terminate ...
-                            final Context context = new DefaultContext();
-                            processMessages(context, output);
+                            processMessages(output);
                         }
                         else {
                             if (data == BidibLibrary.BIDIB_PKT_ESCAPE) {

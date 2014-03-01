@@ -7,7 +7,6 @@ import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bidib.jbidibc.core.BidibMessageProcessor;
-import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
@@ -47,7 +46,7 @@ import org.slf4j.LoggerFactory;
  * The message receiver is responsible for creating the messages based on the received bytes from the stream. It is
  * created and initialized by the (default) Bidib implementation.
  */
-public abstract class MessageReceiver implements BidibMessageProcessor {
+public class MessageReceiver implements BidibMessageProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class.getName());
 
     protected static final Logger MSG_RX_LOGGER = LoggerFactory.getLogger("RX");
@@ -63,7 +62,7 @@ public abstract class MessageReceiver implements BidibMessageProcessor {
 
     private NodeFactory nodeFactory;
 
-    protected MessageReceiver(NodeFactory nodeFactory) {
+    public MessageReceiver(NodeFactory nodeFactory) {
         this.nodeFactory = nodeFactory;
         this.nodeFactory.setMessageReceiver(this);
 
@@ -71,12 +70,12 @@ public abstract class MessageReceiver implements BidibMessageProcessor {
         running.set(true);
     }
 
-    // TODO refactor this to a new method String getErrorMessage()
-    public abstract byte[] getRemainingOutputBuffer();
+    public String getErrorInformation() {
+        return null;
+    }
 
     @Override
-    public synchronized void processMessages(final Context context, final ByteArrayOutputStream output)
-        throws ProtocolException {
+    public synchronized void processMessages(final ByteArrayOutputStream output) throws ProtocolException {
         // if a CRC error is detected in splitMessages the reading loop will terminate ...
         for (byte[] messageArray : MessageUtils.splitBidibMessages(output.toByteArray())) {
             BidibMessage message = null;
@@ -484,59 +483,6 @@ public abstract class MessageReceiver implements BidibMessageProcessor {
             l.dynState(address, detectorNumber, dynNumber, dynValue);
         }
     }
-
-    // /**
-    // * Split the byte array into separate messages. The CRC value at the end is calculated over the whole array.
-    // *
-    // * @param output
-    // * array containing at least one message
-    // *
-    // * @return list of the separated messages
-    // *
-    // * @throws ProtocolException
-    // * Thrown if the CRC failed.
-    // */
-    // private static Collection<byte[]> splitMessages(byte[] output) throws ProtocolException {
-    // Collection<byte[]> result = new LinkedList<byte[]>();
-    // int index = 0;
-    //
-    // LOGGER.trace("splitMessages: {}", output);
-    //
-    // while (index < output.length) {
-    // int size = output[index] + 1;
-    //
-    // if (size <= 0) {
-    // throw new ProtocolException("cannot split messages, array size is " + size);
-    // }
-    //
-    // byte[] message = new byte[size];
-    //
-    // try {
-    // System.arraycopy(output, index, message, 0, message.length);
-    // }
-    // catch (ArrayIndexOutOfBoundsException ex) {
-    // LOGGER.warn("Failed to copy, msg.len: " + message.length + ", size: " + size + ", output.len: "
-    // + output.length, ex);
-    // throw ex;
-    // }
-    // result.add(message);
-    // index += size;
-    //
-    // // CRC
-    // if (index == output.length - 1) {
-    // int crc = 0;
-    //
-    // for (index = 0; index < output.length - 1; index++) {
-    // crc = CRC8.getCrcValue((output[index] ^ crc) & 0xFF);
-    // }
-    // if (crc != (output[index] & 0xFF)) {
-    // throw new ProtocolException("CRC failed: should be " + crc + " but was " + (output[index] & 0xFF));
-    // }
-    // break;
-    // }
-    // }
-    // return result;
-    // }
 
     /**
      * Remove an orphan node. If the node does not disconnect according to specification or the node is an interface

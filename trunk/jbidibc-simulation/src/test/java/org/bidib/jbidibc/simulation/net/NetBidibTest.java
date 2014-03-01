@@ -16,13 +16,13 @@ import org.testng.annotations.Test;
 public class NetBidibTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(NetBidibTest.class);
 
-    private SimulationTestNetBidib simulationNetBidib;
+    private SimulationNetBidib simulationNetBidib;
 
     @BeforeClass
     public void prepare() {
         LOGGER.info("Prepare the simulator.");
 
-        // refactoring: use SimulationTestNetBidib extends SimulationNetBidib
+        // create the test instance
         simulationNetBidib = new SimulationTestNetBidib();
         simulationNetBidib.start();
 

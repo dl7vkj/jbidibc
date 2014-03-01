@@ -1,7 +1,5 @@
 package org.bidib.jbidibc.net;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.SocketException;
@@ -29,13 +27,9 @@ public class NetBidib extends AbstractBidib {
 
     private static NetBidib INSTANCE;
 
-    // private MessageReceiver messageReceiver;
-    //
-    // private NodeFactory nodeFactory;
-    //
-    // private RequestFactory requestFactory;
-
     private NetBidibPort port;
+
+    private NetMessageHandler netMessageReceiver;
 
     private Thread portWorker;
 
@@ -45,9 +39,9 @@ public class NetBidib extends AbstractBidib {
 
     private int portNumber;
 
-    private int sessionKey;
-
-    private int sequence;
+    // private int sessionKey;
+    //
+    // private int sequence;
 
     // ////////////////////////////////////////////////////////////////////////////
     static {
@@ -69,7 +63,7 @@ public class NetBidib extends AbstractBidib {
 
     @Override
     protected MessageReceiver createMessageReceiver(NodeFactory nodeFactory) {
-        return new DefaultNetMessageReceiver(nodeFactory);
+        return new MessageReceiver(nodeFactory);
     }
 
     public static synchronized BidibInterface getInstance() {
@@ -121,9 +115,12 @@ public class NetBidib extends AbstractBidib {
         // enable the message receiver before the event listener is added
         getMessageReceiver().enable();
 
+        netMessageReceiver = new DefaultNetMessageHandler(getMessageReceiver());
+        netMessageReceiver.addRemoteAddress(address, portNumber);
+
         DatagramSocket datagramSocket = new DatagramSocket();
         // open the port
-        NetBidibPort netBidibPort = new NetBidibPort(datagramSocket, (NetMessageReceiver) getMessageReceiver());
+        NetBidibPort netBidibPort = new NetBidibPort(datagramSocket, netMessageReceiver);
 
         LOGGER.info("Prepare and start the port worker.");
 
@@ -165,40 +162,47 @@ public class NetBidib extends AbstractBidib {
 
     @Override
     public void send(byte[] bytes) {
-        // TODO Auto-generated method stub
+        LOGGER.info("Send message: {}", ByteUtils.bytesToHex(bytes));
         if (port != null) {
-
+            // forward the message to the netMessageReceiver
             try {
-                // TODO add the UDP packet wrapper ...
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bos.write(ByteUtils.getHighByte(sessionKey));
-                bos.write(ByteUtils.getLowByte(sessionKey));
-                bos.write(ByteUtils.getHighByte(sequence));
-                bos.write(ByteUtils.getLowByte(sequence));
-                bos.write(bytes);
-
-                port.send(bos.toByteArray(), address, portNumber);
-
-                // increment the sequence counter after sending the message sucessfully
-                prepareNextSequence();
+                netMessageReceiver.send(port, bytes);
             }
-            catch (IOException ex) {
-                LOGGER.warn("Send message to port failed.", ex);
-                throw new RuntimeException("Send message to datagram socket failed.", ex);
+            catch (Exception ex) {
+                LOGGER.warn("Forward message to send with netMessageReceiver failed.", ex);
+                throw new RuntimeException("Forward message to send with netMessageReceiver failed.", ex);
             }
+            // try {
+            // // TODO add the UDP packet wrapper ...
+            // ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            // bos.write(ByteUtils.getHighByte(sessionKey));
+            // bos.write(ByteUtils.getLowByte(sessionKey));
+            // bos.write(ByteUtils.getHighByte(sequence));
+            // bos.write(ByteUtils.getLowByte(sequence));
+            // bos.write(bytes);
+            //
+            // port.send(bos.toByteArray(), address, portNumber);
+            //
+            // // increment the sequence counter after sending the message sucessfully
+            // prepareNextSequence();
+            // }
+            // catch (IOException ex) {
+            // LOGGER.warn("Send message to port failed.", ex);
+            // throw new RuntimeException("Send message to datagram socket failed.", ex);
+            // }
         }
         else {
             LOGGER.warn("Send not possible, the port is closed.");
         }
     }
 
-    private void prepareNextSequence() {
-        sequence++;
-        if (sequence > 65535) {
-            sequence = 0;
-        }
-    }
-
+    // private void prepareNextSequence() {
+    // sequence++;
+    // if (sequence > 65535) {
+    // sequence = 0;
+    // }
+    // }
+    //
     /**
      * Get the magic from the root node
      * 
@@ -209,12 +213,14 @@ public class NetBidib extends AbstractBidib {
         BidibNode rootNode = getRootNode();
 
         // Ignore the first exception ...
+        int magic = -1;
         try {
-            rootNode.getMagic();
+            magic = rootNode.getMagic();
         }
         catch (Exception e) {
+            magic = rootNode.getMagic();
         }
-        int magic = rootNode.getMagic();
+        // int magic = rootNode.getMagic();
         LOGGER.debug("The node returned magic: {}", magic);
         return magic;
     }

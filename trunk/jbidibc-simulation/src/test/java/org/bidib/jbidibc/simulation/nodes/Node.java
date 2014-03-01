@@ -1,7 +1,6 @@
 package org.bidib.jbidibc.simulation.nodes;
 
 import org.bidib.jbidibc.Feature;
-import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.SwitchingFunctionsNode;
@@ -21,7 +20,7 @@ public class Node implements SimulatorNode, SwitchingFunctionsNode {
     }
 
     @Override
-    public void processRequest(final Context context, final BidibCommand bidibMessage) {
+    public void processRequest(final BidibCommand bidibMessage) {
         // TODO Auto-generated method stub
 
     }

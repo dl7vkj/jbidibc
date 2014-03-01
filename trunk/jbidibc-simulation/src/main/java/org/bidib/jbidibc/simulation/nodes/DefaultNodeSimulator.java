@@ -17,8 +17,6 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.Feature;
 import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.core.BidibMessageProcessor;
-import org.bidib.jbidibc.core.Context;
-import org.bidib.jbidibc.core.DefaultContext;
 import org.bidib.jbidibc.enumeration.FirmwareUpdateOperation;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibCommand;
@@ -69,7 +67,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     protected List<Feature> features = new LinkedList<>();
 
-    private BlockingQueue<CommandContainer> sendQueue = new LinkedBlockingQueue<CommandContainer>();
+    private BlockingQueue<BidibCommand> sendQueue = new LinkedBlockingQueue<BidibCommand>();
 
     private Thread requestWorker;
 
@@ -77,47 +75,12 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     private final BidibMessageProcessor messageReceiver;
 
-    private final Context context;
-
-    private static final class CommandContainer {
-        private final Context context;
-
-        private final BidibCommand bidibCommand;
-
-        public CommandContainer(final Context context, final BidibCommand bidibCommand) {
-            this.context = context;
-            this.bidibCommand = bidibCommand;
-        }
-
-        /**
-         * @return the context
-         */
-        public Context getContext() {
-            return context;
-        }
-
-        /**
-         * @return the bidibCommand
-         */
-        public BidibCommand getBidibCommand() {
-            return bidibCommand;
-        }
-    }
-
     public DefaultNodeSimulator(byte[] nodeAddress, long uniqueId, BidibMessageProcessor messageReceiver) {
         this.nodeAddress = nodeAddress;
         this.messageReceiver = messageReceiver;
         this.uniqueId = uniqueId;
 
         LOGGER.info("Create default node simulator with address: {}, uniqueId: {}", nodeAddress, uniqueId);
-
-        context = new DefaultContext();
-        context.addParam("nodeAddress", nodeAddress);
-        context.addParam("uniqueId", uniqueId);
-    }
-
-    protected Context getContext() {
-        return context;
     }
 
     protected byte[] getNodeAddress() {
@@ -186,13 +149,11 @@ public class DefaultNodeSimulator implements SimulatorNode {
                 LOGGER.info("Started request worker.");
                 while (requestWorkerRunning.get()) {
                     try {
-                        CommandContainer commandContainer = sendQueue.take();
-                        BidibCommand bidibMessage = commandContainer.getBidibCommand();
+                        BidibCommand bidibMessage = sendQueue.take();
                         if (bidibMessage != null) {
                             LOGGER.info("Process message: {}", bidibMessage);
                             byte[] response = prepareResponse(bidibMessage);
-                            Context localContext = commandContainer.getContext();
-                            publishResponse(localContext, response);
+                            publishResponse(response);
 
                             LOGGER.info("Process message has finished: {}", bidibMessage);
                         }
@@ -324,12 +285,10 @@ public class DefaultNodeSimulator implements SimulatorNode {
     }
 
     @Override
-    public void processRequest(final Context context, final BidibCommand bidibCommand) {
-        LOGGER.info("Add request to send queue: {}, context: {}", bidibCommand, context);
+    public void processRequest(final BidibCommand bidibCommand) {
+        LOGGER.info("Add request to send queue: {}", bidibCommand);
 
-        // TODO we must store the context!
-
-        sendQueue.offer(new CommandContainer(context, bidibCommand));
+        sendQueue.offer(bidibCommand);
         LOGGER.info("Scheduled request for processing: {}", bidibCommand);
     }
 
@@ -339,7 +298,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
      * @param response
      *            the response to send
      */
-    protected synchronized void publishResponse(final Context context, final byte[] response) {
+    protected synchronized void publishResponse(final byte[] response) {
         LOGGER.debug("Publish response.");
         if (response != null) {
             try {
@@ -356,7 +315,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
                 output.flush();
                 LOGGER.info("Send output with sendMsgNum: {} to receiver: {}, content: {}", sendMsgNum,
                     messageReceiver, ByteUtils.bytesToHex(response));
-                messageReceiver.processMessages(context, output);
+                messageReceiver.processMessages(output);
             }
             catch (ProtocolException | IOException ex) {
                 LOGGER.warn("Send message to processing in messageReceiver failed.", ex);
@@ -370,7 +329,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
         }
     }
 
-    protected void sendSpontanousResponse(final Context context, final byte[] response) {
+    protected void sendSpontanousResponse(final byte[] response) {
         LOGGER.info("Send spontanous response: {}", response);
 
         // use executor to send response
@@ -378,7 +337,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
             @Override
             public void run() {
                 LOGGER.info("Send response: {}", response);
-                publishResponse(context, response);
+                publishResponse(response);
                 LOGGER.info("Send response worker has finished.");
             }
         }, 0, TimeUnit.MILLISECONDS);

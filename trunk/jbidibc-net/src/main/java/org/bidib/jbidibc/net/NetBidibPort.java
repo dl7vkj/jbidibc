@@ -14,11 +14,11 @@ public class NetBidibPort implements Runnable {
 
     private final DatagramSocket datagramSocket;
 
-    private final NetMessageReceiver messageReceiver;
+    private final NetMessageHandler messageReceiver;
 
     private AtomicBoolean runEnabled = new AtomicBoolean();
 
-    public NetBidibPort(DatagramSocket datagramSocket, NetMessageReceiver messageReceiver) {
+    public NetBidibPort(DatagramSocket datagramSocket, NetMessageHandler messageReceiver) {
         this.datagramSocket = datagramSocket;
         this.messageReceiver = messageReceiver;
     }
@@ -33,13 +33,16 @@ public class NetBidibPort implements Runnable {
             while (runEnabled.get()) {
                 // wait for client sending data
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                LOGGER.info("Wait to receive a datagram packet.");
+
                 datagramSocket.receive(receivePacket);
+
+                // TODO and it might be better to have all the handling of the controlling and listen only access here
+                // TODO and remove the context in processMessages again
 
                 // forward processing to handler
                 if (messageReceiver != null) {
-                    // TODO prepare the context
-                    // final Context context = new DefaultContext();
-                    messageReceiver.receive(/* context, */receivePacket);
+                    messageReceiver.receive(receivePacket);
                 }
                 else {
                     LOGGER.warn("No message receiver configured, received packet: {}", receivePacket);
@@ -59,18 +62,27 @@ public class NetBidibPort implements Runnable {
     }
 
     public void stop() {
-        LOGGER.info("Stop the datagram apcket receiver.");
+        LOGGER.info("Stop the datagram packet receiver.");
         runEnabled.set(false);
 
         datagramSocket.close();
     }
 
-    public void send(/* final Context context, */byte[] sendData, InetAddress address, int portNumber)
-        throws IOException {
+    /**
+     * Send the data to the host.
+     * 
+     * @param sendData
+     *            the data to send
+     * @param address
+     *            the receiving address of the host
+     * @param portNumber
+     *            the receiving port number of the host
+     * @throws IOException
+     */
+    public void send(byte[] sendData, InetAddress address, int portNumber) throws IOException {
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, portNumber);
         datagramSocket.send(sendPacket);
-
     }
 
 }

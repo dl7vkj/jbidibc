@@ -57,10 +57,9 @@ public class RootNode extends BidibNode {
 
             StringBuffer sb = new StringBuffer("The interface did not respond the get magic request!");
 
-            // TODO refactor this ...
-            byte[] remaining = getMessageReceiver().getRemainingOutputBuffer();
-            if (remaining != null) {
-                String buffer = new String(remaining);
+            String errorInfo = getMessageReceiver().getErrorInformation();
+            if (errorInfo != null) {
+                String buffer = new String(errorInfo);
                 LOGGER.warn("Found received data that was not identifed as BiDiB messages: {}", buffer);
 
                 sb.append("\r\n");
