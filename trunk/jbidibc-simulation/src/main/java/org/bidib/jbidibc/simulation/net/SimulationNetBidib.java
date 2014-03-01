@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.simulation.net;
 
 import java.io.ByteArrayOutputStream;
+import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
@@ -27,13 +28,25 @@ public class SimulationNetBidib {
 
     private SimulatorNode simulatorNode;
 
+    private int sessionKey;
+
+    private int sequence;
+
     public SimulationNetBidib() {
 
     }
 
-    private int sessionKey;
+    protected int getSessionKey() {
+        return sessionKey;
+    }
 
-    private int sequence;
+    protected int getSequence() {
+        return sequence;
+    }
+
+    protected SimulatorNode getSimulatorNode() {
+        return simulatorNode;
+    }
 
     public void start() {
         LOGGER.info("Start the simulator.");
@@ -43,7 +56,7 @@ public class SimulationNetBidib {
 
             @Override
             public void processMessages(final Context context, ByteArrayOutputStream output) throws ProtocolException {
-                // TODO Publish the responses to the host
+                // Publish the responses to the host
 
                 LOGGER.info("Prepare message to send to host, context: {}", context);
 
@@ -89,8 +102,18 @@ public class SimulationNetBidib {
     }
 
     protected NetMessageReceiver createMessageReceiver() {
-        // return new SimulationNetMessageReceiver(simulatorNode);
-        return null;
+
+        NetMessageReceiver netMessageReceiver = new NetMessageReceiver() {
+
+            @Override
+            public void receive(DatagramPacket packet) {
+                LOGGER.warn("Received packet and do nothing, foreign address: {}, foreign port: {}, data: {}",
+                    packet.getAddress(), packet.getPort(), ByteUtils.bytesToHex(packet.getData(), packet.getLength()));
+            }
+
+        };
+
+        return netMessageReceiver;
     }
 
     public void stop() {
