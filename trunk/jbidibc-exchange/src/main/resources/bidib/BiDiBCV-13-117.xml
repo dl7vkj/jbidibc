@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<!-- Activate for BiDiB-Wizard:
 <VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
- and deactivate for BiDiB-Monitor: -->
-<VendorCV>
+		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		  xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
   <Version
-    Version="0.18"
-    Lastupdate="20140129"
+    Version="0.19"
+    Lastupdate="20140227"
     Author="mos"
     Pid="117"
     Vendor="013"
@@ -182,7 +179,7 @@
 		<CV Number="15" Type="Byte" Min="0" Max="127" Low="-" High="-" Values="-" Mode="rw">
 			<Description Lang="de-DE" Text="Pre Power: Einschalten, Power n * 5 ms vor Puls"/>
 			<Description Lang="en-EN" Text="Pre Power: power up n * 5 ms before pulse"/>
-		</CV>  
+		</CV>
     </Template>
   </Templates>
   <CVDefinition>
