@@ -1,18 +1,16 @@
 package org.bidib.jbidibc.simulation.net;
 
 import java.io.ByteArrayOutputStream;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 
 import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.net.DefaultNetMessageHandler;
 import org.bidib.jbidibc.net.NetBidib;
 import org.bidib.jbidibc.net.NetBidibPort;
 import org.bidib.jbidibc.net.NetMessageHandler;
 import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.nodes.DefaultNodeSimulator;
-import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -113,26 +111,12 @@ public class SimulationNetBidib {
     }
 
     protected NetMessageHandler createMessageHandler() {
+        // create the message handler that delegates the incoming messages to the message receiver that has a
+        // simulator node configured
+        SimulationMessageReceiver messageReceiver = new SimulationMessageReceiver();
+        messageReceiver.setSimulatorNode(simulatorNode);
 
-        NetMessageHandler netMessageHandler = new NetMessageHandler() {
-
-            @Override
-            public void receive(DatagramPacket packet) {
-                LOGGER.warn("### Received packet and do nothing, foreign address: {}, foreign port: {}, data: {}",
-                    packet.getAddress(), packet.getPort(), ByteUtils.bytesToHex(packet.getData(), packet.getLength()));
-            }
-
-            @Override
-            public void send(NetBidibPort port, byte[] bytes) {
-                LOGGER.warn("### Send data will do nothing, port: {}, data: {}", port, ByteUtils.bytesToHex(bytes));
-            }
-
-            @Override
-            public void addRemoteAddress(InetAddress address, int port) {
-                LOGGER.warn("### Add remote address is discarded, address: {}, port: {}", address, port);
-            }
-
-        };
+        netMessageHandler = new DefaultNetMessageHandler(messageReceiver);
 
         return netMessageHandler;
     }

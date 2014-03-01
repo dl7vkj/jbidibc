@@ -50,7 +50,7 @@ public class DefaultNetMessageHandler implements NetMessageHandler {
 
     private List<KnownBidibHost> knownBidibHosts = new LinkedList<KnownBidibHost>();
 
-    protected DefaultNetMessageHandler(BidibMessageProcessor messageReceiverDelegate) {
+    public DefaultNetMessageHandler(BidibMessageProcessor messageReceiverDelegate) {
         this.messageReceiverDelegate = messageReceiverDelegate;
     }
 

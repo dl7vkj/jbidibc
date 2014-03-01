@@ -23,7 +23,7 @@ public class NetBidibTest {
         LOGGER.info("Prepare the simulator.");
 
         // create the test instance
-        simulationNetBidib = new SimulationTestNetBidib();
+        simulationNetBidib = new SimulationNetBidib();
         simulationNetBidib.start();
 
         LOGGER.info("Prepared and started the simulator.");

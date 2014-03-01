@@ -29,7 +29,7 @@ public class NetBidib extends AbstractBidib {
 
     private NetBidibPort port;
 
-    private NetMessageHandler netMessageReceiver;
+    private NetMessageHandler netMessageHandler;
 
     private Thread portWorker;
 
@@ -115,12 +115,12 @@ public class NetBidib extends AbstractBidib {
         // enable the message receiver before the event listener is added
         getMessageReceiver().enable();
 
-        netMessageReceiver = new DefaultNetMessageHandler(getMessageReceiver());
-        netMessageReceiver.addRemoteAddress(address, portNumber);
+        netMessageHandler = new DefaultNetMessageHandler(getMessageReceiver());
+        netMessageHandler.addRemoteAddress(address, portNumber);
 
         DatagramSocket datagramSocket = new DatagramSocket();
         // open the port
-        NetBidibPort netBidibPort = new NetBidibPort(datagramSocket, netMessageReceiver);
+        NetBidibPort netBidibPort = new NetBidibPort(datagramSocket, netMessageHandler);
 
         LOGGER.info("Prepare and start the port worker.");
 
@@ -166,7 +166,7 @@ public class NetBidib extends AbstractBidib {
         if (port != null) {
             // forward the message to the netMessageReceiver
             try {
-                netMessageReceiver.send(port, bytes);
+                netMessageHandler.send(port, bytes);
             }
             catch (Exception ex) {
                 LOGGER.warn("Forward message to send with netMessageReceiver failed.", ex);
