@@ -8,6 +8,7 @@ import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.core.AbstractBidib;
+import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.message.BidibCommand;
@@ -100,7 +101,9 @@ public class SimulationBidib extends AbstractBidib {
                 if (simulator == null) {
                     LOGGER.warn("No simulator found for nodeAddress: {}", nodeAddress);
                 }
-                simulator.processRequest(bidibMessage);
+
+                Context context = null;
+                simulator.processRequest(context, bidibMessage);
 
                 LOGGER.debug("Forwarded message to simulator: {}", bidibMessage);
             }

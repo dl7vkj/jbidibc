@@ -62,6 +62,8 @@ public interface BidibInterface {
      * 
      * @param bytes
      *            the bytes to send
+     * @param context
+     *            the context
      */
     void send(final byte[] bytes);
 

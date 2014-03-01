@@ -49,10 +49,6 @@ public class NetBidib extends AbstractBidib {
 
     private int sequence;
 
-    // private ConnectionListener connectionListener;
-
-    // private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT * 100;
-
     // ////////////////////////////////////////////////////////////////////////////
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {

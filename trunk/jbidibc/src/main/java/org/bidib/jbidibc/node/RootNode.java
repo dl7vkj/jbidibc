@@ -56,6 +56,8 @@ public class RootNode extends BidibNode {
             LOGGER.warn("The interface did not respond the get magic request!");
 
             StringBuffer sb = new StringBuffer("The interface did not respond the get magic request!");
+
+            // TODO refactor this ...
             byte[] remaining = getMessageReceiver().getRemainingOutputBuffer();
             if (remaining != null) {
                 String buffer = new String(remaining);

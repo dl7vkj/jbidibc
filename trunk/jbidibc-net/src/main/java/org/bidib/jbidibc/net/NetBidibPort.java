@@ -37,7 +37,9 @@ public class NetBidibPort implements Runnable {
 
                 // forward processing to handler
                 if (messageReceiver != null) {
-                    messageReceiver.receive(receivePacket);
+                    // TODO prepare the context
+                    // final Context context = new DefaultContext();
+                    messageReceiver.receive(/* context, */receivePacket);
                 }
                 else {
                     LOGGER.warn("No message receiver configured, received packet: {}", receivePacket);
@@ -63,7 +65,8 @@ public class NetBidibPort implements Runnable {
         datagramSocket.close();
     }
 
-    public void send(byte[] sendData, InetAddress address, int portNumber) throws IOException {
+    public void send(/* final Context context, */byte[] sendData, InetAddress address, int portNumber)
+        throws IOException {
 
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, portNumber);
         datagramSocket.send(sendPacket);

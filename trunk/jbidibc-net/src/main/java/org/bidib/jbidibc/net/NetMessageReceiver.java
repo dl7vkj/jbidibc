@@ -7,5 +7,5 @@ public interface NetMessageReceiver {
     /**
      * Receive messages from the configured port
      */
-    void receive(final DatagramPacket packet);
+    void receive(/* final Context context, */final DatagramPacket packet);
 }

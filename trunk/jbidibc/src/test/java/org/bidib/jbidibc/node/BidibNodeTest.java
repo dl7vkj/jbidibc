@@ -19,7 +19,6 @@ import org.bidib.jbidibc.message.FeedbackMirrorFreeMessage;
 import org.bidib.jbidibc.message.LcConfigSetMessage;
 import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.message.ResponseFactory;
-import org.bidib.jbidibc.message.SysMagicMessage;
 import org.bidib.jbidibc.node.BidibNode.EncodedMessage;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.junit.Assert;

@@ -31,7 +31,6 @@ import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostOffMessage;
 import org.bidib.jbidibc.message.BoostOnMessage;
-import org.bidib.jbidibc.message.BoostQueryMessage;
 import org.bidib.jbidibc.message.FeatureCountResponse;
 import org.bidib.jbidibc.message.FeatureNotAvailableResponse;
 import org.bidib.jbidibc.message.FeatureResponse;
@@ -186,7 +185,7 @@ public class BidibNode {
     }
 
     /**
-     * @return the magic
+     * @return the cached magic value of the node
      */
     public Integer getNodeMagic() {
         return nodeMagic;
@@ -388,17 +387,6 @@ public class BidibNode {
      */
     public void boosterOff(byte broadcast) throws ProtocolException {
         sendNoWait(new BoostOffMessage(broadcast));
-    }
-
-    /**
-     * Query the booster state. We don't wait for the response because the {@link MessageReceiver} fires the booster
-     * status callback on receipt.
-     * 
-     * @throws ProtocolException
-     * @deprecated Use BoosterNode to send this message
-     */
-    public void boosterQuery() throws ProtocolException {
-        sendNoWait(new BoostQueryMessage());
     }
 
     /**
@@ -1137,7 +1125,7 @@ public class BidibNode {
 
             // send the next message if one is received
             fromIndex = toIndex;
-            // toIndex++;
+
             LOGGER.debug("Prepeared new fromIndex: {}, toIndex: {}", fromIndex, toIndex);
 
             // TODO handle received responses ...

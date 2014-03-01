@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.bidib.jbidibc.core.BidibMessageProcessor;
+import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
@@ -45,7 +47,7 @@ import org.slf4j.LoggerFactory;
  * The message receiver is responsible for creating the messages based on the received bytes from the stream. It is
  * created and initialized by the (default) Bidib implementation.
  */
-public abstract class MessageReceiver {
+public abstract class MessageReceiver implements BidibMessageProcessor {
     private static final Logger LOGGER = LoggerFactory.getLogger(MessageReceiver.class.getName());
 
     protected static final Logger MSG_RX_LOGGER = LoggerFactory.getLogger("RX");
@@ -69,16 +71,12 @@ public abstract class MessageReceiver {
         running.set(true);
     }
 
+    // TODO refactor this to a new method String getErrorMessage()
     public abstract byte[] getRemainingOutputBuffer();
 
-    /**
-     * Process the messages in the provided byte array output stream.
-     * 
-     * @param output
-     *            the output stream that contains the messages
-     * @throws ProtocolException
-     */
-    public synchronized void processMessages(ByteArrayOutputStream output) throws ProtocolException {
+    @Override
+    public synchronized void processMessages(final Context context, final ByteArrayOutputStream output)
+        throws ProtocolException {
         // if a CRC error is detected in splitMessages the reading loop will terminate ...
         for (byte[] messageArray : MessageUtils.splitBidibMessages(output.toByteArray())) {
             BidibMessage message = null;

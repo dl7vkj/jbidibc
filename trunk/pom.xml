@@ -121,6 +121,11 @@
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j-version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.bushe</groupId>
+                <artifactId>eventbus</artifactId>
+                <version>1.4</version>
+            </dependency>
 			<!--
             <dependency>
                 <groupId>net.sf.saxon</groupId>
