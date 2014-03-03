@@ -66,7 +66,7 @@
 		<complexContent>
 			<extension base="sim:NodeType">
 				<sequence>
-					<element name="subNodes" type="sim:SubNodesType" />
+					<element name="subNodes" type="sim:SubNodesType" minOccurs="0" />
 				</sequence>
 <!-- 				<attribute name="uniqueId" type="hexBinary" /> --> 
 			</extension>
