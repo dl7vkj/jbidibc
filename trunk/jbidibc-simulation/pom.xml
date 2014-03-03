@@ -25,7 +25,6 @@
             <groupId>org.bushe</groupId>
             <artifactId>eventbus</artifactId>
         </dependency>
-        
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>

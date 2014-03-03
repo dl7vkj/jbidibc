@@ -15,20 +15,24 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Set;
 import java.util.TooManyListenersException;
 import java.util.concurrent.Semaphore;
 
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
 import org.bidib.jbidibc.LogFileAnalyzer;
-import org.bidib.jbidibc.MessageReceiver;
+import org.bidib.jbidibc.MessageListener;
+import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.core.AbstractBidib;
+import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.exception.NoAnswerException;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
+import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.LibraryPathManipulator;
 import org.slf4j.Logger;
@@ -76,8 +80,12 @@ public final class Bidib extends AbstractBidib {
     }
 
     @Override
-    protected MessageReceiver createMessageReceiver(NodeFactory nodeFactory) {
+    protected BidibMessageProcessor createMessageReceiver(NodeFactory nodeFactory) {
         return new SerialMessageReceiver(nodeFactory);
+    }
+
+    private SerialMessageReceiver getSerialMessageReceiver() {
+        return (SerialMessageReceiver) getMessageReceiver();
     }
 
     public static synchronized BidibInterface getInstance() {
@@ -95,7 +103,7 @@ public final class Bidib extends AbstractBidib {
             long start = System.currentTimeMillis();
 
             // no longer process received messages
-            getMessageReceiver().disable();
+            getSerialMessageReceiver().disable();
 
             // this makes the close operation faster ...
             try {
@@ -126,8 +134,8 @@ public final class Bidib extends AbstractBidib {
             }
 
             if (getMessageReceiver() != null) {
-                getMessageReceiver().clearMessageListeners();
-                getMessageReceiver().clearNodeListeners();
+                getSerialMessageReceiver().clearMessageListeners();
+                getSerialMessageReceiver().clearNodeListeners();
             }
 
             if (getConnectionListener() != null) {
@@ -138,9 +146,7 @@ public final class Bidib extends AbstractBidib {
         }
     }
 
-    /**
-     * @return returns the list of serial port identifiers that are available in the system.
-     */
+    @Override
     public List<String> getPortIdentifiers() {
         List<String> portIdentifiers = new ArrayList<String>();
 
@@ -207,13 +213,13 @@ public final class Bidib extends AbstractBidib {
         serialPort.notifyOnCTS(true);
 
         // enable the message receiver before the event listener is added
-        getMessageReceiver().enable();
+        getSerialMessageReceiver().enable();
         serialPort.addEventListener(new SerialPortEventListener() {
             {
                 if (logFile != null) {
                     LOGGER.warn("Logfile is set: {}", logFile);
                     try {
-                        new LogFileAnalyzer(new File(logFile), getMessageReceiver());
+                        new LogFileAnalyzer(new File(logFile), getSerialMessageReceiver());
                     }
                     catch (IOException e) {
                         LOGGER.warn("Create LogFileAnalyzer failed.", e);
@@ -280,10 +286,16 @@ public final class Bidib extends AbstractBidib {
         }
     }
 
-    public void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
+    @Override
+    public void open(
+        String portName, ConnectionListener connectionListener, Set<NodeListener> nodeListeners,
+        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) throws PortNotFoundException,
         PortNotOpenedException {
 
-        this.setConnectionListener(connectionListener);
+        setConnectionListener(connectionListener);
+
+        // register the listeners
+        registerListeners(nodeListeners, messageListeners, transferListeners);
 
         if (port == null) {
             if (portName == null || portName.trim().isEmpty()) {
@@ -374,6 +386,7 @@ public final class Bidib extends AbstractBidib {
         }
     }
 
+    @Override
     public boolean isOpened() {
         boolean isOpened = false;
         try {
@@ -436,29 +449,32 @@ public final class Bidib extends AbstractBidib {
         BidibNode rootNode = getRootNode();
 
         // Ignore the first exception ...
+        int magic = -1;
         try {
             rootNode.getMagic();
         }
         catch (Exception e) {
+            magic = rootNode.getMagic();
         }
-        int magic = rootNode.getMagic();
         LOGGER.debug("The node returned magic: {}", magic);
         return magic;
     }
 
+    @Override
     public void setLogFile(String logFile) {
         this.logFile = logFile;
     }
 
     /**
-     * Set the recieve timeout for the port.
+     * Set the response timeout for the port.
      * 
      * @param timeout
      *            the receive timeout to set
      */
     @Override
-    public void setReceiveTimeout(int timeout) {
+    public void setResponseTimeout(int timeout) {
         if (port != null) {
+            LOGGER.info("Set the response timeout for the serial port: {}", timeout);
             try {
                 port.enableReceiveTimeout(timeout);
             }

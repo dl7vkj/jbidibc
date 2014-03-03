@@ -5,16 +5,21 @@ import java.net.InetAddress;
 import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
+import java.util.Set;
 
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
+import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.MessageReceiver;
+import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.core.AbstractBidib;
+import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
+import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,10 +44,6 @@ public class NetBidib extends AbstractBidib {
 
     private int portNumber;
 
-    // private int sessionKey;
-    //
-    // private int sequence;
-
     // ////////////////////////////////////////////////////////////////////////////
     static {
         Runtime.getRuntime().addShutdownHook(new Thread() {
@@ -57,13 +58,17 @@ public class NetBidib extends AbstractBidib {
         });
     }
 
-    private NetBidib() {
+    protected NetBidib() {
 
     }
 
     @Override
-    protected MessageReceiver createMessageReceiver(NodeFactory nodeFactory) {
+    protected BidibMessageProcessor createMessageReceiver(NodeFactory nodeFactory) {
         return new MessageReceiver(nodeFactory);
+    }
+
+    private MessageReceiver getNetMessageReceiver() {
+        return (MessageReceiver) getMessageReceiver();
     }
 
     public static synchronized BidibInterface getInstance() {
@@ -75,27 +80,36 @@ public class NetBidib extends AbstractBidib {
     }
 
     @Override
-    public void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
+    public void open(
+        String portName, ConnectionListener connectionListener, Set<NodeListener> nodeListeners,
+        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) throws PortNotFoundException,
         PortNotOpenedException {
+
         LOGGER.info("Open port: {}", portName);
 
         setConnectionListener(connectionListener);
 
+        // register the listeners
+        registerListeners(nodeListeners, messageListeners, transferListeners);
+
         if (port == null) {
+            LOGGER.info("Open port with name: {}", portName);
             if (portName == null || portName.trim().isEmpty()) {
                 throw new PortNotFoundException("");
             }
 
-            connectedPortName = portName;
-
             try {
                 close();
-                port = internalOpen(connectedPortName);
+                port = internalOpen(portName);
+                connectedPortName = portName;
+
                 LOGGER.info("Port is opened, send the magic. The connected port is: {}", connectedPortName);
                 sendMagic();
             }
             catch (Exception ex) {
                 LOGGER.warn("Open port and send magic failed.", ex);
+
+                throw new PortNotOpenedException(portName, PortNotOpenedException.UNKNOWN);
             }
         }
         else {
@@ -113,10 +127,9 @@ public class NetBidib extends AbstractBidib {
         LOGGER.info("Configured address: {}, portNumber: {}", address, portNumber);
 
         // enable the message receiver before the event listener is added
-        getMessageReceiver().enable();
+        getNetMessageReceiver().enable();
 
-        netMessageHandler = new DefaultNetMessageHandler(getMessageReceiver());
-        netMessageHandler.addRemoteAddress(address, portNumber);
+        netMessageHandler = new DefaultNetMessageHandler(getMessageReceiver(), address, portNumber);
 
         DatagramSocket datagramSocket = new DatagramSocket();
         // open the port
@@ -157,12 +170,20 @@ public class NetBidib extends AbstractBidib {
 
             port = null;
         }
+
+        if (getConnectionListener() != null) {
+            getConnectionListener().closed(connectedPortName);
+        }
+
+        // clear the connectedPortName
+        connectedPortName = null;
+
         LOGGER.info("Close the port finished.");
     }
 
     @Override
     public void send(byte[] bytes) {
-        LOGGER.info("Send message: {}", ByteUtils.bytesToHex(bytes));
+        LOGGER.info("Send message to net message handler: {}, port: {}", ByteUtils.bytesToHex(bytes), port);
         if (port != null) {
             // forward the message to the netMessageReceiver
             try {
@@ -172,37 +193,12 @@ public class NetBidib extends AbstractBidib {
                 LOGGER.warn("Forward message to send with netMessageReceiver failed.", ex);
                 throw new RuntimeException("Forward message to send with netMessageReceiver failed.", ex);
             }
-            // try {
-            // // TODO add the UDP packet wrapper ...
-            // ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            // bos.write(ByteUtils.getHighByte(sessionKey));
-            // bos.write(ByteUtils.getLowByte(sessionKey));
-            // bos.write(ByteUtils.getHighByte(sequence));
-            // bos.write(ByteUtils.getLowByte(sequence));
-            // bos.write(bytes);
-            //
-            // port.send(bos.toByteArray(), address, portNumber);
-            //
-            // // increment the sequence counter after sending the message sucessfully
-            // prepareNextSequence();
-            // }
-            // catch (IOException ex) {
-            // LOGGER.warn("Send message to port failed.", ex);
-            // throw new RuntimeException("Send message to datagram socket failed.", ex);
-            // }
         }
         else {
             LOGGER.warn("Send not possible, the port is closed.");
         }
     }
 
-    // private void prepareNextSequence() {
-    // sequence++;
-    // if (sequence > 65535) {
-    // sequence = 0;
-    // }
-    // }
-    //
     /**
      * Get the magic from the root node
      * 
@@ -220,15 +216,14 @@ public class NetBidib extends AbstractBidib {
         catch (Exception e) {
             magic = rootNode.getMagic();
         }
-        // int magic = rootNode.getMagic();
         LOGGER.debug("The node returned magic: {}", magic);
         return magic;
     }
 
     @Override
-    public void setReceiveTimeout(int timeout) {
-        // TODO Auto-generated method stub
-
+    public void setResponseTimeout(int timeout) {
+        LOGGER.info("Set the response timeout for simulation to: {}", timeout * 1000);
+        super.setResponseTimeout(timeout * 1000);
     }
 
     @Override

@@ -1,37 +1,46 @@
 package org.bidib.jbidibc.simulation.comm;
 
-import java.io.File;
-import java.util.LinkedList;
+import java.lang.reflect.Method;
 import java.util.List;
+import java.util.Set;
 
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
-import org.bidib.jbidibc.MessageReceiver;
+import org.bidib.jbidibc.MessageListener;
+import org.bidib.jbidibc.Node;
+import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.core.AbstractBidib;
+import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
-import org.bidib.jbidibc.message.BidibCommand;
-import org.bidib.jbidibc.message.BidibMessage;
-import org.bidib.jbidibc.message.RequestFactory;
+import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
-import org.bidib.jbidibc.node.NodeFactory;
+import org.bidib.jbidibc.node.BoosterNode;
+import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.RootNode;
+import org.bidib.jbidibc.node.listener.TransferListener;
+import org.bidib.jbidibc.simulation.SimulationInterface;
 import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.SimulatorRegistry;
+import org.bidib.jbidibc.simulation.serial.SimulationSerialBidib;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class SimulationBidib extends AbstractBidib {
+public class SimulationBidib implements BidibInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationBidib.class);
 
     private static SimulationBidib INSTANCE;
 
     private String connectedPortName;
 
-    // private int responseTimeout = BidibInterface.DEFAULT_TIMEOUT * 100;
+    private boolean isOpened;
 
-    private boolean isOpened = false;
+    private boolean ignoreWaitTimeout;
+
+    private int responseTimeout;
+
+    private SimulationInterface delegateBidib;
 
     // ////////////////////////////////////////////////////////////////////////////
     static {
@@ -50,14 +59,6 @@ public class SimulationBidib extends AbstractBidib {
     private SimulationBidib() {
     }
 
-    @Override
-    protected MessageReceiver createMessageReceiver(NodeFactory nodeFactory) {
-        return new MessageReceiver(
-            nodeFactory) {
-
-        };
-    }
-
     public static synchronized BidibInterface getInstance() {
         if (INSTANCE == null) {
             INSTANCE = new SimulationBidib();
@@ -66,9 +67,24 @@ public class SimulationBidib extends AbstractBidib {
         return INSTANCE;
     }
 
+    /**
+     * Initialize the instance. This must only be called from this class
+     */
+    protected void initialize() {
+        LOGGER.info("Initialize SimulationBidib.");
+    }
+
     @Override
     public RootNode getRootNode() {
-        RootNode rootNode = super.getRootNode();
+        RootNode rootNode = null;
+        try {
+            rootNode = delegateBidib.getRootNode();
+        }
+        catch (Exception ex) {
+            LOGGER.warn("Get the root node failed.", ex);
+        }
+
+        // RootNode rootNode = super.getRootNode();
 
         String nodeAddress = ByteUtils.bytesToHex(rootNode.getAddr());
         SimulatorNode simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
@@ -84,42 +100,48 @@ public class SimulationBidib extends AbstractBidib {
         LOGGER.info("Send is called with bytes: {}", ByteUtils.bytesToHex(bytes));
 
         try {
-            // TODO change the call to request factory
-            List<BidibCommand> bidibMessages = new RequestFactory().create(bytes);
-            for (BidibCommand bidibMessage : bidibMessages) {
-                byte[] address = ((BidibMessage) bidibMessage).getAddr();
-
-                BidibNode bidibNode = getNodeFactory().findNode(address);
-                String nodeAddress = ByteUtils.bytesToHex(bidibNode.getAddr());
-
-                SimulatorNode simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
-                if (simulator == null) {
-                    LOGGER.warn("No simulator found for nodeAddress: {}", nodeAddress);
-                }
-
-                simulator.processRequest(bidibMessage);
-
-                LOGGER.debug("Forwarded message to simulator: {}", bidibMessage);
-            }
+            delegateBidib.send(bytes);
         }
         catch (Exception ex) {
-            LOGGER.warn("Process request failed.", ex);
+            LOGGER.warn("Send bytes to delegate failed.", ex);
         }
     }
 
     @Override
-    public void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
+    public void open(
+        String portName, ConnectionListener connectionListener, Set<NodeListener> nodeListeners,
+        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) throws PortNotFoundException,
         PortNotOpenedException {
+
         LOGGER.info("Open port: {}", portName);
 
-        setConnectionListener(connectionListener);
+        delegateBidib = new SimulationSerialBidib();
 
-        // TODO load the SimulatorRegistry with the simulation configuration
-        SimulatorRegistry.getInstance().removeAll();
+        // TODO support not only serial simulation interface
+        // TODO change the fix portName
+        // portName = "localhost:" + NetBidib.BIDIB_UDP_PORT_NUMBER;
+        // delegateBidib = new SimulationNetBidib();
 
-        String path = getClass().getResource("/simulation/simulation.xml").getPath();
-        File simulationConfiguration = new File(path);
-        SimulatorRegistry.getInstance().loadSimulationConfiguration(simulationConfiguration, this);
+        // make the initialize method accessible and call it ...
+        try {
+            Method method = AbstractBidib.class.getDeclaredMethod("initialize", null);
+            method.setAccessible(true);
+            method.invoke(delegateBidib, null);
+        }
+        catch (Exception ex) {
+            LOGGER.warn("Call initialize on delegateBidib failed.", ex);
+        }
+
+        delegateBidib.setIgnoreWaitTimeout(ignoreWaitTimeout);
+        delegateBidib.setResponseTimeout(responseTimeout);
+        delegateBidib.setConnectionListener(connectionListener);
+        delegateBidib.registerListeners(nodeListeners, messageListeners, transferListeners);
+        // start the simulation part
+        // TODO make the path to the simulation configuration configurable
+        delegateBidib.start("/simulation/simulation.xml");
+
+        // open the interface
+        delegateBidib.open(portName, connectionListener, nodeListeners, messageListeners, transferListeners);
 
         connectedPortName = portName;
         isOpened = true;
@@ -133,34 +155,78 @@ public class SimulationBidib extends AbstractBidib {
     @Override
     public void close() {
         LOGGER.info("Close port, connectedPortName: {}", connectedPortName);
-
-        if (getConnectionListener() != null) {
-            getConnectionListener().closed(connectedPortName);
+        try {
+            delegateBidib.close();
         }
-
+        catch (Exception ex) {
+            LOGGER.warn("Close delegateBidib failed.", ex);
+        }
         isOpened = false;
         connectedPortName = null;
 
-        // TODO remove the simulation
-        SimulatorRegistry.getInstance().removeAll();
-    }
-
-    @Override
-    public void setReceiveTimeout(int timeout) {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public void setLogFile(String logFile) {
-        // TODO Auto-generated method stub
-
+        try {
+            delegateBidib.stop();
+        }
+        catch (Exception ex) {
+            LOGGER.warn("Stop delegateBidib failed.", ex);
+        }
     }
 
     @Override
     public List<String> getPortIdentifiers() {
-        List<String> portIdentifiers = new LinkedList<>();
-        portIdentifiers.add("mock");
-        return portIdentifiers;
+        return delegateBidib.getPortIdentifiers();
+    }
+
+    @Override
+    public BidibNode getNode(Node node) {
+        return delegateBidib.getNode(node);
+    }
+
+    @Override
+    public AccessoryNode getAccessoryNode(Node node) {
+        return delegateBidib.getAccessoryNode(node);
+    }
+
+    @Override
+    public BoosterNode getBoosterNode(Node node) {
+        return delegateBidib.getBoosterNode(node);
+    }
+
+    @Override
+    public CommandStationNode getCommandStationNode(Node node) {
+        return delegateBidib.getCommandStationNode(node);
+    }
+
+    @Override
+    public BidibMessageProcessor getMessageReceiver() {
+        LOGGER.info("getMessageReceiver returns the message receiver of the delegate!");
+        return delegateBidib.getMessageReceiver();
+    }
+
+    @Override
+    public void setIgnoreWaitTimeout(boolean ignoreWaitTimeout) {
+        this.ignoreWaitTimeout = ignoreWaitTimeout;
+        if (delegateBidib != null) {
+            delegateBidib.setIgnoreWaitTimeout(ignoreWaitTimeout);
+        }
+    }
+
+    @Override
+    public void setResponseTimeout(int timeout) {
+        LOGGER.info("Set the response timeout for simulation to: {}", timeout * 1000);
+        this.responseTimeout = timeout * 1000;
+        if (delegateBidib != null) {
+            delegateBidib.setResponseTimeout(responseTimeout);
+        }
+    }
+
+    @Override
+    public int getResponseTimeout() {
+        return delegateBidib.getResponseTimeout();
+    }
+
+    @Override
+    public void setLogFile(String logFile) {
+        delegateBidib.setLogFile(logFile);
     }
 }

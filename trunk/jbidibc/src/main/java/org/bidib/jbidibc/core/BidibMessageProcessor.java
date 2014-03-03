@@ -2,9 +2,35 @@ package org.bidib.jbidibc.core;
 
 import java.io.ByteArrayOutputStream;
 
+import org.bidib.jbidibc.MessageListener;
+import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.exception.ProtocolException;
 
 public interface BidibMessageProcessor {
+
+    /**
+     * Add a message listener.
+     * 
+     * @param messageListener
+     *            the message listener to add
+     */
+    void addMessageListener(MessageListener messageListener);
+
+    /**
+     * Remove a message listener.
+     * 
+     * @param messageListener
+     *            the message listener to remove
+     */
+    void removeMessageListener(MessageListener messageListener);
+
+    /**
+     * Add a node listener.
+     * 
+     * @param nodeListener
+     *            the node listener to add
+     */
+    void addNodeListener(NodeListener nodeListener);
 
     /**
      * Process the messages in the provided byte array output stream.

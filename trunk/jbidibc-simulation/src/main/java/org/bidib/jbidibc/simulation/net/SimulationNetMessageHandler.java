@@ -1,18 +1,22 @@
-package org.bidib.jbidibc.net;
+package org.bidib.jbidibc.simulation.net;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
+import java.util.LinkedList;
+import java.util.List;
 
 import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.net.NetBidibPort;
+import org.bidib.jbidibc.net.NetMessageHandler;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class DefaultNetMessageHandler implements NetMessageHandler {
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultNetMessageHandler.class);
+public class SimulationNetMessageHandler implements NetMessageHandler {
+    private static final Logger LOGGER = LoggerFactory.getLogger(SimulationNetMessageHandler.class);
 
     private BidibMessageProcessor messageReceiverDelegate;
 
@@ -56,22 +60,26 @@ public class DefaultNetMessageHandler implements NetMessageHandler {
         }
     }
 
-    private KnownBidibHost remoteAddress;
+    private List<KnownBidibHost> knownBidibHosts = new LinkedList<KnownBidibHost>();
 
-    public DefaultNetMessageHandler(BidibMessageProcessor messageReceiverDelegate, InetAddress address, int port) {
+    public SimulationNetMessageHandler(BidibMessageProcessor messageReceiverDelegate) {
         this.messageReceiverDelegate = messageReceiverDelegate;
-
-        LOGGER.info("Set the remote address: {}, port: {}", address, port);
-        remoteAddress = new KnownBidibHost(address, port);
     }
 
     @Override
     public void receive(final DatagramPacket packet) {
-        // a datagramm packet was received ... process the envelope and extract the message
+        // TODO a datagramm packet was received ... process the envelope and extract the message
         if (LOGGER.isTraceEnabled()) {
             LOGGER.trace("Received a packet from address: {}, port: {}, data: {}", packet.getAddress(),
                 packet.getPort(), ByteUtils.bytesToHex(packet.getData(), packet.getLength()));
         }
+
+        KnownBidibHost current = new KnownBidibHost(packet.getAddress(), packet.getPort());
+        if (!knownBidibHosts.contains(current)) {
+            LOGGER.info("Adding new known Bidib host: {}", current);
+            knownBidibHosts.add(current);
+        }
+
         // TODO for the first magic response we need special processing because we need to keep the session key
 
         // remove the UDP paket wrapper data and forward to the MessageReceiver
@@ -94,11 +102,6 @@ public class DefaultNetMessageHandler implements NetMessageHandler {
             LOGGER.trace("Send message to port: {}, message: {}", port, ByteUtils.bytesToHex(bytes));
         }
 
-        if (remoteAddress == null) {
-            LOGGER.warn("### No remote addresses available. The message will not be sent!");
-            return;
-        }
-
         // TODO Auto-generated method stub
         if (port != null) {
 
@@ -111,9 +114,10 @@ public class DefaultNetMessageHandler implements NetMessageHandler {
                 bos.write(ByteUtils.getLowByte(sequence));
                 bos.write(bytes);
 
-                LOGGER.info("Send message to remote address, address: {}, port: {}", remoteAddress.getAddress(),
-                    remoteAddress.getPortNumber());
-                port.send(bos.toByteArray(), remoteAddress.getAddress(), remoteAddress.getPortNumber());
+                for (KnownBidibHost host : knownBidibHosts) {
+                    LOGGER.info("Send message to address: {}, port: {}", host.getAddress(), host.getPortNumber());
+                    port.send(bos.toByteArray(), host.getAddress(), host.getPortNumber());
+                }
 
                 // increment the sequence counter after sending the message sucessfully
                 prepareNextSequence();

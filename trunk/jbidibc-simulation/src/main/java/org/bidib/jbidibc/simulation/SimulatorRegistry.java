@@ -14,8 +14,7 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.bidib.jbidibc.BidibInterface;
-import org.bidib.jbidibc.MessageReceiver;
+import org.bidib.jbidibc.simulation.net.SimulationBidibMessageProcessor;
 import org.bidib.jbidibc.simulation.nodes.MasterType;
 import org.bidib.jbidibc.simulation.nodes.NodeType;
 import org.bidib.jbidibc.simulation.nodes.Simulation;
@@ -85,7 +84,8 @@ public class SimulatorRegistry {
 
     private static final String XSD_LOCATION = "/xsd/simulation.xsd";
 
-    public void loadSimulationConfiguration(File simulationConfiguration, BidibInterface bidibInterface) {
+    public void loadSimulationConfiguration(
+        File simulationConfiguration, SimulationBidibMessageProcessor messageReceiver) {
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
@@ -100,12 +100,12 @@ public class SimulatorRegistry {
             MasterType master = simulation.getMaster();
 
             LOGGER.info("Fetched master from simulation configuration: {}", master);
-            SimulatorNode simMaster = createSimulator(master, bidibInterface);
+            SimulatorNode simMaster = createSimulator(master, messageReceiver);
 
             if (master.getSubNodes() != null && master.getSubNodes().getNode() != null) {
                 // TODO add support for hub nodes ...
                 for (NodeType subNode : master.getSubNodes().getNode()) {
-                    SimulatorNode simNode = createSimulator(subNode, bidibInterface);
+                    SimulatorNode simNode = createSimulator(subNode, messageReceiver);
                     if (simMaster != null && simMaster instanceof InterfaceNode) {
                         ((InterfaceNode) simMaster).addSubNode(simNode);
                     }
@@ -124,7 +124,7 @@ public class SimulatorRegistry {
 
     }
 
-    private SimulatorNode createSimulator(NodeType node, BidibInterface bidibInterface) {
+    private SimulatorNode createSimulator(NodeType node, SimulationBidibMessageProcessor messageReceiver) {
         LOGGER.info("Create new simulator for node: {}", node);
 
         // TODO create and register the nodes in the registry
@@ -139,8 +139,8 @@ public class SimulatorRegistry {
         try {
             Constructor<SimulatorNode> constructor =
                 (Constructor<SimulatorNode>) Class.forName(className).getConstructor(byte[].class, long.class,
-                    MessageReceiver.class);
-            SimulatorNode simulator = constructor.newInstance(address, uniqueId, bidibInterface.getMessageReceiver());
+                    SimulationBidibMessageProcessor.class);
+            SimulatorNode simulator = constructor.newInstance(address, uniqueId, messageReceiver);
 
             if (simulator != null) {
                 LOGGER.info("Created new simulator: {}", simulator);

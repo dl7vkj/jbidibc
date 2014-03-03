@@ -1,7 +1,9 @@
 package org.bidib.jbidibc;
 
 import java.util.List;
+import java.util.Set;
 
+import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.node.AccessoryNode;
@@ -9,6 +11,7 @@ import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.BoosterNode;
 import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.RootNode;
+import org.bidib.jbidibc.node.listener.TransferListener;
 
 public interface BidibInterface {
 
@@ -74,12 +77,20 @@ public interface BidibInterface {
      *            the port name
      * @param connectionListener
      *            the connection listener
+     * @param nodeListeners
+     *            the node listeners
+     * @param messageListeners
+     *            the message listeners
+     * @param transferListeners
+     *            the transfer listeners
      * @throws PortNotFoundException
      *             thrown if the port is not found in the system
      * @throws PortNotOpenedException
      *             thrown if open the communication port failed
      */
-    void open(String portName, ConnectionListener connectionListener) throws PortNotFoundException,
+    void open(
+        String portName, ConnectionListener connectionListener, Set<NodeListener> nodeListeners,
+        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) throws PortNotFoundException,
         PortNotOpenedException;
 
     /**
@@ -93,15 +104,6 @@ public interface BidibInterface {
     void close();
 
     /**
-     * Set the recieve timeout for the port.
-     * 
-     * @param timeout
-     *            the receive timeout to set
-     */
-    @Deprecated
-    void setReceiveTimeout(int timeout);
-
-    /**
      * Set the logfile for offline research purposes.
      * 
      * @param logFile
@@ -112,7 +114,7 @@ public interface BidibInterface {
     /**
      * @return returns the message receiver
      */
-    MessageReceiver getMessageReceiver();
+    BidibMessageProcessor getMessageReceiver();
 
     /**
      * @return returns the list of serial port identifiers that are available in the system.

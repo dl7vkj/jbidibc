@@ -16,7 +16,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.Feature;
 import org.bidib.jbidibc.VendorData;
-import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.enumeration.FirmwareUpdateOperation;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibCommand;
@@ -43,6 +42,7 @@ import org.bidib.jbidibc.message.VendorResponse;
 import org.bidib.jbidibc.message.VendorSetMessage;
 import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.events.SimulatorStatusEvent;
+import org.bidib.jbidibc.simulation.net.SimulationBidibMessageProcessor;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bushe.swing.event.EventBus;
 import org.slf4j.Logger;
@@ -73,9 +73,9 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     protected final ScheduledExecutorService responseWorker = Executors.newScheduledThreadPool(1);
 
-    private final BidibMessageProcessor messageReceiver;
+    private final SimulationBidibMessageProcessor messageReceiver;
 
-    public DefaultNodeSimulator(byte[] nodeAddress, long uniqueId, BidibMessageProcessor messageReceiver) {
+    public DefaultNodeSimulator(byte[] nodeAddress, long uniqueId, SimulationBidibMessageProcessor messageReceiver) {
         this.nodeAddress = nodeAddress;
         this.messageReceiver = messageReceiver;
         this.uniqueId = uniqueId;
@@ -315,13 +315,15 @@ public class DefaultNodeSimulator implements SimulatorNode {
                 output.flush();
                 LOGGER.info("Send output with sendMsgNum: {} to receiver: {}, content: {}", sendMsgNum,
                     messageReceiver, ByteUtils.bytesToHex(response));
-                messageReceiver.processMessages(output);
+
+                // process the messages
+                messageReceiver.publishResponse(output);
             }
             catch (ProtocolException | IOException ex) {
-                LOGGER.warn("Send message to processing in messageReceiver failed.", ex);
+                LOGGER.warn("Send message to publish in messageReceiver failed.", ex);
             }
             catch (Exception ex) {
-                LOGGER.warn("Process messages failed.", ex);
+                LOGGER.warn("Publish messages failed.", ex);
             }
         }
         else {

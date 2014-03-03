@@ -1,9 +1,12 @@
 package org.bidib.jbidibc.core;
 
+import java.util.Set;
+
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
-import org.bidib.jbidibc.MessageReceiver;
+import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.Node;
+import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
@@ -11,6 +14,7 @@ import org.bidib.jbidibc.node.BoosterNode;
 import org.bidib.jbidibc.node.CommandStationNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.RootNode;
+import org.bidib.jbidibc.node.listener.TransferListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +26,7 @@ public abstract class AbstractBidib implements BidibInterface {
 
     public static final int DEFAULT_TIMEOUT = /* 1500 */200;
 
-    private MessageReceiver messageReceiver;
+    private BidibMessageProcessor messageReceiver;
 
     private NodeFactory nodeFactory;
 
@@ -37,9 +41,12 @@ public abstract class AbstractBidib implements BidibInterface {
      * Initialize the instance. This must only be called from this class
      */
     protected void initialize() {
-        LOGGER.info("Initialize AbstractBidib.");
+        LOGGER.info("Initialize AbstractBidib, create NodeFactory.");
         nodeFactory = new NodeFactory();
+        LOGGER.info("Created nodeFactory: {}", nodeFactory);
         nodeFactory.setBidib(this);
+
+        // create the request factory
         requestFactory = new RequestFactory();
         nodeFactory.setRequestFactory(requestFactory);
 
@@ -47,10 +54,42 @@ public abstract class AbstractBidib implements BidibInterface {
         messageReceiver = createMessageReceiver(nodeFactory);
     }
 
-    protected abstract MessageReceiver createMessageReceiver(NodeFactory nodeFactory);
+    /**
+     * Create the message receiver that processes the messages that are received from the <b>interface</b>.
+     * 
+     * @param nodeFactory
+     *            the node factory
+     * @return the message receiver
+     */
+    protected abstract BidibMessageProcessor createMessageReceiver(NodeFactory nodeFactory);
+
+    /**
+     * Register the node and message listeners.
+     * 
+     * @param nodeListeners
+     *            the node listeners
+     * @param messageListeners
+     *            the message listeners
+     */
+    public void registerListeners(
+        Set<NodeListener> nodeListeners, Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) {
+
+        for (NodeListener nodeListener : nodeListeners) {
+            messageReceiver.addNodeListener(nodeListener);
+        }
+        for (MessageListener messageListener : messageListeners) {
+            messageReceiver.addMessageListener(messageListener);
+        }
+
+        LOGGER.info("Add the transfer listeners to the root node.");
+        for (TransferListener transferListener : transferListeners) {
+            getRootNode().addTransferListener(transferListener);
+        }
+
+    }
 
     @Override
-    public MessageReceiver getMessageReceiver() {
+    public BidibMessageProcessor getMessageReceiver() {
         return messageReceiver;
     }
 

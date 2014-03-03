@@ -29,15 +29,7 @@ public class BoostQuery extends BidibNodeCommand {
         int result = 20;
 
         try {
-            Bidib.getInstance().open(getPortName(), new ConnectionListener() {
-                @Override
-                public void opened(String port) {
-                }
-
-                @Override
-                public void closed(String port) {
-                }
-            });
+            openPort(getPortName());
 
             Node node = findNode();
 

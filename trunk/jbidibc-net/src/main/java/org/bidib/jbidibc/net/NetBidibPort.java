@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,7 +34,7 @@ public class NetBidibPort implements Runnable {
             while (runEnabled.get()) {
                 // wait for client sending data
                 DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
-                LOGGER.info("Wait to receive a datagram packet.");
+                LOGGER.debug("Wait to receive a datagram packet.");
 
                 datagramSocket.receive(receivePacket);
 
@@ -42,6 +43,7 @@ public class NetBidibPort implements Runnable {
 
                 // forward processing to handler
                 if (messageReceiver != null) {
+                    LOGGER.info("Received a datagram packet. Forward packet to messageReveiver: {}", messageReceiver);
                     messageReceiver.receive(receivePacket);
                 }
                 else {
@@ -80,9 +82,10 @@ public class NetBidibPort implements Runnable {
      * @throws IOException
      */
     public void send(byte[] sendData, InetAddress address, int portNumber) throws IOException {
-
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("Send data, port: {}, bytes: {}", portNumber, ByteUtils.bytesToHex(sendData));
+        }
         DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, address, portNumber);
         datagramSocket.send(sendPacket);
     }
-
 }

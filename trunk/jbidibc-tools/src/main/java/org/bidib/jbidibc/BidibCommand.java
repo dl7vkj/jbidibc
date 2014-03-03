@@ -1,5 +1,11 @@
 package org.bidib.jbidibc;
 
+import java.util.Collections;
+
+import org.bidib.jbidibc.exception.PortNotFoundException;
+import org.bidib.jbidibc.exception.PortNotOpenedException;
+import org.bidib.jbidibc.node.listener.TransferListener;
+import org.bidib.jbidibc.serial.Bidib;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +31,19 @@ public abstract class BidibCommand {
     protected BidibCommand() {
         // redirect System.out and System.error calls to SLF4J
         SysOutOverSLF4J.sendSystemOutAndErrToSLF4J(LogLevel.INFO, LogLevel.WARN);
+    }
+
+    protected void openPort(String portName) throws PortNotFoundException, PortNotOpenedException {
+        Bidib.getInstance().open(portName, new ConnectionListener() {
+            @Override
+            public void opened(String port) {
+            }
+
+            @Override
+            public void closed(String port) {
+            }
+        }, Collections.<NodeListener> emptySet(), Collections.<MessageListener> emptySet(),
+            Collections.<TransferListener> emptySet());
     }
 
     /**
