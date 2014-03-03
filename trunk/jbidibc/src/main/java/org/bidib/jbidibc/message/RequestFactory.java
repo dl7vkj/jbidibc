@@ -127,6 +127,9 @@ public class RequestFactory {
         BidibCommand concreteBidibMessage = null;
         int type = ByteUtils.getInt(bidibMessage.getType());
         switch (type) {
+            case BidibLibrary.MSG_SYS_RESET:
+                concreteBidibMessage = new SysResetMessage(message);
+                break;
             case BidibLibrary.MSG_SYS_GET_MAGIC:
                 concreteBidibMessage = new SysMagicMessage(message);
                 break;
