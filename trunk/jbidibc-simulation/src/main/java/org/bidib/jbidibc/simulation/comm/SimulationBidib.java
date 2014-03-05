@@ -13,6 +13,7 @@ import org.bidib.jbidibc.core.AbstractBidib;
 import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
+import org.bidib.jbidibc.net.NetBidib;
 import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.BoosterNode;
@@ -22,6 +23,7 @@ import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.simulation.SimulationInterface;
 import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.SimulatorRegistry;
+import org.bidib.jbidibc.simulation.net.SimulationNetBidib;
 import org.bidib.jbidibc.simulation.serial.SimulationSerialBidib;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
@@ -115,12 +117,15 @@ public class SimulationBidib implements BidibInterface {
 
         LOGGER.info("Open port: {}", portName);
 
-        delegateBidib = new SimulationSerialBidib();
-
-        // TODO support not only serial simulation interface
-        // TODO change the fix portName
-        // portName = "localhost:" + NetBidib.BIDIB_UDP_PORT_NUMBER;
-        // delegateBidib = new SimulationNetBidib();
+        // select the simulation interface
+        if ("udp".equals(portName)) {
+            // TODO change the fix portName
+            portName = "localhost:" + NetBidib.BIDIB_UDP_PORT_NUMBER;
+            delegateBidib = new SimulationNetBidib();
+        }
+        else {
+            delegateBidib = new SimulationSerialBidib();
+        }
 
         // make the initialize method accessible and call it ...
         try {

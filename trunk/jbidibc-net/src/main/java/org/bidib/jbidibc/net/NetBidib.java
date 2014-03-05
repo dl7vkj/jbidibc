@@ -98,6 +98,11 @@ public class NetBidib extends AbstractBidib {
                 throw new PortNotFoundException("");
             }
 
+            if (portName.indexOf(":") < 0) {
+                portName += ":" + NetBidib.BIDIB_UDP_PORT_NUMBER;
+                LOGGER.info("Added portnumber to portName: {}", portName);
+            }
+
             try {
                 close();
                 port = internalOpen(portName);
