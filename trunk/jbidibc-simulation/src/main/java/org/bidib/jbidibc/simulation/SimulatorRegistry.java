@@ -1,7 +1,7 @@
 package org.bidib.jbidibc.simulation;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.InputStream;
 import java.lang.reflect.Constructor;
 import java.util.Collections;
 import java.util.HashMap;
@@ -85,7 +85,8 @@ public class SimulatorRegistry {
     private static final String XSD_LOCATION = "/xsd/simulation.xsd";
 
     public void loadSimulationConfiguration(
-        File simulationConfiguration, SimulationBidibMessageProcessor messageReceiver) {
+        InputStream simulationConfiguration, SimulationBidibMessageProcessor messageReceiver) {
+        LOGGER.info("Load simulation configuration from: {}", simulationConfiguration);
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 

@@ -1,7 +1,7 @@
 package org.bidib.jbidibc.simulation.serial;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -52,13 +52,14 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
 
     @Override
     public void start(String simulationConfigurationLocation) {
-        LOGGER.info("Start the simulator.");
+        LOGGER.info("Start the simulator, simulationConfigurationLocation: {}", simulationConfigurationLocation);
 
         // TODO load the SimulatorRegistry with the simulation configuration
         SimulatorRegistry.getInstance().removeAll();
 
-        String path = getClass().getResource(simulationConfigurationLocation).getPath();
-        File simulationConfiguration = new File(path);
+        // String path = getClass().getResourceAsStream(simulationConfigurationLocation);
+        // File simulationConfiguration = new File(path);
+        InputStream simulationConfiguration = getClass().getResourceAsStream(simulationConfigurationLocation);
         SimulatorRegistry.getInstance().loadSimulationConfiguration(simulationConfiguration,
             (SimulationBidibMessageProcessor) this.getSimulationMessageReceiver());
     }
@@ -95,9 +96,9 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
                 if (simulator == null) {
                     LOGGER.warn("No simulator found for nodeAddress: {}", nodeAddress);
                 }
-
-                simulator.processRequest(bidibMessage);
-
+                else {
+                    simulator.processRequest(bidibMessage);
+                }
                 LOGGER.debug("Forwarded message to simulator: {}", bidibMessage);
             }
         }
@@ -111,7 +112,7 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
         String portName, ConnectionListener connectionListener, Set<NodeListener> nodeListeners,
         Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) throws PortNotFoundException,
         PortNotOpenedException {
-        // TODO Auto-generated method stub
+        LOGGER.info("Open the serial simulation.");
         setConnectionListener(connectionListener);
         registerListeners(nodeListeners, messageListeners, transferListeners);
     }
@@ -125,8 +126,7 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
 
     @Override
     public void close() {
-
-        // TODO Auto-generated method stub
+        LOGGER.info("Close the serial simulation.");
         isOpened = false;
 
         if (getConnectionListener() != null) {
@@ -139,7 +139,7 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
         // simulationInterface.stop();
         // }
 
-        // TODO remove the simulation
+        // remove all simulators from the simulation registry
         SimulatorRegistry.getInstance().removeAll();
     }
 

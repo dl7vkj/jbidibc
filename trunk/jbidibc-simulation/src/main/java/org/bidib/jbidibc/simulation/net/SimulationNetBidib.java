@@ -1,7 +1,7 @@
 package org.bidib.jbidibc.simulation.net;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
+import java.io.InputStream;
 import java.net.DatagramSocket;
 import java.util.LinkedList;
 import java.util.List;
@@ -99,8 +99,9 @@ public class SimulationNetBidib extends NetBidib implements SimulationInterface 
         simulationMessageReceiver.setSimulatorRegistry(simulatorRegistry);
 
         LOGGER.info("Load simulationConfigurationLocation from: {}", simulationConfigurationLocation);
-        String path = getClass().getResource(simulationConfigurationLocation).getPath();
-        File simulationConfiguration = new File(path);
+        // String path = getClass().getResource(simulationConfigurationLocation).getPath();
+        // File simulationConfiguration = new File(path);
+        InputStream simulationConfiguration = getClass().getResourceAsStream(simulationConfigurationLocation);
         simulatorRegistry.loadSimulationConfiguration(simulationConfiguration, simulationMessageReceiver);
 
         LOGGER.info("Simulator registry is loaded.");
