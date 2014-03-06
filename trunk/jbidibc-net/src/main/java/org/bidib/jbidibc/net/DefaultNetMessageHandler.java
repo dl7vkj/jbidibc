@@ -20,49 +20,13 @@ public class DefaultNetMessageHandler implements NetMessageHandler {
 
     private int sequence;
 
-    public final class KnownBidibHost {
-        private final InetAddress address;
-
-        private final int portNumber;
-
-        public KnownBidibHost(final InetAddress address, final int portNumber) {
-            this.address = address;
-            this.portNumber = portNumber;
-        }
-
-        /**
-         * @return the address
-         */
-        public InetAddress getAddress() {
-            return address;
-        }
-
-        /**
-         * @return the portNumber
-         */
-        public int getPortNumber() {
-            return portNumber;
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (other instanceof KnownBidibHost) {
-                KnownBidibHost bidibHost = (KnownBidibHost) other;
-                if (bidibHost.getAddress().equals(address) && bidibHost.getPortNumber() == portNumber) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-    private KnownBidibHost remoteAddress;
+    private BidibNetAddress remoteAddress;
 
     public DefaultNetMessageHandler(BidibMessageProcessor messageReceiverDelegate, InetAddress address, int port) {
         this.messageReceiverDelegate = messageReceiverDelegate;
 
         LOGGER.info("Set the remote address: {}, port: {}", address, port);
-        remoteAddress = new KnownBidibHost(address, port);
+        remoteAddress = new BidibNetAddress(address, port);
     }
 
     @Override

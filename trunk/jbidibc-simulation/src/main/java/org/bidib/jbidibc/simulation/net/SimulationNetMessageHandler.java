@@ -3,12 +3,12 @@ package org.bidib.jbidibc.simulation.net;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.DatagramPacket;
-import java.net.InetAddress;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.net.BidibNetAddress;
 import org.bidib.jbidibc.net.NetBidibPort;
 import org.bidib.jbidibc.net.NetMessageHandler;
 import org.bidib.jbidibc.utils.ByteUtils;
@@ -24,43 +24,7 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
 
     private int sequence;
 
-    public final class KnownBidibHost {
-        private final InetAddress address;
-
-        private final int portNumber;
-
-        public KnownBidibHost(final InetAddress address, final int portNumber) {
-            this.address = address;
-            this.portNumber = portNumber;
-        }
-
-        /**
-         * @return the address
-         */
-        public InetAddress getAddress() {
-            return address;
-        }
-
-        /**
-         * @return the portNumber
-         */
-        public int getPortNumber() {
-            return portNumber;
-        }
-
-        @Override
-        public boolean equals(Object other) {
-            if (other instanceof KnownBidibHost) {
-                KnownBidibHost bidibHost = (KnownBidibHost) other;
-                if (bidibHost.getAddress().equals(address) && bidibHost.getPortNumber() == portNumber) {
-                    return true;
-                }
-            }
-            return false;
-        }
-    }
-
-    private List<KnownBidibHost> knownBidibHosts = new LinkedList<KnownBidibHost>();
+    private List<BidibNetAddress> knownBidibHosts = new LinkedList<BidibNetAddress>();
 
     public SimulationNetMessageHandler(BidibMessageProcessor messageReceiverDelegate) {
         this.messageReceiverDelegate = messageReceiverDelegate;
@@ -74,7 +38,7 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
                 packet.getPort(), ByteUtils.bytesToHex(packet.getData(), packet.getLength()));
         }
 
-        KnownBidibHost current = new KnownBidibHost(packet.getAddress(), packet.getPort());
+        BidibNetAddress current = new BidibNetAddress(packet.getAddress(), packet.getPort());
         if (!knownBidibHosts.contains(current)) {
             LOGGER.info("Adding new known Bidib host: {}", current);
             knownBidibHosts.add(current);
@@ -102,7 +66,6 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
             LOGGER.trace("Send message to port: {}, message: {}", port, ByteUtils.bytesToHex(bytes));
         }
 
-        // TODO Auto-generated method stub
         if (port != null) {
 
             try {
@@ -114,7 +77,7 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
                 bos.write(ByteUtils.getLowByte(sequence));
                 bos.write(bytes);
 
-                for (KnownBidibHost host : knownBidibHosts) {
+                for (BidibNetAddress host : knownBidibHosts) {
                     LOGGER.info("Send message to address: {}, port: {}", host.getAddress(), host.getPortNumber());
                     port.send(bos.toByteArray(), host.getAddress(), host.getPortNumber());
                 }
