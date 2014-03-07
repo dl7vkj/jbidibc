@@ -20,11 +20,13 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
 
     private BidibMessageProcessor messageReceiverDelegate;
 
-    private int sessionKey;
-
-    private int sequence;
+    // private int sessionKey;
+    //
+    // private int sequence;
 
     private List<BidibNetAddress> knownBidibHosts = new LinkedList<BidibNetAddress>();
+
+    private int currentSessionKey;
 
     public SimulationNetMessageHandler(BidibMessageProcessor messageReceiverDelegate) {
         this.messageReceiverDelegate = messageReceiverDelegate;
@@ -40,6 +42,10 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
 
         BidibNetAddress current = new BidibNetAddress(packet.getAddress(), packet.getPort());
         if (!knownBidibHosts.contains(current)) {
+            // TODO: generate a session key and support listen only hosts ...
+            currentSessionKey++;
+            current.setSessionKey(currentSessionKey);
+
             LOGGER.info("Adding new known Bidib host: {}", current);
             knownBidibHosts.add(current);
         }
@@ -70,20 +76,23 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
 
             try {
                 // TODO add the UDP packet wrapper ...
-                ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                bos.write(ByteUtils.getHighByte(sessionKey));
-                bos.write(ByteUtils.getLowByte(sessionKey));
-                bos.write(ByteUtils.getHighByte(sequence));
-                bos.write(ByteUtils.getLowByte(sequence));
-                bos.write(bytes);
-
                 for (BidibNetAddress host : knownBidibHosts) {
-                    LOGGER.info("Send message to address: {}, port: {}", host.getAddress(), host.getPortNumber());
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bos.write(ByteUtils.getHighByte(host.getSessionKey()));
+                    bos.write(ByteUtils.getLowByte(host.getSessionKey()));
+                    bos.write(ByteUtils.getHighByte(host.getSequence()));
+                    bos.write(ByteUtils.getLowByte(host.getSequence()));
+                    bos.write(bytes);
+
+                    LOGGER.info("Send message to address: {}, port: {}, sessionKey: {}, sequence: {}",
+                        host.getAddress(), host.getPortNumber(), host.getSessionKey(), host.getSequence());
+
+                    // increment the sequence counter after sending the message sucessfully
+                    host.nextSequence();
+
+                    // send the data to the host
                     port.send(bos.toByteArray(), host.getAddress(), host.getPortNumber());
                 }
-
-                // increment the sequence counter after sending the message sucessfully
-                prepareNextSequence();
             }
             catch (IOException ex) {
                 LOGGER.warn("Send message to port failed.", ex);
@@ -94,12 +103,4 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
             LOGGER.warn("Send not possible, the port is closed.");
         }
     }
-
-    private void prepareNextSequence() {
-        sequence++;
-        if (sequence > 65535) {
-            sequence = 0;
-        }
-    }
-
 }

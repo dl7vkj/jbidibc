@@ -22,6 +22,18 @@ public class DefaultNetMessageHandler implements NetMessageHandler {
 
     private BidibNetAddress remoteAddress;
 
+    private boolean sessionKeyAvailable;
+
+    /**
+     * Creates a new instance of DefaultNetMessageHandler.
+     * 
+     * @param messageReceiverDelegate
+     *            the delegate message receiver that processes the BiDiB messages
+     * @param address
+     *            the address of the master to connect to
+     * @param port
+     *            the port of the master to connect to
+     */
     public DefaultNetMessageHandler(BidibMessageProcessor messageReceiverDelegate, InetAddress address, int port) {
         this.messageReceiverDelegate = messageReceiverDelegate;
 
@@ -36,7 +48,18 @@ public class DefaultNetMessageHandler implements NetMessageHandler {
             LOGGER.trace("Received a packet from address: {}, port: {}, data: {}", packet.getAddress(),
                 packet.getPort(), ByteUtils.bytesToHex(packet.getData(), packet.getLength()));
         }
-        // TODO for the first magic response we need special processing because we need to keep the session key
+        // for the first magic response we need special processing because we need to keep the session key
+        if (!sessionKeyAvailable) {
+            // TODO verify that the session key is correct prepared
+            sessionKey = ByteUtils.getInt(packet.getData()[1], packet.getData()[0]);
+            sequence = ByteUtils.getInt(packet.getData()[2], packet.getData()[3]);
+
+            LOGGER.info("Received the sessionKey: {}, sequence: {}", sessionKey, sequence);
+
+            sessionKeyAvailable = true;
+        }
+
+        // TODO we must check if the messages are received in the correct order ...
 
         // remove the UDP paket wrapper data and forward to the MessageReceiver
         ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -63,7 +86,6 @@ public class DefaultNetMessageHandler implements NetMessageHandler {
             return;
         }
 
-        // TODO Auto-generated method stub
         if (port != null) {
 
             try {
@@ -75,8 +97,8 @@ public class DefaultNetMessageHandler implements NetMessageHandler {
                 bos.write(ByteUtils.getLowByte(sequence));
                 bos.write(bytes);
 
-                LOGGER.info("Send message to remote address, address: {}, port: {}", remoteAddress.getAddress(),
-                    remoteAddress.getPortNumber());
+                LOGGER.info("Send message to remote address, address: {}, port: {}, sessionKey: {}, sequence: {}",
+                    remoteAddress.getAddress(), remoteAddress.getPortNumber(), sessionKey, sequence);
                 port.send(bos.toByteArray(), remoteAddress.getAddress(), remoteAddress.getPortNumber());
 
                 // increment the sequence counter after sending the message sucessfully
