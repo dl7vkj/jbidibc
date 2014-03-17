@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.enumeration.CommandStationPom;
+import org.bidib.jbidibc.exception.ProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -59,4 +60,22 @@ public class CommandStationPomMessageTest {
 
         new CommandStationPomMessage(locoAddress, opCode, cvNumber, data);
     }
+
+    // OUT MU : MSG_CS_POM 0C 00 60 67 03 00 00 00 00 01 04 00 00
+    @Test
+    public void prepareCommandStationPomMessage2() throws ProtocolException {
+        byte[] message = new byte[] { 0x0C, 0x00, 0x60, 0x67, 0x03, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x00, 0x00 };
+        CommandStationPomMessage pomMessage = new CommandStationPomMessage(message);
+        Assert.assertNotNull(pomMessage);
+
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
+
+        LOGGER.info("Prepare pomMessage: {}", pomMessage);
+        Assert.assertEquals(pomMessage.getDecoderAddress(), locoAddress);
+
+        Assert.assertEquals(pomMessage.getAddressX(), 0x00);
+        Assert.assertEquals(pomMessage.getMid(), 0x00);
+        Assert.assertEquals(pomMessage.getOpCode(), 0x01);
+    }
+
 }

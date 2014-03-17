@@ -57,4 +57,20 @@ public class AddressData {
             out.write((byte) 0);
         }
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof AddressData) {
+            AddressData other = (AddressData) obj;
+            if (address == other.getAddress() && type.equals(other.getType())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
 }

@@ -81,7 +81,7 @@ public class CommandStationPomMessage extends BidibCommandMessage {
         // op code
         out.write(opCode.getType());
         // CV number
-        out.write(ByteUtils.getLowByte(cvNumber - 1));
+        out.write(ByteUtils.getLowByte(cvNumber - 1)); // 0 -> CV1
         out.write(ByteUtils.getHighByte(cvNumber - 1));
         // no XPOM
         out.write((byte) 0);
@@ -99,6 +99,22 @@ public class CommandStationPomMessage extends BidibCommandMessage {
 
         AddressData addressData = new AddressData(address, AddressTypeEnum.valueOf((byte) ((highByte & 0xC0) >> 6)));
         return addressData;
+    }
+
+    public int getAddressX() {
+        byte[] data = getData();
+
+        return ByteUtils.getInt(data[2], data[3]);
+    }
+
+    public int getMid() {
+        int opCode = ByteUtils.getInt(getData()[4]);
+        return opCode;
+    }
+
+    public int getOpCode() {
+        int opCode = ByteUtils.getInt(getData()[5]);
+        return opCode;
     }
 
     @Override

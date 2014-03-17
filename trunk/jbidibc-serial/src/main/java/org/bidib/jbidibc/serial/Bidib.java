@@ -157,9 +157,14 @@ public final class Bidib extends AbstractBidib {
         Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
         while (e.hasMoreElements()) {
             CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
+            LOGGER.debug("Process current CommPortIdentifier, name: {}, portType: {}", id.getName(), id.getPortType());
 
             if (id.getPortType() == CommPortIdentifier.PORT_SERIAL) {
                 portIdentifiers.add(id.getName());
+            }
+            else {
+                LOGGER
+                    .debug("Skip port because no serial port, name: {}, portType: {}", id.getName(), id.getPortType());
             }
         }
         return portIdentifiers;

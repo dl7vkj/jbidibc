@@ -61,6 +61,9 @@ public class FeedbackCvResponse extends BidibMessage {
         byte lowByte = data[index++];
         byte highByte = data[index++];
         int cvNumber = ByteUtils.getWord(lowByte, (byte) (highByte & 0x3F));
+
+        cvNumber++; // 0 -> CV 1
+
         LOGGER.debug("Return the cvNumber of MSG_BM_CV: {}", cvNumber);
         return cvNumber;
     }
