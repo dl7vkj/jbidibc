@@ -18,6 +18,7 @@ import org.bidib.jbidibc.message.CommandStationPomAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationPomMessage;
 import org.bidib.jbidibc.message.CommandStationSetStateMessage;
 import org.bidib.jbidibc.message.CommandStationStateResponse;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -96,6 +97,20 @@ public class CommandStationNode {
     public PomAcknowledge readPom(AddressData locoAddress, CommandStationPom opCode, int cvNumber)
         throws ProtocolException {
         byte data = 0;
+        BidibMessage response =
+            delegate.send(new CommandStationPomMessage(locoAddress, opCode, cvNumber, data), true,
+                CommandStationPomAcknowledgeResponse.TYPE);
+        PomAcknowledge result = null;
+        if (response instanceof CommandStationPomAcknowledgeResponse) {
+            result = ((CommandStationPomAcknowledgeResponse) response).getAcknState();
+        }
+        LOGGER.debug("Return the pomAcknowledge: {}", result);
+        return result;
+    }
+
+    public PomAcknowledge writePom(AddressData locoAddress, CommandStationPom opCode, int cvNumber, int cvValue)
+        throws ProtocolException {
+        byte data = ByteUtils.getLowByte(cvValue);
         BidibMessage response =
             delegate.send(new CommandStationPomMessage(locoAddress, opCode, cvNumber, data), true,
                 CommandStationPomAcknowledgeResponse.TYPE);
