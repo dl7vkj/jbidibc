@@ -59,149 +59,108 @@ public class VendorCVTest {
         return is;
     }
 
-    @Test
-    public void loadVendorCVForOneDMXAndTransformToWizardFormatTest() throws JAXBException, TransformerException,
-        IOException {
-        LOGGER.info("Load VendorCV for OneDMX and transform to wizard data.");
-
-        // System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
-
-        InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
-        javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer(xsltSource);
-
-        InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-115.xml");
-        Assert.assertNotNull(is);
-        StreamSource xmlSource = new StreamSource(is);
-
-        /*
-         * Perform the transform to get the report
-         */
-        File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_wizard_OneDMX.xml");
-
-        FileOutputStream reportFOS = new FileOutputStream(exportFile);
-        OutputStreamWriter osw = new OutputStreamWriter(reportFOS, "UTF-8");
-        transformer.transform(xmlSource, new StreamResult(osw));
-        osw.close();
-
-        LOGGER.info("Prepared wizard xml file: {}", exportFile.getPath());
-    }
-
-    @Test
-    public void loadVendorForLCAndTransformCVTest() throws JAXBException, TransformerException, FileNotFoundException {
-        LOGGER.info("Load VendorCV.");
-
-        // System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
-
-        InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
-        javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer(xsltSource);
-
-        InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-107.xml");
-        Assert.assertNotNull(is);
-
-        LOGGER.info("Loaded LC config: {}", is);
-        StreamSource xmlSource = new StreamSource(is);
-
-        JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
-
-        JAXBResult outputTarget = new JAXBResult(jaxbContext);
-        transformer.transform(xmlSource, outputTarget);
-
-        LOGGER.info("Prepared outputTarget: {}", outputTarget);
-
-        VendorCV vendorCV = (VendorCV) outputTarget.getResult();
-        Assert.assertNotNull(vendorCV);
-
-        Assert.assertNotNull(vendorCV.getVersion());
-        VersionInfoType versionInfo = vendorCV.getVersion();
-        Assert.assertEquals(versionInfo.getVersion(), "0.2");
-        Assert.assertEquals(versionInfo.getVendor(), "013");
-
-        Assert.assertNotNull(vendorCV.getTemplates());
-        Assert.assertEquals(vendorCV.getTemplates().getTemplate().size(), 2);
-
-        // check the led values
-        TemplateType ledTemplate = vendorCV.getTemplates().getTemplate().get(0);
-        Assert.assertNotNull(ledTemplate);
-        Assert.assertEquals(ledTemplate.getName(), "LED");
-        Assert.assertNotNull(ledTemplate.getCV());
-        Assert.assertEquals(ledTemplate.getCV().size(), 5);
-        Assert.assertNotNull(ledTemplate.getCV().get(0));
-        Assert.assertEquals(ledTemplate.getCV().get(0).getNumber(), 0);
-        Assert.assertEquals(ledTemplate.getCV().get(0).getType(), DataType.BYTE);
-        Assert.assertEquals(ledTemplate.getCV().get(0).getMin(), "-");
-
-        // check the servo values
-        TemplateType servoTemplate = vendorCV.getTemplates().getTemplate().get(1);
-        Assert.assertNotNull(servoTemplate);
-        Assert.assertEquals(servoTemplate.getName(), "Servo");
-        Assert.assertNotNull(servoTemplate.getCV());
-        Assert.assertEquals(servoTemplate.getCV().size(), 13);
-
-        Assert.assertNotNull(vendorCV.getCVDefinition());
-        CVDefinitionType cvDefinition = vendorCV.getCVDefinition();
-        Assert.assertNotNull(cvDefinition.getNode());
-        Assert.assertEquals(cvDefinition.getNode().size(), 3);
-        // common data
-        Assert.assertNotNull(cvDefinition.getNode().get(0));
-        NodeType commonData = cvDefinition.getNode().get(0);
-        Assert.assertNotNull(commonData);
-        Assert.assertNull(commonData.getTemplate());
-        Assert.assertNotNull(commonData.getNodetextAndNodeAndCV());
-        Assert.assertEquals(commonData.getNodetextAndNodeAndCV().size(), 14);
-
-        // servos
-        Assert.assertNotNull(cvDefinition.getNode().get(1));
-        NodeType servosData = cvDefinition.getNode().get(1);
-        Assert.assertNotNull(servosData.getNodetextAndNodeAndCV());
-        Assert.assertEquals(servosData.getNodetextAndNodeAndCV().size(), 3);
-
-        NodeType servoNode = (NodeType) servosData.getNodetextAndNodeAndCV().get(2);
-        Assert.assertEquals(servoNode.getTemplate(), "Servo");
-
-        // leds
-        Assert.assertNotNull(cvDefinition.getNode().get(2));
-        NodeType ledsData = cvDefinition.getNode().get(2);
-        Assert.assertNotNull(ledsData.getNodetextAndNodeAndCV());
-        Assert.assertEquals(ledsData.getNodetextAndNodeAndCV().size(), 3);
-
-        NodeType ledNode = (NodeType) ledsData.getNodetextAndNodeAndCV().get(2);
-        Assert.assertEquals(ledNode.getTemplate(), "LED");
-    }
-
-    @Test
-    public void loadVendorCVForS88BridgeAndTransformToWizardFormatTest() throws JAXBException, TransformerException,
-        IOException {
-        LOGGER.info("Load VendorCV for S88Bridge and transform to wizard data.");
-
-        // System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
-
-        InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
-        javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
-        TransformerFactory tf = TransformerFactory.newInstance();
-        Transformer transformer = tf.newTransformer(xsltSource);
-        // transformer.setOutputProperty(OutputKeys.INDENT, "no");
-
-        InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-105.xml");
-        Assert.assertNotNull(is);
-
-        StreamSource xmlSource = new StreamSource(is);
-
-        /*
-         * Perform the transform to get the report
-         */
-        File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_wizard_S88Bridge.xml");
-
-        FileOutputStream reportFOS = new FileOutputStream(exportFile);
-        OutputStreamWriter osw = new OutputStreamWriter(reportFOS, "UTF-8");
-        transformer.transform(xmlSource, new StreamResult(osw));
-        osw.close();
-
-        LOGGER.info("Prepared wizard xml file: {}", exportFile.getPath());
-    }
+    /*
+     * @Test public void loadVendorCVForOneDMXAndTransformToWizardFormatTest() throws JAXBException,
+     * TransformerException, IOException { LOGGER.info("Load VendorCV for OneDMX and transform to wizard data.");
+     * 
+     * // System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+     * 
+     * InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
+     * javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
+     * TransformerFactory tf = TransformerFactory.newInstance(); Transformer transformer =
+     * tf.newTransformer(xsltSource);
+     * 
+     * InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-115.xml"); Assert.assertNotNull(is); StreamSource
+     * xmlSource = new StreamSource(is);
+     * 
+     * File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_wizard_OneDMX.xml");
+     * 
+     * FileOutputStream reportFOS = new FileOutputStream(exportFile); OutputStreamWriter osw = new
+     * OutputStreamWriter(reportFOS, "UTF-8"); transformer.transform(xmlSource, new StreamResult(osw)); osw.close();
+     * 
+     * LOGGER.info("Prepared wizard xml file: {}", exportFile.getPath()); }
+     * 
+     * @Test public void loadVendorForLCAndTransformCVTest() throws JAXBException, TransformerException,
+     * FileNotFoundException { LOGGER.info("Load VendorCV.");
+     * 
+     * // System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+     * 
+     * InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
+     * javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
+     * TransformerFactory tf = TransformerFactory.newInstance(); Transformer transformer =
+     * tf.newTransformer(xsltSource);
+     * 
+     * InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-107.xml"); Assert.assertNotNull(is);
+     * 
+     * LOGGER.info("Loaded LC config: {}", is); StreamSource xmlSource = new StreamSource(is);
+     * 
+     * JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
+     * 
+     * JAXBResult outputTarget = new JAXBResult(jaxbContext); transformer.transform(xmlSource, outputTarget);
+     * 
+     * LOGGER.info("Prepared outputTarget: {}", outputTarget);
+     * 
+     * VendorCV vendorCV = (VendorCV) outputTarget.getResult(); Assert.assertNotNull(vendorCV);
+     * 
+     * Assert.assertNotNull(vendorCV.getVersion()); VersionInfoType versionInfo = vendorCV.getVersion();
+     * Assert.assertEquals(versionInfo.getVersion(), "0.2"); Assert.assertEquals(versionInfo.getVendor(), "013");
+     * 
+     * Assert.assertNotNull(vendorCV.getTemplates()); Assert.assertEquals(vendorCV.getTemplates().getTemplate().size(),
+     * 2);
+     * 
+     * // check the led values TemplateType ledTemplate = vendorCV.getTemplates().getTemplate().get(0);
+     * Assert.assertNotNull(ledTemplate); Assert.assertEquals(ledTemplate.getName(), "LED");
+     * Assert.assertNotNull(ledTemplate.getCV()); Assert.assertEquals(ledTemplate.getCV().size(), 5);
+     * Assert.assertNotNull(ledTemplate.getCV().get(0)); Assert.assertEquals(ledTemplate.getCV().get(0).getNumber(), 0);
+     * Assert.assertEquals(ledTemplate.getCV().get(0).getType(), DataType.BYTE);
+     * Assert.assertEquals(ledTemplate.getCV().get(0).getMin(), "-");
+     * 
+     * // check the servo values TemplateType servoTemplate = vendorCV.getTemplates().getTemplate().get(1);
+     * Assert.assertNotNull(servoTemplate); Assert.assertEquals(servoTemplate.getName(), "Servo");
+     * Assert.assertNotNull(servoTemplate.getCV()); Assert.assertEquals(servoTemplate.getCV().size(), 13);
+     * 
+     * Assert.assertNotNull(vendorCV.getCVDefinition()); CVDefinitionType cvDefinition = vendorCV.getCVDefinition();
+     * Assert.assertNotNull(cvDefinition.getNode()); Assert.assertEquals(cvDefinition.getNode().size(), 3); // common
+     * data Assert.assertNotNull(cvDefinition.getNode().get(0)); NodeType commonData = cvDefinition.getNode().get(0);
+     * Assert.assertNotNull(commonData); Assert.assertNull(commonData.getTemplate());
+     * Assert.assertNotNull(commonData.getNodetextAndNodeAndCV());
+     * Assert.assertEquals(commonData.getNodetextAndNodeAndCV().size(), 14);
+     * 
+     * // servos Assert.assertNotNull(cvDefinition.getNode().get(1)); NodeType servosData =
+     * cvDefinition.getNode().get(1); Assert.assertNotNull(servosData.getNodetextAndNodeAndCV());
+     * Assert.assertEquals(servosData.getNodetextAndNodeAndCV().size(), 3);
+     * 
+     * NodeType servoNode = (NodeType) servosData.getNodetextAndNodeAndCV().get(2);
+     * Assert.assertEquals(servoNode.getTemplate(), "Servo");
+     * 
+     * // leds Assert.assertNotNull(cvDefinition.getNode().get(2)); NodeType ledsData = cvDefinition.getNode().get(2);
+     * Assert.assertNotNull(ledsData.getNodetextAndNodeAndCV());
+     * Assert.assertEquals(ledsData.getNodetextAndNodeAndCV().size(), 3);
+     * 
+     * NodeType ledNode = (NodeType) ledsData.getNodetextAndNodeAndCV().get(2);
+     * Assert.assertEquals(ledNode.getTemplate(), "LED"); }
+     * 
+     * @Test public void loadVendorCVForS88BridgeAndTransformToWizardFormatTest() throws JAXBException,
+     * TransformerException, IOException { LOGGER.info("Load VendorCV for S88Bridge and transform to wizard data.");
+     * 
+     * // System.setProperty("javax.xml.transform.TransformerFactory", "net.sf.saxon.TransformerFactoryImpl");
+     * 
+     * InputStream xsltStream = VendorCVTest.class.getResourceAsStream("/xsd/vendor_cv.xslt");
+     * javax.xml.transform.Source xsltSource = new javax.xml.transform.stream.StreamSource(xsltStream);
+     * TransformerFactory tf = TransformerFactory.newInstance(); Transformer transformer =
+     * tf.newTransformer(xsltSource); // transformer.setOutputProperty(OutputKeys.INDENT, "no");
+     * 
+     * InputStream is = getInputStream("src/main/xml/bidib/BiDiBCV-13-105.xml"); Assert.assertNotNull(is);
+     * 
+     * StreamSource xmlSource = new StreamSource(is);
+     * 
+     * File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_wizard_S88Bridge.xml");
+     * 
+     * FileOutputStream reportFOS = new FileOutputStream(exportFile); OutputStreamWriter osw = new
+     * OutputStreamWriter(reportFOS, "UTF-8"); transformer.transform(xmlSource, new StreamResult(osw)); osw.close();
+     * 
+     * LOGGER.info("Prepared wizard xml file: {}", exportFile.getPath()); }
+     */
 
     @Test
     public void saveVendorCVS88BridgeTest() throws JAXBException, SAXException, IOException {

@@ -1,6 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<VendorCV>
-	<Version Version="0.1" Lastupdate="20131025" Author="Tams, Kersten" Pid="151" Vendor="062" Description="MultiDecoder">
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+
+	<Version Version="0.2" Lastupdate="20140313" Author="Tams, Kersten" Pid="151" Vendor="062" Description="MultiDecoder">
 	</Version>
 	<Templates>
 		<Template Name="Servo">
@@ -81,6 +84,14 @@
 			<CV Number="67" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
 				<Description Lang="de-DE" Text="Servo Nachlaufdauer"/>
 				<Description Lang="en-EN" Text="time until servo signal turns off "/>
+			</CV>
+			<CV Number="68" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Überlast-Empfindlichkeit Weichen"/>
+				<Description Lang="en-EN" Text="overcurrent turn off time (turns out) "/>
+			</CV>
+			<CV Number="69" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Überlast-Empfindlichkeit Servos"/>
+				<Description Lang="en-EN" Text="overcurrent turn off time (servos) "/>
 			</CV>
 		</Node>
 		<Node>

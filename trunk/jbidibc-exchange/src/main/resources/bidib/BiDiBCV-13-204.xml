@@ -1,6 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<VendorCV>
-	<Version Version="0.4" Lastupdate="20131028" Author="Tillner, Andreas" Pid="204" Vendor="13" Description="BiDiBOne OneOC: 20x OC-Input">
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+	<Version Version="0.6" Lastupdate="20131227" Author="Tillner, Andreas" Pid="204" Vendor="13" Description="BiDiBOne OneOC: 20x OC-Input">
 	</Version>
 	<Templates>
 		<Template Name="About">
@@ -34,22 +36,23 @@
 			</CV>
 		</Template>
 		<Template Name="Sector">
-			<CV Number="0" Type="Int" Min="0"  Max="255"  Low="0" High="1" Mode="rw" Values="-"	>
+			<CV Number="0" Type="Int" Min="0" Max="255" Low="0" High="1" Mode="rw" 	>
 				<Description Lang="de-DE" Text="Länge der Messstrecke in mm (lowbyte)"/>
 			    <Description Lang="en-EN" Text="Length of measuring track in mm (lowbyte))"/>
 			</CV>
-			<CV Number="1" Type="Int" Min="0"  Max="255"  Low="0" High="1" Mode="rw" Values="-">
+			<CV Number="1" Type="Int" Min="0" Max="255" Low="0" High="1" Mode="rw" >
 				<Description Lang="de-DE" Text="Länge der Messstrecke in mm (highbyte)"/>
 			    <Description Lang="en-EN" Text="Length of measuring track in mm (highbyte)"/>
 			</CV>
-			<CV Number="2" Type="Byte" Min="0"  Max="19"  Low="-" High="-" Mode="rw" Values="-">
+			<CV Number="2" Type="Byte" Min="0" Max="19" Mode="rw" >
 				<Description Lang="de-DE" Text="Startmelder der Messstrecke"/>
-			    <Description Lang="en-EN" Text="Startdetector of the measuring track"/> </CV>
-			<CV Number="3" Type="Byte" Min="0"  Max="19"  Low="-" High="-" Mode="rw" Values="-">
+			    <Description Lang="en-EN" Text="Startdetector of the measuring track"/> 
+			</CV>
+			<CV Number="3" Type="Byte" Min="0" Max="19" Mode="rw" >
 				<Description Lang="de-DE" Text="Endmelder der Messstrecke"/>
 			    <Description Lang="en-EN" Text="Enddetector of the measuring track"/>
 			</CV>
-			<CV Number="4" Type="Bit" Min="-"  Max="-"  Low="-" High="-" Mode="rw" Values="3" >
+			<CV Number="4" Type="Bit" Mode="rw" Values="3" >
 			    <Description Lang="de-DE" Text="Messstrecke aktiviert" />
 				<Description Lang="en-EN" Text="measuring track is aktive"/>
 				<Bitdescription Bitnum="1" Lang="de-DE" Text="Messstrecke aktiv"/>
@@ -58,11 +61,27 @@
 				<Bitdescription Bitnum="2" Lang="en-EN" Text="Send result to host"/>
 			</CV>
 		</Template>
+		<Template Name="OCC-Port">
+			<CV Number="0" Type="Bit" Min="-"  Max="-"  Low="-" High="-" Mode="rw" Values="1">
+				<Description Lang="de-DE" Text="OCC bei Level high = 1 oder low = 0"/>
+			    <Description Lang="en-EN" Text="OCC at level high = 1 or low = 1"/>
+				<Bitdescription Bitnum="1" Lang="de-DE" Text="OCC high = 1 oder low = 0"/>
+				<Bitdescription Bitnum="1" Lang="en-EN" Text="OCC high = 1 or low = 1"/>
+			</CV>
+		</Template>
 	</Templates>
 	<CVDefinition>
 		<Node Offset="1" Template="About">
 				<Nodetext Lang="de-DE" Text="Basis"/>
 				<Nodetext Lang="en-EN" Text="Basis"/>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Porteinstellungen"/>
+			<Nodetext Lang="en-EN" Text="Portsettings"/>
+			<Node Offset="100" Template="OCC-Port"  Count="20" Next="1">
+				<Nodetext Lang="de-DE" Text="Port %%d"/>
+				<Nodetext Lang="en-EN" Text="Port %%d"/>
+			</Node>
 		</Node>
 		<Node>
 			<Nodetext Lang="de-DE" Text="Geschwindigkeits Messung"/>

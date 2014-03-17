@@ -68,6 +68,7 @@
                 <artifactId>xslt-generator-maven-plugin</artifactId>
                 <version>1.8</version>
                 <executions>
+                    <!--
                     <execution>
                         <id>transform-vendorcv</id>
                         <goals>
@@ -81,6 +82,7 @@
                             <destDir>${project.build.directory}/generated-resources/xml</destDir>
                         </configuration>
                     </execution>
+                    -->
                     <execution>
                         <id>transform-bidib</id>
                         <goals>

@@ -1,5 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<VendorCV>
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
 	<Version Version="0.1" Lastupdate="20131025" Author="Tams, Kersten" Pid="144" Vendor="062" Description="BiDiB-Interface mit s88-Bridge">
 	</Version>
 	<CVDefinition>

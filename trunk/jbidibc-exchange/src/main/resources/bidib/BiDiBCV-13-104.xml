@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<VendorCV>
-	<Version Version="0.5" Lastupdate="20131021" Author="Tillner, Andreas" Pid="101" Vendor="013" Description="GBMBoost Node">
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+
+	<Version Version="0.5" Lastupdate="20131021" Author="Tillner, Andreas" Pid="104" Vendor="013" Description="GBMBoost Master, Booster, Interface">
 	</Version>
 	<Templates>
 		<Template Name="GBM16T" SkipOnTimeout="true">
@@ -181,7 +184,7 @@
 				<Description Lang="de-DE" Text="Seriel-Nr. 2" />
 				<Description Lang="en-EN" Text="Serial-Nr. 2"/>
 			</CV>
-			<CV  Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="wo"  >
+			<CV  Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw"  >
 				<Description Lang="de-DE" Text="Jumper" />
 				<Description Lang="en-EN" Text="Jumper"/>
 			</CV>
@@ -205,14 +208,18 @@
 				<Description Lang="de-DE" Text="xp_slot_addr: Adresse 1..31" />
 				<Description Lang="en-EN" Text="xp_slot_addr: Address 1..31"/>
 			</CV>
+			<CV  Number="23" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw" > 
+				<Description Lang="de-DE" Text="pom-repeat" />
+				<Description Lang="en-EN" Text="pom-repeat"/>
+			</CV>
 		</Node>
 		<Node>
 			<Nodetext Lang="de-DE" Text="GBM16T"/>
 			<Nodetext Lang="en-EN" Text="GBM16T"/>
-			<Node Offset="10000" Template="GBM16T" Count="3" Next="10000" >
+			<Node Offset="10000" Template="GBM16T" Count="3" Next="10000">
 				<Nodetext Lang="de-DE" Text="GBM16T-%%d"/>
 				<Nodetext Lang="en-EN" Text="GBM16T-%%d"/>
 			</Node>
 		</Node>
-</CVDefinition>
+	</CVDefinition>
 </VendorCV>
