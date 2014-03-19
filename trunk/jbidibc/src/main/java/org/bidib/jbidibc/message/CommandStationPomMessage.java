@@ -60,6 +60,7 @@ public class CommandStationPomMessage extends BidibCommandMessage {
         out.write(ByteUtils.getLowByte(cvNumber - 1));
         out.write(ByteUtils.getHighByte(cvNumber - 1));
         // no XPOM
+        // TODO add support for XPOM
         out.write((byte) 0);
         // data
         out.write(data);
