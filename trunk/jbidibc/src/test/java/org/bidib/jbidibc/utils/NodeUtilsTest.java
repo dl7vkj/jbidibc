@@ -158,4 +158,25 @@ public class NodeUtilsTest {
 
         Assert.assertTrue(hasBooster);
     }
+
+    @Test
+    public void hasSwitchFunctions2() {
+        // 20.03.2014 22:21:12.793 [INFO] org.bidib.wizard.mvc.main.model.Node [Node-changed-thread-1395350472707] -
+        // Prepare the vendorCV tree for node: Node[version=1,addr=[1],uniqueId=0x04000d75002e00,sw-version=1.2.5]
+
+        BigInteger bigInt = new BigInteger("04000d75002e00", 16);
+        long uniqueId = bigInt.longValue();
+
+        LOGGER.info("Unique Id: {}", NodeUtils.getUniqueIdAsString(uniqueId));
+
+        boolean hasSwitch = NodeUtils.hasSwitchFunctions(uniqueId);
+        LOGGER.info("hasSwitch functions: {}", hasSwitch);
+
+        Assert.assertFalse(hasSwitch);
+
+        boolean hasAccessory = NodeUtils.hasAccessoryFunctions(uniqueId);
+        LOGGER.info("hasAccessory functions: {}", hasAccessory);
+
+        Assert.assertTrue(hasAccessory);
+    }
 }
