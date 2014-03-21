@@ -163,6 +163,9 @@ public class RequestFactory {
             case BidibLibrary.MSG_CS_SET_STATE:
                 concreteBidibMessage = new CommandStationSetStateMessage(message);
                 break;
+            case BidibLibrary.MSG_CS_DRIVE:
+                concreteBidibMessage = new CommandStationDriveMessage(message);
+                break;
             case BidibLibrary.MSG_CS_POM:
                 concreteBidibMessage = new CommandStationPomMessage(message);
                 break;

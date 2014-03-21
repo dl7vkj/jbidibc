@@ -1,5 +1,8 @@
 package org.bidib.jbidibc.message;
 
+import java.io.ByteArrayOutputStream;
+
+import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.DriveAcknowledge;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -21,6 +24,21 @@ public class CommandStationDriveAcknowledgeResponse extends BidibMessage {
         }
 
         LOGGER.debug("Received response, status: {}", getState());
+    }
+
+    public CommandStationDriveAcknowledgeResponse(byte[] addr, int num, AddressData decoderAddress, byte acknowledge)
+        throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_CS_DRIVE_ACK, prepareData(decoderAddress, acknowledge));
+    }
+
+    private static byte[] prepareData(AddressData decoderAddress, byte acknowledge) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        // write decoder address
+        decoderAddress.writeToStream(out);
+        // data
+        out.write(acknowledge);
+
+        return out.toByteArray();
     }
 
     public int getAddress() {
