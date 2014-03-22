@@ -457,7 +457,7 @@ public final class Bidib extends AbstractBidib {
         // Ignore the first exception ...
         int magic = -1;
         // try {
-        rootNode.getMagic();
+        magic = rootNode.getMagic();
         // }
         // catch (Exception e) {
         // magic = rootNode.getMagic();
