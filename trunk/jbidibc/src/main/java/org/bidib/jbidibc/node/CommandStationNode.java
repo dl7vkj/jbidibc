@@ -4,6 +4,7 @@ import java.util.BitSet;
 
 import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.enumeration.CommandStationPom;
+import org.bidib.jbidibc.enumeration.CommandStationPt;
 import org.bidib.jbidibc.enumeration.CommandStationState;
 import org.bidib.jbidibc.enumeration.DirectionEnum;
 import org.bidib.jbidibc.enumeration.DriveAcknowledge;
@@ -16,6 +17,7 @@ import org.bidib.jbidibc.message.CommandStationDriveAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationDriveMessage;
 import org.bidib.jbidibc.message.CommandStationPomAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationPomMessage;
+import org.bidib.jbidibc.message.CommandStationProgMessage;
 import org.bidib.jbidibc.message.CommandStationSetStateMessage;
 import org.bidib.jbidibc.message.CommandStationStateResponse;
 import org.bidib.jbidibc.utils.ByteUtils;
@@ -120,5 +122,17 @@ public class CommandStationNode {
         }
         LOGGER.debug("Return the pomAcknowledge: {}", result);
         return result;
+    }
+
+    public void readPt(CommandStationPt opCode, int cvNumber) throws ProtocolException {
+        LOGGER.info("Send PT read command, opCode: {}, cvNumber: {}", opCode, cvNumber);
+        byte data = 0;
+        delegate.sendNoWait(new CommandStationProgMessage(opCode, cvNumber, data));
+    }
+
+    public void writePt(CommandStationPt opCode, int cvNumber, int cvValue) throws ProtocolException {
+        LOGGER.info("Send PT write command, opCode: {}, cvNumber: {}, cvValue: {}", opCode, cvNumber, cvValue);
+        byte data = ByteUtils.getLowByte(cvValue);
+        delegate.sendNoWait(new CommandStationProgMessage(opCode, cvNumber, data));
     }
 }

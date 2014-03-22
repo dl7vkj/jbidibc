@@ -3,6 +3,8 @@ package org.bidib.jbidibc;
 import java.util.Collection;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
+import org.bidib.jbidibc.enumeration.CommandStationProgState;
+import org.bidib.jbidibc.enumeration.CommandStationState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.PortNotFoundException;
@@ -34,7 +36,7 @@ public class BoostQuery extends BidibNodeCommand {
             Node node = findNode();
 
             if (node != null) {
-                // BidibNode bidibNode = Bidib.getInstance().getNode(node);
+
                 final BoosterStateHelper boosterStateHelper = new BoosterStateHelper();
                 Bidib.getInstance().getMessageReceiver().addMessageListener(new MessageListener() {
 
@@ -109,6 +111,16 @@ public class BoostQuery extends BidibNodeCommand {
 
                     @Override
                     public void dynState(byte[] address, int detectorNumber, int dynNumber, int dynValue) {
+                    }
+
+                    @Override
+                    public void csProgState(
+                        byte[] address, CommandStationProgState commandStationProgState, int remainingTime,
+                        int cvNumber, int cvData) {
+                    }
+
+                    @Override
+                    public void csState(byte[] address, CommandStationState commandStationState) {
                     }
                 });
 

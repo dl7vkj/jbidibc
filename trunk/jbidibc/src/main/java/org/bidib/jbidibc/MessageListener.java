@@ -3,6 +3,8 @@ package org.bidib.jbidibc;
 import java.util.Collection;
 
 import org.bidib.jbidibc.enumeration.BoosterState;
+import org.bidib.jbidibc.enumeration.CommandStationProgState;
+import org.bidib.jbidibc.enumeration.CommandStationState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 
@@ -82,4 +84,9 @@ public interface MessageListener {
     void lcStat(byte[] address, LcOutputType portType, int portNumber, int portStatus);
 
     void dynState(byte[] address, int detectorNumber, int dynNumber, int dynValue);
+
+    void csProgState(
+        byte[] address, CommandStationProgState commandStationProgState, int remainingTime, int cvNumber, int cvData);
+
+    void csState(byte[] address, CommandStationState commandStationState);
 }

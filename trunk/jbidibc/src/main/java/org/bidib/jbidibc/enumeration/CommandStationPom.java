@@ -22,12 +22,12 @@ public enum CommandStationPom implements BidibEnum {
     }
 
     /**
-     * Create a command station state.
+     * Create a command station POM state.
      * 
      * @param type
-     *            numeric value of the command station state
+     *            numeric value of the command station POM state
      * 
-     * @return CommandStationState
+     * @return CommandStationPom
      */
     public static CommandStationPom valueOf(byte type) {
         CommandStationPom result = null;

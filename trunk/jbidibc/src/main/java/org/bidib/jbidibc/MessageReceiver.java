@@ -3,11 +3,15 @@ package org.bidib.jbidibc;
 import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
+import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.enumeration.BoosterState;
+import org.bidib.jbidibc.enumeration.CommandStationProgState;
+import org.bidib.jbidibc.enumeration.CommandStationState;
 import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.NodeAlreadyRegisteredException;
@@ -17,6 +21,8 @@ import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostDiagnosticResponse;
 import org.bidib.jbidibc.message.BoostStatResponse;
+import org.bidib.jbidibc.message.CommandStationProgStateResponse;
+import org.bidib.jbidibc.message.CommandStationStateResponse;
 import org.bidib.jbidibc.message.FeedbackAccessoryResponse;
 import org.bidib.jbidibc.message.FeedbackAddressResponse;
 import org.bidib.jbidibc.message.FeedbackConfidenceResponse;
@@ -53,8 +59,8 @@ public class MessageReceiver implements BidibMessageProcessor {
 
     protected static final Logger MSG_RAW_LOGGER = LoggerFactory.getLogger("RAW");
 
-    private final Collection<MessageListener> messageListeners = Collections
-        .synchronizedList(new LinkedList<MessageListener>());
+    private final Set<MessageListener> messageListeners = Collections
+        .synchronizedSet(new LinkedHashSet<MessageListener>());
 
     private final Collection<NodeListener> nodeListeners = Collections.synchronizedList(new LinkedList<NodeListener>());
 
@@ -287,6 +293,22 @@ public class MessageReceiver implements BidibMessageProcessor {
                         case BidibLibrary.MSG_BM_BLOCK_CV:
                             LOGGER.warn("MSG_BM_BLOCK_CV is currently not processed by application: {}", message);
                             break;
+                        case BidibLibrary.MSG_CS_PROG_STATE:
+                            CommandStationProgStateResponse commandStationProgStateResponse =
+                                (CommandStationProgStateResponse) message;
+                            fireCsProgState(message.getAddr(), commandStationProgStateResponse.getState(),
+                                commandStationProgStateResponse.getRemainingTime(),
+                                commandStationProgStateResponse.getCvNumber(),
+                                commandStationProgStateResponse.getCvData());
+                            break;
+                        case BidibLibrary.MSG_CS_STATE:
+                            // signal to waiting command
+                            messageReceived(message);
+                            // ... and notify others
+                            CommandStationStateResponse commandStationStateResponse =
+                                (CommandStationStateResponse) message;
+                            fireCsState(message.getAddr(), commandStationStateResponse.getState());
+                            break;
                         default:
                             messageReceived(message);
                             break;
@@ -383,6 +405,19 @@ public class MessageReceiver implements BidibMessageProcessor {
     protected void fireBmCv(byte[] address, int decoderAddress, int cvNumber, int dat) {
         for (MessageListener l : messageListeners) {
             l.feedbackCv(address, decoderAddress, cvNumber, dat);
+        }
+    }
+
+    protected void fireCsProgState(
+        byte[] address, CommandStationProgState commandStationProgState, int remainingTime, int cvNumber, int cvData) {
+        for (MessageListener l : messageListeners) {
+            l.csProgState(address, commandStationProgState, remainingTime, cvNumber, cvData);
+        }
+    }
+
+    protected void fireCsState(byte[] address, CommandStationState commandStationState) {
+        for (MessageListener l : messageListeners) {
+            l.csState(address, commandStationState);
         }
     }
 

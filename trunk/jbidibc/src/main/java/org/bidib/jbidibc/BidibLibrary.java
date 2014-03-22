@@ -923,6 +923,7 @@ public interface BidibLibrary {
     public static final int BIDIB_CS_STATE_OFF = (int) 0;
 
     // / <i>native declaration : bidib_messages.h</i>
+    // 1:addrl, 2:addrh, 3:data
     public static final int MSG_CS_ACCESSORY_ACK = (int) ((128 + 96) + 3);
 
     // / <i>native declaration : bidib_messages.h</i>
@@ -1073,8 +1074,8 @@ public interface BidibLibrary {
     public static final int MSG_ACCESSORY_NOTIFY = (int) ((128 + 56) + 2);
 
     // -- service mode
-    // 1: PROG_STATE, 2:PROG_DATA
-    public static final int MSG_CS_PROG_STATE = (int) ((128 + 96) + 15);
+    // 1: state, 2:time, 3:cv_l, 4:cv_h, 5:data
+    public static final int MSG_CS_PROG_STATE = (MSG_UGEN + 0x0F);
 
     // -- booster/occupancy2
     // transmit interval of MSG_BM_DYN_STATE (unit 100ms)
@@ -1085,18 +1086,27 @@ public interface BidibLibrary {
 
     public static final int BIDIB_CS_PROG_RUNNING = (int) 0x01;
 
-    public static final int BIDIB_CS_PROG_WR_OKAY = (int) 0x80;
-
-    public static final int BIDIB_CS_PROG_RD_OKAY = (int) 0x81;
+    public static final int BIDIB_CS_PROG_OKAY = (int) 0x80;
 
     public static final int BIDIB_CS_PROG_STOPPED = (int) 0xC0;
 
     public static final int BIDIB_CS_PROG_NO_LOCO = (int) 0xC1;
 
-    public static final int BIDIB_CS_PROG_WR_NO_ANSWER = (int) 0xC2;
+    public static final int BIDIB_CS_PROG_NO_ANSWER = (int) 0xC2;
 
     public static final int BIDIB_CS_PROG_SHORT = (int) 0xC3;
 
-    public static final int BIDIB_CS_PROG_RD_NO_ANSWER = (int) 0xC4;
+    // OpCodes for PT
+    public static final int BIDIB_CS_PROG_BREAK = (int) 0x00;
 
+    public static final int BIDIB_CS_PROG_QUERY = (int) 0x01;
+
+    public static final int BIDIB_CS_PROG_RD_BYTE = (int) 0x02;
+
+    public static final int BIDIB_CS_PROG_RDWR_BIT = (int) 0x03;
+
+    public static final int BIDIB_CS_PROG_WR_BYTE = (int) 0x04;
+
+    // 1:addrl, 2:addrh, 3:data
+    public static final int MSG_CS_ACCESSORY_MANUAL = (MSG_UGEN + 0x07);
 }
