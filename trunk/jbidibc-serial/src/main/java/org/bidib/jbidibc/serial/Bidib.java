@@ -339,6 +339,7 @@ public final class Bidib extends AbstractBidib {
                     // 115200 Baud
                     close();
                     port = internalOpen(commPort, 115200);
+                    LOGGER.info("The port was opened internally, get the magic.");
                     sendMagic();
                 }
                 catch (PortInUseException ex) {
@@ -452,15 +453,15 @@ public final class Bidib extends AbstractBidib {
      */
     private int sendMagic() throws ProtocolException {
         BidibNode rootNode = getRootNode();
-
+        LOGGER.info("Get the magic from the rootNode.");
         // Ignore the first exception ...
         int magic = -1;
-        try {
-            rootNode.getMagic();
-        }
-        catch (Exception e) {
-            magic = rootNode.getMagic();
-        }
+        // try {
+        rootNode.getMagic();
+        // }
+        // catch (Exception e) {
+        // magic = rootNode.getMagic();
+        // }
         LOGGER.debug("The node returned magic: {}", magic);
         return magic;
     }

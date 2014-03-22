@@ -65,9 +65,9 @@ public class RootNode extends BidibNode {
                 sb.append("\r\n");
                 sb.append(buffer);
             }
-
             NoAnswerException ex = new NoAnswerException("Establish communication with interface failed.");
             ex.setDescription(sb.toString());
+            LOGGER.warn("Prepared exception to throw: {}", ex);
             throw ex;
         }
         return magic;
