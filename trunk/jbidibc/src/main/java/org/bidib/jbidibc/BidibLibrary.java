@@ -1096,6 +1096,8 @@ public interface BidibLibrary {
 
     public static final int BIDIB_CS_PROG_SHORT = (int) 0xC3;
 
+    public static final int BIDIB_CS_PROG_VERIFY_FAILED = 0xC4;
+
     // OpCodes for PT
     public static final int BIDIB_CS_PROG_BREAK = (int) 0x00;
 

@@ -7,7 +7,7 @@ public enum CommandStationProgState implements BidibEnum {
     PROG_START(BidibLibrary.BIDIB_CS_PROG_START), PROG_RUNNING(BidibLibrary.BIDIB_CS_PROG_RUNNING), PROG_OKAY(
         BidibLibrary.BIDIB_CS_PROG_OKAY), PROG_STOPPED(BidibLibrary.BIDIB_CS_PROG_STOPPED), PROG_NO_LOCO(
         BidibLibrary.BIDIB_CS_PROG_NO_LOCO), PROG_NO_ANSWER(BidibLibrary.BIDIB_CS_PROG_NO_ANSWER), PROG_SHORT(
-        BidibLibrary.BIDIB_CS_PROG_SHORT);
+        BidibLibrary.BIDIB_CS_PROG_SHORT), PROG_VERIFY_FAILED(BidibLibrary.BIDIB_CS_PROG_VERIFY_FAILED);
     // @formatter:on
 
     private final byte type;
