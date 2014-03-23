@@ -106,6 +106,12 @@ public final class ResponseFactory {
                     new CommandStationPomAcknowledgeResponse(result.getAddr(), result.getNum(), result.getType(),
                         result.getData());
                 break;
+            case BidibLibrary.MSG_CS_ACCESSORY_MANUAL:
+                // accessory manual
+                result =
+                    new CommandStationAccessoryManualResponse(result.getAddr(), result.getNum(), result.getType(),
+                        result.getData());
+                break;
             case BidibLibrary.MSG_CS_PROG_STATE:
                 result =
                     new CommandStationProgStateResponse(result.getAddr(), result.getNum(), result.getType(),

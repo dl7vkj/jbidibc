@@ -122,6 +122,14 @@ public class BoostQuery extends BidibNodeCommand {
                     @Override
                     public void csState(byte[] address, CommandStationState commandStationState) {
                     }
+
+                    @Override
+                    public void csDriveManual(byte[] address, DriveState driveState) {
+                    }
+
+                    @Override
+                    public void csAccessoryManual(byte[] address, int aspect) {
+                    }
                 });
 
                 // verify that the booster query returns the booster state ...

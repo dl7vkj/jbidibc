@@ -21,6 +21,8 @@ import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostDiagnosticResponse;
 import org.bidib.jbidibc.message.BoostStatResponse;
+import org.bidib.jbidibc.message.CommandStationAccessoryManualResponse;
+import org.bidib.jbidibc.message.CommandStationDriveManualResponse;
 import org.bidib.jbidibc.message.CommandStationProgStateResponse;
 import org.bidib.jbidibc.message.CommandStationStateResponse;
 import org.bidib.jbidibc.message.FeedbackAccessoryResponse;
@@ -309,6 +311,16 @@ public class MessageReceiver implements BidibMessageProcessor {
                                 (CommandStationStateResponse) message;
                             fireCsState(message.getAddr(), commandStationStateResponse.getState());
                             break;
+                        case BidibLibrary.MSG_CS_DRIVE_MANUAL:
+                            CommandStationDriveManualResponse commandStationDriveManualResponse =
+                                (CommandStationDriveManualResponse) message;
+                            fireCsDriveManual(commandStationDriveManualResponse);
+                            break;
+                        case BidibLibrary.MSG_CS_ACCESSORY_MANUAL:
+                            CommandStationAccessoryManualResponse commandStationAccessoryManualResponse =
+                                (CommandStationAccessoryManualResponse) message;
+                            fireCsAccessoryManual(commandStationAccessoryManualResponse);
+                            break;
                         default:
                             messageReceived(message);
                             break;
@@ -418,6 +430,20 @@ public class MessageReceiver implements BidibMessageProcessor {
     protected void fireCsState(byte[] address, CommandStationState commandStationState) {
         for (MessageListener l : messageListeners) {
             l.csState(address, commandStationState);
+        }
+    }
+
+    protected void fireCsDriveManual(CommandStationDriveManualResponse commandStationDriveManualResponse) {
+        for (MessageListener l : messageListeners) {
+            l.csDriveManual(commandStationDriveManualResponse.getAddr(),
+                commandStationDriveManualResponse.getDriveState());
+        }
+    }
+
+    protected void fireCsAccessoryManual(CommandStationAccessoryManualResponse commandStationAccessoryManualResponse) {
+        for (MessageListener l : messageListeners) {
+            l.csAccessoryManual(commandStationAccessoryManualResponse.getAddr(),
+                commandStationAccessoryManualResponse.getAspect());
         }
     }
 

@@ -89,4 +89,8 @@ public interface MessageListener {
         byte[] address, CommandStationProgState commandStationProgState, int remainingTime, int cvNumber, int cvData);
 
     void csState(byte[] address, CommandStationState commandStationState);
+
+    void csDriveManual(byte[] address, DriveState driveState);
+
+    void csAccessoryManual(byte[] address, int aspect);
 }

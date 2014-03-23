@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.DriveState;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
@@ -43,5 +44,12 @@ public class CommandStationDriveManualResponse extends BidibMessage {
 
     public byte getLights() {
         return (byte) (getData()[5] & 0x10);
+    }
+
+    public DriveState getDriveState() {
+        DriveState driveState =
+            new DriveState(getAddress(), ByteUtils.getInt(getData()[2]), ByteUtils.getInt(getData()[3]), getSpeed(),
+                ByteUtils.getInt(getLights()));
+        return driveState;
     }
 }

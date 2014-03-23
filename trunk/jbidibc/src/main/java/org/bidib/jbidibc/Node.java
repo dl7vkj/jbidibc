@@ -54,8 +54,10 @@ public class Node {
 
         storedStrings = new String[2];
 
-        LOGGER.debug("Created new node, addr: {}, version: {}, {}", addr, version,
-            NodeUtils.getUniqueIdAsString(uniqueId));
+        if (LOGGER.isTraceEnabled()) {
+            LOGGER.trace("Created new node, addr: {}, version: {}, {}", addr, version,
+                NodeUtils.getUniqueIdAsString(uniqueId));
+        }
     }
 
     /**

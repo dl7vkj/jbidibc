@@ -369,13 +369,24 @@ public class ResponseFactoryTest {
 
     @Test
     public void createMessageCommandStationDriveManualResponseFromByteArray() throws ProtocolException {
-        byte[] message = { 12, 0, 20, -27, 94, 0, 2, 2, 0, 16, 0, 0, 0 };
+        byte[] message = { 0x0C, 0x00, 0x14, (byte) 0xE5, 0x5E, 0x00, 0x02, 0x02, 0x00, 0x10, 0x00, 0x00, 0x00 };
 
         BidibMessage bidibMessage = ResponseFactory.create(message);
         Assert.assertEquals(bidibMessage.getType(), (byte) BidibLibrary.MSG_CS_DRIVE_MANUAL);
 
         Assert.assertEquals(((CommandStationDriveManualResponse) bidibMessage).getAddress(), 94);
         Assert.assertEquals(((CommandStationDriveManualResponse) bidibMessage).getSpeed(), 0);
+    }
+
+    @Test
+    public void createMessageCommandStationAccessoryManualResponseFromByteArray() throws ProtocolException {
+        byte[] message = { 0x07, 0x01, 0x00, (byte) 0xd4, (byte) 0xe7, 0x02, 0x01, 0x02 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertEquals(bidibMessage.getType(), (byte) BidibLibrary.MSG_CS_ACCESSORY_MANUAL);
+
+        Assert.assertEquals(((CommandStationAccessoryManualResponse) bidibMessage).getAddress(), 258);
+        Assert.assertEquals(((CommandStationAccessoryManualResponse) bidibMessage).getAspect(), 2);
     }
 
     @Test
