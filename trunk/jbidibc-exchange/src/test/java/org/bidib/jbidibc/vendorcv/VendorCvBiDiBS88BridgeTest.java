@@ -30,7 +30,7 @@ public class VendorCvBiDiBS88BridgeTest {
 
     @Test
     public void loadNodesTest() throws JAXBException, SAXException {
-        LOGGER.info("Load CV file for GBMboost.");
+        LOGGER.info("Load CV file for BiDiB-S88-Bridge.");
 
         JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
