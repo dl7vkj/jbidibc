@@ -3,7 +3,7 @@
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
 
-	<Version Version="0.5" Lastupdate="20131021" Author="Tillner, Andreas" Pid="103" Vendor="013" Description="GBMBoost Node, Booster">
+	<Version Version="0.5" Lastupdate="20140323" Author="Tillner, Andreas" Pid="103" Vendor="013" Description="GBMBoost Node, Booster">
 	</Version>
 	<Templates>
 		<Template Name="GBM16T" SkipOnTimeout="true">
@@ -207,6 +207,10 @@
 			<CV  Number="12" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro" > 
 				<Description Lang="de-DE" Text="xp_slot_addr: Adresse 1..31" />
 				<Description Lang="en-EN" Text="xp_slot_addr: Address 1..31"/>
+			</CV>
+			<CV  Number="18" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="ro" > 
+				<Description Lang="de-DE" Text="Strombegrenzung: 0=durch Feature festgelegt" />
+				<Description Lang="en-EN" Text="HW current limit: 0=as defined by feature"/>
 			</CV>
 		</Node>
 		<Node>
