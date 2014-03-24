@@ -56,8 +56,9 @@
 //            2013-12-15 V0.15 kw  added FEATURE_STRING_SIZE, MSG_STRING_GET, _STRING_SET _STRING
 //            2014-01-22 V0.16 kw  added MSG_BM_DYN_STATE, MSG_CS_PROG, MSG_CS_PROG_STATE, FEATURE_BM_DYN_STATE_INTERVAL
 //            2014-02-07           added MSG_ACCESSORY_NOTIFY
-//            2014-02-08       kw  fixed some typos; removed MSG_PRG_CV_*; moved MSG_CS_PROG
+//            2014-02-08 V0.17 kw  fixed some typos; removed MSG_PRG_CV_*; moved MSG_CS_PROG
 //                                 added BIDIB_CS_PROG_QUERY, removed t_bidib_macro_state
+//                                 added FEATURE_GEN_POM_REPEAT
 //
 //===============================================================================
 //
@@ -332,15 +333,6 @@ typedef struct
         unsigned long vendor32;
       };
   } t_bidib_unique_id;
-
-/*
-typedef enum
-  { BIDIB_MACRO_OFF     = 0,
-    BIDIB_MACRO_RUN     = 1,
-    BIDIB_MACRO_SAVE    = 254,
-    BIDIB_MACRO_DELETE  = 255,
-  } t_bidib_macro_state;
-*/
 
 // typedef for control operations - execute
 typedef struct
@@ -638,7 +630,7 @@ typedef struct                              // t_bidib_cs_pom
 #define FEATURE_GEN_SWITCH_ACK             103  // not used
 #define FEATURE_GEN_LOK_DB_SIZE            104  //
 #define FEATURE_GEN_LOK_DB_STRING          105  //
-#define FEATURE_GEN_SERVICE_MODES          106  // supported service modes
+#define FEATURE_GEN_POM_REPEAT             106  // supported service modes
 #define FEATURE_GEN_DRIVE_BUS              107  // 1: this node drive the dcc bus.
 #define FEATURE_GEN_LOK_LOST_DETECT        108  // 1: command station annouces lost loco
 #define FEATURE_GEN_NOTIFY_DRIVE_MANUAL    109  // 1: dcc gen reports manual operation
@@ -788,6 +780,7 @@ typedef struct                              // t_bidib_cs_pom
 #define BIDIB_CS_PROG_NO_LOCO          0xC1
 #define BIDIB_CS_PROG_NO_ANSWER        0xC2
 #define BIDIB_CS_PROG_SHORT            0xC3
+#define BIDIB_CS_PROG_VERIFY_FAILED    0xC4
 
 //===============================================================================
 //
