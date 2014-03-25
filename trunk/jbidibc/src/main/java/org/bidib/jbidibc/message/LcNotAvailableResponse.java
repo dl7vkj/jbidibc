@@ -15,6 +15,10 @@ public class LcNotAvailableResponse extends BidibMessage {
         }
     }
 
+    public LcNotAvailableResponse(byte[] addr, int num, byte portType, byte portNum) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_LC_NA, portType, portNum);
+    }
+
     public LcOutputType getPortType() {
         return LcOutputType.valueOf(getData()[0]);
     }
