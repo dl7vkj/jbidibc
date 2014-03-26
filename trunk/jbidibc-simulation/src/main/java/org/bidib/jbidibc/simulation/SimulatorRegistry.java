@@ -151,6 +151,7 @@ public class SimulatorRegistry {
                     switchingFunctionsNode.setPortsConfig(node.getSERVO());
                     switchingFunctionsNode.setPortsConfig(node.getSPORT());
                     switchingFunctionsNode.setPortsConfig(node.getLPORT());
+                    switchingFunctionsNode.setPortsConfig(node.getBACKLIGHT());
                 }
                 addSimulator(ByteUtils.bytesToHex(address), simulator);
             }

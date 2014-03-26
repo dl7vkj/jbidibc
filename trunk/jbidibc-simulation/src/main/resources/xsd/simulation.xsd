@@ -19,6 +19,12 @@
 	<complexType name="PortType" abstract="true">
 		<attribute name="count" type="int" />
 	</complexType>
+	<complexType name="BacklightPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
 	<complexType name="LightPortType">
 		<complexContent>
 			<extension base="sim:PortType">
@@ -46,6 +52,7 @@
 
 	<complexType name="NodeType">
 		<sequence>
+			<element name="BACKLIGHT" type="sim:BacklightPortType" minOccurs="0" />
 			<element name="LPORT" type="sim:LightPortType" minOccurs="0" />
 			<element name="SPORT" type="sim:SwitchPortType" minOccurs="0" />
 			<element name="INPUT" type="sim:InputPortType" minOccurs="0" />
