@@ -783,7 +783,7 @@ public class BidibNode {
      */
     private BidibMessage receive(List<Integer> expectedResponseTypes) throws InterruptedException {
         BidibMessage result = null;
-        LOGGER.info("Receive message, expected responseTypes: {}", expectedResponseTypes);
+        LOGGER.trace("Receive message, expected responseTypes: {}", expectedResponseTypes);
 
         fireReceiveStarted();
 
