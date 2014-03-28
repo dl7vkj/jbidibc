@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class FeatureSetMessage extends BidibCommandMessage {
     protected FeatureSetMessage(int number, int value) {
@@ -10,6 +11,14 @@ public class FeatureSetMessage extends BidibCommandMessage {
 
     public FeatureSetMessage(byte[] message) throws ProtocolException {
         super(message);
+    }
+
+    public int getNumber() {
+        return ByteUtils.getInt(getData()[0]);
+    }
+
+    public int getValue() {
+        return ByteUtils.getInt(getData()[1]);
     }
 
     @Override

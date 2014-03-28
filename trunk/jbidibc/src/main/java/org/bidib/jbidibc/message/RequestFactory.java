@@ -175,14 +175,14 @@ public class RequestFactory {
             case BidibLibrary.MSG_FEATURE_GET:
                 concreteBidibMessage = new FeatureGetMessage(message);
                 break;
+            case BidibLibrary.MSG_FEATURE_SET:
+                concreteBidibMessage = new FeatureSetMessage(message);
+                break;
             case BidibLibrary.MSG_FEATURE_GETNEXT:
                 concreteBidibMessage = new FeatureGetNextMessage(message);
                 break;
             case BidibLibrary.MSG_FEATURE_GETALL:
                 concreteBidibMessage = new FeatureGetAllMessage(message);
-                break;
-            case BidibLibrary.MSG_FEATURE_SET:
-                concreteBidibMessage = new FeatureSetMessage(message);
                 break;
             case BidibLibrary.MSG_VENDOR_ENABLE:
                 concreteBidibMessage = new VendorEnableMessage(message);

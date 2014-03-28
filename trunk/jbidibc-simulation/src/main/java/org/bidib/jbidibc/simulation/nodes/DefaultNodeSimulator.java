@@ -3,6 +3,7 @@ package org.bidib.jbidibc.simulation.nodes;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.lang.StringUtils;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.Feature;
 import org.bidib.jbidibc.VendorData;
@@ -23,6 +25,7 @@ import org.bidib.jbidibc.message.FeatureCountResponse;
 import org.bidib.jbidibc.message.FeatureGetMessage;
 import org.bidib.jbidibc.message.FeatureNotAvailableResponse;
 import org.bidib.jbidibc.message.FeatureResponse;
+import org.bidib.jbidibc.message.FeatureSetMessage;
 import org.bidib.jbidibc.message.FwUpdateOpMessage;
 import org.bidib.jbidibc.message.FwUpdateStatResponse;
 import org.bidib.jbidibc.message.NodeTabCountResponse;
@@ -66,6 +69,8 @@ public class DefaultNodeSimulator implements SimulatorNode {
     private int featureCount;
 
     protected List<Feature> features = new LinkedList<>();
+
+    protected Map<String, String> configurationVariables = new LinkedHashMap<String, String>();
 
     private BlockingQueue<BidibCommand> sendQueue = new LinkedBlockingQueue<BidibCommand>();
 
@@ -245,6 +250,9 @@ public class DefaultNodeSimulator implements SimulatorNode {
                 break;
             case BidibLibrary.MSG_FEATURE_GET:
                 response = processFeatureGetRequest(bidibMessage);
+                break;
+            case BidibLibrary.MSG_FEATURE_SET:
+                response = processFeatureSetRequest(bidibMessage);
                 break;
             case BidibLibrary.MSG_FEATURE_GETALL:
                 response = processFeatureGetAllRequest(bidibMessage);
@@ -491,6 +499,45 @@ public class DefaultNodeSimulator implements SimulatorNode {
         return response;
     }
 
+    protected byte[] processFeatureSetRequest(BidibCommand bidibMessage) {
+
+        byte[] response = null;
+        try {
+            FeatureSetMessage featureSetMessage = (FeatureSetMessage) bidibMessage;
+            int featureNum = featureSetMessage.getNumber();
+            int featureValue = featureSetMessage.getValue();
+            LOGGER.info("Set feature with number: {}, value: {}", featureNum, featureValue);
+
+            Feature foundFeature = null;
+
+            for (Feature feature : features) {
+                if (feature.getType() == featureNum) {
+                    foundFeature = feature;
+                    foundFeature.setValue(featureValue);
+                    LOGGER.info("Found feature: {}", foundFeature);
+                    break;
+                }
+            }
+
+            if (foundFeature != null) {
+                FeatureResponse featureResponse =
+                    new FeatureResponse(featureSetMessage.getAddr(), getNextSendNum(), featureNum,
+                        foundFeature.getValue());
+                response = featureResponse.getContent();
+                LOGGER.info("Prepared response: {}", ByteUtils.bytesToHex(response));
+            }
+            else {
+                FeatureNotAvailableResponse featureResponse =
+                    new FeatureNotAvailableResponse(bidibMessage.getAddr(), getNextSendNum(), featureNum);
+                response = featureResponse.getContent();
+            }
+        }
+        catch (ProtocolException ex) {
+            LOGGER.warn("Create feature response failed.", ex);
+        }
+        return response;
+    }
+
     protected byte[] processFeatureGetAllRequest(BidibCommand bidibMessage) {
 
         byte[] response = null;
@@ -582,6 +629,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
             LOGGER.info("Set the vendor data: {}", vendorData);
 
             // TODO store the vendor data ...
+            configurationVariables.put(vendorData.getName(), vendorData.getValue());
 
             VendorResponse vendorResponse =
                 new VendorResponse(bidibMessage.getAddr(), getNextSendNum(), vendorData.getName(),
@@ -603,7 +651,10 @@ public class DefaultNodeSimulator implements SimulatorNode {
             LOGGER.info("Get the vendor data with name: {}", vendorDataName);
 
             // TODO fetch the value from the stored data ...
-            String vendorDataValue = "";
+            String vendorDataValue = configurationVariables.get(vendorDataName);
+            if (StringUtils.isBlank(vendorDataValue)) {
+                vendorDataValue = "";
+            }
 
             VendorResponse vendorResponse =
                 new VendorResponse(bidibMessage.getAddr(), getNextSendNum(), vendorDataName, vendorDataValue);
