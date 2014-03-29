@@ -6,11 +6,15 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.CommandStationPt;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Command to send programming commands for 'programming track'
  */
 public class CommandStationProgMessage extends BidibCommandMessage {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationProgMessage.class);
+
     /**
      * Create the PT command for a loco decoder.
      * 
@@ -43,6 +47,8 @@ public class CommandStationProgMessage extends BidibCommandMessage {
         out.write(ByteUtils.getHighByte(cvNumber - 1));
         // data
         out.write(data);
+
+        LOGGER.info("Send data to interface: {}", ByteUtils.bytesToHex(out.toByteArray()));
 
         return out.toByteArray();
     }

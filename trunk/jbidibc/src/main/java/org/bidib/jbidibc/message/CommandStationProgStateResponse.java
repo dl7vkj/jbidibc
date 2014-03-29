@@ -6,11 +6,15 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.CommandStationProgState;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Response from command station with the current state
  */
 public class CommandStationProgStateResponse extends BidibMessage {
+    private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationProgStateResponse.class);
+
     public static final Integer TYPE = BidibLibrary.MSG_CS_PROG_STATE;
 
     CommandStationProgStateResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
@@ -65,6 +69,7 @@ public class CommandStationProgStateResponse extends BidibMessage {
 
             return ByteUtils.getInt(cvData);
         }
+        LOGGER.warn("Invalid CV data received!");
         return -1;
     }
 }
