@@ -710,9 +710,6 @@ public interface BidibLibrary {
     public static final int FEATURE_BST_INHIBIT_LOCAL_ONOFF = (int) 27;
 
     // / <i>native declaration : bidib_messages.h</i>
-    public static final int FEATURE_GEN_SERVICE_MODES = (int) 106;
-
-    // / <i>native declaration : bidib_messages.h</i>
     public static final int MSG_SYS_PONG = (int) ((128 + 0) + 2);
 
     // / <i>native declaration : bidib_messages.h</i>
@@ -1111,4 +1108,8 @@ public interface BidibLibrary {
 
     // 1:addrl, 2:addrh, 3:data
     public static final int MSG_CS_ACCESSORY_MANUAL = (MSG_UGEN + 0x07);
+
+    // supported service modes
+    public static final int FEATURE_GEN_POM_REPEAT = 106;
+
 }
