@@ -65,7 +65,7 @@
 
 	<complexType name="SubNodesType">
 		<sequence>
-			<element name="node" type="sim:NodeType" maxOccurs="unbounded" />
+			<element name="node" type="sim:NodeType" minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
 	</complexType>
 
