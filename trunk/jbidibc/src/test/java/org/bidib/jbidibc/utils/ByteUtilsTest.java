@@ -95,4 +95,13 @@ public class ByteUtilsTest {
 
         Assert.assertArrayEquals(sample, test);
     }
+
+    @Test
+    public void byteToHexTest() {
+        int value = 0xE0;
+        String hex = ByteUtils.byteToHex(value);
+        LOGGER.info("Converted hex: {}", hex);
+
+        Assert.assertArrayEquals("E0".toCharArray(), hex.toCharArray());
+    }
 }

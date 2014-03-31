@@ -4,7 +4,8 @@ package org.bidib.jbidibc.enumeration;
  * The operations supported by the programming track.
  */
 public enum PtOperation implements BidibEnum {
-    RD_BYTE(2, "read-byte"), WR_BYTE(4, "write-byte"), RD_BIT(3, "read-bit"), WR_BIT(3, "write-bit");
+    BREAK(0, "prog-break"), QUERY(1, "prog-query"), RD_BYTE(2, "prog-read-byte"), RDWR_BIT(3, "prog-read-write-bit"), WR_BYTE(
+        4, "prog-write-byte");
 
     private final byte type;
 
