@@ -222,6 +222,28 @@ public final class ByteUtils {
     }
 
     /**
+     * Returns the low byte value of an int value as int.
+     * 
+     * @param value
+     *            the value
+     * @return the low byte value as int
+     */
+    public static int getIntLowByteValue(int value) {
+        return (value & 0xFF);
+    }
+
+    /**
+     * Returns the high byte value of an int value as int.
+     * 
+     * @param value
+     *            the value
+     * @return the low byte value as int
+     */
+    public static int getIntHighByteValue(int value) {
+        return (value & 0xFF00) >> 8;
+    }
+
+    /**
      * Converts the serial number to an int value.
      * 
      * @param serialData
@@ -282,7 +304,7 @@ public final class ByteUtils {
 
     public static String byteToHex(int byteValue) {
         char[] hexChars = new char[2];
-        hexChars[0] = hexArray[byteValue >>> 4];
+        hexChars[0] = hexArray[(byteValue & 0xF0) >>> 4];
         hexChars[1] = hexArray[byteValue & 0x0F];
         return new String(hexChars);
     }
