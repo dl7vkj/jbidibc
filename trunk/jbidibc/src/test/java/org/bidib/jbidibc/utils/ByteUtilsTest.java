@@ -104,4 +104,53 @@ public class ByteUtilsTest {
 
         Assert.assertArrayEquals("E0".toCharArray(), hex.toCharArray());
     }
+
+    @Test
+    public void isBitSetEqualIntTest() {
+        int cvValue = 0x08;
+        Assert.assertTrue(ByteUtils.isBitSetEqual(cvValue, 1, 3));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue, 0, 3));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue, 1, 2));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue, 1, 4));
+
+        int cvValue2 = 0x28;
+        Assert.assertTrue(ByteUtils.isBitSetEqual(cvValue2, 1, 5));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue2, 0, 5));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue2, 1, 4));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue2, 1, 6));
+    }
+
+    @Test
+    public void isBitSetEqualByteTest() {
+        byte cvValue = 0x08;
+        Assert.assertTrue(ByteUtils.isBitSetEqual(cvValue, 1, 3));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue, 0, 3));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue, 1, 2));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue, 1, 4));
+
+        byte cvValue2 = 0x28;
+        Assert.assertTrue(ByteUtils.isBitSetEqual(cvValue2, 1, 5));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue2, 0, 5));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue2, 1, 4));
+        Assert.assertFalse(ByteUtils.isBitSetEqual(cvValue2, 1, 6));
+    }
+
+    @Test
+    public void getBitTest() {
+        byte cvValue = 0x08;
+        Assert.assertEquals(1, ByteUtils.getBit(cvValue, 3));
+        Assert.assertEquals(0, ByteUtils.getBit(cvValue, 2));
+        Assert.assertEquals(0, ByteUtils.getBit(cvValue, 4));
+    }
+
+    @Test
+    public void getBitIntTest() {
+        int cvValue = 0x08;
+        Assert.assertEquals(1, ByteUtils.getBit(cvValue, 3));
+        Assert.assertEquals(0, ByteUtils.getBit(cvValue, 2));
+        Assert.assertEquals(0, ByteUtils.getBit(cvValue, 4));
+
+        int cvValue2 = 237;
+        Assert.assertEquals(1, ByteUtils.getBit(cvValue2, 3));
+    }
 }

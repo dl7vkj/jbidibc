@@ -308,6 +308,34 @@ public final class ByteUtils {
         return ByteUtils.getLowByte(newValue);
     }
 
+    public static int getBit(byte byteValue, int bitpos) {
+
+        int intValue = (byteValue & 0xFF);
+        return ((intValue >>> bitpos) & 1);
+    }
+
+    public static int getBit(int intValue, int bitpos) {
+
+        return ((intValue >>> bitpos) & 1);
+    }
+
+    public static boolean isBitSetEqual(byte byteValue, int bit, int bitpos) {
+
+        int intValue = (byteValue & 0xFF);
+        if (((intValue >>> bitpos) & 1) == bit) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean isBitSetEqual(int intValue, int bit, int bitpos) {
+
+        if (((intValue >>> bitpos) & 1) == bit) {
+            return true;
+        }
+        return false;
+    }
+
     public static byte[] bstr(String value) {
         byte[] result = new byte[value.length() + 1 /* terminating zero */];
 
