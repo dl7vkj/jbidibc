@@ -92,6 +92,8 @@ public class LibraryPathManipulator {
                 basePath = new File(basePath, pathToDLLs.trim());
             }
 
+            LOGGER.info("Prepared basePath: {}", basePath);
+
             // make the path dynamic on OS ...
             basePath = new File(basePath, resolveOSDependentPath());
 
@@ -117,7 +119,7 @@ public class LibraryPathManipulator {
             }
         }
         catch (Exception ex) {
-            LOGGER.warn("Manipulate the library path for RXTX accessfailed.");
+            LOGGER.warn("Manipulate the library path for RXTX access failed.");
             throw new RuntimeException("Manipulate library path for RXTX access failed.", ex);
         }
     }
@@ -162,7 +164,7 @@ public class LibraryPathManipulator {
                 break;
             case Unix:
                 Architecture osArch = getOsArch();
-
+                LOGGER.info("Unix OS detected, current OS arch: {}", osArch);
                 if (osArch == Architecture.ARM) {
                     osDependentPathToLibrary = "/rxtx/linux/arm";
                 }
@@ -186,6 +188,7 @@ public class LibraryPathManipulator {
             default:
                 break;
         }
+        LOGGER.info("Return osDependentPathToLibrary: {}", osDependentPathToLibrary);
         return osDependentPathToLibrary;
     }
 
@@ -196,7 +199,7 @@ public class LibraryPathManipulator {
         if (osArch.equals("arm")) {
             result = Architecture.ARM;
         }
-        else if (osArch.equals("i386")) {
+        else if (osArch.equals("i386") || osArch.equals("amd64")) {
             result = Architecture.i386;
         }
         else {
