@@ -1,8 +1,8 @@
 package org.bidib.jbidibc.utils;
 
-import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class ByteUtilsTest {
@@ -13,7 +13,7 @@ public class ByteUtilsTest {
         long uniqueId = 0xd2000d68000036L;
         byte[] uniqueIdentifier = ByteUtils.convertLongToUniqueId(uniqueId);
 
-        Assert.assertArrayEquals(new byte[] { (byte) 0xd2, 0x00, 0x0d, 0x68, 0x00, 0x00, 0x36 }, uniqueIdentifier);
+        Assert.assertEquals(new byte[] { (byte) 0xd2, 0x00, 0x0d, 0x68, 0x00, 0x00, 0x36 }, uniqueIdentifier);
     }
 
     @Test
@@ -21,8 +21,7 @@ public class ByteUtilsTest {
         long uniqueId = 0x05000d6b0069eaL;
         byte[] uniqueIdentifier = ByteUtils.convertLongToUniqueId(uniqueId);
 
-        Assert.assertArrayEquals(new byte[] { (byte) 0x05, 0x00, 0x0d, 0x6b, 0x00, 0x69, (byte) 0xea },
-            uniqueIdentifier);
+        Assert.assertEquals(new byte[] { (byte) 0x05, 0x00, 0x0d, 0x6b, 0x00, 0x69, (byte) 0xea }, uniqueIdentifier);
     }
 
     @Test
@@ -30,7 +29,7 @@ public class ByteUtilsTest {
         long uniqueId = 0xd2000d68000036L;
         byte[] uniqueIdentifier = ByteUtils.getVidPidFromUniqueId(uniqueId);
 
-        Assert.assertArrayEquals(new byte[] { (byte) 0xd2, 0x00, 0x0d, 0x68, 0x00, 0x00, 0x36 }, uniqueIdentifier);
+        Assert.assertEquals(new byte[] { (byte) 0xd2, 0x00, 0x0d, 0x68, 0x00, 0x00, 0x36 }, uniqueIdentifier);
     }
 
     @Test
@@ -38,8 +37,7 @@ public class ByteUtilsTest {
         long uniqueId = 0x05000d6b0069eaL;
         byte[] uniqueIdentifier = ByteUtils.getVidPidFromUniqueId(uniqueId);
 
-        Assert.assertArrayEquals(new byte[] { (byte) 0x05, 0x00, 0x0d, 0x6b, 0x00, 0x69, (byte) 0xea },
-            uniqueIdentifier);
+        Assert.assertEquals(new byte[] { (byte) 0x05, 0x00, 0x0d, 0x6b, 0x00, 0x69, (byte) 0xea }, uniqueIdentifier);
     }
 
     @Test
@@ -83,7 +81,7 @@ public class ByteUtilsTest {
         byte[] test = ByteUtils.toDWORD(dword);
         LOGGER.info("Converted test: {}", test);
 
-        Assert.assertArrayEquals(sample, test);
+        Assert.assertEquals(sample, test);
     }
 
     @Test
@@ -93,7 +91,7 @@ public class ByteUtilsTest {
         byte[] test = ByteUtils.toDWORD(dword);
         LOGGER.info("Converted test: {}", test);
 
-        Assert.assertArrayEquals(sample, test);
+        Assert.assertEquals(sample, test);
     }
 
     @Test
@@ -102,7 +100,7 @@ public class ByteUtilsTest {
         String hex = ByteUtils.byteToHex(value);
         LOGGER.info("Converted hex: {}", hex);
 
-        Assert.assertArrayEquals("E0".toCharArray(), hex.toCharArray());
+        Assert.assertEquals("E0".toCharArray(), hex.toCharArray());
     }
 
     @Test

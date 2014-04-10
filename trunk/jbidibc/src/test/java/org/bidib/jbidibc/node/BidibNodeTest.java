@@ -21,12 +21,12 @@ import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.node.BidibNode.EncodedMessage;
 import org.bidib.jbidibc.utils.ByteUtils;
-import org.junit.Assert;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
@@ -402,8 +402,8 @@ public class BidibNodeTest {
 
                 LOGGER.debug("Called with: {}", ByteUtils.bytesToHex((byte[]) args[0]));
                 byte[] message = (byte[]) args[0];
-                Assert.assertArrayEquals(new byte[] { (byte) 0xFE, 0x05, 0x05, 0x00, 0x00, 0x23, 0x08, 0x6F,
-                    (byte) 0xFE }, message);
+                Assert.assertEquals(new byte[] { (byte) 0xFE, 0x05, 0x05, 0x00, 0x00, 0x23, 0x08, 0x6F, (byte) 0xFE },
+                    message);
                 return null;
             }
         }).when(bidib).send(Mockito.any(byte[].class));
@@ -434,7 +434,7 @@ public class BidibNodeTest {
 
                 LOGGER.debug("Called with: {}", ByteUtils.bytesToHex((byte[]) args[0]));
                 byte[] message = (byte[]) args[0];
-                Assert.assertArrayEquals(new byte[] { (byte) 0xFE, 0x04, 0x00, 0x00, 0x23, 0x08, 0x49, (byte) 0xFE },
+                Assert.assertEquals(new byte[] { (byte) 0xFE, 0x04, 0x00, 0x00, 0x23, 0x08, 0x49, (byte) 0xFE },
                     message);
                 return null;
             }

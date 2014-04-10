@@ -7,9 +7,9 @@ import javax.xml.bind.JAXBException;
 
 import org.bidib.schema.bidib.MessageType;
 import org.bidib.schema.bidib.Product;
-import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class BidibFactoryTest {

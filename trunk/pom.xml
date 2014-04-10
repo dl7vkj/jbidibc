@@ -44,14 +44,15 @@
         <url>http://sourceforge.net/p/jbidibc/code/</url>
     </scm>
     <properties>
-        <slf4j-version>1.7.5</slf4j-version>
-        <logback-version>1.1.0</logback-version>
-        <testng-version>6.8.7</testng-version>
+        <slf4j-version>1.7.7</slf4j-version>
+        <logback-version>1.1.2</logback-version>
+        <testng-version>6.8.8</testng-version>
         <commons-lang-version>2.6</commons-lang-version>
         <commons-io-version>2.4</commons-io-version>
         <!--saxon-version>9.5.1-1</saxon-version-->
 	<xalan-version>2.7.1</xalan-version>
-        <xmlunit-version>1.4</xmlunit-version>
+        <xmlunit-version>1.5</xmlunit-version>
+		<junit-version>4.9</junit-version>
         <jcommander-version>1.32</jcommander-version>
         <jdepend-version>2.0-beta-2</jdepend-version>
         <sysout-over-slf4j-version>1.0.2</sysout-over-slf4j-version>
@@ -167,6 +168,11 @@
                 <groupId>xmlunit</groupId>
                 <artifactId>xmlunit</artifactId>
                 <version>${xmlunit-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit-version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

@@ -1,9 +1,8 @@
 package org.bidib.jbidibc.message;
 
-import junit.framework.Assert;
-
 import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class CommandStationAccessoryAcknowledgeResponseTest {

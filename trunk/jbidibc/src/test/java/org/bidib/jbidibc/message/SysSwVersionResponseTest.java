@@ -2,9 +2,9 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.SoftwareVersion;
 import org.bidib.jbidibc.exception.ProtocolException;
-import org.junit.Assert;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class SysSwVersionResponseTest {

@@ -55,6 +55,12 @@
             <artifactId>xmlunit</artifactId>
             <scope>test</scope>
         </dependency>
+		<dependency>
+			<!-- required by xmlunit -->
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+            <scope>test</scope>
+		</dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>

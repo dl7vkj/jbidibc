@@ -1,9 +1,8 @@
 package org.bidib.jbidibc.utils;
 
-import junit.framework.Assert;
-
 import org.bidib.jbidibc.utils.AccessoryStateUtils.ErrorAccessoryState;
 import org.bidib.jbidibc.utils.AccessoryStateUtils.ErrorAccessoryState.AccessoryExecutionState;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class AccessoryStateUtilsTest {
