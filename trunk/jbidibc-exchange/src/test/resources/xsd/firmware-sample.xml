@@ -2,7 +2,7 @@
 <Firmware xsi:schemaLocation="http://www.bidib.org/schema/firmware firmware.xsd" xmlns:firmware="http://www.bidib.org/schema/firmware" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.bidib.org/schema/firmware">
 	<Version Version="0.1" Lastupdate="20140411" Author="BiDiB.org" Pid="???" Vendor="013" Description="Firmware Definition for StepControl"/>
 	<FirmwareDefinition>
-		<Node xsi:type="Node" Comment="StepControl Main Node">
+		<Node xsi:type="SimpleNode" Comment="StepControl Main Node">
 			<Nodetext Lang="de-DE" Text="StepControl Main"/>
 			<Nodetext Lang="en-EN" Text="StepControl Main"/>
 			<Node xsi:type="FirmwareNode" Comment="The Main Flash for StepControl">
@@ -17,7 +17,7 @@
 				<DestinationNumber>1</DestinationNumber>
 				<Filename>StepControl_v0.1.0.001</Filename>
 			</Node>
-			<Node xsi:type="Node" Comment="StepControl Platform Node">
+			<Node xsi:type="SimpleNode" Comment="StepControl Platform Node">
 				<Nodetext Lang="de-DE" Text="StepControl Bühne"/>
 				<Nodetext Lang="en-EN" Text="StepControl Platform"/>
 				<Node xsi:type="FirmwareNode" Comment="The Platform Flash for StepControl">

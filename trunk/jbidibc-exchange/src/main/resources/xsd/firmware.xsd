@@ -39,7 +39,7 @@
 		</xsd:sequence>
 		<xsd:attribute name="Comment" type="xsd:string" use="optional"/>
 	</xsd:complexType>
-	<xsd:complexType name="Node">
+	<xsd:complexType name="SimpleNode">
 		<xsd:complexContent>
 			<xsd:extension base="NodeType">
 			</xsd:extension>
