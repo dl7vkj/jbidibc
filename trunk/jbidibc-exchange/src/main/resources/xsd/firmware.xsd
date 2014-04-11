@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.bidib.org/schema/firmware" xmlns:firmware="http://www.bidib.org/schema/firmware" targetNamespace="http://www.bidib.org/schema/firmware" elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	<xsd:complexType name="VersionInfoType">
+		<xsd:sequence>
+			<xsd:any minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="Version" type="xsd:string" use="required"/>
+		<xsd:attribute name="Lastupdate" type="xsd:string" use="required"/>
+		<xsd:attribute name="Author" type="xsd:string" use="required"/>
+		<xsd:attribute name="Pid" type="xsd:string" use="required"/>
+		<xsd:attribute name="Vendor" type="xsd:string" use="required"/>
+		<xsd:attribute name="Description" type="xsd:string" use="required"/>
+	</xsd:complexType>
+	<xsd:complexType name="DescriptionType">
+		<xsd:attribute name="Lang" type="xsd:string"/>
+		<xsd:attribute name="Text" type="xsd:string"/>
+	</xsd:complexType>
+	<xsd:complexType name="FirmwareDefinitionType">
+		<xsd:sequence>
+			<xsd:element name="Node" type="firmware:NodeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="Firmware">
+		<xsd:annotation>
+			<xsd:documentation>Firmware definition</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Version" type="firmware:VersionInfoType"/>
+				<!--xsd:element name="Templates" type="firmware:TemplatesType" minOccurs="0"/-->
+				<xsd:element name="FirmwareDefinition" type="firmware:FirmwareDefinitionType" minOccurs="0"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:complexType name="NodeType" abstract="true">
+		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+			<xsd:element name="Nodetext" type="firmware:NodetextType" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element name="Node" type="firmware:NodeType" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="Comment" type="xsd:string" use="optional"/>
+	</xsd:complexType>
+	<xsd:complexType name="Node">
+		<xsd:complexContent>
+			<xsd:extension base="NodeType">
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="FirmwareNode">
+		<xsd:complexContent>
+			<xsd:extension base="NodeType">
+				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+					<xsd:element name="DestinationNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="Filename" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+					<xsd:element name="Optional" type="xsd:boolean" minOccurs="0" maxOccurs="1" default="false"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="NodetextType">
+		<xsd:attribute name="Lang" type="xsd:string"/>
+		<xsd:attribute name="Text" type="xsd:string"/>
+	</xsd:complexType>
+</xsd:schema>
