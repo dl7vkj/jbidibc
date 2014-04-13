@@ -15,11 +15,11 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.bidib.schema.firmware.DeviceNode;
 import org.bidib.schema.firmware.Firmware;
 import org.bidib.schema.firmware.FirmwareDefinitionType;
 import org.bidib.schema.firmware.FirmwareNode;
 import org.bidib.schema.firmware.NodeType;
-import org.bidib.schema.firmware.NodetextType;
 import org.bidib.schema.firmware.SimpleNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,12 +45,12 @@ public class FirmwareFactoryTest {
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
 
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        StreamSource streamSource = new StreamSource(ProtocolTest.class.getResourceAsStream(XSD_LOCATION));
+        StreamSource streamSource = new StreamSource(FirmwareFactoryTest.class.getResourceAsStream(XSD_LOCATION));
         Schema schema = schemaFactory.newSchema(streamSource);
         unmarshaller.setSchema(schema);
 
         Reporter.log("Load the firmware sample file.", true);
-        InputStream is = ProtocolTest.class.getResourceAsStream("/xsd/firmware-sample.xml");
+        InputStream is = ProtocolTest.class.getResourceAsStream("/xml-test/firmware-sample.xml");
         LOGGER.info("Opened stream: {}", is);
 
         XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -71,12 +71,14 @@ public class FirmwareFactoryTest {
 
         NodeType node0 = nodes.get(0);
         Assert.assertNotNull(node0);
-        Assert.assertEquals(node0.getNodetextAndNode().size(), 5);
+        Assert.assertTrue(node0 instanceof DeviceNode);
+        Assert.assertEquals(node0.getNodetext().size(), 2);
+        Assert.assertEquals(node0.getNode().size(), 3);
 
-        Assert.assertTrue(node0.getNodetextAndNode().get(0) instanceof NodetextType);
-        Assert.assertTrue(node0.getNodetextAndNode().get(1) instanceof NodetextType);
-        Assert.assertTrue(node0.getNodetextAndNode().get(2) instanceof FirmwareNode);
-        Assert.assertTrue(node0.getNodetextAndNode().get(3) instanceof FirmwareNode);
-        Assert.assertTrue(node0.getNodetextAndNode().get(4) instanceof SimpleNode);
+        // Assert.assertTrue(node0.getNodetextAndNode().get(0) instanceof NodetextType);
+        // Assert.assertTrue(node0.getNodetextAndNode().get(1) instanceof NodetextType);
+        Assert.assertTrue(node0.getNode().get(0) instanceof FirmwareNode);
+        Assert.assertTrue(node0.getNode().get(1) instanceof FirmwareNode);
+        Assert.assertTrue(node0.getNode().get(2) instanceof SimpleNode);
     }
 }

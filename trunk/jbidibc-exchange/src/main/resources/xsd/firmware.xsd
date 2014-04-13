@@ -33,7 +33,7 @@
 		</xsd:complexType>
 	</xsd:element>
 	<xsd:complexType name="NodeType" abstract="true">
-		<xsd:sequence minOccurs="0" maxOccurs="unbounded">
+		<xsd:sequence>
 			<xsd:element name="Nodetext" type="firmware:NodetextType" minOccurs="0" maxOccurs="unbounded"/>
 			<xsd:element name="Node" type="firmware:NodeType" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
@@ -45,14 +45,22 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<xsd:complexType name="DeviceNode">
+		<xsd:complexContent>
+			<xsd:extension base="NodeType">
+				<xsd:attribute name="VID" type="xsd:string" />
+				<xsd:attribute name="PID" type="xsd:string" />
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 	<xsd:complexType name="FirmwareNode">
 		<xsd:complexContent>
 			<xsd:extension base="NodeType">
-				<xsd:sequence minOccurs="0" maxOccurs="unbounded">
-					<xsd:element name="DestinationNumber" type="xsd:int" minOccurs="1" maxOccurs="1"/>
+				<xsd:sequence>
 					<xsd:element name="Filename" type="xsd:string" minOccurs="1" maxOccurs="1"/>
-					<xsd:element name="Optional" type="xsd:boolean" minOccurs="0" maxOccurs="1" default="false"/>
 				</xsd:sequence>
+				<xsd:attribute name="DestinationNumber" type="xsd:int" use="required" />
+<!-- 				<xsd:attribute name="Optional" type="xsd:boolean" /> -->
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
