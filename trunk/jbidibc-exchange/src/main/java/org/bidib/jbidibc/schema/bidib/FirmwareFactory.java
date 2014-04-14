@@ -4,6 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -17,7 +20,9 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.apache.commons.io.FilenameUtils;
 import org.bidib.schema.firmware.Firmware;
+import org.bidib.schema.firmware.NodetextType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
@@ -58,13 +63,50 @@ public class FirmwareFactory {
     private Firmware loadFirmwareFile(File firmwareFile) {
 
         Firmware firmware = null;
-        InputStream is;
-        try {
-            is = new FileInputStream(firmwareFile);
-            firmware = loadFirmwareFile(is);
+        InputStream is = null;
+
+        if (FilenameUtils.isExtension(firmwareFile.getPath(), "zip")) {
+
+            ZipFile zipFile = null;
+            try {
+                zipFile = new ZipFile(firmwareFile);
+                ZipEntry zipEntry = zipFile.getEntry("firmware.xml");
+                if (zipEntry != null) {
+                    is = zipFile.getInputStream(zipEntry);
+                    firmware = loadFirmwareFile(is);
+                }
+            }
+            catch (Exception e) {
+                LOGGER.warn("Check for firmware.xml inside ZIP failed.", e);
+            }
+            finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    }
+                    catch (Exception e) {
+                        LOGGER.warn("Close inputStream failed.", e);
+                    }
+                    is = null;
+                }
+                if (zipFile != null) {
+                    try {
+                        zipFile.close();
+                    }
+                    catch (Exception e) {
+                        LOGGER.warn("Close zip failed.", e);
+                    }
+                }
+            }
         }
-        catch (FileNotFoundException ex) {
-            LOGGER.info("No firmware file found.");
+        else {
+            try {
+                is = new FileInputStream(firmwareFile);
+                firmware = loadFirmwareFile(is);
+            }
+            catch (FileNotFoundException ex) {
+                LOGGER.info("No firmware file found.");
+            }
         }
         return firmware;
     }
@@ -93,6 +135,18 @@ public class FirmwareFactory {
             LOGGER.warn("Load firmware from file failed.", ex);
         }
         return firmware;
+    }
+
+    public static class NodetextUtils {
+        public static String getText(List<NodetextType> nodeTexts, String lang) {
+
+            for (NodetextType nodetext : nodeTexts) {
+                if (nodetext.getLang().equalsIgnoreCase(lang)) {
+                    return nodetext.getText();
+                }
+            }
+            return null;
+        }
     }
 
 }
