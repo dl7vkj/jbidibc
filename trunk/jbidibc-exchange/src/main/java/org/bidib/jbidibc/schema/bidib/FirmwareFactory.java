@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.schema.bidib;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -40,9 +41,23 @@ public class FirmwareFactory {
     }
 
     public static Firmware getFirmware(String path) {
-        LOGGER.info("Load the Firmware Update info for node: {}", path);
+        LOGGER.info("Load the Firmware Update info from path: {}", path);
 
         return new FirmwareFactory().loadFirmwareConfiguration(path);
+    }
+
+    public static Firmware getFirmware(StringBuffer definition) {
+        LOGGER.info("Load the Firmware Update info from definition: {}", definition);
+
+        return new FirmwareFactory().loadFirmwareConfiguration(definition);
+    }
+
+    protected Firmware loadFirmwareConfiguration(StringBuffer definition) {
+        LOGGER.info("Load the firmware definition: {}", definition);
+        ByteArrayInputStream bais = new ByteArrayInputStream(definition.toString().getBytes());
+
+        Firmware firmware = loadFirmwareFile(bais);
+        return firmware;
     }
 
     protected Firmware loadFirmwareConfiguration(String path) {
