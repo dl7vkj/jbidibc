@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+
+	<Version Version="0.2" Lastupdate="20140313" Author="Tams, Kersten" Pid="151" Vendor="062" Description="MultiDecoder">
+	</Version>
+	<Templates>
+		<Template Name="Servo">
+			<CV Number="0" Type="Byte" Min="0" Max="99" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="linker Anschlag (nur 10er und 1er)"/>
+				<Description Lang="en-EN" Text="left"/>
+			</CV>
+			<CV Number="100" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="linker Anschlag (nur 100er)"/>
+				<Description Lang="en-EN" Text="left"/>
+			</CV>
+			<CV Number="1" Type="Byte" Min="0" Max="99" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="rechter Anschlag (nur 10er und 1er)"/>
+				<Description Lang="en-EN" Text="right"/>
+			</CV>
+			<CV Number="101" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="rechter Anschlag (nur 100er)"/>
+				<Description Lang="en-EN" Text="right"/>
+			</CV>
+			<CV Number="2" Type="Byte" Min="0" Max="99" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="Umlaufzeit (nur 10er und 1er)"/>
+				<Description Lang="en-EN" Text="time"/>
+			</CV>
+			<CV Number="102" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="Umlaufzeit (nur 100er)"/>
+				<Description Lang="en-EN" Text="time"/>
+			</CV>
+		</Template>
+	</Templates>
+	<CVDefinition>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Basis"/>
+			<Nodetext Lang="en-EN" Text="Basis"/>
+			<CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Version"/>
+				<Description Lang="en-EN" Text="Version"/>
+			</CV>
+			<CV Number="7" Type="Byte" Min="62" Max="62" Low="-" High="-" Values="-" Mode="wo">
+				<Description Lang="de-DE" Text="Firmware Update"/>
+				<Description Lang="en-EN" Text="Firmwar update"/>
+			</CV>
+			<CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Manufacturer ID"/>
+				<Description Lang="en-EN" Text="Manufacturer ID"/>
+			</CV>
+			<CV Number="8" Type="Byte" Min="8" Max="8" Low="-" High="-" Values="-" Mode="wo">
+				<Description Lang="de-DE" Text="Reset"/>
+				<Description Lang="en-EN" Text="Reset"/>
+			</CV>
+			<CV Number="28" Type="Byte" Min="0" Max="3" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="RailCom-CV"/>
+				<Description Lang="en-EN" Text="RailCom-CV"/>
+			</CV>
+			<CV Number="29" Type="Byte" Min="0" Max="248" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="DCC-Konfiguration"/>
+				<Description Lang="en-EN" Text="DCC-Configuration"/>
+			</CV>
+			<CV Number="37" Type="Byte" Min="0" Max="15" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Auflösen des Ausgangspaars"/>
+				<Description Lang="en-EN" Text="output : pair or not"/>
+			</CV>
+			<CV Number="38" Type="Byte" Min="0" Max="5" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Modus"/>
+				<Description Lang="en-EN" Text="Mode"/>
+			</CV>
+			<CV Number="64" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="letzte Servo-Position"/>
+				<Description Lang="en-EN" Text="last Servo-Position"/>
+			</CV>
+			<CV Number="65" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="PWM aus nach Erreichen der Endstellung"/>
+				<Description Lang="en-EN" Text="PWM off after reaching the end position"/>
+			</CV>
+			<CV Number="66" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Weiche ist endabgeschaltet"/>
+				<Description Lang="en-EN" Text="lturn out "/>
+			</CV>
+			<CV Number="67" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Servo Nachlaufdauer"/>
+				<Description Lang="en-EN" Text="time until servo signal turns off "/>
+			</CV>
+			<CV Number="68" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Überlast-Empfindlichkeit Weichen"/>
+				<Description Lang="en-EN" Text="overcurrent turn off time (turns out) "/>
+			</CV>
+			<CV Number="69" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Überlast-Empfindlichkeit Servos"/>
+				<Description Lang="en-EN" Text="overcurrent turn off time (servos) "/>
+			</CV>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Ausgänge"/>
+			<Nodetext Lang="en-EN" Text="Outputs"/>
+			<CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="On-Zeit fuer Weiche 1g = Ausgang 1 (0 = dauerhaft an, 100ms-Schritte)"/>
+				<Description Lang="en-EN" Text="On-time 1g = output1 (0 = always on, 100ms-steps)"/>
+			</CV>
+			<CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="On-Zeit fuer Weiche 1r = Ausgang 2 (0 = dauerhaft an, 100ms-Schritte)"/>
+				<Description Lang="en-EN" Text="On-time 1r = output2 (0 = always on, 100ms-steps)"/>
+			</CV>
+			<CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="On-Zeit fuer Weiche 2g = Ausgang 3 (0 = dauerhaft an, 100ms-Schritte)"/>
+				<Description Lang="en-EN" Text="On-time 2g = output3 (0 = always on, 100ms-steps)"/>
+			</CV>
+			<CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="On-Zeit fuer Weiche 2r = Ausgang 4 (0 = dauerhaft an, 100ms-Schritte)"/>
+				<Description Lang="en-EN" Text="On-time 2t = output4 (0 = always on, 100ms-steps)"/>
+			</CV>
+			<CV Number="33" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="On-Zeit fuer Weiche 3g = Ausgang 5 (0 = dauerhaft an, 100ms-Schritte)"/>
+				<Description Lang="en-EN" Text="On-time 3g = output5 (0 = always on, 100ms-steps)"/>
+			</CV>
+			<CV Number="34" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="On-Zeit fuer Weiche 3r = Ausgang 6 (0 = dauerhaft an, 100ms-Schritte)"/>
+				<Description Lang="en-EN" Text="On-time 3r = output6 (0 = always on, 100ms-steps)"/>
+			</CV>
+			<CV Number="35" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="On-Zeit fuer Weiche 4g = Ausgang 7 (0 = dauerhaft an, 100ms-Schritte)"/>
+				<Description Lang="en-EN" Text="On-time 4g = output7 (0 = always on, 100ms-steps)"/>
+			</CV>
+			<CV Number="36" Type="Byte" Min="0" Max="255" Low="-" High="-" Mode="rw" Values="-">
+				<Description Lang="de-DE" Text="On-Zeit fuer Weiche 4r = Ausgang 8 (0 = dauerhaft an, 100ms-Schritte)"/>
+				<Description Lang="en-EN" Text="On-time 4r = output8 (0 = always on, 100ms-steps)"/>
+			</CV>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Servos"/>
+			<Nodetext Lang="en-EN" Text="Servos"/>
+			<Node Template="Servo" Offset="40" Count="8" Next="3">
+				<Nodetext Lang="de-DE" Text="Servo %%d"/>
+				<Nodetext Lang="en-EN" Text="Servo %%d"/>
+			</Node>
+		</Node>
+	</CVDefinition>
+</VendorCV>

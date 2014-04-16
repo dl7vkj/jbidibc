@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://www.bidib.org/jbidibc/simulation/nodes" xmlns:sim="http://www.bidib.org/jbidibc/simulation/nodes" elementFormDefault="qualified" version="1.0">
+	<simpleType name="String50Type">
+		<restriction base="string">
+			<minLength value="1"/>
+			<maxLength value="50"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="StringNotEmptyType">
+		<restriction base="string">
+			<minLength value="1"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="UniqueIdType">
+		<restriction base="hexBinary">
+			<minLength value="7"/>
+		</restriction>
+	</simpleType>
+	<complexType name="PortType" abstract="true">
+		<attribute name="count" type="int" />
+	</complexType>
+	<complexType name="BacklightPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="LightPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="SwitchPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="ServoPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="InputPortType">
+		<complexContent>
+			<extension base="sim:PortType">
+			</extension>
+		</complexContent>
+	</complexType>
+
+	<complexType name="NodeType">
+		<sequence>
+			<element name="BACKLIGHT" type="sim:BacklightPortType" minOccurs="0" />
+			<element name="LPORT" type="sim:LightPortType" minOccurs="0" />
+			<element name="SPORT" type="sim:SwitchPortType" minOccurs="0" />
+			<element name="INPUT" type="sim:InputPortType" minOccurs="0" />
+			<element name="SERVO" type="sim:ServoPortType" minOccurs="0" />
+		</sequence>
+		<attribute name="uniqueId" type="sim:UniqueIdType" use="required" />
+		<attribute name="className" type="sim:StringNotEmptyType" use="required" />
+		<attribute name="address" type="sim:StringNotEmptyType" use="required" />
+	</complexType>
+
+	<complexType name="SubNodesType">
+		<sequence>
+			<element name="node" type="sim:NodeType" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
+	<complexType name="MasterType">
+		<complexContent>
+			<extension base="sim:NodeType">
+				<sequence>
+					<element name="subNodes" type="sim:SubNodesType" minOccurs="0" />
+				</sequence>
+<!-- 				<attribute name="uniqueId" type="hexBinary" /> --> 
+			</extension>
+		</complexContent>
+	</complexType>
+	
+	<element name="simulation">
+		<annotation>
+			<documentation>Simulation configuration definition</documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="master" type="sim:MasterType"/>
+			</sequence>
+		</complexType>
+	</element>
+	
+</schema>

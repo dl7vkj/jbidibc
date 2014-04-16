@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BiDiB SchemaVersion="1.3" xmlns="http://www.bidib.org/schema/bidib">
+  <Protocol Version="0.16">
+    <MessageTypes>
+      <!-- ################## Defines for Downstream Messages ################## -->
+      <!-- system messages -->
+      <MessageType Id="1" Direction="Down" Category="System" Name="MSG_SYS_GET_MAGIC" AnswerSize="6" />
+      <MessageType Id="2" Direction="Down" Category="System" Name="MSG_SYS_GET_P_VERSION" AnswerSize="6" />
+      <MessageType Id="3" Direction="Down" Category="System" Name="MSG_SYS_ENABLE" AnswerSize="0" />
+      <MessageType Id="4" Direction="Down" Category="System" Name="MSG_SYS_DISABLE" AnswerSize="0" />
+      <MessageType Id="5" Direction="Down" Category="System" Name="MSG_SYS_GET_UNIQUE_ID" AnswerSize="11" />
+      <MessageType Id="6" Direction="Down" Category="System" Name="MSG_SYS_GET_SW_VERSION" AnswerSize="7" />
+      <MessageType Id="7" Direction="Down" Category="System" Name="MSG_SYS_PING" AnswerSize="5" />
+      <MessageType Id="8" Direction="Down" Category="System" Name="MSG_SYS_IDENTIFY" AnswerSize="5" />
+      <MessageType Id="9" Direction="Down" Category="System" Name="MSG_SYS_RESET" AnswerSize="0" />
+      <MessageType Id="10" Direction="Down" Category="System" Name="MSG_GET_PKT_CAPACITY" AnswerSize="5" />
+      <MessageType Id="11" Direction="Down" Category="System" Name="MSG_NODETAB_GETALL" AnswerSize="5" />
+      <MessageType Id="12" Direction="Down" Category="System" Name="MSG_NODETAB_GETNEXT" AnswerSize="13" />
+      <MessageType Id="13" Direction="Down" Category="System" Name="MSG_NODE_CHANGED_ACK" AnswerSize="0" />
+      <MessageType Id="14" Direction="Down" Category="System" Name="MSG_SYS_GET_ERROR" AnswerSize="10" />
+      <MessageType Id="15" Direction="Down" Category="System" Name="MSG_FW_UPDATE_OP" AnswerSize="6" />
+
+      <!-- feature and user config messages -->
+      <MessageType Id="16" Direction="Down" Category="Feature, User Config" Name="MSG_FEATURE_GETALL" AnswerSize="5" />
+      <MessageType Id="17" Direction="Down" Category="Feature, User Config" Name="MSG_FEATURE_GETNEXT" AnswerSize="6" />
+      <MessageType Id="18" Direction="Down" Category="Feature, User Config" Name="MSG_FEATURE_GET" AnswerSize="6" />
+      <MessageType Id="19" Direction="Down" Category="Feature, User Config" Name="MSG_FEATURE_SET" AnswerSize="6" />
+      <MessageType Id="20" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_ENABLE" AnswerSize="5" />
+      <MessageType Id="21" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_DISABLE" AnswerSize="5" />
+      <MessageType Id="22" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_SET" AnswerSize="12" />
+      <MessageType Id="23" Direction="Down" Category="Feature, User Config" Name="MSG_VENDOR_GET" AnswerSize="12" />
+      <MessageType Id="24" Direction="Down" Category="Feature, User Config" Name="MSG_SYS_CLOCK" AnswerSize="0" />
+      <MessageType Id="25" Direction="Down" Category="Feature, User Config" Name="MSG_STRING_GET" AnswerSize="30" />
+      <MessageType Id="26" Direction="Down" Category="Feature, User Config" Name="MSG_STRING_SET" AnswerSize="30" />
+
+      <!-- occupancy messages -->
+      <MessageType Id="32" Direction="Down" Category="Occupancy" Name="MSG_BM_GET_RANGE" AnswerSize="21" />
+      <MessageType Id="33" Direction="Down" Category="Occupancy" Name="MSG_BM_MIRROR_MULTIPLE" AnswerSize="21" />
+      <MessageType Id="34" Direction="Down" Category="Occupancy" Name="MSG_BM_MIRROR_OCC" AnswerSize="5" />
+      <MessageType Id="35" Direction="Down" Category="Occupancy" Name="MSG_BM_MIRROR_FREE" AnswerSize="5" />
+      <MessageType Id="36" Direction="Down" Category="Occupancy" Name="MSG_BM_ADDR_GET_RANGE" AnswerSize="16" />
+      <MessageType Id="37" Direction="Down" Category="Occupancy" Name="MSG_BM_GET_CONFIDENCE" AnswerSize="7" />
+
+      <!-- booster messages -->
+      <MessageType Id="48" Direction="Down" Category="Booster" Name="MSG_BOOST_OFF" AnswerSize="5" />
+      <MessageType Id="49" Direction="Down" Category="Booster" Name="MSG_BOOST_ON" AnswerSize="5" />
+      <MessageType Id="50" Direction="Down" Category="Booster" Name="MSG_BOOST_QUERY" AnswerSize="5" />
+
+      <!-- accessory control messages -->
+      <MessageType Id="56" Direction="Down" Category="Accessory" Name="MSG_ACCESSORY_SET" AnswerSize="9" />
+      <MessageType Id="57" Direction="Down" Category="Accessory" Name="MSG_ACCESSORY_GET" AnswerSize="9" />
+      <MessageType Id="58" Direction="Down" Category="Accessory" Name="MSG_ACCESSORY_PARA_SET" AnswerSize="9" />
+      <MessageType Id="59" Direction="Down" Category="Accessory" Name="MSG_ACCESSORY_PARA_GET" AnswerSize="9" />
+
+      <!-- switch/light/servo control messages -->
+      <MessageType Id="64" Direction="Down" Category="Switch, Light" Name="MSG_LC_OUTPUT" AnswerSize="7" />
+      <MessageType Id="65" Direction="Down" Category="Switch, Light" Name="MSG_LC_CONFIG_SET" AnswerSize="10" />
+      <MessageType Id="66" Direction="Down" Category="Switch, Light" Name="MSG_LC_CONFIG_GET" AnswerSize="10" />
+      <MessageType Id="67" Direction="Down" Category="Switch, Light" Name="MSG_LC_KEY_QUERY" AnswerSize="6" />
+      <MessageType Id="68" Direction="Down" Category="Switch, Light" Name="MSG_LC_OUTPUT_QUERY" AnswerSize="7" />
+
+      <!-- macro messages -->
+      <MessageType Id="72" Direction="Down" Category="Macro" Name="MSG_LC_MACRO_HANDLE" AnswerSize="6" />
+      <MessageType Id="73" Direction="Down" Category="Macro" Name="MSG_LC_MACRO_SET" AnswerSize="10" />
+      <MessageType Id="74" Direction="Down" Category="Macro" Name="MSG_LC_MACRO_GET" AnswerSize="10" />
+      <MessageType Id="75" Direction="Down" Category="Macro" Name="MSG_LC_MACRO_PARA_SET" AnswerSize="10" />
+      <MessageType Id="76" Direction="Down" Category="Macro" Name="MSG_LC_MACRO_PARA_GET" AnswerSize="10" />
+
+      <!-- dcc gen messages -->
+      <MessageType Id="96" Direction="Down" Category="DCC" Name="MSG_CS_ALLOCATE" AnswerSize="0" />
+      <MessageType Id="98" Direction="Down" Category="DCC" Name="MSG_CS_SET_STATE" AnswerSize="5" />
+      <MessageType Id="100" Direction="Down" Category="DCC" Name="MSG_CS_DRIVE" AnswerSize="7" />
+      <MessageType Id="101" Direction="Down" Category="DCC" Name="MSG_CS_ACCESSORY" AnswerSize="7" />
+      <MessageType Id="102" Direction="Down" Category="DCC" Name="MSG_CS_BIN_STATE" AnswerSize="7" />
+      <MessageType Id="103" Direction="Down" Category="DCC" Name="MSG_CS_POM" AnswerSize="10" />
+      <MessageType Id="111" Direction="Down" Category="DCC" Name="MSG_CS_PROG" AnswerSize="5" />
+
+      <!-- local message -->
+      <MessageType Id="112" Direction="Down" Category="Local" Name="MSG_LOGON_ACK" AnswerSize="0" />
+      <MessageType Id="113" Direction="Down" Category="Local" Name="MSG_LOCAL_PING" AnswerSize="0" />
+      <MessageType Id="114" Direction="Down" Category="Local" Name="MSG_LOGON_REJECTED" AnswerSize="0" />
+
+      <!-- ################## Defines for Upstream Messages ################## -->
+      <!-- system messages -->
+      <MessageType Id="129" Direction="Up" Category="System" Name="MSG_SYS_MAGIC" />
+      <MessageType Id="130" Direction="Up" Category="System" Name="MSG_SYS_PONG" />
+      <MessageType Id="131" Direction="Up" Category="System" Name="MSG_SYS_P_VERSION" />
+      <MessageType Id="132" Direction="Up" Category="System" Name="MSG_SYS_UNIQUE_ID" />
+      <MessageType Id="133" Direction="Up" Category="System" Name="MSG_SYS_SW_VERSION" />
+      <MessageType Id="134" Direction="Up" Category="System" Name="MSG_SYS_ERROR" />
+      <MessageType Id="135" Direction="Up" Category="System" Name="MSG_SYS_IDENTIFY_STATE" />
+      <MessageType Id="136" Direction="Up" Category="System" Name="MSG_NODETAB_COUNT" />
+      <MessageType Id="137" Direction="Up" Category="System" Name="MSG_NODETAB" />
+      <MessageType Id="138" Direction="Up" Category="System" Name="MSG_PKT_CAPACITY" />
+      <MessageType Id="139" Direction="Up" Category="System" Name="MSG_NODE_NA" />
+      <MessageType Id="140" Direction="Up" Category="System" Name="MSG_NODE_LOST" />
+      <MessageType Id="141" Direction="Up" Category="System" Name="MSG_NODE_NEW" />
+      <MessageType Id="142" Direction="Up" Category="System" Name="MSG_STALL" />
+      <MessageType Id="143" Direction="Up" Category="System" Name="MSG_FW_UPDATE_STAT" />
+
+      <!-- feature and user config messages -->
+      <MessageType Id="144" Direction="Up" Category="Feature, User Config" Name="MSG_FEATURE" />
+      <MessageType Id="145" Direction="Up" Category="Feature, User Config" Name="MSG_FEATURE_NA" />
+      <MessageType Id="146" Direction="Up" Category="Feature, User Config" Name="MSG_FEATURE_COUNT" />
+      <MessageType Id="147" Direction="Up" Category="Feature, User Config" Name="MSG_VENDOR" />
+      <MessageType Id="148" Direction="Up" Category="Feature, User Config" Name="MSG_VENDOR_ACK" />
+      <MessageType Id="149" Direction="Up" Category="Feature, User Config" Name="MSG_STRING" />
+
+      <!-- occupancy messages -->
+      <MessageType Id="160" Direction="Up" Category="Occupancy" Name="MSG_BM_OCC" />
+      <MessageType Id="161" Direction="Up" Category="Occupancy" Name="MSG_BM_FREE" />
+      <MessageType Id="162" Direction="Up" Category="Occupancy" Name="MSG_BM_MULTIPLE" />
+      <MessageType Id="163" Direction="Up" Category="Occupancy" Name="MSG_BM_ADDRESS" />
+      <MessageType Id="164" Direction="Up" Category="Occupancy" Name="MSG_BM_ACCESSORY" />
+      <MessageType Id="165" Direction="Up" Category="Occupancy" Name="MSG_BM_CV" />
+      <MessageType Id="166" Direction="Up" Category="Occupancy" Name="MSG_BM_SPEED" />
+      <MessageType Id="167" Direction="Up" Category="Occupancy" Name="MSG_BM_CURRENT" />
+      <MessageType Id="168" Direction="Up" Category="Occupancy" Name="MSG_BM_BLOCK_CV" />
+      <MessageType Id="169" Direction="Up" Category="Occupancy" Name="MSG_BM_CONFIDENCE" />
+      <MessageType Id="170" Direction="Up" Category="Occupancy" Name="MSG_BM_DYN_STATE" />
+
+      <!-- booster messages -->
+      <MessageType Id="176" Direction="Up" Category="Booster" Name="MSG_BOOST_STAT" />
+      <MessageType Id="177" Direction="Up" Category="Booster" Name="MSG_BOOST_CURRENT" />
+      <MessageType Id="178" Direction="Up" Category="Booster" Name="MSG_BOOST_DIAGNOSTIC" />
+      <MessageType Id="179" Direction="Up" Category="Booster" Name="MSG_NEW_DECODER" />
+      <MessageType Id="180" Direction="Up" Category="Booster" Name="MSG_ID_SEARCH_ACK" />
+      <MessageType Id="181" Direction="Up" Category="Booster" Name="MSG_ADDR_CHANGE_ACK" />
+
+      <!-- accessory control messages -->
+      <MessageType Id="184" Direction="Up" Category="Accessory" Name="MSG_ACCESSORY_STATE" />
+      <MessageType Id="185" Direction="Up" Category="Accessory" Name="MSG_ACCESSORY_PARA" />
+      <MessageType Id="186" Direction="Up" Category="Accessory" Name="MSG_ACCESSORY_NOTIFY" />
+
+      <!-- switch/light control messages -->
+      <MessageType Id="192" Direction="Up" Category="Switch, Light" Name="MSG_LC_STAT" />
+      <MessageType Id="193" Direction="Up" Category="Switch, Light" Name="MSG_LC_NA" />
+      <MessageType Id="194" Direction="Up" Category="Switch, Light" Name="MSG_LC_CONFIG" />
+      <MessageType Id="195" Direction="Up" Category="Switch, Light" Name="MSG_LC_KEY" />
+      <MessageType Id="196" Direction="Up" Category="Switch, Light" Name="MSG_LC_WAIT" />
+
+      <!-- macro messages -->
+      <MessageType Id="200" Direction="Up" Category="Macro" Name="MSG_LC_MACRO_STATE" />
+      <MessageType Id="201" Direction="Up" Category="Macro" Name="MSG_LC_MACRO" />
+      <MessageType Id="202" Direction="Up" Category="Macro" Name="MSG_LC_MACRO_PARA" />
+
+      <!-- dcc control messages -->
+      <MessageType Id="224" Direction="Up" Category="DCC" Name="MSG_CS_ALLOC_ACK" />
+      <MessageType Id="225" Direction="Up" Category="DCC" Name="MSG_CS_STATE" />
+      <MessageType Id="226" Direction="Up" Category="DCC" Name="MSG_CS_DRIVE_ACK" />
+      <MessageType Id="227" Direction="Up" Category="DCC" Name="MSG_CS_ACCESSORY_ACK" />
+      <MessageType Id="228" Direction="Up" Category="DCC" Name="MSG_CS_POM_ACK" />
+      <MessageType Id="229" Direction="Up" Category="DCC" Name="MSG_CS_DRIVE_MANUAL" />
+      <MessageType Id="230" Direction="Up" Category="DCC" Name="MSG_CS_DRIVE_EVENT" />
+      <MessageType Id="239" Direction="Up" Category="DCC" Name="MSG_CS_PROG_STATE" />
+
+      <!-- local message -->
+      <MessageType Id="240" Direction="Up" Category="Local" Name="MSG_LOGON" />
+      <MessageType Id="241" Direction="Up" Category="Local" Name="MSG_LOCAL_PONG" />
+    </MessageTypes>
+
+    <FeatureCodes>
+      <!-- occupancy detectors -->
+      <FeatureCode Id="0" Name="FEATURE_BM_SIZE">
+        <Documentation Language="en-US" Text="Number of occupancy sensors" />
+        <Documentation Language="de-DE" Text="Anzahl der Belegtmeldungen" />
+      </FeatureCode>
+      <FeatureCode Id="1" Name="FEATURE_BM_ON">
+        <Documentation Language="en-US" Text="Occupancy detection on (1) or off (0)" />
+        <Documentation Language="de-DE" Text="Belegtmeldung ein- (1) oder ausgeschaltet (0)" />
+      </FeatureCode>
+      <FeatureCode Id="2" Name="FEATURE_BM_SECACK_AVAILABLE">
+        <Documentation Language="en-US" Text="Secure-ACK available" />
+        <Documentation Language="de-DE" Text="Secure-ACK-Quittungsverfahren verfügbar" />
+      </FeatureCode>
+      <FeatureCode Id="3" Name="FEATURE_BM_SECACK_ON">
+        <Documentation Language="en-US" Text="Secure-ACK intervall" />
+        <Documentation Language="de-DE" Text="Secure-ACK-Quittungsintervall" />
+      </FeatureCode>
+      <FeatureCode Id="4" Name="FEATURE_BM_CURMEAS_AVAILABLE">
+        <Documentation Language="en-US" Text="Current measurement available" />
+        <Documentation Language="de-DE" Text="Strommessung verfügbar" />
+      </FeatureCode>
+      <FeatureCode Id="5" Name="FEATURE_BM_CURMEAS_INTERVAL">
+        <Documentation Language="en-US" Text="Current measurement intervall" />
+        <Documentation Language="de-DE" Text="Strommessintervall" />
+      </FeatureCode>
+      <FeatureCode Id="6" Name="FEATURE_BM_DC_MEAS_AVAILABLE">
+        <Documentation Language="en-US" Text="Substitution measurement available when traction current is off" />
+        <Documentation Language="de-DE" Text="Ersatzmessung bei abgeschaltetem Fahrstrom verfügbar" />
+      </FeatureCode>
+      <FeatureCode Id="7" Name="FEATURE_BM_DC_MEAS_ON">
+        <Documentation Language="en-US" Text="Substitution measurement on or off" />
+        <Documentation Language="de-DE" Text="Ersatzmessung ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="8" Name="FEATURE_BM_ADDR_DETECT_AVAILABLE">
+        <Documentation Language="en-US" Text="Address detection available" />
+        <Documentation Language="de-DE" Text="Adressmeldung verfügbar" />
+      </FeatureCode>
+      <FeatureCode Id="9" Name="FEATURE_BM_ADDR_DETECT_ON" >
+        <Documentation Language="en-US" Text="Address detection on or off" />
+        <Documentation Language="de-DE" Text="Adressmeldung ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="10" Name="FEATURE_BM_ADDR_AND_DIR">
+        <Documentation Language="en-US" Text="Direction detection available" />
+        <Documentation Language="de-DE" Text="Meldung für Aufgleisrichtung verfügbar" />
+      </FeatureCode>
+      <FeatureCode Id="11" Name="FEATURE_BM_ISTSPEED_AVAILABLE">
+        <Documentation Language="en-US" Text="Speed detection available" />
+        <Documentation Language="de-DE" Text="Meldung für Ist-Geschwindigkeit verfügbar" />
+      </FeatureCode>
+      <FeatureCode Id="12" Name="FEATURE_BM_ISTSPEED_INTERVAL">
+        <Documentation Language="en-US" Text="Speed detection on or off" />
+        <Documentation Language="de-DE" Text="Meldung für Ist-Geschwindigkeit ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="13" Name="FEATURE_BM_CV_AVAILABLE">
+        <Documentation Language="en-US" Text="Read CV available" />
+        <Documentation Language="de-DE" Text="Lesen von CV-Antworten verfügbar" />
+      </FeatureCode>
+      <FeatureCode Id="14" Name="FEATURE_BM_CV_ON">
+        <Documentation Language="en-US" Text="Read CV on or off" />
+        <Documentation Language="de-DE" Text="Lesen von CV-Antworten ein- oder ausgeschaltet" />
+      </FeatureCode>
+
+      <!-- booster -->
+      <FeatureCode Id="15" Name="FEATURE_BST_VOLT_ADJUSTABLE">
+        <Documentation Language="en-US" Text="Adjustable output voltage" />
+        <Documentation Language="de-DE" Text="Ausgangsspannung einstellbar" />
+      </FeatureCode>
+      <FeatureCode Id="16" Name="FEATURE_BST_VOLT">
+        <Documentation Language="en-US" Text="Output voltage" />
+        <Documentation Language="de-DE" Text="Ausgangsspannung" />
+      </FeatureCode>
+      <FeatureCode Id="17" Name="FEATURE_BST_CUTOUT_AVAIALABLE">
+        <Documentation Language="en-US" Text="Cutout available" />
+        <Documentation Language="de-DE" Text="Cutout verfügbar" />
+      </FeatureCode>
+      <FeatureCode Id="18" Name="FEATURE_BST_CUTOUT_ON">
+        <Documentation Language="en-US" Text="Cutout on or off" />
+        <Documentation Language="de-DE" Text="Cutout ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="19" Name="FEATURE_BST_TURNOFF_TIME">
+        <Documentation Language="en-US" Text="Turn-off time when switching on after shortage" />
+        <Documentation Language="de-DE" Text="Abschaltzeit nach Kurzschluß bis zum Abschalten" />
+      </FeatureCode>
+      <FeatureCode Id="20" Name="FEATURE_BST_INRUSH_TURNOFF_TIME">
+        <Documentation Language="en-US" Text="Tolerated turn-off time when switching on after shortage" />
+        <Documentation Language="de-DE" Text="Tolerierte Abschaltzeit beim Einschalten nach Kurzschluss" />
+      </FeatureCode>
+      <FeatureCode Id="21" Name="FEATURE_BST_AMPERE_ADJUSTABLE">
+        <Documentation Language="en-US" Text="Adjustable output current" />
+        <Documentation Language="de-DE" Text="Ausgangsstrom einstellbar" />
+      </FeatureCode>
+      <FeatureCode Id="22" Name="FEATURE_BST_AMPERE">
+        <Documentation Language="en-US" Text="Maximum output current" />
+        <Documentation Language="de-DE" Text="Maximaler Ausgangsstrom" />
+      </FeatureCode>
+      <FeatureCode Id="23" Name="FEATURE_BST_CURMEAS_INTERVAL">
+        <Documentation Language="en-US" Text="Sampling intervall of the current measurement" />
+        <Documentation Language="de-DE" Text="Abtastintervall der Strommessung" />
+      </FeatureCode>
+      <FeatureCode Id="24" Name="FEATURE_BST_CV_AVAILABLE">
+        <Documentation Language="en-US" Text="Read CV available" />
+        <Documentation Language="de-DE" Text="Lesen von CV-Antworten verfügbar" />
+      </FeatureCode>
+      <FeatureCode Id="25" Name="FEATURE_BST_CV_ON">
+        <Documentation Language="en-US" Text="Read CV on or off" />
+        <Documentation Language="de-DE" Text="Lesen von CV-Antworten ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="26" Name="FEATURE_BST_INHIBIT_AUTOSTART">
+        <Documentation Language="en-US" Text="Autostart deactivation" />
+        <Documentation Language="de-DE" Text="Autostart-Deaktivierung" />
+      </FeatureCode>
+      <FeatureCode Id="27" Name="FEATURE_BST_INHIBIT_LOCAL_ONOFF" >
+        <Documentation Language="en-US" Text="Emergency stop button deactivation" />
+        <Documentation Language="de-DE" Text="Nothalttaster-Deaktivierung" />
+      </FeatureCode>
+
+      <!-- booster/occupancy2 -->
+      <FeatureCode Id="28" Name="FEATURE_BM_DYN_STATE_INTERVAL" >
+        <Documentation Language="en-US" Text="Transmission interval for status messages from a decoder" />
+        <Documentation Language="de-DE" Text="Übertragungsintervall für Zustandsmeldungen eines Decoders" />
+      </FeatureCode>
+
+      <!-- accessory -->
+      <FeatureCode Id="40" Name="FEATURE_ACCESSORY_COUNT">
+        <Documentation Language="en-US" Text="Number of controllable objects (e.g. turnouts, signals)" />
+        <Documentation Language="de-DE" Text="Anzahl der steuerbaren Objekte (z.B. Weichen, Signale)" />
+      </FeatureCode>
+      <FeatureCode Id="41" Name="FEATURE_ACCESSORY_SURVEILLED">
+        <Documentation Language="en-US" Text="Position observation for manual adjustment on or off" />
+        <Documentation Language="de-DE" Text="Lage-Überwachung bei Handverstellung ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="42" Name="FEATURE_ACCESSORY_MACROMAPPED">
+        <Documentation Language="en-US" Text="Mapping of aspects to macros" />
+        <Documentation Language="de-DE" Text="Abbildung von Begriffen auf Macros" />
+      </FeatureCode>
+
+      <!-- control -->
+      <FeatureCode Id="50" Name="FEATURE_CTRL_INPUT_COUNT">
+        <Documentation Language="en-US" Text="Number of inputs (e.g. keys)" />
+        <Documentation Language="de-DE" Text="Anzahl der Eingänge (z.B. Taster)" />
+      </FeatureCode>
+      <FeatureCode Id="51" Name="FEATURE_CTRL_INPUT_NOTIFY">
+        <Documentation Language="en-US" Text="Spontaneous messages of key inputs are allowed" />
+        <Documentation Language="de-DE" Text="Spontan-Meldung von Taster-Eingängen erlaubt" />
+      </FeatureCode>
+      <FeatureCode Id="52" Name="FEATURE_CTRL_SPORT_COUNT">
+        <Documentation Language="en-US" Text="Number of standard outputs" />
+        <Documentation Language="de-DE" Text="Anzahl der Standard-Ausgänge" />
+      </FeatureCode>
+      <FeatureCode Id="53" Name="FEATURE_CTRL_LPORT_COUNT">
+        <Documentation Language="en-US" Text="Number of of light outputs" />
+        <Documentation Language="de-DE" Text="Anzahl der Licht-Ausgänge" />
+      </FeatureCode>
+      <FeatureCode Id="54" Name="FEATURE_CTRL_SERVO_COUNT">
+        <Documentation Language="en-US" Text="Number of servo outputs" />
+        <Documentation Language="de-DE" Text="Anzahl der Servoausgänge" />
+      </FeatureCode>
+      <FeatureCode Id="55" Name="FEATURE_CTRL_SOUND_COUNT">
+        <Documentation Language="en-US" Text="Number of playable sounds" />
+        <Documentation Language="de-DE" Text="Anzahl der abspielbaren Sounds" />
+      </FeatureCode>
+      <FeatureCode Id="56" Name="FEATURE_CTRL_MOTOR_COUNT">
+        <Documentation Language="en-US" Text="Number of motor outputs" />
+        <Documentation Language="de-DE" Text="Anzahl der Motorausgänge" />
+      </FeatureCode>
+      <FeatureCode Id="57" Name="FEATURE_CTRL_ANALOG_COUNT">
+        <Documentation Language="en-US" Text="Number of analog outputs" />
+        <Documentation Language="de-DE" Text="Anzahl der Analogausgänge" />
+      </FeatureCode>
+      <FeatureCode Id="58" Name="FEATURE_CTRL_STRETCH_DIMM">
+        <Documentation Language="en-US" Text="Additional slow down for brightness transitions" />
+        <Documentation Language="de-DE" Text="Verlangsamung von Helligkeitsübergängen bei Lichtausgängen" />
+      </FeatureCode>
+      <FeatureCode Id="59" Name="FEATURE_CTRL_BACKLIGHT_COUNT">
+        <Documentation Language="en-US" Text="number of backlight ports" />
+        <Documentation Language="de-DE" Text="Anzahl von Hintergrundbeleuchtungs-Ausgängen" />
+      </FeatureCode>
+      <FeatureCode Id="60" Name="FEATURE_CTRL_MAC_LEVEL">
+        <Documentation Language="en-US" Text="Supported level for macros" />
+        <Documentation Language="de-DE" Text="Unterstützter Makro-Level" />
+      </FeatureCode>
+      <FeatureCode Id="61" Name="FEATURE_CTRL_MAC_SAVE">
+        <Documentation Language="en-US" Text="Persistent storage of macros" />
+        <Documentation Language="de-DE" Text="Speicherplätze für permanente Makro-Speicherung" />
+      </FeatureCode>
+      <FeatureCode Id="62" Name="FEATURE_CTRL_MAC_COUNT">
+        <Documentation Language="en-US" Text="Number of possible macros" />
+        <Documentation Language="de-DE" Text="Anzahl der möglichen Makros" />
+      </FeatureCode>
+      <FeatureCode Id="63" Name="FEATURE_CTRL_MAC_SIZE">
+        <Documentation Language="en-US" Text="Size of local macropoints per marco" />
+        <Documentation Language="de-DE" Text="Anzahl der Makropunkte je Makro" />
+      </FeatureCode>
+      <FeatureCode Id="64" Name="FEATURE_CTRL_MAC_START_MAN">
+        <Documentation Language="en-US" Text="Starting macros caused by local inputs on or off" />
+        <Documentation Language="de-DE" Text="Makrostart durch lokale Eingänge ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="65" Name="FEATURE_CTRL_MAC_START_DCC">
+        <Documentation Language="en-US" Text="Starting macros caused by DCC on or off" />
+        <Documentation Language="de-DE" Text="Makrostart durch DCC-Befehle ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="66" Name="FEATURE_CTRL_PORT_QUERY_AVAILABLE">
+        <Documentation Language="en-US" Text="Node will answer to MSG_LC_OUTPUT_QUERY" />
+        <Documentation Language="de-DE" Text="Knoten antwortet auf MSG_LC_OUTPUT_QUERY" />
+      </FeatureCode>
+      <FeatureCode Id="67" Name="FEATURE_SPORT_CONFIG_AVAILABLE">
+        <Documentation Language="en-US" Text="Node has possibility to configure SPORTs" />
+        <Documentation Language="de-DE" Text="Knoten bietet die Möglichkeit SPORTs zu konfigurieren" />
+      </FeatureCode>
+
+      <!-- dcc gen -->
+      <FeatureCode Id="100" Name="FEATURE_GEN_SPYMODE">
+        <Documentation Language="en-US" Text="Spymode for handheld messages on or off" />
+        <Documentation Language="de-DE" Text="Spymode für Handreglernachrichten ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="101" Name="FEATURE_GEN_WATCHDOG">
+        <Documentation Language="en-US" Text="Watchdog function" />
+        <Documentation Language="de-DE" Text="Watchdogfunktion" />
+      </FeatureCode>
+      <FeatureCode Id="102" Name="FEATURE_GEN_DRIVE_ACK" >
+        <Documentation Language="en-US" Text="Drive command acknowledgement" />
+        <Documentation Language="de-DE" Text="Fahrbefehlquittierung" />
+      </FeatureCode>
+      <FeatureCode Id="103" Name="FEATURE_GEN_SWITCH_ACK" >
+        <Documentation Language="en-US" Text="Switch command acknowledgement" />
+        <Documentation Language="de-DE" Text="Schaltbefehlquittierung" />
+      </FeatureCode>
+      <FeatureCode Id="104" Name="FEATURE_GEN_LOK_DB_SIZE" >
+        <Documentation Language="en-US" Text="Size of the loco database" />
+        <Documentation Language="de-DE" Text="Anzahl der Einträge in der Lokdatenbank" />
+      </FeatureCode>
+      <FeatureCode Id="105" Name="FEATURE_GEN_LOK_DB_STRING">
+        <Documentation Language="en-US" Text="Lenght of the name memory" />
+        <Documentation Language="de-DE" Text="Länge des Namensspeichers" />
+      </FeatureCode>
+      <FeatureCode Id="106" Name="FEATURE_GEN_SERVICE_MODES" >
+        <Documentation Language="en-US" Text="Service-Mode" />
+        <Documentation Language="de-DE" Text="Service-Mode" />
+      </FeatureCode>
+      <FeatureCode Id="107" Name="FEATURE_GEN_DRIVE_BUS" >
+        <Documentation Language="en-US" Text="DCC-bus control" />
+        <Documentation Language="de-DE" Text="Kontrolle des DCC-Busses" />
+      </FeatureCode>
+      <FeatureCode Id="108" Name="FEATURE_GEN_LOK_LOST_DETECT" >
+        <Documentation Language="en-US" Text="Notification of lost loco on or off" />
+        <Documentation Language="de-DE" Text="Benachrichtigung bei verlorenen Lokomotiven ein- oder ausgeschaltet" />
+      </FeatureCode>
+      <FeatureCode Id="109" Name="FEATURE_GEN_NOTIFY_DRIVE_MANUAL" >
+        <Documentation Language="en-US" Text="Notification of manual drive operation on or off" />
+        <Documentation Language="de-DE" Text="Benachrichtigung bei manuellen Fahraktionen ein- oder ausgeschaltet" />
+      </FeatureCode>
+
+      <!-- other -->
+      <FeatureCode Id="252" Name="FEATURE_STRING_SIZE">
+        <Documentation Language="en-US" Text="Maximum length of strings" />
+        <Documentation Language="de-DE" Text="Maximale Länge von Strings" />
+      </FeatureCode>
+      <FeatureCode Id="253" Name="FEATURE_RELEVANT_PID_BITS">
+        <Documentation Language="en-US" Text="How many bits of 'vendor32' are relevant for PID" />
+        <Documentation Language="de-DE" Text="Wie viele Bits von 'vendor32' zur PID zählen" />
+      </FeatureCode>
+      <FeatureCode Id="254" Name="FEATURE_FW_UPDATE_MODE" >
+        <Documentation Language="en-US" Text="Firmware-Update possible" />
+        <Documentation Language="de-DE" Text="Firmware-Update möglich" />
+      </FeatureCode>
+      <FeatureCode Id="255" Name="FEATURE_EXTENSION">
+        <Documentation Language="en-US" Text="Reserved for future expansion" />
+        <Documentation Language="de-DE" Text="Reserviert für zukünftige Erweiterung" />
+      </FeatureCode>
+    </FeatureCodes>
+  </Protocol>
+</BiDiB>

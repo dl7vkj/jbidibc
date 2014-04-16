@@ -1,0 +1,61 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+	<Version Version="0.1" Lastupdate="20140313" Author="Tams, Kersten" Pid="146" Vendor="062" Description="Booster mit BiDiB Anbindung">
+	</Version>
+	<CVDefinition>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Global"/>
+			<Nodetext Lang="en-EN" Text="Global"/>
+			<CV Number="7"  Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+			  <Description Lang="de-DE" Text="Version"/>
+			  <Description Lang="en-EN" Text="Version"/>
+		    </CV>
+			<CV Number="8"  Type="Byte" Min="62" Max="62" Low="-" High="-" Values="-" Mode="ro">
+			  <Description Lang="de-DE" Text="Man-ID"/>
+			  <Description Lang="en-EN" Text="Man ID"/>
+		    </CV>
+			<CV Number="7"  Type="Byte" Min="62" Max="62" Low="-" High="-" Values="-" Mode="wo">
+			  <Description Lang="de-DE" Text="Firmware Update"/>
+			  <Description Lang="en-EN" Text="Firmware Update"/>
+		    </CV>
+			<CV Number="8"  Type="Byte" Min="62" Max="62" Low="-" High="-" Values="-" Mode="wo">
+			  <Description Lang="de-DE" Text="Reset"/>
+			  <Description Lang="en-EN" Text="Reset"/>
+		    </CV>
+		</Node>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Einstellungen"/>
+			<Nodetext Lang="en-EN" Text="Options"/>
+			<CV Number="5"  Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+			  <Description Lang="de-DE" Text="FLAGS"/>
+			  <Description Lang="en-EN" Text="FLAGS"/>
+		    </CV>
+			<CV Number="1"  Type="Byte" Min="10" Max="24" Low="-" High="-" Values="-" Mode="rw">
+			  <Description Lang="de-DE" Text="Spannung am Gleis [V]"/>
+			  <Description Lang="en-EN" Text="track voltage [V]"/>
+		    </CV>
+			<CV Number="3"  Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+			  <Description Lang="de-DE" Text="In rush-Zeit [ms]"/>
+			  <Description Lang="en-EN" Text="In rush time [ms]"/>
+		    </CV>
+			<CV Number="2"  Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+			  <Description Lang="de-DE" Text="Ausschalt-Zeit [ms]"/>
+			  <Description Lang="en-EN" Text="turn off time [ms]"/>
+		    </CV>
+			<CV Number="4"  Type="Byte" Min="2" Max="4" Low="-" High="-" Values="-" Mode="rw">
+			  <Description Lang="de-DE" Text="max. Strom [A]"/>
+			  <Description Lang="en-EN" Text="max. current [A]"/>
+		    </CV>
+			<CV Number="9"  Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+			  <Description Lang="de-DE" Text="automatische Wiedereinschalt-Zeit [s]"/>
+			  <Description Lang="en-EN" Text="automatic turn on time [s]"/>
+		    </CV>
+			<CV Number="10"  Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+			  <Description Lang="de-DE" Text="Wiedereinschalt-Zeit nach fünf Startversuchen [s]"/>
+			  <Description Lang="en-EN" Text="turn on time after 5 times trying to turn on [s]"/>
+		    </CV>
+		</Node>
+	</CVDefinition>
+</VendorCV>

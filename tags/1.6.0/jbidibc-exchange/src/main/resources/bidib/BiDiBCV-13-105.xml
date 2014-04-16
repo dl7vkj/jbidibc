@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+
+	<Version 
+		Version="0.2" 
+		Versionm="440"
+		Lastupdate="20131021" 
+		Author="BiDiB-Mustermann"
+		Pid="105"
+		Vendor="013"
+		Description="BiDiB-s88-Bridge">
+	</Version>
+	<CVDefinition>
+		<Node>
+			<Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
+			<Nodetext Lang="en-EN" Text="Common settings"/>
+
+		   <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="vendor_id"/>
+				<Description Lang="en-EN" Text="vendor_id"/>
+		   </CV> 
+			<CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="hw_id"/>
+				<Description Lang="en-EN" Text="hw_id"/>
+		   </CV>
+		   <CV Number="3" Type="Int" Min="0" Max="255" Low="3" High="4" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="hw_serial_low"/>
+				<Description Lang="en-EN" Text="hw_serial_low"/>
+		   </CV>
+		   <CV Number="4" Type="Int" Min="0" Max="255" Low="3" High="4" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="hw_serial_high"/>
+				<Description Lang="en-EN" Text="hw_serial_high"/>
+		   </CV>
+         <CV Number="5" Type="Byte" Min="1" Max="16" Low="-" High="-" Values="-" Mode="rw">
+            <Description Lang="de-DE" Text="Anzahl der Melder (in Bytes). Wertebereich 1..16 entspricht 8..128 Melder. Nur gültig, falls alle Jumper offen."/>
+            <Description Lang="en-EN" Text="Number of detectors (in bytes). Range 1..16 equates to 8..128 detectors. Only valid if all jumpers are open."/>
+         </CV>
+         <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+            <Description Lang="de-DE" Text="Timing, in Einheiten von 10us; Wertebereich 1..50, Default: 10. Angeben ist die Zeit Clock High und Clock Low."/>
+            <Description Lang="en-EN" Text="Timing, in units of 10us. Value range 1..50, default: 10. Specified is the time of clock high and clock low."/>
+         </CV>
+
+		</Node>
+	</CVDefinition>
+</VendorCV>
