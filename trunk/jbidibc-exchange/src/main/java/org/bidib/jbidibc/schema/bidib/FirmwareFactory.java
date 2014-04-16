@@ -1,10 +1,15 @@
 package org.bidib.jbidibc.schema.bidib;
 
+import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -52,6 +57,12 @@ public class FirmwareFactory {
         return new FirmwareFactory().loadFirmwareConfiguration(definition);
     }
 
+    public static List<String> getFirmwareContent(File firmwareFile, String fileName) {
+        LOGGER.info("Load the Firmware content from firmwareFile: {}, fileName: {}", firmwareFile, fileName);
+
+        return new FirmwareFactory().loadFirmwareContentFile(firmwareFile, fileName);
+    }
+
     protected Firmware loadFirmwareConfiguration(StringBuffer definition) {
         LOGGER.info("Load the firmware definition: {}", definition);
         ByteArrayInputStream bais = new ByteArrayInputStream(definition.toString().getBytes());
@@ -67,7 +78,7 @@ public class FirmwareFactory {
         if (firmwareFile.exists()) {
             LOGGER.info("Found firmware file: {}", firmwareFile.getAbsolutePath());
             // try to load products
-            firmware = loadFirmwareFile(firmwareFile);
+            firmware = loadFirmwareConfigurationFile(firmwareFile);
         }
         else {
             LOGGER.info("File does not exist: {}", firmwareFile.getAbsolutePath());
@@ -75,7 +86,7 @@ public class FirmwareFactory {
         return firmware;
     }
 
-    private Firmware loadFirmwareFile(File firmwareFile) {
+    private Firmware loadFirmwareConfigurationFile(File firmwareFile) {
 
         Firmware firmware = null;
         InputStream is = null;
@@ -124,6 +135,78 @@ public class FirmwareFactory {
             }
         }
         return firmware;
+    }
+
+    private List<String> loadFirmwareContentFile(File firmwareFile, String fileName) {
+
+        List<String> firmwareContent = null;
+        InputStream is = null;
+
+        if (FilenameUtils.isExtension(firmwareFile.getPath(), "zip")) {
+
+            ZipFile zipFile = null;
+            try {
+                zipFile = new ZipFile(firmwareFile);
+                ZipEntry zipEntry = zipFile.getEntry(fileName);
+                if (zipEntry != null) {
+                    is = zipFile.getInputStream(zipEntry);
+                    BufferedReader input = new BufferedReader(new InputStreamReader(is, "UTF-8"));
+                    firmwareContent = new ArrayList<String>();
+                    String line = null;
+                    while ((line = input.readLine()) != null) {
+                        firmwareContent.add(line.trim());
+                    }
+                }
+            }
+            catch (Exception e) {
+                LOGGER.warn("Check for firmware content inside ZIP failed.", e);
+            }
+            finally {
+                if (is != null) {
+                    try {
+                        is.close();
+                    }
+                    catch (Exception e) {
+                        LOGGER.warn("Close inputStream failed.", e);
+                    }
+                    is = null;
+                }
+                if (zipFile != null) {
+                    try {
+                        zipFile.close();
+                    }
+                    catch (Exception e) {
+                        LOGGER.warn("Close zip failed.", e);
+                    }
+                }
+            }
+        }
+        else {
+            BufferedReader input = null;
+            try {
+                input = new BufferedReader(new FileReader(firmwareFile));
+                String line = null;
+                firmwareContent = new ArrayList<String>();
+                while ((line = input.readLine()) != null) {
+                    firmwareContent.add(line.trim());
+                }
+            }
+            catch (IOException ex) {
+                LOGGER.info("No firmware content file found.");
+            }
+            finally {
+                if (input != null) {
+                    try {
+                        input.close();
+                    }
+                    catch (Exception e) {
+                        LOGGER.warn("Close reader failed.", e);
+                    }
+                    input = null;
+                }
+            }
+        }
+        return firmwareContent;
     }
 
     private Firmware loadFirmwareFile(InputStream is) {
