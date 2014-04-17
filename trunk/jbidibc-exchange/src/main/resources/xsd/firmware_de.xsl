@@ -96,6 +96,8 @@
 			width="90%">
 			<THEAD>
 				<tr bgcolor="LightGrey">
+					<TH align="center" STYLE="font-size:14pt" width="100">VID</TH>
+					<TH align="center" STYLE="font-size:14pt" width="100">PID</TH>
 					<TH align="center" STYLE="font-size:14pt">Version</TH>
 					<TH align="center" STYLE="font-size:14pt">Beschreibung</TH>
 					<TH align="center" STYLE="font-size:14pt">Author</TH>
@@ -103,6 +105,12 @@
 			</THEAD>
 			<TBODY>
 				<tr>
+					<TD align="center" STYLE="font-size:14pt">
+						<xsl:value-of select="@Vendor" />
+					</TD>
+					<TD align="center" STYLE="font-size:14pt">
+						<xsl:value-of select="@Pid" />
+					</TD>
 					<TD align="center" STYLE="font-size:14pt">
 						<xsl:value-of select="@Version" />
 					</TD>
