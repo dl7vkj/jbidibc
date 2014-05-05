@@ -307,7 +307,7 @@ public final class Bidib extends AbstractBidib {
                 throw new PortNotFoundException("");
             }
             loadLibraries();
-            LOGGER.debug("Open port with name: {}", portName);
+            LOGGER.info("Open port with name: {}", portName);
 
             File file = new File(portName);
 
