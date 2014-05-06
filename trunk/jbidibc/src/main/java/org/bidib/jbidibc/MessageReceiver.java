@@ -373,7 +373,9 @@ public class MessageReceiver implements BidibMessageProcessor {
 
     @Override
     public void addMessageListener(MessageListener messageListener) {
-        messageListeners.add(messageListener);
+        synchronized (messageListeners) {
+            messageListeners.add(messageListener);
+        }
     }
 
     public void addNodeListener(NodeListener nodeListener) {
@@ -381,11 +383,15 @@ public class MessageReceiver implements BidibMessageProcessor {
     }
 
     public void removeMessageListener(MessageListener messageListener) {
-        messageListeners.remove(messageListener);
+        synchronized (messageListeners) {
+            messageListeners.remove(messageListener);
+        }
     }
 
     public void clearMessageListeners() {
-        messageListeners.clear();
+        synchronized (messageListeners) {
+            messageListeners.clear();
+        }
     }
 
     public void clearNodeListeners() {
@@ -403,102 +409,134 @@ public class MessageReceiver implements BidibMessageProcessor {
     }
 
     protected void fireAddress(byte[] address, int detectorNumber, Collection<AddressData> addresses) {
-        for (MessageListener l : messageListeners) {
-            l.address(address, detectorNumber, addresses);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.address(address, detectorNumber, addresses);
+            }
         }
     }
 
     protected void fireBmAccessory(byte[] address, int detectorNumber, int accessoryAddress) {
-        for (MessageListener l : messageListeners) {
-            l.feedbackAccessory(address, detectorNumber, accessoryAddress);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.feedbackAccessory(address, detectorNumber, accessoryAddress);
+            }
         }
     }
 
     protected void fireBmCv(byte[] address, int decoderAddress, int cvNumber, int dat) {
-        for (MessageListener l : messageListeners) {
-            l.feedbackCv(address, decoderAddress, cvNumber, dat);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.feedbackCv(address, decoderAddress, cvNumber, dat);
+            }
         }
     }
 
     protected void fireCsProgState(
         byte[] address, CommandStationProgState commandStationProgState, int remainingTime, int cvNumber, int cvData) {
-        for (MessageListener l : messageListeners) {
-            l.csProgState(address, commandStationProgState, remainingTime, cvNumber, cvData);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.csProgState(address, commandStationProgState, remainingTime, cvNumber, cvData);
+            }
         }
     }
 
     protected void fireCsState(byte[] address, CommandStationState commandStationState) {
-        for (MessageListener l : messageListeners) {
-            l.csState(address, commandStationState);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.csState(address, commandStationState);
+            }
         }
     }
 
     protected void fireCsDriveManual(CommandStationDriveManualResponse commandStationDriveManualResponse) {
-        for (MessageListener l : messageListeners) {
-            l.csDriveManual(commandStationDriveManualResponse.getAddr(),
-                commandStationDriveManualResponse.getDriveState());
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.csDriveManual(commandStationDriveManualResponse.getAddr(),
+                    commandStationDriveManualResponse.getDriveState());
+            }
         }
     }
 
     protected void fireCsAccessoryManual(CommandStationAccessoryManualResponse commandStationAccessoryManualResponse) {
-        for (MessageListener l : messageListeners) {
-            l.csAccessoryManual(commandStationAccessoryManualResponse.getAddr(),
-                commandStationAccessoryManualResponse.getAspect());
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.csAccessoryManual(commandStationAccessoryManualResponse.getAddr(),
+                    commandStationAccessoryManualResponse.getAspect());
+            }
         }
     }
 
     protected void fireBoosterCurrent(byte[] address, int current) {
-        for (MessageListener l : messageListeners) {
-            l.boosterCurrent(address, current);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.boosterCurrent(address, current);
+            }
         }
     }
 
     protected void fireBoosterState(byte[] address, BoosterState state) {
-        for (MessageListener l : messageListeners) {
-            l.boosterState(address, state);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.boosterState(address, state);
+            }
         }
     }
 
     protected void fireBoosterTemperature(byte[] address, int temperature) {
-        for (MessageListener l : messageListeners) {
-            l.boosterTemperature(address, temperature);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.boosterTemperature(address, temperature);
+            }
         }
     }
 
     protected void fireBoosterVoltage(byte[] address, int voltage) {
-        for (MessageListener l : messageListeners) {
-            l.boosterVoltage(address, voltage);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.boosterVoltage(address, voltage);
+            }
         }
     }
 
     protected void fireConfidence(byte[] address, int valid, int freeze, int signal) {
-        for (MessageListener l : messageListeners) {
-            l.confidence(address, valid, freeze, signal);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.confidence(address, valid, freeze, signal);
+            }
         }
     }
 
     private void fireFree(byte[] address, int detectorNumber) {
-        for (MessageListener l : messageListeners) {
-            l.free(address, detectorNumber);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.free(address, detectorNumber);
+            }
         }
     }
 
     private void fireIdentify(byte[] address, IdentifyState identifyState) {
         LOGGER.debug("Identify, addr: {}, identifyState: {}", address, identifyState);
-        for (MessageListener l : messageListeners) {
-            l.identity(address, identifyState);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.identity(address, identifyState);
+            }
         }
     }
 
     private void fireKey(byte[] address, int keyNumber, int keyState) {
-        for (MessageListener l : messageListeners) {
-            l.key(address, keyNumber, keyState);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.key(address, keyNumber, keyState);
+            }
         }
     }
 
     private void fireLcStat(byte[] address, LcOutputType portType, int portNumber, int portStatus) {
-        for (MessageListener l : messageListeners) {
-            l.lcStat(address, portType, portNumber, portStatus);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.lcStat(address, portType, portNumber, portStatus);
+            }
         }
     }
 
@@ -515,34 +553,44 @@ public class MessageReceiver implements BidibMessageProcessor {
     }
 
     private void fireOccupied(byte[] address, int detectorNumber) {
-        for (MessageListener l : messageListeners) {
-            l.occupied(address, detectorNumber);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.occupied(address, detectorNumber);
+            }
         }
     }
 
     protected void fireSpeed(byte[] address, AddressData addressData, int speed) {
-        for (MessageListener l : messageListeners) {
-            l.speed(address, addressData, speed);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.speed(address, addressData, speed);
+            }
         }
     }
 
     private void fireError(byte[] address, int errorCode) {
         LOGGER.error("Error received from system, addr: {}, errorCode: {}", address, errorCode);
-        for (MessageListener l : messageListeners) {
-            l.error(address, errorCode);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.error(address, errorCode);
+            }
         }
     }
 
     private void fireAccessoryState(byte[] address, AccessoryState accessoryState) {
-        for (MessageListener l : messageListeners) {
-            l.accessoryState(address, accessoryState);
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.accessoryState(address, accessoryState);
+            }
         }
     }
 
     protected void fireDynState(byte[] address, int detectorNumber, int dynNumber, int dynValue) {
-        // TODO implement populate the dynamic state ...
-        for (MessageListener l : messageListeners) {
-            l.dynState(address, detectorNumber, dynNumber, dynValue);
+        // populate the dynamic state ...
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.dynState(address, detectorNumber, dynNumber, dynValue);
+            }
         }
     }
 
