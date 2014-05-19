@@ -11,7 +11,7 @@ import org.slf4j.LoggerFactory;
  * Response from command station with the accessory acknowledge state
  */
 public class CommandStationAccessoryAcknowledgeResponse extends BidibMessage {
-    public static final Integer TYPE = BidibLibrary.MSG_CS_DRIVE_ACK;
+    public static final Integer TYPE = BidibLibrary.MSG_CS_ACCESSORY_ACK;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationAccessoryAcknowledgeResponse.class);
 

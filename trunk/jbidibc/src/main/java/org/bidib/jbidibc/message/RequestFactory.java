@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.enumeration.ActivateCoilEnum;
+import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.enumeration.LcOutputType;
+import org.bidib.jbidibc.enumeration.TimeBaseUnitEnum;
+import org.bidib.jbidibc.enumeration.TimingControlEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.schema.BidibFactory;
 import org.bidib.jbidibc.schema.bidib.MessageType;
@@ -165,6 +169,9 @@ public class RequestFactory {
                 break;
             case BidibLibrary.MSG_CS_DRIVE:
                 concreteBidibMessage = new CommandStationDriveMessage(message);
+                break;
+            case BidibLibrary.MSG_CS_ACCESSORY:
+                concreteBidibMessage = new CommandStationAccessoryMessage(message);
                 break;
             case BidibLibrary.MSG_CS_POM:
                 concreteBidibMessage = new CommandStationPomMessage(message);
@@ -347,4 +354,12 @@ public class RequestFactory {
         return initializeCommand(bidibCommand);
     }
 
+    public BidibCommand createCommandStationAccessory(
+        int address, AddressTypeEnum addressType, TimingControlEnum timingControl, ActivateCoilEnum activateCoil,
+        int aspect, TimeBaseUnitEnum timeBaseUnit, int time) {
+        BidibCommand bidibCommand =
+            new CommandStationAccessoryMessage(address, addressType, timingControl, activateCoil, aspect, timeBaseUnit,
+                time);
+        return initializeCommand(bidibCommand);
+    }
 }

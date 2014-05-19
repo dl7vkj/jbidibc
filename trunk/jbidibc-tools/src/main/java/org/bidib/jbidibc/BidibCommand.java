@@ -1,6 +1,8 @@
 package org.bidib.jbidibc;
 
 import java.util.Collections;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
@@ -24,6 +26,8 @@ public abstract class BidibCommand {
     @Parameter(names = { "-port" }, description = "Port to use, e.g. COM1", required = true)
     private String portName;
 
+    private Set<TransferListener> transferListeners = new LinkedHashSet<TransferListener>();
+
     protected String getPortName() {
         return portName;
     }
@@ -34,6 +38,26 @@ public abstract class BidibCommand {
     }
 
     protected void openPort(String portName) throws PortNotFoundException, PortNotOpenedException {
+
+        transferListeners.add(new TransferListener() {
+
+            @Override
+            public void sendStopped() {
+            }
+
+            @Override
+            public void sendStarted() {
+            }
+
+            @Override
+            public void receiveStopped() {
+            }
+
+            @Override
+            public void receiveStarted() {
+            }
+        });
+
         Bidib.getInstance().open(portName, new ConnectionListener() {
             @Override
             public void opened(String port) {
@@ -42,8 +66,7 @@ public abstract class BidibCommand {
             @Override
             public void closed(String port) {
             }
-        }, Collections.<NodeListener> emptySet(), Collections.<MessageListener> emptySet(),
-            Collections.<TransferListener> emptySet());
+        }, Collections.<NodeListener> emptySet(), Collections.<MessageListener> emptySet(), transferListeners);
     }
 
     /**

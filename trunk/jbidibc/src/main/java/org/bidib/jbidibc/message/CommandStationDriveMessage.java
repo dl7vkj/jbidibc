@@ -105,10 +105,15 @@ public class CommandStationDriveMessage extends BidibCommandMessage {
         byte highByte = getData()[index++];
         int address = ByteUtils.getWord(lowByte, highByte);
 
-        byte data0 = getData()[index++];
+        index += 3;
 
-        AddressData addressData = new AddressData(address, AddressTypeEnum.valueOf((byte) (data0 & 0x0F)));
-        LOGGER.info("Prepared address data: {}", addressData);
+        byte data2 = getData()[index];
+        AddressTypeEnum addressTypeEnum = AddressTypeEnum.LOCOMOTIVE_BACKWARD;
+        if ((data2 & 0x80) == 0x80) {
+            addressTypeEnum = AddressTypeEnum.LOCOMOTIVE_FORWARD;
+        }
+        AddressData addressData = new AddressData(address, addressTypeEnum);
+        LOGGER.debug("Prepared address data: {}", addressData);
         return addressData;
     }
 

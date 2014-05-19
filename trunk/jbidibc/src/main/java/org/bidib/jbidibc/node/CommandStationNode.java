@@ -3,6 +3,9 @@ package org.bidib.jbidibc.node;
 import java.util.BitSet;
 
 import org.bidib.jbidibc.AddressData;
+import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
+import org.bidib.jbidibc.enumeration.ActivateCoilEnum;
+import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.enumeration.CommandStationPom;
 import org.bidib.jbidibc.enumeration.CommandStationPt;
 import org.bidib.jbidibc.enumeration.CommandStationState;
@@ -10,8 +13,12 @@ import org.bidib.jbidibc.enumeration.DirectionEnum;
 import org.bidib.jbidibc.enumeration.DriveAcknowledge;
 import org.bidib.jbidibc.enumeration.PomAcknowledge;
 import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
+import org.bidib.jbidibc.enumeration.TimeBaseUnitEnum;
+import org.bidib.jbidibc.enumeration.TimingControlEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
+import org.bidib.jbidibc.message.CommandStationAccessoryAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationBinaryStateMessage;
 import org.bidib.jbidibc.message.CommandStationDriveAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationDriveMessage;
@@ -77,6 +84,23 @@ public class CommandStationNode {
 
         if (response instanceof CommandStationStateResponse) {
             result = ((CommandStationStateResponse) response).getState();
+        }
+        return result;
+    }
+
+    public AccessoryAcknowledge setAccessory(
+        int address, AddressTypeEnum addressType, TimingControlEnum timingControl, ActivateCoilEnum activateCoil,
+        int aspect, TimeBaseUnitEnum timeBaseUnit, int time) throws ProtocolException {
+
+        LOGGER.debug("Set accessory, address: {}", address);
+
+        BidibCommand message =
+            delegate.getRequestFactory().createCommandStationAccessory(address, addressType, timingControl,
+                activateCoil, aspect, timeBaseUnit, time);
+        BidibMessage response = delegate.send(message, true, message.getExpectedResponseTypes());
+        AccessoryAcknowledge result = null;
+        if (response instanceof CommandStationAccessoryAcknowledgeResponse) {
+            result = ((CommandStationAccessoryAcknowledgeResponse) response).getAcknState();
         }
         return result;
     }
