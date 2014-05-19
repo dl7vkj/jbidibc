@@ -1,5 +1,8 @@
 package org.bidib.jbidibc.message;
 
+import java.io.ByteArrayOutputStream;
+
+import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -22,6 +25,21 @@ public class CommandStationAccessoryAcknowledgeResponse extends BidibMessage {
         }
 
         LOGGER.debug("Received response, acknowledge status: {}", getAcknState());
+    }
+
+    public CommandStationAccessoryAcknowledgeResponse(byte[] addr, int num, AddressData decoderAddress, byte acknowledge)
+        throws ProtocolException {
+        this(addr, num, TYPE, prepareData(decoderAddress, acknowledge));
+    }
+
+    private static byte[] prepareData(AddressData decoderAddress, byte acknowledge) {
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+        // write decoder address
+        decoderAddress.writeToStream(out);
+        // data
+        out.write(acknowledge);
+
+        return out.toByteArray();
     }
 
     public int getAddress() {
