@@ -27,15 +27,28 @@ public class CommandStationPomMessage extends BidibCommandMessage {
     /**
      * Create the command for a loco decoder.
      * 
-     * @param decoderAddress
+     * @param addressDID
      *            the decoder address
      * @param addressDID
      *            the DID address
+     * @param opCode
+     *            the operation code
+     * @param cvNumber
+     *            the CV number
+     * @param data
+     *            the CV data
      */
     public CommandStationPomMessage(DecoderIdAddressData addressDID, CommandStationPom opCode, int cvNumber, byte data) {
         super(0, BidibLibrary.MSG_CS_POM, prepareData(addressDID, opCode, cvNumber, data));
     }
 
+    /**
+     * Create the command for a loco decoder.
+     * 
+     * @param message
+     *            the message
+     * @throws ProtocolException
+     */
     public CommandStationPomMessage(byte[] message) throws ProtocolException {
         super(message);
     }

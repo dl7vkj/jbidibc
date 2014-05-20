@@ -1420,8 +1420,8 @@ public class BidibNode {
     /**
      * Get the vendor data with the provided name from the node.
      * 
-     * @param name
-     *            the vendor specific name
+     * @param cvNumbers
+     *            the list of CV numbers to fetch
      * @return the current vendor data values received from the node
      * @throws ProtocolException
      */
@@ -1585,9 +1585,9 @@ public class BidibNode {
      * 
      * @param outputType
      *            the port type
-     * @param outputNumber
-     *            the output number
-     * @return the configuration of the specified port.
+     * @param outputNumbers
+     *            the list of output numbers
+     * @return the configuration of the specified ports.
      * @throws ProtocolException
      */
     public List<LcConfig> getConfigBulk(LcOutputType outputType, int... outputNumbers) throws ProtocolException {

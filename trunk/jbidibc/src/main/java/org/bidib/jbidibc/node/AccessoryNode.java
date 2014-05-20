@@ -85,6 +85,15 @@ public class AccessoryNode extends DeviceNode {
         sendNoWait(new AccessoryGetMessage(accessoryNumber));
     }
 
+    /**
+     * Set the state of the specified accessory.
+     * 
+     * @param accessoryNumber
+     *            the number of the accessory
+     * @param aspect
+     *            the aspect to set
+     * @throws ProtocolException
+     */
     public void setAccessoryState(int accessoryNumber, int aspect) throws ProtocolException {
         // response is signaled asynchronously
         sendNoWait(new AccessorySetMessage(accessoryNumber, aspect));
@@ -150,10 +159,10 @@ public class AccessoryNode extends DeviceNode {
      * Get the macro parameter.
      * 
      * @param macroNumber
-     *            the macro numbr
-     * @param parameter
-     *            the parameter number
-     * @return the parameter value
+     *            the macro number
+     * @param parameters
+     *            the parameter numbers
+     * @return the list of parameter values
      * @throws ProtocolException
      */
     public List<LcMacroParaValue> getMacroParameters(int macroNumber, int... parameters) throws ProtocolException {
