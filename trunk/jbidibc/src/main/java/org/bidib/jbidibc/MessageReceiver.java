@@ -21,6 +21,7 @@ import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.BoostDiagnosticResponse;
 import org.bidib.jbidibc.message.BoostStatResponse;
+import org.bidib.jbidibc.message.CommandStationAccessoryAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationAccessoryManualResponse;
 import org.bidib.jbidibc.message.CommandStationDriveManualResponse;
 import org.bidib.jbidibc.message.CommandStationProgStateResponse;
@@ -316,6 +317,14 @@ public class MessageReceiver implements BidibMessageProcessor {
                                 (CommandStationDriveManualResponse) message;
                             fireCsDriveManual(commandStationDriveManualResponse);
                             break;
+                        case BidibLibrary.MSG_CS_ACCESSORY_ACK:
+                            // signal to waiting command
+                            messageReceived(message);
+                            // ... and notify others
+                            CommandStationAccessoryAcknowledgeResponse commandStationAccessoryAcknowledgeResponse =
+                                (CommandStationAccessoryAcknowledgeResponse) message;
+                            fireCsAccessoryAck(commandStationAccessoryAcknowledgeResponse);
+                            break;
                         case BidibLibrary.MSG_CS_ACCESSORY_MANUAL:
                             CommandStationAccessoryManualResponse commandStationAccessoryManualResponse =
                                 (CommandStationAccessoryManualResponse) message;
@@ -463,6 +472,17 @@ public class MessageReceiver implements BidibMessageProcessor {
             for (MessageListener l : messageListeners) {
                 l.csAccessoryManual(commandStationAccessoryManualResponse.getAddr(),
                     commandStationAccessoryManualResponse.getAspect());
+            }
+        }
+    }
+
+    protected void fireCsAccessoryAck(
+        CommandStationAccessoryAcknowledgeResponse commandStationAccessoryAcknowledgeResponse) {
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.csAccessoryAcknowledge(commandStationAccessoryAcknowledgeResponse.getAddr(),
+                    commandStationAccessoryAcknowledgeResponse.getAddress(),
+                    commandStationAccessoryAcknowledgeResponse.getAcknState());
             }
         }
     }

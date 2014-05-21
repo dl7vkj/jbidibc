@@ -2,6 +2,7 @@ package org.bidib.jbidibc;
 
 import java.util.Collection;
 
+import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.CommandStationProgState;
 import org.bidib.jbidibc.enumeration.CommandStationState;
@@ -129,6 +130,11 @@ public class BoostQuery extends BidibNodeCommand {
 
                     @Override
                     public void csAccessoryManual(byte[] address, int aspect) {
+                    }
+
+                    @Override
+                    public void csAccessoryAcknowledge(
+                        byte[] address, int decoderAddress, AccessoryAcknowledge acknowledge) {
                     }
                 });
 
