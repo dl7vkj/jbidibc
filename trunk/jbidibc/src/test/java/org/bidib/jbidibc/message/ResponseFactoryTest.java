@@ -512,4 +512,19 @@ public class ResponseFactoryTest {
         Assert.assertEquals(stringData.getIndex(), 0);
         Assert.assertEquals(stringData.getValue(), "BiDiB");
     }
+
+    @Test
+    public void createCommandStationDriveAcknowledgeResponseMessage() throws ProtocolException {
+        byte[] message = { 0x06, 0x00, (byte) 0xB8, (byte) 0xE2, (byte) 0x62, (byte) 0x02, 0x01 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+
+        LOGGER.info("prepared message: {}", bidibMessage);
+
+        Assert.assertTrue(bidibMessage instanceof CommandStationDriveAcknowledgeResponse,
+            "Expected a CommandStationDriveAcknowledgeResponse message.");
+        CommandStationDriveAcknowledgeResponse response = (CommandStationDriveAcknowledgeResponse) bidibMessage;
+        LOGGER.info("Received address: {}, state: {}", response.getAddress(), response.getState());
+    }
 }

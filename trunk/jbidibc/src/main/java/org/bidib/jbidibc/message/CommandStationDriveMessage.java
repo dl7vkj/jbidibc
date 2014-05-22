@@ -117,4 +117,10 @@ public class CommandStationDriveMessage extends BidibCommandMessage {
         return addressData;
     }
 
+    public int getSpeed() {
+        int speed = getData()[4] & 0x7F;
+        LOGGER.debug("Prepared speed: {}", speed);
+        return speed;
+    }
+
 }

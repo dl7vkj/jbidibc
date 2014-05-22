@@ -2,7 +2,9 @@ package org.bidib.jbidibc.message;
 
 import java.util.List;
 
+import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
@@ -46,4 +48,38 @@ public class RequestFactoryTest {
         Assert.assertEquals(BidibLibrary.MSG_VENDOR_GET, ByteUtils.getInt(bidibMessages.get(0).getType()));
     }
 
+    @Test
+    public void commandStationDriveMessageTest() throws ProtocolException {
+        byte[] message =
+            new byte[] { (byte) 0xFE, 0x0C, 0x00, (byte) 0xFC, 0x64, 0x62, 0x02, 0x03, 0x03, 0x22, 0x10, 0x00, 0x00,
+                0x00, (byte) 0x1B, (byte) 0xFE };
+        List<BidibCommand> bidibMessages = requestFactory.create(message);
+        LOGGER.info("Created messages: {}", bidibMessages);
+
+        Assert.assertNotNull(bidibMessages);
+        Assert.assertEquals(BidibLibrary.MSG_CS_DRIVE, ByteUtils.getInt(bidibMessages.get(0).getType()));
+
+        CommandStationDriveMessage commandStationDriveMessage = (CommandStationDriveMessage) bidibMessages.get(0);
+
+        Assert.assertEquals(new AddressData(610, AddressTypeEnum.LOCOMOTIVE_BACKWARD),
+            commandStationDriveMessage.getDecoderAddress());
+
+        Assert.assertEquals(0x22, commandStationDriveMessage.getSpeed());
+
+        message =
+            new byte[] { (byte) 0xFE, 0x0C, 0x00, (byte) 0xFC, 0x64, 0x62, 0x02, 0x03, 0x03, 0x00, 0x10, 0x00, 0x00,
+                0x00, (byte) 0xB5, (byte) 0xFE };
+        bidibMessages = requestFactory.create(message);
+        LOGGER.info("Created messages: {}", bidibMessages);
+
+        Assert.assertNotNull(bidibMessages);
+        Assert.assertEquals(BidibLibrary.MSG_CS_DRIVE, ByteUtils.getInt(bidibMessages.get(0).getType()));
+
+        commandStationDriveMessage = (CommandStationDriveMessage) bidibMessages.get(0);
+
+        Assert.assertEquals(new AddressData(610, AddressTypeEnum.LOCOMOTIVE_BACKWARD),
+            commandStationDriveMessage.getDecoderAddress());
+
+        Assert.assertEquals(0, commandStationDriveMessage.getSpeed());
+    }
 }
