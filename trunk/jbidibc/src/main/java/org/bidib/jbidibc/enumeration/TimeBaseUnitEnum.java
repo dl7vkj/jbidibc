@@ -2,13 +2,20 @@ package org.bidib.jbidibc.enumeration;
 
 public enum TimeBaseUnitEnum implements BidibEnum {
     // @formatter:off
-    UNIT_100MS(0), UNIT_1S(1);
+    UNIT_100MS("unit-100ms", 0), UNIT_1S("unit-1s", 1);
     // @formatter:on
+
+    private final String key;
 
     private final byte type;
 
-    TimeBaseUnitEnum(int type) {
+    TimeBaseUnitEnum(String key, int type) {
+        this.key = key;
         this.type = (byte) type;
+    }
+
+    public String getKey() {
+        return key;
     }
 
     public byte getType() {
