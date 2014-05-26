@@ -527,4 +527,35 @@ public class ResponseFactoryTest {
         CommandStationDriveAcknowledgeResponse response = (CommandStationDriveAcknowledgeResponse) bidibMessage;
         LOGGER.info("Received address: {}, state: {}", response.getAddress(), response.getState());
     }
+
+    @Test
+    public void createBoostDiagnosticResponseMessage() throws ProtocolException {
+        byte[] message = { 0x09, 0x00, 0x62, (byte) 0xB2, 0x00, 0x44, 0x01, (byte) 0xA9, 0x02, 0x13 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+
+        LOGGER.info("prepared message: {}", bidibMessage);
+
+        Assert.assertTrue(bidibMessage instanceof BoostDiagnosticResponse,
+            "Expected a BoostDiagnosticResponse message.");
+        BoostDiagnosticResponse response = (BoostDiagnosticResponse) bidibMessage;
+        LOGGER.info("Received current: {}, voltage: {}", response.getCurrent(), response.getVoltage());
+        Assert.assertEquals(response.getCurrent(), 272);
+        Assert.assertEquals(response.getVoltage(), 169);
+
+        message =
+            new byte[] { 0x09, 0x00, (byte) 0x4C, (byte) 0xB2, 0x00, (byte) 0x47, 0x01, (byte) 0x8A, 0x02, (byte) 0x1C };
+        bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+
+        LOGGER.info("prepared message: {}", bidibMessage);
+
+        Assert.assertTrue(bidibMessage instanceof BoostDiagnosticResponse,
+            "Expected a BoostDiagnosticResponse message.");
+        response = (BoostDiagnosticResponse) bidibMessage;
+        LOGGER.info("II. Received current: {}, voltage: {}", response.getCurrent(), response.getVoltage());
+        Assert.assertEquals(response.getCurrent(), 320);
+        Assert.assertEquals(response.getVoltage(), 138);
+    }
 }
