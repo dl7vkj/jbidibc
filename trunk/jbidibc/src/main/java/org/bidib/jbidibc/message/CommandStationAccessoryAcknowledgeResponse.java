@@ -35,7 +35,8 @@ public class CommandStationAccessoryAcknowledgeResponse extends BidibMessage {
     private static byte[] prepareData(AddressData decoderAddress, byte acknowledge) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         // write decoder address
-        decoderAddress.writeToStream(out);
+        out.write(ByteUtils.getLowByte(decoderAddress.getAddress()));
+        out.write(ByteUtils.getHighByte(decoderAddress.getAddress()));
         // data
         out.write(acknowledge);
 
