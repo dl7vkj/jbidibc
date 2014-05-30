@@ -131,6 +131,12 @@ public class CommandStationPomMessage extends BidibCommandMessage {
         return opCode;
     }
 
+    public int getCvNumber() {
+        byte[] data = getData();
+
+        return ByteUtils.getInt(data[6], data[7]);
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return new Integer[] { CommandStationPomAcknowledgeResponse.TYPE };
