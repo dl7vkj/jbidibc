@@ -24,4 +24,56 @@ public class FeedbackCvResponseTest {
         Assert.assertEquals(feedbackCvResponse.getCvNumber(), 5);
         Assert.assertEquals(feedbackCvResponse.getDat(), 1);
     }
+
+    @Test
+    public void shortAddressInCV29Test() throws ProtocolException {
+        byte[] message = new byte[] { 0x08, 0x00, 0x1A, (byte) 0xA5, 0x03, 0x00, 0x1C, 0x00, 0x0E };
+
+        BidibMessage result = new BidibMessage(message);
+        FeedbackCvResponse feedbackCvResponse =
+            new FeedbackCvResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+
+        Assert.assertNotNull(feedbackCvResponse);
+        LOGGER.info("Prepared feedbackCvResponse: {}", feedbackCvResponse);
+
+        Assert.assertEquals(feedbackCvResponse.getAddress(), 3);
+        Assert.assertEquals(feedbackCvResponse.getCvNumber(), 29);
+        Assert.assertEquals(feedbackCvResponse.getDat(), 14);
+
+        // check for bit 5 --> must be reset
+        int bitMask = prepareCompareBitMask(5);
+        int cvValue = feedbackCvResponse.getDat();
+        int res = cvValue & bitMask;
+
+        Assert.assertEquals(res, 0);
+    }
+
+    @Test
+    public void longAddressInCV29Test() throws ProtocolException {
+        byte[] message = new byte[] { 0x08, 0x00, 0x1A, (byte) 0xA5, 0x03, 0x00, 0x1C, 0x00, 0x2E };
+
+        BidibMessage result = new BidibMessage(message);
+        FeedbackCvResponse feedbackCvResponse =
+            new FeedbackCvResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+
+        Assert.assertNotNull(feedbackCvResponse);
+        LOGGER.info("Prepared feedbackCvResponse: {}", feedbackCvResponse);
+
+        Assert.assertEquals(feedbackCvResponse.getAddress(), 3);
+        Assert.assertEquals(feedbackCvResponse.getCvNumber(), 29);
+        Assert.assertEquals(feedbackCvResponse.getDat(), 46);
+
+        // check for bit 5 --> must be set
+        int bitMask = prepareCompareBitMask(5);
+        int cvValue = feedbackCvResponse.getDat();
+        int res = cvValue & bitMask;
+
+        Assert.assertEquals(res, bitMask);
+    }
+
+    protected int prepareCompareBitMask(int bitNumber) {
+        int compareValue = (1 << bitNumber);
+        return compareValue;
+    }
+
 }
