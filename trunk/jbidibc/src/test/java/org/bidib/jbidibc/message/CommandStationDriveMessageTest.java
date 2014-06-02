@@ -2,8 +2,11 @@ package org.bidib.jbidibc.message;
 
 import java.util.BitSet;
 
+import org.bidib.jbidibc.AddressData;
+import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.enumeration.DirectionEnum;
 import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
+import org.bidib.jbidibc.exception.ProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -80,5 +83,19 @@ public class CommandStationDriveMessageTest {
         // light
         // (F1...F4)
         Assert.assertEquals(message.getData()[5], (byte) 27); // FL,F3,F2,F1
+    }
+
+    @Test
+    public void prepareCommandStationDriveMessage() throws ProtocolException {
+        // FE 0B 00 39 64 03 00 01 84 00 00 00 00 DC FE
+        byte[] message = new byte[] { 0x0B, 0x00, 0x39, 0x64, 0x03, 0x00, 0x01, (byte) 0x84, 0x00, 0x00, 0x00, 0x00 };
+        CommandStationDriveMessage driveMessage = new CommandStationDriveMessage(message);
+        Assert.assertNotNull(driveMessage);
+        LOGGER.info("Prepare pomMessage: {}", driveMessage);
+
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_BACKWARD);
+
+        Assert.assertEquals(driveMessage.getDecoderAddress(), locoAddress);
+        Assert.assertEquals(driveMessage.getSpeed(), 0x00);
     }
 }
