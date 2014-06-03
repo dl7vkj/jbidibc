@@ -88,6 +88,21 @@ public class CommandStationNode {
         return result;
     }
 
+    public CommandStationState queryState() throws ProtocolException {
+
+        LOGGER.debug("Query the state of the commandStation.");
+
+        CommandStationState result = CommandStationState.OFF;
+        BidibMessage response =
+            delegate.send(new CommandStationSetStateMessage(CommandStationState.QUERY), true,
+                CommandStationStateResponse.TYPE);
+
+        if (response instanceof CommandStationStateResponse) {
+            result = ((CommandStationStateResponse) response).getState();
+        }
+        return result;
+    }
+
     public AccessoryAcknowledge setAccessory(
         int address, AddressTypeEnum addressType, TimingControlEnum timingControl, ActivateCoilEnum activateCoil,
         int aspect, TimeBaseUnitEnum timeBaseUnit, int time) throws ProtocolException {
