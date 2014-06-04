@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.enumeration.CommandStationPom;
+import org.bidib.jbidibc.enumeration.PomOperation;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -78,4 +79,63 @@ public class CommandStationPomMessageTest {
         Assert.assertEquals(pomMessage.getOpCode(), 0x01);
     }
 
+    // FE 0D 00 1B 67 03 00 00 00 00 01 02 00 00 00 14 FE
+    @Test
+    public void prepareCommandStationPomMessage3() throws ProtocolException {
+        byte[] message =
+            new byte[] { 0x0D, 0x00, 0x1B, 0x67, 0x03, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02, 0x00, 0x00, 0x00 };
+        CommandStationPomMessage pomMessage = new CommandStationPomMessage(message);
+        Assert.assertNotNull(pomMessage);
+
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
+
+        LOGGER.info("Prepare pomMessage: {}", pomMessage);
+        Assert.assertEquals(pomMessage.getDecoderAddress(), locoAddress);
+
+        Assert.assertEquals(pomMessage.getAddressX(), 0x00);
+        Assert.assertEquals(pomMessage.getMid(), 0x00);
+        Assert.assertEquals(pomMessage.getOpCode(), (int) PomOperation.RD_BYTE.getType());
+        Assert.assertEquals(pomMessage.getCvNumber(), 3);
+        Assert.assertEquals(pomMessage.getCvValue(), 0);
+    }
+
+    // FE 0D 00 1A 67 03 00 00 00 00 03 02 00 00 03 1D FE
+    @Test
+    public void prepareCommandStationPomMessage4() throws ProtocolException {
+        byte[] message =
+            new byte[] { 0x0D, 0x00, 0x1A, 0x67, 0x03, 0x00, 0x00, 0x00, 0x00, 0x03, 0x02, 0x00, 0x00, 0x03 };
+        CommandStationPomMessage pomMessage = new CommandStationPomMessage(message);
+        Assert.assertNotNull(pomMessage);
+
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
+
+        LOGGER.info("Prepare pomMessage: {}", pomMessage);
+        Assert.assertEquals(pomMessage.getDecoderAddress(), locoAddress);
+
+        Assert.assertEquals(pomMessage.getAddressX(), 0x00);
+        Assert.assertEquals(pomMessage.getMid(), 0x00);
+        Assert.assertEquals(pomMessage.getOpCode(), (int) PomOperation.WR_BYTE.getType());
+        Assert.assertEquals(pomMessage.getCvNumber(), 3);
+        Assert.assertEquals(pomMessage.getCvValue(), 3);
+    }
+
+    // FE 0D 00 1C 67 03 00 00 00 00 03 02 00 00 04 F7 FE
+    @Test
+    public void prepareCommandStationPomMessage5() throws ProtocolException {
+        byte[] message =
+            new byte[] { 0x0D, 0x00, 0x1C, 0x67, 0x03, 0x00, 0x00, 0x00, 0x00, 0x03, 0x02, 0x00, 0x00, 0x04 };
+        CommandStationPomMessage pomMessage = new CommandStationPomMessage(message);
+        Assert.assertNotNull(pomMessage);
+
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
+
+        LOGGER.info("Prepare pomMessage: {}", pomMessage);
+        Assert.assertEquals(pomMessage.getDecoderAddress(), locoAddress);
+
+        Assert.assertEquals(pomMessage.getAddressX(), 0x00);
+        Assert.assertEquals(pomMessage.getMid(), 0x00);
+        Assert.assertEquals(pomMessage.getOpCode(), (int) PomOperation.WR_BYTE.getType());
+        Assert.assertEquals(pomMessage.getCvNumber(), 3);
+        Assert.assertEquals(pomMessage.getCvValue(), 4);
+    }
 }

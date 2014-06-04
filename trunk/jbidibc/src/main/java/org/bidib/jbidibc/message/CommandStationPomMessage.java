@@ -134,7 +134,19 @@ public class CommandStationPomMessage extends BidibCommandMessage {
     public int getCvNumber() {
         byte[] data = getData();
 
-        return ByteUtils.getInt(data[6], data[7]);
+        return ByteUtils.getInt(data[6], data[7]) + 1; // 0 -> CV1
+    }
+
+    public int getCvNumberX() {
+        byte[] data = getData();
+
+        return ByteUtils.getInt(data[8]);
+    }
+
+    public int getCvValue() {
+        byte[] data = getData();
+
+        return ByteUtils.getInt(data[9]);
     }
 
     @Override

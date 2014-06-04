@@ -76,4 +76,20 @@ public class FeedbackCvResponseTest {
         return compareValue;
     }
 
+    // 08 00 45 A5 03 00 02 00 04
+    @Test
+    public void prepareCVFeedbackTest() throws ProtocolException {
+        byte[] message = new byte[] { 0x08, 0x00, 0x45, (byte) 0xA5, 0x03, 0x00, 0x02, 0x00, 0x04 };
+
+        BidibMessage result = new BidibMessage(message);
+        FeedbackCvResponse feedbackCvResponse =
+            new FeedbackCvResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+
+        Assert.assertNotNull(feedbackCvResponse);
+        LOGGER.info("Prepared feedbackCvResponse: {}", feedbackCvResponse);
+
+        Assert.assertEquals(feedbackCvResponse.getAddress(), 3);
+        Assert.assertEquals(feedbackCvResponse.getCvNumber(), 3);
+        Assert.assertEquals(feedbackCvResponse.getDat(), 4);
+    }
 }
