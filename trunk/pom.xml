@@ -50,9 +50,9 @@
         <commons-lang-version>2.6</commons-lang-version>
         <commons-io-version>2.4</commons-io-version>
         <!--saxon-version>9.5.1-1</saxon-version-->
-	<xalan-version>2.7.1</xalan-version>
+        <xalan-version>2.7.1</xalan-version>
         <xmlunit-version>1.5</xmlunit-version>
-		<junit-version>4.9</junit-version>
+        <junit-version>4.9</junit-version>
         <jcommander-version>1.32</jcommander-version>
         <jdepend-version>2.0-beta-2</jdepend-version>
         <sysout-over-slf4j-version>1.0.2</sysout-over-slf4j-version>
@@ -65,10 +65,8 @@
         <compiler.fork>1.7</compiler.fork>
         <gpg.useagent>true</gpg.useagent>
         <mockito-version>1.9.5</mockito-version>
-		
-	<maven.compiler.source>1.7</maven.compiler.source>
-	<maven.compiler.target>1.7</maven.compiler.target>
-
+        <maven.compiler.source>1.7</maven.compiler.source>
+        <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
     <modules>
         <module>jbidibc-rxtx-2.2</module>
@@ -84,8 +82,8 @@
         <pluginRepository>
             <id>maven-xml-formatter-plugin</id>
             <name>Maven2 XML Formatter Plugin repository</name>
-            <!--url>https://raw.github.com/benalexau/xml-formatter/master/releases/</url-->
-            <url>https://raw.github.com/jamestyrrell/xml-formatter/master/releases/</url>
+            <!--url>https://raw.github.com/jamestyrrell/xml-formatter/master/releases/</url-->
+            <url>https://raw.github.com/akuhtz/xml-formatter/master/releases/</url>
         </pluginRepository>
         <pluginRepository>
             <id>sonatype-snapshots</id>
@@ -95,13 +93,6 @@
     </pluginRepositories>
     <dependencyManagement>
         <dependencies>
-            <!--
-            <dependency>
-                <groupId>${rxtxcomm-groupId}</groupId>
-                <artifactId>rxtxcomm</artifactId>
-                <version>${rxtxcomm-version}</version>
-            </dependency>
-            -->
             <dependency>
                 <groupId>org.bidib.jbidib</groupId>
                 <artifactId>bidib-rxtx-binaries</artifactId>
@@ -127,18 +118,11 @@
                 <artifactId>eventbus</artifactId>
                 <version>1.4</version>
             </dependency>
-			<!--
             <dependency>
-                <groupId>net.sf.saxon</groupId>
-                <artifactId>Saxon-HE</artifactId>
-                <version>${saxon-version}</version>
+                <groupId>xalan</groupId>
+                <artifactId>xalan</artifactId>
+                <version>${xalan-version}</version>
             </dependency>
-			-->
-			<dependency>
-				<groupId>xalan</groupId>
-				<artifactId>xalan</artifactId>
-				<version>${xalan-version}</version>
-			</dependency>
             <dependency>
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
@@ -238,8 +222,8 @@
                 <plugin>
                     <groupId>org.technicalsoftwareconfigurationmanagement.maven-plugin</groupId>
                     <artifactId>tscm-maven-plugin</artifactId>
-                    <!--version>2.1.0.20111230154050</version-->
-                    <version>2.1.0.20120625205152</version>
+                    <!--version>2.1.0.20120625205152</version-->
+                    <version>2.1.0.20140605084252</version>
                 </plugin>
                 <plugin>
                     <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
@@ -264,7 +248,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                                 <pluginExecution>
@@ -277,7 +261,7 @@
                                         </goals>
                                     </pluginExecutionFilter>
                                     <action>
-                                        <ignore />
+                                        <ignore/>
                                     </action>
                                 </pluginExecution>
                             </pluginExecutions>
@@ -318,7 +302,6 @@
             </plugin>
         </plugins>
     </build>
-	
     <reporting>
         <plugins>
             <plugin>
@@ -326,40 +309,40 @@
                 <artifactId>jdepend-maven-plugin</artifactId>
                 <version>${jdepend-version}</version>
             </plugin>
-		  <plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-project-info-reports-plugin</artifactId>
-			<version>2.7</version>
-		  </plugin>
-		  <plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-pmd-plugin</artifactId>
-			<version>3.0.1</version>
-			<configuration>
-			  <targetJdk>${maven.compiler.target}</targetJdk>
-			</configuration>
-		  </plugin>
-		  <plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-javadoc-plugin</artifactId>
-			<version>2.9.1</version>
-			<configuration>
-			  <notimestamp>true</notimestamp>
-			</configuration>
-			<reportSets>
-			  <reportSet>
-				<reports>
-				  <report>javadoc</report>
-				</reports>
-			  </reportSet>
-			  <reportSet>
-				<inherited>false</inherited>
-				<reports>
-				  <report>aggregate</report>
-				</reports>
-			  </reportSet>
-			</reportSets>
-		  </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <targetJdk>${maven.compiler.target}</targetJdk>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <notimestamp>true</notimestamp>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
+                        <inherited>false</inherited>
+                        <reports>
+                            <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
         </plugins>
     </reporting>
     <profiles>
@@ -378,7 +361,7 @@
                             <compilerSource>${maven.compiler.source}</compilerSource>
                             <compilerCompliance>${maven.compiler.target}</compilerCompliance>
                             <compilerTargetPlatform>${maven.compiler.target}</compilerTargetPlatform>
-                            <lineEnding>LF</lineEnding>
+                            <!--lineEnding>LF</lineEnding-->
                             <encoding>UTF-8</encoding>
                             <configFile>${project.basedir}/../etc/codestyle.xml</configFile>
                         </configuration>
@@ -440,7 +423,7 @@
                             <compilerSource>${maven.compiler.source}</compilerSource>
                             <compilerCompliance>${maven.compiler.target}</compilerCompliance>
                             <compilerTargetPlatform>${maven.compiler.target}</compilerTargetPlatform>
-                            <lineEnding>LF</lineEnding>
+                            <!--lineEnding>LF</lineEnding-->
                             <encoding>UTF-8</encoding>
                             <configFile>${project.basedir}/../etc/codestyle.xml</configFile>
                         </configuration>
@@ -464,6 +447,7 @@
                         <groupId>org.technicalsoftwareconfigurationmanagement.maven-plugin</groupId>
                         <artifactId>tscm-maven-plugin</artifactId>
                         <configuration>
+                            <!--lineEnding>LF</lineEnding-->
                             <includes>
                                 <include>**/*.xml</include>
                             </includes>
@@ -494,7 +478,7 @@
                             <compilerSource>${maven.compiler.source}</compilerSource>
                             <compilerCompliance>${maven.compiler.target}</compilerCompliance>
                             <compilerTargetPlatform>${maven.compiler.target}</compilerTargetPlatform>
-                            <lineEnding>LF</lineEnding>
+                            <!--lineEnding>LF</lineEnding-->
                             <encoding>UTF-8</encoding>
                             <configFile>${project.basedir}/../etc/codestyle.xml</configFile>
                         </configuration>

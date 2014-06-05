@@ -1,52 +1,49 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="firmware_de.xsl"?>
+<?xml version="1.0" encoding="UTF-8"?><?xml-stylesheet type="text/xsl" href="firmware_de.xsl"?>
 
-<Firmware xsi:schemaLocation="http://www.bidib.org/schema/firmware firmware.xsd" xmlns:firmware="http://www.bidib.org/schema/firmware" 
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.bidib.org/schema/firmware">
-	<Version Version="0.1" Lastupdate="20140411" Author="BiDiB.org" Pid="201" Vendor="013" 
-		Description="Firmware Definition for StepControl !!!Minimum-Beispiel!!!"/>
-	<FirmwareDefinition>
-		<Node xsi:type="DeviceNode" VID="013" PID="201" >
-			<Nodetext Lang="de-DE" Text="StepControl: Neuinstallation"/>
-			<Nodetext Lang="en-EN" Text="StepControl: Initial installation"/>
-			<Node xsi:type="FirmwareNode" DestinationNumber="0" >
-				<Nodetext Lang="de-DE" Text="StepControl Main Flash"/>
-				<Nodetext Lang="en-EN" Text="StepControl Main Flash"/>
-				<Filename>StepControl_v0.1.0.000.hex</Filename>
-			</Node>
-			<Node xsi:type="FirmwareNode" DestinationNumber="1" >
-				<Nodetext Lang="de-DE" Text="StepControl Main Eeprom"/>
-				<Nodetext Lang="en-EN" Text="StepControl Main Eeprom"/>
-				<Filename>StepControl_v0.1.0.001.hex</Filename>
-			</Node>
-			<Node xsi:type="SimpleNode" >
-				<Nodetext Lang="de-DE" Text="StepControl Bühne"/>
-				<Nodetext Lang="en-EN" Text="StepControl Platform"/>
-				<Node xsi:type="FirmwareNode" DestinationNumber="2" >
-					<Nodetext Lang="de-DE" Text="StepControl Bühne Flash"/>
-					<Nodetext Lang="en-EN" Text="StepControl Platform Flash"/>
-					<Filename>StepControl_v0.1.0.002.hex</Filename>
-				</Node>
-				<Node xsi:type="FirmwareNode" DestinationNumber="3" >
-					<Nodetext Lang="de-DE" Text="StepControl Bühne Eeprom"/>
-					<Nodetext Lang="en-EN" Text="StepControl Platform Eeprom"/>
-					<Filename>StepControl_v0.1.0.003.hex</Filename>
-				</Node>
-				<Node xsi:type="FirmwareNode" DestinationNumber="4" >
-					<Nodetext Lang="de-DE" Text="StepControl Bühne Sounddatei 1"/>
-					<Nodetext Lang="en-EN" Text="StepControl Platform Soundfile 1"/>
-					<Filename>StepControl_v0.1.0.004.hex</Filename>
-				</Node>
-			</Node>
-		</Node>
-		<Node xsi:type="DeviceNode" VID="013" PID="201" >
-			<Nodetext Lang="de-DE" Text="StepControl: Update Installation"/>
-			<Nodetext Lang="en-EN" Text="StepControl: Update installation"/>
-			<Node xsi:type="FirmwareNode" DestinationNumber="0" >
-				<Nodetext Lang="de-DE" Text="StepControl Main Flash nur Update"/>
-				<Nodetext Lang="en-EN" Text="StepControl Main Flash Update Only"/>
-				<Filename>StepControl_update_v0.1.0.000.hex</Filename>
-			</Node>
-		</Node>
-	</FirmwareDefinition>
+<Firmware xmlns="http://www.bidib.org/schema/firmware" xmlns:firmware="http://www.bidib.org/schema/firmware" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/schema/firmware firmware.xsd">
+    <Version Version="0.1" Lastupdate="20140411" Author="BiDiB.org" Pid="201" Vendor="013" Description="Firmware Definition for StepControl !!!Minimum-Beispiel!!!"/>
+    <FirmwareDefinition>
+        <Node xsi:type="DeviceNode" VID="013" PID="201">
+            <Nodetext Lang="de-DE" Text="StepControl: Neuinstallation"/>
+            <Nodetext Lang="en-EN" Text="StepControl: Initial installation"/>
+            <Node xsi:type="FirmwareNode" DestinationNumber="0">
+                <Nodetext Lang="de-DE" Text="StepControl Main Flash"/>
+                <Nodetext Lang="en-EN" Text="StepControl Main Flash"/>
+                <Filename>StepControl_v0.1.0.000.hex</Filename>
+            </Node>
+            <Node xsi:type="FirmwareNode" DestinationNumber="1">
+                <Nodetext Lang="de-DE" Text="StepControl Main Eeprom"/>
+                <Nodetext Lang="en-EN" Text="StepControl Main Eeprom"/>
+                <Filename>StepControl_v0.1.0.001.hex</Filename>
+            </Node>
+            <Node xsi:type="SimpleNode">
+                <Nodetext Lang="de-DE" Text="StepControl Bühne"/>
+                <Nodetext Lang="en-EN" Text="StepControl Platform"/>
+                <Node xsi:type="FirmwareNode" DestinationNumber="2">
+                    <Nodetext Lang="de-DE" Text="StepControl Bühne Flash"/>
+                    <Nodetext Lang="en-EN" Text="StepControl Platform Flash"/>
+                    <Filename>StepControl_v0.1.0.002.hex</Filename>
+                </Node>
+                <Node xsi:type="FirmwareNode" DestinationNumber="3">
+                    <Nodetext Lang="de-DE" Text="StepControl Bühne Eeprom"/>
+                    <Nodetext Lang="en-EN" Text="StepControl Platform Eeprom"/>
+                    <Filename>StepControl_v0.1.0.003.hex</Filename>
+                </Node>
+                <Node xsi:type="FirmwareNode" DestinationNumber="4">
+                    <Nodetext Lang="de-DE" Text="StepControl Bühne Sounddatei 1"/>
+                    <Nodetext Lang="en-EN" Text="StepControl Platform Soundfile 1"/>
+                    <Filename>StepControl_v0.1.0.004.hex</Filename>
+                </Node>
+            </Node>
+        </Node>
+        <Node xsi:type="DeviceNode" VID="013" PID="201">
+            <Nodetext Lang="de-DE" Text="StepControl: Update Installation"/>
+            <Nodetext Lang="en-EN" Text="StepControl: Update installation"/>
+            <Node xsi:type="FirmwareNode" DestinationNumber="0">
+                <Nodetext Lang="de-DE" Text="StepControl Main Flash nur Update"/>
+                <Nodetext Lang="en-EN" Text="StepControl Main Flash Update Only"/>
+                <Filename>StepControl_update_v0.1.0.000.hex</Filename>
+            </Node>
+        </Node>
+    </FirmwareDefinition>
 </Firmware>

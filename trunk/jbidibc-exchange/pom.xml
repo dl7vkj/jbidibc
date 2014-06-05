@@ -20,26 +20,11 @@
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
-		<dependency>
-			<groupId>xalan</groupId>
-			<artifactId>xalan</artifactId>
-            <scope>test</scope>
-		</dependency>
-		<!--
         <dependency>
-            <groupId>net.sf.saxon</groupId>
-            <artifactId>Saxon-HE</artifactId>
+            <groupId>xalan</groupId>
+            <artifactId>xalan</artifactId>
             <scope>test</scope>
         </dependency>
-		-->
-        <!-- Xerces 2 -->
-        <!--
-		<dependency>
-			<groupId>xerces</groupId>
-			<artifactId>xercesImpl</artifactId>
-			<version>2.11.0</version>
-		</dependency>
-		-->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
@@ -55,12 +40,12 @@
             <artifactId>xmlunit</artifactId>
             <scope>test</scope>
         </dependency>
-		<dependency>
-			<!-- required by xmlunit -->
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+        <dependency>
+            <!-- required by xmlunit -->
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
-		</dependency>
+        </dependency>
         <dependency>
             <groupId>commons-io</groupId>
             <artifactId>commons-io</artifactId>
@@ -74,21 +59,6 @@
                 <artifactId>xslt-generator-maven-plugin</artifactId>
                 <version>1.8</version>
                 <executions>
-                    <!--
-                    <execution>
-                        <id>transform-vendorcv</id>
-                        <goals>
-                            <goal>many-to-many</goal>
-                        </goals>
-                        <configuration>
-                            <xslTemplate>src/main/resources/xsd/vendor_cv.xslt</xslTemplate>
-                            <srcDir>src/main/xml</srcDir>
-                            <srcIncludes>bidib/BiDiB*.xml</srcIncludes>
-                            <addDestDirTo>resources</addDestDirTo>
-                            <destDir>${project.build.directory}/generated-resources/xml</destDir>
-                        </configuration>
-                    </execution>
-                    -->
                     <execution>
                         <id>transform-bidib</id>
                         <goals>
@@ -109,13 +79,6 @@
                         <artifactId>xalan</artifactId>
                         <version>${xalan-version}</version>
                     </dependency>
-				<!--
-                    <dependency>
-                        <groupId>net.sf.saxon</groupId>
-                        <artifactId>Saxon-HE</artifactId>
-                        <version>${saxon-version}</version>
-                    </dependency>
-				-->
                 </dependencies>
             </plugin>
             <plugin>

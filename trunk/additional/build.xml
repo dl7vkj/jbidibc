@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project basedir="." default="jar" name="RXTX">
-
-  <property name="build"  location="${basedir}/bin"/>
-  <property name="source" location="${basedir}/src"/>
-
-  <target name="clean">
-    <delete dir="${build}"/>
-    <delete file="${basedir}/RXTXcomm-2.2.jar"/>
-  </target>
-
-  <target name="init">
-    <mkdir dir="${build}"/>
-  </target>
-
-  <target name="compile" depends="init">
-    <javac srcdir="${source}" destdir="${build}" debug="on"/>
-  </target>
-
-  <target name="jar" depends="compile">
-    <jar destfile="${basedir}/RXTXcomm-2.2.jar" basedir="${build}">
-      <manifest>
-        <attribute name="Built-By" value="${user.name}"/>
-      </manifest>
-    </jar>
-  </target>
-
+    <property name="build" location="${basedir}/bin"/>
+    <property name="source" location="${basedir}/src"/>
+    <target name="clean">
+        <delete dir="${build}"/>
+        <delete file="${basedir}/RXTXcomm-2.2.jar"/>
+    </target>
+    <target name="init">
+        <mkdir dir="${build}"/>
+    </target>
+    <target name="compile" depends="init">
+        <javac srcdir="${source}" destdir="${build}" debug="on"/>
+    </target>
+    <target name="jar" depends="compile">
+        <jar destfile="${basedir}/RXTXcomm-2.2.jar" basedir="${build}">
+            <manifest>
+                <attribute name="Built-By" value="${user.name}"/>
+            </manifest>
+        </jar>
+    </target>
 </project>

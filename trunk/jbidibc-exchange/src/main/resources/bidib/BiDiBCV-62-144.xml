@@ -1,25 +1,22 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
-	<Version Version="0.1" Lastupdate="20131025" Author="Tams, Kersten" Pid="144" Vendor="062" Description="BiDiB-Interface mit s88-Bridge">
-	</Version>
-	<CVDefinition>
-		<Node>
-			<Nodetext Lang="de-DE" Text="Module"/>
-			<Nodetext Lang="en-EN" Text="Modules"/>
-			<CV Number="1"  Type="Byte" Min="0" Max="32" Low="-" High="-" Values="-" Mode="rw">
-			  <Description Lang="de-DE" Text="Anzahl der Module in Strang 1"/>
-			  <Description Lang="en-EN" Text="Number of modules in section 1"/>
-		    </CV>
-		    <CV Number="2"  Type="Byte" Min="0" Max="32" Low="-" High="-" Values="-" Mode="rw">
-			  <Description Lang="de-DE" Text="Anzahl der Module in Strang 2"/>
-			  <Description Lang="en-EN" Text="Number of modules in section 2"/>
-		    </CV>
-		    <CV Number="3"  Type="Byte" Min="0" Max="32" Low="-" High="-" Values="-" Mode="rw">
-			  <Description Lang="de-DE" Text="Anzahl der Module in Strang 3"/>
-			  <Description Lang="en-EN" Text="Number of modules in section 3"/>
-		    </CV>
-		</Node>
-	</CVDefinition>
+<?xml version="1.0" encoding="UTF-8"?>
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+    <Version Version="0.1" Lastupdate="20131025" Author="Tams, Kersten" Pid="144" Vendor="062" Description="BiDiB-Interface mit s88-Bridge"/>
+    <CVDefinition>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Module"/>
+            <Nodetext Lang="en-EN" Text="Modules"/>
+            <CV Number="1" Type="Byte" Min="0" Max="32" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Anzahl der Module in Strang 1"/>
+                <Description Lang="en-EN" Text="Number of modules in section 1"/>
+            </CV>
+            <CV Number="2" Type="Byte" Min="0" Max="32" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Anzahl der Module in Strang 2"/>
+                <Description Lang="en-EN" Text="Number of modules in section 2"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="0" Max="32" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Anzahl der Module in Strang 3"/>
+                <Description Lang="en-EN" Text="Number of modules in section 3"/>
+            </CV>
+        </Node>
+    </CVDefinition>
 </VendorCV>
