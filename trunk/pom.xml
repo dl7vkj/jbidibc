@@ -223,7 +223,7 @@
                     <groupId>org.technicalsoftwareconfigurationmanagement.maven-plugin</groupId>
                     <artifactId>tscm-maven-plugin</artifactId>
                     <!--version>2.1.0.20120625205152</version-->
-                    <version>2.1.0.20140605084252</version>
+                    <version>2.1.0.20140605123054</version>
                 </plugin>
                 <plugin>
                     <groupId>com.googlecode.maven-java-formatter-plugin</groupId>
