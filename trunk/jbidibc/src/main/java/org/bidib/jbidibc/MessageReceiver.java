@@ -305,8 +305,8 @@ public class MessageReceiver implements BidibMessageProcessor {
                                 commandStationProgStateResponse.getCvData());
                             break;
                         case BidibLibrary.MSG_CS_STATE:
-                            // signal to waiting command
-                            messageReceived(message);
+                            // // signal to waiting command
+                            // messageReceived(message);
                             // ... and notify others
                             CommandStationStateResponse commandStationStateResponse =
                                 (CommandStationStateResponse) message;

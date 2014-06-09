@@ -17,6 +17,14 @@ public class BoostStatResponse extends BidibMessage {
         }
     }
 
+    public BoostStatResponse(byte[] addr, int num, BoosterState state) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_BOOST_STAT, state.getType());
+    }
+
+    public BoostStatResponse(byte[] addr, int num, byte state) throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_BOOST_STAT, state);
+    }
+
     public BoosterState getState() {
         return BoosterState.valueOf(getData()[0]);
     }

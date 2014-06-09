@@ -44,4 +44,35 @@ public enum CommandStationState implements BidibEnum {
         }
         return result;
     }
+
+    public static boolean isOnState(CommandStationState commandStationState) {
+        return !isPtProgState(commandStationState) && !isOffState(commandStationState);
+    }
+
+    public static boolean isOffState(CommandStationState commandStationState) {
+        boolean isOffState = false;
+        switch (commandStationState) {
+            case OFF:
+            case STOP:
+            case SOFTSTOP:
+                isOffState = true;
+                break;
+            default:
+                break;
+        }
+        return isOffState;
+    }
+
+    public static boolean isPtProgState(CommandStationState commandStationState) {
+        boolean isPtProgState = false;
+        switch (commandStationState) {
+            case PROG:
+            case PROGBUSY:
+                isPtProgState = true;
+                break;
+            default:
+                break;
+        }
+        return isPtProgState;
+    }
 }

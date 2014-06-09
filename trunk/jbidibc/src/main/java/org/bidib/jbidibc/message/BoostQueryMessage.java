@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.exception.ProtocolException;
 
 /**
  * Message to query the status of the booster
@@ -8,6 +9,10 @@ import org.bidib.jbidibc.BidibLibrary;
 public class BoostQueryMessage extends BidibCommandMessage {
     public BoostQueryMessage() {
         super(0, BidibLibrary.MSG_BOOST_QUERY);
+    }
+
+    public BoostQueryMessage(byte[] message) throws ProtocolException {
+        super(message);
     }
 
     @Override

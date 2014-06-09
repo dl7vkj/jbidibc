@@ -179,6 +179,15 @@ public class RequestFactory {
             case BidibLibrary.MSG_CS_PROG:
                 concreteBidibMessage = new CommandStationProgMessage(message);
                 break;
+            case BidibLibrary.MSG_BOOST_QUERY:
+                concreteBidibMessage = new BoostQueryMessage(message);
+                break;
+            case BidibLibrary.MSG_BOOST_ON:
+                concreteBidibMessage = new BoostOnMessage(message);
+                break;
+            case BidibLibrary.MSG_BOOST_OFF:
+                concreteBidibMessage = new BoostOffMessage(message);
+                break;
             case BidibLibrary.MSG_FEATURE_GET:
                 concreteBidibMessage = new FeatureGetMessage(message);
                 break;

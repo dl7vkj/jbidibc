@@ -3,6 +3,8 @@ package org.bidib.jbidibc.node;
 import java.util.BitSet;
 
 import org.bidib.jbidibc.AddressData;
+import org.bidib.jbidibc.MessageListener;
+import org.bidib.jbidibc.core.DefaultMessageListener;
 import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
 import org.bidib.jbidibc.enumeration.ActivateCoilEnum;
 import org.bidib.jbidibc.enumeration.AddressTypeEnum;
@@ -26,7 +28,6 @@ import org.bidib.jbidibc.message.CommandStationPomAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationPomMessage;
 import org.bidib.jbidibc.message.CommandStationProgMessage;
 import org.bidib.jbidibc.message.CommandStationSetStateMessage;
-import org.bidib.jbidibc.message.CommandStationStateResponse;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -77,30 +78,124 @@ public class CommandStationNode {
 
         LOGGER.debug("set state, commandStationState: {}", commandStationState);
 
-        CommandStationState result = CommandStationState.OFF;
-        BidibMessage response =
-            delegate.send(new CommandStationSetStateMessage(commandStationState), true,
-                CommandStationStateResponse.TYPE);
+        CommandStationState resultCommandStationState = CommandStationState.OFF;
 
-        if (response instanceof CommandStationStateResponse) {
-            result = ((CommandStationStateResponse) response).getState();
+        final Object commandStationStateFeedbackLock = new Object();
+        final CommandStationState[] resultHolder = new CommandStationState[1];
+
+        // create a temporary message listener
+        MessageListener messageListener = new DefaultMessageListener() {
+            @Override
+            public void csState(byte[] address, CommandStationState state) {
+                LOGGER.info("+++ Booster state was signalled: {}", state);
+
+                resultHolder[0] = state;
+
+                synchronized (commandStationStateFeedbackLock) {
+                    commandStationStateFeedbackLock.notify();
+                }
+            }
+        };
+
+        try {
+            // add the message listener to the node
+            addMessageListener(messageListener);
+
+            synchronized (commandStationStateFeedbackLock) {
+                // send the query command station state command
+                delegate.sendNoWait(new CommandStationSetStateMessage(commandStationState));
+
+                LOGGER.info("+++ The command station set state message was sent, wait for response.");
+                // wait for the response
+                try {
+                    commandStationStateFeedbackLock.wait(2000L);
+                }
+                catch (InterruptedException ie) {
+                    LOGGER.warn("Wait for command station state was interrupted.", ie);
+                }
+
+                LOGGER.info("+++ After wait for response.");
+            }
+
+            resultCommandStationState = resultHolder[0];
+            LOGGER.info("+++ Return the current command station state: {}", resultCommandStationState);
         }
-        return result;
+        finally {
+            // remove the temporary message listener
+            removeMessageListener(messageListener);
+        }
+
+        // BidibMessage response =
+        // delegate.send(new CommandStationSetStateMessage(commandStationState), true,
+        // CommandStationStateResponse.TYPE);
+        //
+        // if (response instanceof CommandStationStateResponse) {
+        // result = ((CommandStationStateResponse) response).getState();
+        // }
+        return resultCommandStationState;
     }
 
     public CommandStationState queryState() throws ProtocolException {
 
         LOGGER.debug("Query the state of the commandStation.");
 
-        CommandStationState result = CommandStationState.OFF;
-        BidibMessage response =
-            delegate.send(new CommandStationSetStateMessage(CommandStationState.QUERY), true,
-                CommandStationStateResponse.TYPE);
+        // TODO
 
-        if (response instanceof CommandStationStateResponse) {
-            result = ((CommandStationStateResponse) response).getState();
+        CommandStationState commandStationState = CommandStationState.OFF;
+
+        final Object commandStationStateFeedbackLock = new Object();
+        final CommandStationState[] resultHolder = new CommandStationState[1];
+
+        // create a temporary message listener
+        MessageListener messageListener = new DefaultMessageListener() {
+            @Override
+            public void csState(byte[] address, CommandStationState state) {
+                LOGGER.info("+++ Booster state was signalled: {}", state);
+
+                resultHolder[0] = state;
+
+                synchronized (commandStationStateFeedbackLock) {
+                    commandStationStateFeedbackLock.notify();
+                }
+            }
+        };
+
+        try {
+            // add the message listener to the node
+            addMessageListener(messageListener);
+
+            synchronized (commandStationStateFeedbackLock) {
+                // send the query command station state command
+                delegate.sendNoWait(new CommandStationSetStateMessage(CommandStationState.QUERY));
+
+                LOGGER.info("+++ The command station state query message was sent, wait for response.");
+                // wait for the response
+                try {
+                    commandStationStateFeedbackLock.wait(2000L);
+                }
+                catch (InterruptedException ie) {
+                    LOGGER.warn("Wait for command station state was interrupted.", ie);
+                }
+
+                LOGGER.info("+++ After wait for response.");
+            }
+
+            commandStationState = resultHolder[0];
+            LOGGER.info("+++ Return the current command station state: {}", commandStationState);
         }
-        return result;
+        finally {
+            // remove the temporary message listener
+            removeMessageListener(messageListener);
+        }
+
+        // BidibMessage response =
+        // delegate.send(new CommandStationSetStateMessage(CommandStationState.QUERY), true,
+        // CommandStationStateResponse.TYPE);
+        //
+        // if (response instanceof CommandStationStateResponse) {
+        // result = ((CommandStationStateResponse) response).getState();
+        // }
+        return commandStationState;
     }
 
     public AccessoryAcknowledge setAccessory(
@@ -173,5 +268,13 @@ public class CommandStationNode {
         LOGGER.info("Send PT write command, opCode: {}, cvNumber: {}, cvValue: {}", opCode, cvNumber, cvValue);
         byte data = ByteUtils.getLowByte(cvValue);
         delegate.sendNoWait(new CommandStationProgMessage(opCode, cvNumber, data));
+    }
+
+    private void addMessageListener(final MessageListener messageListener) {
+        delegate.getMessageReceiver().addMessageListener(messageListener);
+    }
+
+    private void removeMessageListener(final MessageListener messageListener) {
+        delegate.getMessageReceiver().removeMessageListener(messageListener);
     }
 }

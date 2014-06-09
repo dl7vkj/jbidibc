@@ -1,11 +1,12 @@
 package org.bidib.jbidibc.enumeration;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public enum BoosterState implements BidibEnum {
     // @formatter:off
-    OFF(BidibLibrary.BIDIB_BST_STATE_OFF), SHORT(BidibLibrary.BIDIB_BST_STATE_OFF_SHORT), OFF_HOT(
-        BidibLibrary.BIDIB_BST_STATE_OFF_HOT), NO_POWER(BidibLibrary.BIDIB_BST_STATE_OFF_NOPOWER), GO_REQ(
+    OFF(BidibLibrary.BIDIB_BST_STATE_OFF), OFF_SHORT(BidibLibrary.BIDIB_BST_STATE_OFF_SHORT), OFF_HOT(
+        BidibLibrary.BIDIB_BST_STATE_OFF_HOT), OFF_NO_POWER(BidibLibrary.BIDIB_BST_STATE_OFF_NOPOWER), OFF_GO_REQ(
         BidibLibrary.BIDIB_BST_STATE_OFF_GO_REQ), OFF_HERE(BidibLibrary.BIDIB_BST_STATE_OFF_HERE), OFF_NO_DCC(
         BidibLibrary.BIDIB_BST_STATE_OFF_NO_DCC), ON(BidibLibrary.BIDIB_BST_STATE_ON), ON_LIMIT(
         BidibLibrary.BIDIB_BST_STATE_ON_LIMIT), ON_HOT(BidibLibrary.BIDIB_BST_STATE_ON_HOT), ON_STOP_REQ(
@@ -43,5 +44,13 @@ public enum BoosterState implements BidibEnum {
             throw new IllegalArgumentException("cannot map " + type + " to a booster status");
         }
         return result;
+    }
+
+    public static boolean isOnState(BoosterState boosterState) {
+        return ((ByteUtils.getInt(boosterState.getType()) & 0x80) == 0x80);
+    }
+
+    public static boolean isOffState(BoosterState boosterState) {
+        return ((ByteUtils.getInt(boosterState.getType()) & 0x80) == 0x00);
     }
 }
