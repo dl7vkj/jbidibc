@@ -2,13 +2,23 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public class BoostDiagnosticResponse extends BidibMessage {
+    public static final Integer TYPE = BidibLibrary.MSG_BOOST_DIAGNOSTIC;
+
     BoostDiagnosticResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);
         if (data == null || data.length < 2) {
             throw new ProtocolException("no booster diagnostic");
         }
+    }
+
+    public BoostDiagnosticResponse(byte[] addr, int num, int current, int voltage, int temperature)
+        throws ProtocolException {
+        this(addr, num, BidibLibrary.MSG_BOOST_DIAGNOSTIC, new byte[] { BidibLibrary.BIDIB_BST_DIAG_I,
+            ByteUtils.getLowByte(current), BidibLibrary.BIDIB_BST_DIAG_V, ByteUtils.getLowByte(voltage),
+            BidibLibrary.BIDIB_BST_DIAG_T, ByteUtils.getLowByte(temperature) });
     }
 
     public static int convertCurrent(int current) {

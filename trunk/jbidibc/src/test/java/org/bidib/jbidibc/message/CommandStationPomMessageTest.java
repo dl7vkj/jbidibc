@@ -138,4 +138,24 @@ public class CommandStationPomMessageTest {
         Assert.assertEquals(pomMessage.getCvNumber(), 3);
         Assert.assertEquals(pomMessage.getCvValue(), 4);
     }
+
+    // FE 0D 00 76 67 0A 00 00 00 00 03 24 00 00 04 1B FE
+    @Test
+    public void prepareCommandStationPomMessage6() throws ProtocolException {
+        byte[] message =
+            new byte[] { 0x0D, 0x00, 0x76, 0x67, 0x0A, 0x00, 0x00, 0x00, 0x00, 0x03, 0x24, 0x00, 0x00, 0x04 };
+        CommandStationPomMessage pomMessage = new CommandStationPomMessage(message);
+        Assert.assertNotNull(pomMessage);
+
+        AddressData locoAddress = new AddressData(10, AddressTypeEnum.LOCOMOTIVE_FORWARD);
+
+        LOGGER.info("Prepare pomMessage: {}", pomMessage);
+        Assert.assertEquals(pomMessage.getDecoderAddress(), locoAddress);
+
+        Assert.assertEquals(pomMessage.getAddressX(), 0x00);
+        Assert.assertEquals(pomMessage.getMid(), 0x00);
+        Assert.assertEquals(pomMessage.getOpCode(), (int) PomOperation.WR_BYTE.getType());
+        Assert.assertEquals(pomMessage.getCvNumber(), 37);
+        Assert.assertEquals(pomMessage.getCvValue(), 4);
+    }
 }
