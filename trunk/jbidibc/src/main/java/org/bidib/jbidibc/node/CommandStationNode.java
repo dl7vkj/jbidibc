@@ -20,7 +20,6 @@ import org.bidib.jbidibc.enumeration.TimingControlEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
-import org.bidib.jbidibc.message.CommandStationAccessoryAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationBinaryStateMessage;
 import org.bidib.jbidibc.message.CommandStationDriveAcknowledgeResponse;
 import org.bidib.jbidibc.message.CommandStationDriveMessage;
@@ -204,15 +203,71 @@ public class CommandStationNode {
 
         LOGGER.debug("Set accessory, address: {}", address);
 
-        BidibCommand message =
-            delegate.getRequestFactory().createCommandStationAccessory(address, addressType, timingControl,
-                activateCoil, aspect, timeBaseUnit, time);
-        BidibMessage response = delegate.send(message, true, message.getExpectedResponseTypes());
-        AccessoryAcknowledge result = null;
-        if (response instanceof CommandStationAccessoryAcknowledgeResponse) {
-            result = ((CommandStationAccessoryAcknowledgeResponse) response).getAcknState();
+        final Object commandStationAccessoryFeedbackLock = new Object();
+        final AccessoryAcknowledge[] resultHolder = new AccessoryAcknowledge[1];
+
+        final int requestedDecoderAddress = address;
+        // create a temporary message listener
+        MessageListener messageListener = new DefaultMessageListener() {
+            @Override
+            public void csAccessoryAcknowledge(byte[] address, int decoderAddress, AccessoryAcknowledge acknowledge) {
+                LOGGER.info("+++ CS accessory ackn was signalled, decoderAddress: {}, acknowledge: {}", decoderAddress,
+                    acknowledge);
+
+                if (requestedDecoderAddress != decoderAddress) {
+                    LOGGER.info("Acknowledge from different decoder: {}, requested: {}", decoderAddress,
+                        requestedDecoderAddress);
+                }
+
+                resultHolder[0] = acknowledge;
+
+                synchronized (commandStationAccessoryFeedbackLock) {
+                    commandStationAccessoryFeedbackLock.notify();
+                }
+            }
+        };
+
+        AccessoryAcknowledge accessoryAcknowledge = null;
+        try {
+            // add the message listener to the node
+            addMessageListener(messageListener);
+
+            synchronized (commandStationAccessoryFeedbackLock) {
+                // send the query command station accessory command
+                BidibCommand message =
+                    delegate.getRequestFactory().createCommandStationAccessory(address, addressType, timingControl,
+                        activateCoil, aspect, timeBaseUnit, time);
+                delegate.sendNoWait(message);
+
+                LOGGER.info("+++ The command station accessory message was sent, wait for response.");
+                // wait for the response
+                try {
+                    commandStationAccessoryFeedbackLock.wait(2000L);
+                }
+                catch (InterruptedException ie) {
+                    LOGGER.warn("Wait for command station accessory ackn was interrupted.", ie);
+                }
+
+                LOGGER.info("+++ After wait for response.");
+            }
+
+            accessoryAcknowledge = resultHolder[0];
+            LOGGER.info("+++ Return the current command station accessory ackn: {}", accessoryAcknowledge);
         }
-        return result;
+        finally {
+            // remove the temporary message listener
+            removeMessageListener(messageListener);
+        }
+
+        // BidibCommand message =
+        // delegate.getRequestFactory().createCommandStationAccessory(address, addressType, timingControl,
+        // activateCoil, aspect, timeBaseUnit, time);
+        // BidibMessage response = delegate.send(message, true, message.getExpectedResponseTypes());
+        // AccessoryAcknowledge result = null;
+        // if (response instanceof CommandStationAccessoryAcknowledgeResponse) {
+        // result = ((CommandStationAccessoryAcknowledgeResponse) response).getAcknState();
+        // }
+        return accessoryAcknowledge;
     }
 
     public DriveAcknowledge releaseLoco(int address) throws ProtocolException {

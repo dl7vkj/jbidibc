@@ -37,6 +37,7 @@ import org.bidib.jbidibc.message.FeedbackOccupiedResponse;
 import org.bidib.jbidibc.message.FeedbackSpeedResponse;
 import org.bidib.jbidibc.message.LcKeyResponse;
 import org.bidib.jbidibc.message.LcStatResponse;
+import org.bidib.jbidibc.message.LcWaitResponse;
 import org.bidib.jbidibc.message.NodeLostResponse;
 import org.bidib.jbidibc.message.NodeNewResponse;
 import org.bidib.jbidibc.message.ResponseFactory;
@@ -204,6 +205,9 @@ public class MessageReceiver implements BidibMessageProcessor {
                             LOGGER.info("Received LcWaitResponse: {}", message);
                             // TODO I think this does not work if the sender is already waiting for a response ...
                             // setTimeout(((LcWaitResponse) message).getTimeout());
+                            LcWaitResponse lcWaitResponse = (LcWaitResponse) message;
+                            fireLcWait(message.getAddr(), lcWaitResponse.getPortType(), lcWaitResponse.getPortNumber(),
+                                lcWaitResponse.getPredictedRotationTime());
                             break;
                         case BidibLibrary.MSG_LOGON:
                             // ignored
@@ -305,9 +309,6 @@ public class MessageReceiver implements BidibMessageProcessor {
                                 commandStationProgStateResponse.getCvData());
                             break;
                         case BidibLibrary.MSG_CS_STATE:
-                            // // signal to waiting command
-                            // messageReceived(message);
-                            // ... and notify others
                             CommandStationStateResponse commandStationStateResponse =
                                 (CommandStationStateResponse) message;
                             fireCsState(message.getAddr(), commandStationStateResponse.getState());
@@ -318,9 +319,6 @@ public class MessageReceiver implements BidibMessageProcessor {
                             fireCsDriveManual(commandStationDriveManualResponse);
                             break;
                         case BidibLibrary.MSG_CS_ACCESSORY_ACK:
-                            // signal to waiting command
-                            messageReceived(message);
-                            // ... and notify others
                             CommandStationAccessoryAcknowledgeResponse commandStationAccessoryAcknowledgeResponse =
                                 (CommandStationAccessoryAcknowledgeResponse) message;
                             fireCsAccessoryAck(commandStationAccessoryAcknowledgeResponse);
@@ -556,6 +554,14 @@ public class MessageReceiver implements BidibMessageProcessor {
         synchronized (messageListeners) {
             for (MessageListener l : messageListeners) {
                 l.lcStat(address, portType, portNumber, portStatus);
+            }
+        }
+    }
+
+    private void fireLcWait(byte[] address, LcOutputType portType, int portNumber, int predRotationTime) {
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.lcWait(address, portType, portNumber, predRotationTime);
             }
         }
     }

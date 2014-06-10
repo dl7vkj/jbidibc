@@ -75,6 +75,10 @@ public class DefaultMessageListener implements MessageListener {
     }
 
     @Override
+    public void lcWait(byte[] address, LcOutputType portType, int portNumber, int predRotationTime) {
+    }
+
+    @Override
     public void feedbackAccessory(byte[] address, int detectorNumber, int accessoryAddress) {
     }
 

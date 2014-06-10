@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.message;
 
+import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 
@@ -16,9 +17,8 @@ public class LcWaitResponse extends BidibMessage {
         }
     }
 
-    public int getPortType() {
-        int result = ByteUtils.getInt(getData()[0]);
-        return result;
+    public LcOutputType getPortType() {
+        return LcOutputType.valueOf(getData()[0]);
     }
 
     public int getPortNumber() {
@@ -26,7 +26,7 @@ public class LcWaitResponse extends BidibMessage {
         return result;
     }
 
-    public int getTimeout() {
+    public int getPredictedRotationTime() {
         int result = ByteUtils.getInt(getData()[2]);
 
         return result > 127 ? result * 1000 : result * 100;
