@@ -1112,4 +1112,6 @@ public interface BidibLibrary {
     // supported service modes
     public static final int FEATURE_GEN_POM_REPEAT = 106;
 
+    // / 1: power up state, 0=off, 1=on
+    public static final int FEATURE_GEN_START_STATE = (int) 110;
 }

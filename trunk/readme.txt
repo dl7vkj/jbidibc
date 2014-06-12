@@ -27,6 +27,21 @@ http://testng.org/doc/download.html
 Use Eclipse Juno (m2e support added by default). Import the maven project: File -> Import -> Maven > Existing Maven Projects -> 
 Root directory > Select the bidib directory > Select the projects -> Finish
 
+Subversion
+==========
+
+The configuration file config for the subversion client is in the following directory : %USERPROFILE%\Application Data\Subversion or %USERPROFILE%\AppData\Roaming\Subversion (Win7)
+Add the following configuration for some file-types in the section [auto-props]:
+
+### Section for configuring automatic properties.
+[auto-props]
+*.java = svn:eol-style=native
+*.properties = svn:eol-style=native
+*.txt = svn:eol-style=native
+*.xml = svn:eol-style=native
+*.xsd = svn:eol-style=native
+
+
 Maven release
 =============
 
