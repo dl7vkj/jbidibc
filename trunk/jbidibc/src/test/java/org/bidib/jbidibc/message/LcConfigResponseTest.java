@@ -33,9 +33,33 @@ public class LcConfigResponseTest {
 
         Assert.assertEquals(lcConfig.getOutputNumber(), 16);
         Assert.assertEquals(lcConfig.getOutputType(), LcOutputType.SWITCHPORT);
+        Assert.assertFalse(lcConfig.isInActive());
 
         Assert.assertEquals(lcConfig.getValue1(), 2);
         Assert.assertEquals(lcConfig.getValue2(), 15);
     }
 
+    @Test
+    public void createLcConfigResponseInactivePortFromByteArray() throws ProtocolException {
+        byte[] message =
+            { 0x0a, 0x02, 0x00, (byte) 0xAB, (byte) 0xc2, (byte) 0x80 /* inactive */, 0x10, 0x02, 0x0F, 0x00, 0x00 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_LC_CONFIG);
+
+        LcConfigResponse lcConfigResponse = (LcConfigResponse) bidibMessage;
+        LOGGER.info("lcConfigResponse: {}", lcConfigResponse);
+
+        LcConfig lcConfig = lcConfigResponse.getLcConfig();
+        Assert.assertNotNull(lcConfig);
+        LOGGER.info("lcConfig: {}", lcConfig);
+
+        Assert.assertEquals(lcConfig.getOutputNumber(), 16);
+        Assert.assertEquals(lcConfig.getOutputType(), LcOutputType.SWITCHPORT);
+        Assert.assertTrue(lcConfig.isInActive());
+
+        Assert.assertEquals(lcConfig.getValue1(), 2);
+        Assert.assertEquals(lcConfig.getValue2(), 15);
+    }
 }

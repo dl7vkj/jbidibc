@@ -50,9 +50,6 @@ public enum LcOutputType implements BidibEnum, PortStatusAware {
     public static LcOutputType valueOf(byte type) {
         LcOutputType result = null;
 
-        // the MB is the flag for inactive ports
-        type = (byte) (type & 0x7F);
-
         for (LcOutputType e : values()) {
             if (e.type == type) {
                 result = e;

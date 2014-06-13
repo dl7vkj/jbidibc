@@ -9,6 +9,8 @@ public class LcConfig {
 
     private final int outputNumber;
 
+    private final boolean inActive;
+
     private final int value1;
 
     private final int value2;
@@ -17,8 +19,10 @@ public class LcConfig {
 
     private final int value4;
 
-    public LcConfig(LcOutputType outputType, int outputNumber, int value1, int value2, int value3, int value4) {
+    public LcConfig(LcOutputType outputType, boolean inActive, int outputNumber, int value1, int value2, int value3,
+        int value4) {
         this.outputType = outputType;
+        this.inActive = inActive;
         this.outputNumber = outputNumber;
         this.value1 = value1;
         this.value2 = value2;
@@ -28,6 +32,13 @@ public class LcConfig {
 
     public LcOutputType getOutputType() {
         return outputType;
+    }
+
+    /**
+     * @return the inActive flag
+     */
+    public boolean isInActive() {
+        return inActive;
     }
 
     public int getOutputNumber() {
