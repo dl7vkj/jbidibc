@@ -19,6 +19,8 @@ public class LcMacro {
 
     private final byte value;
 
+    // TODO think about changing the param outputType to a new MacroOutputType because macro supports system functions
+    // with macro level 2
     public LcMacro(byte macroNumber, byte stepNumber, byte delay, LcOutputType outputType, byte outputNumber,
         BidibEnum status, byte value) {
         this.macroNumber = macroNumber;
