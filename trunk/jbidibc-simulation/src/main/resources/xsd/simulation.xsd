@@ -21,6 +21,7 @@
 		<attribute name="dmxMapping" type="int" use="optional" default="0" />
 		<attribute name="dimSlopeUp" type="int" use="optional" default="0" />
 		<attribute name="dimSlopeDown" type="int" use="optional" default="0" />
+		<attribute name="value" type="int" use="optional" default="0" />
 	</complexType>
 	
 	<complexType name="PortType" abstract="true">
