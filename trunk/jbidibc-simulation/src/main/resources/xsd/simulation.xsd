@@ -16,12 +16,22 @@
 			<minLength value="7"/>
 		</restriction>
 	</simpleType>
+	<complexType name="BacklightPortParamsType">
+		<attribute name="portId" type="int" use="required" />
+		<attribute name="dmxMapping" type="int" use="optional" default="0" />
+		<attribute name="dimSlopeUp" type="int" use="optional" default="0" />
+		<attribute name="dimSlopeDown" type="int" use="optional" default="0" />
+	</complexType>
+	
 	<complexType name="PortType" abstract="true">
 		<attribute name="count" type="int" />
 	</complexType>
 	<complexType name="BacklightPortType">
 		<complexContent>
 			<extension base="sim:PortType">
+				<sequence>
+					<element name="port" type="sim:BacklightPortParamsType" minOccurs="0" maxOccurs="unbounded" />
+				</sequence>
 			</extension>
 		</complexContent>
 	</complexType>
