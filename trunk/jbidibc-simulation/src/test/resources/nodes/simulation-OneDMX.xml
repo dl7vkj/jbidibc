@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<simulation xmlns="http://www.bidib.org/jbidibc/simulation/nodes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/simulation/nodes /xsd/simulation.xsd">
+    <master uniqueId="d2000d680064ea" className="org.bidib.jbidibc.simulation.nodes.Master" address="0">
+        <subNodes>
+            <node uniqueId="05340D73901235" className="org.bidib.wizard.simulation.OneDMXSimulator" address="1">
+                <BACKLIGHT count="16">
+                	<port portId="0" dmxMapping="1" />
+                	<port portId="1" dmxMapping="3" />
+                	<port portId="2" dmxMapping="4" />
+                	<port portId="3" dmxMapping="3" />
+                </BACKLIGHT>
+                <LPORT count="128">
+                	<port portId="0" dmxMapping="1" intensityOff="20" intensityOn="240" />
+                	<port portId="1" dmxMapping="4" />
+                	<port portId="2" dmxMapping="4" />
+                	<port portId="3" dmxMapping="3" />
+                </LPORT>
+                <INPUT count="8"/>
+            </node>
+        </subNodes>
+    </master>
+</simulation>

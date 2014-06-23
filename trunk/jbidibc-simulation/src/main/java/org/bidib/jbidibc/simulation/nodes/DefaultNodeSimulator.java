@@ -98,6 +98,10 @@ public class DefaultNodeSimulator implements SimulatorNode {
         features.add(new Feature(BidibLibrary.FEATURE_RELEVANT_PID_BITS, 16));
     }
 
+    protected void prepareCVs() {
+        // do nothing
+    }
+
     @Override
     public Feature getFeature(int featureNum) {
         for (Feature feature : features) {
@@ -140,6 +144,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
         }
 
         prepareFeatures();
+        prepareCVs();
         prepared();
 
         String ownNodeAddress = getAddress().trim();
