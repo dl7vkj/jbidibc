@@ -61,7 +61,7 @@
             </CV>
         </Template>
         <Template Name="Backlight">
-            <CV Number="0" Type="Byte" Min="0" Max="63" Low="-" High="-" Values="-" Mode="h">
+            <CV Number="0" Type="Byte" Min="0" Max="63" Low="-" High="-" Values="-" Mode="ro">
                 <Description Lang="de-DE" Text="Backlight: DMX-Zielkanal (0..63)"/>
                 <Description Lang="en-EN" Text="Backlight: DMX target channel (0..63)"/>
             </CV>
