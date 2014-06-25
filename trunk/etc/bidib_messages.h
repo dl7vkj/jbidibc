@@ -865,7 +865,7 @@ typedef struct                              // t_bidib_cs_pom
 #define BIDIB_MSYS_ACC_OKAY_QIN1    243     // query input for 'pressed / activated' and send okay to accessory-module, if pressed, else send nok. (not waiting)
 #define BIDIB_MSYS_ACC_OKAY_QIN0    242     // query input for 'released' and send okay to accessory-module, if pressed, else send nok. (not waiting)
 #define BIDIB_MSYS_ACC_OKAY_NF      241     // send okay to accessory-module, no feedback available
-
+#define BIDIB_MSYS_SERVOMOVE_QUERY  240     // query servo movement and pause as long as moving
 
 // Macro global parameters
 #define BIDIB_MACRO_PARA_SLOWDOWN   0x01

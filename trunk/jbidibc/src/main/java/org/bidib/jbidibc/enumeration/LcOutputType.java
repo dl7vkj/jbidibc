@@ -14,7 +14,8 @@ public enum LcOutputType implements BidibEnum, PortStatusAware {
         BidibLibrary.BIDIB_MSYS_END_CRITCAL), BEGIN_CRITICAL(BidibLibrary.BIDIB_MSYS_BEGIN_CRITCAL), STOP_MACRO(
         BidibLibrary.BIDIB_MSYS_STOP_MACRO), START_MACRO(BidibLibrary.BIDIB_MSYS_START_MACRO), END_OF_MACRO(
         BidibLibrary.BIDIB_MSYS_END_OF_MACRO), ACCESSORY_OKAY_INPUTQUERY0(BidibLibrary.BIDIB_MSYS_ACC_OKAY_QIN0), ACCESSORY_OKAY_INPUTQUERY1(
-        BidibLibrary.BIDIB_MSYS_ACC_OKAY_QIN1), ACCESSORY_OKAY_NF(BidibLibrary.BIDIB_MSYS_ACC_OKAY_NF);
+        BidibLibrary.BIDIB_MSYS_ACC_OKAY_QIN1), ACCESSORY_OKAY_NF(BidibLibrary.BIDIB_MSYS_ACC_OKAY_NF), SERVOMOVE_QUERY(
+        BidibLibrary.BIDIB_MSYS_SERVOMOVE_QUERY);
     // @formatter:on
 
     private final byte type;

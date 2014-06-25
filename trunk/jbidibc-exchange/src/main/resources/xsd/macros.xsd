@@ -78,6 +78,17 @@
 			</xsd:extension>
 		</xsd:complexContent>
 	</xsd:complexType>
+	<xsd:complexType name="ServoMoveQueryPoint">
+		<xsd:complexContent>
+			<xsd:extension base="LcMacroPointType">
+				<xsd:sequence>
+					<xsd:element name="delay" type="MacroDelayType"
+						minOccurs="0" />
+					<xsd:element name="outputNumber" type="OutputNumberType"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
 	<xsd:complexType name="LightPortPoint">
 		<xsd:annotation>
 			<xsd:documentation>This macro point represents a light port.</xsd:documentation>

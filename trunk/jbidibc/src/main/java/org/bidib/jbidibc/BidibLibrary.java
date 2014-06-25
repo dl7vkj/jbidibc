@@ -1114,4 +1114,7 @@ public interface BidibLibrary {
 
     // / 1: power up state, 0=off, 1=on
     public static final int FEATURE_GEN_START_STATE = (int) 110;
+
+    // query servo movement and pause as long as moving
+    public static final int BIDIB_MSYS_SERVOMOVE_QUERY = (int) 240;
 }
