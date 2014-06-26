@@ -64,7 +64,6 @@ public class LcMacroExporter {
             case SERVOMOVE_QUERY:
                 ServoMoveQueryPoint servoMoveQueryPoint = new ServoMoveQueryPoint();
                 servoMoveQueryPoint.setOutputNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
-                servoMoveQueryPoint.setDelay(ByteUtils.getInt(lcMacro.getDelay()));
                 lcMacroPoint = servoMoveQueryPoint;
                 break;
             case ANALOGPORT:
