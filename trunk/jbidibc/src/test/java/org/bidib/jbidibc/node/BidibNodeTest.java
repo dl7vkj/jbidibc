@@ -398,7 +398,6 @@ public class BidibNodeTest {
         Mockito.doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
-                // Mock mock = invocation.getMock();
 
                 LOGGER.debug("Called with: {}", ByteUtils.bytesToHex((byte[]) args[0]));
                 byte[] message = (byte[]) args[0];
@@ -430,7 +429,6 @@ public class BidibNodeTest {
         Mockito.doAnswer(new Answer<Object>() {
             public Object answer(InvocationOnMock invocation) {
                 Object[] args = invocation.getArguments();
-                // Mock mock = invocation.getMock();
 
                 LOGGER.debug("Called with: {}", ByteUtils.bytesToHex((byte[]) args[0]));
                 byte[] message = (byte[]) args[0];
