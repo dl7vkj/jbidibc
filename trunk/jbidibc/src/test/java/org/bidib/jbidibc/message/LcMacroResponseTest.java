@@ -166,4 +166,22 @@ public class LcMacroResponseTest {
         Assert.assertEquals(lcMacroStateResponse.getMacroNumber(), 0);
         Assert.assertEquals(lcMacroStateResponse.getMacroState(), LcMacroState.RESTORE);
     }
+
+    // 29.06.2013 12:37:51.584: receive LcMacroResponse[[1],num=170,type=201,data=[0, 1, 255, 240, 1, 0]] : 0A 01
+    // 00 AA C9 00 01 FF F0 01 00
+    @Test
+    public void createLcMacroResponse7FromByteArray() throws ProtocolException {
+        byte[] message =
+            { 0x0A, 0x01, 0x00, (byte) 0xAA, (byte) 0xc9, 0x00, 0x01, (byte) 0xFF, (byte) 0xF0, 0x01, 0x00 };
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_LC_MACRO);
+
+        LcMacroResponse lcMacroResponse = (LcMacroResponse) bidibMessage;
+        LOGGER.info("lcMacroResponse: {}", lcMacroResponse);
+
+        Assert.assertEquals(lcMacroResponse.getMacro().getOutputNumber(), 1);
+        Assert.assertEquals(lcMacroResponse.getMacro().getOutputType(), LcOutputType.SERVOMOVE_QUERY);
+    }
 }
