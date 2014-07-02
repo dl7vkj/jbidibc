@@ -58,7 +58,7 @@
 			<Documentation Language="de-DE" Text="DMX Controller" Description="BiDiBOne OneDMX, DMX Controller und 8 Eingänge" Url="http://wiki.fichtelbahn.de/doku.php?id=onedmx"/>
 		</Product>
 		<Product ManufacturerId="13" ProductTypeId="117" Name="OneControl">
-			<Documentation Language="en-US" Text="DMX Controller" Description="16 Poweroutput, 8 Servos or 4 Servos and 16 detectors, up to 16 output lower 10mA" Url="http://wiki.fichtelbahn.de/doku.php?id=onecontrol"/>
+			<Documentation Language="en-US" Text="Switch, Servos, Occupancy Detector" Description="16 Poweroutput, 8 Servos or 4 Servos and 16 detectors, up to 16 output lower 10mA" Url="http://wiki.fichtelbahn.de/doku.php?id=onecontrol"/>
 			<Documentation Language="de-DE" Text="Schalten, Servos, Belegtmelder" Description="16 Powerausgänge, 8 Servos oder 4 Servos und 16 Melder, bis zu 16 externe Rückmeldeingänge, bis zu 16 Kleinverbraucherausgänge" Url="http://wiki.fichtelbahn.de/doku.php?id=onecontrol"/>
 		</Product>
 		<Product ManufacturerId="13" ProductTypeId="118" Name="BiDiBOne - OneIO">
@@ -66,13 +66,17 @@
 			<Documentation Language="en-US" Text="Universal I/O Module" Description="Universal input/output controller, 24 freely configurable ports" Url="http://www.bidib.org/support/product_id_e.html"/>
 		</Product>
 		<Product ManufacturerId="13" ProductTypeId="119" Name="StepControl 1 Bootloader">
-             <Documentation Language="en-US" Text="Bootloader" Description="only Bootloader" Url="http://www.opendcc.de/elektronik/drehscheibe/drehscheibe.html"/>
-             <Documentation Language="de-DE" Text="Bootloader" Description="Nur Bootloader" Url="http://www.opendcc.de/elektronik/drehscheibe/drehscheibe.html"/>
-         </Product>
-         <Product ManufacturerId="13" ProductTypeId="120" Name="StepControl 1 ">
-             <Documentation Language="en-US" Text="Stepper Controller" Description="Controller for turntables / traverser" Url="http://www.opendcc.de/elektronik/drehscheibe/drehscheibe.html"/>
-             <Documentation Language="de-DE" Text="Schrittmotor Controller" Description="Schrittmotorsteuerung für Drehscheiben / Schiebebühnen / Segmentbühnen" Url="http://www.opendcc.de/elektronik/drehscheibe/drehscheibe.html"/>
-         </Product>
+            <Documentation Language="en-US" Text="Bootloader" Description="only Bootloader" Url="http://www.opendcc.de/elektronik/drehscheibe/drehscheibe.html"/>
+            <Documentation Language="de-DE" Text="Bootloader" Description="Nur Bootloader" Url="http://www.opendcc.de/elektronik/drehscheibe/drehscheibe.html"/>
+        </Product>
+        <Product ManufacturerId="13" ProductTypeId="120" Name="StepControl 1">
+            <Documentation Language="en-US" Text="Stepper Controller" Description="Controller for turntables / traverser" Url="http://www.opendcc.de/elektronik/drehscheibe/drehscheibe.html"/>
+            <Documentation Language="de-DE" Text="Schrittmotor Controller" Description="Schrittmotorsteuerung für Drehscheiben / Schiebebühnen / Segmentbühnen" Url="http://www.opendcc.de/elektronik/drehscheibe/drehscheibe.html"/>
+        </Product>
+        <Product ManufacturerId="13" ProductTypeId="121" Name="OneServoTurn">
+            <Documentation Language="en-US" Text="Servo, frog polarisation" Description="Controller for servo and frog polarisation" Url="http://wiki.fichtelbahn.de/doku.php?id=oneservoturn"/>
+            <Documentation Language="de-DE" Text="Servo, Herzstück-Polarisierung" Description="Kontroller für Servo und Herzstück-Polarisierung" Url="http://wiki.fichtelbahn.de/doku.php?id=oneservoturn"/>
+        </Product>
 		<Product ManufacturerId="13" ProductTypeId="204" Name="OneOC">
 			<Documentation Language="en-US" Text="20 Optocoupler input" Description="BiDiBOne AddOn - 20 groundrelated input" Url="http://wiki.fichtelbahn.de/doku.php?id=oneoc"/>
 			<Documentation Language="de-DE" Text="20 Optokopplereingänge" Description="BiDiBOne AddOn - 20fach massebezogene Rückmelder" Url="http://wiki.fichtelbahn.de/doku.php?id=oneoc"/>
