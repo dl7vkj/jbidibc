@@ -5,11 +5,15 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
@@ -19,11 +23,14 @@ import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;
+import org.xml.sax.SAXException;
 
 public class VendorCvFactory {
     private static final Logger LOGGER = LoggerFactory.getLogger(VendorCvFactory.class);
 
     private static final String JAXB_PACKAGE = "org.bidib.jbidibc.vendorcv";
+
+    public static final String XSD_LOCATION = "/xsd/vendor_cv.xsd";
 
     public static VendorCV getCvDefinition(Node node, String... searchPaths) {
         LOGGER.info("Load the vendor cv definition for node: {}", node);
@@ -97,10 +104,14 @@ public class VendorCvFactory {
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            StreamSource streamSource = new StreamSource(VendorCvFactory.class.getResourceAsStream(XSD_LOCATION));
+            Schema schema = schemaFactory.newSchema(streamSource);
+            unmarshaller.setSchema(schema);
 
             vendorCV = (VendorCV) unmarshaller.unmarshal(is);
         }
-        catch (JAXBException ex) {
+        catch (JAXBException | SAXException ex) {
             LOGGER.warn("Load VendorCV from file failed.", ex);
         }
         return vendorCV;

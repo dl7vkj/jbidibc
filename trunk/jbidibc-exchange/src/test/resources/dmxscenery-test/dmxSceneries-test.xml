@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<dmxSceneries xmlns="http://www.bidib.org/jbidibc/dmxscenery" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/xsd/dmxsceneries.xsd">
+    <dmxScenery sceneryName="Scenery 1">
+        <dmxChannel channelName="DMX Kanal 1" channelNumber="1">
+            <lineColor red="255" green="55" blue="55"/>
+            <port xsi:type="LightPortType" portNumber="1"/>
+            <port xsi:type="LightPortType" portNumber="2"/>
+            <port xsi:type="BacklightPortType" portNumber="1"/>
+        </dmxChannel>
+    </dmxScenery>
+    <dmxScenery sceneryName="Scenery 2">
+        <dmxChannel channelName="DMX Kanal 2" channelNumber="2">
+            <lineColor red="55" green="55" blue="255"/>
+            <port xsi:type="LightPortType" portNumber="1"/>
+            <port xsi:type="LightPortType" portNumber="2"/>
+            <port xsi:type="BacklightPortType" portNumber="0"/>
+            <port xsi:type="BacklightPortType" portNumber="2"/>
+        </dmxChannel>
+        <dmxChannel channelName="DMX Kanal 3" channelNumber="3">
+            <lineColor red="55" green="255" blue="55"/>
+            <port xsi:type="LightPortType" portNumber="3"/>
+            <port xsi:type="LightPortType" portNumber="4"/>
+            <port xsi:type="BacklightPortType" portNumber="1"/>
+            <port xsi:type="BacklightPortType" portNumber="2"/>
+        </dmxChannel>
+    </dmxScenery>
+</dmxSceneries>

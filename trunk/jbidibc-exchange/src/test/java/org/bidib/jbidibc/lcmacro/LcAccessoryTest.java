@@ -4,12 +4,17 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.apache.commons.io.IOUtils;
+import org.bidib.jbidibc.dmxscenery.DmxSceneriesTest;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.slf4j.Logger;
@@ -25,15 +30,19 @@ public class LcAccessoryTest {
 
     private static final String JAXB_PACKAGE = "org.bidib.jbidibc.lcmacro";
 
-    private static final String XSD_LOCATION = "xsd/accessories.xsd";
+    private static final String XSD_LOCATION = "/xsd/accessories.xsd";
 
     @Test
-    public void loadAccessoryTest() throws JAXBException {
+    public void loadAccessoryTest() throws JAXBException, SAXException {
         LOGGER.info("Load accessory.");
 
         JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        StreamSource streamSource = new StreamSource(DmxSceneriesTest.class.getResourceAsStream(XSD_LOCATION));
+        Schema schema = schemaFactory.newSchema(streamSource);
+        unmarshaller.setSchema(schema);
 
         InputStream is = LcMacroTest.class.getResourceAsStream("/xsd/accessories.xml");
         LcAccessories accessories = (LcAccessories) unmarshaller.unmarshal(is);
@@ -62,7 +71,11 @@ public class LcAccessoryTest {
 
         Marshaller marshaller = jaxbContext.createMarshaller();
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+        // marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+        SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+        StreamSource streamSource = new StreamSource(DmxSceneriesTest.class.getResourceAsStream(XSD_LOCATION));
+        Schema schema = schemaFactory.newSchema(streamSource);
+        marshaller.setSchema(schema);
 
         LcAccessoryType lcAccessory = new LcAccessoryType();
         lcAccessory.setAccessoryId(1);

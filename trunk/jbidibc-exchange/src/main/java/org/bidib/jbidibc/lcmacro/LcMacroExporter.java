@@ -9,9 +9,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.enumeration.AnalogPortEnum;
@@ -31,7 +35,7 @@ public class LcMacroExporter {
 
     public static final String JAXB_PACKAGE = "org.bidib.jbidibc.lcmacro";
 
-    public static final String XSD_LOCATION = "xsd/macros.xsd";
+    public static final String XSD_LOCATION = "/xsd/macros.xsd";
 
     public LcMacroPointType prepareLcMacroPoint(LcMacro lcMacro) {
         LOGGER.info("Export the LcMacro: {}", lcMacro);
@@ -240,14 +244,18 @@ public class LcMacroExporter {
      */
     public void saveMacro(LcMacroType lcMacro, String fileName, boolean gzip) {
         LOGGER.info("Save macro content to file: {}, lcMacro: {}", fileName, lcMacro);
+
         OutputStream os = null;
         try {
-
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+            // marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            StreamSource streamSource = new StreamSource(LcMacroExporter.class.getResourceAsStream(XSD_LOCATION));
+            Schema schema = schemaFactory.newSchema(streamSource);
+            marshaller.setSchema(schema);
 
             LcMacros lcMacros = new LcMacros();
             lcMacros.setLcMacro(lcMacro);
@@ -285,13 +293,16 @@ public class LcMacroExporter {
     public LcMacroType loadMacro(String fileName) {
         LOGGER.info("Load macro content from file: {}", fileName);
 
-        // TODO
         InputStream is = null;
         LcMacros macros = null;
         try {
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            StreamSource streamSource = new StreamSource(LcMacroExporter.class.getResourceAsStream(XSD_LOCATION));
+            Schema schema = schemaFactory.newSchema(streamSource);
+            unmarshaller.setSchema(schema);
 
             File importFile = new File(fileName);
             is = new FileInputStream(importFile);

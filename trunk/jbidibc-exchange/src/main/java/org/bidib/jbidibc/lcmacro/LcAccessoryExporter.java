@@ -9,9 +9,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.zip.GZIPOutputStream;
 
+import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
+import javax.xml.transform.stream.StreamSource;
+import javax.xml.validation.Schema;
+import javax.xml.validation.SchemaFactory;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,7 +25,7 @@ public class LcAccessoryExporter {
 
     public static final String JAXB_PACKAGE = "org.bidib.jbidibc.lcmacro";
 
-    public static final String XSD_LOCATION = "xsd/accessories.xsd";
+    public static final String XSD_LOCATION = "/xsd/accessories.xsd";
 
     /**
      * Save a single accessory
@@ -40,7 +44,11 @@ public class LcAccessoryExporter {
 
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+            // marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            StreamSource streamSource = new StreamSource(LcAccessoryExporter.class.getResourceAsStream(XSD_LOCATION));
+            Schema schema = schemaFactory.newSchema(streamSource);
+            marshaller.setSchema(schema);
 
             LcAccessories lcAccessories = new LcAccessories();
             lcAccessories.setLcAccessory(lcAccessory);
@@ -85,6 +93,10 @@ public class LcAccessoryExporter {
             JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
             Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            StreamSource streamSource = new StreamSource(LcAccessoryExporter.class.getResourceAsStream(XSD_LOCATION));
+            Schema schema = schemaFactory.newSchema(streamSource);
+            unmarshaller.setSchema(schema);
 
             File importFile = new File(fileName);
             is = new FileInputStream(importFile);

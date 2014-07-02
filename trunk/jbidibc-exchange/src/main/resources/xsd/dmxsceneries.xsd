@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+	xmlns="http://www.bidib.org/jbidibc/dmxscenery"
+	xmlns:dmxscenery="http://www.bidib.org/jbidibc/dmxscenery"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	targetNamespace="http://www.bidib.org/jbidibc/dmxscenery" 
+	elementFormDefault="qualified" attributeFormDefault="unqualified" version="1.0">
+	
+	<xsd:complexType name="DmxSceneryType">
+		<xsd:sequence>
+			<xsd:element ref="dmxChannel" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="sceneryName" type="NameType" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="DmxChannelType">
+		<xsd:sequence>
+			<xsd:element ref="lineColor" />
+			<xsd:element ref="port" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:attribute name="channelNumber" type="ChannelNumberType" use="required"/>
+		<xsd:attribute name="channelName" type="NameType"/>
+	</xsd:complexType>
+
+	<xsd:complexType abstract="true" name="PortType">
+		<xsd:attribute name="portNumber" type="xsd:int" use="required"/>
+	</xsd:complexType>
+
+	<xsd:complexType name="LightPortType">
+		<xsd:complexContent>
+			<xsd:extension base="PortType">
+			</xsd:extension>
+		</xsd:complexContent>		
+	</xsd:complexType>
+	
+	<xsd:complexType name="BacklightPortType">
+		<xsd:complexContent>
+			<xsd:extension base="PortType">
+			</xsd:extension>
+		</xsd:complexContent>		
+	</xsd:complexType>
+
+
+	<xsd:complexType name="ColorType">
+		<xsd:attribute name="red" type="ColorValueType" use="required"/>
+		<xsd:attribute name="green" type="ColorValueType" use="required"/>
+		<xsd:attribute name="blue" type="ColorValueType" use="required"/>
+	</xsd:complexType>
+		
+	<xsd:simpleType name="NameType">
+		<xsd:annotation>
+			<xsd:documentation>The name of the scenery or DMX channel</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:string">
+			<xsd:minLength value="1"/>
+			<xsd:maxLength value="50"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+	
+	<xsd:simpleType name="ColorValueType">
+		<xsd:annotation>
+			<xsd:documentation>The color value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="ChannelNumberType">
+		<xsd:annotation>
+			<xsd:documentation>The DMX channel number</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="1"/>
+			<xsd:maxInclusive value="64"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:element name="dmxScenery" type="DmxSceneryType"/>
+	<xsd:element name="dmxChannel" type="DmxChannelType"/>
+	<xsd:element name="port" type="PortType"/>
+	<xsd:element name="lineColor" type="ColorType"/>
+
+	<xsd:element name="dmxSceneries">
+		<xsd:annotation>
+			<xsd:documentation>DMX sceneries definition</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="dmxscenery:dmxScenery" minOccurs="0" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>

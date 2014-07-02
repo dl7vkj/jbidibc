@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BiDiB>
+<BiDiB SchemaVersion="1">
 	<Products>
 		<Product ManufacturerId="13" ProductTypeId="101" Name="OpenDCC GBM16TC">
 			<Documentation Language="en-US" Text="occupancy detector" Description="16-64 channel railcom occupancy detector (stand-alone)" Url="http://www.opendcc.de/elektronik/gbmboost/gbmboost.html" />
