@@ -10,7 +10,7 @@ import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.SimulatorRegistry;
-import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ public abstract class SimulationMessageReceiver implements SimulationBidibMessag
                 for (BidibCommand bidibCommand : commands) {
                     LOGGER.info("Process the current bidibCommand: {}", bidibCommand);
 
-                    String nodeAddress = ByteUtils.bytesToHex(bidibCommand.getAddr());
+                    String nodeAddress = NodeUtils.formatAddress(bidibCommand.getAddr());
 
                     SimulatorNode simulatorNode = simulatorRegistry.getSimulator(nodeAddress);
                     if (simulatorNode != null) {

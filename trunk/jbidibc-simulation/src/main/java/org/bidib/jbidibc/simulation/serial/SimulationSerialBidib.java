@@ -26,6 +26,7 @@ import org.bidib.jbidibc.simulation.SimulatorRegistry;
 import org.bidib.jbidibc.simulation.net.SimulationBidibMessageProcessor;
 import org.bidib.jbidibc.simulation.net.SimulationMessageReceiver;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -90,7 +91,7 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
             for (BidibCommand bidibMessage : bidibMessages) {
                 byte[] address = ((BidibMessage) bidibMessage).getAddr();
 
-                String nodeAddress = ByteUtils.bytesToHex(address);
+                String nodeAddress = NodeUtils.formatAddress(address);
 
                 SimulatorNode simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
                 if (simulator == null) {

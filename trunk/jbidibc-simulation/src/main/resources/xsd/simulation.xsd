@@ -107,6 +107,16 @@
 			</extension>
 		</complexContent>
 	</complexType>
+
+	<complexType name="HubType">
+		<complexContent>
+			<extension base="sim:NodeType">
+				<sequence>
+					<element name="subNodes" type="sim:SubNodesType" minOccurs="0" />
+				</sequence>
+			</extension>
+		</complexContent>
+	</complexType>
 	
 	<element name="simulation">
 		<annotation>

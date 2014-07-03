@@ -39,6 +39,8 @@ public class ProductUtilsTest {
         long uniqueId = 0x81000D72006AEAL;
         Assert.assertTrue(ProductUtils.isOneHub(uniqueId));
         Assert.assertFalse(ProductUtils.isOneControl(uniqueId));
+
+        Assert.assertTrue(NodeUtils.hasSubNodesFunctions(uniqueId));
     }
 
     @Test

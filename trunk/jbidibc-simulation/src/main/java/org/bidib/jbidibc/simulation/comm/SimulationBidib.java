@@ -26,6 +26,7 @@ import org.bidib.jbidibc.simulation.SimulatorRegistry;
 import org.bidib.jbidibc.simulation.net.SimulationNetBidib;
 import org.bidib.jbidibc.simulation.serial.SimulationSerialBidib;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -86,9 +87,7 @@ public class SimulationBidib implements BidibInterface {
             LOGGER.warn("Get the root node failed.", ex);
         }
 
-        // RootNode rootNode = super.getRootNode();
-
-        String nodeAddress = ByteUtils.bytesToHex(rootNode.getAddr());
+        String nodeAddress = NodeUtils.formatAddress(rootNode.getAddr());
         SimulatorNode simulator = SimulatorRegistry.getInstance().getSimulator(nodeAddress);
         if (simulator == null) {
             LOGGER.warn("No simulator configured for the root node.");

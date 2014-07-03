@@ -9,6 +9,14 @@
             <node uniqueId="05343e97901235" className="org.bidib.jbidibc.simulation.nodes.Node" address="2">
                 <SPORT count="8"/>
             </node>
+            <node xsi:type="HubType" uniqueId="05343e97901236" className="org.bidib.jbidibc.simulation.nodes.Node" address="2">
+                <INPUT count="8"/>
+                <subNodes>
+                    <node uniqueId="05343e97901237" className="org.bidib.jbidibc.simulation.nodes.Node" address="1">
+                        <SPORT count="16"/>
+                    </node>
+                </subNodes>
+            </node>
         </subNodes>
     </master>
 </simulation>

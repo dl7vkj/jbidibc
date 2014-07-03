@@ -128,7 +128,6 @@ public final class ByteUtils {
             result = (result << 8) + (uniqueId[i] & 0xFF);
         }
         return result;
-        // return new BigInteger(uniqueId).longValue();
     }
 
     public static String toString(byte[] bytes) {

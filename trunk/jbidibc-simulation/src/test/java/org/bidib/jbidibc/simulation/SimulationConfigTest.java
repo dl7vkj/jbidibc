@@ -13,11 +13,13 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.bidib.jbidibc.simulation.nodes.BacklightPortParamsType;
+import org.bidib.jbidibc.simulation.nodes.HubType;
 import org.bidib.jbidibc.simulation.nodes.LightPortParamsType;
 import org.bidib.jbidibc.simulation.nodes.MasterType;
 import org.bidib.jbidibc.simulation.nodes.NodeType;
 import org.bidib.jbidibc.simulation.nodes.Simulation;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -67,22 +69,43 @@ public class SimulationConfigTest {
         Assert.assertNotNull(master.getSubNodes());
         Assert.assertNotNull(master.getSubNodes().getNode());
         List<NodeType> nodes = master.getSubNodes().getNode();
-        Assert.assertEquals(nodes.size(), 2);
+        Assert.assertEquals(nodes.size(), 3);
         Assert.assertEquals(ByteUtils.convertUniqueIdToLong(nodes.get(0).getUniqueId()), 0x05340d6B901234L);
         Assert.assertEquals(ByteUtils.convertUniqueIdToLong(nodes.get(1).getUniqueId()), 0x05343e97901235L);
 
-        // first port has LPORTs and SPORTs configured
+        // first node has LPORTs and SPORTs configured
         NodeType node = nodes.get(0);
         Assert.assertNotNull(node.getLPORT());
         Assert.assertEquals(node.getLPORT().getCount().intValue(), 32);
         Assert.assertNotNull(node.getSPORT());
         Assert.assertEquals(node.getSPORT().getCount().intValue(), 8);
 
-        // second port has no LPORTs but SPORTs configured
+        // second node has no LPORTs but SPORTs configured
         node = nodes.get(1);
         Assert.assertNull(node.getLPORT());
         Assert.assertNotNull(node.getSPORT());
         Assert.assertEquals(node.getSPORT().getCount().intValue(), 8);
+
+        // third node is a hub node an has INPUTs configured
+        node = nodes.get(2);
+
+        Assert.assertTrue(node instanceof HubType);
+        HubType hubNode = (HubType) node;
+        Assert.assertNull(node.getLPORT());
+        Assert.assertNull(node.getSPORT());
+        Assert.assertNotNull(node.getINPUT());
+        Assert.assertEquals(node.getINPUT().getCount().intValue(), 8);
+
+        Assert.assertNotNull(hubNode.getSubNodes());
+
+        List<NodeType> hubNodes = hubNode.getSubNodes().getNode();
+        Assert.assertEquals(hubNodes.size(), 1);
+
+        NodeType subNode = hubNodes.get(0);
+        Assert.assertEquals(NodeUtils.getUniqueId(subNode.getUniqueId()), 0x05343e97901237L);
+        Assert.assertNull(subNode.getLPORT());
+        Assert.assertNotNull(subNode.getSPORT());
+        Assert.assertEquals(subNode.getSPORT().getCount().intValue(), 16);
     }
 
     @Test

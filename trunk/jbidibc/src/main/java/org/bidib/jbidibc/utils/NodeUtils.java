@@ -33,6 +33,17 @@ public class NodeUtils {
         return result;
     }
 
+    public static String formatAddress(byte[] address) {
+        StringBuffer sb = new StringBuffer();
+        for (int index = 0; index < address.length; index++) {
+            sb.append(Byte.toString(address[index]));
+            if (index < address.length - 1) {
+                sb.append(".");
+            }
+        }
+        return sb.toString();
+    }
+
     /**
      * @return returns if node supports accessory functions
      */
@@ -115,6 +126,20 @@ public class NodeUtils {
 
         bb.putLong(uniqueId);
         System.arraycopy(bb.array(), 1, result, 0, result.length);
+        return result;
+    }
+
+    /**
+     * @param uniqueId
+     *            the unique id of the node as byte array
+     * @return returns the uniqueId of the node as long
+     */
+    public static long getUniqueId(byte[] uniqueId) {
+        long result = 0;
+
+        for (int i = 0; i < uniqueId.length; i++) {
+            result = (result << 8) + (uniqueId[i] & 0xFF);
+        }
         return result;
     }
 

@@ -34,6 +34,13 @@ public class NodeUtilsTest {
     }
 
     @Test
+    public void formatAddress() {
+        Assert.assertEquals(NodeUtils.formatAddress(new byte[] { 0 }), "0");
+        Assert.assertEquals(NodeUtils.formatAddress(new byte[] { 1 }), "1");
+        Assert.assertEquals(NodeUtils.formatAddress(new byte[] { 1, 2 }), "1.2");
+    }
+
+    @Test
     public void hasAccessoryFunctions() {
         BigInteger bigInt = new BigInteger("d7000d68000100", 16);
         long uniqueId = bigInt.longValue();
