@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
  * <i>E:/svn/jbidibc/jbidibc/jbidibc/rxtx</i>
  * </p>
  */
+@Deprecated
 public class LibraryPathManipulator {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(LibraryPathManipulator.class);

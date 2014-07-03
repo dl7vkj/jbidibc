@@ -2,11 +2,12 @@ package org.bidib.jbidibc.simulation.nodes;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.SortedMap;
+import java.util.TreeMap;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -58,7 +59,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     protected long uniqueId;
 
-    protected Map<String, SimulatorNode> subNodes = new HashMap<String, SimulatorNode>();
+    protected SortedMap<String, SimulatorNode> subNodes = new TreeMap<String, SimulatorNode>();
 
     private int sendNum;
 
@@ -147,7 +148,8 @@ public class DefaultNodeSimulator implements SimulatorNode {
         prepareCVs();
         prepared();
 
-        String ownNodeAddress = getAddress().trim();
+        // the address of myself is always 0
+        String ownNodeAddress = "00";
         LOGGER.info("Add myself as subnode, address: {}, simulator: {}", ownNodeAddress, this);
         subNodes.put(ownNodeAddress.trim(), this);
 
