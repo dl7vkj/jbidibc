@@ -4,18 +4,22 @@
         <subNodes>
             <node uniqueId="05340D73901235" className="org.bidib.wizard.simulation.OneDMXSimulator" address="1">
                 <BACKLIGHT count="16">
-                	<port portId="0" dmxMapping="1" />
-                	<port portId="1" dmxMapping="3" />
-                	<port portId="2" dmxMapping="4" />
-                	<port portId="3" dmxMapping="3" />
+                    <port portId="0" dmxMapping="1"/>
+                    <port portId="1" dmxMapping="3"/>
+                    <port portId="2" dmxMapping="4"/>
+                    <port portId="3" dmxMapping="3"/>
                 </BACKLIGHT>
                 <LPORT count="128">
-                	<port portId="0" dmxMapping="1" intensityOff="20" intensityOn="240" />
-                	<port portId="1" dmxMapping="4" />
-                	<port portId="2" dmxMapping="4" />
-                	<port portId="3" dmxMapping="3" />
+                    <port portId="0" dmxMapping="1" intensityOff="20" intensityOn="240"/>
+                    <port portId="1" dmxMapping="4"/>
+                    <port portId="2" dmxMapping="4"/>
+                    <port portId="3" dmxMapping="3"/>
                 </LPORT>
                 <INPUT count="8"/>
+                <DMXCHANNEL>
+                    <channel channelId="1" initialState="0"/>
+                    <channel channelId="2" initialState="50"/>
+                </DMXCHANNEL>
             </node>
         </subNodes>
     </master>

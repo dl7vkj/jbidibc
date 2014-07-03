@@ -171,5 +171,9 @@ public class SimulationConfigTest {
         Assert.assertEquals(backlightPortParamsType.getDmxMapping(), 1);
         backlightPortParamsType = node.getBACKLIGHT().getPort().get(1);
         Assert.assertEquals(backlightPortParamsType.getDmxMapping(), 3);
+
+        Assert.assertNotNull(node.getDMXCHANNEL());
+        Assert.assertNotNull(node.getDMXCHANNEL().getChannel());
+        Assert.assertEquals(node.getDMXCHANNEL().getChannel().size(), 2);
     }
 }

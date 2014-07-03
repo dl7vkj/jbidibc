@@ -78,6 +78,17 @@
 		</complexContent>
 	</complexType>
 
+	<complexType name="DmxChannelParamsType">
+		<attribute name="channelId" type="int" use="required" />
+		<attribute name="initialState" type="int" use="required"/>
+	</complexType>
+
+	<complexType name="DmxChannelType">
+		<sequence>
+			<element name="channel" type="sim:DmxChannelParamsType" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+
 	<complexType name="NodeType">
 		<sequence>
 			<element name="BACKLIGHT" type="sim:BacklightPortType" minOccurs="0" />
@@ -85,6 +96,7 @@
 			<element name="SPORT" type="sim:SwitchPortType" minOccurs="0" />
 			<element name="INPUT" type="sim:InputPortType" minOccurs="0" />
 			<element name="SERVO" type="sim:ServoPortType" minOccurs="0" />
+			<element name="DMXCHANNEL" type="sim:DmxChannelType" minOccurs="0" />
 		</sequence>
 		<attribute name="uniqueId" type="sim:UniqueIdType" use="required" />
 		<attribute name="className" type="sim:StringNotEmptyType" use="required" />

@@ -88,5 +88,6 @@
 		<Product ManufacturerId="13" ProductTypeId="221" Name="LED-Optics">
 			<Documentation Language="en-US" Text="Module by Jan Boen" Url="http://www.bidib.org/support/product_id_e.html"/>
 			<Documentation Language="de-DE" Text="Modul von Jan Boen" Url="http://www.bidib.org/support/product_id.html"/>
-		</Product>	</Products>
+		</Product>	
+	</Products>
 </BiDiB>

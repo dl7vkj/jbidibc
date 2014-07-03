@@ -174,6 +174,12 @@ public class SimulatorRegistry {
 
             if (simulator != null) {
                 LOGGER.info("Created new simulator: {}", simulator);
+
+                if (simulator instanceof DmxNode) {
+                    DmxNode dmxNode = (DmxNode) simulator;
+                    dmxNode.setDmxConfig(node.getDMXCHANNEL());
+                }
+
                 if (simulator instanceof SwitchingFunctionsNode) {
                     SwitchingFunctionsNode switchingFunctionsNode = (SwitchingFunctionsNode) simulator;
                     switchingFunctionsNode.setPortsConfig(node.getINPUT());
