@@ -16,7 +16,7 @@
                     <port portId="3" dmxMapping="3"/>
                 </LPORT>
                 <INPUT count="8"/>
-                <DMXCHANNEL>
+                <DMXCHANNEL count="64">
                     <channel channelId="1" initialState="0"/>
                     <channel channelId="2" initialState="50"/>
                 </DMXCHANNEL>

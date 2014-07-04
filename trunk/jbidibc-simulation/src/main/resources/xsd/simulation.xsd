@@ -87,6 +87,7 @@
 		<sequence>
 			<element name="channel" type="sim:DmxChannelParamsType" minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
+		<attribute name="count" type="int" />
 	</complexType>
 
 	<complexType name="NodeType">
