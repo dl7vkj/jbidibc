@@ -10,7 +10,9 @@ public class LineColorUtils {
      * @return the AWT color
      */
     public static Color getColor(ColorType colorType) {
-
+        if (colorType == null) {
+            return null;
+        }
         return new Color(colorType.getRed(), colorType.getGreen(), colorType.getBlue());
     }
 
@@ -20,6 +22,9 @@ public class LineColorUtils {
      * @return the color type
      */
     public static ColorType getColorType(Color color) {
+        if (color == null) {
+            return null;
+        }
 
         return new ColorType().withRed(color.getRed()).withGreen(color.getGreen()).withBlue(color.getBlue());
     }
