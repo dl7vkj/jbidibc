@@ -9,13 +9,30 @@
 	<xsd:complexType name="DmxSceneryType">
 		<xsd:sequence>
 			<xsd:element ref="dmxChannel" maxOccurs="unbounded"/>
+			<xsd:element ref="dmxSceneryPoints" minOccurs="0"/>
 		</xsd:sequence>
 		<xsd:attribute name="sceneryName" type="NameType" use="required"/>
 	</xsd:complexType>
 
+	<xsd:complexType name="DmxSceneryPointsType">
+		<xsd:sequence>
+			<xsd:element ref="dmxSceneryPoint" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+<!-- 		<xsd:attribute name="sceneryName" type="NameType" use="required"/> -->
+	</xsd:complexType>
+
+	<xsd:complexType name="DmxSceneryPointType">
+		<xsd:sequence>
+			<xsd:element ref="port" />
+			<xsd:element name="dmxChannelNumber" type="ChannelNumberType" />
+		</xsd:sequence>
+		<xsd:attribute name="timeOffset" type="TimeOffsetType" use="required"/>
+		<xsd:attribute name="brightness" type="BrightnessValueType" use="required"/>
+	</xsd:complexType>
+
 	<xsd:complexType name="DmxChannelType">
 		<xsd:sequence>
-			<xsd:element ref="lineColor" />
+			<xsd:element ref="lineColor" minOccurs="0" />
 			<xsd:element ref="port" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
 		<xsd:attribute name="channelNumber" type="ChannelNumberType" use="required"/>
@@ -67,6 +84,25 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="BrightnessValueType">
+		<xsd:annotation>
+			<xsd:documentation>The brightness value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="255"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="TimeOffsetType">
+		<xsd:annotation>
+			<xsd:documentation>The time offset value</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
 	<xsd:simpleType name="ChannelNumberType">
 		<xsd:annotation>
 			<xsd:documentation>The DMX channel number</xsd:documentation>
@@ -77,6 +113,8 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:element name="dmxSceneryPoint" type="DmxSceneryPointType"/>
+	<xsd:element name="dmxSceneryPoints" type="DmxSceneryPointsType"/>
 	<xsd:element name="dmxScenery" type="DmxSceneryType"/>
 	<xsd:element name="dmxChannel" type="DmxChannelType"/>
 	<xsd:element name="port" type="PortType"/>
