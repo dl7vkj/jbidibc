@@ -10,6 +10,7 @@
 		<xsd:sequence>
 			<xsd:element ref="dmxChannel" maxOccurs="unbounded"/>
 			<xsd:element ref="dmxSceneryPoints" minOccurs="0"/>
+			<xsd:element ref="macroNumber" minOccurs="0"/>
 		</xsd:sequence>
 		<xsd:attribute name="sceneryName" type="NameType" use="required"/>
 	</xsd:complexType>
@@ -113,12 +114,23 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
+	<xsd:simpleType name="MacroNumberType">
+		<xsd:annotation>
+			<xsd:documentation>The macro number</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:int">
+			<xsd:minInclusive value="0"/>
+			<xsd:maxInclusive value="20"/>
+		</xsd:restriction>
+	</xsd:simpleType>
+
 	<xsd:element name="dmxSceneryPoint" type="DmxSceneryPointType"/>
 	<xsd:element name="dmxSceneryPoints" type="DmxSceneryPointsType"/>
 	<xsd:element name="dmxScenery" type="DmxSceneryType"/>
 	<xsd:element name="dmxChannel" type="DmxChannelType"/>
 	<xsd:element name="port" type="PortType"/>
 	<xsd:element name="lineColor" type="ColorType"/>
+	<xsd:element name="macroNumber" type="MacroNumberType"/>
 
 	<xsd:element name="dmxSceneries">
 		<xsd:annotation>
