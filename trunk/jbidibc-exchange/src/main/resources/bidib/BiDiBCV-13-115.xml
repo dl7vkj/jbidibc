@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
-    <Version Version="0.03" Versionm="441" Lastupdate="20131009" Author="Kufer, Wolfgang" Pid="115" Vendor="013" Description="OneDMX V1.0"/>
+    <Version Version="0.04" Versionm="441" Lastupdate="20140709" Author="Kufer, Wolfgang" Pid="115" Vendor="013" Description="OneDMX V1.0"/>
     <Templates>
         <Template Name="About">
             <CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
@@ -39,9 +39,9 @@
             </CV>
         </Template>
         <Template Name="LightPort">
-            <CV Number="0" Type="Byte" Min="0" Max="63" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Light-Port: DMX-Zielkanal (0..63)"/>
-                <Description Lang="en-EN" Text="Light-Port: DMX target channel (0..63)"/>
+            <CV Number="0" Type="Byte" Min="0" Max="64" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Light-Port: DMX-Zielkanal (0..63), 64 = unbenutzt"/>
+                <Description Lang="en-EN" Text="Light-Port: DMX target channel (0..63), 64 = not in use"/>
             </CV>
             <CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Light-Port: Helligkeit für Zustand „aus“"/>
@@ -61,9 +61,9 @@
             </CV>
         </Template>
         <Template Name="Backlight">
-            <CV Number="0" Type="Byte" Min="0" Max="63" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Backlight: DMX-Zielkanal (0..63)"/>
-                <Description Lang="en-EN" Text="Backlight: DMX target channel (0..63)"/>
+            <CV Number="0" Type="Byte" Min="0" Max="64" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Backlight: DMX-Zielkanal (0..63), 64 = unbenutzt"/>
+                <Description Lang="en-EN" Text="Backlight: DMX target channel (0..63), 64 = not in use"/>
             </CV>
             <CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Backlight: Dimmzeit in Richtung „aus“, 1 = langsam / 255 = schnell"/>
@@ -132,7 +132,7 @@
             <Node>
                 <Nodetext Lang="de-DE" Text="DMX-Kanäle"/>
                 <Nodetext Lang="en-EN" Text="DMX-Channels"/>
-                <Node Offset="41" Template="DMX" Count="64" Next="1">
+                <Node Offset="71" Template="DMX" Count="64" Next="1">
                     <Nodetext Lang="de-DE" Text="DMX-Kanal %%p"/>
                     <Nodetext Lang="en-EN" Text="DMX-Channel %%p"/>
                 </Node>
@@ -140,7 +140,7 @@
             <Node>
                 <Nodetext Lang="de-DE" Text="Licht-Ports"/>
                 <Nodetext Lang="en-EN" Text="Light ports"/>
-                <Node Offset="105" Template="LightPort" Count="128" Next="5">
+                <Node Offset="135" Template="LightPort" Count="128" Next="5">
                     <Nodetext Lang="de-DE" Text="Licht-Port %%d"/>
                     <Nodetext Lang="en-EN" Text="Light port %%d"/>
                 </Node>
@@ -148,7 +148,7 @@
             <Node>
                 <Nodetext Lang="de-DE" Text="Backlight-Ports"/>
                 <Nodetext Lang="en-EN" Text="Backlight ports"/>
-                <Node Offset="745" Template="Backlight" Count="16" Next="4">
+                <Node Offset="775" Template="Backlight" Count="16" Next="4">
                     <Nodetext Lang="de-DE" Text="Backlight-Port %%d"/>
                     <Nodetext Lang="en-EN" Text="Backlight port %%d"/>
                 </Node>
@@ -156,7 +156,7 @@
             <Node>
                 <Nodetext Lang="de-DE" Text="Accessory"/>
                 <Nodetext Lang="en-EN" Text="Accessory"/>
-                <Node Offset="809" Template="AccessoryMap" Count="8" Next="9">
+                <Node Offset="839" Template="AccessoryMap" Count="8" Next="9">
                     <Nodetext Lang="de-DE" Text="Accessory %%d"/>
                     <Nodetext Lang="en-EN" Text="Accessory %%d"/>
                 </Node>
