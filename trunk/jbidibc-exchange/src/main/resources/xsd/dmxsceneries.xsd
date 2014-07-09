@@ -19,7 +19,6 @@
 		<xsd:sequence>
 			<xsd:element ref="dmxSceneryPoint" minOccurs="0" maxOccurs="unbounded"/>
 		</xsd:sequence>
-<!-- 		<xsd:attribute name="sceneryName" type="NameType" use="required"/> -->
 	</xsd:complexType>
 
 	<xsd:complexType name="DmxSceneryPointType">
