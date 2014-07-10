@@ -125,7 +125,7 @@
         <Node>
             <Nodetext Lang="de-DE" Text="Konfiguration"/>
             <Nodetext Lang="en-EN" Text="Config"/>
-            <CV Number="31" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+            <CV Number="61" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
                 <Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
             </CV>
