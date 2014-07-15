@@ -34,7 +34,6 @@ import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.utils.ByteUtils;
-import org.bidib.jbidibc.utils.LibraryPathManipulator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +56,7 @@ public final class Bidib extends AbstractBidib {
 
     private String logFile;
 
-    private boolean librariesLoaded;
+    // private boolean librariesLoaded;
 
     private static Bidib INSTANCE;
 
@@ -151,7 +150,7 @@ public final class Bidib extends AbstractBidib {
         List<String> portIdentifiers = new ArrayList<String>();
 
         // make sure the libraries are loaded
-        loadLibraries();
+        // loadLibraries();
 
         // get the comm port identifiers
         Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
@@ -284,12 +283,12 @@ public final class Bidib extends AbstractBidib {
         return serialPort;
     }
 
-    private void loadLibraries() {
-        if (!librariesLoaded) {
-            new LibraryPathManipulator().manipulateLibraryPath(null);
-            librariesLoaded = true;
-        }
-    }
+    // private void loadLibraries() {
+    // if (!librariesLoaded) {
+    // new LibraryPathManipulator().manipulateLibraryPath(null);
+    // librariesLoaded = true;
+    // }
+    // }
 
     @Override
     public void open(
@@ -306,7 +305,7 @@ public final class Bidib extends AbstractBidib {
             if (portName == null || portName.trim().isEmpty()) {
                 throw new PortNotFoundException("");
             }
-            loadLibraries();
+            // loadLibraries();
             LOGGER.info("Open port with name: {}", portName);
 
             File file = new File(portName);

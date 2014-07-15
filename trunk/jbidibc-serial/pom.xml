@@ -16,11 +16,19 @@
             <artifactId>jbidibc</artifactId>
             <version>${project.version}</version>
         </dependency>
+        
+        <dependency>
+            <groupId>org.bidib.com.neuronrobotics</groupId>
+            <artifactId>nrjavaserial</artifactId>
+            <version>3.9.2.1</version>
+        </dependency>
+        <!--
         <dependency>
             <groupId>org.bidib.jbidib</groupId>
             <artifactId>jbidibc-rxtx-2.2</artifactId>
             <version>${project.version}</version>
         </dependency>
+        -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
