@@ -23,7 +23,7 @@
 
 	<xsd:complexType name="DmxSceneryPointType">
 		<xsd:sequence>
-			<xsd:element ref="port" />
+			<xsd:element ref="port" minOccurs="0" />
 			<xsd:element name="dmxChannelNumber" type="ChannelNumberType" />
 		</xsd:sequence>
 		<xsd:attribute name="timeOffset" type="TimeOffsetType" use="required"/>

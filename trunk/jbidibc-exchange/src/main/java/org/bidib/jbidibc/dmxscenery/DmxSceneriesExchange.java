@@ -37,7 +37,11 @@ public class DmxSceneriesExchange {
 
             Marshaller marshaller = jaxbContext.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-            marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+            // marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+            SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+            StreamSource streamSource = new StreamSource(DmxSceneriesExchange.class.getResourceAsStream(XSD_LOCATION));
+            Schema schema = schemaFactory.newSchema(streamSource);
+            marshaller.setSchema(schema);
 
             os = new BufferedOutputStream(new FileOutputStream(fileName));
             if (gzip) {
