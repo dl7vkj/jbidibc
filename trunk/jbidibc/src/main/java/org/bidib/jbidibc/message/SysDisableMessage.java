@@ -12,6 +12,10 @@ public class SysDisableMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_SYS_DISABLE";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return null;

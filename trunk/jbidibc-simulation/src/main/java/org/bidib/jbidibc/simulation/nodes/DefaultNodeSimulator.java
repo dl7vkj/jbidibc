@@ -654,7 +654,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
         byte[] response = null;
         try {
             VendorGetMessage vendorGetMessage = (VendorGetMessage) bidibMessage;
-            String vendorDataName = vendorGetMessage.getName();
+            String vendorDataName = vendorGetMessage.getVendorDataName();
             LOGGER.info("Get the vendor data with name: {}", vendorDataName);
 
             // TODO fetch the value from the stored data ...

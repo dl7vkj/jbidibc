@@ -22,6 +22,10 @@ public class VendorAckResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_VENDOR_ACK, userConfigMode);
     }
 
+    public String getName() {
+        return "MSG_VENDOR_ACK";
+    }
+
     public int getReturnCode() {
         return ByteUtils.getInt(getData()[0]);
     }

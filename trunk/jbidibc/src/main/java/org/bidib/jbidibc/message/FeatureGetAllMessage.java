@@ -15,6 +15,10 @@ public class FeatureGetAllMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_FEATURE_GETALL";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return new Integer[] { FeatureCountResponse.TYPE };

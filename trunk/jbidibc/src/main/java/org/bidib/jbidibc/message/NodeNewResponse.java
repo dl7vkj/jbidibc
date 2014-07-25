@@ -9,4 +9,8 @@ public class NodeNewResponse extends NodeTabResponse {
     NodeNewResponse(byte[] addr, int num, int type, byte... data) throws ProtocolException {
         super(addr, num, type, data);
     }
+
+    public String getName() {
+        return "MSG_NODE_NEW";
+    }
 }

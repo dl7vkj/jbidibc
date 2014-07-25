@@ -12,6 +12,10 @@ public class NodeTabGetNextMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_NODETAB_GETNEXT";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return new Integer[] { NodeTabResponse.TYPE };

@@ -13,6 +13,10 @@ public class SysUniqueIdResponse extends BidibMessage {
         }
     }
 
+    public String getName() {
+        return "MSG_SYS_UNIQUE_ID";
+    }
+
     public byte[] getUniqueId() {
         return getData();
     }

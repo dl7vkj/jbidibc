@@ -13,6 +13,10 @@ public class SysIdentifyMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_SYS_IDENTIFY";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return null;

@@ -101,8 +101,12 @@ public class BidibMessage {
     }
 
     public String toString() {
-        return getClass().getSimpleName() + "[" + (addr != null ? ByteUtils.toString(addr) + "," : "") + "num="
-            + (num & 0xFF) + ",type=" + (type & 0xFF) + ",data=" + ByteUtils.toString(data) + "]";
+        return getName() + "[" + (addr != null ? ByteUtils.toString(addr) + "," : "") + "num=" + (num & 0xFF)
+            + ",type=" + (type & 0xFF) + ",data=" + ByteUtils.toString(data) + "]";
+    }
+
+    public String getName() {
+        return getClass().getSimpleName();
     }
 
     @Override

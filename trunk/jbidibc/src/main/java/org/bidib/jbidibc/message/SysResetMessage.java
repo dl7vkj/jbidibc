@@ -12,6 +12,10 @@ public class SysResetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_SYS_RESET";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return null;

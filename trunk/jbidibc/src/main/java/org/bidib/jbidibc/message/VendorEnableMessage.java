@@ -18,6 +18,10 @@ public class VendorEnableMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_VENDOR_ENABLE";
+    }
+
     public long getUniqueId() {
         byte[] uniqueId = new byte[7];
         System.arraycopy(getData(), 0, uniqueId, 0, uniqueId.length);

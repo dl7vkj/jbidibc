@@ -12,6 +12,10 @@ public class SysPingMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_SYS_PING";
+    }
+
     public byte getMarker() {
         return getData()[0];
     }

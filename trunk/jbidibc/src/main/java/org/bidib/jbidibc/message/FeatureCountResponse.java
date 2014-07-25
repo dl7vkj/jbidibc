@@ -21,6 +21,10 @@ public class FeatureCountResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_FEATURE_COUNT, ByteUtils.getLowByte(featureCount));
     }
 
+    public String getName() {
+        return "MSG_FEATURE_COUNT";
+    }
+
     public int getCount() {
         return ByteUtils.getInt(getData()[0]);
     }

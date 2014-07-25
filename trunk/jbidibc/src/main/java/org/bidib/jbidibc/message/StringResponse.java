@@ -20,6 +20,10 @@ public class StringResponse extends BidibMessage {
             new byte[] { namespace, index, ByteUtils.getLowByte(data.length()) }, data.getBytes()));
     }
 
+    public String getName() {
+        return "MSG_STRING";
+    }
+
     public StringData getStringData() {
         StringData stringData = new StringData();
         byte[] data = getData();

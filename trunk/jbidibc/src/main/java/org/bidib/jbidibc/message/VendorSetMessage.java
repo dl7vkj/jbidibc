@@ -14,6 +14,10 @@ public class VendorSetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_VENDOR_SET";
+    }
+
     public VendorData getVendorData() {
         VendorData result = new VendorData();
         byte[] data = getData();

@@ -14,6 +14,10 @@ public class SysIdentifyResponse extends BidibMessage {
         }
     }
 
+    public String getName() {
+        return "MSG_SYS_IDENTIFY_STATE";
+    }
+
     public IdentifyState getState() {
         return IdentifyState.valueOf(getData()[0]);
     }

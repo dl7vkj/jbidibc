@@ -17,6 +17,10 @@ public class SysPongResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_SYS_PONG, new byte[] { marker });
     }
 
+    public String getName() {
+        return "MSG_SYS_PONG";
+    }
+
     public byte getMarker() {
         return getData()[0];
     }

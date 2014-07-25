@@ -19,6 +19,10 @@ public class SysClockMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_SYS_CLOCK";
+    }
+
     public static byte getAccelerationFactor(int factor) {
         return (byte) ((factor | 0xC0) & 0xDF);
     }

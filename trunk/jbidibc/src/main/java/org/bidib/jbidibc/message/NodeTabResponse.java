@@ -24,6 +24,10 @@ public class NodeTabResponse extends BidibMessage {
             ByteUtils.getVidPidFromUniqueId(uniqueId)));
     }
 
+    public String getName() {
+        return "MSG_NODETAB";
+    }
+
     /**
      * Create a new node based on the parent address and the received data.
      * 

@@ -23,6 +23,10 @@ public class FeatureNotAvailableResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_FEATURE_NA, ByteUtils.getLowByte(featureNum));
     }
 
+    public String getName() {
+        return "MSG_FEATURE_NA";
+    }
+
     /**
      * @return the feature number
      */

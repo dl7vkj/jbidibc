@@ -16,6 +16,10 @@ public class NodeTabGetAllMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_NODETAB_GETALL";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return new Integer[] { NodeTabCountResponse.TYPE };

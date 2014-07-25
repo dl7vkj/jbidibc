@@ -12,6 +12,10 @@ public class VendorDisableMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_VENDOR_DISABLE";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return new Integer[] { VendorAckResponse.TYPE };

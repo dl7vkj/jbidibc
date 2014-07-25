@@ -14,6 +14,10 @@ public class VendorGetMessage extends BidibCommandMessage {
     }
 
     public String getName() {
+        return "MSG_VENDOR_GET";
+    }
+
+    public String getVendorDataName() {
         return ByteUtils.cstr(getData(), 0);
     }
 

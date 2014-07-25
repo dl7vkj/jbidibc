@@ -12,6 +12,10 @@ public class SysMagicMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_SYS_GET_MAGIC";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return new Integer[] { SysMagicResponse.TYPE };

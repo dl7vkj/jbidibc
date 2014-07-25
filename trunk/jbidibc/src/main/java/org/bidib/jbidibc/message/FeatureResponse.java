@@ -20,6 +20,10 @@ public class FeatureResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_FEATURE, ByteUtils.getLowByte(featureNum), ByteUtils.getLowByte(featureValue));
     }
 
+    public String getName() {
+        return "MSG_FEATURE";
+    }
+
     public Feature getFeature() {
         byte[] data = getData();
 

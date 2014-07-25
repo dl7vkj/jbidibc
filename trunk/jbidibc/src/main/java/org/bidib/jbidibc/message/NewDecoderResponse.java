@@ -18,6 +18,10 @@ public class NewDecoderResponse extends BidibMessage {
         }
     }
 
+    public String getName() {
+        return "MSG_NEW_DECODER";
+    }
+
     public int getLocalDetectorAddress() {
         byte[] data = getData();
 

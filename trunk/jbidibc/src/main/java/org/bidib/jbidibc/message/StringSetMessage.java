@@ -14,6 +14,10 @@ public class StringSetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_STRING_SET";
+    }
+
     private static byte[] bstr(int namespace, int stringId, String value) {
         if (value.length() > 127) {
             throw new IllegalArgumentException("Length of string exceeds 127.");

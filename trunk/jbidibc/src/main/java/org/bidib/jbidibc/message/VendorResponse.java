@@ -19,6 +19,10 @@ public class VendorResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_VENDOR, ByteUtils.bstr(name, value));
     }
 
+    public String getName() {
+        return "MSG_VENDOR";
+    }
+
     public VendorData getVendorData() {
         VendorData result = new VendorData();
         byte[] data = getData();

@@ -12,6 +12,10 @@ public class NodeChangedAckMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_NODE_CHANGED_ACK";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return null;

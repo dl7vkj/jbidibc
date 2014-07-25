@@ -12,6 +12,10 @@ public class SysEnableMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_SYS_ENABLE";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return null;

@@ -27,6 +27,10 @@ public class FeedbackCvResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_BM_CV, prepareData(address, cvNumber & 0x3FF, dat));
     }
 
+    public String getName() {
+        return "MSG_BM_CV";
+    }
+
     public int getDetectorNumber() {
         return ByteUtils.getInt(getData()[0], 0x7F);
     }

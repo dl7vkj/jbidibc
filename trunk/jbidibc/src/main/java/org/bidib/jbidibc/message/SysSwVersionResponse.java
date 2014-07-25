@@ -20,6 +20,10 @@ public class SysSwVersionResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_SYS_SW_VERSION, majorVersion, minorVersion, microVersion);
     }
 
+    public String getName() {
+        return "MSG_SYS_SW_VERSION";
+    }
+
     public SoftwareVersion getVersion() {
         byte[] data = getData();
 

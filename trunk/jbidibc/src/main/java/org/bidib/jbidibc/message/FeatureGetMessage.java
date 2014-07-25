@@ -28,6 +28,10 @@ public class FeatureGetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_FEATURE_GET";
+    }
+
     public int getNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

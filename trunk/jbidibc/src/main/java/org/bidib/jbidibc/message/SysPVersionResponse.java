@@ -19,6 +19,10 @@ public class SysPVersionResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_SYS_P_VERSION, majorVersion, minorVersion);
     }
 
+    public String getName() {
+        return "MSG_SYS_P_VERSION";
+    }
+
     public ProtocolVersion getVersion() {
         byte[] data = getData();
 

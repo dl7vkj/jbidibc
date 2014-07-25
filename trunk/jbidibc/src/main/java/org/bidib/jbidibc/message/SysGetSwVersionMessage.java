@@ -12,6 +12,10 @@ public class SysGetSwVersionMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_SYS_GET_SW_VERSION";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return new Integer[] { SysSwVersionResponse.TYPE };

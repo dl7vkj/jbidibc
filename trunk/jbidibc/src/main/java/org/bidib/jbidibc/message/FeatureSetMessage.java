@@ -13,6 +13,10 @@ public class FeatureSetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_FEATURE_SET";
+    }
+
     public int getNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

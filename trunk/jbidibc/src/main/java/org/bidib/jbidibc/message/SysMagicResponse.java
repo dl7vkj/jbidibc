@@ -20,6 +20,10 @@ public class SysMagicResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_SYS_MAGIC, data);
     }
 
+    public String getName() {
+        return "MSG_SYS_MAGIC";
+    }
+
     public int getMagic() {
         byte[] data = getData();
 

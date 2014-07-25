@@ -104,6 +104,10 @@ public class SysErrorResponse extends BidibMessage {
         }
     }
 
+    public String getName() {
+        return "MSG_SYS_ERROR";
+    }
+
     public int getErrorCode() {
         return ByteUtils.getInt(getData()[0]);
     }

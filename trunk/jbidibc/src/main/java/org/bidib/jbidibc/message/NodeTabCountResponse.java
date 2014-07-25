@@ -24,6 +24,10 @@ public class NodeTabCountResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_NODETAB_COUNT, tabCount);
     }
 
+    public String getName() {
+        return "MSG_NODETAB_COUNT";
+    }
+
     public int getCount() {
         return ByteUtils.getInt(getData()[0]);
     }
