@@ -92,4 +92,21 @@ public class FeedbackCvResponseTest {
         Assert.assertEquals(feedbackCvResponse.getCvNumber(), 3);
         Assert.assertEquals(feedbackCvResponse.getDat(), 4);
     }
+
+    // IN --- : MSG_BM_CV 09 01 00 19 A5 03 00 03 00 05
+    @Test
+    public void tamsCVFeedbackTest() throws ProtocolException {
+        byte[] message = new byte[] { 0x09, 0x01, 0x00, 0x19, (byte) 0xA5, 0x03, 0x00, 0x03, 0x00, 0x05 };
+
+        BidibMessage result = new BidibMessage(message);
+        FeedbackCvResponse feedbackCvResponse =
+            new FeedbackCvResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+
+        Assert.assertNotNull(feedbackCvResponse);
+        LOGGER.info("Prepared feedbackCvResponse: {}", feedbackCvResponse);
+
+        Assert.assertEquals(feedbackCvResponse.getAddress(), 3);
+        Assert.assertEquals(feedbackCvResponse.getCvNumber(), 4);
+        Assert.assertEquals(feedbackCvResponse.getDat(), 5);
+    }
 }
