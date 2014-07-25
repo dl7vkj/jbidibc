@@ -20,6 +20,10 @@ public class LcStatResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_LC_STAT, new byte[] { portType, portNum, portStatus });
     }
 
+    public String getName() {
+        return "MSG_LC_STAT";
+    }
+
     public LcOutputType getPortType() {
         return LcOutputType.valueOf(getData()[0]);
     }
