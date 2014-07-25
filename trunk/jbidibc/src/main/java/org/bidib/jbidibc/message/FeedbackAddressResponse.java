@@ -28,6 +28,10 @@ public class FeedbackAddressResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_BM_ADDRESS, prepareAddressData(detectorNumber, addresses));
     }
 
+    public String getName() {
+        return "MSG_BM_ADDRESS";
+    }
+
     public int getDetectorNumber() {
         return ByteUtils.getInt(getData()[0], 0x7F);
     }
@@ -39,34 +43,6 @@ public class FeedbackAddressResponse extends BidibMessage {
         if (addresses.size() > 0) {
             for (AddressData addressData : addresses) {
                 addressData.writeToStream(out);
-                // int address = addressData.getAddress();
-                // if (address > 0) {
-                // // write address
-                // out.write(ByteUtils.getLowByte(address));
-                // byte highAddr = ByteUtils.getHighByte(address);
-                // switch (addressData.getType()) {
-                // case LOCOMOTIVE_BACKWARD:
-                // highAddr = (byte) (highAddr & 0x3F);
-                // highAddr = (byte) (highAddr | (1 << 7));
-                // break;
-                // case ACCESSORY:
-                // highAddr = (byte) (highAddr & 0x3F);
-                // highAddr = (byte) (highAddr | (1 << 6));
-                // break;
-                // case EXTENDED_ACCESSORY:
-                // highAddr = (byte) (highAddr | (1 << 6));
-                // highAddr = (byte) (highAddr | (1 << 7));
-                // break;
-                // default:
-                // highAddr = (byte) (highAddr & 0x3F);
-                // break;
-                // }
-                // out.write(highAddr);
-                // }
-                // else {
-                // out.write((byte) 0);
-                // out.write((byte) 0);
-                // }
             }
         }
         else {

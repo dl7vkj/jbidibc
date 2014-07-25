@@ -2,6 +2,7 @@ package org.bidib.jbidibc.message;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.MessageUtils;
 
 /**
  * Response from booster with the current value
@@ -17,28 +18,11 @@ public class BoostCurrentResponse extends BidibMessage {
         }
     }
 
-    public static int convertCurrent(int current) {
-        if (current > 15) {
-            if (current >= 16 && current <= 63) {
-                current = (current - 12) * 4;
-            }
-            else if (current >= 64 && current <= 127) {
-                current = (current - 51) * 16;
-            }
-            else if (current >= 128 && current <= 191) {
-                current = (current - 108) * 64;
-            }
-            else if (current >= 192 && current <= 250) {
-                current = (current - 171) * 256;
-            }
-            else {
-                current = 0;
-            }
-        }
-        return current;
+    public String getName() {
+        return "MSG_BOOST_CURRENT";
     }
 
     public int getCurrent() {
-        return convertCurrent(getData()[0] & 0xFF);
+        return MessageUtils.convertCurrent(getData()[0] & 0xFF);
     }
 }

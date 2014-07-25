@@ -7,7 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AddrChangeAckResponse extends BidibMessage {
-    public static final Integer TYPE = BidibLibrary.MSG_NEW_DECODER;
+    public static final Integer TYPE = BidibLibrary.MSG_ADDR_CHANGE_ACK;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(AddrChangeAckResponse.class);
 
@@ -16,6 +16,10 @@ public class AddrChangeAckResponse extends BidibMessage {
         if (data == null || data.length != 8) {
             throw new ProtocolException("invalid decoder data received");
         }
+    }
+
+    public String getName() {
+        return "MSG_ADDR_CHANGE_ACK";
     }
 
     public int getLocalDetectorAddress() {

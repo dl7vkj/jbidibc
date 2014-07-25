@@ -21,6 +21,10 @@ public class LcMacroParaResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_LC_MACRO_PARA, ByteUtils.concat(new byte[] { macroNumber, step }, value));
     }
 
+    public String getName() {
+        return "MSG_LC_MACRO_PARA";
+    }
+
     public int getMacroNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

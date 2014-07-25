@@ -14,6 +14,10 @@ public class LcConfigGetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_LC_CONFIG_GET";
+    }
+
     public LcOutputType getPortType() {
         return LcOutputType.valueOf(getData()[0]);
     }

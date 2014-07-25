@@ -22,6 +22,10 @@ public class LcMacroResponse extends BidibMessage {
             lcMacro.getStatus() != null ? lcMacro.getStatus().getType() : 0 });
     }
 
+    public String getName() {
+        return "MSG_LC_MACRO";
+    }
+
     /**
      * @return returns the initialized macro point
      */

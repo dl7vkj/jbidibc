@@ -53,6 +53,10 @@ public class CommandStationPomMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_CS_POM";
+    }
+
     private static byte[] prepareData(AddressData decoderAddress, CommandStationPom opCode, int cvNumber, byte data) {
 
         if (cvNumber < 1 || cvNumber > 1024) {

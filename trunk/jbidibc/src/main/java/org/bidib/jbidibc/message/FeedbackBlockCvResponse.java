@@ -22,6 +22,10 @@ public class FeedbackBlockCvResponse extends BidibMessage {
     // this(addr, num, BidibLibrary.MSG_BM_BLOCK_CV, prepareData(address, cvNumber & 0x3FF, dat));
     // }
 
+    public String getName() {
+        return "MSG_BM_BLOCK_CV";
+    }
+
     public int getDeecoderDeviceId() {
         return ByteUtils.getInt(getData()[0]);
     }

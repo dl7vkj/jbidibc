@@ -20,6 +20,10 @@ public class LcConfigResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_LC_CONFIG, ByteUtils.concat(new byte[] { portType, portNum }, config));
     }
 
+    public String getName() {
+        return "MSG_LC_CONFIG";
+    }
+
     public LcConfig getLcConfig() {
         byte[] data = getData();
 

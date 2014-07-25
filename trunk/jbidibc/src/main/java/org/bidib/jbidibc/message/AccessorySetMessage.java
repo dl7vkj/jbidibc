@@ -13,6 +13,10 @@ public class AccessorySetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_ACCESSORY_SET";
+    }
+
     public int getAccessoryNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

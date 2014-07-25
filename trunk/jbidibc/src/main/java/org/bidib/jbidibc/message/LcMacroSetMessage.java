@@ -25,6 +25,10 @@ public class LcMacroSetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_LC_MACRO_SET";
+    }
+
     public int getMacroNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

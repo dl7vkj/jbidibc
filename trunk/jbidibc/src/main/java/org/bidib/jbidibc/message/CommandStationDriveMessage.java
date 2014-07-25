@@ -26,6 +26,10 @@ public class CommandStationDriveMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_CS_DRIVE";
+    }
+
     private static byte convert(boolean value) {
         return value ? (byte) 1 : (byte) 0;
     }

@@ -24,6 +24,10 @@ public class CommandStationDriveManualResponse extends BidibMessage {
         LOGGER.debug("Received response, speed: {}", getSpeed());
     }
 
+    public String getName() {
+        return "MSG_CS_DRIVE_MANUAL";
+    }
+
     public int getAddress() {
         byte[] data = getData();
 

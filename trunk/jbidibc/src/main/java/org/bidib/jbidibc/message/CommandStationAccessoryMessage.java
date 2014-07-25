@@ -15,6 +15,8 @@ import org.slf4j.LoggerFactory;
  * Command to control an accessory decoder
  */
 public class CommandStationAccessoryMessage extends BidibCommandMessage {
+    public static final Integer TYPE = BidibLibrary.MSG_CS_ACCESSORY;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(CommandStationAccessoryMessage.class);
 
     private static final int DATA_INDEX = 2;
@@ -32,6 +34,10 @@ public class CommandStationAccessoryMessage extends BidibCommandMessage {
 
     public CommandStationAccessoryMessage(byte[] message) throws ProtocolException {
         super(message);
+    }
+
+    public String getName() {
+        return "MSG_CS_ACCESSORY";
     }
 
     public AddressData getDecoderAddress() {

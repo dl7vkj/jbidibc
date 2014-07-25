@@ -19,6 +19,10 @@ public class AccessoryParaResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_ACCESSORY_PARA, ByteUtils.concat(new byte[] { accessoryNum, paraNum }, value));
     }
 
+    public String getName() {
+        return "MSG_ACCESSORY_PARA";
+    }
+
     public int getAccessoryNumber() {
         return getData()[0];
     }

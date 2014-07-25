@@ -9,6 +9,10 @@ public class FeedbackMirrorMultipleMessage extends BidibCommandMessage {
             detectorData));
     }
 
+    public String getName() {
+        return "MSG_BM_MIRROR_MULTIPLE";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return null;

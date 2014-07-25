@@ -22,6 +22,10 @@ public class CommandStationDriveEventResponse extends BidibMessage {
         LOGGER.debug("Received response, event: {}", getEvent());
     }
 
+    public String getName() {
+        return "MSG_CS_DRIVE_EVENT";
+    }
+
     public int getAddress() {
         byte[] data = getData();
 

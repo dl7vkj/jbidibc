@@ -21,6 +21,10 @@ public class CommandStationStateResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_CS_STATE, state);
     }
 
+    public String getName() {
+        return "MSG_CS_STATE";
+    }
+
     public CommandStationState getState() {
         return CommandStationState.valueOf(getData()[0]);
     }

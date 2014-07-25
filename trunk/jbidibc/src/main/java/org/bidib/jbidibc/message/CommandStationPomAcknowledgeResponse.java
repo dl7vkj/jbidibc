@@ -33,6 +33,10 @@ public class CommandStationPomAcknowledgeResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_CS_POM_ACK, prepareData(decoderAddress, acknowledge));
     }
 
+    public String getName() {
+        return "MSG_CS_POM_ACK";
+    }
+
     private static byte[] prepareData(AddressData decoderAddress, byte acknowledge) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         // write decoder address

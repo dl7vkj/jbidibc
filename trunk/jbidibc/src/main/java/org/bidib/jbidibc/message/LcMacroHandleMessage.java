@@ -14,6 +14,10 @@ public class LcMacroHandleMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_LC_MACRO_HANDLE";
+    }
+
     public int getMacroNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

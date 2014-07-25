@@ -13,6 +13,10 @@ public class LcOutputQueryMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_LC_OUTPUT_QUERY";
+    }
+
     public LcOutputType getPortType() {
         return LcOutputType.valueOf(getData()[0]);
     }

@@ -16,6 +16,10 @@ public class CommandStationSetStateMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_CS_SET_STATE";
+    }
+
     public CommandStationState getState() {
         return CommandStationState.valueOf(getData()[0]);
     }

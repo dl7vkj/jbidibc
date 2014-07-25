@@ -25,6 +25,10 @@ public class FeedbackConfidenceResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_BM_CONFIDENCE, new byte[] { valid, freeze, signal });
     }
 
+    public String getName() {
+        return "MSG_BM_CONFIDENCE";
+    }
+
     public int getValid() {
         return ByteUtils.getInt(getData()[0]);
     }

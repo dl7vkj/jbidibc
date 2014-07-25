@@ -24,6 +24,10 @@ public class FeedbackDynStateResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_BM_DYN_STATE, prepareDynamicStateData(detectorNumber, dynNumber, dynValue));
     }
 
+    public String getName() {
+        return "MSG_BM_DYN_STATE";
+    }
+
     public int getDetectorNumber() {
         return ByteUtils.getInt(getData()[0], 0x7F);
     }

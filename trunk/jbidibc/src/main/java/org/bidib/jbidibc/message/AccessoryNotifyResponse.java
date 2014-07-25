@@ -20,6 +20,10 @@ public class AccessoryNotifyResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_ACCESSORY_NOTIFY, ByteUtils.concat(new byte[] { accessoryNum, aspect }, value));
     }
 
+    public String getName() {
+        return "MSG_ACCESSORY_NOTIFY";
+    }
+
     public AccessoryState getAccessoryState() {
         byte[] data = getData();
 

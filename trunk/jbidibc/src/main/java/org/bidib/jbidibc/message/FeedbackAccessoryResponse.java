@@ -27,6 +27,10 @@ public class FeedbackAccessoryResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_BM_ACCESSORY, prepareAddressData(detectorNumber, address));
     }
 
+    public String getName() {
+        return "MSG_BM_ACCESSORY";
+    }
+
     public int getDetectorNumber() {
         return ByteUtils.getInt(getData()[0], 0x7F);
     }

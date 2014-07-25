@@ -20,6 +20,10 @@ public class FeedbackGetRangeMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_BM_GET_RANGE";
+    }
+
     public byte getBegin() {
         return getData()[0];
     }

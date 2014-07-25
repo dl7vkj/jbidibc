@@ -12,6 +12,10 @@ public class FeatureGetNextMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_FEATURE_GETNEXT";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return new Integer[] { FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE };

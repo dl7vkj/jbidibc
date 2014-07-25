@@ -17,6 +17,10 @@ public class LcOutputMessage extends BidibCommandMessage {
         return LcOutputType.valueOf(getData()[0]);
     }
 
+    public String getName() {
+        return "MSG_LC_OUTPUT";
+    }
+
     public byte getOutputType() {
         return getData()[0];
     }

@@ -7,6 +7,8 @@ import org.bidib.jbidibc.exception.ProtocolException;
  * Command to switch track voltage (signal) on
  */
 public class BoostOnMessage extends BidibCommandMessage {
+    public static final Integer TYPE = BidibLibrary.MSG_BOOST_ON;
+
     public static final byte BROADCAST_MESSAGE = 0;
 
     public static final byte BROADCAST_OFF = 1;
@@ -17,6 +19,10 @@ public class BoostOnMessage extends BidibCommandMessage {
 
     public BoostOnMessage(byte[] message) throws ProtocolException {
         super(message);
+    }
+
+    public String getName() {
+        return "MSG_BOOST_ON";
     }
 
     public byte getBroadcast() {

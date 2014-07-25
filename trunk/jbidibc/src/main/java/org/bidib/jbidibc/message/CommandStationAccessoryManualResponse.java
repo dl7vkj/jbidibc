@@ -23,6 +23,10 @@ public class CommandStationAccessoryManualResponse extends BidibMessage {
         LOGGER.debug("Received manual accessory, aspect: {}", getAspect());
     }
 
+    public String getName() {
+        return "MSG_CS_ACCESSORY_MANUAL";
+    }
+
     public int getAddress() {
         byte[] data = getData();
 

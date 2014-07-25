@@ -18,6 +18,10 @@ public class FeedbackMultipleResponse extends BidibMessage {
             feedbackMultiple));
     }
 
+    public String getName() {
+        return "MSG_BM_MULTIPLE";
+    }
+
     public int getBaseAddress() {
         return ByteUtils.getInt(getData()[0]);
     }

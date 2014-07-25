@@ -19,6 +19,10 @@ public class LcNotAvailableResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_LC_NA, portType, portNum);
     }
 
+    public String getName() {
+        return "MSG_LC_NA";
+    }
+
     public LcOutputType getPortType() {
         return LcOutputType.valueOf(getData()[0]);
     }

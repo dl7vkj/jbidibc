@@ -19,6 +19,10 @@ public class FeedbackSpeedResponse extends BidibMessage {
         }
     }
 
+    public String getName() {
+        return "MSG_BM_SPEED";
+    }
+
     public AddressData getAddress() {
         byte[] data = getData();
 

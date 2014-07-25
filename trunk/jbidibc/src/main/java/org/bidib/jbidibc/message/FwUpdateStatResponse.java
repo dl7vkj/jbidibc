@@ -19,6 +19,10 @@ public class FwUpdateStatResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_FW_UPDATE_STAT, status, timeout);
     }
 
+    public String getName() {
+        return "MSG_FW_UPDATE_STAT";
+    }
+
     public FirmwareUpdateStat getUpdateStat() {
         byte[] data = getData();
 

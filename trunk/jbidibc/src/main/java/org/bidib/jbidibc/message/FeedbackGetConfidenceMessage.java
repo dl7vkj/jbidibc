@@ -12,6 +12,10 @@ public class FeedbackGetConfidenceMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_BM_GET_CONFIDENCE";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return null;

@@ -14,6 +14,10 @@ public class FwUpdateOpMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_FW_UPDATE_OP";
+    }
+
     public FirmwareUpdateOperation getOperation() {
         return FirmwareUpdateOperation.valueOf(getData()[0]);
     }

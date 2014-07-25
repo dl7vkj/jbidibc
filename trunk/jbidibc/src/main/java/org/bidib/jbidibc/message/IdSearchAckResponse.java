@@ -18,6 +18,10 @@ public class IdSearchAckResponse extends BidibMessage {
         }
     }
 
+    public String getName() {
+        return "MSG_ID_SEARCH_ACK";
+    }
+
     public int getLocalDetectorAddress() {
         byte[] data = getData();
 

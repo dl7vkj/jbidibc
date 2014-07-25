@@ -18,6 +18,10 @@ public class LcKeyResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_LC_KEY, new byte[] { keyNum, keyState });
     }
 
+    public String getName() {
+        return "MSG_LC_KEY";
+    }
+
     public int getKeyNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

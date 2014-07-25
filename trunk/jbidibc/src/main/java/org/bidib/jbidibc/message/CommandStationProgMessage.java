@@ -33,6 +33,10 @@ public class CommandStationProgMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_CS_PROG";
+    }
+
     private static byte[] prepareData(CommandStationPt opCode, int cvNumber, byte data) {
 
         if (cvNumber < 1 || cvNumber > 1024) {

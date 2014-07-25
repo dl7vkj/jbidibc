@@ -25,6 +25,10 @@ public class BoostStatResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_BOOST_STAT, state);
     }
 
+    public String getName() {
+        return "MSG_BOOST_STAT";
+    }
+
     public BoosterState getState() {
         return BoosterState.valueOf(getData()[0]);
     }

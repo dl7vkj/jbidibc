@@ -29,6 +29,10 @@ public class CommandStationProgStateResponse extends BidibMessage {
         this(addr, num, BidibLibrary.MSG_CS_PROG_STATE, prepareData(state, remainingTime, cvNumber, cvData));
     }
 
+    public String getName() {
+        return "MSG_CS_PROG_STATE";
+    }
+
     private static byte[] prepareData(CommandStationProgState state, int remainingTime, int cvNumber, int cvData) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         // state

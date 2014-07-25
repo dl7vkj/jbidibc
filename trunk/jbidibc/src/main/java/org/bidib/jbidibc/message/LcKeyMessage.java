@@ -13,6 +13,10 @@ public class LcKeyMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_LC_KEY_QUERY";
+    }
+
     public int getKeyNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

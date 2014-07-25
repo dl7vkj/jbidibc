@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.MessageUtils;
 
 public class BoostDiagnosticResponse extends BidibMessage {
     public static final Integer TYPE = BidibLibrary.MSG_BOOST_DIAGNOSTIC;
@@ -21,25 +22,8 @@ public class BoostDiagnosticResponse extends BidibMessage {
             BidibLibrary.BIDIB_BST_DIAG_T, ByteUtils.getLowByte(temperature) });
     }
 
-    public static int convertCurrent(int current) {
-        if (current > 15) {
-            if (current >= 16 && current <= 63) {
-                current = (current - 12) * 4;
-            }
-            else if (current >= 64 && current <= 127) {
-                current = (current - 51) * 16;
-            }
-            else if (current >= 128 && current <= 191) {
-                current = (current - 108) * 64;
-            }
-            else if (current >= 192 && current <= 250) {
-                current = (current - 171) * 256;
-            }
-            else {
-                current = 0;
-            }
-        }
-        return current;
+    public String getName() {
+        return "MSG_BOOST_DIAGNOSTIC";
     }
 
     private int convertValue(int value) {
@@ -52,7 +36,7 @@ public class BoostDiagnosticResponse extends BidibMessage {
     }
 
     public int getCurrent() {
-        return convertCurrent(getValue(BidibLibrary.BIDIB_BST_DIAG_I) & 0xFF);
+        return MessageUtils.convertCurrent(getValue(BidibLibrary.BIDIB_BST_DIAG_I) & 0xFF);
     }
 
     public int getTemperature() {

@@ -13,6 +13,10 @@ public class LcMacroParaGetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_LC_MACRO_PARA_GET";
+    }
+
     public int getMacroNumber() {
         return ByteUtils.getInt(getData()[0]);
     }

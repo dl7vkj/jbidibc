@@ -7,6 +7,10 @@ public class FeedbackMirrorOccupiedMessage extends BidibCommandMessage {
         super(0, BidibLibrary.MSG_BM_MIRROR_OCC, (byte) detectorNumber);
     }
 
+    public String getName() {
+        return "MSG_BM_MIRROR_OCC";
+    }
+
     @Override
     public Integer[] getExpectedResponseTypes() {
         return null;

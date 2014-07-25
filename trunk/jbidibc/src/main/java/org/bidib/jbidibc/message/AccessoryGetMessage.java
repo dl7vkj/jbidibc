@@ -13,6 +13,10 @@ public class AccessoryGetMessage extends BidibCommandMessage {
         super(message);
     }
 
+    public String getName() {
+        return "MSG_ACCESSORY_GET";
+    }
+
     public int getAccessoryNumber() {
         return ByteUtils.getInt(getData()[0]);
     }
