@@ -70,4 +70,37 @@ public class Feature implements Serializable {
     public String toString() {
         return getClass().getSimpleName() + "[type=" + type + ",value=" + value + "]";
     }
+
+    /**
+     * Create a input enum.
+     * 
+     * @param type
+     *            numeric value of the input enum
+     * 
+     * @return InputEnum
+     */
+    public static Feature valueOf(String key, int value) {
+        Feature result = null;
+
+        FeatureEnum featureEnum = null;
+        for (FeatureEnum e : FeatureEnum.values()) {
+            if (e.name().equals(key)) {
+                featureEnum = e;
+                break;
+            }
+        }
+
+        if (featureEnum != null) {
+            // TODO add missing implementation
+        }
+        else {
+            result = new Feature(Integer.valueOf(key), value);
+        }
+
+        if (result == null) {
+            throw new IllegalArgumentException("cannot map " + key + " to a feature");
+        }
+        return result;
+    }
+
 }
