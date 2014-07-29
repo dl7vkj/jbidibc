@@ -166,18 +166,20 @@ public class SimulatorRegistry {
         String nodeAddress = node.getAddress().trim();
         byte[] address = new byte[] { Byte.parseByte(nodeAddress) };
         long uniqueId = ByteUtils.convertUniqueIdToLong(node.getUniqueId());
+        boolean autoAddFeature = (node.isAutoAddFeature() != null ? node.isAutoAddFeature().booleanValue() : false);
+
         try {
             Constructor<SimulatorNode> constructor =
                 (Constructor<SimulatorNode>) Class.forName(className).getConstructor(byte[].class, long.class,
-                    SimulationBidibMessageProcessor.class);
-            SimulatorNode simulator = constructor.newInstance(address, uniqueId, messageReceiver);
+                    boolean.class, SimulationBidibMessageProcessor.class);
+            SimulatorNode simulator = constructor.newInstance(address, uniqueId, autoAddFeature, messageReceiver);
 
             if (simulator != null) {
                 LOGGER.info("Created new simulator: {}", simulator);
 
                 if (simulator instanceof DmxNode) {
                     DmxNode dmxNode = (DmxNode) simulator;
-                    dmxNode.setDmxConfig(node.getDMXCHANNEL());
+                    dmxNode.setDmxConfig(node.getDmxChannels());
                 }
 
                 if (simulator instanceof SwitchingFunctionsNode) {

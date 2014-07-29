@@ -1,6 +1,6 @@
 package org.bidib.jbidibc.simulation;
 
-import org.bidib.jbidibc.simulation.nodes.DmxChannelType;
+import org.bidib.jbidibc.simulation.nodes.DmxChannelsType;
 
 public interface DmxNode {
     /**
@@ -9,5 +9,5 @@ public interface DmxNode {
      * @param dmxChannelType
      *            the configuration of the dmxChannels
      */
-    void setDmxConfig(DmxChannelType dmxChannelType);
+    void setDmxConfig(DmxChannelsType dmxChannelType);
 }

@@ -3,9 +3,13 @@ package org.bidib.jbidibc;
 import java.io.Serializable;
 
 import org.bidib.jbidibc.enumeration.FeatureEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Feature implements Serializable {
     private static final long serialVersionUID = 1L;
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(Feature.class);
 
     private int type;
 
@@ -91,14 +95,11 @@ public class Feature implements Serializable {
         }
 
         if (featureEnum != null) {
-            // TODO add missing implementation
+            result = new Feature(featureEnum.getType(), value);
         }
         else {
+            LOGGER.warn("cannot map the key '" + key + "' to a known feature, use key direct to create a feature.");
             result = new Feature(Integer.valueOf(key), value);
-        }
-
-        if (result == null) {
-            throw new IllegalArgumentException("cannot map " + key + " to a feature");
         }
         return result;
     }

@@ -59,6 +59,8 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     protected long uniqueId;
 
+    boolean autoAddFeature;
+
     protected SortedMap<String, SimulatorNode> subNodes = new TreeMap<String, SimulatorNode>();
 
     private int sendNum;
@@ -81,12 +83,15 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     private final SimulationBidibMessageProcessor messageReceiver;
 
-    public DefaultNodeSimulator(byte[] nodeAddress, long uniqueId, SimulationBidibMessageProcessor messageReceiver) {
+    public DefaultNodeSimulator(byte[] nodeAddress, long uniqueId, boolean autoAddFeature,
+        SimulationBidibMessageProcessor messageReceiver) {
         this.nodeAddress = nodeAddress;
         this.messageReceiver = messageReceiver;
         this.uniqueId = uniqueId;
+        this.autoAddFeature = autoAddFeature;
 
-        LOGGER.info("Create default node simulator with address: {}, uniqueId: {}", nodeAddress, uniqueId);
+        LOGGER.info("Create default node simulator with address: {}, uniqueId: {}, autoAddFeature: {}", nodeAddress,
+            uniqueId, autoAddFeature);
     }
 
     protected byte[] getNodeAddress() {
@@ -524,6 +529,14 @@ public class DefaultNodeSimulator implements SimulatorNode {
                     LOGGER.info("Found feature: {}", foundFeature);
                     break;
                 }
+            }
+
+            if (foundFeature == null && autoAddFeature) {
+                LOGGER.info("AutoAddFeature is activated.");
+
+                foundFeature = new Feature(featureNum, featureValue);
+                features.add(foundFeature);
+                featureCount = features.size();
             }
 
             if (foundFeature != null) {

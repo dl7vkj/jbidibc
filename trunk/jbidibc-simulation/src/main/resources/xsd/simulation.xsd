@@ -22,6 +22,12 @@
 		<attribute name="value" type="int" />
 	</complexType>
 	
+	<complexType name="FeaturesType">
+		<sequence>
+			<element name="feature" type="sim:FeatureType" minOccurs="0" maxOccurs="unbounded" />
+		</sequence>
+	</complexType>
+	
 	<complexType name="PortParamsType" abstract="true">
 		<attribute name="portId" type="int" use="required" />
 		<attribute name="dmxMapping" type="int" use="optional" default="0" />
@@ -89,7 +95,7 @@
 		<attribute name="initialState" type="int" use="required"/>
 	</complexType>
 
-	<complexType name="DmxChannelType">
+	<complexType name="DmxChannelsType">
 		<sequence>
 			<element name="channel" type="sim:DmxChannelParamsType" minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
@@ -103,12 +109,13 @@
 			<element name="SPORT" type="sim:SwitchPortType" minOccurs="0" />
 			<element name="INPUT" type="sim:InputPortType" minOccurs="0" />
 			<element name="SERVO" type="sim:ServoPortType" minOccurs="0" />
-			<element name="DMXCHANNEL" type="sim:DmxChannelType" minOccurs="0" />
-			<element name="FEATURE" type="sim:FeatureType" minOccurs="0" maxOccurs="unbounded" />
+			<element name="DmxChannels" type="sim:DmxChannelsType" minOccurs="0" />
+			<element name="Features" type="sim:FeatureType" minOccurs="0" />
 		</sequence>
 		<attribute name="uniqueId" type="sim:UniqueIdType" use="required" />
 		<attribute name="className" type="sim:StringNotEmptyType" use="required" />
 		<attribute name="address" type="sim:StringNotEmptyType" use="required" />
+		<attribute name="autoAddFeature" type="boolean" />
 	</complexType>
 
 	<complexType name="SubNodesType">
