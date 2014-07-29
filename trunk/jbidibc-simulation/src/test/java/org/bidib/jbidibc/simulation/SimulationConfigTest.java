@@ -73,18 +73,21 @@ public class SimulationConfigTest {
         Assert.assertEquals(ByteUtils.convertUniqueIdToLong(nodes.get(0).getUniqueId()), 0x05340d6B901234L);
         Assert.assertEquals(ByteUtils.convertUniqueIdToLong(nodes.get(1).getUniqueId()), 0x05343e97901235L);
 
-        // first node has LPORTs and SPORTs configured
+        // first subnode has LPORTs and SPORTs configured
         NodeType node = nodes.get(0);
         Assert.assertNotNull(node.getLPORT());
         Assert.assertEquals(node.getLPORT().getCount().intValue(), 32);
         Assert.assertNotNull(node.getSPORT());
         Assert.assertEquals(node.getSPORT().getCount().intValue(), 8);
+        Assert.assertNull(node.isAutoAddFeature());
 
-        // second node has no LPORTs but SPORTs configured
+        // second subnode has no LPORTs but SPORTs configured
         node = nodes.get(1);
         Assert.assertNull(node.getLPORT());
         Assert.assertNotNull(node.getSPORT());
         Assert.assertEquals(node.getSPORT().getCount().intValue(), 8);
+        Assert.assertNotNull(node.isAutoAddFeature());
+        Assert.assertEquals(node.isAutoAddFeature(), Boolean.TRUE);
 
         // third node is a hub node an has INPUTs configured
         node = nodes.get(2);
