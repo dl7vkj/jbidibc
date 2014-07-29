@@ -16,6 +16,12 @@
 			<minLength value="7"/>
 		</restriction>
 	</simpleType>
+	
+	<complexType name="FeatureType">
+		<attribute name="type" type="sim:String50Type" />
+		<attribute name="value" type="int" />
+	</complexType>
+	
 	<complexType name="PortParamsType" abstract="true">
 		<attribute name="portId" type="int" use="required" />
 		<attribute name="dmxMapping" type="int" use="optional" default="0" />
@@ -98,6 +104,7 @@
 			<element name="INPUT" type="sim:InputPortType" minOccurs="0" />
 			<element name="SERVO" type="sim:ServoPortType" minOccurs="0" />
 			<element name="DMXCHANNEL" type="sim:DmxChannelType" minOccurs="0" />
+			<element name="FEATURE" type="sim:FeatureType" minOccurs="0" maxOccurs="unbounded" />
 		</sequence>
 		<attribute name="uniqueId" type="sim:UniqueIdType" use="required" />
 		<attribute name="className" type="sim:StringNotEmptyType" use="required" />
