@@ -110,7 +110,7 @@
 			<element name="INPUT" type="sim:InputPortType" minOccurs="0" />
 			<element name="SERVO" type="sim:ServoPortType" minOccurs="0" />
 			<element name="DmxChannels" type="sim:DmxChannelsType" minOccurs="0" />
-			<element name="Features" type="sim:FeatureType" minOccurs="0" />
+			<element name="Features" type="sim:FeaturesType" minOccurs="0" />
 		</sequence>
 		<attribute name="uniqueId" type="sim:UniqueIdType" use="required" />
 		<attribute name="className" type="sim:StringNotEmptyType" use="required" />

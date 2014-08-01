@@ -48,6 +48,7 @@ import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.events.SimulatorStatusEvent;
 import org.bidib.jbidibc.simulation.net.SimulationBidibMessageProcessor;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.CollectionUtils;
 import org.bushe.swing.event.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -96,6 +97,17 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     protected byte[] getNodeAddress() {
         return nodeAddress;
+    }
+
+    @Override
+    public void setFeatures(FeaturesType featuresType) {
+        if (featuresType == null || !CollectionUtils.hasElements(featuresType.getFeature())) {
+            return;
+        }
+
+        for (FeatureType featureType : featuresType.getFeature()) {
+            features.add(Feature.valueOf(featureType.getType(), featureType.getValue()));
+        }
     }
 
     protected void prepareFeatures() {

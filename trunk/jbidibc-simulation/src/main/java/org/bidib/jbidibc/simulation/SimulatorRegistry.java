@@ -21,6 +21,7 @@ import org.bidib.jbidibc.simulation.nodes.MasterType;
 import org.bidib.jbidibc.simulation.nodes.NodeType;
 import org.bidib.jbidibc.simulation.nodes.Simulation;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.CollectionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -176,6 +177,10 @@ public class SimulatorRegistry {
 
             if (simulator != null) {
                 LOGGER.info("Created new simulator: {}", simulator);
+
+                if (node.getFeatures() != null && CollectionUtils.hasElements(node.getFeatures().getFeature())) {
+                    simulator.setFeatures(node.getFeatures());
+                }
 
                 if (simulator instanceof DmxNode) {
                     DmxNode dmxNode = (DmxNode) simulator;

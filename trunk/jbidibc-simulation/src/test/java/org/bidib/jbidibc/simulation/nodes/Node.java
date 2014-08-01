@@ -60,4 +60,10 @@ public class Node implements SimulatorNode, SwitchingFunctionsNode {
         // TODO Auto-generated method stub
         return null;
     }
+
+    @Override
+    public void setFeatures(FeaturesType featuresType) {
+        // TODO Auto-generated method stub
+
+    }
 }
