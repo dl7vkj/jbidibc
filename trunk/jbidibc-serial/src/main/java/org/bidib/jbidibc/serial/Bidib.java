@@ -149,22 +149,26 @@ public final class Bidib extends AbstractBidib {
     public List<String> getPortIdentifiers() {
         List<String> portIdentifiers = new ArrayList<String>();
 
-        // make sure the libraries are loaded
-        // loadLibraries();
+        try {
+            // get the comm port identifiers
+            Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
+            while (e.hasMoreElements()) {
+                CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
+                LOGGER.debug("Process current CommPortIdentifier, name: {}, portType: {}", id.getName(),
+                    id.getPortType());
 
-        // get the comm port identifiers
-        Enumeration<?> e = CommPortIdentifier.getPortIdentifiers();
-        while (e.hasMoreElements()) {
-            CommPortIdentifier id = (CommPortIdentifier) e.nextElement();
-            LOGGER.debug("Process current CommPortIdentifier, name: {}, portType: {}", id.getName(), id.getPortType());
-
-            if (id.getPortType() == CommPortIdentifier.PORT_SERIAL) {
-                portIdentifiers.add(id.getName());
+                if (id.getPortType() == CommPortIdentifier.PORT_SERIAL) {
+                    portIdentifiers.add(id.getName());
+                }
+                else {
+                    LOGGER.debug("Skip port because no serial port, name: {}, portType: {}", id.getName(),
+                        id.getPortType());
+                }
             }
-            else {
-                LOGGER
-                    .debug("Skip port because no serial port, name: {}, portType: {}", id.getName(), id.getPortType());
-            }
+        }
+        catch (Error error) {
+            LOGGER.warn("Get comm port identifiers failed.", error);
+            throw new RuntimeException(error.getMessage(), error.getCause());
         }
         return portIdentifiers;
     }
