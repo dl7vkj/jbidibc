@@ -33,6 +33,7 @@ import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.listener.TransferListener;
+import org.bidib.jbidibc.serial.exception.InvalidLibraryException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -165,6 +166,10 @@ public final class Bidib extends AbstractBidib {
                         id.getPortType());
                 }
             }
+        }
+        catch (UnsatisfiedLinkError ule) {
+            LOGGER.warn("Get comm port identifiers failed.", ule);
+            throw new InvalidLibraryException(ule.getMessage(), ule.getCause());
         }
         catch (Error error) {
             LOGGER.warn("Get comm port identifiers failed.", error);
