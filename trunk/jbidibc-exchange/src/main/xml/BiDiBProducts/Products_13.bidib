@@ -77,6 +77,10 @@
             <Documentation Language="en-US" Text="Servo, frog polarisation" Description="Controller for servo and frog polarisation" Url="http://wiki.fichtelbahn.de/doku.php?id=oneservoturn"/>
             <Documentation Language="de-DE" Text="Servo, Herzstück-Polarisierung" Description="Kontroller für Servo und Herzstück-Polarisierung" Url="http://wiki.fichtelbahn.de/doku.php?id=oneservoturn"/>
         </Product>
+		<Product ManufacturerId="13" ProductTypeId="122" Name="OneDriveTurn">
+			<Documentation Language="en-US" Text="ServoTurnout-decoder" Description="Turnout and servo controller (16 IO, 8 servo, 8 motor control)" Url="http://www.bidib.org/support/product_id_e.html" />
+			<Documentation Language="de-DE" Text="Weichen- und Servodekoder" Description="Weichen- und Servodekoder mit Lageüberwachung (16 IO, 8 Servo, 8 Out für Weichenmotoren)" Url="http://www.bidib.org/support/product_id.html" />
+		</Product>
 		<Product ManufacturerId="13" ProductTypeId="204" Name="OneOC">
 			<Documentation Language="en-US" Text="20 Optocoupler input" Description="BiDiBOne AddOn - 20 groundrelated input" Url="http://wiki.fichtelbahn.de/doku.php?id=oneoc"/>
 			<Documentation Language="de-DE" Text="20 Optokopplereingänge" Description="BiDiBOne AddOn - 20fach massebezogene Rückmelder" Url="http://wiki.fichtelbahn.de/doku.php?id=oneoc"/>
