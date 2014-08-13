@@ -54,5 +54,17 @@ public interface SimulatorNode {
      */
     Feature getFeature(int featureNum);
 
+    /**
+     * Set the features.
+     * 
+     * @param featuresType
+     *            the features
+     */
     void setFeatures(FeaturesType featuresType);
+
+    /**
+     * @param nodeName
+     *            the node name to set
+     */
+    void setNodeName(String nodeName);
 }

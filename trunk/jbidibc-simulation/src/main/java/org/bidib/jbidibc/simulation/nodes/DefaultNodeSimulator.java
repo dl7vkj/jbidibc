@@ -100,6 +100,13 @@ public class DefaultNodeSimulator implements SimulatorNode {
     }
 
     @Override
+    public void setNodeName(String nodeName) {
+        if (StringUtils.isNotBlank(nodeName)) {
+            stringValue = nodeName;
+        }
+    }
+
+    @Override
     public void setFeatures(FeaturesType featuresType) {
         if (featuresType == null || !CollectionUtils.hasElements(featuresType.getFeature())) {
             return;
