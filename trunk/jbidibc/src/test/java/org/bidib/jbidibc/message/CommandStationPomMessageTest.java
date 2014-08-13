@@ -18,7 +18,7 @@ public class CommandStationPomMessageTest {
         AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
         CommandStationPom opCode = CommandStationPom.RD_BYTE;
         int cvNumber = 7;
-        byte data = 0;
+        byte[] data = { 0 };
 
         CommandStationPomMessage message = new CommandStationPomMessage(locoAddress, opCode, cvNumber, data);
 
@@ -47,7 +47,7 @@ public class CommandStationPomMessageTest {
         AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
         CommandStationPom opCode = CommandStationPom.RD_BYTE;
         int cvNumber = 0;
-        byte data = 0;
+        byte[] data = { 0 };
 
         new CommandStationPomMessage(locoAddress, opCode, cvNumber, data);
     }
@@ -57,7 +57,7 @@ public class CommandStationPomMessageTest {
         AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
         CommandStationPom opCode = CommandStationPom.RD_BYTE;
         int cvNumber = 1025;
-        byte data = 0;
+        byte[] data = { 0 };
 
         new CommandStationPomMessage(locoAddress, opCode, cvNumber, data);
     }

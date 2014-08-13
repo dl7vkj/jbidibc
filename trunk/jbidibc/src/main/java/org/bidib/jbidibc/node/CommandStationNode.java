@@ -287,7 +287,7 @@ public class CommandStationNode {
 
     public PomAcknowledge readPom(AddressData locoAddress, CommandStationPom opCode, int cvNumber)
         throws ProtocolException {
-        byte data = 0;
+        byte[] data = { 0 };
         BidibMessage response =
             delegate.send(new CommandStationPomMessage(locoAddress, opCode, cvNumber, data), true,
                 CommandStationPomAcknowledgeResponse.TYPE);
@@ -301,7 +301,7 @@ public class CommandStationNode {
 
     public PomAcknowledge writePom(AddressData locoAddress, CommandStationPom opCode, int cvNumber, int cvValue)
         throws ProtocolException {
-        byte data = ByteUtils.getLowByte(cvValue);
+        byte[] data = { ByteUtils.getLowByte(cvValue) };
         BidibMessage response =
             delegate.send(new CommandStationPomMessage(locoAddress, opCode, cvNumber, data), true,
                 CommandStationPomAcknowledgeResponse.TYPE);

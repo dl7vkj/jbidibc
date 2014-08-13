@@ -185,9 +185,6 @@ public interface BidibLibrary {
     public static final int FEATURE_CTRL_MOTOR_COUNT = (int) 56;
 
     // / <i>native declaration : bidib_messages.h</i>
-    public static final int BIDIB_CS_POM_RD_BLOCK = (int) 0;
-
-    // / <i>native declaration : bidib_messages.h</i>
     public static final int BIDIB_ACC_STATE_ERROR_FUSE = (int) 4;
 
     // / <i>native declaration : bidib_messages.h</i>
@@ -255,9 +252,6 @@ public interface BidibLibrary {
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int FEATURE_BST_AMPERE_ADJUSTABLE = (int) 21;
-
-    // / <i>native declaration : bidib_messages.h</i>
-    public static final int BIDIB_CS_POM_WR_BYTE = (int) 3;
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int MSG_SYS_DISABLE = (int) ((0 + 0) + 4);
@@ -377,9 +371,6 @@ public interface BidibLibrary {
     public static final int MSG_LC_OUTPUT = (int) ((0 + 64) + 0);
 
     // / <i>native declaration : bidib_messages.h</i>
-    public static final int BIDIB_CS_POM_WR_BIT = (int) 2;
-
-    // / <i>native declaration : bidib_messages.h</i>
     public static final int BIDIB_CS_STATE_BUSY = (int) 13;
 
     // / <i>native declaration : bidib_messages.h</i>
@@ -453,9 +444,6 @@ public interface BidibLibrary {
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int FEATURE_GEN_SWITCH_ACK = (int) 103;
-
-    // / <i>native declaration : bidib_messages.h</i>
-    public static final int BIDIB_CS_xPOM_WR_BYTE = (int) 131;
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int MSG_DGEN = (int) (0 + 96);
@@ -764,9 +752,6 @@ public interface BidibLibrary {
     public static final int FEATURE_GEN_WATCHDOG = (int) 101;
 
     // / <i>native declaration : bidib_messages.h</i>
-    public static final int BIDIB_CS_POM_RD_BYTE = (int) 1;
-
-    // / <i>native declaration : bidib_messages.h</i>
     public static final int BIDIBUS_BUSY = (int) 125;
 
     // / <i>native declaration : bidib_messages.h</i>
@@ -789,9 +774,6 @@ public interface BidibLibrary {
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int BIDIB_ERR_SIZE = (int) 3;
-
-    // / <i>native declaration : bidib_messages.h</i>
-    public static final int BIDIB_CS_xPOM_RD_BLOCK = (int) 128;
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int MSG_ULOCAL = (int) (128 + 112);
@@ -822,9 +804,6 @@ public interface BidibLibrary {
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int FEATURE_BM_ISTSPEED_AVAILABLE = (int) 11;
-
-    // / <i>native declaration : bidib_messages.h</i>
-    public static final int BIDIB_CS_xPOM_RD_BYTE = (int) 129;
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int BIDIB_BST_STATE_ON_LIMIT = (int) 129;
@@ -867,9 +846,6 @@ public interface BidibLibrary {
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int MSG_BM_GET_RANGE = (int) ((0 + 32) + 0);
-
-    // / <i>native declaration : bidib_messages.h</i>
-    public static final int BIDIB_CS_xPOM_WR_BIT = (int) 130;
 
     // / <i>native declaration : bidib_messages.h</i>
     public static final int FEATURE_BM_CV_ON = (int) 14;
@@ -1117,4 +1093,31 @@ public interface BidibLibrary {
 
     // query servo movement and pause as long as moving
     public static final int BIDIB_MSYS_SERVOMOVE_QUERY = (int) 240;
+
+    // / <i>native declaration : bidib_messages.h</i>
+    public static final int BIDIB_CS_POM_RD_BLOCK = (int) 0; // bit 0,1: CC-Bits
+
+    // / <i>native declaration : bidib_messages.h</i>
+    public static final int BIDIB_CS_POM_RD_BYTE = (int) 1; // bit 2,3: no. of bytes to write (-1)
+
+    // / <i>native declaration : bidib_messages.h</i>
+    public static final int BIDIB_CS_POM_WR_BIT = (int) 2; // bit 7: pom/xpom
+
+    // / <i>native declaration : bidib_messages.h</i>
+    public static final int BIDIB_CS_POM_WR_BYTE = (int) 3;
+
+    public static final int BIDIB_CS_xPOM_reserved = (int) 0x80;
+
+    public static final int BIDIB_CS_xPOM_RD_BLOCK = (int) 0x81;
+
+    public static final int BIDIB_CS_xPOM_WR_BIT = (int) 0x82;
+
+    public static final int BIDIB_CS_xPOM_WR_BYTE1 = (int) 0x83;
+
+    public static final int BIDIB_CS_xPOM_WR_BYTE2 = (int) 0x87;
+
+    public static final int BIDIB_CS_xPOM_WR_BYTE3 = (int) 0x8B;
+
+    public static final int BIDIB_CS_xPOM_WR_BYTE4 = (int) 0x8F;
+
 }

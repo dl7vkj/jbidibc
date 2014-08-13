@@ -20,7 +20,7 @@ public class CommandStationPomMessage extends BidibCommandMessage {
      * @param decoderAddress
      *            the decoder address
      */
-    public CommandStationPomMessage(AddressData decoderAddress, CommandStationPom opCode, int cvNumber, byte data) {
+    public CommandStationPomMessage(AddressData decoderAddress, CommandStationPom opCode, int cvNumber, byte[] data) {
         super(0, BidibLibrary.MSG_CS_POM, prepareData(decoderAddress, opCode, cvNumber, data));
     }
 
@@ -38,7 +38,7 @@ public class CommandStationPomMessage extends BidibCommandMessage {
      * @param data
      *            the CV data
      */
-    public CommandStationPomMessage(DecoderIdAddressData addressDID, CommandStationPom opCode, int cvNumber, byte data) {
+    public CommandStationPomMessage(DecoderIdAddressData addressDID, CommandStationPom opCode, int cvNumber, byte[] data) {
         super(0, BidibLibrary.MSG_CS_POM, prepareData(addressDID, opCode, cvNumber, data));
     }
 
@@ -57,7 +57,7 @@ public class CommandStationPomMessage extends BidibCommandMessage {
         return "MSG_CS_POM";
     }
 
-    private static byte[] prepareData(AddressData decoderAddress, CommandStationPom opCode, int cvNumber, byte data) {
+    private static byte[] prepareData(AddressData decoderAddress, CommandStationPom opCode, int cvNumber, byte[] data) {
 
         if (cvNumber < 1 || cvNumber > 1024) {
             throw new IllegalArgumentException("CV number is out of allowed range (1..1024).");
@@ -80,12 +80,13 @@ public class CommandStationPomMessage extends BidibCommandMessage {
         // TODO add support for XPOM
         out.write((byte) 0);
         // data
-        out.write(data);
+        out.write(data, 0, data.length);
 
         return out.toByteArray();
     }
 
-    private static byte[] prepareData(DecoderIdAddressData addressDID, CommandStationPom opCode, int cvNumber, byte data) {
+    private static byte[] prepareData(
+        DecoderIdAddressData addressDID, CommandStationPom opCode, int cvNumber, byte[] data) {
 
         if (cvNumber < 1 || cvNumber > 1024) {
             throw new IllegalArgumentException("CV number is out of allowed range (1..1024).");
@@ -104,7 +105,7 @@ public class CommandStationPomMessage extends BidibCommandMessage {
         // no XPOM
         out.write((byte) 0);
         // data
-        out.write(data);
+        out.write(data, 0, data.length);
 
         return out.toByteArray();
     }
