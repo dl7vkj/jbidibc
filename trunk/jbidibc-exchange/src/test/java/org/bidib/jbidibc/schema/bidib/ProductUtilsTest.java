@@ -53,9 +53,18 @@ public class ProductUtilsTest {
 
     @Test
     public void isOneServoTurn() {
-        // TODO fix the class id
         long uniqueId = 0x05000D79001234L;
         Assert.assertTrue(ProductUtils.isOneServoTurn(uniqueId));
+        Assert.assertFalse(ProductUtils.isOneControl(uniqueId));
+
+        Assert.assertTrue(NodeUtils.hasAccessoryFunctions(uniqueId));
+        Assert.assertTrue(NodeUtils.hasSwitchFunctions(uniqueId));
+    }
+
+    @Test
+    public void isOneDriveTurn() {
+        long uniqueId = 0x05000D7A001234L;
+        Assert.assertTrue(ProductUtils.isOneDriveTurn(uniqueId));
         Assert.assertFalse(ProductUtils.isOneControl(uniqueId));
 
         Assert.assertTrue(NodeUtils.hasAccessoryFunctions(uniqueId));

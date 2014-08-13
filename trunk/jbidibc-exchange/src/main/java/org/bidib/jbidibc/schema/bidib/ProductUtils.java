@@ -43,6 +43,18 @@ public class ProductUtils {
         return false;
     }
 
+    public static boolean isOneDriveTurn(long uniqueId) {
+        long pid = NodeUtils.getPid(uniqueId);
+        long vid = NodeUtils.getVendorId(uniqueId);
+        LOGGER.info("Check if node is a OneServoTurn for uniqueId: {}, pid: {}, vid: {}",
+            NodeUtils.getUniqueIdAsString(uniqueId), pid, vid);
+
+        if (vid == 13 && pid == 122) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean isOneControl(long uniqueId) {
         long pid = NodeUtils.getPid(uniqueId);
         long vid = NodeUtils.getVendorId(uniqueId);
