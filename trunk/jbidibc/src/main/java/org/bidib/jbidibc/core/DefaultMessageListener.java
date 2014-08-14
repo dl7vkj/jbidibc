@@ -83,7 +83,7 @@ public class DefaultMessageListener implements MessageListener {
     }
 
     @Override
-    public void feedbackCv(byte[] address, int decoderAddress, int cvNumber, int dat) {
+    public void feedbackCv(byte[] address, AddressData decoderAddress, int cvNumber, int dat) {
     }
 
     @Override

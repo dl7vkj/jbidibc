@@ -431,7 +431,7 @@ public class MessageReceiver implements BidibMessageProcessor {
         }
     }
 
-    protected void fireBmCv(byte[] address, int decoderAddress, int cvNumber, int dat) {
+    protected void fireBmCv(byte[] address, AddressData decoderAddress, int cvNumber, int dat) {
         synchronized (messageListeners) {
             for (MessageListener l : messageListeners) {
                 l.feedbackCv(address, decoderAddress, cvNumber, dat);

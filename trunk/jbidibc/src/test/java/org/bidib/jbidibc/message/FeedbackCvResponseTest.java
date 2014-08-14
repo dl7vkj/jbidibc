@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.message;
 
+import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +21,9 @@ public class FeedbackCvResponseTest {
         Assert.assertNotNull(feedbackCvResponse);
         LOGGER.info("Prepared feedbackCvResponse: {}", feedbackCvResponse);
 
-        Assert.assertEquals(feedbackCvResponse.getAddress(), 3);
+        Assert.assertNotNull(feedbackCvResponse.getAddress());
+        Assert.assertEquals(feedbackCvResponse.getAddress().getAddress(), 3);
+        Assert.assertEquals(feedbackCvResponse.getAddress().getType(), AddressTypeEnum.LOCOMOTIVE_FORWARD);
         Assert.assertEquals(feedbackCvResponse.getCvNumber(), 5);
         Assert.assertEquals(feedbackCvResponse.getDat(), 1);
     }
@@ -36,7 +39,9 @@ public class FeedbackCvResponseTest {
         Assert.assertNotNull(feedbackCvResponse);
         LOGGER.info("Prepared feedbackCvResponse: {}", feedbackCvResponse);
 
-        Assert.assertEquals(feedbackCvResponse.getAddress(), 3);
+        Assert.assertNotNull(feedbackCvResponse.getAddress());
+        Assert.assertEquals(feedbackCvResponse.getAddress().getAddress(), 3);
+        Assert.assertEquals(feedbackCvResponse.getAddress().getType(), AddressTypeEnum.LOCOMOTIVE_FORWARD);
         Assert.assertEquals(feedbackCvResponse.getCvNumber(), 29);
         Assert.assertEquals(feedbackCvResponse.getDat(), 14);
 
@@ -59,7 +64,9 @@ public class FeedbackCvResponseTest {
         Assert.assertNotNull(feedbackCvResponse);
         LOGGER.info("Prepared feedbackCvResponse: {}", feedbackCvResponse);
 
-        Assert.assertEquals(feedbackCvResponse.getAddress(), 3);
+        Assert.assertNotNull(feedbackCvResponse.getAddress());
+        Assert.assertEquals(feedbackCvResponse.getAddress().getAddress(), 3);
+        Assert.assertEquals(feedbackCvResponse.getAddress().getType(), AddressTypeEnum.LOCOMOTIVE_FORWARD);
         Assert.assertEquals(feedbackCvResponse.getCvNumber(), 29);
         Assert.assertEquals(feedbackCvResponse.getDat(), 46);
 
@@ -88,7 +95,9 @@ public class FeedbackCvResponseTest {
         Assert.assertNotNull(feedbackCvResponse);
         LOGGER.info("Prepared feedbackCvResponse: {}", feedbackCvResponse);
 
-        Assert.assertEquals(feedbackCvResponse.getAddress(), 3);
+        Assert.assertNotNull(feedbackCvResponse.getAddress());
+        Assert.assertEquals(feedbackCvResponse.getAddress().getAddress(), 3);
+        Assert.assertEquals(feedbackCvResponse.getAddress().getType(), AddressTypeEnum.LOCOMOTIVE_FORWARD);
         Assert.assertEquals(feedbackCvResponse.getCvNumber(), 3);
         Assert.assertEquals(feedbackCvResponse.getDat(), 4);
     }
@@ -105,7 +114,9 @@ public class FeedbackCvResponseTest {
         Assert.assertNotNull(feedbackCvResponse);
         LOGGER.info("Prepared feedbackCvResponse: {}", feedbackCvResponse);
 
-        Assert.assertEquals(feedbackCvResponse.getAddress(), 3);
+        Assert.assertNotNull(feedbackCvResponse.getAddress());
+        Assert.assertEquals(feedbackCvResponse.getAddress().getAddress(), 3);
+        Assert.assertEquals(feedbackCvResponse.getAddress().getType(), AddressTypeEnum.LOCOMOTIVE_FORWARD);
         Assert.assertEquals(feedbackCvResponse.getCvNumber(), 4);
         Assert.assertEquals(feedbackCvResponse.getDat(), 5);
     }

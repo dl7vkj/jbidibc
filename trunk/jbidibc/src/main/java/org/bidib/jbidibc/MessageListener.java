@@ -40,7 +40,7 @@ public interface MessageListener {
      * @param dat
      *            the date
      */
-    void feedbackCv(byte[] address, int decoderAddress, int cvNumber, int dat);
+    void feedbackCv(byte[] address, AddressData decoderAddress, int cvNumber, int dat);
 
     void boosterCurrent(byte[] address, int current);
 

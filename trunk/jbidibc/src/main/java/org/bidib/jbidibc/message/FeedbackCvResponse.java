@@ -2,7 +2,9 @@ package org.bidib.jbidibc.message;
 
 import java.io.ByteArrayOutputStream;
 
+import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
@@ -47,7 +49,7 @@ public class FeedbackCvResponse extends BidibMessage {
         return out.toByteArray();
     }
 
-    public int getAddress() {
+    public AddressData getAddress() {
         byte[] data = getData();
         int index = 0;
 
@@ -55,7 +57,7 @@ public class FeedbackCvResponse extends BidibMessage {
         byte highByte = data[index++];
         int address = ByteUtils.getWord(lowByte, (byte) (highByte & 0x3F));
         LOGGER.debug("Return the address of MSG_BM_CV: {}", address);
-        return address;
+        return new AddressData(address, AddressTypeEnum.valueOf((byte) ((highByte & 0xC0) >> 6)));
     }
 
     public int getCvNumber() {
