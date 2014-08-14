@@ -1,14 +1,6 @@
-<?xml version="1.0" encoding="utf-8" ?>
-<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
-		  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-		  xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
-  <Version
-    Version="0.02"
-    Lastupdate="20140809"
-    Author="michael"
-    Pid="122"
-    Vendor="013"
-    Description="BiDiBOne-OneDriveTurn">
+<?xml version="1.0" encoding="UTF-8"?>
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+  <Version Version="0.02" Lastupdate="20140809" Author="michael" Pid="122" Vendor="013" Description="BiDiBOne-OneDriveTurn">
   </Version>
   <Templates>
     <Template Name="About">
@@ -83,10 +75,10 @@
       <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="4" Mode="rw" Rebootneeded="false">
         <Description Lang="de-DE" Text="Konfiguration"/>
         <Description Lang="en-EN" Text="Configuration"/>
-        <Bitdescription Bitnum="1" Lang="de-DE" Text="reserviert" />
-        <Bitdescription Bitnum="1" Lang="en-EN"	Text="reserved" />
-        <Bitdescription Bitnum="2" Lang="de-DE"	Text="reserviert" />
-        <Bitdescription Bitnum="2" Lang="en-EN"	Text="reserved" />
+        <Bitdescription Bitnum="1" Lang="de-DE" Text="reserviert"/>
+        <Bitdescription Bitnum="1" Lang="en-EN" Text="reserved"/>
+        <Bitdescription Bitnum="2" Lang="de-DE" Text="reserviert"/>
+        <Bitdescription Bitnum="2" Lang="en-EN" Text="reserved"/>
         <Bitdescription Bitnum="3" Lang="de-DE" Text="Impulsbetrieb: 0=ohne, 1=mit"/>
         <Bitdescription Bitnum="3" Lang="en-EN" Text="One-shot pulse: 0=false, 1=true"/>
       </CV>
@@ -129,24 +121,24 @@
         <Description Lang="en-EN" Text="Max High"/>
       </CV>
       <CV Number="4" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="160" Mode="rw" Rebootneeded="true">
-        <Description Lang="de-DE" Text="Modus" />
-        <Description Lang="en-EN" Text="Mode" />
-        <Bitdescription Bitnum="1" Lang="de-DE" Text="reserviert" />
-        <Bitdescription Bitnum="1" Lang="en-EN"	Text="reserved" />
-        <Bitdescription Bitnum="2" Lang="de-DE"	Text="reserviert" />
-        <Bitdescription Bitnum="2" Lang="en-EN"	Text="reserved" />
-        <Bitdescription Bitnum="3" Lang="de-DE"	Text="reserviert" />
-        <Bitdescription Bitnum="3" Lang="en-EN"	Text="reserved" />
-        <Bitdescription Bitnum="4" Lang="de-DE"	Text="reserviert" />
-        <Bitdescription Bitnum="4" Lang="en-EN"	Text="reserved" />
-        <Bitdescription Bitnum="5" Lang="de-DE"	Text="reserviert" />
-        <Bitdescription Bitnum="5" Lang="en-EN"	Text="reserved" />
-        <Bitdescription Bitnum="6" Lang="de-DE"	Text="Impulse auch bei keiner Bewegung: 0=nein, 1=ja" />
-        <Bitdescription Bitnum="6" Lang="en-EN"	Text="servo pulses even when not moving: 0=false, 1=true" />
-        <Bitdescription Bitnum="7" Lang="de-DE"	Text="reserviert" />
-        <Bitdescription Bitnum="7" Lang="en-EN"	Text="reserved" />
-        <Bitdescription Bitnum="8" Lang="de-DE"	Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]" />
-        <Bitdescription Bitnum="8" Lang="en-EN"	Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]" />
+        <Description Lang="de-DE" Text="Modus"/>
+        <Description Lang="en-EN" Text="Mode"/>
+        <Bitdescription Bitnum="1" Lang="de-DE" Text="reserviert"/>
+        <Bitdescription Bitnum="1" Lang="en-EN" Text="reserved"/>
+        <Bitdescription Bitnum="2" Lang="de-DE" Text="reserviert"/>
+        <Bitdescription Bitnum="2" Lang="en-EN" Text="reserved"/>
+        <Bitdescription Bitnum="3" Lang="de-DE" Text="reserviert"/>
+        <Bitdescription Bitnum="3" Lang="en-EN" Text="reserved"/>
+        <Bitdescription Bitnum="4" Lang="de-DE" Text="reserviert"/>
+        <Bitdescription Bitnum="4" Lang="en-EN" Text="reserved"/>
+        <Bitdescription Bitnum="5" Lang="de-DE" Text="reserviert"/>
+        <Bitdescription Bitnum="5" Lang="en-EN" Text="reserved"/>
+        <Bitdescription Bitnum="6" Lang="de-DE" Text="Impulse auch bei keiner Bewegung: 0=nein, 1=ja"/>
+        <Bitdescription Bitnum="6" Lang="en-EN" Text="servo pulses even when not moving: 0=false, 1=true"/>
+        <Bitdescription Bitnum="7" Lang="de-DE" Text="reserviert"/>
+        <Bitdescription Bitnum="7" Lang="en-EN" Text="reserved"/>
+        <Bitdescription Bitnum="8" Lang="de-DE" Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]"/>
+        <Bitdescription Bitnum="8" Lang="en-EN" Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]"/>
       </CV>
       <CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
         <Description Lang="de-DE" Text="Wiederholung: 0 keine Wiederholung, 1 Wiederholung"/>
