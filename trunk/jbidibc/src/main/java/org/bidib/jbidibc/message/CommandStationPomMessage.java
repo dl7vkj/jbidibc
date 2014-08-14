@@ -19,6 +19,12 @@ public class CommandStationPomMessage extends BidibCommandMessage {
      * 
      * @param decoderAddress
      *            the decoder address
+     * @param opCode
+     *            the operation code
+     * @param cvNumber
+     *            the CV number
+     * @param data
+     *            the CV data. For normal POM operation 1 byte but up to 4 bytes for xPOM
      */
     public CommandStationPomMessage(AddressData decoderAddress, CommandStationPom opCode, int cvNumber, byte[] data) {
         super(0, BidibLibrary.MSG_CS_POM, prepareData(decoderAddress, opCode, cvNumber, data));
@@ -28,15 +34,13 @@ public class CommandStationPomMessage extends BidibCommandMessage {
      * Create the command for a loco decoder.
      * 
      * @param addressDID
-     *            the decoder address
-     * @param addressDID
      *            the DID address
      * @param opCode
      *            the operation code
      * @param cvNumber
      *            the CV number
      * @param data
-     *            the CV data
+     *            the CV data. For normal POM operation 1 byte but up to 4 bytes for xPOM
      */
     public CommandStationPomMessage(DecoderIdAddressData addressDID, CommandStationPom opCode, int cvNumber, byte[] data) {
         super(0, BidibLibrary.MSG_CS_POM, prepareData(addressDID, opCode, cvNumber, data));

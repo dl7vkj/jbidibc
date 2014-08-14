@@ -35,7 +35,7 @@ public class FeedbackCvResponse extends BidibMessage {
         return ByteUtils.getInt(getData()[0], 0x7F);
     }
 
-    private static byte[] prepareData(int address, int cvNumber, byte dat) {
+    private static byte[] prepareData(int address, int cvNumber, byte data) {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         out.write(ByteUtils.getLowByte(address));
         out.write(ByteUtils.getHighByte(address) & 0x3F);
@@ -43,7 +43,7 @@ public class FeedbackCvResponse extends BidibMessage {
         out.write(ByteUtils.getLowByte(cvNumber));
         out.write(ByteUtils.getHighByte(cvNumber));
 
-        out.write(dat);
+        out.write(data);
         return out.toByteArray();
     }
 
