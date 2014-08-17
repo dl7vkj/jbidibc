@@ -5,6 +5,7 @@ import org.bidib.jbidibc.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.enumeration.CommandStationPom;
 import org.bidib.jbidibc.enumeration.PomOperation;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -157,5 +158,97 @@ public class CommandStationPomMessageTest {
         Assert.assertEquals(pomMessage.getOpCode(), (int) PomOperation.WR_BYTE.getType());
         Assert.assertEquals(pomMessage.getCvNumber(), 37);
         Assert.assertEquals(pomMessage.getCvValue(), 4);
+    }
+
+    // BIDIB_CS_xPOM_RD_BLOCK : CV4
+    // FE 10 00 3F 67 1E 00 00 00 00 81 03 00 00 05 00 00 00 B7 FE
+    @Test
+    public void prepareCommandStationXPomMessage() {
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
+        CommandStationPom opCode = CommandStationPom.X_RD_BLOCK;
+        int cvNumber = 4;
+        byte[] data = { 0 };
+
+        CommandStationPomMessage message = new CommandStationPomMessage(locoAddress, opCode, cvNumber, data);
+
+        LOGGER.debug("Created message: {}, hex: {}", message, ByteUtils.bytesToHex(message.getData()));
+        Assert.assertNotNull(message);
+
+        Assert.assertEquals(message.getData()[0], (byte) 0x03); // ADDR_L
+        Assert.assertEquals(message.getData()[1], (byte) 0x00); // ADDR_H
+
+        Assert.assertEquals(message.getData()[2], (byte) 0x00); // ADDR_XL
+        Assert.assertEquals(message.getData()[3], (byte) 0x00); // ADDR_XH
+
+        Assert.assertEquals(message.getData()[4], (byte) 0x00); // MID
+
+        Assert.assertEquals(message.getData()[5], opCode.getType()); // OPCODE
+
+        Assert.assertEquals(message.getData()[6], (byte) cvNumber - 1); // CV_L
+        Assert.assertEquals(message.getData()[7], (byte) 0x00); // CV_H
+        Assert.assertEquals(message.getData()[8], (byte) 0x00); // CV_X
+
+        Assert.assertEquals(message.getData()[9], (byte) 0x00); // DATA
+    }
+
+    // BIDIB_CS_xPOM_WR_BYTE1 : CV4 -> 5
+    // FE 10 00 40 67 1E 00 00 00 00 83 03 00 00 05 00 00 00 B4 FE
+    @Test
+    public void prepareCommandStationXPomWrByte1Message() {
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
+        CommandStationPom opCode = CommandStationPom.X_WR_BYTE1;
+        int cvNumber = 4;
+        byte[] data = { 5 };
+
+        CommandStationPomMessage message = new CommandStationPomMessage(locoAddress, opCode, cvNumber, data);
+
+        LOGGER.debug("Created message: {}, hex: {}", message, ByteUtils.bytesToHex(message.getData()));
+        Assert.assertNotNull(message);
+
+        Assert.assertEquals(message.getData()[0], (byte) 0x03); // ADDR_L
+        Assert.assertEquals(message.getData()[1], (byte) 0x00); // ADDR_H
+
+        Assert.assertEquals(message.getData()[2], (byte) 0x00); // ADDR_XL
+        Assert.assertEquals(message.getData()[3], (byte) 0x00); // ADDR_XH
+
+        Assert.assertEquals(message.getData()[4], (byte) 0x00); // MID
+
+        Assert.assertEquals(message.getData()[5], opCode.getType()); // OPCODE
+
+        Assert.assertEquals(message.getData()[6], (byte) cvNumber - 1); // CV_L
+        Assert.assertEquals(message.getData()[7], (byte) 0x00); // CV_H
+        Assert.assertEquals(message.getData()[8], (byte) 0x00); // CV_X
+
+        Assert.assertEquals(message.getData()[9], (byte) 0x05); // DATA
+    }
+
+    @Test
+    public void prepareCommandStationXPomWrByte2Message() {
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_FORWARD);
+        CommandStationPom opCode = CommandStationPom.X_WR_BYTE2;
+        int cvNumber = 4;
+        byte[] data = { 5, 4 };
+
+        CommandStationPomMessage message = new CommandStationPomMessage(locoAddress, opCode, cvNumber, data);
+
+        LOGGER.debug("Created message: {}, hex: {}", message, ByteUtils.bytesToHex(message.getData()));
+        Assert.assertNotNull(message);
+
+        Assert.assertEquals(message.getData()[0], (byte) 0x03); // ADDR_L
+        Assert.assertEquals(message.getData()[1], (byte) 0x00); // ADDR_H
+
+        Assert.assertEquals(message.getData()[2], (byte) 0x00); // ADDR_XL
+        Assert.assertEquals(message.getData()[3], (byte) 0x00); // ADDR_XH
+
+        Assert.assertEquals(message.getData()[4], (byte) 0x00); // MID
+
+        Assert.assertEquals(message.getData()[5], opCode.getType()); // OPCODE
+
+        Assert.assertEquals(message.getData()[6], (byte) cvNumber - 1); // CV_L
+        Assert.assertEquals(message.getData()[7], (byte) 0x00); // CV_H
+        Assert.assertEquals(message.getData()[8], (byte) 0x00); // CV_X
+
+        Assert.assertEquals(message.getData()[9], (byte) 0x05); // DATA
+        Assert.assertEquals(message.getData()[10], (byte) 0x04); // DATA
     }
 }
