@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.simulation.comm;
 
 import java.lang.reflect.Method;
+import java.net.URL;
 import java.util.List;
 import java.util.Set;
 
@@ -142,7 +143,22 @@ public class SimulationBidib implements BidibInterface {
         delegateBidib.registerListeners(nodeListeners, messageListeners, transferListeners);
         // start the simulation part
         // TODO make the path to the simulation configuration configurable
-        delegateBidib.start("/simulation/simulation.xml");
+        LOGGER.info("Current working dir: {}", System.getProperty("user.dir"));
+        String simulationConfig = "/simulation/simulation.xml";
+        try {
+            URL url = getClass().getResource("/data/simulation/simulation.xml");
+            if (url != null) {
+                simulationConfig = "/data/simulation/simulation.xml";
+                LOGGER.info("Use simulation configuration from: {}", simulationConfig);
+            }
+            else {
+                LOGGER.info("No simulation configuration found under /data/simulation.");
+            }
+        }
+        catch (Exception ex) {
+            LOGGER.warn("Load simulation configuration from data/simulation failed.", ex);
+        }
+        delegateBidib.start(simulationConfig);
 
         // open the interface
         delegateBidib.open(portName, connectionListener, nodeListeners, messageListeners, transferListeners);
