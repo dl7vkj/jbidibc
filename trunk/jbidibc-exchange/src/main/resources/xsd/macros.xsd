@@ -211,6 +211,7 @@
 		<xsd:attribute name="macroId" type="xsd:int" use="required"/>
 		<xsd:attribute name="repeat" type="MacroRepeatType" use="required"/>
 		<xsd:attribute name="slowdown" type="MacroSlowdownFactorType" use="required"/>
+		<xsd:attribute name="maxMacroPoints" type="xsd:int" use="optional" default="38"/>
 	</xsd:complexType>
 	
 	<xsd:complexType name="StartClkType">
