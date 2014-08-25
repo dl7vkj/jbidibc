@@ -1127,5 +1127,8 @@ public interface BidibLibrary {
 
     public static final int MSG_LC_MAPPING = (MSG_ULC + 0x05);
 
+    // input port type
+    public static final int BIDIB_PORTTYPE_INPUT = (int) 15;
+
     public static final int BIDIB_ERR_RESET_REQUIRED = (int) 0x21; // reset needed (ie. due to reconfiguration)
 }

@@ -234,6 +234,9 @@ public final class ResponseFactory {
                 result =
                     new FeedbackBlockCvResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
+            case BidibLibrary.MSG_LC_MAPPING:
+                result = new LcMappingResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                break;
             default:
                 LOGGER.error("Got unknown response with type '{}', message: {}",
                     String.format("0x%02x", result.getType()), message);
