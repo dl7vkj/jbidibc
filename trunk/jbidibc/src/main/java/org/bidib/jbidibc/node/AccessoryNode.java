@@ -7,6 +7,7 @@ import org.bidib.jbidibc.AccessoryState;
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.LcMacroParaValue;
 import org.bidib.jbidibc.MessageReceiver;
+import org.bidib.jbidibc.core.LcPortMapping;
 import org.bidib.jbidibc.enumeration.LcMacroOperationCode;
 import org.bidib.jbidibc.enumeration.LcMacroState;
 import org.bidib.jbidibc.enumeration.LcMappingPortType;
@@ -26,6 +27,8 @@ import org.bidib.jbidibc.message.LcMacroParaSetMessage;
 import org.bidib.jbidibc.message.LcMacroResponse;
 import org.bidib.jbidibc.message.LcMacroSetMessage;
 import org.bidib.jbidibc.message.LcMacroStateResponse;
+import org.bidib.jbidibc.message.LcMappingCfgMessage;
+import org.bidib.jbidibc.message.LcMappingResponse;
 import org.bidib.jbidibc.utils.AccessoryStateUtils;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.CollectionUtils;
@@ -259,7 +262,22 @@ public class AccessoryNode extends DeviceNode {
         }
     }
 
-    public void queryPortMapping(LcMappingPortType lcMappingPortType) {
+    /**
+     * Query the port mapping.
+     * 
+     * @param lcMappingPortType
+     *            the lc mapping port type
+     * @throws ProtocolException
+     */
+    public LcPortMapping queryPortMapping(LcMappingPortType lcMappingPortType) throws ProtocolException {
 
+        BidibMessage response = send(new LcMappingCfgMessage(lcMappingPortType), true, LcMappingResponse.TYPE);
+        if (response instanceof LcMappingResponse) {
+            LcMappingResponse lcMappingResponse = (LcMappingResponse) response;
+            LcPortMapping lcPortMapping = lcMappingResponse.getLcPortMapping();
+
+            return lcPortMapping;
+        }
+        return null;
     }
 }
