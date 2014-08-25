@@ -70,7 +70,7 @@ public interface MessageListener {
      * @param errorCode
      *            the error code
      */
-    void error(byte[] address, int errorCode);
+    void error(byte[] address, int errorCode, byte[] reasonData);
 
     /**
      * Signals that an accessory state message was received.

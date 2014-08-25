@@ -34,6 +34,7 @@ import org.bidib.jbidibc.message.NodeTabResponse;
 import org.bidib.jbidibc.message.StringGetMessage;
 import org.bidib.jbidibc.message.StringResponse;
 import org.bidib.jbidibc.message.StringSetMessage;
+import org.bidib.jbidibc.message.SysErrorResponse;
 import org.bidib.jbidibc.message.SysMagicResponse;
 import org.bidib.jbidibc.message.SysPVersionResponse;
 import org.bidib.jbidibc.message.SysPingMessage;
@@ -46,10 +47,12 @@ import org.bidib.jbidibc.message.VendorResponse;
 import org.bidib.jbidibc.message.VendorSetMessage;
 import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.events.SimulatorStatusEvent;
+import org.bidib.jbidibc.simulation.events.SysErrorEvent;
 import org.bidib.jbidibc.simulation.net.SimulationBidibMessageProcessor;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.CollectionUtils;
 import org.bushe.swing.event.EventBus;
+import org.bushe.swing.event.annotation.EventSubscriber;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -814,5 +817,50 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     @Override
     public void queryStatus(Class<?> portClass) {
+    }
+
+    @EventSubscriber(eventClass = SysErrorEvent.class)
+    public void sysError(SysErrorEvent sysErrorEvent) {
+        LOGGER.info("The change of the sysError was requested: {}", sysErrorEvent);
+        String nodeAddress = sysErrorEvent.getNodeAddr();
+
+        // check if the node is addressed
+        if (!isAddressEqual(nodeAddress)) {
+            LOGGER.trace("Another node is addressed.");
+            return;
+        }
+
+        // prepare the request
+        try {
+            byte[] reason = new byte[0];
+            switch (sysErrorEvent.getSysError()) {
+                case BIDIB_ERR_ADDRSTACK:
+                    byte[] nodeAddr = getNodeAddress();
+                    if (nodeAddr.length < 4) {
+                        byte[] fullAddr = new byte[] { 0, 0, 0, 0 };
+                        for (int index = 0; index < nodeAddr.length; index++) {
+                            byte addr = nodeAddr[index];
+                            fullAddr[index] = addr;
+                        }
+                        nodeAddr = fullAddr;
+                    }
+                    reason = nodeAddr;
+                    break;
+                default:
+                    reason = sysErrorEvent.getReason();
+                    break;
+            }
+            final SysErrorResponse sysErrorResponse = new SysErrorResponse(
+                getNodeAddress(), getNextSendNum(), sysErrorEvent.getSysError(), reason) {
+                @Override
+                public byte[] getAddr() {
+                    return getNodeAddress();
+                }
+            };
+            publishResponse(sysErrorResponse.getContent());
+        }
+        catch (ProtocolException ex) {
+            LOGGER.warn("Send sysErrorResponse failed.", ex);
+        }
     }
 }

@@ -9,12 +9,12 @@ import java.util.concurrent.BlockingQueue;
 import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.Node;
 import org.bidib.jbidibc.enumeration.BoosterState;
+import org.bidib.jbidibc.enumeration.SysErrorEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.ResponseFactory;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.NodeFactory;
-import org.bidib.jbidibc.serial.SerialMessageReceiver;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 
@@ -45,7 +45,37 @@ public class MessageReceiverTest {
         receiver.receive(serialPort);
 
         // verify that error was called once
-        Mockito.verify(messageListener, Mockito.times(1)).error(address, 2);
+        Mockito.verify(messageListener, Mockito.times(1)).error(address, 2, address);
+    }
+
+    @Test
+    public void receiveMessageAddrStackTest() throws IOException {
+        byte[] address = new byte[] { 1, 2, 3 };
+
+        NodeFactory nodeFactory = Mockito.mock(NodeFactory.class);
+        SerialPort serialPort = Mockito.mock(SerialPort.class);
+        BidibNode bidibNode = Mockito.mock(BidibNode.class);
+        MessageListener messageListener = Mockito.mock(MessageListener.class);
+
+        // prepare the object to test
+        SerialMessageReceiver receiver = new SerialMessageReceiver(nodeFactory);
+        receiver.addMessageListener(messageListener);
+        // set the receive queue
+
+        ByteArrayInputStream is =
+            new ByteArrayInputStream(new byte[] { 0x0B, 0x01, 0x02, 0x03, 0x00, 0x01, (byte) 0x86,
+                SysErrorEnum.BIDIB_ERR_ADDRSTACK.getType(), (byte) 0x01, (byte) 0x02, (byte) 0x03, (byte) 0x04,
+                (byte) 0x56, (byte) 0xFE });
+
+        Mockito.when(serialPort.getInputStream()).thenReturn(is);
+        Mockito.when(nodeFactory.getNode(Mockito.any(Node.class))).thenReturn(bidibNode);
+        Mockito.when(bidibNode.getNextReceiveMsgNum(Mockito.any(BidibMessage.class))).thenReturn(Integer.valueOf(1));
+
+        receiver.receive(serialPort);
+
+        // verify that error was called once
+        Mockito.verify(messageListener, Mockito.times(1)).error(address, SysErrorEnum.BIDIB_ERR_ADDRSTACK.getType(),
+            new byte[] { 1, 2, 3, 4 });
     }
 
     @Test

@@ -63,7 +63,7 @@ public class DefaultMessageListener implements MessageListener {
     }
 
     @Override
-    public void error(byte[] address, int errorCode) {
+    public void error(byte[] address, int errorCode, byte[] reasonData) {
     }
 
     @Override

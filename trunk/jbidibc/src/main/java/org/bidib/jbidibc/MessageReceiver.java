@@ -265,7 +265,8 @@ public class MessageReceiver implements BidibMessageProcessor {
                                     // TODO forward to application!
                                     break;
                                 default:
-                                    fireError(message.getAddr(), errorResponse.getErrorCode());
+                                    fireError(message.getAddr(), errorResponse.getErrorCode(),
+                                        errorResponse.getReasonData());
                                     break;
                             }
 
@@ -594,11 +595,12 @@ public class MessageReceiver implements BidibMessageProcessor {
         }
     }
 
-    private void fireError(byte[] address, int errorCode) {
-        LOGGER.error("Error received from system, addr: {}, errorCode: {}", address, errorCode);
+    private void fireError(byte[] address, int errorCode, byte[] reasonData) {
+        LOGGER.error("Error received from system, addr: {}, errorCode: {}, reasonData: {}", address, errorCode,
+            reasonData);
         synchronized (messageListeners) {
             for (MessageListener l : messageListeners) {
-                l.error(address, errorCode);
+                l.error(address, errorCode, reasonData);
             }
         }
     }
