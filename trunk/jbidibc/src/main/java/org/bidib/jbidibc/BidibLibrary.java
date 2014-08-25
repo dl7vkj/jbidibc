@@ -1120,4 +1120,12 @@ public interface BidibLibrary {
 
     public static final int BIDIB_CS_xPOM_WR_BYTE4 = (int) 0x8F;
 
+    // ### experimental ###
+    public static final int FEATURE_CTRL_PORT_REMAPPING = (int) 70;
+
+    public static final int MSG_LC_MAPPING_CFG = (MSG_DLC + 0x05);
+
+    public static final int MSG_LC_MAPPING = (MSG_ULC + 0x05);
+
+    public static final int BIDIB_ERR_RESET_REQUIRED = (int) 0x21; // reset needed (ie. due to reconfiguration)
 }

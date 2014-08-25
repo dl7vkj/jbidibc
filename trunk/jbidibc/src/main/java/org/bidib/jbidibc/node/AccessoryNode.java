@@ -9,6 +9,7 @@ import org.bidib.jbidibc.LcMacroParaValue;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.enumeration.LcMacroOperationCode;
 import org.bidib.jbidibc.enumeration.LcMacroState;
+import org.bidib.jbidibc.enumeration.LcMappingPortType;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.exception.ProtocolNoAnswerException;
 import org.bidib.jbidibc.message.AccessoryGetMessage;
@@ -256,5 +257,9 @@ public class AccessoryNode extends DeviceNode {
             int result = ((LcMacroParaResponse) response).getMacroNumber();
             LOGGER.debug("Set macro parameter returned macronumber: {}", result);
         }
+    }
+
+    public void queryPortMapping(LcMappingPortType lcMappingPortType) {
+
     }
 }
