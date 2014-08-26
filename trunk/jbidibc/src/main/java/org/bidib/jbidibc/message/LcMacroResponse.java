@@ -3,6 +3,7 @@ package org.bidib.jbidibc.message;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.LcMacro;
 import org.bidib.jbidibc.enumeration.LcOutputType;
+import org.bidib.jbidibc.exception.InvalidConfigurationException;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.utils.ByteUtils;
 import org.bidib.jbidibc.utils.MessageUtils;
@@ -33,13 +34,15 @@ public class LcMacroResponse extends BidibMessage {
 
     /**
      * @return returns the initialized macro point
+     * @throws InvalidConfigurationException
+     *             if the conversion of the received data into the LcMacro failed
      */
     public LcMacro getMacro() {
         byte[] data = getData();
 
+        // TODO remove the log output
         LOGGER.info("Returned macro data: {}", ByteUtils.bytesToHex(data));
 
-        // TODO change this behavior to propagate the problem
         try {
             LcOutputType outputType = LcOutputType.valueOf(data[3]);
 
@@ -47,8 +50,9 @@ public class LcMacroResponse extends BidibMessage {
                 data[5]), MessageUtils.getPortValue(outputType, data[5]));
         }
         catch (Exception ex) {
-            LOGGER.warn("Convert macro data to LcMacro failed.", ex);
-            return null;
+            LOGGER.warn("Convert macro data to LcMacro failed: {}", ByteUtils.bytesToHex(data), ex);
+
+            throw new InvalidConfigurationException("Convert macro data to LcMacro failed.");
         }
     }
 
