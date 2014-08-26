@@ -65,7 +65,8 @@ public enum FeatureEnum implements BidibEnum {
         BidibLibrary.FEATURE_CTRL_MAC_COUNT), FEATURE_CTRL_MAC_START_DCC(BidibLibrary.FEATURE_CTRL_MAC_START_DCC, 0, 1), FEATURE_CTRL_MAC_START_MAN(
         BidibLibrary.FEATURE_CTRL_MAC_START_MAN, 0, 1), FEATURE_CTRL_PORT_QUERY_AVAILABLE(
         BidibLibrary.FEATURE_CTRL_PORT_QUERY_AVAILABLE, 0, 1), FEATURE_SPORT_CONFIG_AVAILABLE(
-        BidibLibrary.FEATURE_SPORT_CONFIG_AVAILABLE, 0, 1);
+        BidibLibrary.FEATURE_SPORT_CONFIG_AVAILABLE, 0, 1), FEATURE_CTRL_PORT_REMAPPING(
+        BidibLibrary.FEATURE_CTRL_PORT_REMAPPING, 0, 1);
     // @formatter:on
 
     private final byte type;

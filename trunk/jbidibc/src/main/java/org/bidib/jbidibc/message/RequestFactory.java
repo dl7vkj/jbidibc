@@ -233,6 +233,9 @@ public class RequestFactory {
             case BidibLibrary.MSG_LC_OUTPUT_QUERY:
                 concreteBidibMessage = new LcOutputQueryMessage(message);
                 break;
+            case BidibLibrary.MSG_LC_MAPPING_CFG:
+                concreteBidibMessage = new LcMappingCfgMessage(message);
+                break;
             case BidibLibrary.MSG_LC_MACRO_PARA_GET:
                 concreteBidibMessage = new LcMacroParaGetMessage(message);
                 break;
