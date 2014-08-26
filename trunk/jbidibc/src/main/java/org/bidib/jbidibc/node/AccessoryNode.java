@@ -213,6 +213,7 @@ public class AccessoryNode extends DeviceNode {
      * @throws ProtocolException
      */
     public LcMacro getMacroStep(int macroNumber, int stepNumber) throws ProtocolException {
+        LOGGER.info("Get the macro step, macroNumber: {}, stepNumber: {}", macroNumber, stepNumber);
         LcMacro result = null;
         BidibMessage response = send(new LcMacroGetMessage(macroNumber, stepNumber), true, LcMacroResponse.TYPE);
 
