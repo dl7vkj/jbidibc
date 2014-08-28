@@ -48,6 +48,8 @@
         <logback-version>1.1.2</logback-version>
         <testng-version>6.8.8</testng-version>
         <commons-lang-version>2.6</commons-lang-version>
+        <commons-lang3-version>3.3.2</commons-lang3-version>
+        <commons-collections4-version>4.0</commons-collections4-version>
         <commons-io-version>2.4</commons-io-version>
         <!--saxon-version>9.5.1-1</saxon-version-->
         <xalan-version>2.7.1</xalan-version>
@@ -94,6 +96,16 @@
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>${commons-lang-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${commons-lang3-version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-collections4</artifactId>
+                <version>${commons-collections4-version}</version>
             </dependency>
             <dependency>
                 <groupId>commons-io</groupId>

@@ -1,6 +1,13 @@
 package org.bidib.jbidibc.utils;
 
 import java.nio.ByteBuffer;
+import java.util.Arrays;
+import java.util.List;
+
+import org.apache.commons.collections4.Predicate;
+import org.bidib.jbidibc.Node;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -10,6 +17,8 @@ import java.nio.ByteBuffer;
  * 
  */
 public class NodeUtils {
+    private static final Logger LOGGER = LoggerFactory.getLogger(NodeUtils.class);
+
     // the interface address is always 0
     public static final int INTERFACE_ADDRESS = 0;
 
@@ -163,5 +172,29 @@ public class NodeUtils {
      */
     public static long getPid(long uniqueId) {
         return (uniqueId >> 24) & 0xffL;
+    }
+
+    /**
+     * Find a node by its node address in the provided list of nodes.
+     * 
+     * @param nodes
+     *            the list of nodes
+     * @param address
+     *            the address of the node to find
+     * @return the found node or <code>null</code> if no node was found with the provided node address
+     */
+    public static Node findNodeByAddress(List<Node> nodes, final byte[] address) {
+        Node topNode = org.apache.commons.collections4.CollectionUtils.find(nodes, new Predicate<Node>() {
+
+            @Override
+            public boolean evaluate(Node node) {
+                if (Arrays.equals(node.getAddr(), address)) {
+                    LOGGER.debug("Found node: {}", node);
+                    return true;
+                }
+                return false;
+            }
+        });
+        return topNode;
     }
 }
