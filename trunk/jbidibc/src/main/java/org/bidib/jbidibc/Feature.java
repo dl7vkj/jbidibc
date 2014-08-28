@@ -6,7 +6,7 @@ import org.bidib.jbidibc.enumeration.FeatureEnum;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class Feature implements Serializable {
+public class Feature implements Serializable, Comparable<Feature> {
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(Feature.class);
@@ -71,6 +71,11 @@ public class Feature implements Serializable {
         return getType();
     }
 
+    @Override
+    public int compareTo(Feature other) {
+        return ((getType() > other.getType()) ? 1 : (getType() < other.getType()) ? -1 : 0);
+    }
+
     public String toString() {
         return getClass().getSimpleName() + "[type=" + type + ",value=" + value + "]";
     }
@@ -103,5 +108,4 @@ public class Feature implements Serializable {
         }
         return result;
     }
-
 }

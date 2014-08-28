@@ -3,11 +3,11 @@ package org.bidib.jbidibc.simulation.nodes;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 import java.util.SortedMap;
+import java.util.SortedSet;
 import java.util.TreeMap;
+import java.util.TreeSet;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -15,6 +15,7 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.Feature;
@@ -50,7 +51,6 @@ import org.bidib.jbidibc.simulation.events.SimulatorStatusEvent;
 import org.bidib.jbidibc.simulation.events.SysErrorEvent;
 import org.bidib.jbidibc.simulation.net.SimulationBidibMessageProcessor;
 import org.bidib.jbidibc.utils.ByteUtils;
-import org.bidib.jbidibc.utils.CollectionUtils;
 import org.bushe.swing.event.EventBus;
 import org.bushe.swing.event.annotation.EventSubscriber;
 import org.slf4j.Logger;
@@ -75,7 +75,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     private int featureCount;
 
-    protected List<Feature> features = new LinkedList<>();
+    protected SortedSet<Feature> features = new TreeSet<>();
 
     protected Map<String, String> configurationVariables = new LinkedHashMap<String, String>();
 
@@ -111,7 +111,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     @Override
     public void setFeatures(FeaturesType featuresType) {
-        if (featuresType == null || !CollectionUtils.hasElements(featuresType.getFeature())) {
+        if (featuresType == null || CollectionUtils.isEmpty(featuresType.getFeature())) {
             return;
         }
 
@@ -611,7 +611,8 @@ public class DefaultNodeSimulator implements SimulatorNode {
         }
         else {
             try {
-                Feature feature = features.get(currentFeature);
+                Feature feature = CollectionUtils.get(features, currentFeature);
+                // Feature feature = features.toArray(new Feature[0])[currentFeature];
                 FeatureResponse featureResponse =
                     new FeatureResponse(bidibMessage.getAddr(), getNextSendNum(), feature.getType(), feature.getValue());
                 response = featureResponse.getContent();

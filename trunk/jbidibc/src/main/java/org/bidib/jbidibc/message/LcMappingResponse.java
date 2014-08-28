@@ -50,7 +50,7 @@ public class LcMappingResponse extends BidibMessage {
      * @return the array with the information if the port is available for configuration on the requested port type.
      */
     public int[] getPortConfigAvailable() {
-        // TODO implementation is missing
+
         byte[] data = getData();
         int[] portAvailables = new int[getFieldLen() * 8];
 
@@ -73,7 +73,7 @@ public class LcMappingResponse extends BidibMessage {
      * @return the array with information if the port is mapped on the requested port type.
      */
     public int[] getPortMapping() {
-        // TODO implementation is missing
+
         byte[] data = getData();
         int[] portMappings = new int[getFieldLen() * 8];
 
