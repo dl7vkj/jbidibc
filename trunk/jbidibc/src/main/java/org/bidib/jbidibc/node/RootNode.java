@@ -43,7 +43,6 @@ public class RootNode extends BidibNode {
      */
     public void reset() throws ProtocolException {
         super.reset();
-        // TODO reset the counters
 
     }
 

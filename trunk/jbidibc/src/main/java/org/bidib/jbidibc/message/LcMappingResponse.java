@@ -34,6 +34,9 @@ public class LcMappingResponse extends BidibMessage {
         return LcMappingPortType.valueOf(getData()[0]);
     }
 
+    /**
+     * @return the total number of ports available on the node
+     */
     public int getPortCount() {
         return ByteUtils.getInt(getData()[1]);
     }
