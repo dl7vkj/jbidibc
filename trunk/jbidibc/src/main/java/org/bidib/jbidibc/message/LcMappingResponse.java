@@ -52,7 +52,7 @@ public class LcMappingResponse extends BidibMessage {
     /**
      * @return the array with the information if the port is available for configuration on the requested port type.
      */
-    public int[] getPortConfigAvailable() {
+    public int[] getPortAvailable() {
 
         byte[] data = getData();
         int[] portAvailables = new int[getFieldLen() * 8];
@@ -98,7 +98,7 @@ public class LcMappingResponse extends BidibMessage {
     public LcPortMapping getLcPortMapping() {
         LcPortMapping lcPortMapping = new LcPortMapping(getLcMappingPortType(), getPortCount());
         if (getFieldLen() > 0) {
-            lcPortMapping.setPortConfigAvailable(getPortConfigAvailable());
+            lcPortMapping.setPortAvailable(getPortAvailable());
             lcPortMapping.setPortMapping(getPortMapping());
         }
         return lcPortMapping;

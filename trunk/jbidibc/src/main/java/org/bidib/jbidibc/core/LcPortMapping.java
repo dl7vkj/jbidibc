@@ -8,7 +8,7 @@ public class LcPortMapping {
 
     private int portCount;
 
-    private int[] portConfigAvailable;
+    private int[] portAvailable;
 
     private int[] portMapping;
 
@@ -40,18 +40,18 @@ public class LcPortMapping {
     }
 
     /**
-     * @return the portConfigAvailable
+     * @return the portAvailable
      */
-    public int[] getPortConfigAvailable() {
-        return portConfigAvailable;
+    public int[] getPortAvailable() {
+        return portAvailable;
     }
 
     /**
-     * @param portConfigAvailable
-     *            the portConfigAvailable to set
+     * @param portAvailable
+     *            the portAvailable to set
      */
-    public void setPortConfigAvailable(int[] portConfigAvailable) {
-        this.portConfigAvailable = portConfigAvailable;
+    public void setPortAvailable(int[] portAvailable) {
+        this.portAvailable = portAvailable;
     }
 
     /**
