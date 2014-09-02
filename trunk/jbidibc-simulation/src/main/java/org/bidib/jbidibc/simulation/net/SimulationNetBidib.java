@@ -6,6 +6,7 @@ import java.net.DatagramSocket;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.net.NetBidib;
 import org.bidib.jbidibc.net.NetBidibPort;
@@ -94,6 +95,12 @@ public class SimulationNetBidib extends NetBidib implements SimulationInterface 
                 catch (Exception ex) {
                     LOGGER.warn("Process messages failed.", ex);
                 }
+            }
+
+            @Override
+            public void removeNodeListener(NodeListener nodeListener) {
+                // TODO Auto-generated method stub
+
             }
         };
         simulationMessageReceiver.setSimulatorRegistry(simulatorRegistry);

@@ -73,6 +73,11 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
 
                 getMessageReceiver().processMessages(output);
             }
+
+            @Override
+            public void removeNodeListener(NodeListener nodeListener) {
+                getMessageReceiver().removeNodeListener(nodeListener);
+            }
         };
     }
 
