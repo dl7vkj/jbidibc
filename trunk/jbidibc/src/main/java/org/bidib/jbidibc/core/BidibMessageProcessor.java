@@ -33,6 +33,14 @@ public interface BidibMessageProcessor {
     void addNodeListener(NodeListener nodeListener);
 
     /**
+     * Remove a node listener.
+     * 
+     * @param nodeListener
+     *            the node listener to remove
+     */
+    void removeNodeListener(NodeListener nodeListener);
+
+    /**
      * Process the messages in the provided byte array output stream.
      * 
      * @param output

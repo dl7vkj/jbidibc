@@ -80,6 +80,7 @@ public class MessageReceiver implements BidibMessageProcessor {
         running.set(true);
     }
 
+    @Override
     public String getErrorInformation() {
         return null;
     }
@@ -386,10 +387,21 @@ public class MessageReceiver implements BidibMessageProcessor {
         }
     }
 
+    @Override
     public void addNodeListener(NodeListener nodeListener) {
-        nodeListeners.add(nodeListener);
+        synchronized (nodeListeners) {
+            nodeListeners.add(nodeListener);
+        }
     }
 
+    @Override
+    public void removeNodeListener(NodeListener nodeListener) {
+        synchronized (nodeListeners) {
+            nodeListeners.remove(nodeListener);
+        }
+    }
+
+    @Override
     public void removeMessageListener(MessageListener messageListener) {
         synchronized (messageListeners) {
             messageListeners.remove(messageListener);
@@ -403,7 +415,9 @@ public class MessageReceiver implements BidibMessageProcessor {
     }
 
     public void clearNodeListeners() {
-        nodeListeners.clear();
+        synchronized (nodeListeners) {
+            nodeListeners.clear();
+        }
     }
 
     public void disable() {
@@ -568,14 +582,18 @@ public class MessageReceiver implements BidibMessageProcessor {
     }
 
     private void fireNodeLost(Node node) {
-        for (NodeListener l : nodeListeners) {
-            l.nodeLost(node);
+        synchronized (nodeListeners) {
+            for (NodeListener l : nodeListeners) {
+                l.nodeLost(node);
+            }
         }
     }
 
     private void fireNodeNew(Node node) {
-        for (NodeListener l : nodeListeners) {
-            l.nodeNew(node);
+        synchronized (nodeListeners) {
+            for (NodeListener l : nodeListeners) {
+                l.nodeNew(node);
+            }
         }
     }
 
