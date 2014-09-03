@@ -48,6 +48,13 @@ public interface SimulatorNode {
     String getAddress();
 
     /**
+     * Get the local address of the node. This is the address of the node in the subnet.
+     * 
+     * @return the local address of the node
+     */
+    String getLocalAddress();
+
+    /**
      * @param featureNum
      *            the requested feature number
      * @return the corresponding feature

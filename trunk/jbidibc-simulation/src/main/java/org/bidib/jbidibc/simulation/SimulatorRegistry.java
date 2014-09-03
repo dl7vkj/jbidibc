@@ -166,15 +166,41 @@ public class SimulatorRegistry {
         String className = node.getClassName();
 
         String nodeAddress = node.getAddress().trim();
-        byte[] address = new byte[] { Byte.parseByte(nodeAddress) };
+        byte address = Byte.parseByte(nodeAddress);
+        byte[] nodeAddressArray = new byte[] { address };
         long uniqueId = ByteUtils.convertUniqueIdToLong(node.getUniqueId());
         boolean autoAddFeature = (node.isAutoAddFeature() != null ? node.isAutoAddFeature().booleanValue() : false);
 
         try {
+
+            // if the simulator has a parent we must combine the address
+            StringBuffer sb = new StringBuffer();
+            if (StringUtils.isNotBlank(parentAddress) && !"0".equals(parentAddress)) {
+                LOGGER.info("The parent has address: {}", parentAddress);
+                sb.append(parentAddress).append(".");
+
+                // split the parent address
+                String[] splitedParentAddress = parentAddress.split("\\.");
+                nodeAddressArray = new byte[splitedParentAddress.length + 1];
+                int index = 0;
+                for (String part : splitedParentAddress) {
+                    nodeAddressArray[index] = Byte.parseByte(part);
+                    index++;
+                }
+                nodeAddressArray[index] = address;
+
+                LOGGER.info("Prepared new nodeAddress for simulator: {}", new Object[] { nodeAddressArray });
+            }
+            sb.append(nodeAddress);
+            LOGGER.info("Adding simulator with address: {}", sb.toString());
+
+            String newNodeAddress = sb.toString();
+
             Constructor<SimulatorNode> constructor =
                 (Constructor<SimulatorNode>) Class.forName(className).getConstructor(byte[].class, long.class,
                     boolean.class, SimulationBidibMessageProcessor.class);
-            SimulatorNode simulator = constructor.newInstance(address, uniqueId, autoAddFeature, messageReceiver);
+            SimulatorNode simulator =
+                constructor.newInstance(nodeAddressArray, uniqueId, autoAddFeature, messageReceiver);
 
             if (simulator != null) {
                 LOGGER.info("Created new simulator: {}", simulator);
@@ -197,15 +223,15 @@ public class SimulatorRegistry {
                     switchingFunctionsNode.setPortsConfig(node.getBACKLIGHT());
                 }
 
-                // if the simulator has a parent we must combine the address
-                StringBuffer sb = new StringBuffer();
-                if (StringUtils.isNotBlank(parentAddress) && !"0".equals(parentAddress)) {
-                    LOGGER.info("The parent has address: {}", parentAddress);
-                    sb.append(parentAddress).append(".");
-                }
-                sb.append(nodeAddress);
-                LOGGER.info("Adding simulator with address: {}", sb.toString());
-                addSimulator(sb.toString(), simulator);
+                // // if the simulator has a parent we must combine the address
+                // StringBuffer sb = new StringBuffer();
+                // if (StringUtils.isNotBlank(parentAddress) && !"0".equals(parentAddress)) {
+                // LOGGER.info("The parent has address: {}", parentAddress);
+                // sb.append(parentAddress).append(".");
+                // }
+                // sb.append(nodeAddress);
+                // LOGGER.info("Adding simulator with address: {}", sb.toString());
+                addSimulator(newNodeAddress, simulator);
             }
             else {
                 LOGGER.warn("No simulator available for configured node: {}", node);

@@ -1,5 +1,6 @@
 package org.bidib.jbidibc.node;
 
+import java.util.Arrays;
 import java.util.BitSet;
 
 import org.bidib.jbidibc.AddressData;
@@ -82,16 +83,22 @@ public class CommandStationNode {
         final Object commandStationStateFeedbackLock = new Object();
         final CommandStationState[] resultHolder = new CommandStationState[1];
 
+        final byte[] nodeAddr = delegate.getAddr();
         // create a temporary message listener
         MessageListener messageListener = new DefaultMessageListener() {
             @Override
             public void csState(byte[] address, CommandStationState state) {
-                LOGGER.info("+++ Booster state was signalled: {}", state);
+                LOGGER.info("+++ Command station state was signalled: {}, address: {}", state, address);
 
-                resultHolder[0] = state;
+                if (Arrays.equals(nodeAddr, address)) {
+                    resultHolder[0] = state;
 
-                synchronized (commandStationStateFeedbackLock) {
-                    commandStationStateFeedbackLock.notify();
+                    synchronized (commandStationStateFeedbackLock) {
+                        commandStationStateFeedbackLock.notify();
+                    }
+                }
+                else {
+                    LOGGER.info("Received command station state from another node.");
                 }
             }
         };
@@ -124,13 +131,6 @@ public class CommandStationNode {
             removeMessageListener(messageListener);
         }
 
-        // BidibMessage response =
-        // delegate.send(new CommandStationSetStateMessage(commandStationState), true,
-        // CommandStationStateResponse.TYPE);
-        //
-        // if (response instanceof CommandStationStateResponse) {
-        // result = ((CommandStationStateResponse) response).getState();
-        // }
         return resultCommandStationState;
     }
 
@@ -145,16 +145,22 @@ public class CommandStationNode {
         final Object commandStationStateFeedbackLock = new Object();
         final CommandStationState[] resultHolder = new CommandStationState[1];
 
+        final byte[] nodeAddr = delegate.getAddr();
         // create a temporary message listener
         MessageListener messageListener = new DefaultMessageListener() {
             @Override
             public void csState(byte[] address, CommandStationState state) {
-                LOGGER.info("+++ Booster state was signalled: {}", state);
+                LOGGER.info("+++ Command station state was signalled: {}, address: {}", state, address);
 
-                resultHolder[0] = state;
+                if (Arrays.equals(nodeAddr, address)) {
+                    resultHolder[0] = state;
 
-                synchronized (commandStationStateFeedbackLock) {
-                    commandStationStateFeedbackLock.notify();
+                    synchronized (commandStationStateFeedbackLock) {
+                        commandStationStateFeedbackLock.notify();
+                    }
+                }
+                else {
+                    LOGGER.info("Received command station state from another node.");
                 }
             }
         };
@@ -186,14 +192,6 @@ public class CommandStationNode {
             // remove the temporary message listener
             removeMessageListener(messageListener);
         }
-
-        // BidibMessage response =
-        // delegate.send(new CommandStationSetStateMessage(CommandStationState.QUERY), true,
-        // CommandStationStateResponse.TYPE);
-        //
-        // if (response instanceof CommandStationStateResponse) {
-        // result = ((CommandStationStateResponse) response).getState();
-        // }
         return commandStationState;
     }
 
@@ -259,14 +257,6 @@ public class CommandStationNode {
             removeMessageListener(messageListener);
         }
 
-        // BidibCommand message =
-        // delegate.getRequestFactory().createCommandStationAccessory(address, addressType, timingControl,
-        // activateCoil, aspect, timeBaseUnit, time);
-        // BidibMessage response = delegate.send(message, true, message.getExpectedResponseTypes());
-        // AccessoryAcknowledge result = null;
-        // if (response instanceof CommandStationAccessoryAcknowledgeResponse) {
-        // result = ((CommandStationAccessoryAcknowledgeResponse) response).getAcknState();
-        // }
         return accessoryAcknowledge;
     }
 

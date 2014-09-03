@@ -161,6 +161,13 @@ public class DefaultNodeSimulator implements SimulatorNode {
         return ByteUtils.bytesToHex(nodeAddress);
     }
 
+    @Override
+    public String getLocalAddress() {
+        int len = nodeAddress.length;
+
+        return ByteUtils.byteToHex(nodeAddress[len - 1]);
+    }
+
     private AtomicBoolean requestWorkerRunning = new AtomicBoolean();
 
     @Override

@@ -39,6 +39,11 @@ public class Node implements SimulatorNode, SwitchingFunctionsNode {
     }
 
     @Override
+    public String getLocalAddress() {
+        return null;
+    }
+
+    @Override
     public void setPortsConfig(PortType portType) {
     }
 
