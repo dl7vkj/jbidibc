@@ -204,4 +204,22 @@ public class MessageUtils {
         }
         return current;
     }
+
+    public static int convertVoltageValue(int value) {
+        int result = 0;
+
+        if (value >= 1 && value <= 250) {
+            result = value;
+        }
+        return result;
+    }
+
+    public static int convertTemperatureValue(int value) {
+        int result = 0;
+
+        if (value >= 1 && value <= 250) {
+            result = value;
+        }
+        return result;
+    }
 }
