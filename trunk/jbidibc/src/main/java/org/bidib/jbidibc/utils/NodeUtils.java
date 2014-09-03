@@ -116,6 +116,8 @@ public class NodeUtils {
     }
 
     /**
+     * Return the unique id formatted with the pattern 'VID %02X PID %08X'.
+     * 
      * @param uniqueId
      *            the unique id of the node
      * @return returns the uniqueId of the node as formatted hex string
