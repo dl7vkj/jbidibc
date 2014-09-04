@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.enumeration;
 
 import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.utils.ByteUtils;
 
 public enum LcOutputType implements BidibEnum, PortStatusAware {
     // @formatter:off
@@ -27,7 +28,8 @@ public enum LcOutputType implements BidibEnum, PortStatusAware {
     }
 
     LcOutputType(int type, boolean hasPortStatus) {
-        this.type = (byte) type;
+        // this.type = ByteUtils.getLowByte(type);
+        this.type = (byte) (type & 0xFF);
         this.hasPortStatus = hasPortStatus;
     }
 
@@ -58,9 +60,9 @@ public enum LcOutputType implements BidibEnum, PortStatusAware {
             }
         }
         if (result == null) {
-            throw new IllegalArgumentException("cannot map " + type + " to an output type");
+            throw new IllegalArgumentException("cannot map " + (type & 0xFF) + " (0x" + ByteUtils.byteToHex(type)
+                + ") to an output type");
         }
         return result;
     }
-
 }
