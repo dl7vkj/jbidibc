@@ -1,5 +1,7 @@
 package org.bidib.jbidibc;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.Arrays;
 
 import org.apache.commons.lang.StringUtils;
@@ -14,6 +16,10 @@ import org.slf4j.LoggerFactory;
 public class Node {
     private static final Logger LOGGER = LoggerFactory.getLogger(Node.class);
 
+    private static final String PROPERTY_USERNAME = "userName";
+
+    private static final String PROPERTY_PRODUCTNAME = "productName";
+
     private final byte[] addr;
 
     private final long uniqueId;
@@ -27,6 +33,8 @@ public class Node {
     private String[] storedStrings;
 
     private SoftwareVersion softwareVersion;
+
+    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
     /**
      * the maximum length for strings that can be stored in the node
@@ -58,6 +66,14 @@ public class Node {
             LOGGER.trace("Created new node, addr: {}, version: {}, {}", addr, version,
                 NodeUtils.getUniqueIdAsString(uniqueId));
         }
+    }
+
+    public void addPropertyChangeListener(PropertyChangeListener l) {
+        changes.addPropertyChangeListener(l);
+    }
+
+    public void removePropertyChangeListener(PropertyChangeListener l) {
+        changes.removePropertyChangeListener(l);
     }
 
     /**
@@ -130,7 +146,13 @@ public class Node {
         if (index < StringData.INDEX_PRODUCTNAME || index > StringData.INDEX_USERNAME) {
             throw new IllegalArgumentException("Index not allowed: " + index);
         }
+
+        String oldValue = storedStrings[index];
+
         storedStrings[index] = value;
+
+        changes.firePropertyChange((index == StringData.INDEX_PRODUCTNAME ? PROPERTY_PRODUCTNAME : PROPERTY_USERNAME),
+            oldValue, value);
     }
 
     public String getStoredString(int index) {

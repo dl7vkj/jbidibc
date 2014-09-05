@@ -73,7 +73,7 @@ public class BoosterNode {
         MessageListener messageListener = new DefaultMessageListener() {
             @Override
             public void boosterState(byte[] address, BoosterState state) {
-                LOGGER.info("+++ Booster state was signalled: {}", state);
+                LOGGER.info("Booster state was signalled: {}", state);
 
                 resultHolder[0] = state;
 
@@ -91,7 +91,7 @@ public class BoosterNode {
                 // send the query booster state command
                 delegate.sendNoWait(new BoostQueryMessage());
 
-                LOGGER.info("+++ The boost query message was sent, wait for response.");
+                LOGGER.info("The boost query message was sent, wait for response.");
                 // wait for the response
                 try {
                     boosterStateFeedbackLock.wait(2000L);
@@ -100,11 +100,11 @@ public class BoosterNode {
                     LOGGER.warn("Wait for booster state was interrupted.", ie);
                 }
 
-                LOGGER.info("+++ After wait for response.");
+                LOGGER.debug("After wait for response.");
             }
 
             boosterState = resultHolder[0];
-            LOGGER.info("+++ Return the current booster state: {}", boosterState);
+            LOGGER.info("Return the current booster state: {}", boosterState);
         }
         finally {
             // remove the temporary message listener
