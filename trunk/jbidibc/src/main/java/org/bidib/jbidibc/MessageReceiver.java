@@ -244,10 +244,12 @@ public class MessageReceiver implements BidibMessageProcessor {
                         case BidibLibrary.MSG_NODE_LOST:
                             node = ((NodeLostResponse) message).getNode(message.getAddr());
 
+                            BidibNode lostNode = nodeFactory.findNode(message.getAddr());
+
                             fireNodeLost(node);
 
                             // acknowledge the new nodetab version to the interface
-                            BidibNode lostNode = nodeFactory.findNode(message.getAddr());
+                            // BidibNode lostNode = nodeFactory.findNode(message.getAddr());
                             if (lostNode != null) {
                                 lostNode.acknowledgeNodeChanged(node.getVersion());
                             }
