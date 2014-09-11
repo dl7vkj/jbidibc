@@ -208,6 +208,8 @@ public final class Bidib extends AbstractBidib {
         // set RTS high, DTR high - done early, so flow control can be configured after
         try {
             serialPort.setRTS(true); // not connected in some serial ports and adapters
+
+            // TODO verify if this causes problems on windows with new serial library
             serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
         }
         catch (Exception e) {
@@ -291,13 +293,6 @@ public final class Bidib extends AbstractBidib {
 
         return serialPort;
     }
-
-    // private void loadLibraries() {
-    // if (!librariesLoaded) {
-    // new LibraryPathManipulator().manipulateLibraryPath(null);
-    // librariesLoaded = true;
-    // }
-    // }
 
     @Override
     public void open(
