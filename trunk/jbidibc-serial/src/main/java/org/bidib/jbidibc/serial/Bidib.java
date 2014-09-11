@@ -210,7 +210,7 @@ public final class Bidib extends AbstractBidib {
             serialPort.setRTS(true); // not connected in some serial ports and adapters
 
             // TODO verify if this causes problems on windows with new serial library
-            serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
+            // serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
         }
         catch (Exception e) {
             LOGGER.warn("Set RTS and DTR true failed.", e);
