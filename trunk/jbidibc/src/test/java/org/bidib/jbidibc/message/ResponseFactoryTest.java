@@ -385,7 +385,9 @@ public class ResponseFactoryTest {
         BidibMessage bidibMessage = ResponseFactory.create(message);
         Assert.assertEquals(bidibMessage.getType(), (byte) BidibLibrary.MSG_CS_ACCESSORY_MANUAL);
 
-        Assert.assertEquals(((CommandStationAccessoryManualResponse) bidibMessage).getAddress(), 258);
+        Assert.assertNotNull(((CommandStationAccessoryManualResponse) bidibMessage).getDecoderAddress());
+        Assert.assertEquals(((CommandStationAccessoryManualResponse) bidibMessage).getDecoderAddress().getAddress(),
+            258);
         Assert.assertEquals(((CommandStationAccessoryManualResponse) bidibMessage).getAspect(), 2);
     }
 

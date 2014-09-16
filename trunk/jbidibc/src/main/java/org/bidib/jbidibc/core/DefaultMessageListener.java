@@ -7,6 +7,7 @@ import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.DriveState;
 import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
+import org.bidib.jbidibc.enumeration.ActivateCoilEnum;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.CommandStationProgState;
 import org.bidib.jbidibc.enumeration.CommandStationState;
@@ -104,7 +105,7 @@ public class DefaultMessageListener implements MessageListener {
     }
 
     @Override
-    public void csAccessoryManual(byte[] address, int aspect) {
+    public void csAccessoryManual(byte[] address, AddressData decoderAddress, ActivateCoilEnum activate, int aspect) {
     }
 
     @Override

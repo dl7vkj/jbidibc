@@ -3,6 +3,7 @@ package org.bidib.jbidibc;
 import java.util.Collection;
 
 import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
+import org.bidib.jbidibc.enumeration.ActivateCoilEnum;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.CommandStationProgState;
 import org.bidib.jbidibc.enumeration.CommandStationState;
@@ -95,7 +96,7 @@ public interface MessageListener {
 
     void csDriveManual(byte[] address, DriveState driveState);
 
-    void csAccessoryManual(byte[] address, int aspect);
+    void csAccessoryManual(byte[] address, AddressData decoderAddress, ActivateCoilEnum activate, int aspect);
 
     void csAccessoryAcknowledge(byte[] address, int decoderAddress, AccessoryAcknowledge acknowledge);
 }

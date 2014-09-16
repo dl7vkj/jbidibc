@@ -486,6 +486,8 @@ public class MessageReceiver implements BidibMessageProcessor {
         synchronized (messageListeners) {
             for (MessageListener l : messageListeners) {
                 l.csAccessoryManual(commandStationAccessoryManualResponse.getAddr(),
+                    commandStationAccessoryManualResponse.getDecoderAddress(),
+                    commandStationAccessoryManualResponse.getActivate(),
                     commandStationAccessoryManualResponse.getAspect());
             }
         }
