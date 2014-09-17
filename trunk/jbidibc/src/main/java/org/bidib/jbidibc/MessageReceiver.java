@@ -591,6 +591,11 @@ public class MessageReceiver implements BidibMessageProcessor {
                 l.nodeLost(node);
             }
         }
+
+        // call the node factory directly
+        if (nodeFactory != null) {
+            nodeFactory.removeNode(node);
+        }
     }
 
     private void fireNodeNew(Node node) {

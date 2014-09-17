@@ -9,7 +9,6 @@ import java.util.Map;
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.Node;
-import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.exception.InvalidConfigurationException;
 import org.bidib.jbidibc.message.RequestFactory;
 import org.bidib.jbidibc.node.listener.TransferListener;
@@ -81,24 +80,6 @@ public class NodeFactory {
     public void setMessageReceiver(MessageReceiver messageReceiver) {
         LOGGER.debug("Set the message receiver: {}", messageReceiver);
         this.messageReceiver = messageReceiver;
-
-        messageReceiver.addNodeListener(new NodeListener() {
-            @Override
-            public void nodeLost(Node node) {
-                LOGGER.debug("Node lost, node: {}", node);
-                removeNode(node);
-            }
-
-            @Override
-            public void nodeNew(Node node) {
-                LOGGER.debug("Found new node in system: {}", node);
-
-                // Q: why is removeNode called instead of newNode?
-                // A: to make sure that the node is created by the new "newNode-created-thread-" in MainController ...
-                // Moved to createNode() that is called from messageReceiver
-                // removeNode(node);
-            }
-        });
     }
 
     /**
@@ -283,7 +264,7 @@ public class NodeFactory {
         return rootNode;
     }
 
-    private void removeNode(Node node) {
+    public void removeNode(Node node) {
         synchronized (nodes) {
             LOGGER.info("Remove node from bidib nodes: {}", node);
 
