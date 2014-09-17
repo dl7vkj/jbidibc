@@ -45,8 +45,10 @@ public class ProductUtilsTest {
 
     @Test
     public void isOneOC() {
-        // TODO fix the class id
-        long uniqueId = 0x05000DCC001234L;
+        // 20:01:31.459 [INFO] org.bidib.wizard.comm.bidib.BidibCommunication [Thread-12] - Magic of new node: 45054,
+        // node: Node[version=1,addr=[8],uniqueId=0x40000dcc009dea]
+
+        long uniqueId = 0x040000dcc009deaL;
         Assert.assertTrue(ProductUtils.isOneOC(uniqueId));
         Assert.assertFalse(ProductUtils.isOneControl(uniqueId));
     }
