@@ -72,4 +72,12 @@ public class ProductUtilsTest {
         Assert.assertTrue(NodeUtils.hasAccessoryFunctions(uniqueId));
         Assert.assertTrue(NodeUtils.hasSwitchFunctions(uniqueId));
     }
+
+    @Test
+    public void isOneBootloader() {
+        long uniqueId = 0x00000d700009ebL;
+        Assert.assertTrue(ProductUtils.isOneBootloader(uniqueId));
+        Assert.assertFalse(ProductUtils.isOneControl(uniqueId));
+    }
+
 }

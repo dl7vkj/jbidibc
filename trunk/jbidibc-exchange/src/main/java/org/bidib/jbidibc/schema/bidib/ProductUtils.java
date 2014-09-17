@@ -79,6 +79,18 @@ public class ProductUtils {
         return false;
     }
 
+    public static boolean isOneBootloader(long uniqueId) {
+        long pid = NodeUtils.getPid(uniqueId);
+        long vid = NodeUtils.getVendorId(uniqueId);
+        LOGGER.debug("Check if node is a OneBootloader for uniqueId: {}, pid: {}, vid: {}",
+            NodeUtils.getUniqueIdAsString(uniqueId), pid, vid);
+
+        if (vid == 13 && pid == 112) {
+            return true;
+        }
+        return false;
+    }
+
     public static boolean isLightControl(long uniqueId) {
         long pid = NodeUtils.getPid(uniqueId);
         long vid = NodeUtils.getVendorId(uniqueId);
