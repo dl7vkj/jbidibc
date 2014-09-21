@@ -34,12 +34,14 @@ public class AccessoryStateResponse extends BidibMessage {
         StringBuffer sb = new StringBuffer("[ ");
         sb.append(super.toString());
         byte[] data = getData();
+        boolean errorDetected = false;
         sb.append(", num: ").append(ByteUtils.getInt(data[0]));
         sb.append(", aspect: ").append(ByteUtils.getInt(data[1]));
         sb.append(", total: ").append(ByteUtils.getInt(data[2]));
         sb.append(", execute: ").append(ByteUtils.getInt(data[3]));
         if ((data[3] & 0x80) == 0x80) {
             sb.append(" => Error detected.");
+            errorDetected = true;
         }
         else {
             switch (data[3] & 0x01) {
@@ -65,17 +67,66 @@ public class AccessoryStateResponse extends BidibMessage {
                     break;
             }
         }
-        // calculate the real time ...
-        int remainingTime = 0;
-        switch (data[4] & 0x80) {
-            case 0x00: // 100ms
-                remainingTime = (data[4] & 0x7F) * 100;
-                break;
-            default: // 1s
-                remainingTime = (data[4] & 0x7F) * 1000;
-                break;
+
+        if (!errorDetected) {
+            // calculate the real time ...
+            int remainingTime = 0;
+            int timeVal = ByteUtils.getInt(data[4]);
+            switch (timeVal & 0x80) {
+                case 0x00: // 100ms
+                    remainingTime = (timeVal & 0x7F) * 100;
+                    break;
+                default: // 1s
+                    remainingTime = (timeVal & 0x7F) * 1000;
+                    break;
+            }
+            sb.append(", remaing wait time: ").append(remainingTime).append("ms");
         }
-        sb.append(", remaing wait time: ").append(remainingTime).append("ms");
+        else {
+            // evaluate the error
+            int errorVal = ByteUtils.getInt(data[4]);
+            boolean moreErrorsAvailable = (errorVal & 0x40) == 0x40;
+            sb.append(", more errors pending: ").append(moreErrorsAvailable).append(", error: ");
+
+            switch (errorVal & 0x1F) {
+                case 0x00: // no more pending errors
+                    sb.append("no error (remaining)");
+                    break;
+                case 0x01:
+                    sb.append("command was not executable / unknown command / unknown aspect.");
+                    break;
+                case 0x02:
+                    sb.append("power consumption too high.");
+                    break;
+                case 0x03:
+                    sb.append("power supply below limits, function not garanteed.");
+                    break;
+                case 0x04:
+                    sb.append("fuse blown.");
+                    break;
+                case 0x05:
+                    sb.append("temperature too high.");
+                    break;
+                case 0x06:
+                    sb.append("feedback error / unwanted change of position.");
+                    break;
+                case 0x07:
+                    sb.append("manual control (eg. with local button)");
+                    break;
+                case 0x08:
+                    sb.append("bulb out of order.");
+                    break;
+                case 0x09:
+                    sb.append("servo out of order.");
+                    break;
+                case 0x3F:
+                    sb.append("internal error (eg. selftest, checksum error, ..).");
+                    break;
+                default:
+                    sb.append("Unknown error: ").append(ByteUtils.byteToHex(errorVal));
+                    break;
+            }
+        }
         return sb.toString();
     }
 
