@@ -1,223 +1,222 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
-  <Version Version="0.02" Lastupdate="20140809" Author="michael" Pid="122" Vendor="013" Description="BiDiBOne-OneDriveTurn">
-  </Version>
-  <Templates>
-    <Template Name="About">
-      <CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-        <Description Lang="de-DE" Text="EEPROM Version"/>
-        <Description Lang="en-EN" Text="EEPROM Version"/>
-      </CV>
-      <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-        <Description Lang="de-DE" Text="Herstellerkennung"/>
-        <Description Lang="en-EN" Text="Vendor ID"/>
-      </CV>
-      <CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
-        <Description Lang="de-DE" Text="Produktkennung (low)"/>
-        <Description Lang="en-EN" Text="ProductID (low)"/>
-      </CV>
-      <CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
-        <Description Lang="de-DE" Text="Produktkennung (high)"/>
-        <Description Lang="en-EN" Text="ProductID (high)"/>
-      </CV>
-      <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-        <Description Lang="de-DE" Text="Firmware Version"/>
-        <Description Lang="en-EN" Text="Firmware main version"/>
-      </CV>
-      <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-        <Description Lang="de-DE" Text="Firmware Sub-Version"/>
-        <Description Lang="en-EN" Text="Firmware sub version"/>
-      </CV>
-      <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-        <Description Lang="de-DE" Text="Firmware Sub-Index"/>
-        <Description Lang="en-EN" Text="Firmware compile run"/>
-      </CV>
-    </Template>
-    <Template Name="AccessoryMap">
-       <CV Number="0" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Aktueller Aspekt"/>
-        <Description Lang="en-EN" Text="Current aspect"/>
-      </CV>
-       <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Makro für Begriff 0"/>
-        <Description Lang="en-EN" Text="Macro for aspect 0"/>
-      </CV>
-       <CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Makro für Begriff 1"/>
-        <Description Lang="en-EN" Text="Macro for aspect 1"/>
-      </CV>
-       <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Makro für Begriff 2"/>
-        <Description Lang="en-EN" Text="Macro for aspect 2"/>
-      </CV>
-       <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Makro für Begriff 3"/>
-        <Description Lang="en-EN" Text="Macro for aspect 3"/>
-      </CV>
-       <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Makro für Begriff 4"/>
-        <Description Lang="en-EN" Text="Macro for aspect 4"/>
-      </CV>
-       <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Makro für Begriff 5"/>
-        <Description Lang="en-EN" Text="Macro for aspect 5"/>
-      </CV>
-       <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Makro für Begriff 6"/>
-        <Description Lang="en-EN" Text="Macro for aspect 6"/>
-      </CV>
-       <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Makro für Begriff 7"/>
-        <Description Lang="en-EN" Text="Macro for aspect 7"/>
-      </CV>
-    </Template>
-    <Template Name="Motordrive-Output">
-      <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="4" Mode="rw" Rebootneeded="false">
-        <Description Lang="de-DE" Text="Konfiguration"/>
-        <Description Lang="en-EN" Text="Configuration"/>
-        <Bitdescription Bitnum="1" Lang="de-DE" Text="reserviert"/>
-        <Bitdescription Bitnum="1" Lang="en-EN" Text="reserved"/>
-        <Bitdescription Bitnum="2" Lang="de-DE" Text="reserviert"/>
-        <Bitdescription Bitnum="2" Lang="en-EN" Text="reserved"/>
-        <Bitdescription Bitnum="3" Lang="de-DE" Text="Impulsbetrieb: 0=ohne, 1=mit"/>
-        <Bitdescription Bitnum="3" Lang="en-EN" Text="One-shot pulse: 0=false, 1=true"/>
-      </CV>
-      <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Pulse-Ticks: 0, 1...255 [20 ms]"/>
-        <Description Lang="en-EN" Text="pulse ticks: 0, 1...255 [20 ms]"/>
-      </CV>
-    </Template>
-    <Template Name="GPIO">
-      <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="7" Mode="rw" Rebootneeded="true">
-        <Description Lang="de-DE" Text="Konfiguration"/>
-        <Description Lang="en-EN" Text="Configuration"/>
-        <Bitdescription Bitnum="1" Lang="de-DE" Text="Richtung: 0=Ausgang, 1=Eingang"/>
-        <Bitdescription Bitnum="1" Lang="en-EN" Text="Direction: 0=output, 1=input"/>
-        <Bitdescription Bitnum="2" Lang="de-DE" Text="Aktivlage (Eingang): 0=HIGH-, 1=LOW-aktiv"/>
-        <Bitdescription Bitnum="2" Lang="en-EN" Text="Polarity (Input): 0=active-high, 1=active-low"/>
-        <Bitdescription Bitnum="3" Lang="de-DE" Text="Impulsbetrieb: 0=ohne, 1=mit"/>
-        <Bitdescription Bitnum="3" Lang="en-EN" Text="One-shot pulse: 0=false, 1=true"/>
-      </CV>
-      <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Pulse-Ticks: 0, 1...255 [20 ms]"/>
-        <Description Lang="en-EN" Text="pulse ticks: 0, 1...255 [20 ms]"/>
-      </CV>
-    </Template>
-    <Template Name="Servo">
-      <CV Number="0" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Min Low"/>
-        <Description Lang="en-EN" Text="Min Low"/>
-      </CV>
-      <CV Number="1" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Min High"/>
-        <Description Lang="en-EN" Text="Min High"/>
-      </CV>
-      <CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Max Low"/>
-        <Description Lang="en-EN" Text="Max Low"/>
-      </CV>
-      <CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Max High"/>
-        <Description Lang="en-EN" Text="Max High"/>
-      </CV>
-      <CV Number="4" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="160" Mode="rw" Rebootneeded="true">
-        <Description Lang="de-DE" Text="Modus"/>
-        <Description Lang="en-EN" Text="Mode"/>
-        <Bitdescription Bitnum="1" Lang="de-DE" Text="reserviert"/>
-        <Bitdescription Bitnum="1" Lang="en-EN" Text="reserved"/>
-        <Bitdescription Bitnum="2" Lang="de-DE" Text="reserviert"/>
-        <Bitdescription Bitnum="2" Lang="en-EN" Text="reserved"/>
-        <Bitdescription Bitnum="3" Lang="de-DE" Text="reserviert"/>
-        <Bitdescription Bitnum="3" Lang="en-EN" Text="reserved"/>
-        <Bitdescription Bitnum="4" Lang="de-DE" Text="reserviert"/>
-        <Bitdescription Bitnum="4" Lang="en-EN" Text="reserved"/>
-        <Bitdescription Bitnum="5" Lang="de-DE" Text="reserviert"/>
-        <Bitdescription Bitnum="5" Lang="en-EN" Text="reserved"/>
-        <Bitdescription Bitnum="6" Lang="de-DE" Text="Impulse auch bei keiner Bewegung: 0=nein, 1=ja"/>
-        <Bitdescription Bitnum="6" Lang="en-EN" Text="servo pulses even when not moving: 0=false, 1=true"/>
-        <Bitdescription Bitnum="7" Lang="de-DE" Text="reserviert"/>
-        <Bitdescription Bitnum="7" Lang="en-EN" Text="reserved"/>
-        <Bitdescription Bitnum="8" Lang="de-DE" Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]"/>
-        <Bitdescription Bitnum="8" Lang="en-EN" Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]"/>
-      </CV>
-      <CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Wiederholung: 0 keine Wiederholung, 1 Wiederholung"/>
-        <Description Lang="en-EN" Text="Repeat: 0 no repeat, 1 repeat"/>
-      </CV>
-      <CV Number="6" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Position: 0 vor Bewegung A, 1 vor Bewegung B"/>
-        <Description Lang="en-EN" Text="Location: 0 befor move A, 1 befor move B"/>
-      </CV>
-      <CV Number="7" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Kurveneinstellungen für A"/>
-        <Description Lang="en-EN" Text="curve settings for A"/>
-      </CV>
-      <CV Number="8" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Kurvenverzögerung A"/>
-        <Description Lang="en-EN" Text="curve delay for A"/>
-      </CV>
-      <CV Number="9" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Kurveneinstellungen für B"/>
-        <Description Lang="en-EN" Text="curve settings for B"/>
-      </CV>
-      <CV Number="10" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Kurvenverzögerung B"/>
-        <Description Lang="en-EN" Text="curve delay for B"/>
-      </CV>
-      <CV Number="14" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Power OFF: 0 nicht abschalten, n * 20 ms"/>
-        <Description Lang="en-EN" Text="Power OFF: 0 no off, n * 20 ms"/>
-      </CV>
-		<CV Number="15" Type="Byte" Min="0" Max="127" Low="-" High="-" Values="-" Mode="rw">
-			<Description Lang="de-DE" Text="Pre Power: Einschalten, Power n * 5 ms vor Puls"/>
-			<Description Lang="en-EN" Text="Pre Power: power up n * 5 ms before pulse"/>
-		</CV>
-    </Template>
-  </Templates>
-  <CVDefinition>
-    <Node Offset="1" Template="About">
-      <Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
-      <Nodetext Lang="en-EN" Text="Common data"/>
-    </Node>
-      <Node>
-      <Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
-      <Nodetext Lang="en-EN" Text="Common settings"/>
-      <CV Number="70" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
-        <Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
-        <Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
-      </CV>
-    </Node>
-    <Node>
-      <Nodetext Lang="de-DE" Text="Servos"/>
-      <Nodetext Lang="en-EN" Text="Servos"/>
-      <Node Offset="81" Template="Servo" Count="8" Next="16">
-        <Nodetext Lang="de-DE" Text="Servo %%d"/>
-        <Nodetext Lang="en-EN" Text="Servo %%d"/>
-      </Node>
-    </Node>
-    <Node>
-      <Nodetext Lang="de-DE" Text="Accessories"/>
-      <Nodetext Lang="en-EN" Text="Accessories"/>
-      <Node Offset="209" Template="AccessoryMap" Count="20" Next="9">
-        <Nodetext Lang="de-DE" Text="Accessory %%d"/>
-        <Nodetext Lang="en-EN" Text="Accessory %%d"/>
-      </Node>
-    </Node>
-    <Node>
-      <Nodetext Lang="de-DE" Text="Motortreiber-Ausgänge"/>
-      <Nodetext Lang="en-EN" Text="Motordrive outputs"/>
-      <Node Offset="389" Template="Motordrive-Output" Count="16" Next="3">
-        <Nodetext Lang="de-DE" Text="Ausgang %%d"/>
-        <Nodetext Lang="en-EN" Text="Output %%d"/>
-      </Node>
-    </Node>
-    <Node>
-      <Nodetext Lang="de-DE" Text="GPIO"/>
-      <Nodetext Lang="en-EN" Text="GPIO"/>
-      <Node Offset="437" Template="GPIO" Count="16" Next="3">
-        <Nodetext Lang="de-DE" Text="GPIO %%d"/>
-        <Nodetext Lang="en-EN" Text="GPIO %%d"/>
-      </Node>
-    </Node>
-  </CVDefinition>
+    <Version Version="0.02" Lastupdate="20140809" Author="michael" Pid="122" Vendor="013" Description="BiDiBOne-OneDriveTurn"></Version>
+    <Templates>
+        <Template Name="About">
+            <CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="EEPROM Version"/>
+                <Description Lang="en-EN" Text="EEPROM Version"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Herstellerkennung"/>
+                <Description Lang="en-EN" Text="Vendor ID"/>
+            </CV>
+            <CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Produktkennung (low)"/>
+                <Description Lang="en-EN" Text="ProductID (low)"/>
+            </CV>
+            <CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Produktkennung (high)"/>
+                <Description Lang="en-EN" Text="ProductID (high)"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Firmware Version"/>
+                <Description Lang="en-EN" Text="Firmware main version"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Firmware Sub-Version"/>
+                <Description Lang="en-EN" Text="Firmware sub version"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+                <Description Lang="de-DE" Text="Firmware Sub-Index"/>
+                <Description Lang="en-EN" Text="Firmware compile run"/>
+            </CV>
+        </Template>
+        <Template Name="AccessoryMap">
+            <CV Number="0" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Aktueller Aspekt"/>
+                <Description Lang="en-EN" Text="Current aspect"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Makro für Begriff 0"/>
+                <Description Lang="en-EN" Text="Macro for aspect 0"/>
+            </CV>
+            <CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Makro für Begriff 1"/>
+                <Description Lang="en-EN" Text="Macro for aspect 1"/>
+            </CV>
+            <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Makro für Begriff 2"/>
+                <Description Lang="en-EN" Text="Macro for aspect 2"/>
+            </CV>
+            <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Makro für Begriff 3"/>
+                <Description Lang="en-EN" Text="Macro for aspect 3"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Makro für Begriff 4"/>
+                <Description Lang="en-EN" Text="Macro for aspect 4"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Makro für Begriff 5"/>
+                <Description Lang="en-EN" Text="Macro for aspect 5"/>
+            </CV>
+            <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Makro für Begriff 6"/>
+                <Description Lang="en-EN" Text="Macro for aspect 6"/>
+            </CV>
+            <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Makro für Begriff 7"/>
+                <Description Lang="en-EN" Text="Macro for aspect 7"/>
+            </CV>
+        </Template>
+        <Template Name="Motordrive-Output">
+            <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="4" Mode="rw" Rebootneeded="false">
+                <Description Lang="de-DE" Text="Konfiguration"/>
+                <Description Lang="en-EN" Text="Configuration"/>
+                <Bitdescription Bitnum="1" Lang="de-DE" Text="reserviert"/>
+                <Bitdescription Bitnum="1" Lang="en-EN" Text="reserved"/>
+                <Bitdescription Bitnum="2" Lang="de-DE" Text="reserviert"/>
+                <Bitdescription Bitnum="2" Lang="en-EN" Text="reserved"/>
+                <Bitdescription Bitnum="3" Lang="de-DE" Text="Impulsbetrieb: 0=ohne, 1=mit"/>
+                <Bitdescription Bitnum="3" Lang="en-EN" Text="One-shot pulse: 0=false, 1=true"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Pulse-Ticks: 0, 1...255 [20 ms]"/>
+                <Description Lang="en-EN" Text="pulse ticks: 0, 1...255 [20 ms]"/>
+            </CV>
+        </Template>
+        <Template Name="GPIO">
+            <CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="7" Mode="rw" Rebootneeded="true">
+                <Description Lang="de-DE" Text="Konfiguration"/>
+                <Description Lang="en-EN" Text="Configuration"/>
+                <Bitdescription Bitnum="1" Lang="de-DE" Text="Richtung: 0=Ausgang, 1=Eingang"/>
+                <Bitdescription Bitnum="1" Lang="en-EN" Text="Direction: 0=output, 1=input"/>
+                <Bitdescription Bitnum="2" Lang="de-DE" Text="Aktivlage (Eingang): 0=HIGH-, 1=LOW-aktiv"/>
+                <Bitdescription Bitnum="2" Lang="en-EN" Text="Polarity (Input): 0=active-high, 1=active-low"/>
+                <Bitdescription Bitnum="3" Lang="de-DE" Text="Impulsbetrieb: 0=ohne, 1=mit"/>
+                <Bitdescription Bitnum="3" Lang="en-EN" Text="One-shot pulse: 0=false, 1=true"/>
+            </CV>
+            <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Pulse-Ticks: 0, 1...255 [20 ms]"/>
+                <Description Lang="en-EN" Text="pulse ticks: 0, 1...255 [20 ms]"/>
+            </CV>
+        </Template>
+        <Template Name="Servo">
+            <CV Number="0" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Min Low"/>
+                <Description Lang="en-EN" Text="Min Low"/>
+            </CV>
+            <CV Number="1" Type="Int" Min="-" Max="-" Low="0" High="1" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Min High"/>
+                <Description Lang="en-EN" Text="Min High"/>
+            </CV>
+            <CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Max Low"/>
+                <Description Lang="en-EN" Text="Max Low"/>
+            </CV>
+            <CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Max High"/>
+                <Description Lang="en-EN" Text="Max High"/>
+            </CV>
+            <CV Number="4" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="160" Mode="rw" Rebootneeded="true">
+                <Description Lang="de-DE" Text="Modus"/>
+                <Description Lang="en-EN" Text="Mode"/>
+                <Bitdescription Bitnum="1" Lang="de-DE" Text="reserviert"/>
+                <Bitdescription Bitnum="1" Lang="en-EN" Text="reserved"/>
+                <Bitdescription Bitnum="2" Lang="de-DE" Text="reserviert"/>
+                <Bitdescription Bitnum="2" Lang="en-EN" Text="reserved"/>
+                <Bitdescription Bitnum="3" Lang="de-DE" Text="reserviert"/>
+                <Bitdescription Bitnum="3" Lang="en-EN" Text="reserved"/>
+                <Bitdescription Bitnum="4" Lang="de-DE" Text="reserviert"/>
+                <Bitdescription Bitnum="4" Lang="en-EN" Text="reserved"/>
+                <Bitdescription Bitnum="5" Lang="de-DE" Text="reserviert"/>
+                <Bitdescription Bitnum="5" Lang="en-EN" Text="reserved"/>
+                <Bitdescription Bitnum="6" Lang="de-DE" Text="Impulse auch bei keiner Bewegung: 0=nein, 1=ja"/>
+                <Bitdescription Bitnum="6" Lang="en-EN" Text="servo pulses even when not moving: 0=false, 1=true"/>
+                <Bitdescription Bitnum="7" Lang="de-DE" Text="reserviert"/>
+                <Bitdescription Bitnum="7" Lang="en-EN" Text="reserved"/>
+                <Bitdescription Bitnum="8" Lang="de-DE" Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]"/>
+                <Bitdescription Bitnum="8" Lang="en-EN" Text="Stretch: 0=[1ms..2ms], 1=[0.5..2.5ms]"/>
+            </CV>
+            <CV Number="5" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Wiederholung: 0 keine Wiederholung, 1 Wiederholung"/>
+                <Description Lang="en-EN" Text="Repeat: 0 no repeat, 1 repeat"/>
+            </CV>
+            <CV Number="6" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Position: 0 vor Bewegung A, 1 vor Bewegung B"/>
+                <Description Lang="en-EN" Text="Location: 0 befor move A, 1 befor move B"/>
+            </CV>
+            <CV Number="7" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurveneinstellungen für A"/>
+                <Description Lang="en-EN" Text="curve settings for A"/>
+            </CV>
+            <CV Number="8" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurvenverzögerung A"/>
+                <Description Lang="en-EN" Text="curve delay for A"/>
+            </CV>
+            <CV Number="9" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurveneinstellungen für B"/>
+                <Description Lang="en-EN" Text="curve settings for B"/>
+            </CV>
+            <CV Number="10" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Kurvenverzögerung B"/>
+                <Description Lang="en-EN" Text="curve delay for B"/>
+            </CV>
+            <CV Number="14" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Power OFF: 0 nicht abschalten, n * 20 ms"/>
+                <Description Lang="en-EN" Text="Power OFF: 0 no off, n * 20 ms"/>
+            </CV>
+            <CV Number="15" Type="Byte" Min="0" Max="127" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Pre Power: Einschalten, Power n * 5 ms vor Puls"/>
+                <Description Lang="en-EN" Text="Pre Power: power up n * 5 ms before pulse"/>
+            </CV>
+        </Template>
+    </Templates>
+    <CVDefinition>
+        <Node Offset="1" Template="About">
+            <Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
+            <Nodetext Lang="en-EN" Text="Common data"/>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
+            <Nodetext Lang="en-EN" Text="Common settings"/>
+            <CV Number="70" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
+                <Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
+            </CV>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Servos"/>
+            <Nodetext Lang="en-EN" Text="Servos"/>
+            <Node Offset="81" Template="Servo" Count="8" Next="16">
+                <Nodetext Lang="de-DE" Text="Servo %%d"/>
+                <Nodetext Lang="en-EN" Text="Servo %%d"/>
+            </Node>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Accessories"/>
+            <Nodetext Lang="en-EN" Text="Accessories"/>
+            <Node Offset="209" Template="AccessoryMap" Count="20" Next="9">
+                <Nodetext Lang="de-DE" Text="Accessory %%d"/>
+                <Nodetext Lang="en-EN" Text="Accessory %%d"/>
+            </Node>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="Motortreiber-Ausgänge"/>
+            <Nodetext Lang="en-EN" Text="Motordrive outputs"/>
+            <Node Offset="389" Template="Motordrive-Output" Count="16" Next="3">
+                <Nodetext Lang="de-DE" Text="Ausgang %%d"/>
+                <Nodetext Lang="en-EN" Text="Output %%d"/>
+            </Node>
+        </Node>
+        <Node>
+            <Nodetext Lang="de-DE" Text="GPIO"/>
+            <Nodetext Lang="en-EN" Text="GPIO"/>
+            <Node Offset="437" Template="GPIO" Count="16" Next="3">
+                <Nodetext Lang="de-DE" Text="GPIO %%d"/>
+                <Nodetext Lang="en-EN" Text="GPIO %%d"/>
+            </Node>
+        </Node>
+    </CVDefinition>
 </VendorCV>

@@ -16,7 +16,6 @@
             <artifactId>jbidibc</artifactId>
             <version>${project.version}</version>
         </dependency>
-        
         <dependency>
             <groupId>org.bidib.com.neuronrobotics</groupId>
             <artifactId>nrjavaserial</artifactId>
