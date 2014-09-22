@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
-    <Version Version="0.02" Lastupdate="20140809" Author="michael" Pid="122" Vendor="013" Description="BiDiBOne-OneDriveTurn"></Version>
+    <Version Version="0.02" Lastupdate="20140809" Author="michael" Pid="122" Vendor="013" Description="BiDiBOne-OneDriveTurn"/>
     <Templates>
         <Template Name="About">
             <CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">

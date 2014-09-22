@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+    <prerequisites>
+        <maven>3.0.4</maven>
+    </prerequisites>
     <parent>
         <groupId>org.sonatype.oss</groupId>
         <artifactId>oss-parent</artifactId>
@@ -35,14 +38,32 @@
             </roles>
         </developer>
     </developers>
-    <prerequisites>
-        <maven>3.0.4</maven>
-    </prerequisites>
     <scm>
         <connection>scm:svn:http://svn.code.sf.net/p/jbidibc/code/trunk</connection>
         <developerConnection>scm:svn:https://svn.code.sf.net/p/jbidibc/code/trunk</developerConnection>
         <url>http://sourceforge.net/p/jbidibc/code/</url>
     </scm>
+    <pluginRepositories>
+        <pluginRepository>
+            <id>maven-xml-formatter-plugin</id>
+            <name>Maven2 XML Formatter Plugin repository</name>
+            <url>https://raw.github.com/akuhtz/xml-formatter/master/releases/</url>
+        </pluginRepository>
+        <pluginRepository>
+            <id>sonatype-snapshots</id>
+            <name>Sonatype Snapshot Plugin repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+        </pluginRepository>
+    </pluginRepositories>
+    <modules>
+        <module>jbidibc</module>
+        <module>jbidibc-assembly</module>
+        <module>jbidibc-exchange</module>
+        <module>jbidibc-net</module>
+        <module>jbidibc-serial</module>
+        <module>jbidibc-simulation</module>
+        <module>jbidibc-tools</module>
+    </modules>
     <properties>
         <slf4j-version>1.7.7</slf4j-version>
         <logback-version>1.1.2</logback-version>
@@ -51,7 +72,6 @@
         <commons-lang3-version>3.3.2</commons-lang3-version>
         <commons-collections4-version>4.0</commons-collections4-version>
         <commons-io-version>2.4</commons-io-version>
-        <!--saxon-version>9.5.1-1</saxon-version-->
         <xalan-version>2.7.1</xalan-version>
         <xmlunit-version>1.5</xmlunit-version>
         <junit-version>4.9</junit-version>
@@ -68,28 +88,6 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
     </properties>
-    <modules>
-        <module>jbidibc</module>
-        <module>jbidibc-serial</module>
-        <module>jbidibc-net</module>
-        <module>jbidibc-exchange</module>
-        <module>jbidibc-tools</module>
-        <module>jbidibc-simulation</module>
-        <module>jbidibc-assembly</module>
-    </modules>
-    <pluginRepositories>
-        <pluginRepository>
-            <id>maven-xml-formatter-plugin</id>
-            <name>Maven2 XML Formatter Plugin repository</name>
-            <!--url>https://raw.github.com/jamestyrrell/xml-formatter/master/releases/</url-->
-            <url>https://raw.github.com/akuhtz/xml-formatter/master/releases/</url>
-        </pluginRepository>
-        <pluginRepository>
-            <id>sonatype-snapshots</id>
-            <name>Sonatype Snapshot Plugin repository</name>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
-        </pluginRepository>
-    </pluginRepositories>
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -318,6 +316,7 @@
                         <compound implementation="com.github.ferstl.maven.pomenforcers.CompoundPedanticEnforcer">
                             <!-- Enforcers -->
                             <!--enforcers>POM_SECTION_ORDER,MODULE_ORDER,DEPENDENCY_MANAGEMENT_ORDER,DEPENDENCY_ORDER,PLUGIN_MANAGEMENT_ORDER</enforcers-->
+                            <enforcers>POM_SECTION_ORDER,MODULE_ORDER,DEPENDENCY_ORDER</enforcers>
                             <!-- Further configuration of the declared enforcer rules -->
                         </compound>
                     </rules>
@@ -333,49 +332,6 @@
             </plugin>
         </plugins>
     </build>
-    <reporting>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>jdepend-maven-plugin</artifactId>
-                <version>${jdepend-version}</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-project-info-reports-plugin</artifactId>
-                <version>2.7</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-pmd-plugin</artifactId>
-                <version>3.0.1</version>
-                <configuration>
-                    <targetJdk>${maven.compiler.target}</targetJdk>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>2.9.1</version>
-                <configuration>
-                    <notimestamp>true</notimestamp>
-                </configuration>
-                <reportSets>
-                    <reportSet>
-                        <reports>
-                            <report>javadoc</report>
-                        </reports>
-                    </reportSet>
-                    <reportSet>
-                        <inherited>false</inherited>
-                        <reports>
-                            <report>aggregate</report>
-                        </reports>
-                    </reportSet>
-                </reportSets>
-            </plugin>
-        </plugins>
-    </reporting>
     <profiles>
         <profile>
             <id>format-java-sources</id>
@@ -525,4 +481,47 @@
             </build>
         </profile>
     </profiles>
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <version>${jdepend-version}</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-project-info-reports-plugin</artifactId>
+                <version>2.7</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-pmd-plugin</artifactId>
+                <version>3.0.1</version>
+                <configuration>
+                    <targetJdk>${maven.compiler.target}</targetJdk>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.9.1</version>
+                <configuration>
+                    <notimestamp>true</notimestamp>
+                </configuration>
+                <reportSets>
+                    <reportSet>
+                        <reports>
+                            <report>javadoc</report>
+                        </reports>
+                    </reportSet>
+                    <reportSet>
+                        <inherited>false</inherited>
+                        <reports>
+                            <report>aggregate</report>
+                        </reports>
+                    </reportSet>
+                </reportSets>
+            </plugin>
+        </plugins>
+    </reporting>
 </project>
