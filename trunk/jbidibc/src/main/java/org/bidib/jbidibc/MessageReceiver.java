@@ -169,6 +169,7 @@ public class MessageReceiver implements BidibMessageProcessor {
                                 ((FeedbackSpeedResponse) message).getSpeed());
                             break;
                         case BidibLibrary.MSG_BM_DYN_STATE:
+                            LOGGER.trace("Received MSG_BM_DYN_STATE: {}", message);
                             fireDynState(message.getAddr(), ((FeedbackDynStateResponse) message).getDetectorNumber(),
                                 ((FeedbackDynStateResponse) message).getDynNumber(),
                                 ((FeedbackDynStateResponse) message).getDynValue());
