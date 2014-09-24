@@ -130,7 +130,8 @@ public class SimulatorRegistry {
 
             // create the simulator for the subnode
             SimulatorNode simNode = createSimulator(parentAddress, subNode, messageReceiver);
-            simNode.setNodeName(subNode.getName());
+            simNode.setNodeName(subNode.getUserName());
+            simNode.setProductName(subNode.getProductName());
 
             // if the parent is an interface node add it to the parent
             if (simParent != null && simParent instanceof InterfaceNode) {

@@ -69,7 +69,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     private int sendNum;
 
-    private String stringValue = "";
+    private String[] stringValue = new String[] { "", "" };
 
     private int currentFeature;
 
@@ -105,7 +105,14 @@ public class DefaultNodeSimulator implements SimulatorNode {
     @Override
     public void setNodeName(String nodeName) {
         if (StringUtils.isNotBlank(nodeName)) {
-            stringValue = nodeName;
+            stringValue[1] = nodeName;
+        }
+    }
+
+    @Override
+    public void setProductName(String productName) {
+        if (StringUtils.isNotBlank(productName)) {
+            stringValue[0] = productName;
         }
     }
 
@@ -721,10 +728,11 @@ public class DefaultNodeSimulator implements SimulatorNode {
         byte[] response = null;
         try {
             StringSetMessage stringSetMessage = (StringSetMessage) bidibMessage;
-            stringValue = stringSetMessage.getString();
+            int stringId = stringSetMessage.getStringId();
+            stringValue[stringId] = stringSetMessage.getString();
             StringResponse stringResponse =
                 new StringResponse(bidibMessage.getAddr(), getNextSendNum(), ByteUtils.getLowByte(stringSetMessage
-                    .getNamespace()), ByteUtils.getLowByte(stringSetMessage.getStringId()), stringValue);
+                    .getNamespace()), ByteUtils.getLowByte(stringSetMessage.getStringId()), stringValue[stringId]);
             response = stringResponse.getContent();
         }
         catch (ProtocolException ex) {
@@ -738,9 +746,10 @@ public class DefaultNodeSimulator implements SimulatorNode {
         byte[] response = null;
         try {
             StringGetMessage stringGetMessage = (StringGetMessage) bidibMessage;
+            int stringId = stringGetMessage.getStringId();
             StringResponse stringResponse =
                 new StringResponse(bidibMessage.getAddr(), getNextSendNum(), ByteUtils.getLowByte(stringGetMessage
-                    .getNamespace()), ByteUtils.getLowByte(stringGetMessage.getStringId()), stringValue);
+                    .getNamespace()), ByteUtils.getLowByte(stringGetMessage.getStringId()), stringValue[stringId]);
             response = stringResponse.getContent();
         }
         catch (ProtocolException ex) {

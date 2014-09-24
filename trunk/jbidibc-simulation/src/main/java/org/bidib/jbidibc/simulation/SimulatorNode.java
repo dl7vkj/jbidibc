@@ -74,4 +74,10 @@ public interface SimulatorNode {
      *            the node name to set
      */
     void setNodeName(String nodeName);
+
+    /**
+     * @param productName
+     *            the product name to set
+     */
+    void setProductName(String productName);
 }

@@ -116,7 +116,8 @@
 		<attribute name="className" type="sim:StringNotEmptyType" use="required" />
 		<attribute name="address" type="sim:StringNotEmptyType" use="required" />
 		<attribute name="autoAddFeature" type="boolean" />
-		<attribute name="name" type="sim:String50Type" />
+		<attribute name="productName" type="sim:String50Type" />
+		<attribute name="userName" type="sim:String50Type" />
 	</complexType>
 
 	<complexType name="SubNodesType">

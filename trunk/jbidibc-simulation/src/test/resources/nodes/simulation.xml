@@ -2,7 +2,7 @@
 <simulation xmlns="http://www.bidib.org/jbidibc/simulation/nodes" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/simulation/nodes /xsd/simulation.xsd">
     <master uniqueId="d2000d680064ea" className="org.bidib.jbidibc.simulation.nodes.Master" address="0">
         <subNodes>
-            <node uniqueId="05340d6B901234" className="org.bidib.jbidibc.simulation.nodes.Node" address="1">
+            <node uniqueId="05340d6B901234" className="org.bidib.jbidibc.simulation.nodes.Node" address="1" productName="Product1" userName="My username">
                 <LPORT count="32"/>
                 <SPORT count="8"/>
             </node>

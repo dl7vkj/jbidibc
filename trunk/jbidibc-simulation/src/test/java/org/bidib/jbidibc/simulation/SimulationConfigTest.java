@@ -80,6 +80,8 @@ public class SimulationConfigTest {
         Assert.assertNotNull(node.getSPORT());
         Assert.assertEquals(node.getSPORT().getCount().intValue(), 8);
         Assert.assertNull(node.isAutoAddFeature());
+        Assert.assertEquals(node.getProductName(), "Product1");
+        Assert.assertEquals(node.getUserName(), "My username");
 
         // second subnode has no LPORTs but SPORTs configured
         node = nodes.get(1);
