@@ -1131,4 +1131,6 @@ public interface BidibLibrary {
     public static final int BIDIB_PORTTYPE_INPUT = (int) 15;
 
     public static final int BIDIB_ERR_RESET_REQUIRED = (int) 0x21; // reset needed (ie. due to reconfiguration)
+
+    public static final int MSG_LOCAL_ACCESSORY = (MSG_DLOCAL + 0x03); // 1:statusflag, 2,3: DCC-accessory addr
 }

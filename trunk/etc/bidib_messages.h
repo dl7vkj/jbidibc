@@ -62,6 +62,8 @@
 //            2014-06-11       kw  added FEATURE_GEN_START_STATE
 //            2014-06-25       kw  added Makrocommand BIDIB_MSYS_SERVOMOVE_QUERY
 //            2014-08-13       kw  changed: XPOM (enums, type)
+//                             kw  added BIDIB_ERR_RESET_REQUIRED
+//            2014-09-25       kw  added MSG_LOCAL_ACCESSORY
 //
 //===============================================================================
 //
@@ -202,6 +204,7 @@
 #define MSG_LOGON_ACK           (MSG_DLOCAL + 0x00)     // 1:node_addr, 2..8:unique_id
 #define MSG_LOCAL_PING          (MSG_DLOCAL + 0x01)
 #define MSG_LOGON_REJECTED      (MSG_DLOCAL + 0x02)     // 1..7:unique_id
+#define MSG_LOCAL_ACCESSORY     (MSG_DLOCAL + 0x03)     // 1:statusflag, 2,3: DCC-accessory addr
 
 //===============================================================================
 //
