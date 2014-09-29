@@ -186,10 +186,10 @@ public class NodeUtils {
      * @return the found node or <code>null</code> if no node was found with the provided node address
      */
     public static Node findNodeByAddress(List<Node> nodes, final byte[] address) {
-        Node topNode = org.apache.commons.collections4.CollectionUtils.find(nodes, new Predicate<Node>() {
+        Node node = org.apache.commons.collections4.CollectionUtils.find(nodes, new Predicate<Node>() {
 
             @Override
-            public boolean evaluate(Node node) {
+            public boolean evaluate(final Node node) {
                 if (Arrays.equals(node.getAddr(), address)) {
                     LOGGER.debug("Found node: {}", node);
                     return true;
@@ -197,7 +197,31 @@ public class NodeUtils {
                 return false;
             }
         });
-        return topNode;
+        return node;
+    }
+
+    /**
+     * Find a node by its node uuid in the provided list of nodes.
+     * 
+     * @param nodes
+     *            the list of nodes
+     * @param uuid
+     *            the uuid of the node to find
+     * @return the found node or <code>null</code> if no node was found with the provided node uuid
+     */
+    public static Node findNodeByUuid(List<Node> nodes, final long uuid) {
+        Node node = org.apache.commons.collections4.CollectionUtils.find(nodes, new Predicate<Node>() {
+
+            @Override
+            public boolean evaluate(final Node node) {
+                if (node.getUniqueId() == uuid) {
+                    LOGGER.debug("Found node: {}", node);
+                    return true;
+                }
+                return false;
+            }
+        });
+        return node;
     }
 
     public static boolean isSubNode(Node parent, Node node) {
