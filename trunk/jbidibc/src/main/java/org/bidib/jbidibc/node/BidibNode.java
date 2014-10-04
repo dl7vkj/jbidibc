@@ -587,11 +587,13 @@ public class BidibNode {
             return magic;
         }
 
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set! Return BIDIB_MAGIC_UNKNOWN!");
-            setNodeMagic(BIDIB_MAGIC_UNKNOWN);
-            return BIDIB_MAGIC_UNKNOWN;
-        }
+        // a node must always respond to the magic request
+        /*
+         * if (ignoreWaitTimeout) {
+         * LOGGER.warn("No response received but ignoreWaitTimeout ist set! Return BIDIB_MAGIC_UNKNOWN!");
+         * setNodeMagic(BIDIB_MAGIC_UNKNOWN); return BIDIB_MAGIC_UNKNOWN; }
+         */
+        LOGGER.warn("No MAGIC response received from node: {}", this);
 
         throw createNoResponseAvailable("get magic");
     }

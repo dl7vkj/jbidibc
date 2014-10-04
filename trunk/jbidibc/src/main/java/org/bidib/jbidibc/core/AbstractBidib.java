@@ -140,6 +140,7 @@ public abstract class AbstractBidib implements BidibInterface {
     @Override
     public void setIgnoreWaitTimeout(boolean ignoreWaitTimeout) {
         if (nodeFactory != null) {
+            LOGGER.info("Set ignoreWaitTimeout flag: {}", ignoreWaitTimeout);
             nodeFactory.setIgnoreWaitTimeout(ignoreWaitTimeout);
         }
         else {
