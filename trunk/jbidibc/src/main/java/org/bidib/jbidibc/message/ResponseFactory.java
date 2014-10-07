@@ -63,10 +63,6 @@ public final class ResponseFactory {
                 result =
                     new FeedbackDynStateResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
-            case BidibLibrary.MSG_BOOST_CURRENT:
-                result =
-                    new BoostCurrentResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
-                break;
             case BidibLibrary.MSG_BOOST_DIAGNOSTIC:
                 result =
                     new BoostDiagnosticResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());

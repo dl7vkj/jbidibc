@@ -13,7 +13,6 @@ import java.util.Locale;
 
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
-import org.bidib.jbidibc.message.BoostCurrentResponse;
 import org.bidib.jbidibc.message.BoostStatResponse;
 import org.bidib.jbidibc.message.FeedbackAddressResponse;
 import org.bidib.jbidibc.message.FeedbackConfidenceResponse;
@@ -43,8 +42,7 @@ public class LogFileAnalyzer {
 
             // @formatter:off
             if (parts.length == 3
-                && (parts[1].startsWith("receive BoostCurrentResponse")
-                    || parts[1].startsWith("receive BoostStatResponse")
+                && (parts[1].startsWith("receive BoostStatResponse")
                     || parts[1].startsWith("receive FeedbackAddressResponse")
                     || parts[1].startsWith("receive FeedbackConfidenceResponse") || parts[1]
                         .startsWith("receive FeedbackSpeedResponse"))) {
@@ -81,11 +79,7 @@ public class LogFileAnalyzer {
 
                         LOGGER.info("message: " + message.message);
 
-                        if (message.message instanceof BoostCurrentResponse) {
-                            messageReceiver.fireBoosterCurrent(message.message.getAddr(),
-                                ((BoostCurrentResponse) message.message).getCurrent());
-                        }
-                        else if (message.message instanceof BoostStatResponse) {
+                        if (message.message instanceof BoostStatResponse) {
                             messageReceiver.fireBoosterState(message.message.getAddr(),
                                 ((BoostStatResponse) message.message).getState());
                         }

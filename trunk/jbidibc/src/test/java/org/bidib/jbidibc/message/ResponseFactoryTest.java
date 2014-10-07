@@ -287,40 +287,6 @@ public class ResponseFactoryTest {
     }
 
     @Test
-    public void createValidBoostCurrentResponseMessage() throws ProtocolException {
-        // 04 00 04 B1 2C
-        byte[] message = { 0x04, 0x00, 0x04, (byte) 0xB1, (byte) 0x2c };
-
-        BidibMessage bidibMessage = ResponseFactory.create(message);
-
-        Assert.assertNotNull(bidibMessage);
-        Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
-
-        LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
-
-        // 04 00 6A B1 47
-        byte[] message2 = { 0x04, 0x00, 0x6A, (byte) 0xB1, (byte) 0x47 };
-
-        bidibMessage = ResponseFactory.create(message2);
-
-        Assert.assertNotNull(bidibMessage);
-        Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
-
-        LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
-
-        // 04 00 60 B1 45
-        byte[] message3 = { 0x04, 0x00, 0x60, (byte) 0xB1, (byte) 0x45 };
-
-        bidibMessage = ResponseFactory.create(message3);
-
-        Assert.assertNotNull(bidibMessage);
-        Assert.assertTrue(bidibMessage instanceof BoostCurrentResponse, "Expected a BoostCurrentResponse message.");
-
-        LOGGER.info("Booster current: {}", ((BoostCurrentResponse) bidibMessage).getCurrent());
-
-    }
-
-    @Test
     public void createBoostStatOffResponseMessage() throws ProtocolException {
         // 04 00 04 B1 2C
         byte[] message = { 0x04, 0x00, 0x0e, (byte) 0xB0, (byte) 0x00 };
