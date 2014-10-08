@@ -139,4 +139,55 @@ public class VendorCVTest {
 
         os.flush();
     }
+
+    @Test
+    public void saveVendorCVSignedCharTest() throws JAXBException, SAXException, IOException {
+
+        JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
+
+        Marshaller marshaller = jaxbContext.createMarshaller();
+        marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
+        marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
+
+        VersionInfoType versionInfo = new VersionInfoType();
+        versionInfo.setAuthor("Max Mustermann");
+        versionInfo.setVersion("0.1");
+        versionInfo.setVendor("013");
+        versionInfo.setPid("999");
+        versionInfo.setDescription("BiDiB-Test Signed Char 1");
+
+        VendorCV vendorCV = new VendorCV();
+        vendorCV.setVersion(versionInfo);
+
+        TemplatesType templatesType = new TemplatesType();
+
+        TemplateType ledTemplate = new TemplateType();
+        ledTemplate.setName("LED");
+
+        templatesType.getTemplate().add(ledTemplate);
+
+        CVType cv = new CVType();
+        cv.setNumber(0);
+        cv.setType(DataType.SIGNED_CHAR);
+        cv.setMode(ModeType.RW);
+        DescriptionType desc = new DescriptionType().withLang("de-DE").withText("Temperatur Offset");
+        cv.getDescription().add(desc);
+        desc = new DescriptionType().withLang("en-EN").withText("Temperature offset");
+        cv.getDescription().add(desc);
+        cv.setMin("-");
+        cv.setMax("-");
+        cv.setLow("-");
+        cv.setHigh("-");
+        cv.setValues("-");
+        ledTemplate.getCV().add(cv);
+
+        vendorCV.setTemplates(templatesType);
+
+        File exportFile = new File(EXPORTED_CVDEF_TARGET_DIR, "vendorcv_signedChar.xml");
+        OutputStream os = new BufferedOutputStream(new FileOutputStream(exportFile));
+
+        marshaller.marshal(vendorCV, os);
+
+        os.flush();
+    }
 }

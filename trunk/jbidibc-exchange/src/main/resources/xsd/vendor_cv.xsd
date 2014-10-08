@@ -62,6 +62,7 @@
 			<xsd:enumeration value="Bit"/>
 			<xsd:enumeration value="DCC_ADDR_RG"/>
 			<xsd:enumeration value="GBM16TReverser"/>
+			<xsd:enumeration value="SignedChar"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="ModeType">
