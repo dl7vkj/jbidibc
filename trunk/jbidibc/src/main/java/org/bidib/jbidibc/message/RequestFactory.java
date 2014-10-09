@@ -164,6 +164,15 @@ public class RequestFactory {
             case BidibLibrary.MSG_NODETAB_GETNEXT:
                 concreteBidibMessage = new NodeTabGetNextMessage(message);
                 break;
+            case BidibLibrary.MSG_NODE_CHANGED_ACK:
+                concreteBidibMessage = new NodeChangedAckMessage(message);
+                break;
+            case BidibLibrary.MSG_SYS_GET_ERROR:
+                concreteBidibMessage = new SysGetErrorMessage(message);
+                break;
+            case BidibLibrary.MSG_FW_UPDATE_OP:
+                concreteBidibMessage = new FwUpdateOpMessage(message);
+                break;
             case BidibLibrary.MSG_CS_SET_STATE:
                 concreteBidibMessage = new CommandStationSetStateMessage(message);
                 break;
@@ -271,9 +280,6 @@ public class RequestFactory {
                 break;
             case BidibLibrary.MSG_BM_GET_CONFIDENCE:
                 concreteBidibMessage = new FeedbackGetConfidenceMessage(message);
-                break;
-            case BidibLibrary.MSG_FW_UPDATE_OP:
-                concreteBidibMessage = new FwUpdateOpMessage(message);
                 break;
 
             default:

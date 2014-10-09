@@ -21,6 +21,7 @@ import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.Feature;
 import org.bidib.jbidibc.VendorData;
 import org.bidib.jbidibc.enumeration.FirmwareUpdateOperation;
+import org.bidib.jbidibc.enumeration.SysErrorEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.FeatureCountResponse;
@@ -47,6 +48,7 @@ import org.bidib.jbidibc.message.VendorGetMessage;
 import org.bidib.jbidibc.message.VendorResponse;
 import org.bidib.jbidibc.message.VendorSetMessage;
 import org.bidib.jbidibc.simulation.SimulatorNode;
+import org.bidib.jbidibc.simulation.events.NodeLostEvent;
 import org.bidib.jbidibc.simulation.events.SimulatorStatusEvent;
 import org.bidib.jbidibc.simulation.events.SysErrorEvent;
 import org.bidib.jbidibc.simulation.net.SimulationBidibMessageProcessor;
@@ -175,6 +177,11 @@ public class DefaultNodeSimulator implements SimulatorNode {
         return ByteUtils.byteToHex(nodeAddress[len - 1]);
     }
 
+    protected byte getLocalAddr() {
+        int len = nodeAddress.length;
+        return nodeAddress[len - 1];
+    }
+
     private AtomicBoolean requestWorkerRunning = new AtomicBoolean();
 
     @Override
@@ -296,6 +303,12 @@ public class DefaultNodeSimulator implements SimulatorNode {
             case BidibLibrary.MSG_NODETAB_GETNEXT:
                 response = processNodeTabGetNextRequest(bidibMessage);
                 break;
+            case BidibLibrary.MSG_NODE_CHANGED_ACK:
+                processNodeChangedAckRequest(bidibMessage);
+                break;
+            case BidibLibrary.MSG_SYS_GET_ERROR:
+                response = processSysGetErrorRequest(bidibMessage);
+                break;
             case BidibLibrary.MSG_FEATURE_GET:
                 response = processFeatureGetRequest(bidibMessage);
                 break;
@@ -328,7 +341,8 @@ public class DefaultNodeSimulator implements SimulatorNode {
                 break;
             case BidibLibrary.MSG_SYS_RESET:
                 LOGGER.info("MSG_SYS_RESET, reset sendNum.");
-                resetSendNum();
+                // resetSendNum();
+                processResetRequest(bidibMessage);
                 break;
             case BidibLibrary.MSG_FW_UPDATE_OP:
                 response = processFwUpdateOpRequest(bidibMessage);
@@ -448,6 +462,20 @@ public class DefaultNodeSimulator implements SimulatorNode {
         return response;
     }
 
+    protected byte[] processSysGetErrorRequest(BidibCommand bidibMessage) {
+        LOGGER.info("Process the SysGetError request: {}", bidibMessage);
+        byte[] response = null;
+        try {
+            SysErrorResponse sysErrorResponse =
+                new SysErrorResponse(bidibMessage.getAddr(), getNextSendNum(), SysErrorEnum.BIDIB_ERR_NONE);
+            response = sysErrorResponse.getContent();
+        }
+        catch (ProtocolException ex) {
+            LOGGER.warn("Create sysError response failed.", ex);
+        }
+        return response;
+    }
+
     protected void processSysEnableRequest(BidibCommand bidibMessage) {
         LOGGER.info("Process the SysEnable request: {}, do nothing ...", bidibMessage);
     }
@@ -508,6 +536,10 @@ public class DefaultNodeSimulator implements SimulatorNode {
             LOGGER.warn("Create nodeTab response failed.", ex);
         }
         return response;
+    }
+
+    protected void processNodeChangedAckRequest(BidibCommand bidibMessage) {
+        LOGGER.info("Node changed ack was received: {}", bidibMessage);
     }
 
     protected byte[] processFeatureGetRequest(BidibCommand bidibMessage) {
@@ -794,6 +826,15 @@ public class DefaultNodeSimulator implements SimulatorNode {
             LOGGER.warn("Create fwUpdateStat response failed.", ex);
         }
         return response;
+    }
+
+    protected void processResetRequest(BidibCommand bidibMessage) {
+        LOGGER.info("Process the reset request, bidibMessage: {}", bidibMessage);
+        resetSendNum();
+
+        LOGGER.info("Notify the parent that we have gone, address: {}, uniqueId: {}", getLocalAddress(), uniqueId);
+        // notify the master that we're gone
+        EventBus.publish(new NodeLostEvent(nodeAddress[nodeAddress.length - 1], uniqueId));
     }
 
     protected void resetSendNum() {

@@ -29,6 +29,13 @@ public class NodeTabResponse extends BidibMessage {
     }
 
     /**
+     * @return the node tab version
+     */
+    public int getNodeTabVersion() {
+        return ByteUtils.getInt(getData()[0]);
+    }
+
+    /**
      * Create a new node based on the parent address and the received data.
      * 
      * @param parentAddress
