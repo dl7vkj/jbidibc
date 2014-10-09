@@ -48,6 +48,7 @@ import org.bidib.jbidibc.message.VendorGetMessage;
 import org.bidib.jbidibc.message.VendorResponse;
 import org.bidib.jbidibc.message.VendorSetMessage;
 import org.bidib.jbidibc.simulation.SimulatorNode;
+import org.bidib.jbidibc.simulation.events.NodeAvailableEvent;
 import org.bidib.jbidibc.simulation.events.NodeLostEvent;
 import org.bidib.jbidibc.simulation.events.SimulatorStatusEvent;
 import org.bidib.jbidibc.simulation.events.SysErrorEvent;
@@ -86,6 +87,8 @@ public class DefaultNodeSimulator implements SimulatorNode {
     private Thread requestWorker;
 
     protected final ScheduledExecutorService responseWorker = Executors.newScheduledThreadPool(1);
+
+    protected final ScheduledExecutorService availableAfterResetWorker = Executors.newScheduledThreadPool(1);
 
     private final SimulationBidibMessageProcessor messageReceiver;
 
@@ -156,7 +159,6 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     @Override
     public String getSimulationPanelClass() {
-        // TODO Auto-generated method stub
         return null;
     }
 
@@ -255,6 +257,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
             new SimulatorStatusEvent(ByteUtils.bytesToHex(nodeAddress), SimulatorStatusEvent.Status.stopped);
         EventBus.publish(simulatorStatusEvent);
 
+        availableAfterResetWorker.shutdownNow();
         responseWorker.shutdownNow();
 
         if (requestWorker != null) {
@@ -717,7 +720,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
             VendorData vendorData = vendorSetMessage.getVendorData();
             LOGGER.info("Set the vendor data: {}", vendorData);
 
-            // TODO store the vendor data ...
+            // store the vendor data ...
             configurationVariables.put(vendorData.getName(), vendorData.getValue());
 
             VendorResponse vendorResponse =
@@ -739,7 +742,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
             String vendorDataName = vendorGetMessage.getVendorDataName();
             LOGGER.info("Get the vendor data with name: {}", vendorDataName);
 
-            // TODO fetch the value from the stored data ...
+            // fetch the value from the stored data ...
             String vendorDataValue = configurationVariables.get(vendorDataName);
             if (StringUtils.isBlank(vendorDataValue)) {
                 vendorDataValue = "";
@@ -832,9 +835,24 @@ public class DefaultNodeSimulator implements SimulatorNode {
         LOGGER.info("Process the reset request, bidibMessage: {}", bidibMessage);
         resetSendNum();
 
+        final byte localNodeAddr = nodeAddress[nodeAddress.length - 1];
+
         LOGGER.info("Notify the parent that we have gone, address: {}, uniqueId: {}", getLocalAddress(), uniqueId);
         // notify the master that we're gone
-        EventBus.publish(new NodeLostEvent(nodeAddress[nodeAddress.length - 1], uniqueId));
+        EventBus.publish(new NodeLostEvent(localNodeAddr, uniqueId));
+
+        // send the node available event after 1 second
+        availableAfterResetWorker.schedule(new Runnable() {
+            @Override
+            public void run() {
+                NodeAvailableEvent nodeAvailableEvent = new NodeAvailableEvent(localNodeAddr, uniqueId);
+                LOGGER.info("Send NodeAvailableEvent: {}", nodeAvailableEvent);
+                EventBus.publish(nodeAvailableEvent);
+
+                LOGGER.info("Send availableAfterResetWorker has finished.");
+            }
+        }, 1, TimeUnit.SECONDS);
+
     }
 
     protected void resetSendNum() {
