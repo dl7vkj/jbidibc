@@ -229,7 +229,8 @@ public final class Bidib extends AbstractBidib {
         serialPort.notifyOnCTS(true);
 
         if (context != null) {
-            Boolean ignoreWrongMessageNumber = context.get("ignoreWrongMessageNumber", Boolean.class, Boolean.FALSE);
+            Boolean ignoreWrongMessageNumber =
+                context.get("ignoreWrongReceiveMessageNumber", Boolean.class, Boolean.FALSE);
             getSerialMessageReceiver().setIgnoreWrongMessageNumber(ignoreWrongMessageNumber);
         }
 
