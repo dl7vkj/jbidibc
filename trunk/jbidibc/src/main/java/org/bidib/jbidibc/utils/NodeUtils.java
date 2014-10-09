@@ -249,4 +249,41 @@ public class NodeUtils {
         }
         return false;
     }
+
+    /**
+     * Create a new node based on the parent address and the received data.
+     * 
+     * @param parentAddress
+     *            the parent address
+     * @return the node
+     */
+    public static Node getNode(byte[] parentAddress, byte version, byte localAddr, byte[] uniqueId) {
+        // LOGGER.debug("Create new node with parent address: {}", parentAddress);
+        byte[] addr = new byte[parentAddress.length + 1];
+
+        LOGGER.info("Create new node with parent address: {}, current local address: {}", parentAddress, localAddr);
+
+        if (parentAddress.length == 1 && parentAddress[0] == 0) {
+            // the parent is the interface node
+            addr = new byte[1];
+            addr[0] = localAddr;
+        }
+        else if (localAddr == 0) {
+            // we have the node itself
+            addr = new byte[parentAddress.length];
+            System.arraycopy(parentAddress, 0, addr, 0, parentAddress.length);
+        }
+        else {
+            // add the local address of the subnode to the parent address
+            System.arraycopy(parentAddress, 0, addr, 0, parentAddress.length);
+            addr[parentAddress.length] = localAddr;
+        }
+        // System.arraycopy(data, 2, uniqueId, 0, uniqueId.length);
+
+        // create the new node with the received data
+        Node node = new Node(ByteUtils.getInt(version), addr, ByteUtils.convertUniqueIdToLong(uniqueId));
+        LOGGER.info("Created node from received data: {}", node);
+        return node;
+    }
+
 }

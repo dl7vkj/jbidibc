@@ -345,6 +345,16 @@ public class MessageReceiver implements BidibMessageProcessor {
                     LOGGER.error("Ignore unknown message.");
                 }
             }
+            catch (ProtocolException ex) {
+
+                if (MSG_RX_LOGGER.isInfoEnabled()) {
+                    StringBuilder sb = new StringBuilder();
+                    sb.append(ByteUtils.bytesToHex(messageArray));
+                    MSG_RX_LOGGER.info("received invalid: {} : {}", message, sb);
+                }
+
+                throw ex;
+            }
             finally {
                 if (message != null) {
                     // the message numbers are evaluated only after the magic message on the node was received ...
@@ -368,8 +378,11 @@ public class MessageReceiver implements BidibMessageProcessor {
                         LOGGER.warn("Ignore compare message number because the magic is not set on the node.");
                     }
                 }
+
+                // always reset the output
+                output.reset();
             }
-            output.reset();
+            // output.reset();
         }
     }
 
