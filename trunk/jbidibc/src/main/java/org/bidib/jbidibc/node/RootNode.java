@@ -1,6 +1,7 @@
 package org.bidib.jbidibc.node;
 
 import java.util.Calendar;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.bidib.jbidibc.BidibLibrary;
 import org.bidib.jbidibc.MessageReceiver;
@@ -18,6 +19,8 @@ public class RootNode extends BidibNode {
     private static final Logger LOGGER = LoggerFactory.getLogger(RootNode.class);
 
     public static final byte[] ROOTNODE_ADDR = new byte[] { 0 };
+
+    private AtomicBoolean initialReadNodesPassed = new AtomicBoolean();
 
     RootNode(MessageReceiver messageReceiver, boolean ignoreWaitTimeout) {
         super(new byte[] { 0 }, messageReceiver, ignoreWaitTimeout);
@@ -72,4 +75,11 @@ public class RootNode extends BidibNode {
         return magic;
     }
 
+    public void setReadNodesPassed(boolean readNodesPassed) {
+        initialReadNodesPassed.set(readNodesPassed);
+    }
+
+    public boolean getReadNodesPassed() {
+        return initialReadNodesPassed.get();
+    }
 }
