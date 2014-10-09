@@ -42,6 +42,7 @@ import org.bidib.jbidibc.message.SysPVersionResponse;
 import org.bidib.jbidibc.message.SysPingMessage;
 import org.bidib.jbidibc.message.SysPongResponse;
 import org.bidib.jbidibc.message.SysSwVersionResponse;
+import org.bidib.jbidibc.message.SysUniqueIdResponse;
 import org.bidib.jbidibc.message.VendorAckResponse;
 import org.bidib.jbidibc.message.VendorEnableMessage;
 import org.bidib.jbidibc.message.VendorGetMessage;
@@ -294,6 +295,9 @@ public class DefaultNodeSimulator implements SimulatorNode {
             case BidibLibrary.MSG_SYS_DISABLE:
                 processSysDisableRequest(bidibMessage);
                 break;
+            case BidibLibrary.MSG_SYS_GET_UNIQUE_ID:
+                response = processSysGetUniqueIdRequest(bidibMessage);
+                break;
             case BidibLibrary.MSG_SYS_IDENTIFY:
                 processSysIdentifyRequest(bidibMessage);
                 break;
@@ -485,6 +489,21 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     protected void processSysDisableRequest(BidibCommand bidibMessage) {
         LOGGER.info("Process the SysDisable request: {}, do nothing ...", bidibMessage);
+    }
+
+    protected byte[] processSysGetUniqueIdRequest(BidibCommand bidibMessage) {
+        LOGGER.info("Process the SysGetUniqueId request: {}, do nothing ...", bidibMessage);
+
+        byte[] response = null;
+        try {
+            SysUniqueIdResponse sysUniqueIdResponse =
+                new SysUniqueIdResponse(bidibMessage.getAddr(), getNextSendNum(), getUniqueId());
+            response = sysUniqueIdResponse.getContent();
+        }
+        catch (ProtocolException ex) {
+            LOGGER.warn("Create sysUniqueId response failed.", ex);
+        }
+        return response;
     }
 
     protected void processSysIdentifyRequest(BidibCommand bidibMessage) {
