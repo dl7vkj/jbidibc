@@ -301,6 +301,24 @@ public class BidibNode {
         return nextReceiveMsgNum;
     }
 
+    public void adjustReceiveMsgNum(int newReceiveMsgNum) {
+        LOGGER.warn("The receive message number is adjusted on request: {}", newReceiveMsgNum);
+        try {
+            nextReceiveMsgNumSemaphore.acquire();
+            nextReceiveMsgNum = newReceiveMsgNum + 1;
+            if (nextReceiveMsgNum > 255) {
+                nextReceiveMsgNum = 1;
+            }
+        }
+        catch (InterruptedException ex) {
+            LOGGER.warn("Acqiure the semaphore to adjust the receive message number failed.", ex);
+            throw new RuntimeException(ex);
+        }
+        finally {
+            nextReceiveMsgNumSemaphore.release();
+        }
+    }
+
     private int getNextSendMsgNum() {
         try {
             nextSendMsgNumSemaphore.acquire();

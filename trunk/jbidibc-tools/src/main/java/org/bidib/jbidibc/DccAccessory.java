@@ -36,7 +36,7 @@ public class DccAccessory extends BidibNodeCommand {
         int result = 20;
 
         try {
-            openPort(getPortName());
+            openPort(getPortName(), null);
 
             Node node = findNode();
 

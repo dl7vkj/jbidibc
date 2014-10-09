@@ -12,6 +12,7 @@ import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.core.AbstractBidib;
 import org.bidib.jbidibc.core.BidibMessageProcessor;
+import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -78,6 +79,12 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
             public void removeNodeListener(NodeListener nodeListener) {
                 getMessageReceiver().removeNodeListener(nodeListener);
             }
+
+            @Override
+            public void setIgnoreWrongMessageNumber(boolean ignoreWrongMessageNumber) {
+                // TODO Auto-generated method stub
+
+            }
         };
     }
 
@@ -116,8 +123,9 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
     @Override
     public void open(
         String portName, ConnectionListener connectionListener, Set<NodeListener> nodeListeners,
-        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) throws PortNotFoundException,
-        PortNotOpenedException {
+        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners, final Context context)
+        throws PortNotFoundException, PortNotOpenedException {
+
         LOGGER.info("Open the serial simulation.");
         setConnectionListener(connectionListener);
         registerListeners(nodeListeners, messageListeners, transferListeners);

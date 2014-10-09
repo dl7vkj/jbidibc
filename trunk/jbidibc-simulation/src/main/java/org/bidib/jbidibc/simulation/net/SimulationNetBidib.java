@@ -102,6 +102,12 @@ public class SimulationNetBidib extends NetBidib implements SimulationInterface 
                 // TODO Auto-generated method stub
 
             }
+
+            @Override
+            public void setIgnoreWrongMessageNumber(boolean ignoreWrongMessageNumber) {
+                // TODO Auto-generated method stub
+
+            }
         };
         simulationMessageReceiver.setSimulatorRegistry(simulatorRegistry);
 

@@ -33,7 +33,7 @@ public class BulkReadCv extends BidibNodeCommand {
         }
 
         try {
-            openPort(getPortName());
+            openPort(getPortName(), null);
 
             Node node = findNode();
 

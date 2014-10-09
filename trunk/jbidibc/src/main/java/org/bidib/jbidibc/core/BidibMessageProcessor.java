@@ -53,4 +53,10 @@ public interface BidibMessageProcessor {
      * @return returns device specific error information
      */
     String getErrorInformation();
+
+    /**
+     * @param ignoreWrongMessageNumber
+     *            set the flag to ignore wrong message numbers
+     */
+    void setIgnoreWrongMessageNumber(boolean ignoreWrongMessageNumber);
 }

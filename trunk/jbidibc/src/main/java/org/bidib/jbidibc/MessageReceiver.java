@@ -70,6 +70,8 @@ public class MessageReceiver implements BidibMessageProcessor {
 
     protected AtomicBoolean running = new AtomicBoolean();
 
+    private AtomicBoolean ignoreWrongMessageNumber = new AtomicBoolean();
+
     private NodeFactory nodeFactory;
 
     public MessageReceiver(NodeFactory nodeFactory) {
@@ -78,6 +80,11 @@ public class MessageReceiver implements BidibMessageProcessor {
 
         // enable the running flag
         running.set(true);
+    }
+
+    public void setIgnoreWrongMessageNumber(boolean ignoreWrongMessageNumber) {
+        LOGGER.info("Set the ignoreWrongMessageNumber flag: {}", ignoreWrongMessageNumber);
+        this.ignoreWrongMessageNumber.set(ignoreWrongMessageNumber);
     }
 
     @Override
@@ -361,8 +368,9 @@ public class MessageReceiver implements BidibMessageProcessor {
 
                     // verify that the receive message number is valid
                     Node node = new Node(message.getAddr());
-                    if (nodeFactory.getNode(node).getNodeMagic() != null || message instanceof SysMagicResponse) {
-                        int numExpected = nodeFactory.getNode(node).getNextReceiveMsgNum(message);
+                    BidibNode bidibNode = nodeFactory.getNode(node);
+                    if (bidibNode.getNodeMagic() != null || message instanceof SysMagicResponse) {
+                        int numExpected = bidibNode.getNextReceiveMsgNum(message);
                         int numReceived = message.getNum();
                         LOGGER.trace("Compare the message numbers, expected: {}, received: {}", numExpected,
                             numReceived);
@@ -370,8 +378,17 @@ public class MessageReceiver implements BidibMessageProcessor {
 
                             LOGGER.warn("Received wrong message number for message: {}, expected: {}, node: {}",
                                 new Object[] { message, numExpected, node });
-                            throw new ProtocolException("wrong message number: expected " + numExpected + " but got "
-                                + numReceived);
+
+                            if (!ignoreWrongMessageNumber.get()) {
+                                throw new ProtocolException("wrong message number: expected " + numExpected
+                                    + " but got " + numReceived);
+                            }
+                            else {
+                                LOGGER
+                                    .info("Wrong receive message number is ignored due to preferences. The value is adjusted to the next expected number.");
+
+                                bidibNode.adjustReceiveMsgNum(numReceived);
+                            }
                         }
                     }
                     else {

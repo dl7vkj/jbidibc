@@ -26,6 +26,7 @@ import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.core.AbstractBidib;
 import org.bidib.jbidibc.core.BidibMessageProcessor;
+import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.exception.NoAnswerException;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
@@ -199,8 +200,8 @@ public final class Bidib extends AbstractBidib {
 
     }
 
-    private SerialPort internalOpen(CommPortIdentifier commPort, int baudRate) throws PortInUseException,
-        UnsupportedCommOperationException, TooManyListenersException {
+    private SerialPort internalOpen(CommPortIdentifier commPort, int baudRate, Context context)
+        throws PortInUseException, UnsupportedCommOperationException, TooManyListenersException {
 
         // open the port
         SerialPort serialPort = (SerialPort) commPort.open(Bidib.class.getName(), 2000);
@@ -226,6 +227,11 @@ public final class Bidib extends AbstractBidib {
 
         // react on port removed ...
         serialPort.notifyOnCTS(true);
+
+        if (context != null) {
+            Boolean ignoreWrongMessageNumber = context.get("ignoreWrongMessageNumber", Boolean.class, Boolean.FALSE);
+            getSerialMessageReceiver().setIgnoreWrongMessageNumber(ignoreWrongMessageNumber);
+        }
 
         // enable the message receiver before the event listener is added
         getSerialMessageReceiver().enable();
@@ -297,8 +303,8 @@ public final class Bidib extends AbstractBidib {
     @Override
     public void open(
         String portName, ConnectionListener connectionListener, Set<NodeListener> nodeListeners,
-        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) throws PortNotFoundException,
-        PortNotOpenedException {
+        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners, Context context)
+        throws PortNotFoundException, PortNotOpenedException {
 
         setConnectionListener(connectionListener);
 
@@ -341,7 +347,7 @@ public final class Bidib extends AbstractBidib {
                 try {
                     // 115200 Baud
                     close();
-                    port = internalOpen(commPort, 115200);
+                    port = internalOpen(commPort, 115200, context);
                     LOGGER.info("The port was opened internally, get the magic.");
                     sendMagic();
                 }
@@ -369,7 +375,7 @@ public final class Bidib extends AbstractBidib {
                     try {
                         // 19200 Baud
                         close();
-                        port = internalOpen(commPort, 19200);
+                        port = internalOpen(commPort, 19200, context);
                         sendMagic();
                     }
                     catch (Exception e3) {

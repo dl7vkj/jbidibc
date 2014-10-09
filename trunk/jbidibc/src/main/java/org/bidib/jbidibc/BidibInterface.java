@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.bidib.jbidibc.core.BidibMessageProcessor;
+import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.node.AccessoryNode;
@@ -81,6 +82,8 @@ public interface BidibInterface {
      *            the message listeners
      * @param transferListeners
      *            the transfer listeners
+     * @param context
+     *            the context
      * @throws PortNotFoundException
      *             thrown if the port is not found in the system
      * @throws PortNotOpenedException
@@ -88,8 +91,8 @@ public interface BidibInterface {
      */
     void open(
         String portName, ConnectionListener connectionListener, Set<NodeListener> nodeListeners,
-        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) throws PortNotFoundException,
-        PortNotOpenedException;
+        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners, final Context context)
+        throws PortNotFoundException, PortNotOpenedException;
 
     /**
      * @return returns if the port is opened

@@ -14,6 +14,7 @@ import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.core.AbstractBidib;
 import org.bidib.jbidibc.core.BidibMessageProcessor;
+import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.exception.ProtocolException;
@@ -82,8 +83,8 @@ public class NetBidib extends AbstractBidib {
     @Override
     public void open(
         String portName, ConnectionListener connectionListener, Set<NodeListener> nodeListeners,
-        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) throws PortNotFoundException,
-        PortNotOpenedException {
+        Set<MessageListener> messageListeners, Set<TransferListener> transferListeners, final Context context)
+        throws PortNotFoundException, PortNotOpenedException {
 
         LOGGER.info("Open port: {}", portName);
 
@@ -105,7 +106,7 @@ public class NetBidib extends AbstractBidib {
 
             try {
                 close();
-                port = internalOpen(portName);
+                port = internalOpen(portName, context);
                 connectedPortName = portName;
 
                 LOGGER.info("Port is opened, send the magic. The connected port is: {}", connectedPortName);
@@ -122,7 +123,8 @@ public class NetBidib extends AbstractBidib {
         }
     }
 
-    private NetBidibPort internalOpen(String portName) throws SocketException, UnknownHostException {
+    private NetBidibPort internalOpen(String portName, final Context context) throws SocketException,
+        UnknownHostException {
 
         String[] hostAndPort = portName.split(":");
 
@@ -130,6 +132,11 @@ public class NetBidib extends AbstractBidib {
         portNumber = Integer.parseInt(hostAndPort[1]);
 
         LOGGER.info("Configured address: {}, portNumber: {}", address, portNumber);
+
+        if (context != null) {
+            Boolean ignoreWrongMessageNumber = context.get("ignoreWrongMessageNumber", Boolean.class, Boolean.FALSE);
+            getNetMessageReceiver().setIgnoreWrongMessageNumber(ignoreWrongMessageNumber);
+        }
 
         // enable the message receiver before the event listener is added
         getNetMessageReceiver().enable();

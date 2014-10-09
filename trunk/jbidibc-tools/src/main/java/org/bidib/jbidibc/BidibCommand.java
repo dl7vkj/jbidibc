@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
 import org.bidib.jbidibc.node.listener.TransferListener;
@@ -37,7 +38,7 @@ public abstract class BidibCommand {
         SysOutOverSLF4J.sendSystemOutAndErrToSLF4J(LogLevel.INFO, LogLevel.WARN);
     }
 
-    protected void openPort(String portName) throws PortNotFoundException, PortNotOpenedException {
+    protected void openPort(String portName, Context context) throws PortNotFoundException, PortNotOpenedException {
 
         transferListeners.add(new TransferListener() {
 
@@ -66,7 +67,7 @@ public abstract class BidibCommand {
             @Override
             public void closed(String port) {
             }
-        }, Collections.<NodeListener> emptySet(), Collections.<MessageListener> emptySet(), transferListeners);
+        }, Collections.<NodeListener> emptySet(), Collections.<MessageListener> emptySet(), transferListeners, context);
     }
 
     /**

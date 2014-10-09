@@ -65,11 +65,10 @@ public class NetBidibTest {
 
             @Override
             public void closed(String port) {
-                // TODO Auto-generated method stub
                 LOGGER.info("The port was closed: {}", port);
             }
         }, Collections.<NodeListener> emptySet(), Collections.<MessageListener> emptySet(),
-            Collections.<TransferListener> emptySet());
+            Collections.<TransferListener> emptySet(), null);
 
         Assert.assertNotNull(netBidib.getRootNode());
         Assert.assertEquals(netBidib.getRootNode().getNodeMagic(), Integer.valueOf(BidibLibrary.BIDIB_SYS_MAGIC));
