@@ -305,7 +305,7 @@ public class BidibNode {
         LOGGER.warn("The receive message number is adjusted on request: {}", newReceiveMsgNum);
         try {
             nextReceiveMsgNumSemaphore.acquire();
-            nextReceiveMsgNum = newReceiveMsgNum + 1;
+            nextReceiveMsgNum = newReceiveMsgNum;
             if (nextReceiveMsgNum > 255) {
                 nextReceiveMsgNum = 1;
             }
