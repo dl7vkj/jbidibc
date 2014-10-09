@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -35,6 +36,8 @@ public class SimulatorRegistry {
     private static SimulatorRegistry INSTANCE;
 
     private Map<String, SimulatorNode> simulators;
+
+    private AtomicInteger nodeTabVersion = new AtomicInteger(0);
 
     private SimulatorRegistry() {
         LOGGER.info("Create instance of SimulatorRegistry.");
@@ -244,5 +247,27 @@ public class SimulatorRegistry {
             LOGGER.warn("Create simulator failed.", ex);
         }
         return null;
+    }
+
+    /**
+     * @return the nodeTabVersion
+     */
+    public int getNextNodeTabVersion() {
+        synchronized (nodeTabVersion) {
+            int nextNodeTabVersion = nodeTabVersion.incrementAndGet();
+            if (nextNodeTabVersion > 100) {
+                nodeTabVersion.set(0);
+                nextNodeTabVersion = nodeTabVersion.incrementAndGet();
+            }
+            return nextNodeTabVersion;
+        }
+    }
+
+    /**
+     * @param nodeTabVersion
+     *            the nodeTabVersion to set
+     */
+    public void setNodeTabVersion(int nodeTabVersion) {
+        this.nodeTabVersion.set(nodeTabVersion);
     }
 }

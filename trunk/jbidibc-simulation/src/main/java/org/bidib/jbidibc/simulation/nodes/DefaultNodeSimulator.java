@@ -426,6 +426,8 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
         byte[] response = null;
         try {
+            LOGGER.info("Reset the sendNum because the SYS_MAGIC is tranferred with 0.");
+            resetSendNum();
             SysMagicResponse magicResponse =
                 new SysMagicResponse(bidibMessage.getAddr(), getNextSendNum(), (byte) 0xFE, (byte) 0xAF);
             response = magicResponse.getContent();
@@ -854,17 +856,17 @@ public class DefaultNodeSimulator implements SimulatorNode {
         LOGGER.info("Process the reset request, bidibMessage: {}", bidibMessage);
         resetSendNum();
 
-        final byte localNodeAddr = nodeAddress[nodeAddress.length - 1];
+        final byte[] oldNodeAddress = nodeAddress;
 
         LOGGER.info("Notify the parent that we have gone, address: {}, uniqueId: {}", getLocalAddress(), uniqueId);
         // notify the master that we're gone
-        EventBus.publish(new NodeLostEvent(localNodeAddr, uniqueId));
+        EventBus.publish(new NodeLostEvent(nodeAddress, uniqueId));
 
         // send the node available event after 1 second
         availableAfterResetWorker.schedule(new Runnable() {
             @Override
             public void run() {
-                NodeAvailableEvent nodeAvailableEvent = new NodeAvailableEvent(localNodeAddr, uniqueId);
+                NodeAvailableEvent nodeAvailableEvent = new NodeAvailableEvent(oldNodeAddress, uniqueId);
                 LOGGER.info("Send NodeAvailableEvent: {}", nodeAvailableEvent);
                 EventBus.publish(nodeAvailableEvent);
 
@@ -875,6 +877,7 @@ public class DefaultNodeSimulator implements SimulatorNode {
     }
 
     protected void resetSendNum() {
+        LOGGER.info("Reset the sendNum to 0.");
         sendNum = 0;
     }
 

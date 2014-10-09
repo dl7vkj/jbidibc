@@ -4,16 +4,16 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 public class NodeLostEvent {
 
-    private final byte nodeAddr;
+    private final byte[] nodeAddr;
 
     private final long uniqueId;
 
-    public NodeLostEvent(byte nodeAddr, long uniqueId) {
+    public NodeLostEvent(byte[] nodeAddr, long uniqueId) {
         this.nodeAddr = nodeAddr;
         this.uniqueId = uniqueId;
     }
 
-    public byte getNodeAddr() {
+    public byte[] getNodeAddr() {
         return nodeAddr;
     }
 

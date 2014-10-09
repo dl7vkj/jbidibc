@@ -250,6 +250,30 @@ public class NodeUtils {
         return false;
     }
 
+    public static boolean isSubNode(byte[] parentAddress, byte[] nodeAddress) {
+
+        // check if the nodes are equal
+        if (Arrays.equals(parentAddress, nodeAddress)) {
+            return false;
+        }
+
+        if (parentAddress.length == 1 && parentAddress[0] == 0) {
+            // interface node needs special processing
+            parentAddress = new byte[0];
+        }
+
+        if (nodeAddress.length == (parentAddress.length + 1)) {
+            byte[] compareAddress = new byte[parentAddress.length];
+            System.arraycopy(nodeAddress, 0, compareAddress, 0, parentAddress.length);
+
+            if (Arrays.equals(parentAddress, compareAddress)) {
+                LOGGER.debug("The current node is a subnode: {}, parent: {}", nodeAddress, parentAddress);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * Create a new node based on the parent address and the received data.
      * 

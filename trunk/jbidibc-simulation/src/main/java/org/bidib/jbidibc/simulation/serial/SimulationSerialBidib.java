@@ -34,11 +34,7 @@ import org.slf4j.LoggerFactory;
 public class SimulationSerialBidib extends AbstractBidib implements SimulationInterface {
     private static final Logger LOGGER = LoggerFactory.getLogger(SimulationSerialBidib.class);
 
-    // private BidibMessageProcessor messageReceiver;
-
-    // private BidibMessageProcessor getMessageReceiver() {
-    // return messageReceiver;
-    // }
+    private SimulationBidibMessageProcessor simulationMessageReceiver;
 
     private String requestedPortName;
 
@@ -56,36 +52,38 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
     public void start(String simulationConfigurationLocation) {
         LOGGER.info("Start the simulator, simulationConfigurationLocation: {}", simulationConfigurationLocation);
 
-        // TODO load the SimulatorRegistry with the simulation configuration
+        // load the SimulatorRegistry with the simulation configuration
         SimulatorRegistry.getInstance().removeAll();
 
-        // String path = getClass().getResourceAsStream(simulationConfigurationLocation);
-        // File simulationConfiguration = new File(path);
         InputStream simulationConfiguration = getClass().getResourceAsStream(simulationConfigurationLocation);
         SimulatorRegistry.getInstance().loadSimulationConfiguration(simulationConfiguration,
             (SimulationBidibMessageProcessor) this.getSimulationMessageReceiver());
     }
 
     private SimulationBidibMessageProcessor getSimulationMessageReceiver() {
-        return new SimulationMessageReceiver() {
-            @Override
-            public void publishResponse(ByteArrayOutputStream output) throws ProtocolException {
-                LOGGER.info("Publish the response from the SimulationMessageReceiver to the messageReceiver.");
 
-                getMessageReceiver().processMessages(output);
-            }
+        if (simulationMessageReceiver == null) {
+            simulationMessageReceiver = new SimulationMessageReceiver() {
+                @Override
+                public void publishResponse(ByteArrayOutputStream output) throws ProtocolException {
+                    LOGGER.info("Publish the response from the SimulationMessageReceiver to the messageReceiver.");
 
-            @Override
-            public void removeNodeListener(NodeListener nodeListener) {
-                getMessageReceiver().removeNodeListener(nodeListener);
-            }
+                    getMessageReceiver().processMessages(output);
+                }
 
-            @Override
-            public void setIgnoreWrongMessageNumber(boolean ignoreWrongMessageNumber) {
-                // TODO Auto-generated method stub
+                @Override
+                public void removeNodeListener(NodeListener nodeListener) {
+                    getMessageReceiver().removeNodeListener(nodeListener);
+                }
 
-            }
-        };
+                @Override
+                public void setIgnoreWrongMessageNumber(boolean ignoreWrongMessageNumber) {
+                    LOGGER.info("Set ignoreWrongMessageNumber: {}", ignoreWrongMessageNumber);
+                    getMessageReceiver().setIgnoreWrongMessageNumber(ignoreWrongMessageNumber);
+                }
+            };
+        }
+        return simulationMessageReceiver;
     }
 
     @Override
@@ -129,6 +127,13 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
         LOGGER.info("Open the serial simulation.");
         setConnectionListener(connectionListener);
         registerListeners(nodeListeners, messageListeners, transferListeners);
+
+        if (context != null) {
+            Boolean ignoreWrongMessageNumber =
+                context.get("ignoreWrongReceiveMessageNumber", Boolean.class, Boolean.FALSE);
+            getSimulationMessageReceiver().setIgnoreWrongMessageNumber(ignoreWrongMessageNumber);
+        }
+
     }
 
     @Override
@@ -152,6 +157,9 @@ public class SimulationSerialBidib extends AbstractBidib implements SimulationIn
         // if (simulationInterface != null) {
         // simulationInterface.stop();
         // }
+
+        // release the simulation message receiver
+        simulationMessageReceiver = null;
 
         // remove all simulators from the simulation registry
         SimulatorRegistry.getInstance().removeAll();
