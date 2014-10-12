@@ -5,7 +5,6 @@ import java.util.BitSet;
 
 import org.bidib.jbidibc.AddressData;
 import org.bidib.jbidibc.MessageListener;
-import org.bidib.jbidibc.core.DefaultMessageListener;
 import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
 import org.bidib.jbidibc.enumeration.ActivateCoilEnum;
 import org.bidib.jbidibc.enumeration.AddressTypeEnum;
@@ -19,6 +18,7 @@ import org.bidib.jbidibc.enumeration.SpeedStepsEnum;
 import org.bidib.jbidibc.enumeration.TimeBaseUnitEnum;
 import org.bidib.jbidibc.enumeration.TimingControlEnum;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.helpers.DefaultMessageListener;
 import org.bidib.jbidibc.message.BidibCommand;
 import org.bidib.jbidibc.message.BidibMessage;
 import org.bidib.jbidibc.message.CommandStationBinaryStateMessage;

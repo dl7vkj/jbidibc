@@ -6,8 +6,8 @@ import java.net.DatagramPacket;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.helpers.BidibMessageProcessor;
 import org.bidib.jbidibc.net.BidibNetAddress;
 import org.bidib.jbidibc.net.NetBidibPort;
 import org.bidib.jbidibc.net.NetMessageHandler;

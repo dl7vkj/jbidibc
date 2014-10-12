@@ -4,9 +4,9 @@ import java.util.Collections;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
+import org.bidib.jbidibc.helpers.Context;
 import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.serial.Bidib;
 import org.slf4j.Logger;

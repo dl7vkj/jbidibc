@@ -1,9 +1,9 @@
 package org.bidib.jbidibc.node;
 
 import org.bidib.jbidibc.MessageListener;
-import org.bidib.jbidibc.core.DefaultMessageListener;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.helpers.DefaultMessageListener;
 import org.bidib.jbidibc.message.BoostOffMessage;
 import org.bidib.jbidibc.message.BoostOnMessage;
 import org.bidib.jbidibc.message.BoostQueryMessage;

@@ -1,4 +1,4 @@
-package org.bidib.jbidibc.core;
+package org.bidib.jbidibc.helpers;
 
 import java.util.LinkedHashMap;
 import java.util.Map;

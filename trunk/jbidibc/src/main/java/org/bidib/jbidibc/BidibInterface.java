@@ -3,10 +3,10 @@ package org.bidib.jbidibc;
 import java.util.List;
 import java.util.Set;
 
-import org.bidib.jbidibc.core.BidibMessageProcessor;
-import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
+import org.bidib.jbidibc.helpers.BidibMessageProcessor;
+import org.bidib.jbidibc.helpers.Context;
 import org.bidib.jbidibc.node.AccessoryNode;
 import org.bidib.jbidibc.node.BidibNode;
 import org.bidib.jbidibc.node.BoosterNode;

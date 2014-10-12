@@ -6,9 +6,9 @@ import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
 import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.NodeListener;
-import org.bidib.jbidibc.core.Context;
 import org.bidib.jbidibc.exception.PortNotFoundException;
 import org.bidib.jbidibc.exception.PortNotOpenedException;
+import org.bidib.jbidibc.helpers.Context;
 import org.bidib.jbidibc.node.listener.TransferListener;
 
 public interface SimulationInterface extends BidibInterface {

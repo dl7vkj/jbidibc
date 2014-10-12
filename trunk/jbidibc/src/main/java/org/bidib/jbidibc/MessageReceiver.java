@@ -8,7 +8,6 @@ import java.util.LinkedList;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.enumeration.BoosterState;
 import org.bidib.jbidibc.enumeration.CommandStationProgState;
 import org.bidib.jbidibc.enumeration.CommandStationState;
@@ -16,6 +15,7 @@ import org.bidib.jbidibc.enumeration.IdentifyState;
 import org.bidib.jbidibc.enumeration.LcOutputType;
 import org.bidib.jbidibc.exception.NodeAlreadyRegisteredException;
 import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.helpers.BidibMessageProcessor;
 import org.bidib.jbidibc.message.AccessoryNotifyResponse;
 import org.bidib.jbidibc.message.AccessoryStateResponse;
 import org.bidib.jbidibc.message.BidibMessage;
