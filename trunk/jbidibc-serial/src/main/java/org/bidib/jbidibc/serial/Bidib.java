@@ -21,7 +21,6 @@ import java.util.concurrent.Semaphore;
 
 import org.bidib.jbidibc.BidibInterface;
 import org.bidib.jbidibc.ConnectionListener;
-import org.bidib.jbidibc.LogFileAnalyzer;
 import org.bidib.jbidibc.MessageListener;
 import org.bidib.jbidibc.NodeListener;
 import org.bidib.jbidibc.core.AbstractBidib;
@@ -36,6 +35,7 @@ import org.bidib.jbidibc.node.NodeFactory;
 import org.bidib.jbidibc.node.listener.TransferListener;
 import org.bidib.jbidibc.serial.exception.InvalidLibraryException;
 import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.utils.LogFileAnalyzer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

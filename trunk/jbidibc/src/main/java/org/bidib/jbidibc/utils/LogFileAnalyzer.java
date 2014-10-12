@@ -1,4 +1,4 @@
-package org.bidib.jbidibc;
+package org.bidib.jbidibc.utils;
 
 import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
@@ -11,14 +11,11 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Locale;
 
+import org.bidib.jbidibc.BidibLibrary;
+import org.bidib.jbidibc.MessageReceiver;
 import org.bidib.jbidibc.exception.ProtocolException;
 import org.bidib.jbidibc.message.BidibMessage;
-import org.bidib.jbidibc.message.BoostStatResponse;
-import org.bidib.jbidibc.message.FeedbackAddressResponse;
-import org.bidib.jbidibc.message.FeedbackConfidenceResponse;
-import org.bidib.jbidibc.message.FeedbackSpeedResponse;
 import org.bidib.jbidibc.message.ResponseFactory;
-import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -77,28 +74,36 @@ public class LogFileAnalyzer {
                             Thread.sleep(5000);
                         }
 
-                        LOGGER.info("message: " + message.message);
-
-                        if (message.message instanceof BoostStatResponse) {
-                            messageReceiver.fireBoosterState(message.message.getAddr(),
-                                ((BoostStatResponse) message.message).getState());
+                        LOGGER.info("message: {}", message.message);
+                        try {
+                            byte[] content = message.message.getContent();
+                            ByteArrayOutputStream output = new ByteArrayOutputStream();
+                            output.write(content);
+                            messageReceiver.processMessages(output);
                         }
-                        else if (message.message instanceof FeedbackAddressResponse) {
-                            messageReceiver.fireAddress(message.message.getAddr(),
-                                ((FeedbackAddressResponse) message.message).getDetectorNumber(),
-                                ((FeedbackAddressResponse) message.message).getAddresses());
+                        catch (IOException | ProtocolException ex) {
+                            LOGGER.warn("Process message failed.", ex);
                         }
-                        else if (message.message instanceof FeedbackConfidenceResponse) {
-                            messageReceiver.fireConfidence(message.message.getAddr(),
-                                ((FeedbackConfidenceResponse) message.message).getValid(),
-                                ((FeedbackConfidenceResponse) message.message).getFreeze(),
-                                ((FeedbackConfidenceResponse) message.message).getSignal());
-                        }
-                        else if (message.message instanceof FeedbackSpeedResponse) {
-                            messageReceiver.fireSpeed(message.message.getAddr(),
-                                ((FeedbackSpeedResponse) message.message).getAddress(),
-                                ((FeedbackSpeedResponse) message.message).getSpeed());
-                        }
+                        // if (message.message instanceof BoostStatResponse) {
+                        // messageReceiver.fireBoosterState(message.message.getAddr(),
+                        // ((BoostStatResponse) message.message).getState());
+                        // }
+                        // else if (message.message instanceof FeedbackAddressResponse) {
+                        // messageReceiver.fireAddress(message.message.getAddr(),
+                        // ((FeedbackAddressResponse) message.message).getDetectorNumber(),
+                        // ((FeedbackAddressResponse) message.message).getAddresses());
+                        // }
+                        // else if (message.message instanceof FeedbackConfidenceResponse) {
+                        // messageReceiver.fireConfidence(message.message.getAddr(),
+                        // ((FeedbackConfidenceResponse) message.message).getValid(),
+                        // ((FeedbackConfidenceResponse) message.message).getFreeze(),
+                        // ((FeedbackConfidenceResponse) message.message).getSignal());
+                        // }
+                        // else if (message.message instanceof FeedbackSpeedResponse) {
+                        // messageReceiver.fireSpeed(message.message.getAddr(),
+                        // ((FeedbackSpeedResponse) message.message).getAddress(),
+                        // ((FeedbackSpeedResponse) message.message).getSpeed());
+                        // }
                         previousMessage = message;
                     }
                     LOGGER.info("no more messages to fire");
