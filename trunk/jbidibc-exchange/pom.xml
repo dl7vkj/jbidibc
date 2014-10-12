@@ -93,6 +93,7 @@
                         <configuration>
                             <arguments>-extension -Xcommons-lang -Xfluent-api</arguments>
                             <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
+                            <bindingFiles>bindings.xjb</bindingFiles>
                         </configuration>
                     </execution>
                 </executions>
@@ -155,6 +156,7 @@
                         <configuration>
                             <sources>
                                 <source>${project.build.directory}/generated-resources/xml/</source>
+                                <source>${project.basedir}/src/main/xjb/</source>
                             </sources>
                         </configuration>
                     </execution>

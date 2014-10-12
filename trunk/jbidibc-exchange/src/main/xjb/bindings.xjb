@@ -1,0 +1,33 @@
+<jxb:bindings version="1.0" 
+  xmlns:jxb="http://java.sun.com/xml/ns/jaxb" 
+  xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+  xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
+  jxb:extensionBindingPrefixes="xjc">
+
+    <jxb:bindings schemaLocation="../resources/xsd/bidib.xsd" node="/xs:schema">
+        <jxb:schemaBindings>
+            <jxb:package name="org.bidib.jbidibc.exchange.bidib"></jxb:package>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+    <jxb:bindings schemaLocation="../resources/xsd/vendor_cv.xsd" node="/xs:schema">
+        <jxb:schemaBindings>
+            <jxb:package name="org.bidib.jbidibc.exchange.vendorcv"></jxb:package>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+    <jxb:bindings schemaLocation="../resources/xsd/dmxsceneries.xsd" node="/xs:schema">
+        <jxb:schemaBindings>
+            <jxb:package name="org.bidib.jbidibc.exchange.dmxscenery"></jxb:package>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+    <jxb:bindings schemaLocation="../resources/xsd/macros.xsd" node="/xs:schema">
+        <jxb:schemaBindings>
+            <jxb:package name="org.bidib.jbidibc.exchange.lcmacro"></jxb:package>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+    <jxb:bindings schemaLocation="../resources/xsd/firmware.xsd" node="/xs:schema">
+        <jxb:schemaBindings>
+            <jxb:package name="org.bidib.jbidibc.exchange.firmware"></jxb:package>
+        </jxb:schemaBindings>
+    </jxb:bindings>
+
+</jxb:bindings>
