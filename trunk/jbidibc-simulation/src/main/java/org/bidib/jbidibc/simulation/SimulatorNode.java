@@ -1,7 +1,7 @@
 package org.bidib.jbidibc.simulation;
 
-import org.bidib.jbidibc.Feature;
-import org.bidib.jbidibc.message.BidibCommand;
+import org.bidib.jbidibc.core.Feature;
+import org.bidib.jbidibc.core.message.BidibCommand;
 import org.bidib.jbidibc.simulation.nodes.FeaturesType;
 
 public interface SimulatorNode {

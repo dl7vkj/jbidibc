@@ -6,15 +6,15 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.concurrent.BlockingQueue;
 
-import org.bidib.jbidibc.MessageListener;
-import org.bidib.jbidibc.Node;
-import org.bidib.jbidibc.enumeration.BoosterState;
-import org.bidib.jbidibc.enumeration.SysErrorEnum;
-import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.message.BidibMessage;
-import org.bidib.jbidibc.message.ResponseFactory;
-import org.bidib.jbidibc.node.BidibNode;
-import org.bidib.jbidibc.node.NodeFactory;
+import org.bidib.jbidibc.core.MessageListener;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.enumeration.BoosterState;
+import org.bidib.jbidibc.core.enumeration.SysErrorEnum;
+import org.bidib.jbidibc.core.exception.ProtocolException;
+import org.bidib.jbidibc.core.message.BidibMessage;
+import org.bidib.jbidibc.core.message.ResponseFactory;
+import org.bidib.jbidibc.core.node.BidibNode;
+import org.bidib.jbidibc.core.node.NodeFactory;
 import org.mockito.Mockito;
 import org.testng.annotations.Test;
 

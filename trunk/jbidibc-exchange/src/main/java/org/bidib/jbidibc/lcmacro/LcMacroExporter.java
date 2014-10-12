@@ -17,16 +17,16 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.bidib.jbidibc.LcMacro;
-import org.bidib.jbidibc.enumeration.AnalogPortEnum;
-import org.bidib.jbidibc.enumeration.BacklightPortEnum;
-import org.bidib.jbidibc.enumeration.BidibEnum;
-import org.bidib.jbidibc.enumeration.LightPortEnum;
-import org.bidib.jbidibc.enumeration.MotorPortEnum;
-import org.bidib.jbidibc.enumeration.ServoPortEnum;
-import org.bidib.jbidibc.enumeration.SoundPortEnum;
-import org.bidib.jbidibc.enumeration.SwitchPortEnum;
-import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.core.LcMacro;
+import org.bidib.jbidibc.core.enumeration.AnalogPortEnum;
+import org.bidib.jbidibc.core.enumeration.BacklightPortEnum;
+import org.bidib.jbidibc.core.enumeration.BidibEnum;
+import org.bidib.jbidibc.core.enumeration.LightPortEnum;
+import org.bidib.jbidibc.core.enumeration.MotorPortEnum;
+import org.bidib.jbidibc.core.enumeration.ServoPortEnum;
+import org.bidib.jbidibc.core.enumeration.SoundPortEnum;
+import org.bidib.jbidibc.core.enumeration.SwitchPortEnum;
+import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,8 +1,9 @@
 package org.bidib.jbidibc;
 
-import org.bidib.jbidibc.enumeration.LcMacroOperationCode;
-import org.bidib.jbidibc.exception.PortNotFoundException;
-import org.bidib.jbidibc.node.AccessoryNode;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.enumeration.LcMacroOperationCode;
+import org.bidib.jbidibc.core.exception.PortNotFoundException;
+import org.bidib.jbidibc.core.node.AccessoryNode;
 import org.bidib.jbidibc.serial.Bidib;
 
 import com.beust.jcommander.Parameter;

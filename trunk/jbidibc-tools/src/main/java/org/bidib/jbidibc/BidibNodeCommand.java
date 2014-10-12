@@ -3,8 +3,11 @@
  */
 package org.bidib.jbidibc;
 
-import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.node.BidibNode;
+import org.bidib.jbidibc.core.BidibLibrary;
+import org.bidib.jbidibc.core.Feature;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.exception.ProtocolException;
+import org.bidib.jbidibc.core.node.BidibNode;
 import org.bidib.jbidibc.serial.Bidib;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

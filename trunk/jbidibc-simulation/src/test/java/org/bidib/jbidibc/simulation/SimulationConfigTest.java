@@ -12,14 +12,14 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.bidib.jbidibc.core.utils.ByteUtils;
+import org.bidib.jbidibc.core.utils.NodeUtils;
 import org.bidib.jbidibc.simulation.nodes.BacklightPortParamsType;
 import org.bidib.jbidibc.simulation.nodes.HubType;
 import org.bidib.jbidibc.simulation.nodes.LightPortParamsType;
 import org.bidib.jbidibc.simulation.nodes.MasterType;
 import org.bidib.jbidibc.simulation.nodes.NodeType;
 import org.bidib.jbidibc.simulation.nodes.Simulation;
-import org.bidib.jbidibc.utils.ByteUtils;
-import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;

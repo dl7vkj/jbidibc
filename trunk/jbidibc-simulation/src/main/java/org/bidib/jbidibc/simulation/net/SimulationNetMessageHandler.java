@@ -6,12 +6,12 @@ import java.net.DatagramPacket;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.helpers.BidibMessageProcessor;
+import org.bidib.jbidibc.core.exception.ProtocolException;
+import org.bidib.jbidibc.core.helpers.BidibMessageProcessor;
+import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.bidib.jbidibc.net.BidibNetAddress;
 import org.bidib.jbidibc.net.NetBidibPort;
 import org.bidib.jbidibc.net.NetMessageHandler;
-import org.bidib.jbidibc.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

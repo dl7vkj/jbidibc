@@ -6,8 +6,8 @@ import java.net.DatagramSocket;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.bidib.jbidibc.NodeListener;
-import org.bidib.jbidibc.exception.ProtocolException;
+import org.bidib.jbidibc.core.NodeListener;
+import org.bidib.jbidibc.core.exception.ProtocolException;
 import org.bidib.jbidibc.net.NetBidib;
 import org.bidib.jbidibc.net.NetBidibPort;
 import org.bidib.jbidibc.net.NetMessageHandler;

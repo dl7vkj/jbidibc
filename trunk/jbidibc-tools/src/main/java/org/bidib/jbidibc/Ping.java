@@ -2,8 +2,9 @@ package org.bidib.jbidibc;
 
 import java.util.Arrays;
 
-import org.bidib.jbidibc.exception.PortNotFoundException;
-import org.bidib.jbidibc.node.BidibNode;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.exception.PortNotFoundException;
+import org.bidib.jbidibc.core.node.BidibNode;
 import org.bidib.jbidibc.serial.Bidib;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

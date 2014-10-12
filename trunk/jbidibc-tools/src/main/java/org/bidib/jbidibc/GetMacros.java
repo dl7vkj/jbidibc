@@ -1,8 +1,12 @@
 package org.bidib.jbidibc;
 
-import org.bidib.jbidibc.enumeration.LcOutputType;
-import org.bidib.jbidibc.exception.PortNotFoundException;
-import org.bidib.jbidibc.node.AccessoryNode;
+import org.bidib.jbidibc.core.BidibLibrary;
+import org.bidib.jbidibc.core.Feature;
+import org.bidib.jbidibc.core.LcMacro;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.enumeration.LcOutputType;
+import org.bidib.jbidibc.core.exception.PortNotFoundException;
+import org.bidib.jbidibc.core.node.AccessoryNode;
 import org.bidib.jbidibc.serial.Bidib;
 
 import com.beust.jcommander.Parameters;

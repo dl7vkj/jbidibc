@@ -18,8 +18,8 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.bidib.jbidibc.Node;
-import org.bidib.jbidibc.utils.NodeUtils;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.Document;

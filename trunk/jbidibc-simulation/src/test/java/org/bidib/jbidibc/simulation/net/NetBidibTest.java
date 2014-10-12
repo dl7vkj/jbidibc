@@ -2,15 +2,15 @@ package org.bidib.jbidibc.simulation.net;
 
 import java.util.Collections;
 
-import org.bidib.jbidibc.BidibInterface;
-import org.bidib.jbidibc.BidibLibrary;
-import org.bidib.jbidibc.ConnectionListener;
-import org.bidib.jbidibc.MessageListener;
-import org.bidib.jbidibc.NodeListener;
-import org.bidib.jbidibc.exception.PortNotFoundException;
-import org.bidib.jbidibc.exception.PortNotOpenedException;
+import org.bidib.jbidibc.core.BidibInterface;
+import org.bidib.jbidibc.core.BidibLibrary;
+import org.bidib.jbidibc.core.ConnectionListener;
+import org.bidib.jbidibc.core.MessageListener;
+import org.bidib.jbidibc.core.NodeListener;
+import org.bidib.jbidibc.core.exception.PortNotFoundException;
+import org.bidib.jbidibc.core.exception.PortNotOpenedException;
+import org.bidib.jbidibc.core.node.listener.TransferListener;
 import org.bidib.jbidibc.net.NetBidib;
-import org.bidib.jbidibc.node.listener.TransferListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;

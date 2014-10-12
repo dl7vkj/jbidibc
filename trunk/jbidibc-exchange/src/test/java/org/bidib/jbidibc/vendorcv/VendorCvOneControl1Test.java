@@ -14,7 +14,7 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.commons.lang.StringUtils;
-import org.bidib.jbidibc.Node;
+import org.bidib.jbidibc.core.Node;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;

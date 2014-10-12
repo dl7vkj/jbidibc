@@ -3,14 +3,14 @@ package org.bidib.jbidibc.simulation.net;
 import java.io.ByteArrayOutputStream;
 import java.util.List;
 
-import org.bidib.jbidibc.MessageListener;
-import org.bidib.jbidibc.NodeListener;
-import org.bidib.jbidibc.exception.ProtocolException;
-import org.bidib.jbidibc.message.BidibCommand;
-import org.bidib.jbidibc.message.RequestFactory;
+import org.bidib.jbidibc.core.MessageListener;
+import org.bidib.jbidibc.core.NodeListener;
+import org.bidib.jbidibc.core.exception.ProtocolException;
+import org.bidib.jbidibc.core.message.BidibCommand;
+import org.bidib.jbidibc.core.message.RequestFactory;
+import org.bidib.jbidibc.core.utils.NodeUtils;
 import org.bidib.jbidibc.simulation.SimulatorNode;
 import org.bidib.jbidibc.simulation.SimulatorRegistry;
-import org.bidib.jbidibc.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
-import org.bidib.jbidibc.exception.PortNotFoundException;
-import org.bidib.jbidibc.node.BidibNode;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.VendorData;
+import org.bidib.jbidibc.core.exception.PortNotFoundException;
+import org.bidib.jbidibc.core.node.BidibNode;
 import org.bidib.jbidibc.serial.Bidib;
 
 import com.beust.jcommander.Parameter;

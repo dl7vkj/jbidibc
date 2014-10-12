@@ -2,14 +2,14 @@ package org.bidib.jbidibc.simulation;
 
 import java.util.Set;
 
-import org.bidib.jbidibc.BidibInterface;
-import org.bidib.jbidibc.ConnectionListener;
-import org.bidib.jbidibc.MessageListener;
-import org.bidib.jbidibc.NodeListener;
-import org.bidib.jbidibc.exception.PortNotFoundException;
-import org.bidib.jbidibc.exception.PortNotOpenedException;
-import org.bidib.jbidibc.helpers.Context;
-import org.bidib.jbidibc.node.listener.TransferListener;
+import org.bidib.jbidibc.core.BidibInterface;
+import org.bidib.jbidibc.core.ConnectionListener;
+import org.bidib.jbidibc.core.MessageListener;
+import org.bidib.jbidibc.core.NodeListener;
+import org.bidib.jbidibc.core.exception.PortNotFoundException;
+import org.bidib.jbidibc.core.exception.PortNotOpenedException;
+import org.bidib.jbidibc.core.helpers.Context;
+import org.bidib.jbidibc.core.node.listener.TransferListener;
 
 public interface SimulationInterface extends BidibInterface {
 

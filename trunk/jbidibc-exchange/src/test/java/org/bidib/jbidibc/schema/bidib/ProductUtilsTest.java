@@ -1,6 +1,6 @@
 package org.bidib.jbidibc.schema.bidib;
 
-import org.bidib.jbidibc.utils.NodeUtils;
+import org.bidib.jbidibc.core.utils.NodeUtils;
 import org.junit.Assert;
 import org.testng.annotations.Test;
 

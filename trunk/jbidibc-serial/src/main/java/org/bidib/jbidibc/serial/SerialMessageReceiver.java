@@ -5,10 +5,10 @@ import gnu.io.SerialPort;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
-import org.bidib.jbidibc.BidibLibrary;
-import org.bidib.jbidibc.MessageReceiver;
-import org.bidib.jbidibc.node.NodeFactory;
-import org.bidib.jbidibc.utils.ByteUtils;
+import org.bidib.jbidibc.core.BidibLibrary;
+import org.bidib.jbidibc.core.MessageReceiver;
+import org.bidib.jbidibc.core.node.NodeFactory;
+import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

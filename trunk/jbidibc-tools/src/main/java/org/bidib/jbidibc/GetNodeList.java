@@ -1,7 +1,8 @@
 package org.bidib.jbidibc;
 
-import org.bidib.jbidibc.exception.PortNotFoundException;
-import org.bidib.jbidibc.node.BidibNode;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.exception.PortNotFoundException;
+import org.bidib.jbidibc.core.node.BidibNode;
 import org.bidib.jbidibc.serial.Bidib;
 
 import com.beust.jcommander.Parameters;

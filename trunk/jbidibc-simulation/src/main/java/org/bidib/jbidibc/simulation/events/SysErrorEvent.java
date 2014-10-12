@@ -1,6 +1,6 @@
 package org.bidib.jbidibc.simulation.events;
 
-import org.bidib.jbidibc.enumeration.SysErrorEnum;
+import org.bidib.jbidibc.core.enumeration.SysErrorEnum;
 
 public class SysErrorEvent {
 

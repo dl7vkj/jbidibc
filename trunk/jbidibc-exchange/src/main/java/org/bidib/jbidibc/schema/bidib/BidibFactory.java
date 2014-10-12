@@ -18,8 +18,8 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
-import org.bidib.jbidibc.Node;
-import org.bidib.jbidibc.utils.NodeUtils;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.utils.NodeUtils;
 import org.bidib.schema.bidib.BiDiB;
 import org.bidib.schema.bidib.MessageType;
 import org.bidib.schema.bidib.Product;

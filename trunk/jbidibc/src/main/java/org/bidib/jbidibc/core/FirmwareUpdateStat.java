@@ -1,0 +1,26 @@
+package org.bidib.jbidibc.core;
+
+import org.bidib.jbidibc.core.enumeration.FirmwareUpdateState;
+
+public class FirmwareUpdateStat {
+    private final FirmwareUpdateState state;
+
+    private final int timeout;
+
+    public FirmwareUpdateStat(FirmwareUpdateState state, int timeout) {
+        this.state = state;
+        this.timeout = timeout;
+    }
+
+    public FirmwareUpdateState getState() {
+        return state;
+    }
+
+    public int getTimeout() {
+        return timeout;
+    }
+
+    public String toString() {
+        return getClass().getSimpleName() + "[state=" + state + ",timeout=" + timeout + "]";
+    }
+}

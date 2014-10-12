@@ -1,13 +1,14 @@
 package org.bidib.jbidibc;
 
-import org.bidib.jbidibc.enumeration.AccessoryAcknowledge;
-import org.bidib.jbidibc.enumeration.ActivateCoilEnum;
-import org.bidib.jbidibc.enumeration.AddressTypeEnum;
-import org.bidib.jbidibc.enumeration.TimeBaseUnitEnum;
-import org.bidib.jbidibc.enumeration.TimingControlEnum;
-import org.bidib.jbidibc.exception.InvalidConfigurationException;
-import org.bidib.jbidibc.exception.PortNotFoundException;
-import org.bidib.jbidibc.node.CommandStationNode;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.enumeration.AccessoryAcknowledge;
+import org.bidib.jbidibc.core.enumeration.ActivateCoilEnum;
+import org.bidib.jbidibc.core.enumeration.AddressTypeEnum;
+import org.bidib.jbidibc.core.enumeration.TimeBaseUnitEnum;
+import org.bidib.jbidibc.core.enumeration.TimingControlEnum;
+import org.bidib.jbidibc.core.exception.InvalidConfigurationException;
+import org.bidib.jbidibc.core.exception.PortNotFoundException;
+import org.bidib.jbidibc.core.node.CommandStationNode;
 import org.bidib.jbidibc.serial.Bidib;
 
 import com.beust.jcommander.Parameter;
