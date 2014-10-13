@@ -5,8 +5,8 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 
+import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.core.exception.ProtocolException;
-import org.bidib.jbidibc.core.helpers.BidibMessageProcessor;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

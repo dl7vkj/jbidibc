@@ -7,7 +7,9 @@ import java.net.UnknownHostException;
 import java.util.List;
 import java.util.Set;
 
+import org.bidib.jbidibc.core.AbstractBidib;
 import org.bidib.jbidibc.core.BidibInterface;
+import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.core.ConnectionListener;
 import org.bidib.jbidibc.core.MessageListener;
 import org.bidib.jbidibc.core.MessageReceiver;
@@ -15,8 +17,6 @@ import org.bidib.jbidibc.core.NodeListener;
 import org.bidib.jbidibc.core.exception.PortNotFoundException;
 import org.bidib.jbidibc.core.exception.PortNotOpenedException;
 import org.bidib.jbidibc.core.exception.ProtocolException;
-import org.bidib.jbidibc.core.helpers.AbstractBidib;
-import org.bidib.jbidibc.core.helpers.BidibMessageProcessor;
 import org.bidib.jbidibc.core.helpers.Context;
 import org.bidib.jbidibc.core.node.BidibNode;
 import org.bidib.jbidibc.core.node.NodeFactory;

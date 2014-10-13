@@ -15,7 +15,6 @@ import org.bidib.jbidibc.core.enumeration.IdentifyState;
 import org.bidib.jbidibc.core.enumeration.LcOutputType;
 import org.bidib.jbidibc.core.exception.NodeAlreadyRegisteredException;
 import org.bidib.jbidibc.core.exception.ProtocolException;
-import org.bidib.jbidibc.core.helpers.BidibMessageProcessor;
 import org.bidib.jbidibc.core.message.AccessoryNotifyResponse;
 import org.bidib.jbidibc.core.message.AccessoryStateResponse;
 import org.bidib.jbidibc.core.message.BidibMessage;

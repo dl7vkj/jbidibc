@@ -1,9 +1,7 @@
-package org.bidib.jbidibc.core.helpers;
+package org.bidib.jbidibc.core;
 
 import java.io.ByteArrayOutputStream;
 
-import org.bidib.jbidibc.core.MessageListener;
-import org.bidib.jbidibc.core.NodeListener;
 import org.bidib.jbidibc.core.exception.ProtocolException;
 
 public interface BidibMessageProcessor {

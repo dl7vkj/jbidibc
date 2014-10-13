@@ -1,9 +1,9 @@
 package org.bidib.jbidibc.core.message;
 
 import org.bidib.jbidibc.core.BidibLibrary;
+import org.bidib.jbidibc.core.LcPortMapping;
 import org.bidib.jbidibc.core.enumeration.LcMappingPortType;
 import org.bidib.jbidibc.core.exception.ProtocolException;
-import org.bidib.jbidibc.core.helpers.LcPortMapping;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

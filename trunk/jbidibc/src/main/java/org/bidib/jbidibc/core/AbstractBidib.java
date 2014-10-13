@@ -1,12 +1,7 @@
-package org.bidib.jbidibc.core.helpers;
+package org.bidib.jbidibc.core;
 
 import java.util.Set;
 
-import org.bidib.jbidibc.core.BidibInterface;
-import org.bidib.jbidibc.core.ConnectionListener;
-import org.bidib.jbidibc.core.MessageListener;
-import org.bidib.jbidibc.core.Node;
-import org.bidib.jbidibc.core.NodeListener;
 import org.bidib.jbidibc.core.message.RequestFactory;
 import org.bidib.jbidibc.core.node.AccessoryNode;
 import org.bidib.jbidibc.core.node.BidibNode;

@@ -5,7 +5,6 @@ import java.util.Set;
 
 import org.bidib.jbidibc.core.exception.PortNotFoundException;
 import org.bidib.jbidibc.core.exception.PortNotOpenedException;
-import org.bidib.jbidibc.core.helpers.BidibMessageProcessor;
 import org.bidib.jbidibc.core.helpers.Context;
 import org.bidib.jbidibc.core.node.AccessoryNode;
 import org.bidib.jbidibc.core.node.BidibNode;

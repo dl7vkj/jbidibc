@@ -1,4 +1,4 @@
-package org.bidib.jbidibc.core.helpers;
+package org.bidib.jbidibc.core;
 
 import org.bidib.jbidibc.core.enumeration.LcMappingPortType;
 

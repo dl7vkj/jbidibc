@@ -2,8 +2,8 @@ package org.bidib.jbidibc.simulation.net;
 
 import java.io.ByteArrayOutputStream;
 
+import org.bidib.jbidibc.core.BidibMessageProcessor;
 import org.bidib.jbidibc.core.exception.ProtocolException;
-import org.bidib.jbidibc.core.helpers.BidibMessageProcessor;
 
 public interface SimulationBidibMessageProcessor extends BidibMessageProcessor {
 

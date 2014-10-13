@@ -1,11 +1,7 @@
-package org.bidib.jbidibc.core.helpers;
+package org.bidib.jbidibc.core;
 
 import java.util.Collection;
 
-import org.bidib.jbidibc.core.AccessoryState;
-import org.bidib.jbidibc.core.AddressData;
-import org.bidib.jbidibc.core.DriveState;
-import org.bidib.jbidibc.core.MessageListener;
 import org.bidib.jbidibc.core.enumeration.AccessoryAcknowledge;
 import org.bidib.jbidibc.core.enumeration.ActivateCoilEnum;
 import org.bidib.jbidibc.core.enumeration.BoosterState;

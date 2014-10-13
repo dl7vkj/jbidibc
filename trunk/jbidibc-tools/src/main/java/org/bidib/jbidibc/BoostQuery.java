@@ -1,9 +1,9 @@
 package org.bidib.jbidibc;
 
+import org.bidib.jbidibc.core.DefaultMessageListener;
 import org.bidib.jbidibc.core.Node;
 import org.bidib.jbidibc.core.enumeration.BoosterState;
 import org.bidib.jbidibc.core.exception.PortNotFoundException;
-import org.bidib.jbidibc.core.helpers.DefaultMessageListener;
 import org.bidib.jbidibc.core.node.BoosterNode;
 import org.bidib.jbidibc.serial.Bidib;
 import org.slf4j.Logger;
