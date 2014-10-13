@@ -2,6 +2,7 @@ package org.bidib.jbidibc.core;
 
 import java.util.Set;
 
+import org.apache.commons.collections4.CollectionUtils;
 import org.bidib.jbidibc.core.message.RequestFactory;
 import org.bidib.jbidibc.core.node.AccessoryNode;
 import org.bidib.jbidibc.core.node.BidibNode;
@@ -68,19 +69,27 @@ public abstract class AbstractBidib implements BidibInterface {
      */
     public void registerListeners(
         Set<NodeListener> nodeListeners, Set<MessageListener> messageListeners, Set<TransferListener> transferListeners) {
-
-        for (NodeListener nodeListener : nodeListeners) {
-            messageReceiver.addNodeListener(nodeListener);
-        }
-        for (MessageListener messageListener : messageListeners) {
-            messageReceiver.addMessageListener(messageListener);
+        if (CollectionUtils.isNotEmpty(nodeListeners)) {
+            for (NodeListener nodeListener : nodeListeners) {
+                messageReceiver.addNodeListener(nodeListener);
+            }
         }
 
-        LOGGER.info("Add the transfer listeners to the root node.");
-        for (TransferListener transferListener : transferListeners) {
-            getRootNode().addTransferListener(transferListener);
+        if (CollectionUtils.isNotEmpty(messageListeners)) {
+            for (MessageListener messageListener : messageListeners) {
+                messageReceiver.addMessageListener(messageListener);
+            }
         }
 
+        if (CollectionUtils.isNotEmpty(transferListeners)) {
+            LOGGER.info("Add the transfer listeners to the root node.");
+            for (TransferListener transferListener : transferListeners) {
+                getRootNode().addTransferListener(transferListener);
+            }
+        }
+        else {
+            LOGGER.warn("No transfer listeners available!");
+        }
     }
 
     @Override
