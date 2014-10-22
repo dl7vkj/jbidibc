@@ -308,6 +308,15 @@ public final class ByteUtils {
         return new String(hexChars);
     }
 
+    public static String magicToHex(int magic) {
+        char[] hexChars = new char[4];
+        hexChars[0] = hexArray[(magic & 0xF000) >>> 12];
+        hexChars[1] = hexArray[(magic & 0x0F00) >>> 8];
+        hexChars[2] = hexArray[(magic & 0xF0) >>> 4];
+        hexChars[3] = hexArray[magic & 0x0F];
+        return new String(hexChars);
+    }
+
     public static String byteToHex(byte byteValue) {
         char[] hexChars = new char[2];
         int v = byteValue & 0xFF;

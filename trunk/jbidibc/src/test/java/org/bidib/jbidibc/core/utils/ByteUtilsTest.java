@@ -1,6 +1,5 @@
 package org.bidib.jbidibc.core.utils;
 
-import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -151,5 +150,14 @@ public class ByteUtilsTest {
 
         int cvValue2 = 237;
         Assert.assertEquals(1, ByteUtils.getBit(cvValue2, 3));
+    }
+
+    @Test
+    public void getMagicToHexTest() {
+        int magic = 0xB00D;
+        Assert.assertEquals(ByteUtils.magicToHex(magic), "B00D");
+
+        int magic2 = 0xAFFE;
+        Assert.assertEquals(ByteUtils.magicToHex(magic2), "AFFE");
     }
 }

@@ -350,7 +350,8 @@ public final class Bidib extends AbstractBidib {
                     close();
                     port = internalOpen(commPort, 115200, context);
                     LOGGER.info("The port was opened internally, get the magic.");
-                    sendMagic();
+                    int magic = sendMagic();
+                    LOGGER.info("The root node returned the magic: {}", ByteUtils.magicToHex(magic));
                 }
                 catch (PortInUseException ex) {
                     LOGGER.warn("Open communication failed  because port is in use.", ex);
