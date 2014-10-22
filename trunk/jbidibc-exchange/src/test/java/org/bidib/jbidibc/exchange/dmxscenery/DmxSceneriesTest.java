@@ -98,15 +98,10 @@ public class DmxSceneriesTest {
         OutputStream os = null;
         try {
             os = new BufferedOutputStream(new FileOutputStream(OUTPUT_TARGET_DIR + "/" + OUTPUT_FILENAME));
-            // if (gzip) {
-            // LOGGER.debug("Use gzip to compress macro.");
-            // os = new GZIPOutputStream(os);
-            // }
 
             marshaller.marshal(dmxSceneries, os);
 
             os.flush();
-
         }
         finally {
             if (os != null) {

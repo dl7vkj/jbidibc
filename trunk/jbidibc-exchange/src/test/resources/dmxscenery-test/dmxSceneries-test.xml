@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <dmxSceneries xmlns="http://www.bidib.org/jbidibc/dmxscenery" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="/xsd/dmxsceneries.xsd">
+	<dimmStretch>55</dimmStretch>
     <dmxScenery sceneryName="Scenery 1">
         <dmxChannel channelName="DMX Kanal 1" channelNumber="1">
             <lineColor red="255" green="55" blue="55"/>
