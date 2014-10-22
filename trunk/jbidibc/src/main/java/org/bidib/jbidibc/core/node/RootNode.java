@@ -3,7 +3,6 @@ package org.bidib.jbidibc.core.node;
 import java.util.Calendar;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import org.bidib.jbidibc.core.BidibLibrary;
 import org.bidib.jbidibc.core.MessageReceiver;
 import org.bidib.jbidibc.core.exception.NoAnswerException;
 import org.bidib.jbidibc.core.exception.ProtocolException;
@@ -54,7 +53,7 @@ public class RootNode extends BidibNode {
         LOGGER.trace("Get magic from root node!");
         int magic = super.getMagic();
         LOGGER.info("Get magic from root node returns: {}", magic);
-        if (BIDIB_MAGIC_UNKNOWN == magic || BidibLibrary.BIDIB_BOOT_MAGIC == magic) {
+        if (BIDIB_MAGIC_UNKNOWN == magic) {
             LOGGER.warn("The interface did not respond the get magic request!");
 
             StringBuffer sb = new StringBuffer("The interface did not respond the get magic request!");
