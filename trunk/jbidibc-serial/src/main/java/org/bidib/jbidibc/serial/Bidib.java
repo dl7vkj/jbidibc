@@ -465,14 +465,9 @@ public final class Bidib extends AbstractBidib {
     private int sendMagic() throws ProtocolException {
         BidibNode rootNode = getRootNode();
         LOGGER.info("Get the magic from the rootNode.");
-        // Ignore the first exception ...
-        int magic = -1;
-        // try {
-        magic = rootNode.getMagic();
-        // }
-        // catch (Exception e) {
-        // magic = rootNode.getMagic();
-        // }
+
+        int magic = rootNode.getMagic();
+
         LOGGER.debug("The node returned magic: {}", magic);
         return magic;
     }

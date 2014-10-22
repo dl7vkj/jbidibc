@@ -66,7 +66,6 @@ public class AccessoryNode extends DeviceNode {
     }
 
     public byte[] setAccessoryParameter(int accessoryNumber, int parameter, byte[] value) throws ProtocolException {
-        // sendNoWait(new AccessoryParaSetMessage(accessoryNumber, parameter, value));
         byte[] result = null;
         BidibMessage response =
             send(new AccessoryParaSetMessage(accessoryNumber, parameter, value), true, AccessoryParaResponse.TYPE);
