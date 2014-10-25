@@ -89,8 +89,7 @@ public class VendorCvFactory {
 
                     Files.walkFileTree(path.getParent(), new SimpleFileVisitor<Path>() {
                         @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
-                            throws IOException {
+                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
                             LOGGER.trace("Current file: {}", file);
 
                             if (FilenameUtils.wildcardMatch(file.toString(), filenameSearch.toString(),
@@ -103,8 +102,7 @@ public class VendorCvFactory {
                         }
 
                         @Override
-                        public FileVisitResult postVisitDirectory(Path dir, IOException e)
-                            throws IOException {
+                        public FileVisitResult postVisitDirectory(Path dir, IOException e) throws IOException {
                             if (e == null) {
                                 LOGGER.trace("Current directory: {}", dir);
                                 return FileVisitResult.CONTINUE;
