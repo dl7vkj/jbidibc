@@ -11,8 +11,11 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 
 import org.apache.commons.io.FileUtils;
+import org.bidib.jbidibc.core.Node;
+import org.bidib.jbidibc.core.SoftwareVersion;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import org.xml.sax.SAXException;
@@ -189,5 +192,25 @@ public class VendorCVTest {
         marshaller.marshal(vendorCV, os);
 
         os.flush();
+    }
+
+    private static final long UUID_ONECONTROL = 0x05000d75002e00L;
+
+    private static final long UUID_ONEDMX = 0x05340D73901235L;
+
+    @Test
+    public void loadCvDefintionsOneControl() {
+        Node node = new Node(0, new byte[] { 1 }, UUID_ONECONTROL);
+        node.setSoftwareVersion(new SoftwareVersion(1, 0, 0));
+        VendorCV vendorCV = VendorCvFactory.getCvDefinition(node, "classpath:/bidib");
+        Assert.assertNotNull(vendorCV);
+    }
+
+    @Test
+    public void loadCvDefintionsOneDMX() {
+        Node nodeOneDmx = new Node(0, new byte[] { 1 }, UUID_ONEDMX);
+        nodeOneDmx.setSoftwareVersion(new SoftwareVersion(1, 1, 0));
+        VendorCV vendorCVOneDmx = VendorCvFactory.getCvDefinition(nodeOneDmx, "classpath:/bidib");
+        Assert.assertNotNull(vendorCVOneDmx);
     }
 }
