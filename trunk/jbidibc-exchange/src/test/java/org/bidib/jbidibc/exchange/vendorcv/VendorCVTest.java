@@ -202,7 +202,7 @@ public class VendorCVTest {
     public void loadCvDefintionsOneControl() {
         Node node = new Node(0, new byte[] { 1 }, UUID_ONECONTROL);
         node.setSoftwareVersion(new SoftwareVersion(1, 0, 0));
-        VendorCV vendorCV = VendorCvFactory.getCvDefinition(node, "classpath:/bidib");
+        VendorCvData vendorCV = VendorCvFactory.getCvDefinition(node, "classpath:/bidib");
         Assert.assertNotNull(vendorCV);
     }
 
@@ -210,7 +210,7 @@ public class VendorCVTest {
     public void loadCvDefintionsOneDMX() {
         Node nodeOneDmx = new Node(0, new byte[] { 1 }, UUID_ONEDMX);
         nodeOneDmx.setSoftwareVersion(new SoftwareVersion(1, 1, 0));
-        VendorCV vendorCVOneDmx = VendorCvFactory.getCvDefinition(nodeOneDmx, "classpath:/bidib");
+        VendorCvData vendorCVOneDmx = VendorCvFactory.getCvDefinition(nodeOneDmx, "classpath:/bidib");
         Assert.assertNotNull(vendorCVOneDmx);
     }
 }

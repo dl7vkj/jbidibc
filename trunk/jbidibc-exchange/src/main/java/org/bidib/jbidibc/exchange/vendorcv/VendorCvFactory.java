@@ -51,7 +51,7 @@ public class VendorCvFactory {
 
     public static final String XSD_LOCATION = "/xsd/vendor_cv.xsd";
 
-    public static VendorCV getCvDefinition(Node node, String... searchPaths) {
+    public static VendorCvData getCvDefinition(Node node, String... searchPaths) {
         LOGGER.info("Load the vendor cv definition for node: {}", node);
 
         // TODO check the firmware version of the node and verify the correct definition is
@@ -61,13 +61,13 @@ public class VendorCvFactory {
         return new VendorCvFactory().loadCvDefintionForNode(node.getUniqueId(), softwareVersion, searchPaths);
     }
 
-    private VendorCV loadCvDefintionForNode(long uniqueId, SoftwareVersion softwareVersion, String... searchPaths) {
+    private VendorCvData loadCvDefintionForNode(long uniqueId, SoftwareVersion softwareVersion, String... searchPaths) {
         long pid = NodeUtils.getPid(uniqueId);
         long vid = NodeUtils.getVendorId(uniqueId);
         LOGGER.info("Load the vendor cv definition for uniqueId: {}, pid: {}, vid: {}, software version: {}",
             NodeUtils.getUniqueIdAsString(uniqueId), pid, vid, softwareVersion);
 
-        VendorCV vendorCV = null;
+        VendorCvData vendorCvData = null;
         for (String searchPath : searchPaths) {
             StringBuffer filename = new StringBuffer("BiDiBCV-");
             filename.append(vid).append("-").append(pid).append(".xml");
@@ -119,6 +119,7 @@ public class VendorCvFactory {
                 }
 
                 LOGGER.info("Found matching files: {}", files);
+                String selectedFileName = null;
                 if (CollectionUtils.isNotEmpty(files)) {
                     List<File> fileCollection = new LinkedList<>();
                     for (Path path : files) {
@@ -131,7 +132,9 @@ public class VendorCvFactory {
                     if (vendorCvFile != null && vendorCvFile.exists()) {
                         String lookupPath = vendorCvFile.getName();
 
-                        lookup = searchPath.substring(beginIndex) + "/" + lookupPath.toString();
+                        selectedFileName = lookupPath;
+
+                        lookup = searchPath.substring(beginIndex) + "/" + lookupPath;
                         // LOGGER.info("Lookup vendorCv file internally: {}", lookup);
                         LOGGER.info("Prepared vendor CV lookup: {}", lookup);
                     }
@@ -139,8 +142,11 @@ public class VendorCvFactory {
 
                 InputStream is = VendorCvFactory.class.getResourceAsStream(lookup);
                 if (is != null) {
-                    vendorCV = loadVendorCvFile(is);
+                    VendorCV vendorCV = loadVendorCvFile(is);
                     if (vendorCV != null) {
+
+                        vendorCvData = new VendorCvData(vendorCV, selectedFileName);
+
                         break;
                     }
                 }
@@ -173,8 +179,10 @@ public class VendorCvFactory {
                 if (productsFile.exists()) {
                     LOGGER.info("Found product file: {}", productsFile.getAbsolutePath());
                     // try to load products
-                    vendorCV = loadVendorCvFile(productsFile);
+                    VendorCV vendorCV = loadVendorCvFile(productsFile);
                     if (vendorCV != null) {
+
+                        vendorCvData = new VendorCvData(vendorCV, productsFile.getName());
                         break;
                     }
                 }
@@ -183,8 +191,8 @@ public class VendorCvFactory {
                 }
             }
         }
-        LOGGER.trace("Loaded vendorCV: {}", vendorCV);
-        return vendorCV;
+        LOGGER.trace("Loaded vendorCvData: {}", vendorCvData);
+        return vendorCvData;
     }
 
     private File findMatchingVendorCV(Collection<File> files, String defaultFilename, SoftwareVersion softwareVersion) {
