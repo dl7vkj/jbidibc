@@ -5,7 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
 import java.net.URL;
+import java.nio.file.FileSystem;
+import java.nio.file.FileSystems;
 import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -13,8 +16,10 @@ import java.nio.file.Paths;
 import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import javax.xml.XMLConstants;
 import javax.xml.bind.JAXBContext;
@@ -36,6 +41,7 @@ import org.apache.commons.io.IOCase;
 import org.apache.commons.io.filefilter.IOFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.lang3.StringUtils;
 import org.bidib.jbidibc.core.Node;
 import org.bidib.jbidibc.core.SoftwareVersion;
 import org.bidib.jbidibc.core.utils.NodeUtils;
@@ -78,23 +84,57 @@ public class VendorCvFactory {
                 String lookup = searchPath.substring(beginIndex) + "/" + filename.toString();
                 LOGGER.info("Lookup vendorCv file internally: {}", lookup);
 
-                final StringBuffer filenameSearch = new StringBuffer("*\\BiDiBCV-");
+                final StringBuffer filenameSearch = new StringBuffer("*BiDiBCV-");
                 filenameSearch.append(vid).append("-").append(pid).append("*").append(".xml");
 
-                final List<Path> files = new LinkedList<>();
+                final List<File> files = new LinkedList<>();
 
                 URL pathString = VendorCvFactory.class.getResource(lookup);
+                LOGGER.info("Prepared pathString: {}", pathString);
+
+                FileSystem fs = null;
                 try {
-                    Path path = Paths.get(pathString.toURI());
+
+                    URI lookupURI = pathString.toURI();
+                    LOGGER.info("Prepared lookupURI: {}", lookupURI);
+
+                    final String[] array = lookupURI.toString().split("!");
+
+                    Path path = null;
+                    if (array.length > 1) {
+                        final Map<String, String> env = new HashMap<>();
+                        LOGGER.info("Create new filesystem for: {}", array[0]);
+                        fs = FileSystems.newFileSystem(URI.create(array[0]), env);
+                        path = fs.getPath(array[1]);
+                        LOGGER.info("Prepared path: {}", path);
+                    }
+                    else {
+                        path = Paths.get(lookupURI);
+                    }
+
+                    final FileSystem fsInner = fs;
 
                     Files.walkFileTree(path.getParent(), new SimpleFileVisitor<Path>() {
                         @Override
-                        public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-                            LOGGER.trace("Current file: {}", file);
+                        public FileVisitResult visitFile(Path path, BasicFileAttributes attrs) throws IOException {
+                            LOGGER.info("Current file: {}", path);
 
-                            if (FilenameUtils.wildcardMatch(file.toString(), filenameSearch.toString(),
+                            if (FilenameUtils.wildcardMatch(path.toString(), filenameSearch.toString(),
                                 IOCase.INSENSITIVE)) {
+                                LOGGER.info("Found matching path: {}, absolutePath: {}", path, path.toAbsolutePath());
+
+                                File file = null;
+                                if (fsInner != null) {
+                                    String filePath = array[0] + "!" + path.toAbsolutePath();
+                                    file = new File(filePath);
+                                }
+                                else {
+
+                                    file = path.toFile();
+                                }
+                                // File file = path.toFile();
                                 LOGGER.info("Add matching file: {}", file);
+
                                 files.add(file);
                             }
 
@@ -104,7 +144,7 @@ public class VendorCvFactory {
                         @Override
                         public FileVisitResult postVisitDirectory(Path dir, IOException e) throws IOException {
                             if (e == null) {
-                                LOGGER.trace("Current directory: {}", dir);
+                                LOGGER.info("Current directory: {}", dir);
                                 return FileVisitResult.CONTINUE;
                             }
                             else {
@@ -117,19 +157,30 @@ public class VendorCvFactory {
                 catch (Exception e) {
                     LOGGER.warn("Convert uri to path failed.", e);
                 }
+                finally {
+                    if (fs != null) {
+                        try {
+                            fs.close();
+                        }
+                        catch (Exception ex) {
+                            LOGGER.warn("Close filesystem failed.", ex);
+                        }
+                    }
+                }
 
                 LOGGER.info("Found matching files: {}", files);
                 String selectedFileName = null;
                 if (CollectionUtils.isNotEmpty(files)) {
                     List<File> fileCollection = new LinkedList<>();
-                    for (Path path : files) {
+                    for (File file : files) {
 
-                        fileCollection.add(path.toFile());
+                        fileCollection.add(file);
 
                     }
 
                     File vendorCvFile = findMatchingVendorCV(fileCollection, filename.toString(), softwareVersion);
-                    if (vendorCvFile != null && vendorCvFile.exists()) {
+                    LOGGER.info("Matching vendorCvFile: {}", vendorCvFile);
+                    if (vendorCvFile != null /* && vendorCvFile.exists() */) {
                         String lookupPath = vendorCvFile.getName();
 
                         selectedFileName = lookupPath;
@@ -138,13 +189,19 @@ public class VendorCvFactory {
                         // LOGGER.info("Lookup vendorCv file internally: {}", lookup);
                         LOGGER.info("Prepared vendor CV lookup: {}", lookup);
                     }
+                    else {
+                        LOGGER.warn("No matching vendorCV file found.");
+                    }
                 }
 
                 InputStream is = VendorCvFactory.class.getResourceAsStream(lookup);
                 if (is != null) {
+                    LOGGER.info("Lookup directly proceeded: {}", lookup);
                     VendorCV vendorCV = loadVendorCvFile(is);
                     if (vendorCV != null) {
-
+                        if (StringUtils.isBlank(selectedFileName)) {
+                            selectedFileName = filename.toString();
+                        }
                         vendorCvData = new VendorCvData(vendorCV, selectedFileName);
 
                         break;
@@ -176,7 +233,7 @@ public class VendorCvFactory {
                 }
 
                 // File productsFile = new File(searchPath, filename.toString());
-                if (productsFile.exists()) {
+                if (productsFile != null && productsFile.exists()) {
                     LOGGER.info("Found product file: {}", productsFile.getAbsolutePath());
                     // try to load products
                     VendorCV vendorCV = loadVendorCvFile(productsFile);
@@ -187,7 +244,7 @@ public class VendorCvFactory {
                     }
                 }
                 else {
-                    LOGGER.info("File does not exist: {}", productsFile.getAbsolutePath());
+                    LOGGER.info("File does not exist in: {}", searchPath);
                 }
             }
         }
@@ -201,6 +258,8 @@ public class VendorCvFactory {
 
             File defaultCvDefinition = null;
             File cvDefinition = null;
+
+            // TODO find a better logic to detect the matching CV definition
 
             for (File file : files) {
                 String fileName = FilenameUtils.getBaseName(file.getName());

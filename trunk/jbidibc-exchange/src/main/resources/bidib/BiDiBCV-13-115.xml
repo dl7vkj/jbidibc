@@ -1,166 +1,366 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
-    <Version Version="0.04" Versionm="441" Lastupdate="20140709" Author="Kufer, Wolfgang" Pid="115" Vendor="013" Description="OneDMX V1.0"/>
-    <Templates>
-        <Template Name="About">
-            <CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="EEPROM Version"/>
-                <Description Lang="en-EN" Text="EEPROM Version"/>
-            </CV>
-            <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Herstellerkennung"/>
-                <Description Lang="en-EN" Text="Vendor ID"/>
-            </CV>
-            <CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Produktkennung (low)"/>
-                <Description Lang="en-EN" Text="ProductID (low)"/>
-            </CV>
-            <CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Produktkennung (high)"/>
-                <Description Lang="en-EN" Text="ProductID (high)"/>
-            </CV>
-            <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Firmware Version"/>
-                <Description Lang="en-EN" Text="Firmware main version"/>
-            </CV>
-            <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Firmware Sub-Version"/>
-                <Description Lang="en-EN" Text="Firmware sub version"/>
-            </CV>
-            <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Firmware Sub-Index"/>
-                <Description Lang="en-EN" Text="Firmware compile run"/>
-            </CV>
-        </Template>
-        <Template Name="DMX">
-            <CV Number="0" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="DMX: Startzustand"/>
-                <Description Lang="en-EN" Text="DMX: init state"/>
-            </CV>
-        </Template>
-        <Template Name="LightPort">
-            <CV Number="0" Type="Byte" Min="0" Max="64" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Light-Port: DMX-Zielkanal (0..63), 64 = unbenutzt"/>
-                <Description Lang="en-EN" Text="Light-Port: DMX target channel (0..63), 64 = not in use"/>
-            </CV>
-            <CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Light-Port: Helligkeit für Zustand „aus“"/>
-                <Description Lang="en-EN" Text="Light-Port: light intensity at status 'off'"/>
-            </CV>
-            <CV Number="2" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Light-Port: Helligkeit für Zustand „an“"/>
-                <Description Lang="en-EN" Text="Light-Port: light intensity at status 'on'"/>
-            </CV>
-            <CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „aus“, 1 = langsam / 255 = schnell"/>
-                <Description Lang="en-EN" Text="Light-Port: time to dim, direction 'off', 1 = slow / 255 = fast "/>
-            </CV>
-            <CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „an“, 1 = langsam / 255 = schnell"/>
-                <Description Lang="en-EN" Text="Light-Port: time to dim, direction 'on', 1 = slow / 255 = fast "/>
-            </CV>
-        </Template>
-        <Template Name="Backlight">
-            <CV Number="0" Type="Byte" Min="0" Max="64" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Backlight: DMX-Zielkanal (0..63), 64 = unbenutzt"/>
-                <Description Lang="en-EN" Text="Backlight: DMX target channel (0..63), 64 = not in use"/>
-            </CV>
-            <CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Backlight: Dimmzeit in Richtung „aus“, 1 = langsam / 255 = schnell"/>
-                <Description Lang="en-EN" Text="Backlight: time to dim, direction 'off', 1 = slow / 255 = fast "/>
-            </CV>
-            <CV Number="2" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Backlight: Dimmzeit in Richtung „an“, 1 = langsam / 255 = schnell"/>
-                <Description Lang="en-EN" Text="Backlight: time to dim, direction 'on', 1 = slow / 255 = fast "/>
-            </CV>
-            <CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
-                <Description Lang="de-DE" Text="Backlight: Reserviert"/>
-                <Description Lang="en-EN" Text="Backlight: Reserved"/>
-            </CV>
-        </Template>
-        <Template Name="AccessoryMap">
-            <CV Number="0" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Anzahl der möglichen Begriffe"/>
-                <Description Lang="en-EN" Text="number of aspects"/>
-            </CV>
-            <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Makro für Begriff 0"/>
-                <Description Lang="en-EN" Text="macro for aspects 0"/>
-            </CV>
-            <CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Makro für Begriff 1"/>
-                <Description Lang="en-EN" Text="macro for aspects 1"/>
-            </CV>
-            <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Makro für Begriff 2"/>
-                <Description Lang="en-EN" Text="macro for aspects 2"/>
-            </CV>
-            <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Makro für Begriff 3"/>
-                <Description Lang="en-EN" Text="macro for aspects 3"/>
-            </CV>
-            <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Makro für Begriff 4"/>
-                <Description Lang="en-EN" Text="macro for aspects 4"/>
-            </CV>
-            <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Makro für Begriff 5"/>
-                <Description Lang="en-EN" Text="macro for aspects 5"/>
-            </CV>
-            <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Makro für Begriff 6"/>
-                <Description Lang="en-EN" Text="macro for aspects 6"/>
-            </CV>
-            <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Makro für Begriff 7"/>
-                <Description Lang="en-EN" Text="macro for aspects 7"/>
-            </CV>
-        </Template>
-    </Templates>
-    <CVDefinition>
-        <Node Offset="1" Template="About">
-            <Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
-            <Nodetext Lang="en-EN" Text="Common data"/>
-        </Node>
-        <Node>
-            <Nodetext Lang="de-DE" Text="Konfiguration"/>
-            <Nodetext Lang="en-EN" Text="Config"/>
-            <CV Number="61" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
-                <Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
-            </CV>
-            <Node>
-                <Nodetext Lang="de-DE" Text="DMX-Kanäle"/>
-                <Nodetext Lang="en-EN" Text="DMX-Channels"/>
-                <Node Offset="71" Template="DMX" Count="64" Next="1">
-                    <Nodetext Lang="de-DE" Text="DMX-Kanal %%p"/>
-                    <Nodetext Lang="en-EN" Text="DMX-Channel %%p"/>
-                </Node>
-            </Node>
-            <Node>
-                <Nodetext Lang="de-DE" Text="Licht-Ports"/>
-                <Nodetext Lang="en-EN" Text="Light ports"/>
-                <Node Offset="135" Template="LightPort" Count="128" Next="5">
-                    <Nodetext Lang="de-DE" Text="Licht-Port %%d"/>
-                    <Nodetext Lang="en-EN" Text="Light port %%d"/>
-                </Node>
-            </Node>
-            <Node>
-                <Nodetext Lang="de-DE" Text="Backlight-Ports"/>
-                <Nodetext Lang="en-EN" Text="Backlight ports"/>
-                <Node Offset="775" Template="Backlight" Count="16" Next="4">
-                    <Nodetext Lang="de-DE" Text="Backlight-Port %%d"/>
-                    <Nodetext Lang="en-EN" Text="Backlight port %%d"/>
-                </Node>
-            </Node>
-            <Node>
-                <Nodetext Lang="de-DE" Text="Accessory"/>
-                <Nodetext Lang="en-EN" Text="Accessory"/>
-                <Node Offset="839" Template="AccessoryMap" Count="8" Next="9">
-                    <Nodetext Lang="de-DE" Text="Accessory %%d"/>
-                    <Nodetext Lang="en-EN" Text="Accessory %%d"/>
-                </Node>
-            </Node>
-        </Node>
-    </CVDefinition>
+<?xml version="1.0" encoding="utf-8" ?>
+<VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+          xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
+
+	<Version 
+		Version="1.00.03" Versionm="441" Lastupdate="20141025" Author="Kufer, Wolfgang" Pid="115" Vendor="013" Description="OneDMX V1.0">
+	</Version>
+	<Templates>
+		<Template Name="About">
+			<CV Number="0" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="EEPROM Version"/>
+				<Description Lang="en-EN" Text="EEPROM Version"/>
+			</CV>
+			<CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Herstellerkennung"/>
+				<Description Lang="en-EN" Text="Vendor ID"/>
+			</CV>
+			<CV Number="2" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Produktkennung (low)"/>
+				<Description Lang="en-EN" Text="ProductID (low)"/>
+			</CV>
+			<CV Number="3" Type="Int" Min="-" Max="-" Low="2" High="3" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Produktkennung (high)"/>
+				<Description Lang="en-EN" Text="ProductID (high)"/>
+			</CV>
+			<CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Firmware Version"/>
+				<Description Lang="en-EN" Text="Firmware main version"/>
+			</CV>
+			<CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Firmware Sub-Version"/>
+				<Description Lang="en-EN" Text="Firmware sub version"/>
+			</CV>
+			<CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Firmware Sub-Index"/>
+				<Description Lang="en-EN" Text="Firmware compile run"/>
+			</CV>
+			<CV Number="32" Type="Int" Min="0" Max="2054" Low="32" High="33" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="DCC Weichenadresse - Basis"/>
+				<Description Lang="en-EN" Text="DCC accessory address base" />
+			</CV>
+			<CV Number="33" Type="Int" Min="0" Max="2054" Low="32" High="33" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="DCC Weichenadresse - Basis"/>
+				<Description Lang="en-EN" Text="DCC accessory address base" />
+			</CV>
+			<CV Number="34" Type="Byte" Min="1" Max="128" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="DCC Weichenadresse - Bereich"/>
+				<Description Lang="en-EN" Text="DCC accessory address range"/>
+			</CV>
+		</Template>
+		<Template Name="DMX">
+			<CV Number="0" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="DMX: Startzustand"/>
+				<Description Lang="en-EN" Text="DMX: init state"/>
+			</CV>
+		</Template>
+		<Template Name="Mandirect">
+			<CV Number="0" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				 <Description Lang="de-DE" Text="agiert auf DMX 1-8" />
+				 <Description Lang="en-EN" Text="affects DMX 1-8" />
+				 <Bitdescription Bitnum="1" Lang="de-DE" Text="DMX 1" />
+				 <Bitdescription Bitnum="1" Lang="en-EN" Text="DMX 1" />
+				 <Bitdescription Bitnum="2" Lang="de-DE" Text="DMX 2" />
+				 <Bitdescription Bitnum="2" Lang="en-EN" Text="DMX 2" />
+				 <Bitdescription Bitnum="3" Lang="de-DE" Text="DMX 3" />
+				 <Bitdescription Bitnum="3" Lang="en-EN" Text="DMX 3" />
+				 <Bitdescription Bitnum="4" Lang="de-DE" Text="DMX 4" />
+				 <Bitdescription Bitnum="4" Lang="en-EN" Text="DMX 4" />
+				 <Bitdescription Bitnum="5" Lang="de-DE" Text="DMX 5" />
+				 <Bitdescription Bitnum="5" Lang="en-EN" Text="DMX 5" />
+				 <Bitdescription Bitnum="6" Lang="de-DE" Text="DMX 6" />
+				 <Bitdescription Bitnum="6" Lang="en-EN" Text="DMX 6" />
+				 <Bitdescription Bitnum="7" Lang="de-DE" Text="DMX 7" />
+				 <Bitdescription Bitnum="7" Lang="en-EN" Text="DMX 7" />
+				 <Bitdescription Bitnum="8" Lang="de-DE" Text="DMX 8" />
+				 <Bitdescription Bitnum="8" Lang="en-EN" Text="DMX 8" />
+			</CV>
+			<CV Number="1" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				 <Description Lang="de-DE" Text="agiert auf DMX 9-16" />
+				 <Description Lang="en-EN" Text="affects DMX 9-16" />
+				 <Bitdescription Bitnum="1" Lang="de-DE" Text="DMX 9" />
+				 <Bitdescription Bitnum="1" Lang="en-EN" Text="DMX 9" />
+				 <Bitdescription Bitnum="2" Lang="de-DE" Text="DMX 10" />
+				 <Bitdescription Bitnum="2" Lang="en-EN" Text="DMX 10" />
+				 <Bitdescription Bitnum="3" Lang="de-DE" Text="DMX 11" />
+				 <Bitdescription Bitnum="3" Lang="en-EN" Text="DMX 11" />
+				 <Bitdescription Bitnum="4" Lang="de-DE" Text="DMX 12" />
+				 <Bitdescription Bitnum="4" Lang="en-EN" Text="DMX 12" />
+				 <Bitdescription Bitnum="5" Lang="de-DE" Text="DMX 13" />
+				 <Bitdescription Bitnum="5" Lang="en-EN" Text="DMX 13" />
+				 <Bitdescription Bitnum="6" Lang="de-DE" Text="DMX 14" />
+				 <Bitdescription Bitnum="6" Lang="en-EN" Text="DMX 14" />
+				 <Bitdescription Bitnum="7" Lang="de-DE" Text="DMX 15" />
+				 <Bitdescription Bitnum="7" Lang="en-EN" Text="DMX 15" />
+				 <Bitdescription Bitnum="8" Lang="de-DE" Text="DMX 16" />
+				 <Bitdescription Bitnum="8" Lang="en-EN" Text="DMX 16" />
+			</CV>
+			<CV Number="2" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				 <Description Lang="de-DE" Text="agiert auf DMX 17-24" />
+				 <Description Lang="en-EN" Text="affects DMX 17-24" />
+				 <Bitdescription Bitnum="1" Lang="de-DE" Text="DMX 17" />
+				 <Bitdescription Bitnum="1" Lang="en-EN" Text="DMX 17" />
+				 <Bitdescription Bitnum="2" Lang="de-DE" Text="DMX 18" />
+				 <Bitdescription Bitnum="2" Lang="en-EN" Text="DMX 18" />
+				 <Bitdescription Bitnum="3" Lang="de-DE" Text="DMX 19" />
+				 <Bitdescription Bitnum="3" Lang="en-EN" Text="DMX 19" />
+				 <Bitdescription Bitnum="4" Lang="de-DE" Text="DMX 20" />
+				 <Bitdescription Bitnum="4" Lang="en-EN" Text="DMX 20" />
+				 <Bitdescription Bitnum="5" Lang="de-DE" Text="DMX 21" />
+				 <Bitdescription Bitnum="5" Lang="en-EN" Text="DMX 21" />
+				 <Bitdescription Bitnum="6" Lang="de-DE" Text="DMX 22" />
+				 <Bitdescription Bitnum="6" Lang="en-EN" Text="DMX 22" />
+				 <Bitdescription Bitnum="7" Lang="de-DE" Text="DMX 23" />
+				 <Bitdescription Bitnum="7" Lang="en-EN" Text="DMX 23" />
+				 <Bitdescription Bitnum="8" Lang="de-DE" Text="DMX 24" />
+				 <Bitdescription Bitnum="8" Lang="en-EN" Text="DMX 24" />
+			</CV>
+			<CV Number="3" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				 <Description Lang="de-DE" Text="agiert auf DMX 25-32" />
+				 <Description Lang="en-EN" Text="affects DMX 25-32" />
+				 <Bitdescription Bitnum="1" Lang="de-DE" Text="DMX 25" />
+				 <Bitdescription Bitnum="1" Lang="en-EN" Text="DMX 25" />
+				 <Bitdescription Bitnum="2" Lang="de-DE" Text="DMX 26" />
+				 <Bitdescription Bitnum="2" Lang="en-EN" Text="DMX 26" />
+				 <Bitdescription Bitnum="3" Lang="de-DE" Text="DMX 27" />
+				 <Bitdescription Bitnum="3" Lang="en-EN" Text="DMX 27" />
+				 <Bitdescription Bitnum="4" Lang="de-DE" Text="DMX 28" />
+				 <Bitdescription Bitnum="4" Lang="en-EN" Text="DMX 28" />
+				 <Bitdescription Bitnum="5" Lang="de-DE" Text="DMX 29" />
+				 <Bitdescription Bitnum="5" Lang="en-EN" Text="DMX 29" />
+				 <Bitdescription Bitnum="6" Lang="de-DE" Text="DMX 30" />
+				 <Bitdescription Bitnum="6" Lang="en-EN" Text="DMX 30" />
+				 <Bitdescription Bitnum="7" Lang="de-DE" Text="DMX 31" />
+				 <Bitdescription Bitnum="7" Lang="en-EN" Text="DMX 31" />
+				 <Bitdescription Bitnum="8" Lang="de-DE" Text="DMX 32" />
+				 <Bitdescription Bitnum="8" Lang="en-EN" Text="DMX 32" />
+			</CV>
+			<CV Number="4" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				 <Description Lang="de-DE" Text="agiert auf DMX 33-40" />
+				 <Description Lang="en-EN" Text="affects DMX 33-40" />
+				 <Bitdescription Bitnum="1" Lang="de-DE" Text="DMX 33" />
+				 <Bitdescription Bitnum="1" Lang="en-EN" Text="DMX 33" />
+				 <Bitdescription Bitnum="2" Lang="de-DE" Text="DMX 34" />
+				 <Bitdescription Bitnum="2" Lang="en-EN" Text="DMX 34" />
+				 <Bitdescription Bitnum="3" Lang="de-DE" Text="DMX 35" />
+				 <Bitdescription Bitnum="3" Lang="en-EN" Text="DMX 35" />
+				 <Bitdescription Bitnum="4" Lang="de-DE" Text="DMX 36" />
+				 <Bitdescription Bitnum="4" Lang="en-EN" Text="DMX 36" />
+				 <Bitdescription Bitnum="5" Lang="de-DE" Text="DMX 37" />
+				 <Bitdescription Bitnum="5" Lang="en-EN" Text="DMX 37" />
+				 <Bitdescription Bitnum="6" Lang="de-DE" Text="DMX 38" />
+				 <Bitdescription Bitnum="6" Lang="en-EN" Text="DMX 38" />
+				 <Bitdescription Bitnum="7" Lang="de-DE" Text="DMX 39" />
+				 <Bitdescription Bitnum="7" Lang="en-EN" Text="DMX 39" />
+				 <Bitdescription Bitnum="8" Lang="de-DE" Text="DMX 40" />
+				 <Bitdescription Bitnum="8" Lang="en-EN" Text="DMX 40" />
+			</CV>
+			<CV Number="5" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				 <Description Lang="de-DE" Text="agiert auf DMX 41-48" />
+				 <Description Lang="en-EN" Text="affects DMX 41-48" />
+				 <Bitdescription Bitnum="1" Lang="de-DE" Text="DMX 41" />
+				 <Bitdescription Bitnum="1" Lang="en-EN" Text="DMX 41" />
+				 <Bitdescription Bitnum="2" Lang="de-DE" Text="DMX 42" />
+				 <Bitdescription Bitnum="2" Lang="en-EN" Text="DMX 42" />
+				 <Bitdescription Bitnum="3" Lang="de-DE" Text="DMX 43" />
+				 <Bitdescription Bitnum="3" Lang="en-EN" Text="DMX 43" />
+				 <Bitdescription Bitnum="4" Lang="de-DE" Text="DMX 44" />
+				 <Bitdescription Bitnum="4" Lang="en-EN" Text="DMX 44" />
+				 <Bitdescription Bitnum="5" Lang="de-DE" Text="DMX 45" />
+				 <Bitdescription Bitnum="5" Lang="en-EN" Text="DMX 45" />
+				 <Bitdescription Bitnum="6" Lang="de-DE" Text="DMX 46" />
+				 <Bitdescription Bitnum="6" Lang="en-EN" Text="DMX 46" />
+				 <Bitdescription Bitnum="7" Lang="de-DE" Text="DMX 47" />
+				 <Bitdescription Bitnum="7" Lang="en-EN" Text="DMX 47" />
+				 <Bitdescription Bitnum="8" Lang="de-DE" Text="DMX 48" />
+				 <Bitdescription Bitnum="8" Lang="en-EN" Text="DMX 48" />
+			</CV>
+			<CV Number="6" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				 <Description Lang="de-DE" Text="agiert auf DMX 49-56" />
+				 <Description Lang="en-EN" Text="affects DMX 49-56" />
+				 <Bitdescription Bitnum="1" Lang="de-DE" Text="DMX 49" />
+				 <Bitdescription Bitnum="1" Lang="en-EN" Text="DMX 49" />
+				 <Bitdescription Bitnum="2" Lang="de-DE" Text="DMX 50" />
+				 <Bitdescription Bitnum="2" Lang="en-EN" Text="DMX 50" />
+				 <Bitdescription Bitnum="3" Lang="de-DE" Text="DMX 51" />
+				 <Bitdescription Bitnum="3" Lang="en-EN" Text="DMX 51" />
+				 <Bitdescription Bitnum="4" Lang="de-DE" Text="DMX 52" />
+				 <Bitdescription Bitnum="4" Lang="en-EN" Text="DMX 52" />
+				 <Bitdescription Bitnum="5" Lang="de-DE" Text="DMX 53" />
+				 <Bitdescription Bitnum="5" Lang="en-EN" Text="DMX 53" />
+				 <Bitdescription Bitnum="6" Lang="de-DE" Text="DMX 54" />
+				 <Bitdescription Bitnum="6" Lang="en-EN" Text="DMX 54" />
+				 <Bitdescription Bitnum="7" Lang="de-DE" Text="DMX 55" />
+				 <Bitdescription Bitnum="7" Lang="en-EN" Text="DMX 55" />
+				 <Bitdescription Bitnum="8" Lang="de-DE" Text="DMX 56" />
+				 <Bitdescription Bitnum="8" Lang="en-EN" Text="DMX 56" />
+			</CV>
+			<CV Number="7" Type="Bit" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				 <Description Lang="de-DE" Text="agiert auf DMX 57-64" />
+				 <Description Lang="en-EN" Text="affects DMX 57-64" />
+				 <Bitdescription Bitnum="1" Lang="de-DE" Text="DMX 57" />
+				 <Bitdescription Bitnum="1" Lang="en-EN" Text="DMX 57" />
+				 <Bitdescription Bitnum="2" Lang="de-DE" Text="DMX 58" />
+				 <Bitdescription Bitnum="2" Lang="en-EN" Text="DMX 58" />
+				 <Bitdescription Bitnum="3" Lang="de-DE" Text="DMX 59" />
+				 <Bitdescription Bitnum="3" Lang="en-EN" Text="DMX 59" />
+				 <Bitdescription Bitnum="4" Lang="de-DE" Text="DMX 60" />
+				 <Bitdescription Bitnum="4" Lang="en-EN" Text="DMX 60" />
+				 <Bitdescription Bitnum="5" Lang="de-DE" Text="DMX 61" />
+				 <Bitdescription Bitnum="5" Lang="en-EN" Text="DMX 61" />
+				 <Bitdescription Bitnum="6" Lang="de-DE" Text="DMX 62" />
+				 <Bitdescription Bitnum="6" Lang="en-EN" Text="DMX 62" />
+				 <Bitdescription Bitnum="7" Lang="de-DE" Text="DMX 63" />
+				 <Bitdescription Bitnum="7" Lang="en-EN" Text="DMX 63" />
+				 <Bitdescription Bitnum="8" Lang="de-DE" Text="DMX 64" />
+				 <Bitdescription Bitnum="8" Lang="en-EN" Text="DMX 64" />
+			</CV>
+			<CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Schrittdauer Aufdimmen [ms]"/>
+				<Description Lang="en-EN" Text="step time for dimm up"/>
+			</CV>
+			<CV Number="9" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Schrittdauer Abdimmen [ms]"/>
+				<Description Lang="en-EN" Text="step time for dimm down"/>
+			</CV>
+		</Template>
+		<Template Name="LightPort">
+			<CV Number="0" Type="Byte" Min="0" Max="63" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: DMX-Zielkanal (0..63)"/>
+				<Description Lang="en-EN" Text="Light-Port: DMX target channel (0..63)"/>
+			</CV>
+			<CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Helligkeit für Zustand „aus“"/>
+				<Description Lang="en-EN" Text="Light-Port: light intensity at status 'off'"/>
+			</CV>
+			<CV Number="2" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Helligkeit für Zustand „an“"/>
+				<Description Lang="en-EN" Text="Light-Port: light intensity at status 'on'"/>
+			</CV>
+			<CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „aus“, 1 = langsam / 255 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'off', 1 = slow / 255 = fast "/>
+			</CV>
+			<CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „an“, 1 = langsam / 255 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'on', 1 = slow / 255 = fast "/>
+			</CV>
+		</Template>
+		<Template Name="Backlight">
+			<CV Number="0" Type="Byte" Min="0" Max="63" Low="-" High="-" Values="-" Mode="h">
+				<Description Lang="de-DE" Text="Backlight: DMX-Zielkanal (0..63)"/>
+				<Description Lang="en-EN" Text="Backlight: DMX target channel (0..63)"/>
+			</CV>
+			<CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Backlight: Dimmzeit in Richtung „aus“, 1 = langsam / 255 = schnell"/>
+				<Description Lang="en-EN" Text="Backlight: time to dim, direction 'off', 1 = slow / 255 = fast "/>
+			</CV>
+			<CV Number="2" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Backlight: Dimmzeit in Richtung „an“, 1 = langsam / 255 = schnell"/>
+				<Description Lang="en-EN" Text="Backlight: time to dim, direction 'on', 1 = slow / 255 = fast "/>
+			</CV>
+			<CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
+				<Description Lang="de-DE" Text="Backlight: Reserviert"/>
+				<Description Lang="en-EN" Text="Backlight: Reserved"/>
+			</CV>
+		</Template>
+		<Template Name="AccessoryMap">
+		   <CV Number="0" Type="Byte" Min="0" Max="8" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Anzahl der möglichen Begriffe"/>
+				<Description Lang="en-EN" Text="number of aspects"/>
+			</CV>
+		   <CV Number="1" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 0"/>
+				<Description Lang="en-EN" Text="macro for aspects 0"/>
+			</CV>
+		   <CV Number="2" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 1"/>
+				<Description Lang="en-EN" Text="macro for aspects 1"/>
+			</CV>
+		   <CV Number="3" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 2"/>
+				<Description Lang="en-EN" Text="macro for aspects 2"/>
+			</CV>
+		   <CV Number="4" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 3"/>
+				<Description Lang="en-EN" Text="macro for aspects 3"/>
+			</CV>
+		   <CV Number="5" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 4"/>
+				<Description Lang="en-EN" Text="macro for aspects 4"/>
+			</CV>
+		   <CV Number="6" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 5"/>
+				<Description Lang="en-EN" Text="macro for aspects 5"/>
+			</CV>
+		   <CV Number="7" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 6"/>
+				<Description Lang="en-EN" Text="macro for aspects 6"/>
+			</CV>
+		   <CV Number="8" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Makro für Begriff 7"/>
+				<Description Lang="en-EN" Text="macro for aspects 7"/>
+			</CV>
+		</Template>
+	</Templates>
+
+	<CVDefinition>
+		<Node Offset="1" Template="About">
+				<Nodetext Lang="de-DE" Text="Allgemeine Daten"/>
+				<Nodetext Lang="en-EN" Text="Common data"/>
+		</Node>
+
+		<Node>
+			<Nodetext Lang="de-DE" Text="Konfiguration"/>
+			<Nodetext Lang="en-EN" Text="Config"/>
+			<CV Number="61" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Accessory beim Einschalten wieder herstellen"/>
+				<Description Lang="en-EN" Text="Recover accessory aspect on power up"/>
+			</CV> 
+			
+			<Node>
+				<Nodetext Lang="de-DE" Text="DMX-Kanäle (Init)"/>
+				<Nodetext Lang="en-EN" Text="DMX channels (init)"/>
+
+				<Node Offset="71" Template="DMX" Count="64" Next="1">
+					<Nodetext Lang="de-DE" Text="DMX-Kanal %%p"/>
+					<Nodetext Lang="en-EN" Text="DMX-Channel %%p"/>
+				</Node>
+			</Node>
+			<Node>
+				<Nodetext Lang="de-DE" Text="Eingang (direkte DMX-Kontrolle)"/>
+				<Nodetext Lang="en-EN" Text="Input (direct control)"/>
+
+				<Node Offset="135" Template="Mandirect" Count="8" Next="10">
+					<Nodetext Lang="de-DE" Text="Eingang %%p"/>
+					<Nodetext Lang="en-EN" Text="Input %%p"/>
+				</Node>
+			</Node>
+			<Node>
+				<Nodetext Lang="de-DE" Text="Licht-Ports"/>
+				<Nodetext Lang="en-EN" Text="Light ports"/>
+				<Node Offset="215" Template="LightPort" Count="128" Next="5">
+					<Nodetext Lang="de-DE" Text="Licht-Port %%d"/>
+					<Nodetext Lang="en-EN" Text="Light port %%d"/>
+				</Node>
+			</Node>
+			<Node>
+				<Nodetext Lang="de-DE" Text="Backlight-Ports"/>
+				<Nodetext Lang="en-EN" Text="Backlight ports"/>
+				<Node Offset="855" Template="Backlight" Count="16" Next="4">
+					<Nodetext Lang="de-DE" Text="Backlight-Port %%d"/>
+					<Nodetext Lang="en-EN" Text="Backlight port %%d"/>
+				</Node>
+			</Node>
+			<Node>
+				<Nodetext Lang="de-DE" Text="Accessory"/>
+				<Nodetext Lang="en-EN" Text="Accessory"/>
+				<Node Offset="919" Template="AccessoryMap" Count="8" Next="9">
+					<Nodetext Lang="de-DE" Text="Accessory %%d"/>
+					<Nodetext Lang="en-EN" Text="Accessory %%d"/>
+				</Node>
+			</Node>
+		</Node>
+	</CVDefinition>
 </VendorCV>

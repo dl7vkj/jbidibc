@@ -210,7 +210,17 @@ public class VendorCVTest {
     public void loadCvDefintionsOneDMX() {
         Node nodeOneDmx = new Node(0, new byte[] { 1 }, UUID_ONEDMX);
         nodeOneDmx.setSoftwareVersion(new SoftwareVersion(1, 1, 0));
-        VendorCvData vendorCVOneDmx = VendorCvFactory.getCvDefinition(nodeOneDmx, "classpath:/bidib");
+        VendorCvData vendorCVOneDmx = VendorCvFactory.getCvDefinition(nodeOneDmx, "classpath:/bidib-test");
         Assert.assertNotNull(vendorCVOneDmx);
+        Assert.assertEquals(vendorCVOneDmx.getFilename(), "BiDiBCV-13-115.xml");
+    }
+
+    @Test
+    public void loadCvDefintionsOneDMX_1_0_3() {
+        Node nodeOneDmx = new Node(0, new byte[] { 1 }, UUID_ONEDMX);
+        nodeOneDmx.setSoftwareVersion(new SoftwareVersion(1, 0, 3));
+        VendorCvData vendorCVOneDmx = VendorCvFactory.getCvDefinition(nodeOneDmx, "classpath:/bidib-test");
+        Assert.assertNotNull(vendorCVOneDmx);
+        Assert.assertEquals(vendorCVOneDmx.getFilename(), "BiDiBCV-13-115-1.0.3.xml");
     }
 }
