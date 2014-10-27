@@ -15,6 +15,22 @@ import org.slf4j.LoggerFactory;
 public class LcConfigX {
     private static final Logger LOGGER = LoggerFactory.getLogger(LcConfigX.class);
 
+    public static final Byte BIDIB_PCFG_NONE = Byte.valueOf((byte) 0);
+
+    public static final Byte BIDIB_PCFG_LEVEL_PORT_ON = Byte.valueOf((byte) 1);
+
+    public static final Byte BIDIB_PCFG_LEVEL_PORT_OFF = Byte.valueOf((byte) 2);
+
+    public static final Byte BIDIB_PCFG_DIMM_UP = Byte.valueOf((byte) 3);
+
+    public static final Byte BIDIB_PCFG_DIMM_DOWN = Byte.valueOf((byte) 4);
+
+    public static final Byte BIDIB_PCFG_DIMM_STRETCH = Byte.valueOf((byte) 5);
+
+    public static final Byte BIDIB_PCFG_OUTPUT_MAP = Byte.valueOf((byte) 6);
+
+    public static final Byte BIDIB_PCFG_CONTINUE = Byte.valueOf((byte) 255);
+
     private final LcOutputType outputType;
 
     private final int outputNumber;
