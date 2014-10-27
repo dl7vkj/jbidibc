@@ -58,7 +58,7 @@ public class ProtocolTest {
         Assert.assertNotNull(protocol);
 
         Assert.assertNotNull(protocol.getMessageTypes());
-        Assert.assertEquals(protocol.getMessageTypes().getMessageType().size(), 118);
+        Assert.assertEquals(protocol.getMessageTypes().getMessageType().size(), 120);
 
         Assert.assertNotNull(protocol.getFeatureCodes());
         Assert.assertEquals(protocol.getFeatureCodes().getFeatureCode().size(), 64);

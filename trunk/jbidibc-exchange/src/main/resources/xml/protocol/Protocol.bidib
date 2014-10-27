@@ -58,6 +58,8 @@
       <MessageType Id="66" Direction="Down" Category="Switch, Light" Name="MSG_LC_CONFIG_GET" AnswerSize="10" />
       <MessageType Id="67" Direction="Down" Category="Switch, Light" Name="MSG_LC_KEY_QUERY" AnswerSize="6" />
       <MessageType Id="68" Direction="Down" Category="Switch, Light" Name="MSG_LC_OUTPUT_QUERY" AnswerSize="7" />
+      <MessageType Id="70" Direction="Down" Category="Switch, Light" Name="MSG_LC_CONFIGX_SET" AnswerSize="10" />
+      <MessageType Id="71" Direction="Down" Category="Switch, Light" Name="MSG_LC_CONFIGX_GET" AnswerSize="10" />
 
       <!-- macro messages -->
       <MessageType Id="72" Direction="Down" Category="Macro" Name="MSG_LC_MACRO_HANDLE" AnswerSize="6" />

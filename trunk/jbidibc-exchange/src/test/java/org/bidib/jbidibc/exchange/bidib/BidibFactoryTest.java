@@ -95,6 +95,6 @@ public class BidibFactoryTest {
     public void loadMessageTypesTest() {
         List<MessageType> messageTypes = BidibFactory.getMessageTypes();
         Assert.assertNotNull(messageTypes);
-        Assert.assertEquals(118, messageTypes.size());
+        Assert.assertEquals(120, messageTypes.size());
     }
 }
