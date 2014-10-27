@@ -1661,7 +1661,8 @@ public class BidibNode {
      * @return the configuration of the specified ports.
      * @throws ProtocolException
      */
-    public List<LcConfigX> getConfigXBulk(LcOutputType outputType, int... outputNumbers) throws ProtocolException {
+    public List<LcConfigX> getConfigXBulk(LcOutputType outputType, int windowSize, int... outputNumbers)
+        throws ProtocolException {
         List<LcConfigX> result = null;
 
         List<BidibCommand> messages = new LinkedList<>();
@@ -1669,7 +1670,7 @@ public class BidibNode {
             messages.add(requestFactory.createLcConfigXGet(outputType, outputNumber));
         }
 
-        List<BidibMessage> responses = sendBulk(BULK_WINDOW_SIZE, messages);
+        List<BidibMessage> responses = sendBulk(windowSize, messages);
         if (CollectionUtils.hasElements(responses)) {
             result = new LinkedList<>();
             for (BidibMessage response : responses) {
