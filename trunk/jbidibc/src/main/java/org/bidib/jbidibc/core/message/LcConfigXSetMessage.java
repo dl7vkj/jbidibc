@@ -1,17 +1,15 @@
 package org.bidib.jbidibc.core.message;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
-
 import org.bidib.jbidibc.core.BidibLibrary;
 import org.bidib.jbidibc.core.LcConfigX;
 import org.bidib.jbidibc.core.enumeration.LcOutputType;
 import org.bidib.jbidibc.core.exception.ProtocolException;
 import org.bidib.jbidibc.core.utils.ByteUtils;
+import org.bidib.jbidibc.core.utils.MessageUtils;
 
 public class LcConfigXSetMessage extends BidibCommandMessage {
 
-    public LcConfigXSetMessage(LcConfigX configX) {
+    public LcConfigXSetMessage(final LcConfigX configX) {
         super(0, BidibLibrary.MSG_LC_CONFIGX_SET, configX.getCodedPortConfig());
     }
 
@@ -33,14 +31,7 @@ public class LcConfigXSetMessage extends BidibCommandMessage {
 
     public LcConfigX getLcConfigX() {
         byte[] data = getData();
-
-        byte outputType = data[0];
-        int portNumber = ByteUtils.getInt(data[1], 0x7F);
-
-        Map<Byte, Number> values = new LinkedHashMap<>();
-        // TODO get the values
-
-        return new LcConfigX(LcOutputType.valueOf(outputType), portNumber, values);
+        return MessageUtils.getLcConfigX(data);
     }
 
     @Override

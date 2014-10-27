@@ -1,9 +1,13 @@
 package org.bidib.jbidibc.core.utils;
 
+import java.io.ByteArrayInputStream;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.LinkedList;
+import java.util.Map;
 
 import org.bidib.jbidibc.core.CRC8;
+import org.bidib.jbidibc.core.LcConfigX;
 import org.bidib.jbidibc.core.LcMacro;
 import org.bidib.jbidibc.core.enumeration.AccessoryOkayEnum;
 import org.bidib.jbidibc.core.enumeration.AnalogPortEnum;
@@ -222,4 +226,51 @@ public class MessageUtils {
         }
         return result;
     }
+
+    public static LcConfigX getLcConfigX(byte[] data) {
+
+        byte outputType = data[0];
+        int portNumber = ByteUtils.getInt(data[1], 0x7F);
+
+        Map<Byte, Number> values = new LinkedHashMap<>();
+        // TODO get the values
+
+        if (data.length > 2) {
+            try {
+                ByteArrayInputStream bais = new ByteArrayInputStream(data);
+
+                bais.skip(2);
+
+                while (bais.available() > 0) {
+                    byte pEnum = ByteUtils.getLowByte(bais.read());
+                    int bytesRead = 0;
+                    switch (pEnum & 0x40) {
+                        case 0x40: // int
+                            byte[] intValue = new byte[4];
+                            bytesRead = bais.read(intValue);
+                            LOGGER.info("Read a int value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(intValue),
+                                bytesRead, ByteUtils.getInt(pEnum));
+
+                            Integer integerValue = ByteUtils.getDWORD(intValue);
+                            values.put(pEnum, integerValue);
+                            break;
+                        default: // byte
+                            byte[] byteVal = new byte[1];
+                            bytesRead = bais.read(byteVal);
+                            LOGGER.info("Read a byte value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(byteVal),
+                                bytesRead, ByteUtils.getInt(pEnum));
+                            Byte byteValue = new Byte(byteVal[0]);
+                            values.put(pEnum, byteValue);
+                            break;
+                    }
+                }
+            }
+            catch (Exception ex) {
+                LOGGER.warn("Read content of message failed.", ex);
+            }
+        }
+
+        return new LcConfigX(LcOutputType.valueOf(outputType), portNumber, values);
+    }
+
 }

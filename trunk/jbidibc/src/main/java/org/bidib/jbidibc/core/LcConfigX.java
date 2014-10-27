@@ -9,8 +9,12 @@ import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.bidib.jbidibc.core.enumeration.LcOutputType;
 import org.bidib.jbidibc.core.utils.ByteUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LcConfigX {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LcConfigX.class);
+
     private final LcOutputType outputType;
 
     private final int outputNumber;
@@ -48,20 +52,25 @@ public class LcConfigX {
 
         // TODO implement
         if (MapUtils.isNotEmpty(values)) {
-            for (Entry<Byte, Number> entry : values.entrySet()) {
-                byte pEnum = entry.getKey();
+            try {
+                for (Entry<Byte, Number> entry : values.entrySet()) {
+                    byte pEnum = entry.getKey();
 
-                baos.write(pEnum);
-                switch (pEnum & 0x40) {
-                    case 0x40: // int
-                        int pIntValue = entry.getValue().intValue();
-                        baos.write(pIntValue);
-                        break;
-                    default: // byte
-                        byte pValue = entry.getValue().byteValue();
-                        baos.write(pValue);
-                        break;
+                    baos.write(pEnum);
+                    switch (pEnum & 0x40) {
+                        case 0x40: // int
+                            int pIntValue = entry.getValue().intValue();
+                            baos.write(ByteUtils.toDWORD(pIntValue));
+                            break;
+                        default: // byte
+                            byte pValue = entry.getValue().byteValue();
+                            baos.write(pValue);
+                            break;
+                    }
                 }
+            }
+            catch (Exception ex) {
+                LOGGER.warn("Prepare coded port config failed.", ex);
             }
         }
         return baos.toByteArray();

@@ -132,6 +132,9 @@ public final class ResponseFactory {
             case BidibLibrary.MSG_LC_CONFIG:
                 result = new LcConfigResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
+            case BidibLibrary.MSG_LC_CONFIGX:
+                result = new LcConfigXResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
+                break;
             case BidibLibrary.MSG_LC_KEY:
                 result = new LcKeyResponse(result.getAddr(), result.getNum(), result.getType(), result.getData());
                 break;
