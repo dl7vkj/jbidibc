@@ -1097,7 +1097,7 @@ public class BidibNode {
         List<BidibMessage> responses = null;
 
         int numMessages = messages.size();
-        LOGGER.debug("Send bulk messages total: {}", numMessages);
+        LOGGER.info("Send bulk messages total: {}", numMessages);
 
         // send messages with a window-size
         int fromIndex = 0;
@@ -1108,7 +1108,7 @@ public class BidibNode {
             // calculate the index of messages to send
             // int toIndex = Math.min(numMessages - fromIndex, windowSize) + fromIndex;
             // LOGGER.trace("Send bulk messages fromIndex: {}, toIndex: {}", fromIndex, toIndex);
-            LOGGER.trace("Send bulk messages fromIndex: {}, numMessages: {}", fromIndex, numMessages);
+            LOGGER.info("Send bulk messages fromIndex: {}, numMessages: {}", fromIndex, numMessages);
             // get the sublist with the messages to send
             // List<BidibCommand> messagesToSend = messages.subList(fromIndex, toIndex);
 
@@ -1143,6 +1143,7 @@ public class BidibNode {
                 }
             }
 
+            LOGGER.info("Prepared messages to send: {}", messagesToSend);
             // send the messages
             prepareAndSendMessages(messagesToSend);
 
