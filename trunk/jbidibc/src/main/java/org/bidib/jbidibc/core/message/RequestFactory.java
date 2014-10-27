@@ -236,6 +236,9 @@ public class RequestFactory {
             case BidibLibrary.MSG_LC_CONFIG_GET:
                 concreteBidibMessage = new LcConfigGetMessage(message);
                 break;
+            case BidibLibrary.MSG_LC_CONFIGX_SET:
+                concreteBidibMessage = new LcConfigXSetMessage(message);
+                break;
             case BidibLibrary.MSG_LC_CONFIGX_GET:
                 concreteBidibMessage = new LcConfigXGetMessage(message);
                 break;

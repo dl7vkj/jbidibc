@@ -46,6 +46,7 @@ import org.bidib.jbidibc.core.message.FwUpdateStatResponse;
 import org.bidib.jbidibc.core.message.LcConfigResponse;
 import org.bidib.jbidibc.core.message.LcConfigSetMessage;
 import org.bidib.jbidibc.core.message.LcConfigXResponse;
+import org.bidib.jbidibc.core.message.LcConfigXSetMessage;
 import org.bidib.jbidibc.core.message.LcKeyMessage;
 import org.bidib.jbidibc.core.message.LcNotAvailableResponse;
 import org.bidib.jbidibc.core.message.LcOutputMessage;
@@ -1578,6 +1579,24 @@ public class BidibNode {
         }
 
         throw createNoResponseAvailable("LcConfigSet");
+    }
+
+    public LcConfigX setConfigX(LcConfigX config) throws ProtocolException {
+        LOGGER.debug("Send LcConfigXSet to node, config: {}", config);
+
+        BidibMessage response = send(new LcConfigXSetMessage(config), true, LcConfigXResponse.TYPE);
+        if (response instanceof LcConfigXResponse) {
+            LcConfigX result = ((LcConfigXResponse) response).getLcConfigX();
+            LOGGER.info("Set LcConfigX returned: {}", result);
+            return result;
+        }
+
+        if (ignoreWaitTimeout) {
+            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+            return null;
+        }
+
+        throw createNoResponseAvailable("LcConfigXSet");
     }
 
     /**
