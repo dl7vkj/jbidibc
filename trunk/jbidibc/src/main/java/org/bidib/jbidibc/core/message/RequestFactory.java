@@ -372,6 +372,11 @@ public class RequestFactory {
         return initializeCommand(bidibCommand);
     }
 
+    public BidibCommand createLcConfigXGet(LcOutputType outputType, int outputNumber) {
+        BidibCommand bidibCommand = new LcConfigXGetMessage(outputType, outputNumber);
+        return initializeCommand(bidibCommand);
+    }
+
     public BidibCommand createCommandStationAccessory(
         int address, AddressTypeEnum addressType, TimingControlEnum timingControl, ActivateCoilEnum activateCoil,
         int aspect, TimeBaseUnitEnum timeBaseUnit, int time) {

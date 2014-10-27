@@ -16,6 +16,7 @@ import org.bidib.jbidibc.core.CRC8;
 import org.bidib.jbidibc.core.Feature;
 import org.bidib.jbidibc.core.FirmwareUpdateStat;
 import org.bidib.jbidibc.core.LcConfig;
+import org.bidib.jbidibc.core.LcConfigX;
 import org.bidib.jbidibc.core.MessageReceiver;
 import org.bidib.jbidibc.core.Node;
 import org.bidib.jbidibc.core.ProtocolVersion;
@@ -44,6 +45,7 @@ import org.bidib.jbidibc.core.message.FwUpdateOpMessage;
 import org.bidib.jbidibc.core.message.FwUpdateStatResponse;
 import org.bidib.jbidibc.core.message.LcConfigResponse;
 import org.bidib.jbidibc.core.message.LcConfigSetMessage;
+import org.bidib.jbidibc.core.message.LcConfigXResponse;
 import org.bidib.jbidibc.core.message.LcKeyMessage;
 import org.bidib.jbidibc.core.message.LcNotAvailableResponse;
 import org.bidib.jbidibc.core.message.LcOutputMessage;
@@ -1624,6 +1626,36 @@ public class BidibNode {
             for (BidibMessage response : responses) {
                 if (response instanceof LcConfigResponse) {
                     result.add(((LcConfigResponse) response).getLcConfig());
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Get the configuration of the specified port.
+     * 
+     * @param outputType
+     *            the port type
+     * @param outputNumbers
+     *            the list of output numbers
+     * @return the configuration of the specified ports.
+     * @throws ProtocolException
+     */
+    public List<LcConfigX> getConfigXBulk(LcOutputType outputType, int... outputNumbers) throws ProtocolException {
+        List<LcConfigX> result = null;
+
+        List<BidibCommand> messages = new LinkedList<>();
+        for (int outputNumber : outputNumbers) {
+            messages.add(requestFactory.createLcConfigXGet(outputType, outputNumber));
+        }
+
+        List<BidibMessage> responses = sendBulk(BULK_WINDOW_SIZE, messages);
+        if (CollectionUtils.hasElements(responses)) {
+            result = new LinkedList<>();
+            for (BidibMessage response : responses) {
+                if (response instanceof LcConfigXResponse) {
+                    result.add(((LcConfigXResponse) response).getLcConfigX());
                 }
             }
         }
