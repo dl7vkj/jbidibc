@@ -1133,4 +1133,14 @@ public interface BidibLibrary {
     public static final int BIDIB_ERR_RESET_REQUIRED = (int) 0x21; // reset needed (ie. due to reconfiguration)
 
     public static final int MSG_LOCAL_ACCESSORY = (MSG_DLOCAL + 0x03); // 1:statusflag, 2,3: DCC-accessory addr
+
+    // #define MSG_LC_CONFIGX_SET (MSG_DLC + 0x06) // =0x46 1:type, 2:port, [3:p_enum, 4:p_val] (up to 16)
+    public static final int MSG_LC_CONFIGX_SET = (MSG_DLC + 0x06);
+
+    // #define MSG_LC_CONFIGX_GET (MSG_DLC + 0x07) // =0x47 1:type, 2:port
+    public static final int MSG_LC_CONFIGX_GET = (MSG_DLC + 0x07);
+
+    // #define MSG_LC_CONFIGX (MSG_ULC + 0x06) // =0xC6 1:type, 2:port, [3:p_enum, 4:p_val] (up to 16)
+    public static final int MSG_LC_CONFIGX = (MSG_ULC + 0x06);
+
 }

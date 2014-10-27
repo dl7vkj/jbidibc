@@ -174,7 +174,21 @@ public final class ByteUtils {
      * @return the low byte
      */
     public static byte getLowByte(int value) {
-        byte lowByte = (byte) (value & 0xFF);
+        byte lowByte = getLowByte(value, 0xFF);
+        return lowByte;
+    }
+
+    /**
+     * Returns the low byte of an int value.
+     * 
+     * @param value
+     *            the value
+     * @param mask
+     *            the mask
+     * @return the low byte
+     */
+    public static byte getLowByte(int value, int mask) {
+        byte lowByte = (byte) (value & mask);
         return lowByte;
     }
 
