@@ -58,6 +58,8 @@
       <MessageType Id="66" Direction="Down" Category="Switch, Light" Name="MSG_LC_CONFIG_GET" AnswerSize="10" />
       <MessageType Id="67" Direction="Down" Category="Switch, Light" Name="MSG_LC_KEY_QUERY" AnswerSize="6" />
       <MessageType Id="68" Direction="Down" Category="Switch, Light" Name="MSG_LC_OUTPUT_QUERY" AnswerSize="7" />
+      <MessageType Id="70" Direction="Down" Category="Switch, Light" Name="MSG_LC_CONFIGX_SET" AnswerSize="15" />
+      <MessageType Id="71" Direction="Down" Category="Switch, Light" Name="MSG_LC_CONFIGX_GET" AnswerSize="15" />
 
       <!-- macro messages -->
       <MessageType Id="72" Direction="Down" Category="Macro" Name="MSG_LC_MACRO_HANDLE" AnswerSize="6" />
@@ -138,6 +140,7 @@
       <MessageType Id="194" Direction="Up" Category="Switch, Light" Name="MSG_LC_CONFIG" />
       <MessageType Id="195" Direction="Up" Category="Switch, Light" Name="MSG_LC_KEY" />
       <MessageType Id="196" Direction="Up" Category="Switch, Light" Name="MSG_LC_WAIT" />
+      <MessageType Id="198" Direction="Up" Category="Switch, Light" Name="MSG_LC_CONFIGX" />
 
       <!-- macro messages -->
       <MessageType Id="200" Direction="Up" Category="Macro" Name="MSG_LC_MACRO_STATE" />

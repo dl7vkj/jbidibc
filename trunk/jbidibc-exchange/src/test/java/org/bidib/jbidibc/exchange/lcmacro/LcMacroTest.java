@@ -14,7 +14,6 @@ import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
 import org.apache.commons.io.IOUtils;
-import org.bidib.jbidibc.exchange.dmxscenery.DmxSceneriesTest;
 import org.custommonkey.xmlunit.XMLAssert;
 import org.custommonkey.xmlunit.XMLUnit;
 import org.slf4j.Logger;
@@ -40,7 +39,7 @@ public class LcMacroTest {
 
         Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        StreamSource streamSource = new StreamSource(DmxSceneriesTest.class.getResourceAsStream(XSD_LOCATION));
+        StreamSource streamSource = new StreamSource(LcMacroTest.class.getResourceAsStream(XSD_LOCATION));
         Schema schema = schemaFactory.newSchema(streamSource);
         unmarshaller.setSchema(schema);
 
@@ -102,7 +101,7 @@ public class LcMacroTest {
         marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
         // marshaller.setProperty(Marshaller.JAXB_SCHEMA_LOCATION, XSD_LOCATION);
         SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
-        StreamSource streamSource = new StreamSource(DmxSceneriesTest.class.getResourceAsStream(XSD_LOCATION));
+        StreamSource streamSource = new StreamSource(LcMacroTest.class.getResourceAsStream(XSD_LOCATION));
         Schema schema = schemaFactory.newSchema(streamSource);
         marshaller.setSchema(schema);
 

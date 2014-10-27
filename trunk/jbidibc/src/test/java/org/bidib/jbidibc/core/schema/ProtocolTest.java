@@ -1,4 +1,4 @@
-package org.bidib.jbidibc.exchange.bidib;
+package org.bidib.jbidibc.core.schema;
 
 import java.io.InputStream;
 
@@ -14,6 +14,9 @@ import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 
+import org.bidib.jbidibc.core.schema.bidib.BiDiB;
+import org.bidib.jbidibc.core.schema.bidib.FeatureCode;
+import org.bidib.jbidibc.core.schema.bidib.Protocol;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -24,7 +27,7 @@ import org.xml.sax.SAXException;
 public class ProtocolTest {
     private static final Logger LOGGER = LoggerFactory.getLogger(ProtocolTest.class);
 
-    private static final String JAXB_PACKAGE = "org.bidib.jbidibc.exchange.bidib";
+    private static final String JAXB_PACKAGE = "org.bidib.jbidibc.core.schema.bidib";
 
     private static final String XSD_LOCATION = "/xsd/bidib.xsd";
 
@@ -58,7 +61,7 @@ public class ProtocolTest {
         Assert.assertNotNull(protocol);
 
         Assert.assertNotNull(protocol.getMessageTypes());
-        Assert.assertEquals(protocol.getMessageTypes().getMessageType().size(), 120);
+        Assert.assertEquals(protocol.getMessageTypes().getMessageType().size(), 121);
 
         Assert.assertNotNull(protocol.getFeatureCodes());
         Assert.assertEquals(protocol.getFeatureCodes().getFeatureCode().size(), 64);

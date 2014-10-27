@@ -1097,7 +1097,7 @@ public class BidibNode {
         List<BidibMessage> responses = null;
 
         int numMessages = messages.size();
-        LOGGER.info("Send bulk messages total: {}", numMessages);
+        LOGGER.info("Send bulk messages total: {}, windowSize: {}", numMessages, windowSize);
 
         // send messages with a window-size
         int fromIndex = 0;

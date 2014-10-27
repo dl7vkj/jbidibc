@@ -83,7 +83,7 @@
                         <configuration>
                             <arguments>-extension -Xcommons-lang -Xfluent-api</arguments>
                             <schemaDirectory>${project.basedir}/src/main/resources/xsd</schemaDirectory>
-                            <packageName>org.bidib.jbidibc.schema.bidib</packageName>
+                            <packageName>org.bidib.jbidibc.core.schema.bidib</packageName>
                         </configuration>
                     </execution>
                 </executions>

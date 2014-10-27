@@ -19,6 +19,8 @@ public abstract class SimulationMessageReceiver implements SimulationBidibMessag
 
     private SimulatorRegistry simulatorRegistry;
 
+    private RequestFactory requestFactory;
+
     public SimulationMessageReceiver() {
 
     }
@@ -27,12 +29,20 @@ public abstract class SimulationMessageReceiver implements SimulationBidibMessag
         this.simulatorRegistry = simulatorRegistry;
     }
 
+    private synchronized RequestFactory getRequestFactory() {
+        if (requestFactory == null) {
+            requestFactory = new RequestFactory();
+        }
+
+        return requestFactory;
+    }
+
     @Override
     public void processMessages(ByteArrayOutputStream output) throws ProtocolException {
 
         // if a CRC error is detected in splitMessages the reading loop will terminate ...
         try {
-            List<BidibCommand> commands = new RequestFactory().create(output.toByteArray());
+            List<BidibCommand> commands = getRequestFactory().create(output.toByteArray());
 
             if (commands != null) {
 

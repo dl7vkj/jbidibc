@@ -4,11 +4,13 @@
   xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
   jxb:extensionBindingPrefixes="xjc">
 
+    <!--
     <jxb:bindings schemaLocation="../resources/xsd/bidib.xsd" node="/xs:schema">
         <jxb:schemaBindings>
             <jxb:package name="org.bidib.jbidibc.exchange.bidib"></jxb:package>
         </jxb:schemaBindings>
     </jxb:bindings>
+    -->
     <jxb:bindings schemaLocation="../resources/xsd/vendor_cv.xsd" node="/xs:schema">
         <jxb:schemaBindings>
             <jxb:package name="org.bidib.jbidibc.exchange.vendorcv"></jxb:package>

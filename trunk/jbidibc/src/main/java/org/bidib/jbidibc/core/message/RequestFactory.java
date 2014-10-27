@@ -14,8 +14,8 @@ import org.bidib.jbidibc.core.enumeration.TimeBaseUnitEnum;
 import org.bidib.jbidibc.core.enumeration.TimingControlEnum;
 import org.bidib.jbidibc.core.exception.ProtocolException;
 import org.bidib.jbidibc.core.schema.BidibFactory;
+import org.bidib.jbidibc.core.schema.bidib.MessageType;
 import org.bidib.jbidibc.core.utils.ByteUtils;
-import org.bidib.jbidibc.schema.bidib.MessageType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -29,7 +29,7 @@ public class RequestFactory {
     public RequestFactory() {
     }
 
-    private Map<Integer, MessageType> getMessageTypeMap() {
+    private synchronized Map<Integer, MessageType> getMessageTypeMap() {
         if (messageTypeMap == null) {
             messageTypeMap = new LinkedHashMap<Integer, MessageType>();
 

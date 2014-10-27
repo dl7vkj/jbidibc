@@ -27,7 +27,7 @@ public class FirmwareFactoryTest {
     public void loadFirmwareDefinition() throws JAXBException, SAXException, XMLStreamException {
         LOGGER.info("Prepare the JAXBContext to load the firmware defintion file.");
 
-        URL url = ProtocolTest.class.getResource("/xml-test/firmware-sample.xml");
+        URL url = FirmwareFactoryTest.class.getResource("/xml-test/firmware-sample.xml");
         Firmware firmware = FirmwareFactory.getFirmware(url.getPath());
         Assert.assertNotNull(firmware);
 
@@ -59,7 +59,7 @@ public class FirmwareFactoryTest {
     public void loadFirmwareDefinitionMinimum() throws JAXBException, SAXException, XMLStreamException {
         LOGGER.info("Prepare the JAXBContext to load the firmware defintion file.");
 
-        URL url = ProtocolTest.class.getResource("/xml-test/firmware-minimum.xml");
+        URL url = FirmwareFactoryTest.class.getResource("/xml-test/firmware-minimum.xml");
         Firmware firmware = FirmwareFactory.getFirmware(url.getPath());
         Assert.assertNotNull(firmware);
 
@@ -90,7 +90,7 @@ public class FirmwareFactoryTest {
     public void loadFirmwareDefinitionBasic() throws JAXBException, SAXException, XMLStreamException {
         LOGGER.info("Prepare the JAXBContext to load the firmware defintion file.");
 
-        URL url = ProtocolTest.class.getResource("/xml-test/firmware-basic.xml");
+        URL url = FirmwareFactoryTest.class.getResource("/xml-test/firmware-basic.xml");
         Firmware firmware = FirmwareFactory.getFirmware(url.getPath());
         Assert.assertNotNull(firmware);
 
