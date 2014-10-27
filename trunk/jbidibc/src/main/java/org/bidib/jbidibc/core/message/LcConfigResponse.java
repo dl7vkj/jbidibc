@@ -27,11 +27,10 @@ public class LcConfigResponse extends BidibMessage {
     public LcConfig getLcConfig() {
         byte[] data = getData();
 
-        // the MB is the flag for inactive ports
-        byte outputType = (byte) (data[0] & 0x7F);
-        boolean inActive = ((data[0] & 0x80) == 0x80);
+        // get the output type
+        byte outputType = data[0];
 
-        return new LcConfig(LcOutputType.valueOf(outputType), inActive, ByteUtils.getInt(data[1]),
-            ByteUtils.getInt(data[2]), ByteUtils.getInt(data[3]), ByteUtils.getInt(data[4]), ByteUtils.getInt(data[5]));
+        return new LcConfig(LcOutputType.valueOf(outputType), ByteUtils.getInt(data[1]), ByteUtils.getInt(data[2]),
+            ByteUtils.getInt(data[3]), ByteUtils.getInt(data[4]), ByteUtils.getInt(data[5]));
     }
 }

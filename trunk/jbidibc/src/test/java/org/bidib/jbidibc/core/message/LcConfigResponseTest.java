@@ -4,9 +4,6 @@ import org.bidib.jbidibc.core.BidibLibrary;
 import org.bidib.jbidibc.core.LcConfig;
 import org.bidib.jbidibc.core.enumeration.LcOutputType;
 import org.bidib.jbidibc.core.exception.ProtocolException;
-import org.bidib.jbidibc.core.message.BidibMessage;
-import org.bidib.jbidibc.core.message.LcConfigResponse;
-import org.bidib.jbidibc.core.message.ResponseFactory;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,16 +33,14 @@ public class LcConfigResponseTest {
 
         Assert.assertEquals(lcConfig.getOutputNumber(), 16);
         Assert.assertEquals(lcConfig.getOutputType(), LcOutputType.SWITCHPORT);
-        Assert.assertFalse(lcConfig.isInActive());
 
         Assert.assertEquals(lcConfig.getValue1(), 2);
         Assert.assertEquals(lcConfig.getValue2(), 15);
     }
 
     @Test
-    public void createLcConfigResponseInactivePortFromByteArray() throws ProtocolException {
-        byte[] message =
-            { 0x0a, 0x02, 0x00, (byte) 0xAB, (byte) 0xc2, (byte) 0x80 /* inactive */, 0x10, 0x02, 0x0F, 0x00, 0x00 };
+    public void createLcConfigResponseBacklightPortFromByteArray() throws ProtocolException {
+        byte[] message = { 0x0a, 0x02, 0x00, (byte) 0xAB, (byte) 0xc2, (byte) 0x06, 0x10, 0x02, 0x0F, 0x00, 0x00 };
 
         BidibMessage bidibMessage = ResponseFactory.create(message);
         Assert.assertNotNull(bidibMessage);
@@ -59,8 +54,7 @@ public class LcConfigResponseTest {
         LOGGER.info("lcConfig: {}", lcConfig);
 
         Assert.assertEquals(lcConfig.getOutputNumber(), 16);
-        Assert.assertEquals(lcConfig.getOutputType(), LcOutputType.SWITCHPORT);
-        Assert.assertTrue(lcConfig.isInActive());
+        Assert.assertEquals(lcConfig.getOutputType(), LcOutputType.BACKLIGHTPORT);
 
         Assert.assertEquals(lcConfig.getValue1(), 2);
         Assert.assertEquals(lcConfig.getValue2(), 15);

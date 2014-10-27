@@ -19,7 +19,6 @@ import org.bidib.jbidibc.core.message.FeedbackMirrorFreeMessage;
 import org.bidib.jbidibc.core.message.LcConfigSetMessage;
 import org.bidib.jbidibc.core.message.RequestFactory;
 import org.bidib.jbidibc.core.message.ResponseFactory;
-import org.bidib.jbidibc.core.node.BidibNode;
 import org.bidib.jbidibc.core.node.BidibNode.EncodedMessage;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.mockito.Mockito;
@@ -306,7 +305,7 @@ public class BidibNodeTest {
         int pwmMax = 50;
         int dimMin = 10;
         int dimMax = 20;
-        LcConfig config = new LcConfig(LcOutputType.LIGHTPORT, false, port, pwmMin, pwmMax, dimMax, dimMin);
+        LcConfig config = new LcConfig(LcOutputType.LIGHTPORT, port, pwmMin, pwmMax, dimMax, dimMin);
         BidibCommand bidibMessage = new LcConfigSetMessage(config);
 
         long start = System.nanoTime();
@@ -337,7 +336,7 @@ public class BidibNodeTest {
         int port = 2;
         int ioBehaviour = 1;
         int switchOffTime = 20;
-        LcConfig config = new LcConfig(LcOutputType.SWITCHPORT, false, port, ioBehaviour, switchOffTime, 0, 0);
+        LcConfig config = new LcConfig(LcOutputType.SWITCHPORT, port, ioBehaviour, switchOffTime, 0, 0);
         BidibCommand bidibMessage = new LcConfigSetMessage(config);
 
         long start = System.nanoTime();
