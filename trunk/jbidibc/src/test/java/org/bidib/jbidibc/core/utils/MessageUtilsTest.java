@@ -1,5 +1,8 @@
 package org.bidib.jbidibc.core.utils;
 
+import java.util.Map;
+
+import org.bidib.jbidibc.core.LcConfigX;
 import org.bidib.jbidibc.core.LcMacro;
 import org.bidib.jbidibc.core.enumeration.AnalogPortEnum;
 import org.bidib.jbidibc.core.enumeration.BacklightPortEnum;
@@ -9,7 +12,6 @@ import org.bidib.jbidibc.core.enumeration.LightPortEnum;
 import org.bidib.jbidibc.core.enumeration.ServoPortEnum;
 import org.bidib.jbidibc.core.enumeration.SoundPortEnum;
 import org.bidib.jbidibc.core.enumeration.SwitchPortEnum;
-import org.bidib.jbidibc.core.utils.MessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -128,5 +130,41 @@ public class MessageUtilsTest {
                 Assert.assertNull(portStatus);
             }
         }
+    }
+
+    @Test
+    public void getLcConfigX() {
+
+        byte[] data =
+            { 0x00, 0x10, 0x01, (byte) 0xFF, 0x02, 0x00, 0x03, 0x06, 0x04, 0x05, 0x41, 0x02, (byte) 0x80, (byte) 0x81,
+                0x02, (byte) 0x80, 0x02, (byte) 0x81 };
+
+        LcConfigX lcConfigX = MessageUtils.getLcConfigX(data);
+        Assert.assertNotNull(lcConfigX);
+
+        Map<Byte, Number> portConfig = lcConfigX.getPortConfig();
+        Assert.assertNotNull(portConfig);
+        Assert.assertEquals(portConfig.size(), 6);
+
+        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 0x81)),
+            ByteUtils.getDWORD(new byte[] { 0x02, (byte) 0x80, 0x02, (byte) 0x81 }));
+    }
+
+    @Test
+    public void getLcConfigX2() {
+
+        byte[] data =
+            { 0x00, 0x10, 0x01, (byte) 0xFF, 0x02, 0x00, 0x03, 0x06, 0x04, 0x05, 0x7F, 0x02, (byte) 0x80, (byte) 0xC1,
+                0x02, (byte) 0x80, 0x02, (byte) 0x81 };
+
+        LcConfigX lcConfigX = MessageUtils.getLcConfigX(data);
+        Assert.assertNotNull(lcConfigX);
+
+        Map<Byte, Number> portConfig = lcConfigX.getPortConfig();
+        Assert.assertNotNull(portConfig);
+        Assert.assertEquals(portConfig.size(), 6);
+
+        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 0xC1)),
+            ByteUtils.getDWORD(new byte[] { 0x02, (byte) 0x80, 0x02, (byte) 0x81 }));
     }
 }

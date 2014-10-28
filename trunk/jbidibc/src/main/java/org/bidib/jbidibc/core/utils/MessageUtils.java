@@ -233,8 +233,7 @@ public class MessageUtils {
         int portNumber = ByteUtils.getInt(data[1], 0x7F);
 
         Map<Byte, Number> values = new LinkedHashMap<>();
-        // TODO get the values
-
+        // get the values
         if (data.length > 2) {
             try {
                 ByteArrayInputStream bais = new ByteArrayInputStream(data);
@@ -244,24 +243,33 @@ public class MessageUtils {
                 while (bais.available() > 0) {
                     byte pEnum = ByteUtils.getLowByte(bais.read());
                     int bytesRead = 0;
-                    switch (pEnum & 0x40) {
-                        case 0x40: // int
-                            byte[] intValue = new byte[4];
-                            bytesRead = bais.read(intValue);
-                            LOGGER.info("Read a int value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(intValue),
-                                bytesRead, ByteUtils.getInt(pEnum));
+                    if ((pEnum & 0x80) == 0x80) {
+                        // int32
+                        byte[] intValue = new byte[4];
+                        bytesRead = bais.read(intValue);
+                        LOGGER.info("Read a int32 value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(intValue),
+                            bytesRead, ByteUtils.getInt(pEnum));
 
-                            Integer integerValue = ByteUtils.getDWORD(intValue);
-                            values.put(pEnum, integerValue);
-                            break;
-                        default: // byte
-                            byte[] byteVal = new byte[1];
-                            bytesRead = bais.read(byteVal);
-                            LOGGER.info("Read a byte value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(byteVal),
-                                bytesRead, ByteUtils.getInt(pEnum));
-                            Byte byteValue = new Byte(byteVal[0]);
-                            values.put(pEnum, byteValue);
-                            break;
+                        Integer integerValue = ByteUtils.getDWORD(intValue);
+                        values.put(pEnum, integerValue);
+                    }
+                    else if ((pEnum & 0x40) == 0x40) {
+                        // int16
+                        byte[] intValue = new byte[2];
+                        bytesRead = bais.read(intValue);
+                        LOGGER.info("Read a int16 value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(intValue),
+                            bytesRead, ByteUtils.getInt(pEnum));
+
+                        Integer integerValue = ByteUtils.getWORD(intValue);
+                        values.put(pEnum, integerValue);
+                    }
+                    else { // byte
+                        byte[] byteVal = new byte[1];
+                        bytesRead = bais.read(byteVal);
+                        LOGGER.info("Read a byte value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(byteVal),
+                            bytesRead, ByteUtils.getInt(pEnum));
+                        Byte byteValue = new Byte(byteVal[0]);
+                        values.put(pEnum, byteValue);
                     }
                 }
             }
@@ -272,5 +280,4 @@ public class MessageUtils {
 
         return new LcConfigX(LcOutputType.valueOf(outputType), portNumber, values);
     }
-
 }

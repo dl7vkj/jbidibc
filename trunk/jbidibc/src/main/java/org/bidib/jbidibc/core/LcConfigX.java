@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory;
 public class LcConfigX {
     private static final Logger LOGGER = LoggerFactory.getLogger(LcConfigX.class);
 
+    // 8 bit values
     public static final Byte BIDIB_PCFG_NONE = Byte.valueOf((byte) 0);
 
     public static final Byte BIDIB_PCFG_LEVEL_PORT_ON = Byte.valueOf((byte) 1);
@@ -30,6 +31,11 @@ public class LcConfigX {
     public static final Byte BIDIB_PCFG_OUTPUT_MAP = Byte.valueOf((byte) 6);
 
     public static final Byte BIDIB_PCFG_CONTINUE = Byte.valueOf((byte) 255);
+
+    // 16 bit values
+    public static final Byte BIDIB_PCFG_DIMM_UP_8_8 = Byte.valueOf((byte) 43);
+
+    public static final Byte BIDIB_PCFG_DIMM_DOWN_8_8 = Byte.valueOf((byte) 44);
 
     private final LcOutputType outputType;
 
@@ -73,15 +79,19 @@ public class LcConfigX {
                     byte pEnum = entry.getKey();
 
                     baos.write(pEnum);
-                    switch (pEnum & 0x40) {
-                        case 0x40: // int
-                            int pIntValue = entry.getValue().intValue();
-                            baos.write(ByteUtils.toDWORD(pIntValue));
-                            break;
-                        default: // byte
-                            byte pValue = entry.getValue().byteValue();
-                            baos.write(pValue);
-                            break;
+                    if ((pEnum & 0x80) == 0x80) {
+                        // int32
+                        int pIntValue = entry.getValue().intValue();
+                        baos.write(ByteUtils.toDWORD(pIntValue));
+                    }
+                    else if ((pEnum & 0x40) == 0x40) {
+                        // int16
+                        int pIntValue = entry.getValue().intValue();
+                        baos.write(ByteUtils.toWORD(pIntValue));
+                    }
+                    else { // byte
+                        byte pValue = entry.getValue().byteValue();
+                        baos.write(pValue);
                     }
                 }
             }

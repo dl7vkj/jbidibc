@@ -31,6 +31,24 @@ public final class ByteUtils {
         return dword;
     }
 
+    public static byte[] toWORD(int value) {
+        byte[] word = new byte[2];
+
+        for (int index = 0; index < 2; index++) {
+            byte val = (byte) ((value >> (8 * index)) & 0xFF);
+            word[index] = val;
+        }
+        return word;
+    }
+
+    public static int getWORD(byte[] value) {
+        int word = 0;
+        for (int index = 1; index > -1; index--) {
+            word = (word << 8) | (value[index] & 0xFF);
+        }
+        return word;
+    }
+
     public static int getWord(byte lowByte, byte highByte) {
         return ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
     }
