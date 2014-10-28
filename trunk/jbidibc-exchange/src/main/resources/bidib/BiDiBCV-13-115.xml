@@ -352,7 +352,7 @@
 			<Node>
 				<Nodetext Lang="de-DE" Text="Licht-Ports"/>
 				<Nodetext Lang="en-EN" Text="Light ports"/>
-				<Node Offset="215" Template="LightPort" Count="128" Next="5">
+				<Node Offset="215" Template="LightPort" Count="128" Next="7">
 					<Nodetext Lang="de-DE" Text="Licht-Port %%d"/>
 					<Nodetext Lang="en-EN" Text="Light port %%d"/>
 				</Node>
@@ -360,7 +360,7 @@
 			<Node>
 				<Nodetext Lang="de-DE" Text="Backlight-Ports"/>
 				<Nodetext Lang="en-EN" Text="Backlight ports"/>
-				<Node Offset="1111" Template="Backlight" Count="16" Next="4">
+				<Node Offset="1111" Template="Backlight" Count="16" Next="5">
 					<Nodetext Lang="de-DE" Text="Backlight-Port %%d"/>
 					<Nodetext Lang="en-EN" Text="Backlight port %%d"/>
 				</Node>
