@@ -72,7 +72,7 @@ public class LcConfigX {
         baos.write(outputTypeValue);
         baos.write(portNumber);
 
-        // TODO implement
+        // prepare the values
         if (MapUtils.isNotEmpty(values)) {
             try {
                 for (Entry<Byte, Number> entry : values.entrySet()) {
