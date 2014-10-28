@@ -49,8 +49,8 @@ public class LcConfigXResponseTest {
     public void getLcConfigXWithInt() throws ProtocolException {
 
         byte[] message =
-            { 0x11, 0x02, 0x00, (byte) 0xAB, (byte) 0xc6, 0x00, 0x10, 0x01, (byte) 0xFF, 0x02, 0x00, 0x03, 0x06, 0x41,
-                (byte) 0xBA, (byte) 0xDC, (byte) 0xFE, 0x00 };
+            { 0x11, 0x02, 0x00, (byte) 0xAB, (byte) 0xc6, 0x00, 0x10, 0x01, (byte) 0xFF, 0x02, 0x00, 0x03, 0x06,
+                (byte) 0x81, (byte) 0xBA, (byte) 0xDC, (byte) 0xFE, 0x00 };
 
         BidibMessage bidibMessage = ResponseFactory.create(message);
         Assert.assertNotNull(bidibMessage);
@@ -72,6 +72,6 @@ public class LcConfigXResponseTest {
         Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 1)).byteValue() & 0xFF, 0xFF);
         Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 2)).byteValue() & 0xFF, 0x00);
         Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 3)).byteValue() & 0xFF, 0x06);
-        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 0x41)).intValue() & 0xFFFFFFFF, 0xFEDCBA);
+        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 0x81)).intValue() & 0xFFFFFFFF, 0xFEDCBA);
     }
 }

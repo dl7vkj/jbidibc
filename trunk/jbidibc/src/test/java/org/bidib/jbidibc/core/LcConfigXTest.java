@@ -18,14 +18,14 @@ public class LcConfigXTest {
         Map<Byte, Number> values = new LinkedHashMap<>();
         values.put((byte) 1, (byte) 32);
         values.put((byte) 2, (byte) 2);
-        values.put((byte) 0x41, Integer.valueOf(16702650));
+        values.put((byte) 0x81, Integer.valueOf(16702650));
         LcConfigX lcConfigX = new LcConfigX(LcOutputType.LIGHTPORT, 1, values);
 
         byte[] codedPortConfig = lcConfigX.getCodedPortConfig();
         Assert.assertNotNull(codedPortConfig);
         LOGGER.info("Coded port config: {}", ByteUtils.bytesToHex(codedPortConfig));
 
-        Assert.assertEquals(lcConfigX.getCodedPortConfig(), new byte[] { 0x01, 0x01, 0x01, 0x20, 0x02, 0x02, 0x41,
-            (byte) 0xBA, (byte) 0xDC, (byte) 0xFE, 0x00 });
+        Assert.assertEquals(lcConfigX.getCodedPortConfig(), new byte[] { 0x01, 0x01, 0x01, 0x20, 0x02, 0x02,
+            (byte) 0x81, (byte) 0xBA, (byte) 0xDC, (byte) 0xFE, 0x00 });
     }
 }
