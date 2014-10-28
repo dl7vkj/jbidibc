@@ -33,9 +33,9 @@ public class LcConfigX {
     public static final Byte BIDIB_PCFG_CONTINUE = Byte.valueOf((byte) 255);
 
     // 16 bit values
-    public static final Byte BIDIB_PCFG_DIMM_UP_8_8 = Byte.valueOf((byte) 43);
+    public static final Byte BIDIB_PCFG_DIMM_UP_8_8 = Byte.valueOf((byte) 0x43);
 
-    public static final Byte BIDIB_PCFG_DIMM_DOWN_8_8 = Byte.valueOf((byte) 44);
+    public static final Byte BIDIB_PCFG_DIMM_DOWN_8_8 = Byte.valueOf((byte) 0x44);
 
     private final LcOutputType outputType;
 
