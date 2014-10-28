@@ -49,6 +49,10 @@ public final class ByteUtils {
         return word;
     }
 
+    public static int getWORD(int value) {
+        return (value & 0xFFFF);
+    }
+
     public static int getWord(byte lowByte, byte highByte) {
         return ((highByte & 0x3F) << 8) + (lowByte & 0xFF);
     }
