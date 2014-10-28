@@ -110,6 +110,8 @@ public class BidibNode {
 
     private Integer nodeMagic;
 
+    private Long cachedUniqueId;
+
     private BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
 
     protected boolean ignoreWaitTimeout;
@@ -1681,5 +1683,20 @@ public class BidibNode {
             }
         }
         return result;
+    }
+
+    /**
+     * @return the cachedUniqueId
+     */
+    public Long getCachedUniqueId() {
+        return cachedUniqueId;
+    }
+
+    /**
+     * @param cachedUniqueId
+     *            the cachedUniqueId to set
+     */
+    public void setCachedUniqueId(Long cachedUniqueId) {
+        this.cachedUniqueId = cachedUniqueId;
     }
 }

@@ -211,6 +211,7 @@ public class NodeFactory {
                     bidibNode = new BidibNode(node.getAddr(), messageReceiver, ignoreWaitTimeout);
                 }
                 // initialize the node
+                bidibNode.setCachedUniqueId(node.getUniqueId());
                 bidibNode.setBidib(bidib);
                 bidibNode.setRequestFactory(requestFactory);
                 bidibNode.setResponseTimeout(bidib.getResponseTimeout());

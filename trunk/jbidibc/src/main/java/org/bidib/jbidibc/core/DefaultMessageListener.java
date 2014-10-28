@@ -107,4 +107,8 @@ public class DefaultMessageListener implements MessageListener {
     @Override
     public void csAccessoryAcknowledge(byte[] address, int decoderAddress, AccessoryAcknowledge acknowledge) {
     }
+
+    @Override
+    public void lcNa(byte[] address, LcOutputType portType, int portNumber) {
+    }
 }

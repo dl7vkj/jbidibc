@@ -35,6 +35,7 @@ import org.bidib.jbidibc.core.message.FeedbackMultipleResponse;
 import org.bidib.jbidibc.core.message.FeedbackOccupiedResponse;
 import org.bidib.jbidibc.core.message.FeedbackSpeedResponse;
 import org.bidib.jbidibc.core.message.LcKeyResponse;
+import org.bidib.jbidibc.core.message.LcNotAvailableResponse;
 import org.bidib.jbidibc.core.message.LcStatResponse;
 import org.bidib.jbidibc.core.message.LcWaitResponse;
 import org.bidib.jbidibc.core.message.NodeLostResponse;
@@ -48,6 +49,7 @@ import org.bidib.jbidibc.core.node.BidibNode;
 import org.bidib.jbidibc.core.node.NodeFactory;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.bidib.jbidibc.core.utils.MessageUtils;
+import org.bidib.jbidibc.core.utils.ProductUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -211,11 +213,29 @@ public class MessageReceiver implements BidibMessageProcessor {
                             break;
                         case BidibLibrary.MSG_LC_WAIT:
                             LOGGER.info("Received LcWaitResponse: {}", message);
-                            // TODO I think this does not work if the sender is already waiting for a response ...
-                            // setTimeout(((LcWaitResponse) message).getTimeout());
                             LcWaitResponse lcWaitResponse = (LcWaitResponse) message;
                             fireLcWait(message.getAddr(), lcWaitResponse.getPortType(), lcWaitResponse.getPortNumber(),
                                 lcWaitResponse.getPredictedRotationTime());
+                            break;
+
+                        case BidibLibrary.MSG_LC_NA:
+                            LOGGER.info("Received LcNotAvailableResponse: {}", message);
+                            LcNotAvailableResponse lcNotAvailableResponse = (LcNotAvailableResponse) message;
+                            try {
+                                BidibNode node = nodeFactory.findNode(message.getAddr());
+                                if (ProductUtils.isOneDMX(node.getCachedUniqueId())) {
+                                    LOGGER.info("MSG_LC_NA, node is OneDMX: {}", node);
+                                    // TODO special handling for OneDMX right now
+                                    fireLcNa(message.getAddr(), lcNotAvailableResponse.getPortType(),
+                                        lcNotAvailableResponse.getPortNumber());
+                                }
+                                else {
+                                    messageReceived(message);
+                                }
+                            }
+                            catch (Exception ex) {
+                                LOGGER.warn("", ex);
+                            }
                             break;
                         case BidibLibrary.MSG_LOGON:
                             // ignored
@@ -614,6 +634,14 @@ public class MessageReceiver implements BidibMessageProcessor {
         synchronized (messageListeners) {
             for (MessageListener l : messageListeners) {
                 l.lcWait(address, portType, portNumber, predRotationTime);
+            }
+        }
+    }
+
+    private void fireLcNa(byte[] address, LcOutputType portType, int portNumber) {
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.lcNa(address, portType, portNumber);
             }
         }
     }
