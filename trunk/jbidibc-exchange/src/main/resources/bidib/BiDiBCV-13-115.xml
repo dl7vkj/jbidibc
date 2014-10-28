@@ -4,7 +4,7 @@
           xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
 
 	<Version 
-		Version="1.00.03" Versionm="441" Lastupdate="20141025" Author="Kufer, Wolfgang" Pid="115" Vendor="013" Description="OneDMX V1.0">
+		Version="0.03" Versionm="441" Lastupdate="20141028" Author="Kufer, Wolfgang" Pid="115"	Vendor="013" Description="OneDMX V2.0">
 	</Version>
 	<Templates>
 		<Template Name="About">
@@ -238,13 +238,21 @@
 				<Description Lang="de-DE" Text="Light-Port: Helligkeit für Zustand „an“"/>
 				<Description Lang="en-EN" Text="Light-Port: light intensity at status 'on'"/>
 			</CV>
-			<CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „aus“, 1 = langsam / 255 = schnell"/>
-				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'off', 1 = slow / 255 = fast "/>
+			<CV Number="3" Type="Int" Min="0" Max="65535" Low="3" High="4" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „aus“, 1 = langsam / 65535 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'off', 1 = slow / 65535 = fast "/>
 			</CV>
-			<CV Number="4" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „an“, 1 = langsam / 255 = schnell"/>
-				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'on', 1 = slow / 255 = fast "/>
+			<CV Number="4" Type="Int" Min="0" Max="65535" Low="3" High="4" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „aus“, 1 = langsam / 65535 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'off', 1 = slow / 65535 = fast "/>
+			</CV>
+			<CV Number="5" Type="Int" Min="0" Max="65535" Low="5" High="6" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „an“, 1 = langsam / 65535 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'on', 1 = slow / 65535 = fast "/>
+			</CV>
+			<CV Number="6" Type="Int" Min="0" Max="65535" Low="5" High="6" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „an“, 1 = langsam / 65535 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'on', 1 = slow / 65535 = fast "/>
 			</CV>
 		</Template>
 		<Template Name="Backlight">
@@ -252,17 +260,21 @@
 				<Description Lang="de-DE" Text="Backlight: DMX-Zielkanal (0..63)"/>
 				<Description Lang="en-EN" Text="Backlight: DMX target channel (0..63)"/>
 			</CV>
-			<CV Number="1" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="Backlight: Dimmzeit in Richtung „aus“, 1 = langsam / 255 = schnell"/>
-				<Description Lang="en-EN" Text="Backlight: time to dim, direction 'off', 1 = slow / 255 = fast "/>
+			<CV Number="1" Type="Int" Min="0" Max="65535" Low="1" High="2" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „aus“, 1 = langsam / 65535 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'off', 1 = slow / 65535 = fast "/>
 			</CV>
-			<CV Number="2" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="Backlight: Dimmzeit in Richtung „an“, 1 = langsam / 255 = schnell"/>
-				<Description Lang="en-EN" Text="Backlight: time to dim, direction 'on', 1 = slow / 255 = fast "/>
+			<CV Number="2" Type="Int" Min="0" Max="65535" Low="1" High="2" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „aus“, 1 = langsam / 65535 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'off', 1 = slow / 65535 = fast "/>
 			</CV>
-			<CV Number="3" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="ro">
-				<Description Lang="de-DE" Text="Backlight: Reserviert"/>
-				<Description Lang="en-EN" Text="Backlight: Reserved"/>
+			<CV Number="3" Type="Int" Min="0" Max="65535" Low="3" High="4" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „an“, 1 = langsam / 65535 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'on', 1 = slow / 65535 = fast "/>
+			</CV>
+			<CV Number="4" Type="Int" Min="0" Max="65535" Low="3" High="4" Values="-" Mode="rw">
+				<Description Lang="de-DE" Text="Light-Port: Dimmzeit in Richtung „an“, 1 = langsam / 65535 = schnell"/>
+				<Description Lang="en-EN" Text="Light-Port: time to dim, direction 'on', 1 = slow / 65535 = fast "/>
 			</CV>
 		</Template>
 		<Template Name="AccessoryMap">
@@ -348,7 +360,7 @@
 			<Node>
 				<Nodetext Lang="de-DE" Text="Backlight-Ports"/>
 				<Nodetext Lang="en-EN" Text="Backlight ports"/>
-				<Node Offset="855" Template="Backlight" Count="16" Next="4">
+				<Node Offset="1111" Template="Backlight" Count="16" Next="4">
 					<Nodetext Lang="de-DE" Text="Backlight-Port %%d"/>
 					<Nodetext Lang="en-EN" Text="Backlight port %%d"/>
 				</Node>
@@ -356,7 +368,7 @@
 			<Node>
 				<Nodetext Lang="de-DE" Text="Accessory"/>
 				<Nodetext Lang="en-EN" Text="Accessory"/>
-				<Node Offset="919" Template="AccessoryMap" Count="8" Next="9">
+				<Node Offset="1191" Template="AccessoryMap" Count="8" Next="9">
 					<Nodetext Lang="de-DE" Text="Accessory %%d"/>
 					<Nodetext Lang="en-EN" Text="Accessory %%d"/>
 				</Node>
