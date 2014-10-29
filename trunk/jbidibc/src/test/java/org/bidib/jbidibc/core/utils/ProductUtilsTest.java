@@ -1,10 +1,8 @@
-package org.bidib.jbidibc.exchange.bidib;
+package org.bidib.jbidibc.core.utils;
 
-import org.bidib.jbidibc.core.utils.NodeUtils;
-import org.junit.Assert;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
-@Deprecated
 public class ProductUtilsTest {
 
     @Test

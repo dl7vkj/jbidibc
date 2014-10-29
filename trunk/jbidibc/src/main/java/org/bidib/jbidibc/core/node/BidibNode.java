@@ -78,6 +78,7 @@ import org.bidib.jbidibc.core.message.VendorSetMessage;
 import org.bidib.jbidibc.core.node.listener.TransferListener;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.bidib.jbidibc.core.utils.CollectionUtils;
+import org.bidib.jbidibc.core.utils.NodeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -110,7 +111,9 @@ public class BidibNode {
 
     private Integer nodeMagic;
 
-    private Long cachedUniqueId;
+    private Long uniqueId;
+
+    private ProtocolVersion protocolVersion;
 
     private BlockingQueue<BidibMessage> receiveQueue = new LinkedBlockingQueue<BidibMessage>();
 
@@ -678,18 +681,25 @@ public class BidibNode {
      * @return the protocol version
      * @throws ProtocolException
      */
-    public ProtocolVersion getPVersion() throws ProtocolException {
-        BidibMessage response = send(new SysGetPVersionMessage(), true, SysPVersionResponse.TYPE);
-        if (response instanceof SysPVersionResponse) {
-            return ((SysPVersionResponse) response).getVersion();
-        }
+    public ProtocolVersion getProtocolVersion() throws ProtocolException {
 
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-            return null;
-        }
+        if (protocolVersion == null) {
+            BidibMessage response = send(new SysGetPVersionMessage(), true, SysPVersionResponse.TYPE);
+            if (response instanceof SysPVersionResponse) {
+                protocolVersion = ((SysPVersionResponse) response).getVersion();
+                LOGGER.info("ProtocolVersion of current node: {}", protocolVersion);
+                return protocolVersion;
+            }
 
-        throw createNoResponseAvailable("get protocol version");
+            if (ignoreWaitTimeout) {
+                LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+                return null;
+            }
+
+            throw createNoResponseAvailable("get protocol version");
+        }
+        LOGGER.info("Return the cached protocol version: {}", protocolVersion);
+        return protocolVersion;
     }
 
     /**
@@ -719,17 +729,27 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public byte[] getUniqueId() throws ProtocolException {
-        BidibMessage response = send(new SysUniqueIdMessage(), true, SysUniqueIdResponse.TYPE);
-        if (response instanceof SysUniqueIdResponse) {
-            return ((SysUniqueIdResponse) response).getUniqueId();
-        }
 
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-            return null;
-        }
+        if (uniqueId == null) {
 
-        throw createNoResponseAvailable("get unique id");
+            BidibMessage response = send(new SysUniqueIdMessage(), true, SysUniqueIdResponse.TYPE);
+            if (response instanceof SysUniqueIdResponse) {
+                byte[] encodedUniqueId = ((SysUniqueIdResponse) response).getUniqueId();
+
+                // keep the uniqueId
+                uniqueId = NodeUtils.getUniqueId(encodedUniqueId);
+
+                return encodedUniqueId;
+            }
+
+            if (ignoreWaitTimeout) {
+                LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+                return null;
+            }
+            throw createNoResponseAvailable("get unique id");
+        }
+        // return the uniqueId from the cache
+        return NodeUtils.getUniqueId(uniqueId);
     }
 
     public void getKeyState(int keyNumber) throws ProtocolException {
@@ -1686,17 +1706,18 @@ public class BidibNode {
     }
 
     /**
-     * @return the cachedUniqueId
+     * @return the cached uniqueId
      */
     public Long getCachedUniqueId() {
-        return cachedUniqueId;
+        return uniqueId;
     }
 
     /**
-     * @param cachedUniqueId
-     *            the cachedUniqueId to set
+     * @param uniqueId
+     *            the uniqueId to set
      */
-    public void setCachedUniqueId(Long cachedUniqueId) {
-        this.cachedUniqueId = cachedUniqueId;
+    public void setUniqueId(Long uniqueId) {
+        LOGGER.info("Set the uniqueId on the node: {}, previous stored uniqueId: {}", uniqueId, this.uniqueId);
+        this.uniqueId = uniqueId;
     }
 }

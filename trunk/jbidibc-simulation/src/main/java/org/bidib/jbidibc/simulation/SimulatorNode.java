@@ -80,4 +80,10 @@ public interface SimulatorNode {
      *            the product name to set
      */
     void setProductName(String productName);
+
+    /**
+     * @param protocolVersion
+     *            the protocol version to set
+     */
+    void setProtocolVersion(String protocolVersion);
 }

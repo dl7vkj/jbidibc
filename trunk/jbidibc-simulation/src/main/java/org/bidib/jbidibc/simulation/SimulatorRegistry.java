@@ -208,6 +208,7 @@ public class SimulatorRegistry {
 
             if (simulator != null) {
                 LOGGER.info("Created new simulator: {}", simulator);
+                simulator.setProtocolVersion(node.getProtocolVersion());
 
                 if (node.getFeatures() != null && CollectionUtils.hasElements(node.getFeatures().getFeature())) {
                     simulator.setFeatures(node.getFeatures());

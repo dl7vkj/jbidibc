@@ -34,6 +34,8 @@ public class Node {
 
     private SoftwareVersion softwareVersion;
 
+    private ProtocolVersion protocolVersion;
+
     private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
     /**
@@ -183,6 +185,21 @@ public class Node {
      */
     public void setSoftwareVersion(SoftwareVersion softwareVersion) {
         this.softwareVersion = softwareVersion;
+    }
+
+    /**
+     * @return the protocolVersion
+     */
+    public ProtocolVersion getProtocolVersion() {
+        return protocolVersion;
+    }
+
+    /**
+     * @param protocolVersion
+     *            the protocolVersion to set
+     */
+    public void setProtocolVersion(ProtocolVersion protocolVersion) {
+        this.protocolVersion = protocolVersion;
     }
 
     @Override

@@ -63,4 +63,8 @@ public class Node implements SimulatorNode, SwitchingFunctionsNode {
     @Override
     public void setProductName(String productName) {
     }
+
+    @Override
+    public void setProtocolVersion(String protocolVersion) {
+    }
 }

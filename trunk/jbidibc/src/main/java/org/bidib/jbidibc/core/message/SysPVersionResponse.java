@@ -16,7 +16,7 @@ public class SysPVersionResponse extends BidibMessage {
     }
 
     public SysPVersionResponse(byte[] addr, int num, byte majorVersion, byte minorVersion) throws ProtocolException {
-        this(addr, num, BidibLibrary.MSG_SYS_P_VERSION, majorVersion, minorVersion);
+        this(addr, num, BidibLibrary.MSG_SYS_P_VERSION, minorVersion, majorVersion);
     }
 
     public String getName() {

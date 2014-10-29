@@ -93,6 +93,8 @@ public class DefaultNodeSimulator implements SimulatorNode {
 
     private final SimulationBidibMessageProcessor messageReceiver;
 
+    private byte[] protocolVersion;
+
     public DefaultNodeSimulator(byte[] nodeAddress, long uniqueId, boolean autoAddFeature,
         SimulationBidibMessageProcessor messageReceiver) {
         this.nodeAddress = nodeAddress;
@@ -119,6 +121,21 @@ public class DefaultNodeSimulator implements SimulatorNode {
     public void setProductName(String productName) {
         if (StringUtils.isNotBlank(productName)) {
             stringValue[0] = productName;
+        }
+    }
+
+    @Override
+    public void setProtocolVersion(String protocolVersion) {
+        LOGGER.info("Set the protocol version: {}", protocolVersion);
+        String[] splited = protocolVersion.split("\\.");
+
+        if (splited.length == 2) {
+            this.protocolVersion =
+                new byte[] { ByteUtils.getLowByte(Integer.parseInt(splited[0])),
+                    ByteUtils.getLowByte(Integer.parseInt(splited[1])) };
+        }
+        else {
+            LOGGER.error("Invalid protocol version provided: {}", protocolVersion);
         }
     }
 
@@ -446,8 +463,10 @@ public class DefaultNodeSimulator implements SimulatorNode {
         LOGGER.info("Process the SysGetPVersion request: {}, do nothing ...", bidibMessage);
         byte[] response = null;
         try {
+            LOGGER.info("Current protocolVersion: {}", protocolVersion);
             SysPVersionResponse sysPVersionResponse =
-                new SysPVersionResponse(bidibMessage.getAddr(), getNextSendNum(), (byte) 0x01, (byte) 0x02);
+                new SysPVersionResponse(bidibMessage.getAddr(), getNextSendNum(), protocolVersion[0],
+                    protocolVersion[1]);
             response = sysPVersionResponse.getContent();
         }
         catch (ProtocolException ex) {

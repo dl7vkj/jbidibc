@@ -49,7 +49,6 @@ import org.bidib.jbidibc.core.node.BidibNode;
 import org.bidib.jbidibc.core.node.NodeFactory;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.bidib.jbidibc.core.utils.MessageUtils;
-import org.bidib.jbidibc.core.utils.ProductUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -218,12 +217,20 @@ public class MessageReceiver implements BidibMessageProcessor {
                                 lcWaitResponse.getPredictedRotationTime());
                             break;
 
+                        case BidibLibrary.MSG_LC_CONFIGX:
+                            LOGGER.info("Received LcConfigXResponse: {}", message);
+                            // TODO handle the LcConfigXResponse asynchronously
+                            messageReceived(message);
+                            break;
+
                         case BidibLibrary.MSG_LC_NA:
                             LOGGER.info("Received LcNotAvailableResponse: {}", message);
                             LcNotAvailableResponse lcNotAvailableResponse = (LcNotAvailableResponse) message;
                             try {
                                 BidibNode node = nodeFactory.findNode(message.getAddr());
-                                if (ProductUtils.isOneDMX(node.getCachedUniqueId())) {
+                                // if (ProductUtils.isOneDMX(node.getCachedUniqueId())) {
+                                // TODO
+                                if (node != null && node.getProtocolVersion().isLowerThan(ProtocolVersion.VERSION_0_6)) {
                                     LOGGER.info("MSG_LC_NA, node is OneDMX: {}", node);
                                     // TODO special handling for OneDMX right now
                                     fireLcNa(message.getAddr(), lcNotAvailableResponse.getPortType(),
