@@ -76,6 +76,14 @@ public class DefaultMessageListener implements MessageListener {
     }
 
     @Override
+    public void lcNa(byte[] address, LcOutputType portType, int portNumber) {
+    }
+
+    @Override
+    public void lcConfigX(byte[] address, LcConfigX lcConfigX) {
+    }
+
+    @Override
     public void feedbackAccessory(byte[] address, int detectorNumber, int accessoryAddress) {
     }
 
@@ -106,9 +114,5 @@ public class DefaultMessageListener implements MessageListener {
 
     @Override
     public void csAccessoryAcknowledge(byte[] address, int decoderAddress, AccessoryAcknowledge acknowledge) {
-    }
-
-    @Override
-    public void lcNa(byte[] address, LcOutputType portType, int portNumber) {
     }
 }

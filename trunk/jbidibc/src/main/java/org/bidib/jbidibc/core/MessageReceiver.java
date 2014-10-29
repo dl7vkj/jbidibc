@@ -221,6 +221,13 @@ public class MessageReceiver implements BidibMessageProcessor {
                             LOGGER.info("Received LcConfigXResponse: {}", message);
                             // TODO handle the LcConfigXResponse asynchronously
                             messageReceived(message);
+
+                            // TODO if we use async delivery this causes an NPE because the ports are not in the model
+                            // at this time
+                            /*
+                             * LcConfigXResponse lcConfigXResponse = (LcConfigXResponse) message;
+                             * fireLcConfigX(message.getAddr(), lcConfigXResponse.getLcConfigX());
+                             */
                             break;
 
                         case BidibLibrary.MSG_LC_NA:
@@ -649,6 +656,14 @@ public class MessageReceiver implements BidibMessageProcessor {
         synchronized (messageListeners) {
             for (MessageListener l : messageListeners) {
                 l.lcNa(address, portType, portNumber);
+            }
+        }
+    }
+
+    private void fireLcConfigX(byte[] address, LcConfigX lcConfigX) {
+        synchronized (messageListeners) {
+            for (MessageListener l : messageListeners) {
+                l.lcConfigX(address, lcConfigX);
             }
         }
     }

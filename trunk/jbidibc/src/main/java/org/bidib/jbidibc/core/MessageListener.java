@@ -89,6 +89,8 @@ public interface MessageListener {
 
     void lcNa(byte[] address, LcOutputType portType, int portNumber);
 
+    void lcConfigX(byte[] address, LcConfigX lcConfigX);
+
     void dynState(byte[] address, int detectorNumber, int dynNumber, int dynValue);
 
     void csProgState(
