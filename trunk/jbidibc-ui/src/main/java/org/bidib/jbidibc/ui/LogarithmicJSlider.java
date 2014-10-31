@@ -54,13 +54,39 @@ public class LogarithmicJSlider extends JSlider {
 
     public LogarithmicJSlider(int orientation) {
         super(orientation);
-        SliderUI ui = new LogSliderUI(this);
+        SliderUI ui = null;
+        if (!OS.isWindows()) {
+            ui = new LogSliderUI(this);
+        }
+        else {
+            try {
+                Class<?> clazz = Class.forName(UI_CLASS_WINDOWS);
+                ui = (SliderUI) clazz.getConstructor(JSlider.class).newInstance(this);
+            }
+            catch (Exception ex) {
+                LOGGER.warn("Create special sliderUI for windows failed, fallback to default LogSliderUI.", ex);
+                ui = new LogSliderUI(this);
+            }
+        }
         this.setUI(ui);
     }
 
     public LogarithmicJSlider(int min, int max) {
         super(min, max);
-        SliderUI ui = new LogSliderUI(this);
+        SliderUI ui = null;
+        if (!OS.isWindows()) {
+            ui = new LogSliderUI(this);
+        }
+        else {
+            try {
+                Class<?> clazz = Class.forName(UI_CLASS_WINDOWS);
+                ui = (SliderUI) clazz.getConstructor(JSlider.class).newInstance(this);
+            }
+            catch (Exception ex) {
+                LOGGER.warn("Create special sliderUI for windows failed, fallback to default LogSliderUI.", ex);
+                ui = new LogSliderUI(this);
+            }
+        }
         this.setUI(ui);
     }
 
@@ -86,18 +112,57 @@ public class LogarithmicJSlider extends JSlider {
 
     public LogarithmicJSlider(int orientation, int min, int max, int value) {
         super(orientation, min, max, value);
-        SliderUI ui = new LogSliderUI(this);
+        SliderUI ui = null;
+        if (!OS.isWindows()) {
+            ui = new LogSliderUI(this);
+        }
+        else {
+            try {
+                Class<?> clazz = Class.forName(UI_CLASS_WINDOWS);
+                ui = (SliderUI) clazz.getConstructor(JSlider.class).newInstance(this);
+            }
+            catch (Exception ex) {
+                LOGGER.warn("Create special sliderUI for windows failed, fallback to default LogSliderUI.", ex);
+                ui = new LogSliderUI(this);
+            }
+        }
         this.setUI(ui);
     }
 
     public LogarithmicJSlider(BoundedRangeModel brm) {
         super(brm);
-        SliderUI ui = new LogSliderUI(this);
+        SliderUI ui = null;
+        if (!OS.isWindows()) {
+            ui = new LogSliderUI(this);
+        }
+        else {
+            try {
+                Class<?> clazz = Class.forName(UI_CLASS_WINDOWS);
+                ui = (SliderUI) clazz.getConstructor(JSlider.class).newInstance(this);
+            }
+            catch (Exception ex) {
+                LOGGER.warn("Create special sliderUI for windows failed, fallback to default LogSliderUI.", ex);
+                ui = new LogSliderUI(this);
+            }
+        }
         this.setUI(ui);
     }
 
     public LogarithmicJSlider() {
-        SliderUI ui = new LogSliderUI(this);
+        SliderUI ui = null;
+        if (!OS.isWindows()) {
+            ui = new LogSliderUI(this);
+        }
+        else {
+            try {
+                Class<?> clazz = Class.forName(UI_CLASS_WINDOWS);
+                ui = (SliderUI) clazz.getConstructor(JSlider.class).newInstance(this);
+            }
+            catch (Exception ex) {
+                LOGGER.warn("Create special sliderUI for windows failed, fallback to default LogSliderUI.", ex);
+                ui = new LogSliderUI(this);
+            }
+        }
         this.setUI(ui);
     }
 
