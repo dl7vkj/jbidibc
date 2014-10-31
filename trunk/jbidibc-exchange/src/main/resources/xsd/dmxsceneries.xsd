@@ -25,6 +25,8 @@
 		<xsd:sequence>
 			<xsd:element ref="port" minOccurs="0" />
 			<xsd:element name="dmxChannelNumber" type="ChannelNumberType" />
+			<xsd:element name="macroNumber" type="MacroNumberType" minOccurs="0" />
+			<xsd:element name="bidibAction" type="BidibActionType" minOccurs="0" />
 		</xsd:sequence>
 		<xsd:attribute name="timeOffset" type="TimeOffsetType" use="required"/>
 		<xsd:attribute name="brightness" type="BrightnessValueType" use="required"/>
@@ -123,9 +125,9 @@
 		</xsd:restriction>
 	</xsd:simpleType>
 
-	<xsd:simpleType name="DimmStretchType">
+	<xsd:simpleType name="BidibActionType">
 		<xsd:annotation>
-			<xsd:documentation>The dimm stretch value</xsd:documentation>
+			<xsd:documentation>The bidib action value</xsd:documentation>
 		</xsd:annotation>
 		<xsd:restriction base="xsd:int">
 			<xsd:minInclusive value="0"/>
@@ -140,7 +142,7 @@
 	<xsd:element name="port" type="PortType"/>
 	<xsd:element name="lineColor" type="ColorType"/>
 	<xsd:element name="macroNumber" type="MacroNumberType"/>
-	<xsd:element name="dimmStretch" type="DimmStretchType"/>
+	<xsd:element name="bidibAction" type="BidibActionType"/>
 
 	<xsd:element name="dmxSceneries">
 		<xsd:annotation>
@@ -148,7 +150,6 @@
 		</xsd:annotation>
 		<xsd:complexType>
 			<xsd:sequence>
-				<xsd:element ref="dmxscenery:dimmStretch" />
 				<xsd:element ref="dmxscenery:dmxScenery" minOccurs="0" maxOccurs="unbounded"/>
 			</xsd:sequence>
 		</xsd:complexType>
