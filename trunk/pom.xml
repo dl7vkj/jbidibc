@@ -63,6 +63,7 @@
         <module>jbidibc-serial</module>
         <module>jbidibc-simulation</module>
         <module>jbidibc-tools</module>
+        <module>jbidibc-ui</module>
     </modules>
     <properties>
         <slf4j-version>1.7.7</slf4j-version>
