@@ -29,6 +29,7 @@ import org.bidib.jbidibc.core.exception.NoAnswerException;
 import org.bidib.jbidibc.core.exception.PortNotFoundException;
 import org.bidib.jbidibc.core.exception.PortNotOpenedException;
 import org.bidib.jbidibc.core.exception.ProtocolException;
+import org.bidib.jbidibc.core.exception.ProtocolNoAnswerException;
 import org.bidib.jbidibc.core.helpers.Context;
 import org.bidib.jbidibc.core.node.BidibNode;
 import org.bidib.jbidibc.core.node.NodeFactory;
@@ -373,7 +374,18 @@ public final class Bidib extends AbstractBidib {
                     }
                     throw naex;
                 }
+                catch (ProtocolNoAnswerException naex) {
+                    LOGGER.warn("Open communication failed.", naex);
+                    try {
+                        close();
+                    }
+                    catch (Exception e4) {
+                        // ignore
+                    }
+                    throw new NoAnswerException(naex.getMessage());
+                }
                 catch (Exception e2) {
+                    LOGGER.info("Open port failed. Try again with 19200 baud.");
                     try {
                         // 19200 Baud
                         close();
