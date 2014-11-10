@@ -64,6 +64,8 @@
 //            2014-08-13       kw  changed: XPOM (enums, type)
 //                             kw  added BIDIB_ERR_RESET_REQUIRED
 //            2014-09-25       kw  added MSG_LOCAL_ACCESSORY
+//            2014-10-26 V0.18 kw  added MSG_LC_CONFIGX_SET, MSG_LC_CONFIGX_GET, MSG_LC_CONFIGX
+//                                 added defines for port config enums
 //
 //===============================================================================
 //
@@ -103,7 +105,7 @@
 //===============================================================================
 
 //                              Mainversion   Subversion
-#define BIDIB_VERSION           (0 * 256 +    5)
+#define BIDIB_VERSION           (0 * 256 +    6)
 
 #define BIDIB_SYS_MAGIC         0xAFFE                  // full featured BiDiB-Node
 #define BIDIB_BOOT_MAGIC        0xB00D                  // reduced Node, bootloader only
@@ -178,6 +180,9 @@
 #define MSG_LC_CONFIG_GET       (MSG_DLC + 0x02)        // 1:type, 2:port
 #define MSG_LC_KEY_QUERY        (MSG_DLC + 0x03)        // 1:port
 #define MSG_LC_OUTPUT_QUERY     (MSG_DLC + 0x04)        // 1:type, 2:port
+#define MGS_LC_MAPPING_GET      (MSG_DLC + 0x05)        // test, reserved
+#define MSG_LC_CONFIGX_SET      (MSG_DLC + 0x06)        // 1:type, 2:port, [3:p_enum, 4:p_val] (up to 16)
+#define MSG_LC_CONFIGX_GET      (MSG_DLC + 0x07)        // 1:type, 2:port
 
 //-- macro messages
 #define MSG_DMAC                (MSG_DSTRM + 0x48)
@@ -277,6 +282,8 @@
 #define MSG_LC_CONFIG           (MSG_ULC + 0x02)        // 1:type, 2:port, 3:off_val, 4:on_val, 5:dimm_off, 6:dimm_on
 #define MSG_LC_KEY              (MSG_ULC + 0x03)        // 1:port, 2:state
 #define MSG_LC_WAIT             (MSG_ULC + 0x04)        // 1:type, 2:port, 3:time
+#define MSG_LC_MAPPING          (MSG_ULC + 0x05)        // test, reserved
+#define MSG_LC_CONFIGX          (MSG_ULC + 0x06)        // 1:type, 2:port, [3:p_enum, 4:p_val] (up to 16)
 
 //-- macro messages
 #define MSG_UMAC                (MSG_USTRM +  0x48)
@@ -829,6 +836,27 @@ typedef struct                              // t_bidib_cs_pom
 #define BIDIB_OUTTYPE_MOTOR          4
 #define BIDIB_OUTTYPE_ANALOG         5
 #define BIDIB_OUTTYPE_BACKLIGHT      6
+
+// Port configuration ENUMs (P_ENUM)
+// P_ENUM 0..63: byte values 8 bits
+// P_ENUM 64..127: int values 16 bits
+#define BIDIB_PCFG_NONE              0x00 // uint8 no parameters available / error code
+#define BIDIB_PCFG_LEVEL_PORT_ON     0x01 // uint8 'analog' value for ON
+#define BIDIB_PCFG_LEVEL_PORT_OFF    0x02 // uint8 'analog' value for OFF
+#define BIDIB_PCFG_DIMM_UP           0x03 // uint8 step width for dimm up [unit 10ms]
+#define BIDIB_PCFG_DIMM_DOWN         0x04 // uint8 step width for dimm down [unit 10ms]
+#define BIDIB_PCFG_DIMM_STRETCH      0x05 // uint8 scale up step width
+#define BIDIB_PCFG_OUTPUT_MAP        0x06 // uint8 if there is a output mapping (like DMX)
+#define BIDIB_PCFG_SERVO_ADJ_L       0x07 // uint8 Servo Adjust Low
+#define BIDIB_PCFG_SERVO_ADJ_H       0x08 // uint8 Servo Adjust High
+#define BIDIB_PCFG_SERVO_SPEED       0x09 // uint8 Servo Speed
+// 16 bit values
+#define BIDIB_PCFG_DIMM_UP_8_8       0x43 // uint16 step width for dimm up as 8.8 float [unit 2560ms] (1= one step up in 2.56s; 256 = one step up in 10ms)
+#define BIDIB_PCFG_DIMM_DOWN_8_8     0x44 // uint16 step width for dimm down as 8.8 float [unit 2560ms]
+// 24 bit values
+#define BIDIB_PCFG_RGB               0x80 // uint24 RGB value of a coloured output. first byte R, second G, third B
+// special
+#define BIDIB_PCFG_CONTINUE          0xFF // none an addtional message will follow
 
 // control codes  - limited to one nibble, here for PORTs
 
