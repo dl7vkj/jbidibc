@@ -36,6 +36,10 @@ public class LcConfigX {
     // public static final Byte BIDIB_PCFG_DIMM_UP_8_8 = Byte.valueOf((byte) 0x43);
     //
     // public static final Byte BIDIB_PCFG_DIMM_DOWN_8_8 = Byte.valueOf((byte) 0x44);
+    //
+    // 24 bit values
+    // uint24 RGB value of a coloured output. first byte R, second G, third B
+    // public static final Byte BIDIB_PCFG_RGB = Byte.valueOf((byte) 0x80);
 
     private final LcOutputType outputType;
 

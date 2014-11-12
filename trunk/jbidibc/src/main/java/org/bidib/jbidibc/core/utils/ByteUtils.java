@@ -108,6 +108,13 @@ public final class ByteUtils {
         return (byteValue & mask);
     }
 
+    public static Integer getRGB(Integer value) {
+        if (value == null) {
+            return null;
+        }
+        return (value & 0xFFFFFF);
+    }
+
     /**
      * Concat a byte array.
      * 
