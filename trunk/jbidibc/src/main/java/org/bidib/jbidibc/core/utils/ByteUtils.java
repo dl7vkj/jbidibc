@@ -126,9 +126,11 @@ public final class ByteUtils {
     public static byte[] toRGB(int value) {
         byte[] dword = new byte[3];
 
-        for (int index = 2; index >= 0; index--) {
+        int targetIndex = 2;
+        for (int index = 0; index < 3; index++) {
             byte val = (byte) ((value >> (8 * index)) & 0xFF);
-            dword[index] = val;
+            dword[targetIndex] = val;
+            targetIndex--;
         }
         return dword;
     }
