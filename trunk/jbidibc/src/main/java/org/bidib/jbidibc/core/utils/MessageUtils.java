@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
 
+import org.bidib.jbidibc.core.BidibLibrary;
 import org.bidib.jbidibc.core.CRC8;
 import org.bidib.jbidibc.core.LcConfigX;
 import org.bidib.jbidibc.core.LcMacro;
@@ -244,14 +245,26 @@ public class MessageUtils {
                     byte pEnum = ByteUtils.getLowByte(bais.read());
                     int bytesRead = 0;
                     if ((pEnum & 0x80) == 0x80) {
-                        // int32
-                        byte[] intValue = new byte[4];
-                        bytesRead = bais.read(intValue);
-                        LOGGER.info("Read a int32 value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(intValue),
-                            bytesRead, ByteUtils.getInt(pEnum));
+                        if (BidibLibrary.BIDIB_PCFG_RGB == pEnum) {
+                            // RGB
+                            byte[] rgbValue = new byte[3];
+                            bytesRead = bais.read(rgbValue);
+                            LOGGER.info("Read a RGB value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(rgbValue),
+                                bytesRead, ByteUtils.getInt(pEnum));
 
-                        Integer integerValue = ByteUtils.getDWORD(intValue);
-                        values.put(pEnum, integerValue);
+                            Integer integerValue = ByteUtils.getRGB(rgbValue);
+                            values.put(pEnum, integerValue);
+                        }
+                        else {
+                            // int32
+                            byte[] intValue = new byte[4];
+                            bytesRead = bais.read(intValue);
+                            LOGGER.info("Read a int32 value: {}, bytesRead: {}, pEnum: {}",
+                                ByteUtils.toString(intValue), bytesRead, ByteUtils.getInt(pEnum));
+
+                            Integer integerValue = ByteUtils.getDWORD(intValue);
+                            values.put(pEnum, integerValue);
+                        }
                     }
                     else if ((pEnum & 0x40) == 0x40) {
                         // int16

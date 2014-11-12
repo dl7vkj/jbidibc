@@ -81,21 +81,32 @@ public class LcConfigX {
             try {
                 for (Entry<Byte, Number> entry : values.entrySet()) {
                     byte pEnum = entry.getKey();
-
-                    baos.write(pEnum);
-                    if ((pEnum & 0x80) == 0x80) {
-                        // int32
-                        int pIntValue = entry.getValue().intValue();
-                        baos.write(ByteUtils.toDWORD(pIntValue));
+                    if (entry.getValue() != null) {
+                        baos.write(pEnum);
+                        if ((pEnum & 0x80) == 0x80) {
+                            if (BidibLibrary.BIDIB_PCFG_RGB == pEnum) {
+                                // RGB
+                                int pIntValue = entry.getValue().intValue();
+                                baos.write(ByteUtils.toRGB(pIntValue));
+                            }
+                            else {
+                                // int32
+                                int pIntValue = entry.getValue().intValue();
+                                baos.write(ByteUtils.toDWORD(pIntValue));
+                            }
+                        }
+                        else if ((pEnum & 0x40) == 0x40) {
+                            // int16
+                            int pIntValue = entry.getValue().intValue();
+                            baos.write(ByteUtils.toWORD(pIntValue));
+                        }
+                        else { // byte
+                            byte pValue = entry.getValue().byteValue();
+                            baos.write(pValue);
+                        }
                     }
-                    else if ((pEnum & 0x40) == 0x40) {
-                        // int16
-                        int pIntValue = entry.getValue().intValue();
-                        baos.write(ByteUtils.toWORD(pIntValue));
-                    }
-                    else { // byte
-                        byte pValue = entry.getValue().byteValue();
-                        baos.write(pValue);
+                    else {
+                        LOGGER.warn("No value available for pEnum: {}", ByteUtils.toString(new byte[] { pEnum }));
                     }
                 }
             }

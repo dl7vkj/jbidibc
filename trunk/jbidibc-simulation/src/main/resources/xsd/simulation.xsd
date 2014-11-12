@@ -52,6 +52,7 @@
 			<extension base="sim:PortParamsType">
 				<attribute name="intensityOff" type="int" use="optional" default="0" />
 				<attribute name="intensityOn" type="int" use="optional" default="0" />
+				<attribute name="rgbValue" type="string" use="optional" />
 			</extension>
 		</complexContent>
 	</complexType>

@@ -115,6 +115,24 @@ public final class ByteUtils {
         return (value & 0xFFFFFF);
     }
 
+    public static int getRGB(byte[] value) {
+        int dword = 0;
+        for (int index = 0; index < 3; index++) {
+            dword = (dword << 8) | (value[index] & 0xFF);
+        }
+        return dword;
+    }
+
+    public static byte[] toRGB(int value) {
+        byte[] dword = new byte[3];
+
+        for (int index = 2; index >= 0; index--) {
+            byte val = (byte) ((value >> (8 * index)) & 0xFF);
+            dword[index] = val;
+        }
+        return dword;
+    }
+
     /**
      * Concat a byte array.
      * 
