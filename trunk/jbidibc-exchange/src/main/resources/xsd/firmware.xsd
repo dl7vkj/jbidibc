@@ -48,6 +48,9 @@
 	<xsd:complexType name="DeviceNode">
 		<xsd:complexContent>
 			<xsd:extension base="NodeType">
+				<xsd:sequence>
+                    <xsd:element name="CvFilename" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+				</xsd:sequence>
 				<xsd:attribute name="VID" type="xsd:string" />
 				<xsd:attribute name="PID" type="xsd:string" />
 			</xsd:extension>
