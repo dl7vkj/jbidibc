@@ -1153,6 +1153,12 @@ public class BidibNode {
                     // max total response size exceeded
                     break;
                 }
+
+                if (windowSize > -1 && (toIndex - fromIndex >= windowSize)) {
+                    // window size exceeded
+                    LOGGER.debug("Window size exceeded");
+                    break;
+                }
             }
 
             // clear the messages to wait for a response
