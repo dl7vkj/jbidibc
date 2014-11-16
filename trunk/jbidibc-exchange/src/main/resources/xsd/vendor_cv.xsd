@@ -40,6 +40,8 @@
 		<xsd:attribute name="Values" type="xsd:string"/>
 		<xsd:attribute name="Mode" type="vendorcv:ModeType" use="required"/>
 		<xsd:attribute name="Rebootneeded" type="xsd:boolean" />
+		<xsd:attribute name="Radiovalues" type="xsd:string"/>
+		<xsd:attribute name="Radiobits" type="xsd:int" />
 	</xsd:complexType>
 	<xsd:complexType name="DescriptionType">
 		<xsd:attribute name="Lang" type="xsd:string"/>
@@ -63,6 +65,7 @@
 			<xsd:enumeration value="DCC_ADDR_RG"/>
 			<xsd:enumeration value="GBM16TReverser"/>
 			<xsd:enumeration value="SignedChar"/>
+			<xsd:enumeration value="Radio"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="ModeType">
