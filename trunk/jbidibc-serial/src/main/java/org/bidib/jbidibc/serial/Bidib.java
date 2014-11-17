@@ -207,17 +207,6 @@ public final class Bidib extends AbstractBidib {
         // open the port
         SerialPort serialPort = (SerialPort) commPort.open(Bidib.class.getName(), 2000);
 
-        // set RTS high, DTR high - done early, so flow control can be configured after
-        // try {
-        // serialPort.setRTS(true); // not connected in some serial ports and adapters
-        //
-        // // TODO verify if this causes problems on windows with new serial library
-        // // serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
-        // }
-        // catch (Exception e) {
-        // LOGGER.warn("Set RTS and DTR true failed.", e);
-        // }
-        //
         serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
         serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
@@ -299,14 +288,15 @@ public final class Bidib extends AbstractBidib {
         });
         serialPort.notifyOnDataAvailable(true);
 
-        // // TODO verify if this causes problems on windows with new serial library
-        // TODO enable in case of Linux
-        // try {
-        // // serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
-        // }
-        // catch (Exception e) {
-        // LOGGER.warn("Set RTS and DTR true failed.", e);
-        // }
+        // Activate DTR
+        try {
+            LOGGER.info("Activate DTR.");
+
+            serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
+        }
+        catch (Exception e) {
+            LOGGER.warn("Set DTR true failed.", e);
+        }
 
         return serialPort;
     }
@@ -326,7 +316,7 @@ public final class Bidib extends AbstractBidib {
             if (portName == null || portName.trim().isEmpty()) {
                 throw new PortNotFoundException("");
             }
-            // loadLibraries();
+
             LOGGER.info("Open port with name: {}", portName);
 
             File file = new File(portName);
