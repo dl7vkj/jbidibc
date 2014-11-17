@@ -299,6 +299,15 @@ public final class Bidib extends AbstractBidib {
         });
         serialPort.notifyOnDataAvailable(true);
 
+        // // TODO verify if this causes problems on windows with new serial library
+        // TODO enable in case of Linux
+        // try {
+        // // serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
+        // }
+        // catch (Exception e) {
+        // LOGGER.warn("Set RTS and DTR true failed.", e);
+        // }
+
         return serialPort;
     }
 
