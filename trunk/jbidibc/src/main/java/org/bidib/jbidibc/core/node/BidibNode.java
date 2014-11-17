@@ -1610,22 +1610,23 @@ public class BidibNode {
         throw createNoResponseAvailable("LcConfigSet");
     }
 
-    public LcConfigX setConfigX(LcConfigX config) throws ProtocolException {
+    public void setConfigX(LcConfigX config) throws ProtocolException {
         LOGGER.debug("Send LcConfigXSet to node, config: {}", config);
 
-        BidibMessage response = send(new LcConfigXSetMessage(config), true, LcConfigXResponse.TYPE);
-        if (response instanceof LcConfigXResponse) {
-            LcConfigX result = ((LcConfigXResponse) response).getLcConfigX();
-            LOGGER.info("Set LcConfigX returned: {}", result);
-            return result;
-        }
-
-        if (ignoreWaitTimeout) {
-            LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
-            return null;
-        }
-
-        throw createNoResponseAvailable("LcConfigXSet");
+        sendNoWait(new LcConfigXSetMessage(config));
+        // BidibMessage response = sendNoWait(new LcConfigXSetMessage(config));
+        // if (response instanceof LcConfigXResponse) {
+        // LcConfigX result = ((LcConfigXResponse) response).getLcConfigX();
+        // LOGGER.info("Set LcConfigX returned: {}", result);
+        // return result;
+        // }
+        //
+        // if (ignoreWaitTimeout) {
+        // LOGGER.warn("No response received but ignoreWaitTimeout ist set!");
+        // return null;
+        // }
+        //
+        // throw createNoResponseAvailable("LcConfigXSet");
     }
 
     /**
