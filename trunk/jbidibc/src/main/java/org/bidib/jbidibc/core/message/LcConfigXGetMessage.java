@@ -29,6 +29,6 @@ public class LcConfigXGetMessage extends BidibCommandMessage {
 
     @Override
     public Integer[] getExpectedResponseTypes() {
-        return new Integer[] { LcConfigXResponse.TYPE };
+        return null /* new Integer[] { LcConfigXResponse.TYPE } */;
     }
 }

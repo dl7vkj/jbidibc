@@ -34,6 +34,7 @@ import org.bidib.jbidibc.core.message.FeedbackFreeResponse;
 import org.bidib.jbidibc.core.message.FeedbackMultipleResponse;
 import org.bidib.jbidibc.core.message.FeedbackOccupiedResponse;
 import org.bidib.jbidibc.core.message.FeedbackSpeedResponse;
+import org.bidib.jbidibc.core.message.LcConfigXResponse;
 import org.bidib.jbidibc.core.message.LcKeyResponse;
 import org.bidib.jbidibc.core.message.LcNotAvailableResponse;
 import org.bidib.jbidibc.core.message.LcStatResponse;
@@ -220,14 +221,15 @@ public class MessageReceiver implements BidibMessageProcessor {
                         case BidibLibrary.MSG_LC_CONFIGX:
                             LOGGER.info("Received LcConfigXResponse: {}", message);
                             // TODO handle the LcConfigXResponse asynchronously
-                            messageReceived(message);
+
+                            // messageReceived(message);
 
                             // TODO if we use async delivery this causes an NPE because the ports are not in the model
                             // at this time
-                            /*
-                             * LcConfigXResponse lcConfigXResponse = (LcConfigXResponse) message;
-                             * fireLcConfigX(message.getAddr(), lcConfigXResponse.getLcConfigX());
-                             */
+
+                            LcConfigXResponse lcConfigXResponse = (LcConfigXResponse) message;
+                            fireLcConfigX(/* message.getAddr(), */lcConfigXResponse/* .getLcConfigX() */);
+
                             break;
 
                         case BidibLibrary.MSG_LC_NA:
@@ -660,12 +662,21 @@ public class MessageReceiver implements BidibMessageProcessor {
         }
     }
 
-    private void fireLcConfigX(byte[] address, LcConfigX lcConfigX) {
+    private void fireLcConfigX(LcConfigXResponse lcConfigXResponse/* byte[] address, LcConfigX lcConfigX */) {
+
+        byte[] address = lcConfigXResponse.getAddr();
+        LcConfigX lcConfigX = lcConfigXResponse.getLcConfigX();
+
+        // if (lcConfigX.getOutputType().equals(LcOutputType.LIGHTPORT)) {
         synchronized (messageListeners) {
             for (MessageListener l : messageListeners) {
                 l.lcConfigX(address, lcConfigX);
             }
         }
+        // }
+        // else {
+        // messageReceived(lcConfigXResponse);
+        // }
     }
 
     private void fireNodeLost(Node node) {
