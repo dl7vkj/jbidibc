@@ -205,7 +205,6 @@ public class MessageReceiver implements BidibMessageProcessor {
                                 ((LcKeyResponse) message).getKeyState());
                             break;
                         case BidibLibrary.MSG_LC_STAT:
-                            // ignored
                             LOGGER.debug("Received LcStatResponse: {}", message);
                             LcStatResponse lcStatResponse = (LcStatResponse) message;
                             fireLcStat(message.getAddr(), lcStatResponse.getPortType(), lcStatResponse.getPortNumber(),
@@ -219,17 +218,9 @@ public class MessageReceiver implements BidibMessageProcessor {
                             break;
 
                         case BidibLibrary.MSG_LC_CONFIGX:
-                            LOGGER.info("Received LcConfigXResponse: {}", message);
-                            // TODO handle the LcConfigXResponse asynchronously
-
-                            // messageReceived(message);
-
-                            // TODO if we use async delivery this causes an NPE because the ports are not in the model
-                            // at this time
-
+                            LOGGER.trace("Received LcConfigXResponse: {}", message);
                             LcConfigXResponse lcConfigXResponse = (LcConfigXResponse) message;
-                            fireLcConfigX(/* message.getAddr(), */lcConfigXResponse/* .getLcConfigX() */);
-
+                            fireLcConfigX(lcConfigXResponse);
                             break;
 
                         case BidibLibrary.MSG_LC_NA:
@@ -237,11 +228,10 @@ public class MessageReceiver implements BidibMessageProcessor {
                             LcNotAvailableResponse lcNotAvailableResponse = (LcNotAvailableResponse) message;
                             try {
                                 BidibNode node = nodeFactory.findNode(message.getAddr());
-                                // if (ProductUtils.isOneDMX(node.getCachedUniqueId())) {
                                 // TODO
                                 if (node != null && node.getProtocolVersion().isLowerThan(ProtocolVersion.VERSION_0_6)) {
-                                    LOGGER.info("MSG_LC_NA, node is OneDMX: {}", node);
-                                    // TODO special handling for OneDMX right now
+                                    LOGGER.trace("MSG_LC_NA, node has protocol version > 0.6: {}", node);
+                                    // async delivery
                                     fireLcNa(message.getAddr(), lcNotAvailableResponse.getPortType(),
                                         lcNotAvailableResponse.getPortNumber());
                                 }
@@ -662,21 +652,16 @@ public class MessageReceiver implements BidibMessageProcessor {
         }
     }
 
-    private void fireLcConfigX(LcConfigXResponse lcConfigXResponse/* byte[] address, LcConfigX lcConfigX */) {
+    private void fireLcConfigX(LcConfigXResponse lcConfigXResponse) {
 
         byte[] address = lcConfigXResponse.getAddr();
         LcConfigX lcConfigX = lcConfigXResponse.getLcConfigX();
 
-        // if (lcConfigX.getOutputType().equals(LcOutputType.LIGHTPORT)) {
         synchronized (messageListeners) {
             for (MessageListener l : messageListeners) {
                 l.lcConfigX(address, lcConfigX);
             }
         }
-        // }
-        // else {
-        // messageReceived(lcConfigXResponse);
-        // }
     }
 
     private void fireNodeLost(Node node) {
