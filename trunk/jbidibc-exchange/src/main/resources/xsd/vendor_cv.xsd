@@ -46,11 +46,13 @@
 	<xsd:complexType name="DescriptionType">
 		<xsd:attribute name="Lang" type="xsd:string"/>
 		<xsd:attribute name="Text" type="xsd:string"/>
+		<xsd:attribute name="Help" type="xsd:string"/>
 	</xsd:complexType>
 	<xsd:complexType name="BitdescriptionType">
 		<xsd:attribute name="Bitnum" type="xsd:int"/>
 		<xsd:attribute name="Lang" type="xsd:string"/>
 		<xsd:attribute name="Text" type="xsd:string"/>
+		<xsd:attribute name="Help" type="xsd:string"/>
 	</xsd:complexType>
 	<xsd:complexType name="CVDefinitionType">
 		<xsd:sequence>
