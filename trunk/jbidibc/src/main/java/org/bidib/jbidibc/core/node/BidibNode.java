@@ -9,6 +9,7 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.bidib.jbidibc.core.BidibInterface;
 import org.bidib.jbidibc.core.BidibLibrary;
@@ -926,6 +927,34 @@ public class BidibNode {
         }
     }
 
+    private AtomicInteger bulkAnswerCounter = new AtomicInteger();
+
+    private void waitForBulkAnswer() {
+        try {
+            synchronized (bulkAnswerCounter) {
+                LOGGER.info("waitForBulkAnswer, responseTimeout: {}", responseTimeout);
+                bulkAnswerCounter.wait(responseTimeout);
+            }
+        }
+        catch (InterruptedException ex) {
+            LOGGER.warn("Wait for bulk answer failed.", ex);
+        }
+    }
+
+    public void notifyBulkAnswer() {
+        try {
+            synchronized (bulkAnswerCounter) {
+                LOGGER.info("Notify bulk answer.");
+                bulkAnswerCounter.incrementAndGet();
+
+                bulkAnswerCounter.notifyAll();
+            }
+        }
+        catch (Exception ex) {
+            LOGGER.warn("Wait for bulk answer failed.", ex);
+        }
+    }
+
     /**
      * Send a message without waiting for response.
      * 
@@ -1115,6 +1144,23 @@ public class BidibNode {
      */
     protected synchronized List<BidibMessage> sendBulk(int windowSize, List<BidibCommand> messages)
         throws ProtocolException {
+        return sendBulk(windowSize, messages, false);
+    }
+
+    /**
+     * Send a bulk of messages with a specified window size to the node.
+     * 
+     * @param windowSize
+     *            the window size
+     * @param messages
+     *            the messages
+     * @param waitForBulkAnswer
+     *            wait for bulk answer if no expected response types are defined
+     * @return the list of responses
+     * @throws ProtocolException
+     */
+    protected synchronized List<BidibMessage> sendBulk(
+        int windowSize, List<BidibCommand> messages, boolean waitForBulkAnswer) throws ProtocolException {
 
         List<BidibMessage> responses = null;
 
@@ -1228,8 +1274,45 @@ public class BidibNode {
                     throw new ProtocolNoAnswerException("Got no answer to " + messages);
                 }
             }
+            else if (waitForBulkAnswer) {
+                LOGGER.info("Wait for bulk answers.");
+
+                try {
+                    // TODO we must provide a mechanism to wait for responses with 'continue'
+                    while (receivedMessages < numMessages) {
+                        LOGGER.info("Wait for bulk response response, receivedMessages: {}, numMessages: {}",
+                            receivedMessages, numMessages);
+
+                        waitForBulkAnswer();
+
+                        synchronized (bulkAnswerCounter) {
+                            receivedMessages = bulkAnswerCounter.get();
+                        }
+
+                        // receivedMessages++;
+
+                        if (receivedMessages < fromIndex) {
+                            LOGGER
+                                .trace(
+                                    "Wait for all bulk answers that were send in the current window, receivedMessages: {}, fromIndex: {}",
+                                    receivedMessages, fromIndex);
+                            continue;
+                        }
+                        LOGGER.trace("All messages of the sent window were received.");
+
+                        if (fromIndex < numMessages) {
+                            LOGGER.trace("Not all messages sent yet. Leave receive loop to send next message.");
+                            break;
+                        }
+                    }
+                }
+                catch (Exception ex) {
+                    LOGGER.warn("Waiting for bulk answer was interrupted", ex);
+                }
+
+            }
             else {
-                LOGGER.debug("No answer expected in send bulk.");
+                LOGGER.info("No answer expected in send bulk.");
             }
         }
         LOGGER.debug("Return the response messages: {}", responses);
@@ -1703,7 +1786,8 @@ public class BidibNode {
             messages.add(requestFactory.createLcConfigXGet(outputType, outputNumber));
         }
 
-        List<BidibMessage> responses = sendBulk(windowSize, messages);
+        // send bulk messages and wait for bulk answers
+        List<BidibMessage> responses = sendBulk(windowSize, messages, true);
         if (CollectionUtils.hasElements(responses)) {
             result = new LinkedList<>();
             for (BidibMessage response : responses) {

@@ -245,7 +245,11 @@ public class MessageUtils {
                     byte pEnum = ByteUtils.getLowByte(bais.read());
                     int bytesRead = 0;
                     if ((pEnum & 0x80) == 0x80) {
-                        if (BidibLibrary.BIDIB_PCFG_RGB == pEnum) {
+                        if (BidibLibrary.BIDIB_PCFG_CONTINUE == pEnum) {
+                            LOGGER.info("Continue detected, more config willbe received.");
+                            values.put(pEnum, null);
+                        }
+                        else if (BidibLibrary.BIDIB_PCFG_RGB == pEnum) {
                             // RGB
                             byte[] rgbValue = new byte[3];
                             bytesRead = bais.read(rgbValue);

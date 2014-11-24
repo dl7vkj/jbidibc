@@ -650,6 +650,17 @@ public class MessageReceiver implements BidibMessageProcessor {
                 l.lcNa(address, portType, portNumber);
             }
         }
+
+        // TODO notify the bulk sender
+        BidibNode node = nodeFactory.findNode(address);
+        LOGGER.trace("Notify bulk answer to node: {}", node);
+        try {
+            node.notifyBulkAnswer();
+        }
+        catch (Exception ex) {
+            LOGGER.error("Notify bulk answer to node failed.", ex);
+        }
+
     }
 
     private void fireLcConfigX(LcConfigXResponse lcConfigXResponse) {
@@ -661,6 +672,22 @@ public class MessageReceiver implements BidibMessageProcessor {
             for (MessageListener l : messageListeners) {
                 l.lcConfigX(address, lcConfigX);
             }
+        }
+
+        // check if the config is finished
+        if (!lcConfigX.isContinueDetected()) {
+            // TODO notify the bulk sender
+            BidibNode node = nodeFactory.findNode(lcConfigXResponse.getAddr());
+            LOGGER.info("Notify bulk answer to node: {}", node);
+            try {
+                node.notifyBulkAnswer();
+            }
+            catch (Exception ex) {
+                LOGGER.error("Notify bulk answer to node failed.", ex);
+            }
+        }
+        else {
+            LOGGER.info("Continue detected in LcConfigX.");
         }
     }
 

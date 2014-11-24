@@ -117,6 +117,16 @@ public class LcConfigX {
         return baos.toByteArray();
     }
 
+    /**
+     * @return the continue marker is contained in the values map
+     */
+    public boolean isContinueDetected() {
+        if (MapUtils.isNotEmpty(values) && values.containsKey(BidibLibrary.BIDIB_PCFG_CONTINUE)) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     public String toString() {
         return ToStringBuilder.reflectionToString(this);
