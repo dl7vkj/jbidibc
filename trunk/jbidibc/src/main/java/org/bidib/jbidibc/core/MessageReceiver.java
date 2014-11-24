@@ -229,7 +229,7 @@ public class MessageReceiver implements BidibMessageProcessor {
                             try {
                                 BidibNode node = nodeFactory.findNode(message.getAddr());
                                 // TODO
-                                if (node != null && node.getProtocolVersion().isLowerThan(ProtocolVersion.VERSION_0_6)) {
+                                if (node != null && !node.getProtocolVersion().isLowerThan(ProtocolVersion.VERSION_0_6)) {
                                     LOGGER.trace("MSG_LC_NA, node has protocol version > 0.6: {}", node);
                                     // async delivery
                                     fireLcNa(message.getAddr(), lcNotAvailableResponse.getPortType(),
@@ -240,7 +240,7 @@ public class MessageReceiver implements BidibMessageProcessor {
                                 }
                             }
                             catch (Exception ex) {
-                                LOGGER.warn("", ex);
+                                LOGGER.warn("Signal MSG_LC_NA failed.", ex);
                             }
                             break;
                         case BidibLibrary.MSG_LOGON:
