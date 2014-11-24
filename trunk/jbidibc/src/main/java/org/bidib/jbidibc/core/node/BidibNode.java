@@ -1695,6 +1695,9 @@ public class BidibNode {
         throws ProtocolException {
         List<LcConfigX> result = null;
 
+        LOGGER.info("Get configX with bulk read for outputType: {}, windowSize: {}, outputNumbers: {}", outputType,
+            windowSize, outputNumbers);
+
         List<BidibCommand> messages = new LinkedList<>();
         for (int outputNumber : outputNumbers) {
             messages.add(requestFactory.createLcConfigXGet(outputType, outputNumber));
