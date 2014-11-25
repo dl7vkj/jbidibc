@@ -30,6 +30,7 @@
 		</xsd:sequence>
 		<xsd:attribute name="timeOffset" type="TimeOffsetType" use="required"/>
 		<xsd:attribute name="brightness" type="BrightnessValueType" use="required"/>
+		<xsd:attribute name="uniqueId" type="xsd:long" use="required"/>
 	</xsd:complexType>
 
 	<xsd:complexType name="DmxChannelType">
