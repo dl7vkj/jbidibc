@@ -929,11 +929,18 @@ public class BidibNode {
 
     private AtomicInteger bulkAnswerCounter = new AtomicInteger();
 
-    private void waitForBulkAnswer() {
+    private void waitForBulkAnswer(int prevReceivedMessages) {
         try {
             synchronized (bulkAnswerCounter) {
-                LOGGER.info("waitForBulkAnswer, responseTimeout: {}", responseTimeout);
-                bulkAnswerCounter.wait(responseTimeout);
+
+                if (bulkAnswerCounter.get() > prevReceivedMessages) {
+                    LOGGER.info("Received response already, prevReceivedMessages: {}, current receive counter: {}",
+                        prevReceivedMessages, bulkAnswerCounter.get());
+                }
+                else {
+                    LOGGER.info("waitForBulkAnswer, responseTimeout: {}", responseTimeout);
+                    bulkAnswerCounter.wait(responseTimeout);
+                }
             }
         }
         catch (InterruptedException ex) {
@@ -1283,7 +1290,7 @@ public class BidibNode {
                         LOGGER.info("Wait for bulk response response, receivedMessages: {}, numMessages: {}",
                             receivedMessages, numMessages);
 
-                        waitForBulkAnswer();
+                        waitForBulkAnswer(receivedMessages);
 
                         synchronized (bulkAnswerCounter) {
                             receivedMessages = bulkAnswerCounter.get();
