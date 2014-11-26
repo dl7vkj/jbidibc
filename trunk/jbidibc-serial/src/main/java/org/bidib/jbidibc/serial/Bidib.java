@@ -211,7 +211,7 @@ public final class Bidib extends AbstractBidib {
         serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
         // serialPort.enableReceiveThreshold(1);
-        serialPort.enableReceiveTimeout(DEFAULT_TIMEOUT);
+        // serialPort.enableReceiveTimeout(DEFAULT_TIMEOUT);
 
         clearInputStream(serialPort);
 
