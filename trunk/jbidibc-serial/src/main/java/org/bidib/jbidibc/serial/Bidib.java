@@ -207,7 +207,19 @@ public final class Bidib extends AbstractBidib {
         // open the port
         SerialPort serialPort = (SerialPort) commPort.open(Bidib.class.getName(), 2000);
 
-        serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
+        Boolean ignoreFlowControl = Boolean.FALSE;
+        if (context != null) {
+            ignoreFlowControl = context.get("ignoreFlowControl", Boolean.class, Boolean.FALSE);
+        }
+        if (ignoreFlowControl) {
+            LOGGER.warn("Ignore flow control is configured!");
+            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
+        }
+        else {
+            LOGGER
+                .info("Set flow control mode to SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT!");
+            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
+        }
         serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
         // serialPort.enableReceiveThreshold(1);
