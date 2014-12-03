@@ -455,6 +455,7 @@ public interface BidibLibrary {
     public static final int MSG_LC_STAT = (int) ((128 + 64) + 0);
 
     // / <i>native declaration : bidib_messages.h</i>
+    @Deprecated
     public static final int BIDIB_MSYS_FLAG_QUERY = (int) 250;
 
     // / <i>native declaration : bidib_messages.h</i>
