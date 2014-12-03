@@ -135,40 +135,75 @@
     <!-- specified by the user -->
   </xsd:complexType>
 
-  <!-- Port OutputServo Element  -->
-  <xsd:complexType name="OutputServo">
+  <!-- Port Input Element -->
+  <xsd:complexType name="Input">
     <xsd:complexContent>
-      <xsd:extension base="Port">
-        <xsd:attribute name="LowerLimit" type="xsd:unsignedByte" use="required" />
-        <xsd:attribute name="UpperLimit" type="xsd:unsignedByte" use="required" />
-        <xsd:attribute name="MovingTime" type="xsd:unsignedByte" use="required" />
-      </xsd:extension>
+      <xsd:extension base="Port" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!-- Port OutputAnalog Element -->
+  <xsd:complexType name="OutputAnalog">
+    <xsd:complexContent>
+      <xsd:extension base="Port" />
     </xsd:complexContent>
   </xsd:complexType>
 
-  <!-- Port OutputBacklight Element  -->
+  <!-- Port OutputBacklight Element -->
   <xsd:complexType name="OutputBacklight">
     <xsd:complexContent>
       <xsd:extension base="Port">
-        <xsd:attribute name="DimmingDownSpeed" type="xsd:unsignedByte" use="required" />
-        <xsd:attribute name="DimmingUpSpeed" type="xsd:unsignedByte" use="required" />
-        <xsd:attribute name="Channel" type="xsd:unsignedByte" use="required" />
+        <xsd:attribute name="DimmingDownSpeed" type="xsd:unsignedByte" use="optional" />
+        <xsd:attribute name="DimmingUpSpeed" type="xsd:unsignedByte" use="optional" />
+        <xsd:attribute name="Channel" type="xsd:unsignedByte" use="optional" />
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 
-  <!-- Port OutputLight Element  -->
+  <!-- Port OutputLight Element -->
   <xsd:complexType name="OutputLight">
     <xsd:complexContent>
       <xsd:extension base="Port">
-        <xsd:attribute name="BrightnessOff" type="xsd:unsignedByte" use="required" />
-        <xsd:attribute name="BrightnessOn" type="xsd:unsignedByte" use="required" />
-        <xsd:attribute name="DimmingDownSpeed" type="xsd:unsignedByte" use="required" />
-        <xsd:attribute name="DimmingUpSpeed" type="xsd:unsignedByte" use="required" />
+        <xsd:attribute name="BrightnessOff" type="xsd:unsignedByte" use="optional" />
+        <xsd:attribute name="BrightnessOn" type="xsd:unsignedByte" use="optional" />
+        <xsd:attribute name="DimmingDownSpeed" type="xsd:unsignedByte" use="optional" />
+        <xsd:attribute name="DimmingUpSpeed" type="xsd:unsignedByte" use="optional" />
       </xsd:extension>
     </xsd:complexContent>
   </xsd:complexType>
 
+  <!-- Port OutputMotor Element  -->
+  <xsd:complexType name="OutputMotor">
+    <xsd:complexContent>
+      <xsd:extension base="Port" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!-- Port OutputServo Element -->
+  <xsd:complexType name="OutputServo">
+    <xsd:complexContent>
+      <xsd:extension base="Port">
+        <xsd:attribute name="LowerLimit" type="xsd:unsignedByte" use="optional" />
+        <xsd:attribute name="UpperLimit" type="xsd:unsignedByte" use="optional" />
+        <xsd:attribute name="MovingTime" type="xsd:unsignedByte" use="optional" />
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <!-- Port OutputSound Element  -->
+  <xsd:complexType name="OutputSound">
+    <xsd:complexContent>
+      <xsd:extension base="Port" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  
+  <!-- Port OutputSwitch Element  -->
+  <xsd:complexType name="OutputSwitch">
+    <xsd:complexContent>
+      <xsd:extension base="Port" />
+    </xsd:complexContent>
+  </xsd:complexType>
+  
   <!-- Macros Collection -->
   <xsd:complexType name="Macros">
     <xsd:sequence>
@@ -179,8 +214,8 @@
   <!-- Macro Element -->
   <xsd:complexType name="Macro">
     <xsd:sequence>
-      <xsd:element name="MacroParameters" type="MacroParameters" />
-      <xsd:element name="MacroPoints" type="MacroPoints" />
+      <xsd:element name="MacroParameters" type="MacroParameters" minOccurs="0" maxOccurs="1" />
+      <xsd:element name="MacroPoints" type="MacroPoints" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
 
     <xsd:attribute name="Number" type="xsd:unsignedByte" use="required" />
@@ -530,7 +565,7 @@
   <!-- Accessory Element -->
   <xsd:complexType name="Accessory">
     <xsd:sequence>
-      <xsd:element name="Aspects" type="Aspects" />
+      <xsd:element name="Aspects" type="Aspects" minOccurs="0" maxOccurs="1" />
     </xsd:sequence>
 
     <xsd:attribute name="Number" type="xsd:unsignedByte" use="required" />

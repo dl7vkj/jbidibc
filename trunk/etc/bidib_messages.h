@@ -62,10 +62,13 @@
 //            2014-06-11       kw  added FEATURE_GEN_START_STATE
 //            2014-06-25       kw  added Makrocommand BIDIB_MSYS_SERVOMOVE_QUERY
 //            2014-08-13       kw  changed: XPOM (enums, type)
+//            2014-08-24       kw  added FEATURE_CTRL_PORT_REMAPPING, MGS_LC_MAPPING_CFG, MSG_LC_MAPPING (test only)
 //                             kw  added BIDIB_ERR_RESET_REQUIRED
 //            2014-09-25       kw  added MSG_LOCAL_ACCESSORY
 //            2014-10-26 V0.18 kw  added MSG_LC_CONFIGX_SET, MSG_LC_CONFIGX_GET, MSG_LC_CONFIGX
-//                                 added defines for port config enums
+//                                 added defines for port config enums  
+//                             kw  changed: BIDIB_VERSION 0.5 to 0.6
+//            2014-12-03       kw  added BIDIB_MSYS_FLAG_QUERY0, renamed BIDIB_MSYS_FLAG_QUERY to BIDIB_MSYS_FLAG_QUERY1
 //
 //===============================================================================
 //
@@ -180,8 +183,8 @@
 #define MSG_LC_CONFIG_GET       (MSG_DLC + 0x02)        // 1:type, 2:port
 #define MSG_LC_KEY_QUERY        (MSG_DLC + 0x03)        // 1:port
 #define MSG_LC_OUTPUT_QUERY     (MSG_DLC + 0x04)        // 1:type, 2:port
-#define MGS_LC_MAPPING_GET      (MSG_DLC + 0x05)        // test, reserved
-#define MSG_LC_CONFIGX_SET      (MSG_DLC + 0x06)        // 1:type, 2:port, [3:p_enum, 4:p_val] (up to 16)
+    #define MGS_LC_MAPPING_GET  (MSG_DLC + 0x05)
+#define MSG_LC_CONFIGX_SET      (MSG_DLC + 0x06)        // 1:type, 2:port, [3:p_enum, 4:p_val]  (up to 16)
 #define MSG_LC_CONFIGX_GET      (MSG_DLC + 0x07)        // 1:type, 2:port
 
 //-- macro messages
@@ -195,7 +198,7 @@
 //-- dcc gen messages
 #define MSG_DGEN                (MSG_DSTRM + 0x60)
 #define  MSG_CS_ALLOCATE        (MSG_DGEN + 0x00)
-#define  MSG_CS_SET_STATE       (MSG_DGEN + 0x02)
+#define  MSG_CS_SET_STATE       (MSG_DGEN + 0x02)       // 1:state
 #define  MSG_CS_DRIVE           (MSG_DGEN + 0x04)       // 1:addrl, 2:addrh, 3:format, 4:active, 5:speed, 6:1-4, 7:5-12, 8:13-20, 9:21-28
 #define  MSG_CS_ACCESSORY       (MSG_DGEN + 0x05)       // 1:addrl, 2:addrh, 3:data(aspect), 4:time_l, 5:time_h
 #define  MSG_CS_BIN_STATE       (MSG_DGEN + 0x06)       // 1:addrl, 2:addrh, 3:bin_statl, 4:bin_stath
@@ -282,8 +285,8 @@
 #define MSG_LC_CONFIG           (MSG_ULC + 0x02)        // 1:type, 2:port, 3:off_val, 4:on_val, 5:dimm_off, 6:dimm_on
 #define MSG_LC_KEY              (MSG_ULC + 0x03)        // 1:port, 2:state
 #define MSG_LC_WAIT             (MSG_ULC + 0x04)        // 1:type, 2:port, 3:time
-#define MSG_LC_MAPPING          (MSG_ULC + 0x05)        // test, reserved
-#define MSG_LC_CONFIGX          (MSG_ULC + 0x06)        // 1:type, 2:port, [3:p_enum, 4:p_val] (up to 16)
+    #define MSG_LC_MAPPING          (MSG_ULC + 0x05)
+#define MSG_LC_CONFIGX          (MSG_ULC + 0x06)        // 1:type, 2:port, [3:p_enum, 4:p_val]  (up to 16)
 
 //-- macro messages
 #define MSG_UMAC                (MSG_USTRM +  0x48)
@@ -374,15 +377,17 @@ typedef struct
     unsigned char dimm_on;              // time for dimming towards ON: 0=fast ... 255=slow
   } t_bidib_lport_cfg;                  // for Light PORTs
 
+// note: this structure is depracted
 typedef struct
   {
     unsigned char portnum;
     unsigned char dimm_off;             // time for dimming towards OFF: 0=fast ... 255=slow
     unsigned char dimm_on;              // time for dimming towards ON: 0=fast ... 255=slow
     unsigned char channel;              // mapping to physical channel
-    unsigned char reserved0;            // 
+    unsigned char stretch;              // stretch (make timing slower)28.10.2014 09:29:10
   } t_bidib_backlport_cfg;              // for BACKLIGHT
 
+// note: this structure is depracted
 typedef struct
   {
     unsigned char portnum;
@@ -636,6 +641,9 @@ typedef struct                              // t_bidib_cs_pom
 #define FEATURE_CTRL_PORT_QUERY_AVAILABLE  66   // 1: node will answer to MSG_LC_OUTPUT_QUERY
 #define FEATURE_SPORT_CONFIG_AVAILABLE     67   // 1: node has possibility to configure SPORTs
 
+     #define FEATURE_CTRL_PORT_REMAPPING   70
+
+
 //-- dcc gen
 #define FEATURE_GEN_SPYMODE                100  // 1: watch bidib handsets
 #define FEATURE_GEN_WATCHDOG               101  // 0: no watchdog, 1: permanent update of MSG_CS_SET_STATE required, unit 100ms
@@ -674,6 +682,7 @@ typedef struct                              // t_bidib_cs_pom
 #define BIDIB_ERR_SUBPAKET                0x15  // Message in Subsystem Paket Size Error
 #define BIDIB_ERR_OVERRUN                 0x16  // Message buffer in downstream overrun, messages lost.
 #define BIDIB_ERR_HW                      0x20  // self test failed
+#define BIDIB_ERR_RESET_REQUIRED          0x21  // reset needed (ie. due to reconfiguration)
 
 //===============================================================================
 //
@@ -840,23 +849,25 @@ typedef struct                              // t_bidib_cs_pom
 // Port configuration ENUMs (P_ENUM)
 // P_ENUM 0..63: byte values 8 bits
 // P_ENUM 64..127: int values 16 bits
-#define BIDIB_PCFG_NONE              0x00 // uint8 no parameters available / error code
-#define BIDIB_PCFG_LEVEL_PORT_ON     0x01 // uint8 'analog' value for ON
-#define BIDIB_PCFG_LEVEL_PORT_OFF    0x02 // uint8 'analog' value for OFF
-#define BIDIB_PCFG_DIMM_UP           0x03 // uint8 step width for dimm up [unit 10ms]
-#define BIDIB_PCFG_DIMM_DOWN         0x04 // uint8 step width for dimm down [unit 10ms]
-#define BIDIB_PCFG_DIMM_STRETCH      0x05 // uint8 scale up step width
-#define BIDIB_PCFG_OUTPUT_MAP        0x06 // uint8 if there is a output mapping (like DMX)
-#define BIDIB_PCFG_SERVO_ADJ_L       0x07 // uint8 Servo Adjust Low
-#define BIDIB_PCFG_SERVO_ADJ_H       0x08 // uint8 Servo Adjust High
-#define BIDIB_PCFG_SERVO_SPEED       0x09 // uint8 Servo Speed
+#define BIDIB_PCFG_NONE              0x00      // uint8   no parameters available / error code
+#define BIDIB_PCFG_LEVEL_PORT_ON     0x01      // uint8   'analog' value for ON
+#define BIDIB_PCFG_LEVEL_PORT_OFF    0x02      // uint8   'analog' value for OFF
+#define BIDIB_PCFG_DIMM_UP           0x03      // uint8   step width for dimm up [unit 10ms]
+#define BIDIB_PCFG_DIMM_DOWN         0x04      // uint8   step width for dimm down [unit 10ms]
+#define BIDIB_PCFG_DIMM_STRETCH      0x05      // uint8   scale up step width
+#define BIDIB_PCFG_OUTPUT_MAP        0x06      // uint8   if there is a output mapping  (like DMX)
+#define BIDIB_PCFG_SERVO_ADJ_L       0x07      // uint8   Servo Adjust Low
+#define BIDIB_PCFG_SERVO_ADJ_H       0x08      // uint8   Servo Adjust High
+#define BIDIB_PCFG_SERVO_SPEED       0x09      // uint8   Servo Speed
 // 16 bit values
-#define BIDIB_PCFG_DIMM_UP_8_8       0x43 // uint16 step width for dimm up as 8.8 float [unit 2560ms] (1= one step up in 2.56s; 256 = one step up in 10ms)
-#define BIDIB_PCFG_DIMM_DOWN_8_8     0x44 // uint16 step width for dimm down as 8.8 float [unit 2560ms]
+#define BIDIB_PCFG_DIMM_UP_8_8       0x43      // uint16  step width for dimm up as 8.8 float [unit 2560ms] (1= one step up in 2.56s; 256 = one step up in 10ms)
+#define BIDIB_PCFG_DIMM_DOWN_8_8     0x44      // uint16  step width for dimm down as 8.8 float [unit 2560ms]   
 // 24 bit values
-#define BIDIB_PCFG_RGB               0x80 // uint24 RGB value of a coloured output. first byte R, second G, third B
-// special
-#define BIDIB_PCFG_CONTINUE          0xFF // none an addtional message will follow
+#define BIDIB_PCFG_RGB               0x80      // uint24  RGB value of a coloured output. first byte R, second G, third B
+// special  
+#define BIDIB_PCFG_CONTINUE          0xFF      // none     an addtional message will follow
+
+
 
 // control codes  - limited to one nibble, here for PORTs
 
@@ -889,12 +900,13 @@ typedef struct                              // t_bidib_cs_pom
 #define BIDIB_MSYS_BEGIN_CRITCAL    252     // current macro will ignore stop requests
 #define BIDIB_MSYS_END_CRITCAL      251     // current macro can be stopped by a stop (default)
 
-#define BIDIB_MSYS_FLAG_QUERY       250     // query flag and pause as long as flag is not set
+#define BIDIB_MSYS_FLAG_QUERY       250     // deprecated
+#define BIDIB_MSYS_FLAG_QUERY1      250     // query flag and pause as long as flag is not set (advance if set)
 #define BIDIB_MSYS_FLAG_SET         249     // set flag
 #define BIDIB_MSYS_FLAG_CLEAR       248     // reset flag
 
-#define BIDIB_MSYS_INPUT_QUERY1     247     // query input for 'pressed / activated'
-#define BIDIB_MSYS_INPUT_QUERY0     246     // query input for 'released'
+#define BIDIB_MSYS_INPUT_QUERY1     247     // query input for 'pressed / activated' and advance, if input is set
+#define BIDIB_MSYS_INPUT_QUERY0     246     // query input for 'released' and and advance, if input is released
 #define BIDIB_MSYS_DELAY_RANDOM     245     // make a random delay
 #define BIDIB_MSYS_DELAY_FIXED      244     // make a fixed delay
 
@@ -902,6 +914,8 @@ typedef struct                              // t_bidib_cs_pom
 #define BIDIB_MSYS_ACC_OKAY_QIN0    242     // query input for 'released' and send okay to accessory-module, if pressed, else send nok. (not waiting)
 #define BIDIB_MSYS_ACC_OKAY_NF      241     // send okay to accessory-module, no feedback available
 #define BIDIB_MSYS_SERVOMOVE_QUERY  240     // query servo movement and pause as long as moving
+
+#define BIDIB_MSYS_FLAG_QUERY0      239     // query flag and pause as long as flag is set (advance if not set)
 
 // Macro global parameters
 #define BIDIB_MACRO_PARA_SLOWDOWN   0x01

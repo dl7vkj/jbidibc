@@ -124,12 +124,21 @@ public class LcMacroExporter {
                 lcMacroPoint = flagSetPoint;
                 break;
             case FLAG_QUERY:
+            case FLAG_QUERY1:
                 FlagActionType flagQueryActionType = new FlagActionType();
-                flagQueryActionType.setOperation(FlagOperationType.QUERY);
+                flagQueryActionType.setOperation(FlagOperationType.QUERY_1);
                 flagQueryActionType.setFlagNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
                 FlagPoint flagQueryPoint = new FlagPoint();
                 flagQueryPoint.setFlagActionType(flagQueryActionType);
                 lcMacroPoint = flagQueryPoint;
+                break;
+            case FLAG_QUERY0:
+                FlagActionType flagQuery0ActionType = new FlagActionType();
+                flagQuery0ActionType.setOperation(FlagOperationType.QUERY_0);
+                flagQuery0ActionType.setFlagNumber(ByteUtils.getInt(lcMacro.getOutputNumber()));
+                FlagPoint flagQuery0Point = new FlagPoint();
+                flagQuery0Point.setFlagActionType(flagQuery0ActionType);
+                lcMacroPoint = flagQuery0Point;
                 break;
             case INPUT_QUERY0:
                 InputPortPoint inputQuery0Point = new InputPortPoint();

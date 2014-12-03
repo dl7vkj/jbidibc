@@ -9,7 +9,6 @@ import org.bidib.jbidibc.core.enumeration.MotorPortEnum;
 import org.bidib.jbidibc.core.enumeration.ServoPortEnum;
 import org.bidib.jbidibc.core.enumeration.SoundPortEnum;
 import org.bidib.jbidibc.core.enumeration.SwitchPortEnum;
-import org.bidib.jbidibc.exchange.lcmacro.LcMacroExporter;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
@@ -287,12 +286,12 @@ public class LcMacroExporterTest {
     }
 
     @Test
-    public void prepareLcMacroPointFlagQuery() {
+    public void prepareLcMacroPointFlagQuery1() {
         LcMacroExporter exporter = new LcMacroExporter();
 
         LcMacro lcMacro =
             new LcMacro((byte) 0 /* macronumber */, (byte) 1/* stepnumber */, (byte) 255 /* delay */,
-                LcOutputType.FLAG_QUERY, (byte) 13 /* outputnumber */, (BidibEnum) null, (byte) 12 /* value */);
+                LcOutputType.FLAG_QUERY1, (byte) 13 /* outputnumber */, (BidibEnum) null, (byte) 12 /* value */);
 
         LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
         Assert.assertNotNull(point);
@@ -303,7 +302,28 @@ public class LcMacroExporterTest {
         Assert.assertNotNull(flagPoint.getFlagActionType().getOperation());
 
         // Assert.assertEquals(point.getIndex(), 1);
-        Assert.assertEquals(flagPoint.getFlagActionType().getOperation(), FlagOperationType.QUERY);
+        Assert.assertEquals(flagPoint.getFlagActionType().getOperation(), FlagOperationType.QUERY_1);
+        Assert.assertEquals(flagPoint.getFlagActionType().getFlagNumber(), 13);
+    }
+
+    @Test
+    public void prepareLcMacroPointFlagQuery0() {
+        LcMacroExporter exporter = new LcMacroExporter();
+
+        LcMacro lcMacro =
+            new LcMacro((byte) 0 /* macronumber */, (byte) 1/* stepnumber */, (byte) 255 /* delay */,
+                LcOutputType.FLAG_QUERY0, (byte) 13 /* outputnumber */, (BidibEnum) null, (byte) 12 /* value */);
+
+        LcMacroPointType point = exporter.prepareLcMacroPoint(lcMacro);
+        Assert.assertNotNull(point);
+        Assert.assertTrue(point instanceof FlagPoint);
+        FlagPoint flagPoint = (FlagPoint) point;
+
+        Assert.assertNotNull(flagPoint.getFlagActionType());
+        Assert.assertNotNull(flagPoint.getFlagActionType().getOperation());
+
+        // Assert.assertEquals(point.getIndex(), 1);
+        Assert.assertEquals(flagPoint.getFlagActionType().getOperation(), FlagOperationType.QUERY_0);
         Assert.assertEquals(flagPoint.getFlagActionType().getFlagNumber(), 13);
     }
 

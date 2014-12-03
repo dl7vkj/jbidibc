@@ -338,7 +338,8 @@
 		</xsd:annotation>
 		<xsd:restriction base="xsd:string">
 			<xsd:enumeration value="CLEAR"/>
-			<xsd:enumeration value="QUERY"/>
+			<xsd:enumeration value="QUERY1"/>
+			<xsd:enumeration value="QUERY0"/>
 			<xsd:enumeration value="SET"/>
 		</xsd:restriction>
 	</xsd:simpleType>

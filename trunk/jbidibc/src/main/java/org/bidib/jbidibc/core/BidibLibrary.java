@@ -1130,7 +1130,8 @@ public interface BidibLibrary {
     // input port type
     public static final int BIDIB_PORTTYPE_INPUT = (int) 15;
 
-    public static final int BIDIB_ERR_RESET_REQUIRED = (int) 0x21; // reset needed (ie. due to reconfiguration)
+    // reset needed (ie. due to reconfiguration)
+    public static final int BIDIB_ERR_RESET_REQUIRED = (int) 0x21;
 
     public static final int MSG_LOCAL_ACCESSORY = (MSG_DLOCAL + 0x03); // 1:statusflag, 2,3: DCC-accessory addr
 
@@ -1187,4 +1188,11 @@ public interface BidibLibrary {
 
     // none an addtional message will follow
     public static final Byte BIDIB_PCFG_CONTINUE = Byte.valueOf((byte) 0xFF);
+
+    // query flag and pause as long as flag is not set (advance if set)
+    public static final int BIDIB_MSYS_FLAG_QUERY1 = (int) 250;
+
+    // query flag and pause as long as flag is set (advance if not set)
+    public static final int BIDIB_MSYS_FLAG_QUERY0 = (int) 239;
+
 }
