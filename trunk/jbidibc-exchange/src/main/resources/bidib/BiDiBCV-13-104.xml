@@ -205,9 +205,9 @@
                 <Description Lang="de-DE" Text="Strombegrenzung: 0=durch Feature festgelegt"/>
                 <Description Lang="en-EN" Text="HW current limit: 0=as defined by feature"/>
             </CV>
-            <CV Number="23" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="pom-repeat"/>
-                <Description Lang="en-EN" Text="pom-repeat"/>
+            <CV Number="23" Type="SignedChar" Min="-20" Max="20" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Temperaturoffset: 0=standard, positiv: Korrektur zu höheren Werten" Help="Die Temperaturmessung mit dem atxmega ist nicht sehr genau, mit diesem Offsetwert kann ein individueller Abgleich vorgenommen werden."/>
+                <Description Lang="en-EN" Text="Temperature offset: 0 default, otherwise add this value"/>
             </CV>
         </Node>
         <Node>
