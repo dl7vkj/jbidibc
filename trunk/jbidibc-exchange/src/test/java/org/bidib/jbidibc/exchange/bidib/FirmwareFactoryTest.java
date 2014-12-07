@@ -30,8 +30,10 @@ public class FirmwareFactoryTest {
         URL url = FirmwareFactoryTest.class.getResource("/xml-test/firmware-sample.xml");
         Firmware firmware = FirmwareFactory.getFirmware(url.getPath());
         Assert.assertNotNull(firmware);
+        Assert.assertNotNull(firmware.getFirmwareDefinition());
+        Assert.assertTrue(firmware.getFirmwareDefinition().size() > 0);
 
-        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition();
+        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition().get(0);
         Assert.assertNotNull(firmwareDefinition);
 
         Assert.assertNotNull(firmwareDefinition.getNode());
@@ -62,8 +64,10 @@ public class FirmwareFactoryTest {
         URL url = FirmwareFactoryTest.class.getResource("/xml-test/firmware-minimum.xml");
         Firmware firmware = FirmwareFactory.getFirmware(url.getPath());
         Assert.assertNotNull(firmware);
+        Assert.assertNotNull(firmware.getFirmwareDefinition());
+        Assert.assertTrue(firmware.getFirmwareDefinition().size() > 0);
 
-        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition();
+        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition().get(0);
         Assert.assertNotNull(firmwareDefinition);
 
         Assert.assertNotNull(firmwareDefinition.getNode());
@@ -93,8 +97,10 @@ public class FirmwareFactoryTest {
         URL url = FirmwareFactoryTest.class.getResource("/xml-test/firmware-basic.xml");
         Firmware firmware = FirmwareFactory.getFirmware(url.getPath());
         Assert.assertNotNull(firmware);
+        Assert.assertNotNull(firmware.getFirmwareDefinition());
+        Assert.assertTrue(firmware.getFirmwareDefinition().size() > 0);
 
-        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition();
+        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition().get(0);
         Assert.assertNotNull(firmwareDefinition);
 
         Assert.assertNotNull(firmwareDefinition.getNode());
