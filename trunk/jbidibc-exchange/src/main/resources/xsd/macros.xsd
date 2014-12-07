@@ -541,7 +541,10 @@
 			<xsd:enumeration value="INPUTQUERY1"/>
 			<xsd:enumeration value="FLAGCLEAR"/>
 			<xsd:enumeration value="FLAGSET"/>
+			<!-- FLAGQUERY is deprecated -->
 			<xsd:enumeration value="FLAGQUERY"/>
+			<xsd:enumeration value="FLAGQUERY0"/>
+			<xsd:enumeration value="FLAGQUERY1"/>
 			<xsd:enumeration value="CRITICALSECTION"/>
 			<xsd:enumeration value="STARTMACRO"/>
 			<xsd:enumeration value="STOPMACRO"/>
@@ -551,6 +554,7 @@
 			<xsd:enumeration value="SOUNDPORT"/>
 			<xsd:enumeration value="SWITCHPORT"/>
 			<xsd:enumeration value="MOTORPORT"/>
+			<xsd:enumeration value="INPUTPORT"/>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:element name="lcMacro" type="LcMacroType"/>
