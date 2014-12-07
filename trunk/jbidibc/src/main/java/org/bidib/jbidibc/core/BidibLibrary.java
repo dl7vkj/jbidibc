@@ -1196,4 +1196,7 @@ public interface BidibLibrary {
     // query flag and pause as long as flag is set (advance if not set)
     public static final int BIDIB_MSYS_FLAG_QUERY0 = (int) 239;
 
+    // output type input port (experimental)
+    public static final int BIDIB_OUTTYPE_INPUT = (int) 15;
+
 }

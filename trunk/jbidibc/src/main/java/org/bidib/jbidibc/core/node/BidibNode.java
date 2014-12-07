@@ -933,6 +933,7 @@ public class BidibNode {
         try {
             synchronized (bulkAnswerCounter) {
 
+                // TODO > or >= ????
                 if (bulkAnswerCounter.get() > prevReceivedMessages) {
                     LOGGER.info("Received response already, prevReceivedMessages: {}, current receive counter: {}",
                         prevReceivedMessages, bulkAnswerCounter.get());
