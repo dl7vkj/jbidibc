@@ -15,6 +15,7 @@ import org.bidib.jbidibc.core.enumeration.AnalogPortEnum;
 import org.bidib.jbidibc.core.enumeration.BacklightPortEnum;
 import org.bidib.jbidibc.core.enumeration.BidibEnum;
 import org.bidib.jbidibc.core.enumeration.FlagEnum;
+import org.bidib.jbidibc.core.enumeration.InputPortEnum;
 import org.bidib.jbidibc.core.enumeration.LcOutputType;
 import org.bidib.jbidibc.core.enumeration.LightPortEnum;
 import org.bidib.jbidibc.core.enumeration.MacroEnum;
@@ -41,33 +42,85 @@ public class MessageUtils {
     public static BidibEnum toPortStatus(LcOutputType outputType, byte value) {
         BidibEnum result = null;
 
-        if (outputType == LcOutputType.ANALOGPORT) {
-            result = AnalogPortEnum.valueOf(value);
+        switch (outputType) {
+            case ANALOGPORT:
+                result = AnalogPortEnum.valueOf(value);
+                break;
+            case BACKLIGHTPORT:
+                // the pseudo status is always start, because the value is delivered
+                result = BacklightPortEnum.START;
+                break;
+            case LIGHTPORT:
+                result = LightPortEnum.valueOf(value);
+                break;
+            case MOTORPORT:
+                result = MotorPortEnum.valueOf(value);
+                break;
+            case SERVOPORT:
+                // the pseudo status is always start, because the value is delivered
+                result = ServoPortEnum.START;
+                break;
+            case SOUNDPORT:
+                result = SoundPortEnum.valueOf(value);
+                break;
+            case SWITCHPORT:
+                result = SwitchPortEnum.valueOf(value);
+                break;
+            case INPUTPORT:
+                result = InputPortEnum.valueOf(value);
+                break;
+            case END_OF_MACRO:
+            case ACCESSORY_OKAY_INPUTQUERY0:
+            case ACCESSORY_OKAY_INPUTQUERY1:
+            case ACCESSORY_OKAY_NF:
+            case BEGIN_CRITICAL:
+            case END_CRITICAL:
+            case FLAG_CLEAR:
+            case FLAG_QUERY:
+            case FLAG_QUERY0:
+            case FLAG_QUERY1:
+            case FLAG_SET:
+            case INPUT_QUERY0:
+            case INPUT_QUERY1:
+            case DELAY:
+            case RANDOM_DELAY:
+            case SERVOMOVE_QUERY:
+            case START_MACRO:
+            case STOP_MACRO:
+                break;
+            default:
+                LOGGER.warn("No port status available for output type: {}", outputType);
+                throw new RuntimeException("No port status available for output type: " + outputType);
+
         }
-        else if (outputType == LcOutputType.BACKLIGHTPORT) {
-            // the pseudo status is always start, because the value is delivered
-            result = BacklightPortEnum.START;
-        }
-        else if (outputType == LcOutputType.LIGHTPORT) {
-            result = LightPortEnum.valueOf(value);
-        }
-        else if (outputType == LcOutputType.MOTORPORT) {
-            result = MotorPortEnum.valueOf(value);
-        }
-        else if (outputType == LcOutputType.SERVOPORT) {
-            // the pseudo status is always start, because the value is delivered
-            result = ServoPortEnum.START;
-        }
-        else if (outputType == LcOutputType.SOUNDPORT) {
-            result = SoundPortEnum.valueOf(value);
-        }
-        else if (outputType == LcOutputType.SWITCHPORT) {
-            result = SwitchPortEnum.valueOf(value);
-        }
-        else if (outputType != null && outputType.hasPortStatus()) {
-            LOGGER.warn("No port status available for output type: {}", outputType);
-            throw new RuntimeException("No port status available for output type: " + outputType);
-        }
+
+        // if (outputType == LcOutputType.ANALOGPORT) {
+        // result = AnalogPortEnum.valueOf(value);
+        // }
+        // else if (outputType == LcOutputType.BACKLIGHTPORT) {
+        // // the pseudo status is always start, because the value is delivered
+        // result = BacklightPortEnum.START;
+        // }
+        // else if (outputType == LcOutputType.LIGHTPORT) {
+        // result = LightPortEnum.valueOf(value);
+        // }
+        // else if (outputType == LcOutputType.MOTORPORT) {
+        // result = MotorPortEnum.valueOf(value);
+        // }
+        // else if (outputType == LcOutputType.SERVOPORT) {
+        // // the pseudo status is always start, because the value is delivered
+        // result = ServoPortEnum.START;
+        // }
+        // else if (outputType == LcOutputType.SOUNDPORT) {
+        // result = SoundPortEnum.valueOf(value);
+        // }
+        // else if (outputType == LcOutputType.SWITCHPORT) {
+        // result = SwitchPortEnum.valueOf(value);
+        // }
+        // else if (outputType != null && outputType.hasPortStatus()) {
+        // LOGGER.warn("No port status available for output type: {}", outputType);
+        // throw new RuntimeException("No port status available for output type: " + outputType);
+        // }
 
         return result;
     }
