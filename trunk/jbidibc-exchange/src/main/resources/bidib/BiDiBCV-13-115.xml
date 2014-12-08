@@ -37,17 +37,17 @@
 				<Description Lang="en-EN" Text="Firmware compile run"/>
 			</CV>
 			<CV Number="32" Type="Int" Min="0" Max="2054" Low="32" High="33" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="DCC Weichenadresse - Basis"/>
-				<Description Lang="en-EN" Text="DCC accessory address base" />
-			</CV>
-			<CV Number="33" Type="Int" Min="0" Max="2054" Low="32" High="33" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="DCC Weichenadresse - Basis"/>
-				<Description Lang="en-EN" Text="DCC accessory address base" />
-			</CV>
-			<CV Number="34" Type="Byte" Min="1" Max="128" Low="-" High="-" Values="-" Mode="rw">
-				<Description Lang="de-DE" Text="DCC Weichenadresse - Bereich"/>
-				<Description Lang="en-EN" Text="DCC accessory address range"/>
-			</CV>
+	            <Description Lang="de-DE" Text="DCC Weichenadresse - Basis" Help="Diese Adresse wird bei Notfallbetrieb als Beginn des DCC-Adressbereiches genommen."/>
+	            <Description Lang="en-EN" Text="DCC accessory address base" Help="This address is used for emergency operation mode, first used address"/>
+	        </CV>
+	        <CV Number="33" Type="Int" Min="0" Max="2054" Low="32" High="33" Values="-" Mode="rw">
+	            <Description Lang="de-DE" Text="DCC Weichenadresse - Basis"/>
+	            <Description Lang="en-EN" Text="DCC accessory address base" />
+	        </CV>
+	        <CV Number="34" Type="Byte" Min="1" Max="128" Low="-" High="-" Values="-" Mode="rw">
+	            <Description Lang="de-DE" Text="DCC Weichenadresse - Bereich" Help="4 bedeutet 4 DCC Weichen = 8 Begriffe = 8 Macros"/>
+	            <Description Lang="en-EN" Text="DCC accessory address range" Help="4 means 4 DCC turnouts = 8 coil commands = 8 macros"/>
+	        </CV>
 		</Template>
 		<Template Name="DMX">
 			<CV Number="0" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="-" Mode="rw">
