@@ -31,10 +31,8 @@ public class FirmwareFactoryTest {
         Firmware firmware = FirmwareFactory.getFirmware(url.getPath());
         Assert.assertNotNull(firmware);
         Assert.assertNotNull(firmware.getFirmwareDefinition());
-        Assert.assertTrue(firmware.getFirmwareDefinition().size() > 0);
 
-        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition().get(0);
-        Assert.assertNotNull(firmwareDefinition);
+        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition();
 
         Assert.assertNotNull(firmwareDefinition.getNode());
 
@@ -65,10 +63,8 @@ public class FirmwareFactoryTest {
         Firmware firmware = FirmwareFactory.getFirmware(url.getPath());
         Assert.assertNotNull(firmware);
         Assert.assertNotNull(firmware.getFirmwareDefinition());
-        Assert.assertTrue(firmware.getFirmwareDefinition().size() > 0);
 
-        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition().get(0);
-        Assert.assertNotNull(firmwareDefinition);
+        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition();
 
         Assert.assertNotNull(firmwareDefinition.getNode());
 
@@ -98,10 +94,8 @@ public class FirmwareFactoryTest {
         Firmware firmware = FirmwareFactory.getFirmware(url.getPath());
         Assert.assertNotNull(firmware);
         Assert.assertNotNull(firmware.getFirmwareDefinition());
-        Assert.assertTrue(firmware.getFirmwareDefinition().size() > 0);
 
-        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition().get(0);
-        Assert.assertNotNull(firmwareDefinition);
+        FirmwareDefinitionType firmwareDefinition = firmware.getFirmwareDefinition();
 
         Assert.assertNotNull(firmwareDefinition.getNode());
 

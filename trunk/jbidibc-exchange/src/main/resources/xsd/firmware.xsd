@@ -18,6 +18,7 @@
 	<xsd:complexType name="FirmwareDefinitionType">
 		<xsd:sequence>
 			<xsd:element name="Node" type="firmware:NodeType" minOccurs="0" maxOccurs="unbounded"/>
+            <xsd:element name="CvFilename" type="xsd:string" minOccurs="0" maxOccurs="1"/>
 		</xsd:sequence>
 	</xsd:complexType>
 	<xsd:element name="Firmware">
@@ -27,8 +28,7 @@
 		<xsd:complexType>
 			<xsd:sequence>
 				<xsd:element name="Version" type="firmware:VersionInfoType"/>
-				<!--xsd:element name="Templates" type="firmware:TemplatesType" minOccurs="0"/-->
-				<xsd:element name="FirmwareDefinition" type="firmware:FirmwareDefinitionType" minOccurs="0" maxOccurs="unbounded"/>
+				<xsd:element name="FirmwareDefinition" type="firmware:FirmwareDefinitionType" minOccurs="0" maxOccurs="1"/>
 			</xsd:sequence>
 		</xsd:complexType>
 	</xsd:element>
@@ -49,6 +49,7 @@
 		<xsd:complexContent>
 			<xsd:extension base="NodeType">
 				<xsd:sequence>
+					<!-- deprecated, moved to FirmwareDefinition -->
                     <xsd:element name="CvFilename" type="xsd:string" minOccurs="0" maxOccurs="1"/>
 				</xsd:sequence>
 				<xsd:attribute name="VID" type="xsd:string" />
