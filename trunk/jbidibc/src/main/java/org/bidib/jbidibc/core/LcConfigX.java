@@ -1,14 +1,11 @@
 package org.bidib.jbidibc.core;
 
-import java.io.ByteArrayOutputStream;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import org.apache.commons.collections4.MapUtils;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.bidib.jbidibc.core.enumeration.LcOutputType;
-import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -67,55 +64,55 @@ public class LcConfigX {
         return values;
     }
 
-    public byte[] getCodedPortConfig() {
-
-        byte outputTypeValue = outputType.getType();
-        byte portNumber = ByteUtils.getLowByte(outputNumber, 0x7F);
-
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        baos.write(outputTypeValue);
-        baos.write(portNumber);
-
-        // prepare the values
-        if (MapUtils.isNotEmpty(values)) {
-            try {
-                for (Entry<Byte, Number> entry : values.entrySet()) {
-                    byte pEnum = entry.getKey();
-                    if (entry.getValue() != null) {
-                        baos.write(pEnum);
-                        if ((pEnum & 0x80) == 0x80) {
-                            if (BidibLibrary.BIDIB_PCFG_RGB == pEnum) {
-                                // RGB
-                                int pIntValue = entry.getValue().intValue();
-                                baos.write(ByteUtils.toRGB(pIntValue));
-                            }
-                            else {
-                                // int32
-                                int pIntValue = entry.getValue().intValue();
-                                baos.write(ByteUtils.toDWORD(pIntValue));
-                            }
-                        }
-                        else if ((pEnum & 0x40) == 0x40) {
-                            // int16
-                            int pIntValue = entry.getValue().intValue();
-                            baos.write(ByteUtils.toWORD(pIntValue));
-                        }
-                        else { // byte
-                            byte pValue = entry.getValue().byteValue();
-                            baos.write(pValue);
-                        }
-                    }
-                    else {
-                        LOGGER.warn("No value available for pEnum: {}", ByteUtils.toString(new byte[] { pEnum }));
-                    }
-                }
-            }
-            catch (Exception ex) {
-                LOGGER.warn("Prepare coded port config failed.", ex);
-            }
-        }
-        return baos.toByteArray();
-    }
+    // public byte[] getCodedPortConfig() {
+    //
+    // byte outputTypeValue = outputType.getType();
+    // byte portNumber = ByteUtils.getLowByte(outputNumber, 0x7F);
+    //
+    // ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    // baos.write(outputTypeValue);
+    // baos.write(portNumber);
+    //
+    // // prepare the values
+    // if (MapUtils.isNotEmpty(values)) {
+    // try {
+    // for (Entry<Byte, Number> entry : values.entrySet()) {
+    // byte pEnum = entry.getKey();
+    // if (entry.getValue() != null) {
+    // baos.write(pEnum);
+    // if ((pEnum & 0x80) == 0x80) {
+    // if (BidibLibrary.BIDIB_PCFG_RGB == pEnum) {
+    // // RGB
+    // int pIntValue = entry.getValue().intValue();
+    // baos.write(ByteUtils.toRGB(pIntValue));
+    // }
+    // else {
+    // // int32
+    // int pIntValue = entry.getValue().intValue();
+    // baos.write(ByteUtils.toDWORD(pIntValue));
+    // }
+    // }
+    // else if ((pEnum & 0x40) == 0x40) {
+    // // int16
+    // int pIntValue = entry.getValue().intValue();
+    // baos.write(ByteUtils.toWORD(pIntValue));
+    // }
+    // else { // byte
+    // byte pValue = entry.getValue().byteValue();
+    // baos.write(pValue);
+    // }
+    // }
+    // else {
+    // LOGGER.warn("No value available for pEnum: {}", ByteUtils.toString(new byte[] { pEnum }));
+    // }
+    // }
+    // }
+    // catch (Exception ex) {
+    // LOGGER.warn("Prepare coded port config failed.", ex);
+    // }
+    // }
+    // return baos.toByteArray();
+    // }
 
     /**
      * @return the continue marker is contained in the values map

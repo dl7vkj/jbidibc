@@ -1,11 +1,14 @@
 package org.bidib.jbidibc.core.utils;
 
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Map.Entry;
 
+import org.apache.commons.collections4.MapUtils;
 import org.bidib.jbidibc.core.BidibLibrary;
 import org.bidib.jbidibc.core.CRC8;
 import org.bidib.jbidibc.core.LcConfigX;
@@ -349,5 +352,61 @@ public class MessageUtils {
         }
 
         return new LcConfigX(LcOutputType.valueOf(outputType), portNumber, values);
+    }
+
+    public static byte[] getCodedPortConfig(final LcConfigX lcConfigX) {
+        final LcOutputType outputType = lcConfigX.getOutputType();
+        final int outputNumber = lcConfigX.getOutputNumber();
+        final Map<Byte, Number> values = lcConfigX.getPortConfig();
+
+        byte outputTypeValue = outputType.getType();
+        byte portNumber = ByteUtils.getLowByte(outputNumber, 0x7F);
+
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        baos.write(outputTypeValue);
+        baos.write(portNumber);
+
+        // prepare the values
+        if (MapUtils.isNotEmpty(values)) {
+            try {
+                for (Entry<Byte, Number> entry : values.entrySet()) {
+                    byte pEnum = entry.getKey();
+                    if (entry.getValue() != null) {
+                        baos.write(pEnum);
+                        if ((pEnum & 0x80) == 0x80) {
+                            if (BidibLibrary.BIDIB_PCFG_CONTINUE == pEnum) {
+                                LOGGER.info("Continue detected, more config will be sent.");
+                            }
+                            else if (BidibLibrary.BIDIB_PCFG_RGB == pEnum) {
+                                // RGB
+                                int pIntValue = entry.getValue().intValue();
+                                baos.write(ByteUtils.toRGB(pIntValue));
+                            }
+                            else {
+                                // int32
+                                int pIntValue = entry.getValue().intValue();
+                                baos.write(ByteUtils.toDWORD(pIntValue));
+                            }
+                        }
+                        else if ((pEnum & 0x40) == 0x40) {
+                            // int16
+                            int pIntValue = entry.getValue().intValue();
+                            baos.write(ByteUtils.toWORD(pIntValue));
+                        }
+                        else { // byte
+                            byte pValue = entry.getValue().byteValue();
+                            baos.write(pValue);
+                        }
+                    }
+                    else {
+                        LOGGER.warn("No value available for pEnum: {}", ByteUtils.toString(new byte[] { pEnum }));
+                    }
+                }
+            }
+            catch (Exception ex) {
+                LOGGER.warn("Prepare coded port config failed.", ex);
+            }
+        }
+        return baos.toByteArray();
     }
 }

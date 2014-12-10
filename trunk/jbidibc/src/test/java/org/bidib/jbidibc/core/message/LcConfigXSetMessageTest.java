@@ -6,6 +6,7 @@ import java.util.Map;
 import org.bidib.jbidibc.core.LcConfigX;
 import org.bidib.jbidibc.core.enumeration.LcOutputType;
 import org.bidib.jbidibc.core.utils.ByteUtils;
+import org.bidib.jbidibc.core.utils.MessageUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -29,7 +30,7 @@ public class LcConfigXSetMessageTest {
         LcConfigX lcConfigX2 = lcConfigXSetMessage.getLcConfigX();
         Assert.assertNotNull(lcConfigX2);
 
-        byte[] codedPortConfig = lcConfigX2.getCodedPortConfig();
+        byte[] codedPortConfig = MessageUtils.getCodedPortConfig(lcConfigX2);
         Assert.assertNotNull(codedPortConfig);
         LOGGER.info("Coded port config: {}", ByteUtils.bytesToHex(codedPortConfig));
 

@@ -10,7 +10,7 @@ import org.bidib.jbidibc.core.utils.MessageUtils;
 public class LcConfigXSetMessage extends BidibCommandMessage {
 
     public LcConfigXSetMessage(final LcConfigX configX) {
-        super(0, BidibLibrary.MSG_LC_CONFIGX_SET, configX.getCodedPortConfig());
+        super(0, BidibLibrary.MSG_LC_CONFIGX_SET, MessageUtils.getCodedPortConfig(configX));
     }
 
     public LcConfigXSetMessage(byte[] message) throws ProtocolException {
