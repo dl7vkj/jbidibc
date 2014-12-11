@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
-    <Version Version="0.5" Lastupdate="20140323" Author="Tillner, Andreas" Pid="103" Vendor="013" Description="GBMBoost Node, Booster"/>
+    <Version Version="0.5" Lastupdate="20141211" Author="Tillner, Andreas" Pid="103" Vendor="013" Description="GBMBoost Node, Booster"></Version>
     <Templates>
+        <Template Name="POM" SkipOnTimeout="true">
+            <CV Number="23" Type="Byte" Min="0" Max="4" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="POM Wiederholung"/>
+                <Description Lang="en-EN" Text="POM Repeat"/>
+            </CV>
+        </Template>
         <Template Name="GBM16T" SkipOnTimeout="true">
             <Node Offset="0" Template="Common">
                 <Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
@@ -26,28 +32,32 @@
                 <Description Lang="en-EN" Text="Vendor GBM16T"/>
             </CV>
             <CV Number="36" Type="Byte" Min="-" Max="-" Low="-" High="-" Values="0;1" Mode="rw">
-                <Description Lang="de-DE" Text="0: keine Stromquelle, 1: 10mA, wenn kein DCC"/>
-                <Description Lang="en-EN" Text="0: no I source, 1: 10mA, if no DCC"/>
+                <Description Lang="de-DE" Text="0: keine Stromquelle, 1: 10mA, wenn kein DCC" Help="Ersatzspeisung nötig; Analogmode in den Dekodern sollte abgeschaltet sein"/>
+                <Description Lang="en-EN" Text="0: no I source, 1: 10mA, if no DCC" Help="Extra power supply required; turn off analogue mode in decoders"/>
             </CV>
             <CV Number="37" Type="Byte" Min="1" Max="10" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Gedulteter Offset ADC"/>
-                <Description Lang="en-EN" Text="Allowed Offset ADC"/>
+                <Description Lang="de-DE" Text="Gedulteter Offset ADC" Help="nur bei Kalibierung relevant"/>
+                <Description Lang="en-EN" Text="Allowed Offset ADC" Help="only for calibration"/>
             </CV>
-            <CV Number="42" Type="Byte" Min="1" Max="25" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Störungsunterdrückung"/>
-                <Description Lang="en-EN" Text="Spike Suppression"/>
+            <CV Number="38" Type="Byte" Min="2" Max="20" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Channel 1 Filter" Help="So oft muss eine Adressnachricht in Channel 1 fehlerfrei empfangen werden."/>
+                <Description Lang="en-EN" Text="Channel 1 Filter" Help="Number of required channel 1 address maessages"/>
             </CV>
-            <CV Number="43" Type="Bit" Min="2" Max="50" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Memory (Einheit 100ms)"/>
-                <Description Lang="en-EN" Text="Memory (Unit 100ms"/>
+            <CV Number="42" Type="Byte" Min="1" Max="200" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Störungsunterdrückung" Help="So lange muß das Eingangssignal mind. über der Schwelle sein. Einheit 1ms"/>
+                <Description Lang="en-EN" Text="Spike Suppression" Help="Required time for input above threshold, unit 1ms"/>
             </CV>
-            <CV Number="44" Type="Byte" Min="2" Max="50" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Ansprechschwelle (DCC an)"/>
-                <Description Lang="en-EN" Text="Threshold (DCC on)"/>
+            <CV Number="43" Type="Bit" Min="2" Max="100" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Memory (Einheit 100ms)" Help="Haltezeit des Melders, so lange bleibt er mind. an"/>
+                <Description Lang="en-EN" Text="Memory (Unit 100ms" Help="Hodltime"/>
             </CV>
-            <CV Number="45" Type="Byte" Min="4" Max="100" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="Ansprechschwelle (DCC aus)"/>
-                <Description Lang="en-EN" Text="Threshold (DCC off)"/>
+            <CV Number="44" Type="Byte" Min="4" Max="100" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Ansprechschwelle (DCC an)" Help="Einheit 0,5mV; 12: erkennt 40kOhm, 24: erkennt 20kOhm"/>
+                <Description Lang="en-EN" Text="Threshold (DCC on)" Help="unit 0.5mV; 12: detects 40kOhm; 24: detects 20kOhm"/>
+            </CV>
+            <CV Number="45" Type="Byte" Min="2" Max="50" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="Ansprechschwelle (DCC aus)" Help="Einheit 0,5mV; empfohlen: etwas halber Wert wie bei DCC an"/>
+                <Description Lang="en-EN" Text="Threshold (DCC off)" Help="unit 0.5mV; recommended: half the value of DCC on"/>
             </CV>
         </Template>
         <Template Name="Reverser">
@@ -201,7 +211,7 @@
                 <Description Lang="de-DE" Text="xp_slot_addr: Adresse 1..31"/>
                 <Description Lang="en-EN" Text="xp_slot_addr: Address 1..31"/>
             </CV>
-            <CV Number="18" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="ro">
+            <CV Number="18" Type="Byte" Min="0" Max="1" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Strombegrenzung: 0=durch Feature festgelegt"/>
                 <Description Lang="en-EN" Text="HW current limit: 0=as defined by feature"/>
             </CV>
@@ -209,6 +219,10 @@
                 <Description Lang="de-DE" Text="Temperaturoffset: 0=standard, positiv: Korrektur zu höheren Werten" Help="Die Temperaturmessung mit dem atxmega ist nicht sehr genau, mit diesem Offsetwert kann ein individueller Abgleich vorgenommen werden."/>
                 <Description Lang="en-EN" Text="Temperature offset: 0 default, otherwise add this value"/>
             </CV>
+        </Node>
+        <Node Offset="0" Template="POM">
+            <Nodetext Lang="de-DE" Text="POM Einstellungen"/>
+            <Nodetext Lang="en-EN" Text="POM Settings"/>
         </Node>
         <Node>
             <Nodetext Lang="de-DE" Text="GBM16T"/>
