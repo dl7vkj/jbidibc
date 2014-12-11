@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
-    <Version Version="0.5" Lastupdate="20141211" Author="Tillner, Andreas" Pid="103" Vendor="013" Description="GBMBoost Node, Booster"></Version>
+    <Version Version="0.5" Lastupdate="20141211" Author="Tillner, Andreas" Pid="103" Vendor="013" Description="GBMBoost Node, Booster"/>
     <Templates>
         <Template Name="POM" SkipOnTimeout="true">
             <CV Number="23" Type="Byte" Min="0" Max="4" Low="-" High="-" Values="-" Mode="rw">
@@ -62,7 +62,7 @@
         </Template>
         <Template Name="Reverser">
             <CV Number="1" Type="Int" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="DCC Adr. (low)"/>
+                <Description Lang="de-DE" Text="DCC Adr. (low)" Help="Dekoderadresse, nicht Weichenadresse"/>
                 <Description Lang="en-EN" Text="DCC Addr. (low)"/>
             </CV>
             <CV Number="9" Type="Int" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">

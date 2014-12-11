@@ -52,7 +52,7 @@
         </Template>
         <Template Name="Reverser">
             <CV Number="1" Type="Int" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="DCC Adr. (low)"/>
+                <Description Lang="de-DE" Text="DCC Adr. (low)" Help="Dekoderadresse, nicht Weichenadresse"/>
                 <Description Lang="en-EN" Text="DCC Addr. (low)"/>
             </CV>
             <CV Number="9" Type="Int" Min="-" Max="-" Low="1" High="9" Values="-" Mode="rw">
