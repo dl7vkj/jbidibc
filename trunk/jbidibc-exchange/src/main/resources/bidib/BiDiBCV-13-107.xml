@@ -139,18 +139,18 @@
                 <Description Lang="de-DE" Text="Herstellerkennung"/>
                 <Description Lang="en-EN" Text="Software version"/>
             </CV>
-			<CV Number="11" Type="Int" Min="0" Max="2054" Low="11" High="12" Values="-" Mode="rw">
-	            <Description Lang="de-DE" Text="DCC Weichenadresse - Basis" Help="Diese Adresse wird bei Notfallbetrieb als Beginn des DCC-Adressbereiches genommen."/>
-	            <Description Lang="en-EN" Text="DCC accessory address base" Help="This address is used for emergency operation mode, first used address"/>
-	        </CV>
-	        <CV Number="12" Type="Int" Min="0" Max="2054" Low="11" High="12" Values="-" Mode="rw">
-	            <Description Lang="de-DE" Text="DCC Weichenadresse - Basis"/>
-	            <Description Lang="en-EN" Text="DCC accessory address base" />
-	        </CV>
-	        <CV Number="13" Type="Byte" Min="1" Max="128" Low="-" High="-" Values="-" Mode="rw">
-	            <Description Lang="de-DE" Text="DCC Weichenadresse - Bereich" Help="4 bedeutet 4 DCC Weichen = 8 Begriffe = 8 Macros"/>
-	            <Description Lang="en-EN" Text="DCC accessory address range" Help="4 means 4 DCC turnouts = 8 coil commands = 8 macros"/>
-	        </CV>
+            <CV Number="11" Type="Int" Min="0" Max="2054" Low="11" High="12" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="DCC Weichenadresse - Basis" Help="Diese Adresse wird bei Notfallbetrieb als Beginn des DCC-Adressbereiches genommen."/>
+                <Description Lang="en-EN" Text="DCC accessory address base" Help="This address is used for emergency operation mode, first used address"/>
+            </CV>
+            <CV Number="12" Type="Int" Min="0" Max="2054" Low="11" High="12" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="DCC Weichenadresse - Basis"/>
+                <Description Lang="en-EN" Text="DCC accessory address base"/>
+            </CV>
+            <CV Number="13" Type="Byte" Min="1" Max="128" Low="-" High="-" Values="-" Mode="rw">
+                <Description Lang="de-DE" Text="DCC Weichenadresse - Bereich" Help="4 bedeutet 4 DCC Weichen = 8 Begriffe = 8 Macros"/>
+                <Description Lang="en-EN" Text="DCC accessory address range" Help="4 means 4 DCC turnouts = 8 coil commands = 8 macros"/>
+            </CV>
             <CV Number="28" Type="Byte" Min="0" Max="255" Low="-" High="-" Values="-" Mode="rw">
                 <Description Lang="de-DE" Text="Bi-Direktionale Kommunikation"/>
                 <Description Lang="en-EN" Text="Bidirectiional communication"/>
