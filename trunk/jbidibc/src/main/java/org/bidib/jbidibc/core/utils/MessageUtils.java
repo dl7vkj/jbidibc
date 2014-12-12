@@ -27,6 +27,12 @@ import org.bidib.jbidibc.core.enumeration.ServoPortEnum;
 import org.bidib.jbidibc.core.enumeration.SoundPortEnum;
 import org.bidib.jbidibc.core.enumeration.SwitchPortEnum;
 import org.bidib.jbidibc.core.exception.ProtocolException;
+import org.bidib.jbidibc.core.port.BytePortConfigValue;
+import org.bidib.jbidibc.core.port.Int16PortConfigValue;
+import org.bidib.jbidibc.core.port.Int32PortConfigValue;
+import org.bidib.jbidibc.core.port.PortConfigValue;
+import org.bidib.jbidibc.core.port.ReconfigPortConfigValue;
+import org.bidib.jbidibc.core.port.RgbPortConfigValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -289,7 +295,7 @@ public class MessageUtils {
         byte outputType = data[0];
         int portNumber = ByteUtils.getInt(data[1], 0x7F);
 
-        Map<Byte, Number> values = new LinkedHashMap<>();
+        Map<Byte, PortConfigValue<?>> values = new LinkedHashMap<>();
         // get the values
         if (data.length > 2) {
             try {
@@ -314,7 +320,7 @@ public class MessageUtils {
                                     ByteUtils.toString(rgbValue), bytesRead, ByteUtils.getInt(pEnum));
 
                                 Integer integerValue = ByteUtils.getRGB(rgbValue);
-                                values.put(pEnum, integerValue);
+                                values.put(pEnum, new RgbPortConfigValue(integerValue));
                                 break;
                             case BidibLibrary.BIDIB_PCFG_RECONFIG:
                                 // RECONFIG
@@ -324,7 +330,7 @@ public class MessageUtils {
                                     ByteUtils.toString(reconfigValue), bytesRead, ByteUtils.getInt(pEnum));
 
                                 integerValue = ByteUtils.getRGB(reconfigValue);
-                                values.put(pEnum, integerValue);
+                                values.put(pEnum, new ReconfigPortConfigValue(integerValue));
                                 break;
                             default:
                                 // int32
@@ -334,7 +340,7 @@ public class MessageUtils {
                                     ByteUtils.toString(intValue), bytesRead, ByteUtils.getInt(pEnum));
 
                                 integerValue = ByteUtils.getDWORD(intValue);
-                                values.put(pEnum, integerValue);
+                                values.put(pEnum, new Int32PortConfigValue(integerValue));
                                 break;
                         }
                     }
@@ -346,7 +352,7 @@ public class MessageUtils {
                             bytesRead, ByteUtils.getInt(pEnum));
 
                         Integer integerValue = ByteUtils.getWORD(intValue);
-                        values.put(pEnum, integerValue);
+                        values.put(pEnum, new Int16PortConfigValue(integerValue));
                     }
                     else { // byte
                         byte[] byteVal = new byte[1];
@@ -354,7 +360,7 @@ public class MessageUtils {
                         LOGGER.info("Read a byte value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(byteVal),
                             bytesRead, ByteUtils.getInt(pEnum));
                         Byte byteValue = new Byte(byteVal[0]);
-                        values.put(pEnum, byteValue);
+                        values.put(pEnum, new BytePortConfigValue(byteValue));
                     }
                 }
             }
@@ -369,7 +375,7 @@ public class MessageUtils {
     public static byte[] getCodedPortConfig(final LcConfigX lcConfigX) {
         final LcOutputType outputType = lcConfigX.getOutputType();
         final int outputNumber = lcConfigX.getOutputNumber();
-        final Map<Byte, Number> values = lcConfigX.getPortConfig();
+        final Map<Byte, PortConfigValue<?>> values = lcConfigX.getPortConfig();
 
         byte outputTypeValue = outputType.getType();
         byte portNumber = ByteUtils.getLowByte(outputNumber, 0x7F);
@@ -381,7 +387,7 @@ public class MessageUtils {
         // prepare the values
         if (MapUtils.isNotEmpty(values)) {
             try {
-                for (Entry<Byte, Number> entry : values.entrySet()) {
+                for (Entry<Byte, PortConfigValue<?>> entry : values.entrySet()) {
                     byte pEnum = entry.getKey();
                     if (entry.getValue() != null) {
                         baos.write(pEnum);
@@ -392,28 +398,34 @@ public class MessageUtils {
                                     break;
                                 case BidibLibrary.BIDIB_PCFG_RGB:
                                     // RGB
-                                    int pIntValue = entry.getValue().intValue();
+                                    RgbPortConfigValue rgbPortConfigValue = (RgbPortConfigValue) entry.getValue();
+                                    int pIntValue = rgbPortConfigValue.getValue().intValue();
                                     baos.write(ByteUtils.toRGB(pIntValue));
                                     break;
                                 case BidibLibrary.BIDIB_PCFG_RECONFIG:
                                     // RECONFIG
-                                    pIntValue = entry.getValue().intValue();
+                                    ReconfigPortConfigValue reconfigPortConfigValue =
+                                        (ReconfigPortConfigValue) entry.getValue();
+                                    pIntValue = reconfigPortConfigValue.getValue().intValue();
                                     baos.write(ByteUtils.toRGB(pIntValue));
                                     break;
                                 default:
                                     // int32
-                                    pIntValue = entry.getValue().intValue();
+                                    Int32PortConfigValue int32PortConfigValue = (Int32PortConfigValue) entry.getValue();
+                                    pIntValue = int32PortConfigValue.getValue().intValue();
                                     baos.write(ByteUtils.toDWORD(pIntValue));
                                     break;
                             }
                         }
                         else if ((pEnum & 0x40) == 0x40) {
                             // int16
-                            int pIntValue = entry.getValue().intValue();
+                            Int16PortConfigValue int16PortConfigValue = (Int16PortConfigValue) entry.getValue();
+                            int pIntValue = int16PortConfigValue.getValue().intValue();
                             baos.write(ByteUtils.toWORD(pIntValue));
                         }
                         else { // byte
-                            byte pValue = entry.getValue().byteValue();
+                            BytePortConfigValue bytePortConfigValue = (BytePortConfigValue) entry.getValue();
+                            byte pValue = bytePortConfigValue.getValue().byteValue();
                             baos.write(pValue);
                         }
                     }

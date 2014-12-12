@@ -5,6 +5,9 @@ import java.util.Map;
 
 import org.bidib.jbidibc.core.LcConfigX;
 import org.bidib.jbidibc.core.enumeration.LcOutputType;
+import org.bidib.jbidibc.core.port.BytePortConfigValue;
+import org.bidib.jbidibc.core.port.Int32PortConfigValue;
+import org.bidib.jbidibc.core.port.PortConfigValue;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.bidib.jbidibc.core.utils.MessageUtils;
 import org.slf4j.Logger;
@@ -19,11 +22,11 @@ public class LcConfigXSetMessageTest {
     @Test
     public void getLcConfigX() {
 
-        Map<Byte, Number> values = new LinkedHashMap<>();
-        values.put((byte) 1, (byte) 32);
-        values.put((byte) 2, (byte) 2);
+        Map<Byte, PortConfigValue<?>> values = new LinkedHashMap<>();
+        values.put((byte) 1, new BytePortConfigValue((byte) 32));
+        values.put((byte) 2, new BytePortConfigValue((byte) 2));
         // 0x82 is assumed to be a real 32-bit value
-        values.put((byte) 0x82, Integer.valueOf(16702650));
+        values.put((byte) 0x82, new Int32PortConfigValue(Integer.valueOf(16702650)));
         LcConfigX lcConfigX = new LcConfigX(LcOutputType.LIGHTPORT, 1, values);
 
         LcConfigXSetMessage lcConfigXSetMessage = new LcConfigXSetMessage(lcConfigX);

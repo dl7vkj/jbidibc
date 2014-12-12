@@ -12,6 +12,7 @@ import org.bidib.jbidibc.core.enumeration.LightPortEnum;
 import org.bidib.jbidibc.core.enumeration.ServoPortEnum;
 import org.bidib.jbidibc.core.enumeration.SoundPortEnum;
 import org.bidib.jbidibc.core.enumeration.SwitchPortEnum;
+import org.bidib.jbidibc.core.port.PortConfigValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.testng.Assert;
@@ -143,11 +144,11 @@ public class MessageUtilsTest {
         LcConfigX lcConfigX = MessageUtils.getLcConfigX(data);
         Assert.assertNotNull(lcConfigX);
 
-        Map<Byte, Number> portConfig = lcConfigX.getPortConfig();
+        Map<Byte, PortConfigValue<?>> portConfig = lcConfigX.getPortConfig();
         Assert.assertNotNull(portConfig);
         Assert.assertEquals(portConfig.size(), 6);
 
-        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 0x82)),
+        Assert.assertEquals((int) lcConfigX.getPortConfigValue(Byte.valueOf((byte) 0x82)),
             ByteUtils.getDWORD(new byte[] { 0x02, (byte) 0x80, 0x02, (byte) 0x81 }));
     }
 
@@ -161,11 +162,11 @@ public class MessageUtilsTest {
         LcConfigX lcConfigX = MessageUtils.getLcConfigX(data);
         Assert.assertNotNull(lcConfigX);
 
-        Map<Byte, Number> portConfig = lcConfigX.getPortConfig();
+        Map<Byte, PortConfigValue<?>> portConfig = lcConfigX.getPortConfig();
         Assert.assertNotNull(portConfig);
         Assert.assertEquals(portConfig.size(), 6);
 
-        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 0xC1)),
+        Assert.assertEquals((int) lcConfigX.getPortConfigValue(Byte.valueOf((byte) 0xC1)),
             ByteUtils.getDWORD(new byte[] { 0x02, (byte) 0x80, 0x02, (byte) 0x81 }));
     }
 }
