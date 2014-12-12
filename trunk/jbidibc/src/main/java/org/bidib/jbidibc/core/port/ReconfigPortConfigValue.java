@@ -23,4 +23,5 @@ public class ReconfigPortConfigValue implements PortConfigValue<Integer> {
         int portMap = (value >> 8) & 0xFFFF;
         return portMap;
     }
+
 }
