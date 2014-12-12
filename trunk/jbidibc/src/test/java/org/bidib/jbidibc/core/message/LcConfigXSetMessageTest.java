@@ -22,7 +22,8 @@ public class LcConfigXSetMessageTest {
         Map<Byte, Number> values = new LinkedHashMap<>();
         values.put((byte) 1, (byte) 32);
         values.put((byte) 2, (byte) 2);
-        values.put((byte) 0x81, Integer.valueOf(16702650));
+        // 0x82 is assumed to be a real 32-bit value
+        values.put((byte) 0x82, Integer.valueOf(16702650));
         LcConfigX lcConfigX = new LcConfigX(LcOutputType.LIGHTPORT, 1, values);
 
         LcConfigXSetMessage lcConfigXSetMessage = new LcConfigXSetMessage(lcConfigX);
@@ -34,7 +35,7 @@ public class LcConfigXSetMessageTest {
         Assert.assertNotNull(codedPortConfig);
         LOGGER.info("Coded port config: {}", ByteUtils.bytesToHex(codedPortConfig));
 
-        Assert.assertEquals(codedPortConfig, new byte[] { 0x01, 0x01, 0x01, 0x20, 0x02, 0x02, (byte) 0x81, (byte) 0xBA,
+        Assert.assertEquals(codedPortConfig, new byte[] { 0x01, 0x01, 0x01, 0x20, 0x02, 0x02, (byte) 0x82, (byte) 0xBA,
             (byte) 0xDC, (byte) 0xFE, 0x00 });
     }
 }

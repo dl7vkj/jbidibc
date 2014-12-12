@@ -135,8 +135,9 @@ public class MessageUtilsTest {
     @Test
     public void getLcConfigX() {
 
+        // 0x82 is assumed to be a real 32-bit value
         byte[] data =
-            { 0x00, 0x10, 0x01, (byte) 0xFF, 0x02, 0x00, 0x03, 0x06, 0x04, 0x05, 0x41, 0x02, (byte) 0x80, (byte) 0x81,
+            { 0x00, 0x10, 0x01, (byte) 0xFF, 0x02, 0x00, 0x03, 0x06, 0x04, 0x05, 0x41, 0x02, (byte) 0x80, (byte) 0x82,
                 0x02, (byte) 0x80, 0x02, (byte) 0x81 };
 
         LcConfigX lcConfigX = MessageUtils.getLcConfigX(data);
@@ -146,7 +147,7 @@ public class MessageUtilsTest {
         Assert.assertNotNull(portConfig);
         Assert.assertEquals(portConfig.size(), 6);
 
-        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 0x81)),
+        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 0x82)),
             ByteUtils.getDWORD(new byte[] { 0x02, (byte) 0x80, 0x02, (byte) 0x81 }));
     }
 

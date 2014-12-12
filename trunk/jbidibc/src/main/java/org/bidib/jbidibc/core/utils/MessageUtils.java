@@ -301,29 +301,41 @@ public class MessageUtils {
                     byte pEnum = ByteUtils.getLowByte(bais.read());
                     int bytesRead = 0;
                     if ((pEnum & 0x80) == 0x80) {
-                        if (BidibLibrary.BIDIB_PCFG_CONTINUE == pEnum) {
-                            LOGGER.info("Continue detected, more config willbe received.");
-                            values.put(pEnum, null);
-                        }
-                        else if (BidibLibrary.BIDIB_PCFG_RGB == pEnum) {
-                            // RGB
-                            byte[] rgbValue = new byte[3];
-                            bytesRead = bais.read(rgbValue);
-                            LOGGER.info("Read a RGB value: {}, bytesRead: {}, pEnum: {}", ByteUtils.toString(rgbValue),
-                                bytesRead, ByteUtils.getInt(pEnum));
+                        switch (pEnum) {
+                            case BidibLibrary.BIDIB_PCFG_CONTINUE:
+                                LOGGER.info("Continue detected, more config willbe received.");
+                                values.put(pEnum, null);
+                                break;
+                            case BidibLibrary.BIDIB_PCFG_RGB:
+                                // RGB
+                                byte[] rgbValue = new byte[3];
+                                bytesRead = bais.read(rgbValue);
+                                LOGGER.info("Read a RGB value: {}, bytesRead: {}, pEnum: {}",
+                                    ByteUtils.toString(rgbValue), bytesRead, ByteUtils.getInt(pEnum));
 
-                            Integer integerValue = ByteUtils.getRGB(rgbValue);
-                            values.put(pEnum, integerValue);
-                        }
-                        else {
-                            // int32
-                            byte[] intValue = new byte[4];
-                            bytesRead = bais.read(intValue);
-                            LOGGER.info("Read a int32 value: {}, bytesRead: {}, pEnum: {}",
-                                ByteUtils.toString(intValue), bytesRead, ByteUtils.getInt(pEnum));
+                                Integer integerValue = ByteUtils.getRGB(rgbValue);
+                                values.put(pEnum, integerValue);
+                                break;
+                            case BidibLibrary.BIDIB_PCFG_RECONFIG:
+                                // RECONFIG
+                                byte[] reconfigValue = new byte[3];
+                                bytesRead = bais.read(reconfigValue);
+                                LOGGER.info("Read a RECONFIG value: {}, bytesRead: {}, pEnum: {}",
+                                    ByteUtils.toString(reconfigValue), bytesRead, ByteUtils.getInt(pEnum));
 
-                            Integer integerValue = ByteUtils.getDWORD(intValue);
-                            values.put(pEnum, integerValue);
+                                integerValue = ByteUtils.getRGB(reconfigValue);
+                                values.put(pEnum, integerValue);
+                                break;
+                            default:
+                                // int32
+                                byte[] intValue = new byte[4];
+                                bytesRead = bais.read(intValue);
+                                LOGGER.info("Read a int32 value: {}, bytesRead: {}, pEnum: {}",
+                                    ByteUtils.toString(intValue), bytesRead, ByteUtils.getInt(pEnum));
+
+                                integerValue = ByteUtils.getDWORD(intValue);
+                                values.put(pEnum, integerValue);
+                                break;
                         }
                     }
                     else if ((pEnum & 0x40) == 0x40) {
@@ -374,18 +386,25 @@ public class MessageUtils {
                     if (entry.getValue() != null) {
                         baos.write(pEnum);
                         if ((pEnum & 0x80) == 0x80) {
-                            if (BidibLibrary.BIDIB_PCFG_CONTINUE == pEnum) {
-                                LOGGER.info("Continue detected, more config will be sent.");
-                            }
-                            else if (BidibLibrary.BIDIB_PCFG_RGB == pEnum) {
-                                // RGB
-                                int pIntValue = entry.getValue().intValue();
-                                baos.write(ByteUtils.toRGB(pIntValue));
-                            }
-                            else {
-                                // int32
-                                int pIntValue = entry.getValue().intValue();
-                                baos.write(ByteUtils.toDWORD(pIntValue));
+                            switch (pEnum) {
+                                case BidibLibrary.BIDIB_PCFG_CONTINUE:
+                                    LOGGER.info("Continue detected, more config will be sent.");
+                                    break;
+                                case BidibLibrary.BIDIB_PCFG_RGB:
+                                    // RGB
+                                    int pIntValue = entry.getValue().intValue();
+                                    baos.write(ByteUtils.toRGB(pIntValue));
+                                    break;
+                                case BidibLibrary.BIDIB_PCFG_RECONFIG:
+                                    // RECONFIG
+                                    pIntValue = entry.getValue().intValue();
+                                    baos.write(ByteUtils.toRGB(pIntValue));
+                                    break;
+                                default:
+                                    // int32
+                                    pIntValue = entry.getValue().intValue();
+                                    baos.write(ByteUtils.toDWORD(pIntValue));
+                                    break;
                             }
                         }
                         else if ((pEnum & 0x40) == 0x40) {

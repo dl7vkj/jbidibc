@@ -117,8 +117,8 @@ public final class ByteUtils {
 
     public static int getRGB(byte[] value) {
         int dword = 0;
-        for (int index = 0; index < 3; index++) {
-            dword = (dword << 8) | (value[index] & 0xFF);
+        for (int index = 3; index > 0; index--) {
+            dword = (dword << 8) | (value[index - 1] & 0xFF);
         }
         return dword;
     }
@@ -127,8 +127,8 @@ public final class ByteUtils {
         byte[] dword = new byte[3];
 
         int targetIndex = 2;
-        for (int index = 0; index < 3; index++) {
-            byte val = (byte) ((value >> (8 * index)) & 0xFF);
+        for (int index = 3; index > 0; index--) {
+            byte val = (byte) ((value >> (8 * (index - 1))) & 0xFF);
             dword[targetIndex] = val;
             targetIndex--;
         }

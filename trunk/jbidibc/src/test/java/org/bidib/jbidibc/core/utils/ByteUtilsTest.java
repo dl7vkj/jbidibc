@@ -160,4 +160,18 @@ public class ByteUtilsTest {
         int magic2 = 0xAFFE;
         Assert.assertEquals(ByteUtils.magicToHex(magic2), "AFFE");
     }
+
+    @Test
+    public void getRGBTest() {
+        byte[] rgbBytes = new byte[] { 0x00, 0x33, (byte) 0xFF };
+        int rgbValue = 0xFF3300;
+        Assert.assertEquals(ByteUtils.getRGB(rgbBytes), rgbValue);
+    }
+
+    @Test
+    public void toRGBTest() {
+        int rgbValue = 0xFF3300;
+        byte[] rgbBytes = new byte[] { 0x00, 0x33, (byte) 0xFF };
+        Assert.assertEquals(ByteUtils.toRGB(rgbValue), rgbBytes);
+    }
 }

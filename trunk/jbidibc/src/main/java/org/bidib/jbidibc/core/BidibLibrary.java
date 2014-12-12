@@ -1147,48 +1147,48 @@ public interface BidibLibrary {
 
     // 8 bit values
     // uint8 no parameters available / error code
-    public static final Byte BIDIB_PCFG_NONE = Byte.valueOf((byte) 0x00);
+    public static final byte BIDIB_PCFG_NONE = (byte) 0x00;
 
     // uint8 'analog' value for ON
-    public static final Byte BIDIB_PCFG_LEVEL_PORT_ON = Byte.valueOf((byte) 0x01);
+    public static final byte BIDIB_PCFG_LEVEL_PORT_ON = (byte) 0x01;
 
     // uint8 'analog' value for OFF
-    public static final Byte BIDIB_PCFG_LEVEL_PORT_OFF = Byte.valueOf((byte) 0x02);
+    public static final byte BIDIB_PCFG_LEVEL_PORT_OFF = (byte) 0x02;
 
     // uint8 step width for dimm up [unit 10ms]
-    public static final Byte BIDIB_PCFG_DIMM_UP = Byte.valueOf((byte) 0x03);
+    public static final byte BIDIB_PCFG_DIMM_UP = (byte) 0x03;
 
     // uint8 step width for dimm down [unit 10ms]
-    public static final Byte BIDIB_PCFG_DIMM_DOWN = Byte.valueOf((byte) 0x04);
+    public static final byte BIDIB_PCFG_DIMM_DOWN = (byte) 0x04;
 
     // uint8 scale up step width
-    public static final Byte BIDIB_PCFG_DIMM_STRETCH = Byte.valueOf((byte) 0x05);
+    public static final byte BIDIB_PCFG_DIMM_STRETCH = (byte) 0x05;
 
     // uint8 if there is a output mapping (like DMX)
-    public static final Byte BIDIB_PCFG_OUTPUT_MAP = Byte.valueOf((byte) 0x06);
+    public static final byte BIDIB_PCFG_OUTPUT_MAP = (byte) 0x06;
 
     // uint8 Servo Adjust Low
-    public static final Byte BIDIB_PCFG_SERVO_ADJ_L = Byte.valueOf((byte) 0x07);
+    public static final byte BIDIB_PCFG_SERVO_ADJ_L = (byte) 0x07;
 
     // uint8 Servo Adjust High
-    public static final Byte BIDIB_PCFG_SERVO_ADJ_H = Byte.valueOf((byte) 0x08);
+    public static final byte BIDIB_PCFG_SERVO_ADJ_H = (byte) 0x08;
 
     // uint8 Servo Speed
-    public static final Byte BIDIB_PCFG_SERVO_SPEED = Byte.valueOf((byte) 0x09);
+    public static final byte BIDIB_PCFG_SERVO_SPEED = (byte) 0x09;
 
     // 16 bit values
     // uint16 step width for dimm up as 8.8 float [unit 2560ms] (1= one step up in 2.56s; 256 = one step up in 10ms)
-    public static final Byte BIDIB_PCFG_DIMM_UP_8_8 = Byte.valueOf((byte) 0x43);
+    public static final byte BIDIB_PCFG_DIMM_UP_8_8 = (byte) 0x43;
 
     // uint16 step width for dimm down as 8.8 float [unit 2560ms]
-    public static final Byte BIDIB_PCFG_DIMM_DOWN_8_8 = Byte.valueOf((byte) 0x44);
+    public static final byte BIDIB_PCFG_DIMM_DOWN_8_8 = (byte) 0x44;
 
     // 24 bit values
     // uint24 RGB value of a coloured output. first byte R, second G, third B
-    public static final Byte BIDIB_PCFG_RGB = Byte.valueOf((byte) 0x80);
+    public static final byte BIDIB_PCFG_RGB = (byte) 0x80;
 
     // none an addtional message will follow
-    public static final Byte BIDIB_PCFG_CONTINUE = Byte.valueOf((byte) 0xFF);
+    public static final byte BIDIB_PCFG_CONTINUE = (byte) 0xFF;
 
     // query flag and pause as long as flag is not set (advance if set)
     public static final int BIDIB_MSYS_FLAG_QUERY1 = (int) 250;
@@ -1200,6 +1200,6 @@ public interface BidibLibrary {
     public static final int BIDIB_OUTTYPE_INPUT = (int) 15;
 
     // experimental
-    public static final int BIDIB_PCFG_RECONFIG = Byte.valueOf((byte) 0x45);
+    public static final byte BIDIB_PCFG_RECONFIG = (byte) 0x81;
 
 }
