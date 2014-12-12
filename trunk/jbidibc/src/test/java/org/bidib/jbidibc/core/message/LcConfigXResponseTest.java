@@ -74,4 +74,66 @@ public class LcConfigXResponseTest {
         Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 3)).byteValue() & 0xFF, 0x06);
         Assert.assertEquals(portConfig.get(Byte.valueOf((byte) 0x81)).intValue() & 0xFFFFFFFF, 0xFEDCBA);
     }
+
+    @Test
+    public void getLcConfigXReconfigLightPort() throws ProtocolException {
+
+        // !!! no ACT_TYPE !!!
+        byte[] message =
+            { 0x09, 0x02, 0x00, (byte) 0xAB, (byte) 0xc6, 0x01/* PORT_TYPE */, 0x02,
+                (byte) BidibLibrary.BIDIB_PCFG_RECONFIG, 0x03, (byte) 0x80 };
+
+        // BIDIB_PCFG_RECONFIG (byte) 0x45
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_LC_CONFIGX);
+
+        LcConfigXResponse lcConfigXResponse = (LcConfigXResponse) bidibMessage;
+        LOGGER.info("lcConfigXResponse: {}", lcConfigXResponse);
+
+        LcConfigX lcConfigX = lcConfigXResponse.getLcConfigX();
+        Assert.assertNotNull(lcConfigX);
+        LOGGER.info("lcConfigX: {}", lcConfigX);
+
+        Assert.assertEquals(lcConfigX.getOutputType(), LcOutputType.LIGHTPORT);
+        Assert.assertEquals(lcConfigX.getOutputNumber(), 2);
+
+        Map<Byte, Number> portConfig = lcConfigX.getPortConfig();
+        Assert.assertNotNull(portConfig);
+
+        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) (BidibLibrary.BIDIB_PCFG_RECONFIG & 0xFF))), 0x8003);
+
+    }
+
+    @Test
+    public void getLcConfigXReconfigServoPort() throws ProtocolException {
+
+        // !!! no ACT_TYPE !!!
+        byte[] message =
+            { 0x09, 0x02, 0x00, (byte) 0xAB, (byte) 0xc6, 0x02/* OUTPUT_TYPE */, 0x02,
+                (byte) BidibLibrary.BIDIB_PCFG_RECONFIG, 0x04, (byte) 0x00 };
+
+        // BIDIB_PCFG_RECONFIG (byte) 0x45
+
+        BidibMessage bidibMessage = ResponseFactory.create(message);
+        Assert.assertNotNull(bidibMessage);
+        Assert.assertEquals(ByteUtils.getInt(bidibMessage.getType()), BidibLibrary.MSG_LC_CONFIGX);
+
+        LcConfigXResponse lcConfigXResponse = (LcConfigXResponse) bidibMessage;
+        LOGGER.info("lcConfigXResponse: {}", lcConfigXResponse);
+
+        LcConfigX lcConfigX = lcConfigXResponse.getLcConfigX();
+        Assert.assertNotNull(lcConfigX);
+        LOGGER.info("lcConfigX: {}", lcConfigX);
+
+        Assert.assertEquals(lcConfigX.getOutputType(), LcOutputType.SERVOPORT);
+        Assert.assertEquals(lcConfigX.getOutputNumber(), 2);
+
+        Map<Byte, Number> portConfig = lcConfigX.getPortConfig();
+        Assert.assertNotNull(portConfig);
+
+        Assert.assertEquals(portConfig.get(Byte.valueOf((byte) (BidibLibrary.BIDIB_PCFG_RECONFIG & 0xFF))), 0x0004);
+
+    }
 }

@@ -1200,6 +1200,6 @@ public interface BidibLibrary {
     public static final int BIDIB_OUTTYPE_INPUT = (int) 15;
 
     // experimental
-    public static final int BIDIB_PCFG_RECONFIG = Byte.valueOf((byte) 0xFE);
+    public static final int BIDIB_PCFG_RECONFIG = Byte.valueOf((byte) 0x45);
 
 }
