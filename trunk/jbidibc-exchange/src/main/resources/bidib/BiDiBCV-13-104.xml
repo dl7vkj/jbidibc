@@ -2,12 +2,6 @@
 <VendorCV xmlns="http://www.bidib.org/jbidibc/vendorcv" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bidib.org/jbidibc/vendorcv /xsd/vendor_cv.xsd">
     <Version Version="0.5" Lastupdate="20141211" Author="Tillner, Andreas" Pid="104" Vendor="013" Description="GBMBoost Master, Booster, Interface"/>
     <Templates>
-        <Template Name="POM" SkipOnTimeout="true">
-            <CV Number="23" Type="Byte" Min="0" Max="4" Low="-" High="-" Values="-" Mode="rw">
-                <Description Lang="de-DE" Text="POM Wiederholung"/>
-                <Description Lang="en-EN" Text="POM Repeat"/>
-            </CV>
-        </Template>
         <Template Name="GBM16T" SkipOnTimeout="true">
             <Node Offset="0" Template="Common">
                 <Nodetext Lang="de-DE" Text="Allgemeine Einstellungen"/>
@@ -219,10 +213,6 @@
                 <Description Lang="de-DE" Text="Temperaturoffset: 0=standard, positiv: Korrektur zu höheren Werten" Help="Die Temperaturmessung mit dem atxmega ist nicht sehr genau, mit diesem Offsetwert kann ein individueller Abgleich vorgenommen werden."/>
                 <Description Lang="en-EN" Text="Temperature offset: 0 default, otherwise add this value"/>
             </CV>
-        </Node>
-        <Node Offset="0" Template="POM">
-            <Nodetext Lang="de-DE" Text="POM Einstellungen"/>
-            <Nodetext Lang="en-EN" Text="POM Settings"/>
         </Node>
         <Node>
             <Nodetext Lang="de-DE" Text="GBM16T"/>
