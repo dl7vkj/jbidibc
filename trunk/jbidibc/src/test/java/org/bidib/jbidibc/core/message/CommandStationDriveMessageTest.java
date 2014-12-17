@@ -11,9 +11,6 @@ import org.bidib.jbidibc.core.enumeration.AddressTypeEnum;
 import org.bidib.jbidibc.core.enumeration.DirectionEnum;
 import org.bidib.jbidibc.core.enumeration.SpeedStepsEnum;
 import org.bidib.jbidibc.core.exception.ProtocolException;
-import org.bidib.jbidibc.core.message.BidibCommand;
-import org.bidib.jbidibc.core.message.BidibMessage;
-import org.bidib.jbidibc.core.message.CommandStationDriveMessage;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -108,6 +105,44 @@ public class CommandStationDriveMessageTest {
     }
 
     @Test
+    public void prepareCommandStationDriveMessageWithFunction9On() throws ProtocolException {
+        // FE 0C 00 2F 64 03 00 03 04 80 00 10 00 00 92 FE
+        byte[] message =
+            new byte[] { 0x0C, 0x00, 0x2F, 0x64, 0x03, 0x00, 0x03, 0x04, (byte) 0x80, 0x00, 0x10, 0x00, 0x00 };
+
+        CommandStationDriveMessage driveMessage = new CommandStationDriveMessage(message);
+        Assert.assertNotNull(driveMessage);
+        LOGGER.info("Prepare driveMessage: {}", driveMessage);
+
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_BACKWARD);
+
+        Assert.assertEquals(driveMessage.getDecoderAddress(), locoAddress);
+        Assert.assertEquals(driveMessage.getSpeed(), 0x00);
+
+        Assert.assertEquals(driveMessage.getData()[2 + 1], (byte) 0x04); // output F9..F12
+        Assert.assertEquals(driveMessage.getData()[2 + 4], (byte) 0x10); // F9
+    }
+
+    @Test
+    public void prepareCommandStationDriveMessageWithFunctionF9Off() throws ProtocolException {
+        // FE 0C 00 40 64 03 00 03 04 80 00 00 00 00 53 FE
+        byte[] message =
+            new byte[] { 0x0C, 0x00, 0x40, 0x64, 0x03, 0x00, 0x03, 0x04, (byte) 0x80, 0x00, 0x00, 0x00, 0x00 };
+
+        CommandStationDriveMessage driveMessage = new CommandStationDriveMessage(message);
+        Assert.assertNotNull(driveMessage);
+        LOGGER.info("Prepare driveMessage: {}", driveMessage);
+
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_BACKWARD);
+
+        Assert.assertEquals(driveMessage.getDecoderAddress(), locoAddress);
+        Assert.assertEquals(driveMessage.getSpeed(), 0x00);
+
+        Assert.assertEquals(driveMessage.getData()[2 + 1], (byte) 0x04); // output F9..F12
+        Assert.assertEquals(driveMessage.getData()[2 + 4], (byte) 0x00); // F9 off
+    }
+
+    @Test
     public void someTest() throws ProtocolException, IOException {
         byte[] message =
             { 0x0C, 0x00, (byte) 0xB9, 0x64, 0x62, 0x02, 0x03, 0x03, (byte) 0x80, 0x10, 0x00, 0x00, 0x00, (byte) 0xBE };
@@ -136,7 +171,7 @@ public class CommandStationDriveMessageTest {
         return 0xB9;
     }
 
-    protected EncodedMessage encodeMessage(BidibCommand message, byte[] addr) {
+    private EncodedMessage encodeMessage(BidibCommand message, byte[] addr) {
         int num = getNextSendMsgNum();
         message.setSendMsgNum(num);
         // logRecord.append("send ").append(message).append(" to ").append(this);
