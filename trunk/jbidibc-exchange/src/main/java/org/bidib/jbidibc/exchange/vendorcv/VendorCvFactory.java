@@ -27,6 +27,9 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLResolver;
+import javax.xml.stream.XMLStreamException;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
@@ -57,7 +60,11 @@ public class VendorCvFactory {
 
     public static final String XSD_LOCATION = "/xsd/vendor_cv.xsd";
 
-    public static VendorCvData getCvDefinition(Node node, String... searchPaths) {
+    private static XMLInputFactory XML_INPUT_FACTORY;
+
+    private static JAXBContext JAXBCONTEXT;
+
+    public static synchronized VendorCvData getCvDefinition(Node node, String... searchPaths) {
         LOGGER.info("Load the vendor cv definition for node: {}", node);
 
         // TODO check the firmware version of the node and verify the correct definition is
@@ -330,18 +337,39 @@ public class VendorCvFactory {
     private VendorCV loadVendorCvFile(InputStream is) {
 
         VendorCV vendorCV = null;
-        try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
 
-            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+        try {
+            if (XML_INPUT_FACTORY == null) {
+                XMLInputFactory factory = XMLInputFactory.newInstance();
+                factory.setProperty(XMLInputFactory.IS_NAMESPACE_AWARE, Boolean.TRUE);
+                factory.setProperty(XMLInputFactory.SUPPORT_DTD, Boolean.FALSE);
+                factory.setProperty(XMLInputFactory.IS_REPLACING_ENTITY_REFERENCES, Boolean.FALSE);
+                factory.setProperty(XMLInputFactory.IS_SUPPORTING_EXTERNAL_ENTITIES, Boolean.FALSE);
+                factory.setXMLResolver(new XMLResolver() {
+                    public Object resolveEntity(String publicID, String systemID, String baseURI, String namespace)
+                        throws XMLStreamException {
+                        throw new XMLStreamException("Reading external entities is disabled");
+                    }
+                });
+                XML_INPUT_FACTORY = factory;
+            }
+
+            if (JAXBCONTEXT == null) {
+                JAXBContext jaxbContext = JAXBContext.newInstance(JAXB_PACKAGE);
+                JAXBCONTEXT = jaxbContext;
+            }
+
+            Unmarshaller unmarshaller = JAXBCONTEXT.createUnmarshaller();
             SchemaFactory schemaFactory = SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
             StreamSource streamSource = new StreamSource(VendorCvFactory.class.getResourceAsStream(XSD_LOCATION));
             Schema schema = schemaFactory.newSchema(streamSource);
             unmarshaller.setSchema(schema);
 
-            vendorCV = (VendorCV) unmarshaller.unmarshal(is);
+            // vendorCV = (VendorCV) unmarshaller.unmarshal(is);
+
+            vendorCV = (VendorCV) unmarshaller.unmarshal(XML_INPUT_FACTORY.createXMLStreamReader(is));
         }
-        catch (JAXBException | SAXException ex) {
+        catch (JAXBException | SAXException | XMLStreamException ex) {
             LOGGER.warn("Load VendorCV from file failed.", ex);
         }
         return vendorCV;
