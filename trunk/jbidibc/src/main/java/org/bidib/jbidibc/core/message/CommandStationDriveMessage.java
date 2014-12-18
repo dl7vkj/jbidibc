@@ -18,7 +18,7 @@ public class CommandStationDriveMessage extends BidibCommandMessage {
     public CommandStationDriveMessage(int address, SpeedStepsEnum speedSteps, Integer speed, DirectionEnum direction,
         BitSet activeFunctions, BitSet functions) {
         super(0, BidibLibrary.MSG_CS_DRIVE, ByteUtils.concat(new byte[] { (byte) (address & 0xFF),
-            (byte) ((address & 0xFF00) >> 8), speedSteps.getType(), getActiveBits(speed, activeFunctions),
+            (byte) ((address & 0xFF00) >> 8), speedSteps.getType(), getOutputFunctionBits(speed, activeFunctions),
             convertSpeed(speed, direction) }, convertFunctions(functions)));
     }
 
@@ -71,9 +71,10 @@ public class CommandStationDriveMessage extends BidibCommandMessage {
         return result;
     }
 
-    private static byte getActiveBits(Integer speed, BitSet activeFunctions) {
+    private static byte getOutputFunctionBits(Integer speed, BitSet activeFunctions) {
         byte result = 0;
 
+        // if speed is provided set the output speed bit
         if (speed != null) {
             result |= 1;
         }
@@ -82,17 +83,21 @@ public class CommandStationDriveMessage extends BidibCommandMessage {
             if (activeFunctions.get(0)) {
                 result |= 2;
             }
-            // F5 .. F12
+            // F5 .. F8
             if (activeFunctions.get(1)) {
                 result |= 4;
             }
-            // F13 .. F20
+            // F9 .. F12
             if (activeFunctions.get(2)) {
                 result |= 8;
             }
-            // F21 .. F28
+            // F13 .. F20
             if (activeFunctions.get(3)) {
                 result |= 16;
+            }
+            // F21 .. F28
+            if (activeFunctions.get(4)) {
+                result |= 32;
             }
         }
         return result;

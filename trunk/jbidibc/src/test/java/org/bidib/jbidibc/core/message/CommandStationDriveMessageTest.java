@@ -91,6 +91,93 @@ public class CommandStationDriveMessageTest {
     }
 
     @Test
+    public void prepareSpeedMessageForwardF8OnAndSpeed() {
+        int address = 3;
+        SpeedStepsEnum speedSteps = SpeedStepsEnum.DCC128;
+        Integer speed = 51;
+        DirectionEnum direction = DirectionEnum.FORWARD;
+        BitSet activeFunctions = new BitSet(8);
+        // activeFunctions.set(0, true);
+        activeFunctions.set(0, false);
+        activeFunctions.set(1, true);
+        BitSet functions = new BitSet(32);
+        functions.set(8, true); // F8
+        CommandStationDriveMessage message =
+            new CommandStationDriveMessage(address, speedSteps, speed, direction, activeFunctions, functions);
+
+        LOGGER.debug("Created message: {}", message);
+        Assert.assertNotNull(message);
+
+        Assert.assertEquals(message.getData()[2], (byte) 0x03); // DCC128
+        // Assert.assertEquals(message.getData()[3], (byte) 0x03); // active
+
+        // direction and speed
+        Assert.assertEquals(message.getData()[4], (byte) (51 | 0x80)); // speed
+
+        // functions: F8
+        Assert.assertEquals(message.getData()[2 + 1], (byte) 0x05); // output F5..F8 and output speed
+        Assert.assertEquals(message.getData()[2 + 4], (byte) 0x08); // F8
+    }
+
+    @Test
+    public void prepareSpeedMessageForwardF8On() {
+        int address = 3;
+        SpeedStepsEnum speedSteps = SpeedStepsEnum.DCC128;
+        Integer speed = null;
+        DirectionEnum direction = DirectionEnum.FORWARD;
+        BitSet activeFunctions = new BitSet(8);
+        // activeFunctions.set(0, true);
+        activeFunctions.set(0, false);
+        activeFunctions.set(1, true);
+        BitSet functions = new BitSet(32);
+        functions.set(8, true); // F8
+        CommandStationDriveMessage message =
+            new CommandStationDriveMessage(address, speedSteps, speed, direction, activeFunctions, functions);
+
+        LOGGER.debug("Created message: {}", message);
+        Assert.assertNotNull(message);
+
+        Assert.assertEquals(message.getData()[2], (byte) 0x03); // DCC128
+        // Assert.assertEquals(message.getData()[3], (byte) 0x03); // active
+
+        // direction and speed
+        Assert.assertEquals(message.getData()[4], (byte) (0x00 | 0x80)); // speed and direction
+
+        // functions: F8
+        Assert.assertEquals(message.getData()[2 + 1], (byte) 0x04); // output F5..F8
+        Assert.assertEquals(message.getData()[2 + 4], (byte) 0x08); // F8
+    }
+
+    @Test
+    public void prepareSpeedMessageForwardF9On() {
+        int address = 3;
+        SpeedStepsEnum speedSteps = SpeedStepsEnum.DCC128;
+        Integer speed = null;
+        DirectionEnum direction = DirectionEnum.FORWARD;
+        BitSet activeFunctions = new BitSet(8);
+        // activeFunctions.set(0, true);
+        activeFunctions.set(0, false);
+        activeFunctions.set(1, false);
+        activeFunctions.set(2, true);
+        BitSet functions = new BitSet(32);
+        functions.set(9, true); // F9
+        CommandStationDriveMessage message =
+            new CommandStationDriveMessage(address, speedSteps, speed, direction, activeFunctions, functions);
+
+        LOGGER.debug("Created message: {}", message);
+        Assert.assertNotNull(message);
+
+        Assert.assertEquals(message.getData()[2], (byte) 0x03); // DCC128
+
+        // direction and speed
+        Assert.assertEquals(message.getData()[4], (byte) (0x00 | 0x80)); // speed and direction
+
+        // functions: F9
+        Assert.assertEquals(message.getData()[2 + 1], (byte) 0x08); // output F9..F12
+        Assert.assertEquals(message.getData()[2 + 4], (byte) 0x10); // F9
+    }
+
+    @Test
     public void prepareCommandStationDriveMessage() throws ProtocolException {
         // FE 0B 00 39 64 03 00 01 84 00 00 00 00 DC FE
         byte[] message = new byte[] { 0x0B, 0x00, 0x39, 0x64, 0x03, 0x00, 0x01, (byte) 0x84, 0x00, 0x00, 0x00, 0x00 };
@@ -105,10 +192,10 @@ public class CommandStationDriveMessageTest {
     }
 
     @Test
-    public void prepareCommandStationDriveMessageWithFunction9On() throws ProtocolException {
+    public void prepareCommandStationDriveMessageWithFunction8On() throws ProtocolException {
         // FE 0C 00 2F 64 03 00 03 04 80 00 10 00 00 92 FE
         byte[] message =
-            new byte[] { 0x0C, 0x00, 0x2F, 0x64, 0x03, 0x00, 0x03, 0x04, (byte) 0x80, 0x00, 0x10, 0x00, 0x00 };
+            new byte[] { 0x0C, 0x00, 0x2F, 0x64, 0x03, 0x00, 0x03, 0x04, (byte) 0x80, 0x00, 0x08, 0x00, 0x00 };
 
         CommandStationDriveMessage driveMessage = new CommandStationDriveMessage(message);
         Assert.assertNotNull(driveMessage);
@@ -119,7 +206,26 @@ public class CommandStationDriveMessageTest {
         Assert.assertEquals(driveMessage.getDecoderAddress(), locoAddress);
         Assert.assertEquals(driveMessage.getSpeed(), 0x00);
 
-        Assert.assertEquals(driveMessage.getData()[2 + 1], (byte) 0x04); // output F9..F12
+        Assert.assertEquals(driveMessage.getData()[2 + 1], (byte) 0x04); // output F5..F8
+        Assert.assertEquals(driveMessage.getData()[2 + 4], (byte) 0x08); // F8
+    }
+
+    @Test
+    public void prepareCommandStationDriveMessageWithFunction9On() throws ProtocolException {
+        // FE 0C 00 2F 64 03 00 03 04 80 00 10 00 00 92 FE
+        byte[] message =
+            new byte[] { 0x0C, 0x00, 0x2F, 0x64, 0x03, 0x00, 0x03, 0x08, (byte) 0x80, 0x00, 0x10, 0x00, 0x00 };
+
+        CommandStationDriveMessage driveMessage = new CommandStationDriveMessage(message);
+        Assert.assertNotNull(driveMessage);
+        LOGGER.info("Prepare driveMessage: {}", driveMessage);
+
+        AddressData locoAddress = new AddressData(3, AddressTypeEnum.LOCOMOTIVE_BACKWARD);
+
+        Assert.assertEquals(driveMessage.getDecoderAddress(), locoAddress);
+        Assert.assertEquals(driveMessage.getSpeed(), 0x00);
+
+        Assert.assertEquals(driveMessage.getData()[2 + 1], (byte) 0x08); // output F9..F12
         Assert.assertEquals(driveMessage.getData()[2 + 4], (byte) 0x10); // F9
     }
 
@@ -127,7 +233,7 @@ public class CommandStationDriveMessageTest {
     public void prepareCommandStationDriveMessageWithFunctionF9Off() throws ProtocolException {
         // FE 0C 00 40 64 03 00 03 04 80 00 00 00 00 53 FE
         byte[] message =
-            new byte[] { 0x0C, 0x00, 0x40, 0x64, 0x03, 0x00, 0x03, 0x04, (byte) 0x80, 0x00, 0x00, 0x00, 0x00 };
+            new byte[] { 0x0C, 0x00, 0x40, 0x64, 0x03, 0x00, 0x03, 0x08, (byte) 0x80, 0x00, 0x00, 0x00, 0x00 };
 
         CommandStationDriveMessage driveMessage = new CommandStationDriveMessage(message);
         Assert.assertNotNull(driveMessage);
@@ -138,7 +244,7 @@ public class CommandStationDriveMessageTest {
         Assert.assertEquals(driveMessage.getDecoderAddress(), locoAddress);
         Assert.assertEquals(driveMessage.getSpeed(), 0x00);
 
-        Assert.assertEquals(driveMessage.getData()[2 + 1], (byte) 0x04); // output F9..F12
+        Assert.assertEquals(driveMessage.getData()[2 + 1], (byte) 0x08); // output F9..F12
         Assert.assertEquals(driveMessage.getData()[2 + 4], (byte) 0x00); // F9 off
     }
 
