@@ -378,7 +378,7 @@ public class MessageReceiver implements BidibMessageProcessor {
                 }
             }
             catch (ProtocolException ex) {
-
+                LOGGER.warn("Process received messages failed: {}", new Object[] { messageArray }, ex);
                 if (MSG_RX_LOGGER.isInfoEnabled()) {
                     StringBuilder sb = new StringBuilder();
                     sb.append(ByteUtils.bytesToHex(messageArray));
