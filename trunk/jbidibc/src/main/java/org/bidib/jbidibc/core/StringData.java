@@ -1,6 +1,11 @@
 package org.bidib.jbidibc.core;
 
-public class StringData {
+import java.io.Serializable;
+
+public class StringData implements Serializable {
+
+    private static final long serialVersionUID = 1L;
+
     public static final int INDEX_PRODUCTNAME = 0;
 
     public static final int INDEX_USERNAME = 1;
