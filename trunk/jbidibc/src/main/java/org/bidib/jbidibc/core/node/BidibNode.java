@@ -1325,11 +1325,13 @@ public class BidibNode {
         }
         LOGGER.debug("Return the response messages: {}", responses);
 
-        if (responses == null) {
-            LOGGER.warn("No responses received! Expected: {}", numMessages);
-        }
-        else if (responses.size() < numMessages) {
-            LOGGER.warn("Received not all responses! Expected: {}, actual: {}", numMessages, responses.size());
+        if (!waitForBulkAnswer) {
+            if (responses == null) {
+                LOGGER.warn("No responses received! Expected: {}", numMessages);
+            }
+            else if (responses.size() < numMessages) {
+                LOGGER.warn("Received not all responses! Expected: {}, actual: {}", numMessages, responses.size());
+            }
         }
         return responses;
     }
