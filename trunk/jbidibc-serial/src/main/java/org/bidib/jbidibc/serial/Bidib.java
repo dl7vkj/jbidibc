@@ -207,23 +207,23 @@ public final class Bidib extends AbstractBidib {
         // open the port
         SerialPort serialPort = (SerialPort) commPort.open(Bidib.class.getName(), 2000);
 
-        Boolean ignoreFlowControl = Boolean.FALSE;
-        if (context != null) {
-            ignoreFlowControl = context.get("ignoreFlowControl", Boolean.class, Boolean.FALSE);
-        }
-        if (ignoreFlowControl) {
-            LOGGER.warn("Ignore flow control is configured!");
-            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
-        }
-        else {
-            LOGGER
-                .info("Set flow control mode to SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT!");
-            serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
-        }
-        serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
+        // Boolean ignoreFlowControl = Boolean.FALSE;
+        // if (context != null) {
+        // ignoreFlowControl = context.get("ignoreFlowControl", Boolean.class, Boolean.FALSE);
+        // }
+        // if (ignoreFlowControl) {
+        // LOGGER.warn("Ignore flow control is configured!");
+        // serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
+        // }
+        // else {
+        LOGGER.info("Set flow control mode to SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT!");
+        serialPort.setFlowControlMode(SerialPort.FLOWCONTROL_RTSCTS_IN | SerialPort.FLOWCONTROL_RTSCTS_OUT);
+        // }
 
         // serialPort.enableReceiveThreshold(1);
-        // serialPort.enableReceiveTimeout(DEFAULT_TIMEOUT);
+        serialPort.enableReceiveTimeout(DEFAULT_TIMEOUT);
+
+        serialPort.setSerialPortParams(baudRate, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
 
         clearInputStream(serialPort);
 
@@ -234,6 +234,16 @@ public final class Bidib extends AbstractBidib {
             Boolean ignoreWrongMessageNumber =
                 context.get("ignoreWrongReceiveMessageNumber", Boolean.class, Boolean.FALSE);
             getSerialMessageReceiver().setIgnoreWrongMessageNumber(ignoreWrongMessageNumber);
+        }
+
+        // Activate DTR
+        try {
+            LOGGER.info("Activate DTR.");
+
+            serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
+        }
+        catch (Exception e) {
+            LOGGER.warn("Set DTR true failed.", e);
         }
 
         // enable the message receiver before the event listener is added
@@ -300,15 +310,15 @@ public final class Bidib extends AbstractBidib {
         });
         serialPort.notifyOnDataAvailable(true);
 
-        // Activate DTR
-        try {
-            LOGGER.info("Activate DTR.");
-
-            serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
-        }
-        catch (Exception e) {
-            LOGGER.warn("Set DTR true failed.", e);
-        }
+        // // Activate DTR
+        // try {
+        // LOGGER.info("Activate DTR.");
+        //
+        // serialPort.setDTR(true); // pin 1 in DIN8; on main connector, this is DTR
+        // }
+        // catch (Exception e) {
+        // LOGGER.warn("Set DTR true failed.", e);
+        // }
 
         return serialPort;
     }
@@ -465,10 +475,10 @@ public final class Bidib extends AbstractBidib {
 
                 OutputStream output = port.getOutputStream();
 
-                port.setRTS(true);
+                // port.setRTS(true);
                 output.write(bytes);
                 output.flush();
-                port.setRTS(false);
+                // port.setRTS(false);
             }
             catch (Exception e) {
                 throw new RuntimeException("Send message to output stream failed.", e);
