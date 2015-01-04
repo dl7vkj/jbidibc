@@ -38,6 +38,8 @@ import org.slf4j.LoggerFactory;
 public class AccessoryNode extends DeviceNode {
     private static final Logger LOGGER = LoggerFactory.getLogger(AccessoryNode.class);
 
+    private static final Integer RECEIVE_TIMEOUT = 300;
+
     // TODO check if the accessory node can be handled the same way as BoosterNode and CommandStationNode
 
     AccessoryNode(byte[] addr, MessageReceiver messageReceiver, boolean ignoreWaitTimeout) {
@@ -55,9 +57,11 @@ public class AccessoryNode extends DeviceNode {
      * @throws ProtocolException
      */
     public byte[] getAccessoryParameter(int accessoryNumber, int parameter) throws ProtocolException {
+
         byte[] result = null;
         BidibMessage response =
-            send(new AccessoryParaGetMessage(accessoryNumber, parameter), true, AccessoryParaResponse.TYPE);
+            send(new AccessoryParaGetMessage(accessoryNumber, parameter), RECEIVE_TIMEOUT, true,
+                AccessoryParaResponse.TYPE);
 
         if (response instanceof AccessoryParaResponse) {
             result = ((AccessoryParaResponse) response).getValue();
@@ -68,7 +72,8 @@ public class AccessoryNode extends DeviceNode {
     public byte[] setAccessoryParameter(int accessoryNumber, int parameter, byte[] value) throws ProtocolException {
         byte[] result = null;
         BidibMessage response =
-            send(new AccessoryParaSetMessage(accessoryNumber, parameter, value), true, AccessoryParaResponse.TYPE);
+            send(new AccessoryParaSetMessage(accessoryNumber, parameter, value), RECEIVE_TIMEOUT, true,
+                AccessoryParaResponse.TYPE);
 
         if (response instanceof AccessoryParaResponse) {
             result = ((AccessoryParaResponse) response).getValue();
@@ -141,9 +146,11 @@ public class AccessoryNode extends DeviceNode {
      * @throws ProtocolException
      */
     public LcMacroParaValue getMacroParameter(int macroNumber, int parameter) throws ProtocolException {
+
         LcMacroParaValue result = null;
         BidibMessage response =
-            send(getRequestFactory().createLcMacroParaGet(macroNumber, parameter), true, LcMacroParaResponse.TYPE);
+            send(getRequestFactory().createLcMacroParaGet(macroNumber, parameter), RECEIVE_TIMEOUT, true,
+                LcMacroParaResponse.TYPE);
 
         if (response instanceof LcMacroParaResponse) {
             result = ((LcMacroParaResponse) response).getLcMacroParaValue();
@@ -213,8 +220,10 @@ public class AccessoryNode extends DeviceNode {
      */
     public LcMacro getMacroStep(int macroNumber, int stepNumber) throws ProtocolException {
         LOGGER.info("Get the macro step, macroNumber: {}, stepNumber: {}", macroNumber, stepNumber);
+
         LcMacro result = null;
-        BidibMessage response = send(new LcMacroGetMessage(macroNumber, stepNumber), true, LcMacroResponse.TYPE);
+        BidibMessage response =
+            send(new LcMacroGetMessage(macroNumber, stepNumber), RECEIVE_TIMEOUT, true, LcMacroResponse.TYPE);
 
         if (response instanceof LcMacroResponse) {
             result = ((LcMacroResponse) response).getMacro();
@@ -226,8 +235,15 @@ public class AccessoryNode extends DeviceNode {
     public LcMacroState handleMacro(int macroNumber, LcMacroOperationCode macroOperationCode) throws ProtocolException {
         LOGGER.debug("handle macro, macroNumber: {}, macroOperationCode: {}", macroNumber, macroOperationCode);
 
+        Integer receiveTimeout = RECEIVE_TIMEOUT;
+        if (LcMacroOperationCode.SAVE.equals(macroOperationCode)
+            || LcMacroOperationCode.RESTORE.equals(macroOperationCode)
+            || LcMacroOperationCode.DELETE.equals(macroOperationCode)) {
+            receiveTimeout = 2 * RECEIVE_TIMEOUT;
+        }
         BidibMessage response =
-            send(new LcMacroHandleMessage(macroNumber, macroOperationCode), true, LcMacroStateResponse.TYPE);
+            send(new LcMacroHandleMessage(macroNumber, macroOperationCode), receiveTimeout, true,
+                LcMacroStateResponse.TYPE);
 
         LcMacroState result = null;
         if (response instanceof LcMacroStateResponse) {
@@ -240,7 +256,8 @@ public class AccessoryNode extends DeviceNode {
 
     public LcMacro setMacro(LcMacro macro) throws ProtocolException {
         LOGGER.info("Set the macro point: {}", macro);
-        BidibMessage response = send(new LcMacroSetMessage(macro), true, LcMacroResponse.TYPE);
+
+        BidibMessage response = send(new LcMacroSetMessage(macro), RECEIVE_TIMEOUT, true, LcMacroResponse.TYPE);
 
         LcMacro result = null;
         if (response instanceof LcMacroResponse) {
@@ -255,7 +272,8 @@ public class AccessoryNode extends DeviceNode {
             parameter, value });
 
         BidibMessage response =
-            send(new LcMacroParaSetMessage(macroNumber, parameter, value), true, LcMacroParaResponse.TYPE);
+            send(new LcMacroParaSetMessage(macroNumber, parameter, value), RECEIVE_TIMEOUT, true,
+                LcMacroParaResponse.TYPE);
         if (response instanceof LcMacroParaResponse) {
             int result = ((LcMacroParaResponse) response).getMacroNumber();
             LOGGER.debug("Set macro parameter returned macronumber: {}", result);
@@ -271,7 +289,8 @@ public class AccessoryNode extends DeviceNode {
      */
     public LcPortMapping queryPortMapping(LcMappingPortType lcMappingPortType) throws ProtocolException {
 
-        BidibMessage response = send(new LcMappingCfgMessage(lcMappingPortType), true, LcMappingResponse.TYPE);
+        BidibMessage response =
+            send(new LcMappingCfgMessage(lcMappingPortType), RECEIVE_TIMEOUT, true, LcMappingResponse.TYPE);
         if (response instanceof LcMappingResponse) {
             LcMappingResponse lcMappingResponse = (LcMappingResponse) response;
             LcPortMapping lcPortMapping = lcMappingResponse.getLcPortMapping();

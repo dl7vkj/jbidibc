@@ -452,7 +452,8 @@ public class BidibNode {
 
         // if a node does not support the feature a feature not available response is received
         BidibMessage response =
-            send(requestFactory.createFeatureGet(number), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
+            send(requestFactory.createFeatureGet(number), null, true, FeatureResponse.TYPE,
+                FeatureNotAvailableResponse.TYPE);
 
         LOGGER.debug("get feature with number '{}' returned: {}", number, response);
         if (response instanceof FeatureResponse) {
@@ -490,7 +491,7 @@ public class BidibNode {
             throw createNotSupportedByBootloaderNode("MSG_FEATURE_GETALL");
         }
 
-        BidibMessage response = send(requestFactory.createFeatureGetAll(), true, FeatureCountResponse.TYPE);
+        BidibMessage response = send(requestFactory.createFeatureGetAll(), null, true, FeatureCountResponse.TYPE);
         if (response instanceof FeatureCountResponse) {
             Integer result = ((FeatureCountResponse) response).getCount();
             return result;
@@ -517,7 +518,8 @@ public class BidibNode {
         }
 
         BidibMessage response =
-            send(requestFactory.createFeatureGetNext(), true, FeatureResponse.TYPE, FeatureNotAvailableResponse.TYPE);
+            send(requestFactory.createFeatureGetNext(), null, true, FeatureResponse.TYPE,
+                FeatureNotAvailableResponse.TYPE);
         if (response instanceof FeatureResponse) {
             return ((FeatureResponse) response).getFeature();
         }
@@ -606,7 +608,7 @@ public class BidibNode {
     public int getMagic() throws ProtocolException {
         LOGGER.debug("Get the magic.");
 
-        BidibMessage response = send(requestFactory.createSysMagic(), true, SysMagicResponse.TYPE);
+        BidibMessage response = send(requestFactory.createSysMagic(), null, true, SysMagicResponse.TYPE);
         LOGGER.debug("getMagic, received response: {}", response);
         if (response instanceof SysMagicResponse) {
             int magic = ((SysMagicResponse) response).getMagic();
@@ -632,7 +634,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public Node getNextNode() throws ProtocolException {
-        BidibMessage response = send(requestFactory.createNodeTabGetNext(), true, NodeTabResponse.TYPE);
+        BidibMessage response = send(requestFactory.createNodeTabGetNext(), null, true, NodeTabResponse.TYPE);
 
         if (response instanceof NodeTabResponse) {
             // create a new node from the received data
@@ -659,7 +661,7 @@ public class BidibNode {
     public Integer getNodeCount() throws ProtocolException {
         LOGGER.debug("Get all registered nodes from system.");
 
-        BidibMessage response = send(requestFactory.createNodeTabGetAll(), true, NodeTabCountResponse.TYPE);
+        BidibMessage response = send(requestFactory.createNodeTabGetAll(), null, true, NodeTabCountResponse.TYPE);
 
         if (response instanceof NodeTabCountResponse) {
             int totalNodes = ((NodeTabCountResponse) response).getCount();
@@ -685,7 +687,7 @@ public class BidibNode {
     public ProtocolVersion getProtocolVersion() throws ProtocolException {
 
         if (protocolVersion == null) {
-            BidibMessage response = send(new SysGetPVersionMessage(), true, SysPVersionResponse.TYPE);
+            BidibMessage response = send(new SysGetPVersionMessage(), null, true, SysPVersionResponse.TYPE);
             if (response instanceof SysPVersionResponse) {
                 protocolVersion = ((SysPVersionResponse) response).getVersion();
                 LOGGER.info("ProtocolVersion of current node: {}", protocolVersion);
@@ -710,7 +712,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public SoftwareVersion getSwVersion() throws ProtocolException {
-        BidibMessage response = send(new SysGetSwVersionMessage(), true, SysSwVersionResponse.TYPE);
+        BidibMessage response = send(new SysGetSwVersionMessage(), null, true, SysSwVersionResponse.TYPE);
         if (response instanceof SysSwVersionResponse) {
             return ((SysSwVersionResponse) response).getVersion();
         }
@@ -733,7 +735,7 @@ public class BidibNode {
 
         if (uniqueId == null) {
 
-            BidibMessage response = send(new SysUniqueIdMessage(), true, SysUniqueIdResponse.TYPE);
+            BidibMessage response = send(new SysUniqueIdMessage(), null, true, SysUniqueIdResponse.TYPE);
             if (response instanceof SysUniqueIdResponse) {
                 byte[] encodedUniqueId = ((SysUniqueIdResponse) response).getUniqueId();
 
@@ -795,7 +797,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public byte ping(byte marker) throws ProtocolException {
-        BidibMessage response = send(new SysPingMessage(marker), true, SysPongResponse.TYPE);
+        BidibMessage response = send(new SysPingMessage(marker), null, true, SysPongResponse.TYPE);
         if (response instanceof SysPongResponse) {
             SysPongResponse result = (SysPongResponse) response;
             return result.getMarker();
@@ -823,11 +825,15 @@ public class BidibNode {
      * 
      * @param expectedResponseTypes
      *            list of the expected response message types
+     * @param receiveTimeout
+     *            the timeout used to wait for a response from the node. If <code>null</code> the default timeout is
+     *            used.
      * @return the received response
      * @throws InterruptedException
      *             thrown if wait wait for response is interrupted
      */
-    private BidibMessage receive(List<Integer> expectedResponseTypes) throws InterruptedException {
+    private BidibMessage receive(List<Integer> expectedResponseTypes, Integer receiveTimeout)
+        throws InterruptedException {
         BidibMessage result = null;
         LOGGER.trace("Receive message, expected responseTypes: {}", expectedResponseTypes);
 
@@ -835,7 +841,7 @@ public class BidibNode {
 
         try {
             // TODO we should provide a timeout parameter here ...
-            result = getMessage(expectedResponseTypes);
+            result = getMessage(expectedResponseTypes, receiveTimeout);
         }
         finally {
             if (result == null) {
@@ -852,12 +858,15 @@ public class BidibNode {
      * 
      * @param responseTypes
      *            the optional list of responseType ids to wait for
+     * @param receiveTimeout
+     *            the timeout used to wait for a response from the node. If <code>null</code> the default timeout is
+     *            used.
      * 
      * @return the received message or null if no message was received during the defined period.
      * @throws InterruptedException
      *             thrown if wait wait for response is interrupted
      */
-    public BidibMessage getMessage(List<Integer> responseTypes) throws InterruptedException {
+    public BidibMessage getMessage(List<Integer> responseTypes, Integer receiveTimeout) throws InterruptedException {
         LOGGER.debug("get message with responseType: {}", responseTypes);
         BidibMessage result = null;
 
@@ -866,7 +875,12 @@ public class BidibNode {
         boolean leaveLoop = false;
 
         do {
-            result = receiveQueue.poll(responseTimeout, TimeUnit.MILLISECONDS);
+            if (receiveTimeout == null) {
+                result = receiveQueue.poll(responseTimeout, TimeUnit.MILLISECONDS);
+            }
+            else {
+                result = receiveQueue.poll(receiveTimeout, TimeUnit.MILLISECONDS);
+            }
 
             long now = System.currentTimeMillis();
 
@@ -971,7 +985,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     protected void sendNoWait(BidibCommand message) throws ProtocolException {
-        send(message, false, (Integer) null);
+        send(message, null, false, (Integer) null);
     }
 
     /**
@@ -983,7 +997,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     protected BidibMessage send(BidibCommand message) throws ProtocolException {
-        return send(message, true, (Integer) null);
+        return send(message, null, true, (Integer) null);
     }
 
     /**
@@ -991,6 +1005,9 @@ public class BidibNode {
      * 
      * @param message
      *            the message to send
+     * @param receiveTimeout
+     *            the timeout used to wait for a response from the node. If <code>null</code> the default timeout is
+     *            used.
      * @param expectAnswer
      *            answer is expected, this will cause to wait for an answer
      * @param expectedResponseTypes
@@ -1000,7 +1017,8 @@ public class BidibNode {
      *             thrown if no response was received if an answer was expected
      */
     protected synchronized BidibMessage send(
-        BidibCommand message, boolean expectAnswer, Integer... expectedResponseTypes) throws ProtocolException {
+        BidibCommand message, Integer receiveTimeout, boolean expectAnswer, Integer... expectedResponseTypes)
+        throws ProtocolException {
 
         prepareAndSendMessage(message);
 
@@ -1010,7 +1028,7 @@ public class BidibNode {
             try {
                 response =
                     receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
-                        .asList(expectedResponseTypes) : null);
+                        .asList(expectedResponseTypes) : null, receiveTimeout);
             }
             catch (InterruptedException ex) {
                 LOGGER.warn("Waiting for response was interrupted", ex);
@@ -1249,7 +1267,7 @@ public class BidibNode {
                             numMessages);
                         response =
                             receive(Arrays.asList(messagesToWaitForResponse
-                                .get(responseIndex).getExpectedResponseTypes()));
+                                .get(responseIndex).getExpectedResponseTypes()), null);
 
                         responseIndex++;
 
@@ -1446,7 +1464,10 @@ public class BidibNode {
     public FirmwareUpdateStat sendFirmwareUpdateOperation(FirmwareUpdateOperation operation, byte... data)
         throws ProtocolException {
 
-        BidibMessage response = send(new FwUpdateOpMessage(operation, data), true, FwUpdateStatResponse.TYPE);
+        // TODO
+        Integer receiveTimeout = 300;
+        BidibMessage response =
+            send(new FwUpdateOpMessage(operation, data), receiveTimeout, true, FwUpdateStatResponse.TYPE);
         if (response instanceof FwUpdateStatResponse) {
             return ((FwUpdateStatResponse) response).getUpdateStat();
         }
@@ -1471,7 +1492,7 @@ public class BidibNode {
      */
     public Feature setFeature(int number, int value) throws ProtocolException {
         BidibMessage response =
-            send(requestFactory.createFeatureSet(number, value), true, FeatureResponse.TYPE,
+            send(requestFactory.createFeatureSet(number, value), null, true, FeatureResponse.TYPE,
                 FeatureNotAvailableResponse.TYPE);
         if (response instanceof FeatureResponse) {
             Feature result = ((FeatureResponse) response).getFeature();
@@ -1516,7 +1537,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public boolean vendorDisable() throws ProtocolException {
-        BidibMessage result = send(new VendorDisableMessage(), true, VendorAckResponse.TYPE);
+        BidibMessage result = send(new VendorDisableMessage(), null, true, VendorAckResponse.TYPE);
         if (result instanceof VendorAckResponse) {
             return ((VendorAckResponse) result).getReturnCode() == VendorAckResponse.USER_CONFIG_MODE_OFF;
         }
@@ -1530,7 +1551,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public boolean vendorEnable(long uniqueId) throws ProtocolException {
-        BidibMessage result = send(new VendorEnableMessage(uniqueId), true, VendorAckResponse.TYPE);
+        BidibMessage result = send(new VendorEnableMessage(uniqueId), null, true, VendorAckResponse.TYPE);
         if (result instanceof VendorAckResponse) {
             return ((VendorAckResponse) result).getReturnCode() == VendorAckResponse.USER_CONFIG_MODE_ON;
         }
@@ -1553,7 +1574,7 @@ public class BidibNode {
         }
 
         BidibCommand bidibCommand = requestFactory.createVendorGet(name);
-        BidibMessage result = send(bidibCommand, true, VendorResponse.TYPE);
+        BidibMessage result = send(bidibCommand, null, true, VendorResponse.TYPE);
         if (result instanceof VendorResponse) {
             return ((VendorResponse) result).getVendorData();
         }
@@ -1619,7 +1640,7 @@ public class BidibNode {
             throw createNotSupportedByBootloaderNode("MSG_VENDOR_SET");
         }
 
-        BidibMessage result = send(new VendorSetMessage(name, value), true, VendorResponse.TYPE);
+        BidibMessage result = send(new VendorSetMessage(name, value), null, true, VendorResponse.TYPE);
         if (result instanceof VendorResponse) {
             return ((VendorResponse) result).getVendorData();
         }
@@ -1637,7 +1658,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public StringData getString(int namespace, int index) throws ProtocolException {
-        BidibMessage response = send(new StringGetMessage(namespace, index), true, StringResponse.TYPE);
+        BidibMessage response = send(new StringGetMessage(namespace, index), null, true, StringResponse.TYPE);
         if (response instanceof StringResponse) {
             return ((StringResponse) response).getStringData();
         }
@@ -1655,7 +1676,7 @@ public class BidibNode {
      * @throws ProtocolException
      */
     public StringData setString(int namespace, int index, String value) throws ProtocolException {
-        BidibMessage response = send(new StringSetMessage(namespace, index, value), true, StringResponse.TYPE);
+        BidibMessage response = send(new StringSetMessage(namespace, index, value), null, true, StringResponse.TYPE);
         if (response instanceof StringResponse) {
             return ((StringResponse) response).getStringData();
         }
@@ -1681,7 +1702,7 @@ public class BidibNode {
         LOGGER.debug("Send LcConfigSet to node, config: {}", config);
 
         BidibMessage response =
-            send(new LcConfigSetMessage(config), true, LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE);
+            send(new LcConfigSetMessage(config), null, true, LcConfigResponse.TYPE, LcNotAvailableResponse.TYPE);
         if (response instanceof LcConfigResponse) {
             LcConfig result = ((LcConfigResponse) response).getLcConfig();
             LOGGER.info("Set LcConfig returned: {}", result);
@@ -1735,7 +1756,7 @@ public class BidibNode {
     public LcConfig getConfig(LcOutputType outputType, int outputNumber) throws ProtocolException {
         LcConfig result = null;
         BidibMessage response =
-            send(requestFactory.createLcConfigGet(outputType, outputNumber), true, LcConfigResponse.TYPE,
+            send(requestFactory.createLcConfigGet(outputType, outputNumber), null, true, LcConfigResponse.TYPE,
                 LcNotAvailableResponse.TYPE);
 
         if (response instanceof LcConfigResponse) {

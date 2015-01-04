@@ -48,7 +48,7 @@ public class CommandStationNode {
 
         DriveAcknowledge result = null;
         BidibMessage response =
-            delegate.send(new CommandStationBinaryStateMessage(address, state, value), true,
+            delegate.send(new CommandStationBinaryStateMessage(address, state, value), null, true,
                 CommandStationDriveAcknowledgeResponse.TYPE);
 
         if (response instanceof CommandStationDriveAcknowledgeResponse) {
@@ -66,7 +66,7 @@ public class CommandStationNode {
         DriveAcknowledge result = null;
         BidibMessage response =
             delegate.send(new CommandStationDriveMessage(address, speedSteps, speed, direction, activeFunctions,
-                functions), true, CommandStationDriveAcknowledgeResponse.TYPE);
+                functions), null, true, CommandStationDriveAcknowledgeResponse.TYPE);
 
         if (response instanceof CommandStationDriveAcknowledgeResponse) {
             result = ((CommandStationDriveAcknowledgeResponse) response).getState();
@@ -267,7 +267,7 @@ public class CommandStationNode {
         DriveAcknowledge result = null;
         BidibMessage response =
             delegate.send(new CommandStationDriveMessage(address, SpeedStepsEnum.DCC128, null, DirectionEnum.BACKWARD,
-                null, null), true, CommandStationDriveAcknowledgeResponse.TYPE);
+                null, null), null, true, CommandStationDriveAcknowledgeResponse.TYPE);
 
         if (response instanceof CommandStationDriveAcknowledgeResponse) {
             result = ((CommandStationDriveAcknowledgeResponse) response).getState();
@@ -279,7 +279,7 @@ public class CommandStationNode {
         throws ProtocolException {
         byte[] data = { 0 };
         BidibMessage response =
-            delegate.send(new CommandStationPomMessage(locoAddress, opCode, cvNumber, data), true,
+            delegate.send(new CommandStationPomMessage(locoAddress, opCode, cvNumber, data), null, true,
                 CommandStationPomAcknowledgeResponse.TYPE);
         PomAcknowledge result = null;
         if (response instanceof CommandStationPomAcknowledgeResponse) {
@@ -293,7 +293,7 @@ public class CommandStationNode {
         throws ProtocolException {
         byte[] data = { ByteUtils.getLowByte(cvValue) };
         BidibMessage response =
-            delegate.send(new CommandStationPomMessage(locoAddress, opCode, cvNumber, data), true,
+            delegate.send(new CommandStationPomMessage(locoAddress, opCode, cvNumber, data), null, true,
                 CommandStationPomAcknowledgeResponse.TYPE);
         PomAcknowledge result = null;
         if (response instanceof CommandStationPomAcknowledgeResponse) {

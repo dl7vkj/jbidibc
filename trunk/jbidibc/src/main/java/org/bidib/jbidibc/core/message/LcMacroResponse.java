@@ -45,6 +45,7 @@ public class LcMacroResponse extends BidibMessage {
 
         try {
             LcOutputType outputType = LcOutputType.valueOf(data[3]);
+            LOGGER.info("Returned outputType: {}", outputType);
 
             return new LcMacro(data[0], data[1], data[2], outputType, data[4], MessageUtils.toPortStatus(outputType,
                 data[5]), MessageUtils.getPortValue(outputType, data[5]));

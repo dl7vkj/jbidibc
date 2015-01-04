@@ -15,7 +15,7 @@ import org.bidib.jbidibc.core.node.listener.TransferListener;
 
 public interface BidibInterface {
 
-    static final int DEFAULT_TIMEOUT = /* 1500 */200;
+    static final int DEFAULT_TIMEOUT = /* 1500 */300;
 
     final int responseTimeout = DEFAULT_TIMEOUT;
 

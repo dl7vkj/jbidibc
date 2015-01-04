@@ -61,7 +61,7 @@ public enum LcOutputType implements BidibEnum, PortStatusAware {
             }
         }
         if (result == null) {
-            throw new IllegalArgumentException("cannot map " + (type & 0xFF) + " (0x" + ByteUtils.byteToHex(type)
+            throw new IllegalArgumentException("Cannot map value " + (type & 0xFF) + " (0x" + ByteUtils.byteToHex(type)
                 + ") to an output type");
         }
         return result;
