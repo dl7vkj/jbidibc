@@ -42,6 +42,8 @@
 		<xsd:attribute name="Rebootneeded" type="xsd:boolean" />
 		<xsd:attribute name="Radiovalues" type="xsd:string"/>
 		<xsd:attribute name="Radiobits" type="xsd:int" />
+		<xsd:attribute name="Lowbits" type="xsd:int"/>
+		<xsd:attribute name="Highbits" type="xsd:int"/>
 	</xsd:complexType>
 	<xsd:complexType name="DescriptionType">
 		<xsd:attribute name="Lang" type="xsd:string"/>
