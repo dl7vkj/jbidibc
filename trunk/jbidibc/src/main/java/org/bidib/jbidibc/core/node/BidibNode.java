@@ -1027,8 +1027,10 @@ public class BidibNode {
             // wait for the answer
             try {
                 response =
-                    receive((expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
-                        .asList(expectedResponseTypes) : null, receiveTimeout);
+                    receive(
+                        (expectedResponseTypes != null && expectedResponseTypes[0] != null) ? Arrays
+                            .asList(expectedResponseTypes) : null,
+                        receiveTimeout);
             }
             catch (InterruptedException ex) {
                 LOGGER.warn("Waiting for response was interrupted", ex);
@@ -1266,8 +1268,9 @@ public class BidibNode {
                         LOGGER.trace("Receive response, receivedMessages: {}, numMessages: {}", receivedMessages,
                             numMessages);
                         response =
-                            receive(Arrays.asList(messagesToWaitForResponse
-                                .get(responseIndex).getExpectedResponseTypes()), null);
+                            receive(
+                                Arrays.asList(messagesToWaitForResponse.get(responseIndex).getExpectedResponseTypes()),
+                                null);
 
                         responseIndex++;
 
