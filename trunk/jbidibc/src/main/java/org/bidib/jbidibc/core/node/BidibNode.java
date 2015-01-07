@@ -1044,17 +1044,11 @@ public class BidibNode {
         return response;
     }
 
-    private void prepareAndSendMessage(BidibCommand message) throws ProtocolException {
+    private void prepareAndSendMessage(BidibCommand message) {
 
-        try {
-            EncodedMessage encodedMessage = encodeMessage(message);
+        EncodedMessage encodedMessage = encodeMessage(message);
 
-            sendMessage(encodedMessage, message);
-        }
-        catch (IOException ex) {
-            LOGGER.warn("Send message failed.", ex);
-            throw new ProtocolException("Send message failed: " + message);
-        }
+        sendMessage(encodedMessage, message);
     }
 
     protected EncodedMessage encodeMessage(BidibCommand message) {
@@ -1379,7 +1373,7 @@ public class BidibNode {
      *            the bidib message instance
      * @throws IOException
      */
-    private void sendMessage(EncodedMessage encodedMessage, BidibCommand bidibMessage) throws IOException {
+    private void sendMessage(EncodedMessage encodedMessage, BidibCommand bidibMessage) {
         byte[] message = encodedMessage.getMessage();
         if (LOGGER.isDebugEnabled()) {
             LOGGER.debug("Send the message: {}", ByteUtils.bytesToHex(message));
@@ -1405,7 +1399,7 @@ public class BidibNode {
         fireSendStopped();
     }
 
-    private void flush(BidibCommand bidibMessage) throws IOException {
+    private void flush(BidibCommand bidibMessage) {
         byte[] bytes = output.toByteArray();
 
         // log the bidib message and the content of the "output" stream
