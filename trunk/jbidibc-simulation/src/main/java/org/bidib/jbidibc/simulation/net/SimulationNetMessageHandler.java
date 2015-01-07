@@ -6,7 +6,9 @@ import java.net.DatagramPacket;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.bidib.jbidibc.core.BidibLibrary;
 import org.bidib.jbidibc.core.BidibMessageProcessor;
+import org.bidib.jbidibc.core.CRC8;
 import org.bidib.jbidibc.core.exception.ProtocolException;
 import org.bidib.jbidibc.core.utils.ByteUtils;
 import org.bidib.jbidibc.net.BidibNetAddress;
@@ -67,12 +69,14 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
     }
 
     @Override
-    public void send(NetBidibPort port, byte[] bytes) {
+    public void send(NetBidibPort port, byte[] message) {
         if (LOGGER.isTraceEnabled()) {
-            LOGGER.trace("Send message to port: {}, message: {}", port, ByteUtils.bytesToHex(bytes));
+            LOGGER.trace("Send message to port: {}, message: {}", port, ByteUtils.bytesToHex(message));
         }
 
         if (port != null) {
+
+            // TODO escape the messages
 
             try {
                 // TODO add the UDP packet wrapper ...
@@ -82,7 +86,22 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
                     bos.write(ByteUtils.getLowByte(host.getSessionKey()));
                     bos.write(ByteUtils.getHighByte(host.getSequence()));
                     bos.write(ByteUtils.getLowByte(host.getSequence()));
-                    bos.write(bytes);
+
+                    // bos.write(bytes);
+                    sendDelimiter(bos);
+
+                    byte length = message[0];
+
+                    escape(bos, length);
+
+                    int txCrc = CRC8.getCrcValue(length);
+
+                    for (int i = 1; i <= length; i++) {
+                        escape(bos, message[i]);
+                        txCrc = CRC8.getCrcValue((message[i] ^ txCrc) & 0xFF);
+                    }
+                    escape(bos, (byte) txCrc);
+                    sendDelimiter(bos);
 
                     LOGGER.info("Send message to address: {}, port: {}, sessionKey: {}, sequence: {}",
                         host.getAddress(), host.getPortNumber(), host.getSessionKey(), host.getSequence());
@@ -103,4 +122,17 @@ public class SimulationNetMessageHandler implements NetMessageHandler {
             LOGGER.warn("Send not possible, the port is closed.");
         }
     }
+
+    private void sendDelimiter(ByteArrayOutputStream output) {
+        output.write((byte) BidibLibrary.BIDIB_PKT_MAGIC);
+    }
+
+    private void escape(ByteArrayOutputStream output, byte c) {
+        if ((c == (byte) BidibLibrary.BIDIB_PKT_MAGIC) || (c == (byte) BidibLibrary.BIDIB_PKT_ESCAPE)) {
+            output.write((byte) BidibLibrary.BIDIB_PKT_ESCAPE);
+            c = (byte) (c ^ 0x20);
+        }
+        output.write(c);
+    }
+
 }

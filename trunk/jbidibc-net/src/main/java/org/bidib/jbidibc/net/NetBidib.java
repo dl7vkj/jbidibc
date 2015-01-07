@@ -65,7 +65,7 @@ public class NetBidib extends AbstractBidib {
 
     @Override
     protected BidibMessageProcessor createMessageReceiver(NodeFactory nodeFactory) {
-        return new MessageReceiver(nodeFactory);
+        return new NetMessageReceiver(nodeFactory);
     }
 
     private MessageReceiver getNetMessageReceiver() {

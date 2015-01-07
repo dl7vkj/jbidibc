@@ -1361,7 +1361,7 @@ public class BidibNode {
         output.write((byte) BidibLibrary.BIDIB_PKT_MAGIC);
     }
 
-    private void escape(byte c) throws IOException {
+    private void escape(byte c) {
         if ((c == (byte) BidibLibrary.BIDIB_PKT_MAGIC) || (c == (byte) BidibLibrary.BIDIB_PKT_ESCAPE)) {
             output.write((byte) BidibLibrary.BIDIB_PKT_ESCAPE);
             c = (byte) (c ^ 0x20);
