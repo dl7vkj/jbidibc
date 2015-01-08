@@ -40,6 +40,9 @@ public class LcMacro {
         return stepNumber;
     }
 
+    /**
+     * @return the delay value
+     */
     public byte getDelay() {
         return delay;
     }
