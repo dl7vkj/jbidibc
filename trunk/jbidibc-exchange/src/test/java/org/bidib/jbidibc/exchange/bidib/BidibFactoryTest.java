@@ -28,7 +28,7 @@ public class BidibFactoryTest {
     public void loadProductForHub() throws JAXBException {
 
         File file = new File("");
-        file = new File(file.getAbsoluteFile(), "target/generated-resources/xml/BiDiBProducts");
+        file = new File(file.getAbsoluteFile(), "target/classes/xml/BiDiBProducts");
         LOGGER.info("Prepared file: {}", file.getAbsolutePath());
 
         Product product = new BidibFactory().loadProductForNode(UUID_HUB, file.getAbsolutePath());
@@ -43,7 +43,7 @@ public class BidibFactoryTest {
     public void loadProductForLC() throws JAXBException {
 
         File file = new File("");
-        file = new File(file.getAbsoluteFile(), "target/generated-resources/xml/BiDiBProducts");
+        file = new File(file.getAbsoluteFile(), "target/classes/xml/BiDiBProducts");
         LOGGER.info("Prepared file: {}", file.getAbsolutePath());
 
         Product product = new BidibFactory().loadProductForNode(UUID_LC, file.getAbsolutePath());
@@ -58,7 +58,7 @@ public class BidibFactoryTest {
     public void loadProductForMultiDecoder() throws JAXBException {
 
         File file = new File("");
-        file = new File(file.getAbsoluteFile(), "target/generated-resources/xml/BiDiBProducts");
+        file = new File(file.getAbsoluteFile(), "target/classes/xml/BiDiBProducts");
         LOGGER.info("Prepared file: {}", file.getAbsolutePath());
 
         Product product = new BidibFactory().loadProductForNode(UUID_MULTIDEC, file.getAbsolutePath());
@@ -73,7 +73,7 @@ public class BidibFactoryTest {
     public void loadProductForInvalidVID() throws JAXBException {
 
         File file = new File("");
-        file = new File(file.getAbsoluteFile(), "target/generated-resources/xml/BiDiBProducts");
+        file = new File(file.getAbsoluteFile(), "target/classes/xml/BiDiBProducts");
         LOGGER.info("Prepared file: {}", file.getAbsolutePath());
 
         Product product =
@@ -85,7 +85,7 @@ public class BidibFactoryTest {
     public void loadProductForInvalidPID() throws JAXBException {
 
         File file = new File("");
-        file = new File(file.getAbsoluteFile(), "target/generated-resources/xml/BiDiBProducts");
+        file = new File(file.getAbsoluteFile(), "target/classes/xml/BiDiBProducts");
         LOGGER.info("Prepared file: {}", file.getAbsolutePath());
 
         Product product = new BidibFactory().loadProductForNode(UUID_INVALID_PID, file.getAbsolutePath());

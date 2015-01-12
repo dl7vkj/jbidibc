@@ -53,6 +53,7 @@
     </dependencies>
     <build>
         <plugins>
+            <!--
             <plugin>
                 <groupId>net.sf.xsltmp</groupId>
                 <artifactId>xslt-generator-maven-plugin</artifactId>
@@ -80,6 +81,7 @@
                     </dependency>
                 </dependencies>
             </plugin>
+            -->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jaxb2-maven-plugin</artifactId>
