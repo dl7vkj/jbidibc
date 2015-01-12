@@ -1,25 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<BiDiB SchemaVersion="1">
-	<Products>
-		<Product ManufacturerId="62" ProductTypeId="1" Name="Boot-Loader" >
-			<Documentation Language="en-US" Text="Boot-Loader" Description="Boot-Loader"  Url="http://www.tams-online.de"/>
-			<Documentation Language="de-DE" Text="Boot-Loader" Description="Boot-Loader"  Url="http://www.tams-online.de"/>
-		</Product>
-		<Product ManufacturerId="62" ProductTypeId="144" Name="Interface" >
-			<Documentation Language="en-US" Text="BiDiB-Interface with integrated s88 bridge" Description="BiDiB-Interface with integrated s88 bridge"  Url="http://www.tams-online.de"/>
-			<Documentation Language="de-DE" Text="BiDiB-Interface mit integrierter s88-Brücke" Description="BiDiB-Interface mit integrierter s88-Brücke"  Url="http://www.tams-online.de"/>
-		</Product>
-		<Product ManufacturerId="62" ProductTypeId="145" Name="s88 Module" >
-			<Documentation Language="en-US" Text="16 channel s88 module" Description="16 channel s88 module"  Url="http://www.tams-online.de"/>
-			<Documentation Language="de-DE" Text="16fach s88 Modul" Description="16fach s88 Modul"  Url="http://www.tams-online.de"/>
-		</Product>
-		<Product ManufacturerId="62" ProductTypeId="146" Name="Booster" >
-			<Documentation Language="en-US" Text="Booster with BiDiB" Description="Booster with BiDiB"  Url="http://www.tams-online.de"/>
-			<Documentation Language="de-DE" Text="Booster mit BiDiB Anbindung" Description="Booster mit BiDiB Anbindung"  Url="http://www.tams-online.de"/>
-		</Product>
-		<Product ManufacturerId="62" ProductTypeId="151" Name="Multi-Decoder">
-			<Documentation Language="en-US" Text="Servo and turnout decoder" Description="Servo and turnout decoder"  Url="http://www.tams-online.de"/>
-			<Documentation Language="de-DE" Text="Weichen und Servo-Decoder" Description="Weichen und Servo-Decoder"  Url="http://www.tams-online.de"/>
-		</Product>
-	</Products>
+<BiDiB SchemaVersion="1.3" xmlns="http://www.bidib.org/schema/bidib">
+  <Products>
+    <Product ManufacturerId="62" ProductTypeId="1" Name="Boot-Loader" >
+      <Documentation Language="en-US" Text="Boot-Loader" Url="http://www.tams-online.de"/>
+      <Documentation Language="de-DE" Text="Boot-Loader" Url="http://www.tams-online.de"/>
+    </Product>
+    <Product ManufacturerId="62" ProductTypeId="144" Name="Interface" >
+      <Documentation Language="en-US" Text="BiDiB-Interface with integrated s88 bridge" Url="http://www.tams-online.de"/>
+      <Documentation Language="de-DE" Text="BiDiB-Interface mit integrierter s88-Brücke" Url="http://www.tams-online.de"/>
+    </Product>
+    <Product ManufacturerId="62" ProductTypeId="145" Name="s88 Module" >
+      <Documentation Language="en-US" Text="16 channel s88 module" Url="http://www.tams-online.de"/>
+      <Documentation Language="de-DE" Text="16fach s88 Modul" Url="http://www.tams-online.de"/>
+    </Product>
+    <Product ManufacturerId="62" ProductTypeId="146" Name="Booster" >
+      <Documentation Language="en-US" Text="Booster with BiDiB" Url="http://www.tams-online.de"/>
+      <Documentation Language="de-DE" Text="Booster mit BiDiB Anbindung" Url="http://www.tams-online.de"/>
+    </Product>
+    <Product ManufacturerId="62" ProductTypeId="151" Name="Multi-Decoder">
+      <Documentation Language="en-US" Text="Servo and turnout decoder" Url="http://www.tams-online.de"/>
+      <Documentation Language="de-DE" Text="Weichen und Servo-Decoder" Url="http://www.tams-online.de"/>
+    </Product>
+  </Products>
 </BiDiB>
