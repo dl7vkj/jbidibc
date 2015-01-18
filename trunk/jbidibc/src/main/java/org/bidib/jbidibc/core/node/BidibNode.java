@@ -1641,6 +1641,7 @@ public class BidibNode {
         if (result instanceof VendorResponse) {
             return ((VendorResponse) result).getVendorData();
         }
+        LOGGER.warn("No result received for name: {}, value: {}", name, value);
         return null;
     }
 
